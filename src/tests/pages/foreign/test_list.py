@@ -1,11 +1,6 @@
-"""Test widgets of foreign word list page box.
+"""Test widgets of foreign word list page box."""
 
-Testing:
- * Text representation of widgets in the window content
-   (text on widget).
- * Changing window contents when pressing move buttons.
- * The order of widget and widget containers at page.
-"""
+from unittest.mock import AsyncMock, patch
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
@@ -116,47 +111,71 @@ def test_btn_goto_foreign(wse: WSE) -> None:
 def test_btn_goto_foreign_create(wse: WSE) -> None:
     """Test the button go to create foreign word."""
     btn = wse.box_foreign_list._btn_create
-    assert btn.text == 'Добавить'
 
-    # Window switching.
+    # Simulate a button press.
     btn._impl.simulate_press()
 
     # Run a fake main loop.
     run_until_complete(wse)
 
+    # Assert button text.
+    assert btn.text == 'Добавить'
+
+    # The window content has been refreshed.
     assert wse.main_window.content == wse.box_foreign_create
 
 
 def test_btn_goto_foreign_update(wse: WSE, monkeypatch: MonkeyPatch) -> None:
     """Test the button go to update foreign word page box."""
     btn = wse.box_foreign_list._btn_update
-    assert btn.text == 'Изменить'
 
-    # Window switching.
     # Select table entry to update.
     entry_index = 1
     table = wse.box_foreign_list.table
     table._impl.simulate_selection(entry_index)
 
-    # Press button.
+    # Simulate a button press.
     btn._impl.simulate_press()
 
     # Run a fake main loop.
     run_until_complete(wse)
 
+    # Assert button text.
+    assert btn.text == 'Изменить'
+
+    # The window content has been refreshed.
     assert wse.main_window.content == wse.box_foreign_update
 
+    # Assert fill input fields.
+    assert wse.box_foreign_update.input_foreign.value == 'apple'
+    assert wse.box_foreign_update.input_native.value == 'яблоко'
 
-def test_btn_foreign_delete(wse: WSE, monkeypatch: MonkeyPatch) -> None:
+
+########################################################################
+# Create, update, delete buttons
+
+
+@patch('httpx.AsyncClient.delete')
+def test_btn_foreign_delete(delete: AsyncMock, wse: WSE) -> None:
     """Test the button of delete foreign word."""
     btn = wse.box_foreign_list._btn_delete
-    assert btn.text == 'Удалить'
 
-    # No window switching.
     # Select table entry to delete.
     entry_index = 1
     table = wse.box_foreign_list.table
     table._impl.simulate_selection(entry_index)
-    # Press button.
+
+    # Simulate a button press.
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    run_until_complete(wse)
+
+    # Assert button text.
+    assert btn.text == 'Удалить'
+
+    # The window content has not been refreshed.
     assert wse.main_window.content == wse.box_foreign_list
+
+    # Assert http request called with arg.
+    delete.assert_called_once_with('http://127.0.0.1/api/v1/foreign/2/')

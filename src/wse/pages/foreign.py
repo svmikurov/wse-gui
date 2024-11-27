@@ -204,7 +204,6 @@ class FormForeign(BaseForm):
 
     def clear_entry_input(self) -> None:
         """Clear the entry input widgets value."""
-        print('ffffffffffffffffffffffffffffffffffffffff')
         self.input_native.clean()
         self.input_foreign.clean()
 

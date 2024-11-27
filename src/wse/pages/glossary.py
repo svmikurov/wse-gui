@@ -1,8 +1,10 @@
 """Glossary page boxes."""
 
+from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
+from httpx import Response
 
 from wse.constants import (
     BTN_GOTO_GLOSSARY_CREATE,
@@ -29,7 +31,8 @@ from wse.container.exercise import (
 )
 from wse.contrib.http_requests import (
     HttpPostMixin,
-    HttpPutMixin,
+    request_post_async,
+    request_put_async,
 )
 from wse.handlers.goto_handler import (
     goto_glossary_create_handler,
@@ -37,6 +40,7 @@ from wse.handlers.goto_handler import (
     goto_glossary_list_handler,
     goto_glossary_main_handler,
     goto_glossary_params_handler,
+    goto_glossary_update_handler,
     goto_main_handler,
 )
 from wse.source.glossary import Term, TermSource
@@ -179,8 +183,8 @@ class FormGlossary(BaseForm):
 
     def populate_entry_input(self) -> None:
         """Populate the entry input widgets value."""
-        self.input_term.value = self.entry.input_term
-        self.input_definition.value = self.entry.input_definition
+        self.input_term.value = self.entry.term
+        self.input_definition.value = self.entry.definition
 
     def clear_entry_input(self) -> None:
         """Clear the entry input widgets value."""
@@ -207,26 +211,42 @@ class CreateTermPage(HttpPostMixin, FormGlossary):
         }
         return submit_entry
 
+    @classmethod
+    async def request_async(cls, url: str, payload: dict) -> Response:
+        """Request to update."""
+        return await request_post_async(url, payload)
 
-class UpdateTermPage(HttpPutMixin, FormGlossary):
+    async def handle_success(self, widget: toga.Widget) -> None:
+        """Go to glossary list page, if success."""
+        self.focus_to_input_field()
+
+
+class UpdateTermPage(FormGlossary):
     """Glossary update page."""
 
     title = TITLE_GLOSSARY_UPDATE
     url = urljoin(HOST_API, GLOSSARY_DETAIL_PATH)
-    btn_submit_name = 'Изменить'
-
-    def handle_success(self, widget: toga.Widget) -> None:
-        """Go to glossary list page, if success."""
-        goto_glossary_list_handler(widget)
+    btn_submit_text = 'Изменить'
+    success_http_status = HTTPStatus.OK
 
     def get_widget_data(self) -> dict:
         """Get the entered into the form data."""
-        submit_entry = {
+        entry_updated = {
             'id': str(self.entry.id),
             'term': self.input_term.value,
             'definition': self.input_definition.value,
         }
-        return submit_entry
+        return entry_updated
+
+    @classmethod
+    async def request_async(cls, url: str, payload: dict) -> Response:
+        """Request to update."""
+        return await request_put_async(url, payload)
+
+    @classmethod
+    async def handle_success(cls, widget: toga.Widget) -> None:
+        """Go to glossary list page, if success."""
+        await goto_glossary_list_handler(widget)
 
 
 class ListTermPage(TableApp):
@@ -240,18 +260,15 @@ class ListTermPage(TableApp):
     source_class = TermSource()
     source_url = urljoin(HOST_API, GLOSSARY_PATH)
     source_url_detail = urljoin(HOST_API, GLOSSARY_DETAIL_PATH)
-    headings = [
-        'ID',
-        'Термин',
-        'Толкование',
-    ]
+    headings = ['ID', 'Термин', 'Толкование']
 
     def __init__(self) -> None:
         """Construct the page."""
         super().__init__()
 
-        # Widgets.
         self.label_title = TitleLabel(TITLE_GLOSSARY_LIST)
+
+        # The navigation buttons.
         self.btn_goto_glossary_main = BtnApp(
             BTN_GOTO_GLOSSARY_MAIN,
             on_press=goto_glossary_main_handler,
@@ -266,13 +283,13 @@ class ListTermPage(TableApp):
             self.btns_paginate,
         )
 
-    def create_handler(self, widget: toga.Widget) -> None:
+    async def create_handler(self, widget: toga.Widget) -> None:
         """Go to create the term form, button handler."""
-        goto_glossary_create_handler(widget)
+        await goto_glossary_create_handler(widget)
 
-    def update_handler(self, widget: toga.Widget) -> None:
+    async def update_handler(self, widget: toga.Widget) -> None:
         """Go to update the term form, button handler."""
         entry = self.table.selection
         box = self.root.app.box_glossary_update
         box.entry = entry
-        self.set_window_content(widget, box)
+        await goto_glossary_update_handler(widget)
