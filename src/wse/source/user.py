@@ -78,6 +78,7 @@ class UserSource(Source):
             userdata = response.json()
             self.set_source_user(userdata)
             self.save_userdata(userdata)
+
         elif response.status_code == HTTPStatus.UNAUTHORIZED:
             self.delete_userdata()
             del app_auth.token

@@ -60,7 +60,7 @@ class AppAuth(httpx.Auth):
         with open(PATH_TOKEN_FILE, 'w') as file:
             file.write(token)
         self._token = token
-        print('INFO: token was saved.')
+        print('INFO: token has been saved')
 
     @token.deleter
     def token(self) -> None:
@@ -115,7 +115,7 @@ def request_get(url: str) -> Response:
         try:
             response = client.get(url)
         except httpx.ConnectError:
-            print('Connection error')
+            print('INFO: Connection error')
             return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
         else:
             return response
@@ -133,7 +133,7 @@ def request_post(
         try:
             response = client.post(url=url, json=payload)
         except httpx.ConnectError:
-            print('Connection error')
+            print('INFO: Connection error')
             return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
     return response
 
