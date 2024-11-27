@@ -129,7 +129,7 @@ def test_goto_handler(
     box_container_name: str,
     box_target_name: str,
     button_name: str,
-    mock_http_request: typing.Iterable,
+    mock_http_request: typing.Iterable | None,
     wse: WSE,
     monkeypatch: MonkeyPatch,
 ) -> None:

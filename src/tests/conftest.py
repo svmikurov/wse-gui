@@ -1,5 +1,6 @@
 import asyncio
 from asyncio import AbstractEventLoop
+from unittest.mock import patch, MagicMock
 
 import pytest
 
@@ -20,7 +21,11 @@ def event_loop(request):
 
 
 @pytest.fixture(scope='function')
-def wse(event_loop: AbstractEventLoop):
+@patch('httpx.Client.get')
+def wse(
+    get: MagicMock,
+    event_loop: AbstractEventLoop
+):
     """Return the application instance, fixture."""
     # The app icon is cached; purge the app icon cache if it exists
     try:
