@@ -1,22 +1,22 @@
 {
-  "count": 100,
-  "next": "http://...next...",
-  "previous": "http://...previos...",
+  "count": 9,
+  "next": "http://127.0.0.1/api/v1/glossary/?limit=3&offset=6",
+  "previous": "http://127.0.0.1/api/v1/glossary/?limit=3",
   "results": [
     {
-      "id": 22,
-      "term": "term_22",
-      "definition": "definition_22"
+      "id": 4,
+      "term": "term_4",
+      "definition": "definition_4"
     },
     {
-      "id": 23,
-      "term": "term_22",
-      "definition": "definition_23"
+      "id": 5,
+      "term": "term_5",
+      "definition": "definition_5"
     },
     {
-      "id": 24,
-      "term": "term_24",
-      "definition": "definition_24"
+      "id": 6,
+      "term": "term_6",
+      "definition": "definition_6"
     }
   ]
 }
