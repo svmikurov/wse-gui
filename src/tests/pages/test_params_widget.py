@@ -315,11 +315,6 @@ def test_btn_goto_exercise(
        Foreign params:
         * add test exercise_box.clean_text_panel()
         * add test exercise_box.task.status = None
-        * add test exercise_box.task.params = self.lookup_conditions
-
-       Glossary params:
-        * add test exercise_box.task.params = self.lookup_conditions
-
     """
     box_params = getattr(wse, box_name)
     box_exercise = getattr(wse, box_togo)
@@ -362,11 +357,9 @@ def test_btn_save_params(
     .. todo::
 
        Foreign params:
-        * add test payload = self.lookup_conditions
         * add test self.request_put_async(url, payload)
 
        Glossary params:
-        * add test payload = self.lookup_conditions
         * add test request_post(url, payload)
 
         * add test the call the functions in button handler.

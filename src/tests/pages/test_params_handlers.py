@@ -44,17 +44,17 @@ def box(request: FixtureRequest) -> ParamForeignPage | ParamGlossaryPage:
 
 
 @pytest.mark.parametrize(
-    'box_name, params_path, lookup_conditions',
+    'box_name, params_path, set_params',
     [
         (
             'box_foreign_params',
             '/api/v1/foreign/params/',
-            'wse.pages.ParamForeignPage.lookup_conditions',
+            'wse.pages.ParamForeignPage.set_params',
         ),
         (
             'box_glossary_params',
             '/api/v1/glossary/params/',
-            'wse.pages.ParamGlossaryPage.lookup_conditions',
+            'wse.pages.ParamGlossaryPage.set_params',
         ),
     ],
 )
@@ -62,7 +62,7 @@ def box(request: FixtureRequest) -> ParamForeignPage | ParamGlossaryPage:
 def test_on_open(
     get: MagicMock,
     box_name: str,
-    lookup_conditions: str,
+    set_params: str,
     params_path: str,
     wse: WSE,
 ) -> None:
@@ -80,7 +80,7 @@ def test_on_open(
     )
 
     # Mock the lookup_conditions.
-    with patch(lookup_conditions, new_callable=PropertyMock) as mock:
+    with patch(set_params) as mock:
         # Invoke on_open method.
         wse.loop.run_until_complete(wrapped(box))
 

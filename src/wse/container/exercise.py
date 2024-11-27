@@ -177,7 +177,8 @@ class ParamBox(HttpPutMixin, BoxApp):
         """Request and fill params data of box when box open."""
         response = request_get(url=self.url)
         if response.status_code == HTTPStatus.OK:
-            self.lookup_conditions = response.json()
+            params = response.json()
+            self.set_params(params)
 
     ####################################################################
     # Button callback functions
@@ -190,7 +191,7 @@ class ParamBox(HttpPutMixin, BoxApp):
 
     async def save_params_handler(self, _: toga.Widget) -> None:
         """Request to save foreign exercise params, button handler."""
-        payload = self.lookup_conditions
+        payload = self.get_params()
         await self.request_put_async(self.url, payload)
 
     ####################################################################
@@ -209,18 +210,12 @@ class ParamBox(HttpPutMixin, BoxApp):
     ####################################################################
     # Lookup conditions
 
-    @property
-    def lookup_conditions(self) -> dict[str, str | list | None]:
-        """User lookup conditions (`dict`, reade-only).
-
-        Sets the data in the selection widgets to display.
-        Gets the data from the selection widgets to request
-        a task from the server.
-        """
+    def get_params(self) -> dict[str, str | list | None]:
+        """Extract exercise params from widgets."""
         # NumberInput return Decimal objects or None.
         count_first = int(self.input_count_first.value or 0)
         count_last = int(self.input_count_last.value or 0)
-        lookup_conditions = {
+        params = {
             'period_start_date': self.selection_start_period.get_alias(),
             'period_end_date': self.selection_end_period.get_alias(),
             'category': self.selection_category.get_alias(),
@@ -228,10 +223,10 @@ class ParamBox(HttpPutMixin, BoxApp):
             'count_first': count_first * self.count_first_switch.value,
             'count_last': count_last * self.count_last_switch.value,
         }
-        return lookup_conditions
+        return params
 
-    @lookup_conditions.setter
-    def lookup_conditions(self, value: dict) -> None:
+    def set_params(self, value: dict) -> None:
+        """Set exercise params to widgets."""
         # Initial values for the selection.
         defaults = value['lookup_conditions']
         # Items to display for selection.
@@ -366,7 +361,7 @@ class ExerciseBox(BoxApp):
     def set_params(self) -> None:
         """Set exercise params to exercise attr."""
         box_params = self.get_box_params()
-        self.task.params = box_params.lookup_conditions
+        self.task.params = box_params.get_params()
 
     async def request_task(self) -> None:
         """Request the task data."""
