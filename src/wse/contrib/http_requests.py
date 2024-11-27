@@ -52,7 +52,7 @@ class AppAuth(httpx.Auth):
         except FileNotFoundError:
             return None
         else:
-            self.token = token
+            self._token = token
             return token
 
     @token.setter
@@ -89,14 +89,13 @@ class ErrorResponse(Response):
 
 def obtain_token(credentials: dict) -> Response:
     """Obtain the source_user token."""
-    with httpx.Client() as client:
-        response = client.post(url_token, json=credentials)
+    response = request_post(url_token, credentials)
 
-        if response.status_code == HTTPStatus.OK:
-            token = response.json()['auth_token']
-            app_auth.token = token
+    if response.status_code == HTTPStatus.OK:
+        token = response.json()['auth_token']
+        app_auth.token = token
 
-            return response
+    return response
 
 
 def request_user_data() -> Response:
