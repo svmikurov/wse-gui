@@ -33,7 +33,7 @@ class WSE(toga.App):
     box_glossary_exercise: pages.ExerciseGlossaryPage
     box_glossary_create: pages.CreateTermPage
     box_glossary_update: pages.UpdateTermPage
-    box_glossary_list: pages.ListTermPage
+    box_glossary_list: pages.ListGlossaryPage
     # Login box.
     box_login: pages.LoginBox
 
@@ -68,7 +68,7 @@ class WSE(toga.App):
         self.box_glossary_exercise = pages.ExerciseGlossaryPage()
         self.box_glossary_create = pages.CreateTermPage()
         self.box_glossary_update = pages.UpdateTermPage()
-        self.box_glossary_list = pages.ListTermPage()
+        self.box_glossary_list = pages.ListGlossaryPage()
 
         # Menu.
         self.menu = toga.Group('Menu')

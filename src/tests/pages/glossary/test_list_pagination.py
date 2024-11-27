@@ -6,13 +6,13 @@ import pytest
 
 from tests.utils import FixtureReader
 from wse.app import WSE
-from wse.pages import ListTermPage
+from wse.pages import ListGlossaryPage
 
 URL_PAGINATION = 'http://127.0.0.1/api/v1/glossary/?limit=3&offset=3'
 
 
 @pytest.fixture
-def box_list(wse: WSE) -> ListTermPage:
+def box_list(wse: WSE) -> ListGlossaryPage:
     """Return the tested box-container, fixture."""
     return wse.box_glossary_list
 
@@ -20,7 +20,7 @@ def box_list(wse: WSE) -> ListTermPage:
 @patch('httpx.Client.get')
 def test_pagination_first_page(
     get: MagicMock,
-    box_list: ListTermPage,
+    box_list: ListGlossaryPage,
 ) -> None:
     """Test pagination buttons at first page."""
     get.return_value = FixtureReader('pagination_glossary_first.json')
@@ -47,7 +47,7 @@ def test_pagination_first_page(
 @patch('httpx.Client.get')
 def test_pagination_last_page(
     get: MagicMock,
-    box_list: ListTermPage,
+    box_list: ListGlossaryPage,
 ) -> None:
     """Test pagination buttons at last page."""
     get.return_value = FixtureReader('pagination_glossary_last.json')
@@ -71,7 +71,7 @@ def test_pagination_last_page(
     get.assert_called_with(URL_PAGINATION)
 
 
-def test_btn_text(box_list: ListTermPage) -> None:
+def test_btn_text(box_list: ListGlossaryPage) -> None:
     """Test the handler of button pagination next."""
     assert box_list._btn_previous.text == '<'
     assert box_list._btn_table_reload.text == 'Обновить'
