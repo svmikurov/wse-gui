@@ -38,7 +38,7 @@ class BaseSelection(toga.Selection):
         """Return items."""
         args = []
         for item in self.items:
-           args.append({'alias': item.alias, 'humanly': item.humanly})
+            args.append({'alias': item.alias, 'humanly': item.humanly})
         return args
 
     def get_alias(self) -> str | int | list | None:

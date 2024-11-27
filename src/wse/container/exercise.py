@@ -64,8 +64,8 @@ class ParamBox(HttpPutMixin, BoxApp):
         self.style.update(direction=COLUMN)
 
         # Styles.
-        style_label = Pack(padding=(7, 0, 7, 20))
-        style_box_selection = Pack(padding=(2, 0, 2, 0))
+        self.style_label = Pack(padding=(7, 0, 7, 20))
+        self.style_box_selection = Pack(padding=(2, 0, 2, 0))
 
         self.label_title = TitleLabel(text=self.title)
 
@@ -80,16 +80,24 @@ class ParamBox(HttpPutMixin, BoxApp):
         )
 
         # Selection labels.
-        self.label_start = toga.Label('Начало периода:', style=style_label)
-        self.label_end = toga.Label('Конец периода:', style=style_label)
-        self.label_category = toga.Label('Категория:', style=style_label)
-        self.label_progres = toga.Label('Стадия изучения:', style=style_label)
+        self.label_start = toga.Label(
+            'Начало периода:', style=self.style_label
+        )
+        self.label_end = toga.Label('Конец периода:', style=self.style_label)
+        self.label_category = toga.Label('Категория:', style=self.style_label)
+        self.label_progres = toga.Label(
+            'Стадия изучения:', style=self.style_label
+        )
         # Switch
         self.count_first_switch = toga.Switch(
-            'Первые', style=style_label, on_change=self.first_switch_handler
+            'Первые',
+            style=self.style_label,
+            on_change=self.first_switch_handler,
         )
         self.count_last_switch = toga.Switch(
-            'Последние', style=style_label, on_change=self.last_switch_handler
+            'Последние',
+            style=self.style_label,
+            on_change=self.last_switch_handler,
         )
         # Selections.
         self.selection_start_period = BaseSelection()
@@ -100,7 +108,7 @@ class ParamBox(HttpPutMixin, BoxApp):
         self.input_count_last = toga.NumberInput(step=10, min=0)
         # Selection boxes.
         self.box_selection_start = toga.Box(
-            style=style_box_selection,
+            style=self.style_box_selection,
             children=[
                 FlexBox(children=[self.label_start]),
                 FlexBox(children=[self.selection_start_period]),
@@ -108,28 +116,28 @@ class ParamBox(HttpPutMixin, BoxApp):
         )
         self.box_selection_start.style.padding_top = 4
         self.box_selection_end = toga.Box(
-            style=style_box_selection,
+            style=self.style_box_selection,
             children=[
                 FlexBox(children=[self.label_end]),
                 FlexBox(children=[self.selection_end_period]),
             ],
         )
         self.box_selection_category = toga.Box(
-            style=style_box_selection,
+            style=self.style_box_selection,
             children=[
                 FlexBox(children=[self.label_category]),
                 FlexBox(children=[self.selection_category]),
             ],
         )
         self.box_selection_progress = toga.Box(
-            style=style_box_selection,
+            style=self.style_box_selection,
             children=[
                 FlexBox(children=[self.label_progres]),
                 FlexBox(children=[self.selection_progress]),
             ],
         )
         self.box_input_first = toga.Box(
-            style=style_box_selection,
+            style=self.style_box_selection,
             children=[
                 FlexBox(
                     children=[self.count_first_switch],
@@ -142,7 +150,7 @@ class ParamBox(HttpPutMixin, BoxApp):
             ],
         )
         self.box_input_last = toga.Box(
-            style=style_box_selection,
+            style=self.style_box_selection,
             children=[
                 FlexBox(
                     children=[self.count_last_switch],

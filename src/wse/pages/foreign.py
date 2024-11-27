@@ -42,10 +42,12 @@ from wse.handlers.goto_handler import (
     goto_main_handler,
 )
 from wse.source.foreign import Word, WordSource
+from wse.widgets.box import FlexBox
 from wse.widgets.box_page import BoxApp
 from wse.widgets.button import BtnApp
 from wse.widgets.form import BaseForm
 from wse.widgets.label import TitleLabel
+from wse.widgets.selection import BaseSelection
 from wse.widgets.table import TableApp
 from wse.widgets.text_input import TextInputApp
 
@@ -92,10 +94,26 @@ class ParamForeignPage(ParamBox):
         """Construct the box."""
         super().__init__()
 
-        # Box widgets.
+        # Buttons.
         self.btn_goto_foreign_main = BtnApp(
             BTN_GOTO_FOREIGN_MAIN, on_press=goto_foreign_main_handler
         )
+
+        # Original selections.
+        self.label_order = toga.Label(
+            'Порядок перевода', style=self.style_label
+        )
+        self.selection_order = BaseSelection()
+        self.box_selection_order = toga.Box(
+            style=self.style_box_selection,
+            children=[
+                FlexBox(children=[self.label_order]),
+                FlexBox(children=[self.selection_order]),
+            ],
+        )
+
+        # Selection DOM
+        self.box_params.insert(0, self.box_selection_order)
 
         # Widget DOM.
         self.insert(4, self.btn_goto_foreign_main)
@@ -103,6 +121,23 @@ class ParamForeignPage(ParamBox):
     async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
         """Go to foreign exercise page box, button handler."""
         await goto_foreign_exercise_handler(widget)
+
+    def get_params(self) -> dict[str, str | list | None]:
+        """Add original selections to extract exercise params."""
+        params = super().get_params()
+        params['order'] = self.selection_order.get_alias()
+        return params
+
+    def set_params(self, value: dict) -> None:
+        """Add original selections to set exercise params."""
+        super().set_params(value)
+
+        # Initial values for the selection.
+        defaults = value['lookup_conditions']
+        # Items to display for selection.
+        items = value['exercise_choices']
+
+        self.selection_order.set_items(items['orders'], defaults['order'])
 
 
 class ExerciseForeignPage(ExerciseBox):

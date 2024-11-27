@@ -57,6 +57,7 @@ def test_foreign_widget_order(
     ]
 
     assert box.box_params.children == [
+        box.box_selection_order,
         box.box_selection_start,
         box.box_selection_end,
         box.box_selection_category,

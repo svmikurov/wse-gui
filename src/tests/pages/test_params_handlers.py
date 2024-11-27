@@ -1,6 +1,6 @@
 """Test glossary exercise params handlers."""
 
-from unittest.mock import MagicMock, Mock, PropertyMock, call, patch
+from unittest.mock import MagicMock, Mock, call, patch
 from urllib.parse import urljoin
 
 import pytest
