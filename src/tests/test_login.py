@@ -106,11 +106,11 @@ def test_login(
 
         # Assert request the token.
         post.assert_called_once_with(
-            'http://127.0.0.1/auth/token/login/',
+            url='http://127.0.0.1/auth/token/login/',
             json={'username': 'name', 'password': 'password'},
         )
         # Assert request the user data.
-        get.assert_called_once_with('http://127.0.0.1/api/v1/auth/users/me/')
+        get.assert_called_with('http://127.0.0.1/api/v1/auth/users/me/')
 
         # Main window content has been changed.
         assert wse.main_window.content is wse.box_main
@@ -120,8 +120,8 @@ def test_login(
         assert wse.box_main.btn_goto_login not in wse.box_main.children
 
         # The user data has been updated.
-        assert wse.source_user.is_auth is True
-        assert wse.source_user.username == 'name'
+        assert wse.user.is_auth is True
+        assert wse.user.username == 'name'
 
         # The main information panel contains user greetings.
         assert wse.box_main.info_panel.value == 'Добро пожаловать, name!'

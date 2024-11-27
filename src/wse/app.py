@@ -15,7 +15,7 @@ class WSE(toga.App):
     """WSE application."""
 
     # App source instances.
-    source_user: UserSource
+    user: UserSource
     source_main_panel: MainPanelSource
 
     # Page boxes.
@@ -46,15 +46,15 @@ class WSE(toga.App):
     def startup(self) -> None:
         """Construct and show the application."""
         # Initialise the app sources.
-        self.source_user = UserSource()
-        self.source_main_panel = MainPanelSource(self.source_user)
+        self.user = UserSource()
+        self.source_main_panel = MainPanelSource(self.user)
 
         # Page boxes.
         self.box_main = pages.MainBox(
-            self.source_user,
+            self.user,
             self.source_main_panel,
         )
-        self.box_login = pages.LoginBox(self.source_user)
+        self.box_login = pages.LoginBox(self.user)
         # Foreign language study page boxes.
         self.box_foreign_main = pages.MainForeignPage()
         self.box_foreign_params = pages.ParamForeignPage()
@@ -98,7 +98,7 @@ class WSE(toga.App):
         )
 
         # Load user data.
-        self.source_user.on_start()
+        self.user.on_start()
 
         # Main window.
         self.main_window = toga.MainWindow(

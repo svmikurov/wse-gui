@@ -43,9 +43,7 @@ class MessageBoxMixin:
         :param str title: The message title.
         :param str message: The message text.
         """
-        await self.app.main_window.dialog(
-            toga.InfoDialog(str(title), str(message))
-        )
+        await self.app.main_window.dialog(toga.InfoDialog(title, message))
 
 
 class BoxApp(MessageBoxMixin, GoToBoxMixin, BaseBox):

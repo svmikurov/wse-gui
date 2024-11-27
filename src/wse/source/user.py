@@ -31,10 +31,14 @@ class UserSource(Source):
 
     @property
     def is_auth(self) -> bool:
-        """The source_user auth status (`bool`)."""
+        """The user auth status (`bool`)."""
         return self._is_auth
 
-    def set_source_user(self, userdata: dict) -> None:
+    @is_auth.setter
+    def is_auth(self, value: bool) -> None:
+        self._is_auth = value
+
+    def set_userdata(self, userdata: dict) -> None:
         """Set user source."""
         self._username = userdata.get('username')
         self._is_auth = True if self._username else False
@@ -68,7 +72,7 @@ class UserSource(Source):
             print('INFO: User data was not saved')
             pass
         else:
-            self.set_source_user(userdata)
+            self.set_userdata(userdata)
 
     def on_start(self) -> None:
         """Set user data on start app."""
@@ -76,7 +80,7 @@ class UserSource(Source):
 
         if response.status_code == HTTPStatus.OK:
             userdata = response.json()
-            self.set_source_user(userdata)
+            self.set_userdata(userdata)
             self.save_userdata(userdata)
 
         elif response.status_code == HTTPStatus.UNAUTHORIZED:

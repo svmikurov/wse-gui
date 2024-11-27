@@ -7,10 +7,12 @@ from toga.style import Pack
 
 from wse.constants import (
     BTN_LOGIN,
+    CONNECTION_ERROR_MSG,
     INPUT_HEIGHT,
     LOGIN_PATH,
     TITLE_LOGIN,
 )
+from wse.constants.settings import CONNECTION_BAD_MSG, CONNECTION_SUCCESS_MSG
 from wse.contrib.http_requests import obtain_token, request_user_data
 from wse.handlers.goto_handler import goto_main_handler
 from wse.source.user import UserSource
@@ -29,10 +31,10 @@ class LoginBox(BoxApp):
     """Url to login (`str`).
     """
 
-    def __init__(self, source_user: UserSource) -> None:
+    def __init__(self, user: UserSource) -> None:
         """Construct the widgets."""
         super().__init__()
-        self.source_user = source_user
+        self.user = user
 
         # Styles.
         style_input = Pack(height=INPUT_HEIGHT)
@@ -77,20 +79,33 @@ class LoginBox(BoxApp):
                 if response_userdata.status_code == HTTPStatus.OK:
                     payload = response_userdata.json()
                     # Save user data.
-                    self.source_user.set_source_user(payload)
-                    self.source_user.save_userdata(payload)
+                    self.user.set_userdata(payload)
+                    self.user.save_userdata(payload)
 
                     # Update widgets.
                     self._clear_input_fields()
                     widget.root.app.box_main.update_widgets()
                     await goto_main_handler(widget)
 
+                    # Display success message.
+                    await self.show_message(*CONNECTION_SUCCESS_MSG)
+
+            # Display error message.
+            elif (
+                response_token.status_code == HTTPStatus.INTERNAL_SERVER_ERROR
+            ):
+                await self.show_message(*CONNECTION_ERROR_MSG)
+
+            # Display error message if username or password.
+            elif response_token.status_code == HTTPStatus.BAD_REQUEST:
+                await self.show_message(*CONNECTION_BAD_MSG)
+
         else:
             # TODO: Add error message
             pass
 
     def get_credentials(self) -> dict | None:
-        """Extract source_user data from form."""
+        """Extract user data from form."""
         username = self.input_username.value
         password = self.input_password.value
 

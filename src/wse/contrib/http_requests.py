@@ -10,7 +10,6 @@ import httpx
 from httpx import Request, Response
 
 from wse.constants import (
-    CONNECTION_ERROR_MSG,
     HOST_API,
     TOKEN_PATH,
     USER_ME_PATH,
@@ -42,7 +41,7 @@ class AppAuth(httpx.Auth):
 
     @property
     def token(self) -> str | None:
-        """The source_user authentication token."""
+        """The user authentication token."""
         if self._token:
             return self._token
 
@@ -52,8 +51,9 @@ class AppAuth(httpx.Auth):
         except FileNotFoundError:
             return None
         else:
-            self._token = token
-            return token
+            # Set None if token is empty.
+            self._token = token if token else None
+            return self._token
 
     @token.setter
     def token(self, token: str) -> None:
@@ -84,12 +84,12 @@ class ErrorResponse(Response):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct response."""
         super().__init__(*args, **kwargs)
-        self.conn_error_msg = CONNECTION_ERROR_MSG
+        self.conn_error_msg = 'Ошибка соединения с сервером'
 
 
 def obtain_token(credentials: dict) -> Response:
-    """Obtain the source_user token."""
-    response = request_post(url_token, credentials)
+    """Obtain the user token."""
+    response = request_post(url_token, credentials, token=False)
 
     if response.status_code == HTTPStatus.OK:
         token = response.json()['auth_token']
@@ -99,7 +99,7 @@ def obtain_token(credentials: dict) -> Response:
 
 
 def request_user_data() -> Response:
-    """Request the source_user data."""
+    """Request the user data."""
     return request_get(url_login)
 
 
@@ -113,8 +113,8 @@ def request_get(url: str) -> Response:
     with httpx.Client(auth=app_auth) as client:
         try:
             response = client.get(url)
-        except httpx.ConnectError:
-            print('INFO: Connection error')
+        except httpx.ConnectError as error:
+            print(error)
             return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
         else:
             return response
@@ -131,8 +131,8 @@ def request_post(
     with httpx.Client(auth=auth) as client:
         try:
             response = client.post(url=url, json=payload)
-        except httpx.ConnectError:
-            print('INFO: Connection error')
+        except httpx.ConnectError as error:
+            print(error)
             return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
     return response
 

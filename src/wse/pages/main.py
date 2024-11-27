@@ -15,7 +15,7 @@ from wse.constants import (
     LOGOUT_PATH,
     TITLE_MAIN,
 )
-from wse.contrib.http_requests import app_auth, request_post
+from wse.contrib.http_requests import app_auth, request_post, request_user_data
 from wse.handlers.goto_handler import (
     goto_foreign_exercise_handler,
     goto_foreign_main_handler,
@@ -40,12 +40,12 @@ class MainBox(BoxApp):
 
     def __init__(
         self,
-        source_user: UserSource,
+        user: UserSource,
         source_info_panel: MainPanelSource,
     ) -> None:
         """Construct the Main box."""
         super().__init__()
-        self.source_user = source_user
+        self.user = user
         self.source_main_panel = source_info_panel
         self._index_btn_auth = 2
 
@@ -103,18 +103,33 @@ class MainBox(BoxApp):
             self.btn_goto_glossary_exercise,
         )
 
+    async def on_open(self, widget: toga.Widget) -> None:
+        """Update widgets."""
+        if app_auth.token:
+            response = request_user_data()
+
+            if response.status_code == HTTPStatus.OK and not self.user.is_auth:
+                payload = response.json()
+                self.user.set_userdata(payload)
+                self.user.save_userdata(payload)
+
+            elif response.status_code == HTTPStatus.INTERNAL_SERVER_ERROR:
+                self.user.is_auth = False
+
+            self.update_widgets()
+
     async def logout_handler(self, _: toga.Widget) -> None:
         """Send the http request to log out, button handler."""
         response = request_post(url=self.url_logout)
 
         if response.status_code == HTTPStatus.NO_CONTENT:
             del app_auth.token
-            self.source_user.delete_userdata()
+            self.user.delete_userdata()
             self.update_widgets()
 
     def update_widgets(self) -> None:
         """Update widgets by user auth status."""
-        if self.source_user.is_auth:
+        if self.user.is_auth:
             self.place_logout_button()
             self.display_userdata()
         else:
@@ -140,7 +155,7 @@ class MainBox(BoxApp):
     def display_userdata(self) -> None:
         """Display the user data."""
         self.info_panel.value = 'Добро пожаловать, {}!'.format(
-            self.source_user.username
+            self.user.username
         )
 
     def display_greetings(self) -> None:

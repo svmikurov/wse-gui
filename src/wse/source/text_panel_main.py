@@ -16,16 +16,16 @@ class MainPanelSource(Source):
     """User info text (`str`).
     """
 
-    def __init__(self, source_user: UserSource) -> None:
+    def __init__(self, user: UserSource) -> None:
         """Construct the source."""
         super().__init__()
         self._value = ''
-        self.source_user = source_user
+        self.user = user
 
     def update_text(self) -> None:
-        """Update info text by source_user auth status."""
-        if self.source_user.is_auth:
-            self._value = self.text_user_info % self.source_user.username
+        """Update info text by user auth status."""
+        if self.user.is_auth:
+            self._value = self.text_user_info % self.user.username
         else:
             self._value = self.welcome
 

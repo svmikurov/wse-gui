@@ -72,7 +72,7 @@ def test_on_open(
 
     wrapped = simple_handler(box.on_open, box)
 
-    # Opening page requests the source_user exercise params to server.
+    # Opening page requests the user exercise params to server.
     get.return_value = Mock(
         name='Response',
         status_code=200,

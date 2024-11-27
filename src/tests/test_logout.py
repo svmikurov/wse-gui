@@ -48,8 +48,8 @@ def test_logout(
 
         # Set widgets and user source.
         wse.main_window.content = wse.box_main
-        wse.source_user._username = 'name'
-        wse.source_user._is_auth = True
+        wse.user._username = 'name'
+        wse.user._is_auth = True
         box_main.update_widgets()
 
         box_main.btn_logout._impl.simulate_press()
