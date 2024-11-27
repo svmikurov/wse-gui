@@ -107,25 +107,24 @@ class TableApp(BoxApp):
             accessors=self.entry.accessors,
         )
 
+    async def on_open(self, widget: toga.Widget) -> None:
+        """Invoke the populate the table when the table opens."""
+        if bool(self.current_pagination_url):
+            self.populate_table(self.current_pagination_url)
+        else:
+            self.populate_table()
+
     ####################################################################
-    # Callback functions.
+    # Create, update, delete.
 
-    def create_handler(self, widget: toga.Widget) -> None:
-        """Create the entry, button handler.
-
-        :param Widget widget: Widget that called the handler.
-        :raises NotImplementedError: if the method is not overridden.
-        """
+    def create_handler(self, _: toga.Widget) -> None:
+        """Create the entry, button handler."""
         raise NotImplementedError(
             'Subclasses must provide a create_handler() method.'
         )
 
-    def update_handler(self, widget: toga.Widget) -> None:
-        """Update the entry, button handler.
-
-        :param Widget widget: Widget that called the handler.
-        :raises NotImplementedError: if the method is not overridden.
-        """
+    def update_handler(self, _: toga.Widget) -> None:
+        """Update the entry, button handler."""
         raise NotImplementedError(
             'Subclasses must provide a update_handler() method.'
         )
@@ -141,27 +140,27 @@ class TableApp(BoxApp):
             await request_delete_async(url)
             self.populate_table(self.current_pagination_url)
 
-    def reload_handler(self, _: toga.Widget) -> None:
-        """Update the table, button handler."""
-        self.populate_table()
+    ####################################################################
+    # HTTP request.
 
-    def previous_handler(self, _: toga.Widget) -> None:
-        """Populate the table by previous pagination, button handler."""
-        self.populate_table(self.previous_pagination_url)
+    def request_entries(
+        self,
+        pagination_url: str | None = None,
+    ) -> list[tuple[str, ...]]:
+        """Request the entries to populate the table."""
+        # Update pagination page if it, otherwise request first page.
+        response = request_get(pagination_url or self.source_url)
 
-    def next_handler(self, _: toga.Widget) -> None:
-        """Populate the table by next pagination, button handler."""
-        self.populate_table(self.next_pagination_url)
+        # Set the pagination urls.
+        self.set_pagination_urls(response)
+
+        # Get entries to input at table.
+        payload = response.json()
+        entries = to_entries(payload['results'])
+        return entries
 
     ####################################################################
-    # Any methods.
-
-    async def on_open(self, widget: toga.Widget) -> None:
-        """Invoke the populate the table when the table opens."""
-        if bool(self.current_pagination_url):
-            self.populate_table(self.current_pagination_url)
-        else:
-            self.populate_table()
+    # Table.
 
     def populate_table(self, url: str | None = None) -> None:
         """Populate the table on url request."""
@@ -175,18 +174,19 @@ class TableApp(BoxApp):
         self.table.data.clear()
 
     ####################################################################
-    # Url methods.
+    # Table pagination.
 
-    def request_entries(
-        self,
-        pagination_url: str | None = None,
-    ) -> list[tuple[str, ...]]:
-        """Request the entries to populate the table."""
-        response = request_get(pagination_url or self.source_url)
-        self.set_pagination_urls(response)
-        payload = response.json()
-        entries = to_entries(payload['results'])
-        return entries
+    def reload_handler(self, _: toga.Widget) -> None:
+        """Update the table, button handler."""
+        self.populate_table()
+
+    def previous_handler(self, _: toga.Widget) -> None:
+        """Populate the table by previous pagination, button handler."""
+        self.populate_table(self.previous_pagination_url)
+
+    def next_handler(self, _: toga.Widget) -> None:
+        """Populate the table by next pagination, button handler."""
+        self.populate_table(self.next_pagination_url)
 
     def set_pagination_urls(self, response: Response) -> None:
         """Set pagination urls."""
@@ -197,10 +197,7 @@ class TableApp(BoxApp):
 
     @property
     def next_pagination_url(self) -> str:
-        """Next pagination url (`str`).
-
-        Controls the active state of the previous pagination button.
-        """
+        """Next pagination url (`str`)."""
         return self._next_pagination_url
 
     @next_pagination_url.setter
@@ -210,10 +207,7 @@ class TableApp(BoxApp):
 
     @property
     def previous_pagination_url(self) -> str:
-        """Previous pagination url (`str`).
-
-        Controls the active state of the previous pagination button.
-        """
+        """Previous pagination url (`str`)."""
         return self._previous_pagination_url
 
     @previous_pagination_url.setter
