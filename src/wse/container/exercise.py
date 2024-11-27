@@ -48,8 +48,8 @@ class AnswerBtn(toga.Button):
         super().__init__(text=text, style=style, on_press=on_press)
 
 
-class ExerciseParamSelectionsBox(HttpPutMixin, BoxApp):
-    """Exercise param box of selection widgets."""
+class ParamBox(HttpPutMixin, BoxApp):
+    """Exercise params box of selection widgets."""
 
     title = ''
     """Page box title (`str`).
@@ -434,7 +434,7 @@ class ExerciseBox(BoxApp):
         box = self.get_box_params()
         await set_window_content(self, box)
 
-    def get_box_params(self) -> ExerciseParamSelectionsBox:
+    def get_box_params(self) -> ParamBox:
         """Get box instance with exercise params.
 
         Override this method.

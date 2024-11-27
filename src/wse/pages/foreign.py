@@ -27,7 +27,7 @@ from wse.constants import (
     TITLE_FOREIGN_PARAMS,
     TITLE_FOREIGN_UPDATE,
 )
-from wse.container.exercise import ExerciseBox, ExerciseParamSelectionsBox
+from wse.container.exercise import ExerciseBox, ParamBox
 from wse.contrib.http_requests import (
     request_post_async,
     request_put_async,
@@ -80,7 +80,7 @@ class MainForeignPage(BoxApp):
         )
 
 
-class ParamForeignPage(ExerciseParamSelectionsBox):
+class ParamForeignPage(ParamBox):
     """Learning foreign words exercise parameters the page box."""
 
     title = TITLE_FOREIGN_PARAMS
