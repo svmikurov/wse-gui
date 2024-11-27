@@ -101,9 +101,7 @@ def obtain_token(credentials: dict) -> Response:
 
 def request_user_data() -> Response:
     """Request the source_user data."""
-    with httpx.Client(auth=app_auth) as client:
-        response = client.get(url_login)
-    return response
+    return request_get(url_login)
 
 
 #########################################################################
@@ -115,7 +113,7 @@ def request_get(url: str) -> Response:
     """Send GET request."""
     with httpx.Client(auth=app_auth) as client:
         try:
-            response = client.get(url=url)
+            response = client.get(url)
         except httpx.ConnectError:
             print('Connection error')
             return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
@@ -187,17 +185,6 @@ async def request_delete_async(url: str) -> Response:
 #########################################################################
 # Request mixins
 #########################################################################
-
-
-class HttpGetMixin:
-    """Request GET method, the mixin."""
-
-    success_http_status = HTTPStatus.OK
-
-    @classmethod
-    async def request_get_async(cls, url: str, payload: dict) -> Response:
-        """Send http request, GET method."""
-        return await request_put_async(url, payload)
 
 
 class HttpPostMixin:

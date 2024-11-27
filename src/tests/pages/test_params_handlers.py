@@ -85,7 +85,7 @@ def test_on_open(
         wse.loop.run_until_complete(wrapped(box))
 
         # Assert that request specific url.
-        assert get.call_args == call(url=url)
+        assert get.call_args == call(url)
 
         # Set requested params to lookup_condition property.
         assert mock.mock_calls == [call(PARAMS)]
