@@ -129,6 +129,3 @@ def test_login(
         # The username and password input fields have been cleared.
         assert box_login.input_username.value == ''
         assert box_login.input_password.value == ''
-
-
-USER_DATA = {'email': '', 'id': 1, 'username': 'name'}

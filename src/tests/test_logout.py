@@ -8,13 +8,14 @@ from unittest.mock import MagicMock, Mock, patch
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 
-from tests.test_login import USER_DATA
 from tests.utils import run_until_complete
 from wse.app import WSE
 from wse.constants import HOST_API
 from wse.contrib import http_requests
 from wse.pages import MainBox
 from wse.source import user
+
+USER_DATA = {'email': '', 'id': 1, 'username': 'name'}
 
 
 @pytest.fixture
