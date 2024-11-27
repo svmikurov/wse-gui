@@ -17,12 +17,10 @@ def run_until_complete(wse: WSE) -> object:
 class FixtureReader:
     """Reader of fixtures.
 
-    :param str fixture: The fixture file name.
+    Use to reade fixture for http response.
     """
 
     module_dir = pathlib.Path(__file__).parent
-    """Current module dir path (`str`).
-    """
 
     def __init__(self, fixture_file_name: str) -> None:
         """Construct the reader."""
@@ -35,14 +33,11 @@ class FixtureReader:
 
     @staticmethod
     def url() -> str:
-        """Return the url."""
-        return ''
+        """Stub to return the url for http response fixture."""
+        return 'url stub from FixtureReader'
 
     def json(self) -> dict:
-        """Reade the fixture.
-
-        :return: the fixture data.
-        """  # noqa: D401
+        """Return the data from http response fixture."""
         with open(self.fixture_path, 'r') as file:
-            fixture = json.load(file)
-        return fixture
+            data = json.load(file)
+        return data
