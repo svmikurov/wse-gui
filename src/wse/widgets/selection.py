@@ -34,6 +34,13 @@ class BaseSelection(toga.Selection):
             if selection[self.alias] == value:
                 self.value = self.items[index]
 
+    def get_items(self) -> list[dict[str, str]]:
+        """Return items."""
+        args = []
+        for item in self.items:
+           args.append({'alias': item.alias, 'humanly': item.humanly})
+        return args
+
     def get_alias(self) -> str | int | list | None:
         """Get displayed value from selection."""
         return self.value.alias
