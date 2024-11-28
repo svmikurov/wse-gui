@@ -4,6 +4,7 @@ import asyncio
 import json
 import os
 import pathlib
+from http import HTTPStatus
 
 from wse.app import WSE
 
@@ -22,9 +23,14 @@ class FixtureReader:
 
     module_dir = pathlib.Path(__file__).parent
 
-    def __init__(self, fixture_file_name: str) -> None:
+    def __init__(
+        self,
+        fixture_file_name: str,
+        status_code: int = HTTPStatus.OK,
+    ) -> None:
         """Construct the reader."""
         self.fixture = fixture_file_name
+        self.status_code = status_code
 
     @property
     def fixture_path(self) -> str:
@@ -34,7 +40,7 @@ class FixtureReader:
     @staticmethod
     def url() -> str:
         """Stub to return the url for http response fixture."""
-        return 'url stub from FixtureReader'
+        return 'NOTE: url stub from FixtureReader'
 
     def json(self) -> dict:
         """Return the data from http response fixture."""
