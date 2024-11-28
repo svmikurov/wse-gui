@@ -1,6 +1,6 @@
 """Test convert http response data to Source Toga model."""
 
-from wse.contrib.utils import to_entries
+from wse.contrib.data import to_entries
 
 http_response_data = [
     {'id': 6, 'name': 'apple', 'color': 'green'},

@@ -19,87 +19,87 @@
     },
     "exercise_choices": {
         "edge_period_items": [
-            {
-                "alias": "DT",
-                "humanly": "Сегодня"
-            },
-            {
-                "alias": "D3",
-                "humanly": "Три дня назад"
-            },
-            {
-                "alias": "W1",
-                "humanly": "Неделя назад"
-            },
-            {
-                "alias": "W2",
-                "humanly": "Две недели назад"
-            },
-            {
-                "alias": "W3",
-                "humanly": "Три недели назад"
-            },
-            {
-                "alias": "W4",
-                "humanly": "Четыре недели назад"
-            },
-            {
-                "alias": "W7",
-                "humanly": "Семь недель назад"
-            },
-            {
-                "alias": "M3",
-                "humanly": "Три месяца назад"
-            },
-            {
-                "alias": "M6",
-                "humanly": "Шесть месяцев назад"
-            },
-            {
-                "alias": "M9",
-                "humanly": "Девять месяцев назад"
-            },
-            {
-                "alias": "NC",
-                "humanly": "Добавлено"
-            }
+            [
+                "DT",
+                "Сегодня"
+            ],
+            [
+                "D3",
+                "Три дня назад"
+            ],
+            [
+                "W1",
+                "Неделя назад"
+            ],
+            [
+                "W2",
+                "Две недели назад"
+            ],
+            [
+                "W3",
+                "Три недели назад"
+            ],
+            [
+                "W4",
+                "Четыре недели назад"
+            ],
+            [
+                "W7",
+                "Семь недель назад"
+            ],
+            [
+                "M3",
+                "Три месяца назад"
+            ],
+            [
+                "M6",
+                "Шесть месяцев назад"
+            ],
+            [
+                "M9",
+                "Девять месяцев назад"
+            ],
+            [
+                "NC",
+                "Добавлено"
+            ]
         ],
         "categories": [
             {
-                "alias": 1,
-                "humanly": "Color"
+                "id": 1,
+                "name": "Color"
             },
             {
-                "alias": 8,
-                "humanly": "Developer"
+                "id": 8,
+                "name": "Developer"
             },
             {
-                "alias": 2,
-                "humanly": "Greetings"
+                "id": 2,
+                "name": "Greetings"
             },
             {
-                "alias": 9,
-                "humanly": "notebook"
+                "id": 9,
+                "name": "notebook"
             },
             {
-                "alias": 6,
-                "humanly": "Other"
+                "id": 6,
+                "name": "Other"
             },
             {
-                "alias": 3,
-                "humanly": "Pronouns, ..."
+                "id": 3,
+                "name": "Pronouns, ..."
             },
             {
-                "alias": 5,
-                "humanly": "School"
+                "id": 5,
+                "name": "School"
             },
             {
-                "alias": 4,
-                "humanly": "Tasks"
+                "id": 4,
+                "name": "Tasks"
             },
             {
-                "alias": 7,
-                "humanly": "Time"
+                "id": 7,
+                "name": "Time"
             },
             {
                 "alias": null,
@@ -107,36 +107,36 @@
             }
         ],
         "progress": [
-            {
-                "alias": "S",
-                "humanly": "Изучаю"
-            },
-            {
-                "alias": "R",
-                "humanly": "Повторяю"
-            },
-            {
-                "alias": "E",
-                "humanly": "Проверяю"
-            },
-            {
-                "alias": "K",
-                "humanly": "Знаю"
-            }
+            [
+                "S",
+                "Изучаю"
+            ],
+            [
+                "R",
+                "Повторяю"
+            ],
+            [
+                "E",
+                "Проверяю"
+            ],
+            [
+                "K",
+                "Знаю"
+            ]
         ],
         "orders": [
-            {
-                "alias": "RN",
-                "humanly": "Случайный порядок"
-            },
-            {
-                "alias": "TR",
-                "humanly": "На родной"
-            },
-            {
-                "alias": "FR",
-                "humanly": "С родного"
-            }
+            [
+                "RN",
+                "Перевод в случайном порядке"
+            ],
+            [
+                "TR",
+                "Перевод на родной язык"
+            ],
+            [
+                "FR",
+                "Перевод с родного язык"
+            ]
         ]
     }
 }

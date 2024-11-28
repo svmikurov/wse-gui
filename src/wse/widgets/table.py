@@ -5,8 +5,8 @@ from httpx import Response
 from toga.style import Pack
 from travertino.constants import ITALIC
 
+from wse.contrib.data import to_entries
 from wse.contrib.http_requests import request_delete_async, request_get
-from wse.contrib.utils import to_entries
 from wse.widgets.box_page import BoxApp
 from wse.widgets.button import BtnApp, SmBtn
 
