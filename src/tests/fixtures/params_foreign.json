@@ -14,7 +14,7 @@
             "OW",
             "CB"
         ],
-        "category": null,
+        "category": 3,
         "source": null
     },
     "exercise_choices": {
@@ -65,46 +65,46 @@
             ]
         ],
         "categories": [
-            {
-                "id": 1,
-                "name": "Color"
-            },
-            {
-                "id": 8,
-                "name": "Developer"
-            },
-            {
-                "id": 2,
-                "name": "Greetings"
-            },
-            {
-                "id": 9,
-                "name": "notebook"
-            },
-            {
-                "id": 6,
-                "name": "Other"
-            },
-            {
-                "id": 3,
-                "name": "Pronouns, ..."
-            },
-            {
-                "id": 5,
-                "name": "School"
-            },
-            {
-                "id": 4,
-                "name": "Tasks"
-            },
-            {
-                "id": 7,
-                "name": "Time"
-            },
-            {
-                "alias": null,
-                "humanly": "Не выбрано"
-            }
+            [
+                1,
+                "Color"
+            ],
+            [
+                8,
+                "Developer"
+            ],
+            [
+                2,
+                "Greetings"
+            ],
+            [
+                9,
+                "notebook"
+            ],
+            [
+                6,
+                "Other"
+            ],
+            [
+                 3,
+                "Default for example"
+            ],
+            [
+                5,
+                "School"
+            ],
+            [
+                4,
+                "Tasks"
+            ],
+            [
+                7,
+                "Time"
+            ],
+            [
+                null,
+                "Не выбрано"
+            ]
         ],
         "progress": [
             [

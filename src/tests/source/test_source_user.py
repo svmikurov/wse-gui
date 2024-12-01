@@ -15,6 +15,8 @@ def source() -> UserSource:
 def test_create_instance(wse: WSE) -> None:
     """Test create the source instance."""
     assert hasattr(wse, 'user')
+
+    # By default user instance has not private data.
     assert wse.user.username is None
     assert wse.user.is_auth is False
 
@@ -35,6 +37,5 @@ def test_set_auth_data(source: UserSource) -> None:
     assert source.username == 'name'
     assert source.is_auth is True
 
-    # Set for not auth user.
     source._username = 'name'
     source._is_auth = True

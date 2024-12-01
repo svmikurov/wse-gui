@@ -42,7 +42,7 @@ def test_widget_count(box_login: LoginBox) -> None:
     assert WIDGET_COUNT == len(box_login.children)
 
 
-def test_title(box_login: LoginBox) -> None:
+def test_text(box_login: LoginBox) -> None:
     """Test widgets at login box-container."""
     assert box_login.label_title.text == 'Вход в учетную запись'
     assert box_login.input_username.placeholder == 'Имя'
