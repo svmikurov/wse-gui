@@ -25,27 +25,10 @@ from wse.contrib.timer import Timer
 from wse.handlers.goto_handler import set_window_content
 from wse.widgets.box import FlexBox
 from wse.widgets.box_page import BoxApp
-from wse.widgets.button import BtnApp
+from wse.widgets.button import BtnApp, AnswerBtn
 from wse.widgets.label import TitleLabel
 from wse.widgets.selection import BaseSelection
 from wse.widgets.text_input import TextPanel
-
-
-class AnswerBtn(toga.Button):
-    """User answer button."""
-
-    def __init__(
-        self,
-        text: str | None = None,
-        on_press: toga.widgets.button.OnPressHandler | None = None,
-    ) -> None:
-        """Construct the button."""
-        style = Pack(
-            flex=1,
-            height=100,
-            font_size=9,
-        )
-        super().__init__(text=text, style=style, on_press=on_press)
 
 
 class ParamBox(HttpPutMixin, BoxApp):
