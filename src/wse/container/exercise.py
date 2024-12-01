@@ -8,6 +8,7 @@ For exercises:
 from http import HTTPStatus
 
 import toga
+from toga import Label, Switch
 from toga.style.pack import COLUMN, ROW, Pack
 
 from wse.constants import (
@@ -25,62 +26,46 @@ from wse.contrib.timer import Timer
 from wse.handlers.goto_handler import set_window_content
 from wse.widgets.box import FlexBox
 from wse.widgets.box_page import BoxApp
-from wse.widgets.button import BtnApp, AnswerBtn
+from wse.widgets.button import AnswerBtn, BtnApp
 from wse.widgets.label import TitleLabel
 from wse.widgets.selection import BaseSelection
 from wse.widgets.text_input import TextPanel
 
 
-class ParamBox(HttpPutMixin, BoxApp):
-    """Exercise params box of selection widgets."""
+class ParamsBox(HttpPutMixin, BoxApp):
+    """Exercise params box-container."""
 
     title = ''
-    """Page box title (`str`).
+    """The box-container title (`str`).
     """
     url = ''
-    """Learning foreign word exercise parameters url (`str`).
+    """The task params url (`str`).
     """
 
     def __init__(self) -> None:
-        """Construct the box."""
+        """Construct."""
         super().__init__()
 
         # Styles.
         self.style_label = Pack(padding=(7, 0, 7, 20))
         self.style_box_selection = Pack(padding=(2, 0, 2, 0))
 
+        # Title.
         self.label_title = TitleLabel(text=self.title)
 
-        # General buttons.
-        self.btn_save_params = BtnApp(
-            'Сохранить настройки',
-            on_press=self.save_params_handler,
-        )
-        self.btn_goto_exercise = BtnApp(
-            'Начать упражнение',
-            on_press=self.goto_box_exercise_handler,
-        )
-
+        # fmt: off
         # Selection labels.
-        self.label_start = toga.Label(
-            'Начало периода:', style=self.style_label
-        )
-        self.label_end = toga.Label('Конец периода:', style=self.style_label)
-        self.label_category = toga.Label('Категория:', style=self.style_label)
-        self.label_progres = toga.Label(
-            'Стадия изучения:', style=self.style_label
-        )
-        # Switch
-        self.count_first_switch = toga.Switch(
-            'Первые',
-            style=self.style_label,
-            on_change=self.first_switch_handler,
-        )
-        self.count_last_switch = toga.Switch(
-            'Последние',
-            style=self.style_label,
-            on_change=self.last_switch_handler,
-        )
+        self.label_start = Label('Начало периода:', style=self.style_label)
+        self.label_end = Label('Конец периода:', style=self.style_label)
+        self.label_category = Label('Категория:', style=self.style_label)
+        self.label_progres = Label('Стадия изучения:', style=self.style_label)
+
+        # Switches for enable/untenable params.
+        self.switch_count_first = Switch('Первые', on_change=self.first_switch_handler)  # noqa: E501
+        self.switch_count_first.style = self.style_label
+        self.switch_count_last = Switch('Последние', on_change=self.last_switch_handler)  # noqa: E501
+        self.switch_count_last.style = self.style_label
+
         # Selections.
         self.selection_start_period = BaseSelection()
         self.selection_end_period = BaseSelection()
@@ -88,7 +73,35 @@ class ParamBox(HttpPutMixin, BoxApp):
         self.selection_progress = BaseSelection()
         self.input_count_first = toga.NumberInput(step=10, min=0)
         self.input_count_last = toga.NumberInput(step=10, min=0)
-        # Selection boxes.
+
+        # Boxes.
+        # The ``box_params`` is container for selection boxes.
+        self.box_params = toga.Box(style=Pack(direction=COLUMN, flex=1))
+        self.construct_selection_boxes()
+
+        # General buttons.
+        self.btn_save_params = BtnApp('Сохранить настройки', on_press=self.save_params_handler)  # noqa: E501
+        self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.goto_box_exercise_handler)  # noqa: E501
+        # fmt: on
+
+        # DOM.
+        self.add(
+            self.label_title,
+            self.box_params,
+            self.btn_goto_exercise,
+            self.btn_save_params,
+        )
+        self.box_params.add(
+            self.box_selection_start,
+            self.box_selection_end,
+            self.box_selection_category,
+            self.box_selection_progress,
+            self.box_input_first,
+            self.box_input_last,
+        )
+
+    def construct_selection_boxes(self) -> None:
+        """Construct a selection boxes."""
         self.box_selection_start = toga.Box(
             style=self.style_box_selection,
             children=[
@@ -122,7 +135,7 @@ class ParamBox(HttpPutMixin, BoxApp):
             style=self.style_box_selection,
             children=[
                 FlexBox(
-                    children=[self.count_first_switch],
+                    children=[self.switch_count_first],
                     style=Pack(direction=COLUMN, padding_right=20),
                 ),
                 FlexBox(
@@ -135,7 +148,7 @@ class ParamBox(HttpPutMixin, BoxApp):
             style=self.style_box_selection,
             children=[
                 FlexBox(
-                    children=[self.count_last_switch],
+                    children=[self.switch_count_last],
                     style=Pack(direction=COLUMN, padding_right=20),
                 ),
                 FlexBox(
@@ -145,23 +158,8 @@ class ParamBox(HttpPutMixin, BoxApp):
             ],
         )
 
-        # Widgets DOM.
-        # Add ``params_box`` attr.
-        self.box_params = toga.Box(style=Pack(direction=COLUMN, flex=1))
-        self.add(
-            self.label_title,
-            self.box_params,
-            self.btn_goto_exercise,
-            self.btn_save_params,
-        )
-        self.box_params.add(
-            self.box_selection_start,
-            self.box_selection_end,
-            self.box_selection_category,
-            self.box_selection_progress,
-            self.box_input_first,
-            self.box_input_last,
-        )
+    # End of widget constructor
+    ###########################
 
     async def on_open(self, widget: toga.Widget) -> None:
         """Request and fill params data of box when box open."""
@@ -189,13 +187,13 @@ class ParamBox(HttpPutMixin, BoxApp):
 
     def first_switch_handler(self, widget: toga.Widget) -> None:
         """Count of first added words, switch handler."""
-        if self.count_first_switch.value:
-            self.count_last_switch.value = False
+        if self.switch_count_first.value:
+            self.switch_count_last.value = False
 
     def last_switch_handler(self, widget: toga.Widget) -> None:
         """Count of last added words, switch handler."""
-        if self.count_last_switch.value:
-            self.count_first_switch.value = False
+        if self.switch_count_last.value:
+            self.switch_count_first.value = False
 
     ####################################################################
     # Lookup conditions
@@ -210,8 +208,8 @@ class ParamBox(HttpPutMixin, BoxApp):
             'period_end_date': self.selection_end_period.get_alias(),
             'category': self.selection_category.get_alias(),
             'progress': [self.selection_progress.get_alias()],
-            'count_first': count_first * self.count_first_switch.value,
-            'count_last': count_last * self.count_last_switch.value,
+            'count_first': count_first * self.switch_count_first.value,
+            'count_last': count_last * self.switch_count_last.value,
         }
         return params
 
@@ -236,12 +234,12 @@ class ParamBox(HttpPutMixin, BoxApp):
         )  # fmt: skip
         if bool(defaults['count_first']):
             self.input_count_first.value = defaults['count_first']
-            self.count_first_switch.value = True
-            self.count_last_switch.value = False
+            self.switch_count_first.value = True
+            self.switch_count_last.value = False
         if bool(defaults['count_last']):
             self.input_count_last.value = defaults['count_last']
-            self.count_last_switch.value = True
-            self.count_first_switch.value = False
+            self.switch_count_last.value = True
+            self.switch_count_first.value = False
 
 
 class ExerciseBox(BoxApp):
@@ -412,7 +410,7 @@ class ExerciseBox(BoxApp):
         box = self.get_box_params()
         await set_window_content(self, box)
 
-    def get_box_params(self) -> ParamBox:
+    def get_box_params(self) -> ParamsBox:
         """Get box instance with exercise params.
 
         Override this method.

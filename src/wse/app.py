@@ -22,14 +22,14 @@ class WSE(toga.App):
     box_main: pages.MainBox
     # Foreign language study page boxes.
     box_foreign_main: pages.MainForeignPage
-    box_foreign_params: pages.ParamForeignPage
+    box_foreign_params: pages.ParamsForeignPage
     box_foreign_exercise: pages.ExerciseForeignPage
     box_foreign_create: pages.CreateWordPage
     box_foreign_update: pages.UpdateWordPage
     box_foreign_list: pages.ListForeignPage
     # Glossary study page boxes.
     box_glossary_main: pages.MainGlossaryPage
-    box_glossary_params: pages.ParamGlossaryPage
+    box_glossary_params: pages.ParamsGlossaryPage
     box_glossary_exercise: pages.ExerciseGlossaryPage
     box_glossary_create: pages.CreateTermPage
     box_glossary_update: pages.UpdateTermPage
@@ -57,14 +57,14 @@ class WSE(toga.App):
         self.box_login = pages.LoginBox(self.user)
         # Foreign language study page boxes.
         self.box_foreign_main = pages.MainForeignPage()
-        self.box_foreign_params = pages.ParamForeignPage()
+        self.box_foreign_params = pages.ParamsForeignPage()
         self.box_foreign_exercise = pages.ExerciseForeignPage()
         self.box_foreign_create = pages.CreateWordPage()
         self.box_foreign_update = pages.UpdateWordPage()
         self.box_foreign_list = pages.ListForeignPage()
         # Glossary study page boxes.
         self.box_glossary_main = pages.MainGlossaryPage()
-        self.box_glossary_params = pages.ParamGlossaryPage()
+        self.box_glossary_params = pages.ParamsGlossaryPage()
         self.box_glossary_exercise = pages.ExerciseGlossaryPage()
         self.box_glossary_create = pages.CreateTermPage()
         self.box_glossary_update = pages.UpdateTermPage()

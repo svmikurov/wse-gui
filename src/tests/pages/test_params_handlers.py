@@ -11,7 +11,7 @@ from toga.sources import ListSource
 from tests.utils import FixtureReader
 from wse.app import WSE
 from wse.constants import HOST_API
-from wse.pages import ParamForeignPage, ParamGlossaryPage
+from wse.pages import ParamsForeignPage, ParamsGlossaryPage
 
 PARAMS = FixtureReader('params.json').json()
 
@@ -24,21 +24,21 @@ def get_assertion(items: list, expected: ListSource) -> None:
 
 
 @pytest.fixture
-def box_foreign(wse: WSE) -> ParamForeignPage:
-    """Return the instance of ParamForeignPage, fixture."""
+def box_foreign(wse: WSE) -> ParamsForeignPage:
+    """Return the instance of ParamsForeignPage, fixture."""
     box = wse.box_foreign_params
     return box
 
 
 @pytest.fixture
-def box_glossary(wse: WSE) -> ParamGlossaryPage:
-    """Return the instance of ParamGlossaryPage, fixture."""
+def box_glossary(wse: WSE) -> ParamsGlossaryPage:
+    """Return the instance of ParamsGlossaryPage, fixture."""
     box = wse.box_glossary_params
     return box
 
 
 @pytest.fixture(params=['box_foreign', 'box_glossary'])
-def box(request: FixtureRequest) -> ParamForeignPage | ParamGlossaryPage:
+def box(request: FixtureRequest) -> ParamsForeignPage | ParamsGlossaryPage:
     """Return the box fixtures one by one."""
     return request.getfixturevalue(request.param)
 
@@ -49,12 +49,12 @@ def box(request: FixtureRequest) -> ParamForeignPage | ParamGlossaryPage:
         (
             'box_foreign_params',
             '/api/v1/foreign/params/',
-            'wse.pages.ParamForeignPage.set_params',
+            'wse.pages.ParamsForeignPage.set_params',
         ),
         (
             'box_glossary_params',
             '/api/v1/glossary/params/',
-            'wse.pages.ParamGlossaryPage.set_params',
+            'wse.pages.ParamsGlossaryPage.set_params',
         ),
     ],
 )
@@ -67,7 +67,7 @@ def test_on_open(
     wse: WSE,
 ) -> None:
     """Test the call of on_open method params box."""
-    box: ParamForeignPage | ParamGlossaryPage = getattr(wse, box_name)
+    box: ParamsForeignPage | ParamsGlossaryPage = getattr(wse, box_name)
     url = urljoin(HOST_API, params_path)
 
     wrapped = simple_handler(box.on_open, box)
@@ -156,7 +156,7 @@ def test_input_count_first(wse: WSE, selection_params: object) -> None:
     input_field = wse.box_glossary_params.input_count_first
     # Choice by default.
     assert input_field.value == PARAMS['lookup_conditions']['count_first']
-    assert wse.box_glossary_params.count_first_switch.value is False
+    assert wse.box_glossary_params.switch_count_first.value is False
 
 
 def test_input_count_last(wse: WSE, selection_params: object) -> None:
@@ -164,4 +164,4 @@ def test_input_count_last(wse: WSE, selection_params: object) -> None:
     input_field = wse.box_glossary_params.input_count_last
     # Choice by default.
     assert input_field.value == PARAMS['lookup_conditions']['count_last']
-    assert wse.box_glossary_params.count_first_switch.value is False
+    assert wse.box_glossary_params.switch_count_first.value is False

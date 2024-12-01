@@ -27,7 +27,7 @@ from wse.constants import (
 )
 from wse.container.exercise import (
     ExerciseBox,
-    ParamBox,
+    ParamsBox,
 )
 from wse.contrib.http_requests import (
     HttpPostMixin,
@@ -87,7 +87,7 @@ class MainGlossaryPage(BoxApp):
         )
 
 
-class ParamGlossaryPage(ParamBox):
+class ParamsGlossaryPage(ParamsBox):
     """Glossary page box."""
 
     title = TITLE_GLOSSARY_PARAMS
@@ -136,7 +136,7 @@ class ExerciseGlossaryPage(ExerciseBox):
             self.btn_goto_params,
         )
 
-    def get_box_params(self) -> ParamGlossaryPage:
+    def get_box_params(self) -> ParamsGlossaryPage:
         """Get box instance with exercise params."""
         return self.root.app.box_glossary_params
 

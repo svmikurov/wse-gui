@@ -27,7 +27,7 @@ from wse.constants import (
     TITLE_FOREIGN_PARAMS,
     TITLE_FOREIGN_UPDATE,
 )
-from wse.container.exercise import ExerciseBox, ParamBox
+from wse.container.exercise import ExerciseBox, ParamsBox
 from wse.contrib.http_requests import (
     request_post_async,
     request_put_async,
@@ -82,7 +82,7 @@ class MainForeignPage(BoxApp):
         )
 
 
-class ParamForeignPage(ParamBox):
+class ParamsForeignPage(ParamsBox):
     """Learning foreign words exercise parameters the page box."""
 
     title = TITLE_FOREIGN_PARAMS
@@ -187,7 +187,7 @@ class ExerciseForeignPage(ExerciseBox):
         super().show_question()
         self.populate_textpanel()
 
-    def get_box_params(self) -> ParamForeignPage:
+    def get_box_params(self) -> ParamsForeignPage:
         """Get box instance with exercise params."""
         return self.root.app.box_foreign_params
 

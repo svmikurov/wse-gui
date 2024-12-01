@@ -5,7 +5,7 @@ from wse.pages.foreign import (
     ExerciseForeignPage,
     ListForeignPage,
     MainForeignPage,
-    ParamForeignPage,
+    ParamsForeignPage,
     UpdateWordPage,
 )
 from wse.pages.glossary import (
@@ -13,7 +13,7 @@ from wse.pages.glossary import (
     ExerciseGlossaryPage,
     ListGlossaryPage,
     MainGlossaryPage,
-    ParamGlossaryPage,
+    ParamsGlossaryPage,
     UpdateTermPage,
 )
 from wse.pages.login import LoginBox
@@ -32,8 +32,8 @@ __all__ = (
     'MainBox',
     'MainForeignPage',
     'MainGlossaryPage',
-    'ParamForeignPage',
-    'ParamGlossaryPage',
+    'ParamsForeignPage',
+    'ParamsGlossaryPage',
     'UpdateWordPage',
     'UpdateTermPage',
 )

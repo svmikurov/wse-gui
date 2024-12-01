@@ -8,41 +8,41 @@ from _pytest.monkeypatch import MonkeyPatch
 
 from tests.utils import run_until_complete
 from wse.app import WSE
-from wse.pages import ParamForeignPage, ParamGlossaryPage
+from wse.pages import ParamsForeignPage, ParamsGlossaryPage
 from wse.widgets.selection import BaseSelection
 
 
 def set_window_content(
     wse: WSE,
-    box: ParamForeignPage | ParamGlossaryPage,
+    box: ParamsForeignPage | ParamsGlossaryPage,
 ) -> None:
     """Assign the box with widgets to window content."""
     wse.main_window.content = box
 
 
 @pytest.fixture
-def box_foreign(wse: WSE) -> ParamForeignPage:
-    """Return the instance of ParamForeignPage, fixture."""
+def box_foreign(wse: WSE) -> ParamsForeignPage:
+    """Return the instance of ParamsForeignPage, fixture."""
     box = wse.box_foreign_params
     return box
 
 
 @pytest.fixture
-def box_glossary(wse: WSE) -> ParamGlossaryPage:
-    """Return the instance of ParamGlossaryPage, fixture."""
+def box_glossary(wse: WSE) -> ParamsGlossaryPage:
+    """Return the instance of ParamsGlossaryPage, fixture."""
     box = wse.box_glossary_params
     return box
 
 
 @pytest.fixture(params=['box_foreign', 'box_glossary'])
-def box(request: FixtureRequest) -> ParamForeignPage | ParamGlossaryPage:
+def box(request: FixtureRequest) -> ParamsForeignPage | ParamsGlossaryPage:
     """Return the box fixtures one by one."""
     return request.getfixturevalue(request.param)
 
 
 def test_foreign_widget_order(
     wse: WSE,
-    box_foreign: ParamForeignPage,
+    box_foreign: ParamsForeignPage,
 ) -> None:
     """Test the widget and containers orger at params page."""
     box = box_foreign
@@ -84,18 +84,18 @@ def test_foreign_widget_order(
         box.selection_progress.parent,
     ]
     assert box.box_input_first.children == [
-        box.count_first_switch.parent,
+        box.switch_count_first.parent,
         box.input_count_first.parent,
     ]
     assert box.box_input_last.children == [
-        box.count_last_switch.parent,
+        box.switch_count_last.parent,
         box.input_count_last.parent,
     ]
 
 
 def test_glossary_widget_order(
     wse: WSE,
-    box_glossary: ParamGlossaryPage,
+    box_glossary: ParamsGlossaryPage,
 ) -> None:
     """Test the widget and containers orger at params page."""
     box = box_glossary
@@ -136,11 +136,11 @@ def test_glossary_widget_order(
         box.selection_progress.parent,
     ]
     assert box.box_input_first.children == [
-        box.count_first_switch.parent,
+        box.switch_count_first.parent,
         box.input_count_first.parent,
     ]
     assert box.box_input_last.children == [
-        box.count_last_switch.parent,
+        box.switch_count_last.parent,
         box.input_count_last.parent,
     ]
 
@@ -156,11 +156,11 @@ def test_label_title(box_name: str, label_text: str, wse: WSE) -> None:
     """Test the label title.
 
     Testing:
-     * ParamForeignPage and ParamGlossaryPage classes;
+     * ParamsForeignPage and ParamsGlossaryPage classes;
      * that label has a specific text.
 
     """
-    box: ParamForeignPage | ParamGlossaryPage = getattr(wse, box_name)
+    box: ParamsForeignPage | ParamsGlossaryPage = getattr(wse, box_name)
 
     # The label has a specific text.
     assert box.label_title.text == label_text
@@ -178,12 +178,12 @@ def test_label_title(box_name: str, label_text: str, wse: WSE) -> None:
 def test_selections(
     label_name: str,
     label_text: str,
-    box: ParamForeignPage | ParamGlossaryPage,
+    box: ParamsForeignPage | ParamsGlossaryPage,
 ) -> None:
     """Test the selection widgets.
 
     Testing:
-     * ParamForeignPage and ParamGlossaryPage classes;
+     * ParamsForeignPage and ParamsGlossaryPage classes;
      * test that label of selection has specific text.
 
     """
@@ -196,19 +196,19 @@ def test_selections(
 @pytest.mark.parametrize(
     'switch_name, switch_text',
     [
-        ('count_first_switch', 'Первые'),
-        ('count_last_switch', 'Последние'),
+        ('switch_count_first', 'Первые'),
+        ('switch_count_last', 'Последние'),
     ],
 )
 def test_switches(
     switch_name: str,
     switch_text: str,
-    box: ParamForeignPage | ParamGlossaryPage,
+    box: ParamsForeignPage | ParamsGlossaryPage,
 ) -> None:
     """Test the switch widgets.
 
     Testing:
-     * ParamForeignPage and ParamGlossaryPage classes;
+     * ParamsForeignPage and ParamsGlossaryPage classes;
      * test that switch has specific text.
 
     """
@@ -218,14 +218,14 @@ def test_switches(
     assert switch.text == switch_text
 
 
-def test_switch_toggles(box: ParamForeignPage | ParamGlossaryPage) -> None:
+def test_switch_toggles(box: ParamsForeignPage | ParamsGlossaryPage) -> None:
     """Test the switching.
 
     Test the switches to add item count (number input) to exercise
     params.
 
     Testing:
-     * ParamForeignPage and ParamGlossaryPage classes;
+     * ParamsForeignPage and ParamsGlossaryPage classes;
      * test that switch is off by default;
      * test that toggle of first switch to set True;
      * test that toggle of last switch to set True;
@@ -233,23 +233,23 @@ def test_switch_toggles(box: ParamForeignPage | ParamGlossaryPage) -> None:
 
     """
     # A switch is off by default.
-    assert not box.count_first_switch.value
-    assert not box.count_last_switch.value
+    assert not box.switch_count_first.value
+    assert not box.switch_count_last.value
 
     # Toggle the first switch to set True.
-    box.count_first_switch.toggle()
-    assert box.count_first_switch.value
-    assert not box.count_last_switch.value
+    box.switch_count_first.toggle()
+    assert box.switch_count_first.value
+    assert not box.switch_count_last.value
 
     # Toggle the last switch to True.
-    box.count_last_switch.toggle()
-    assert not box.count_first_switch.value
-    assert box.count_last_switch.value
+    box.switch_count_last.toggle()
+    assert not box.switch_count_first.value
+    assert box.switch_count_last.value
 
     # Toggle the last switch to set False.
-    box.count_last_switch.toggle()
-    assert not box.count_first_switch.value
-    assert not box.count_last_switch.value
+    box.switch_count_last.toggle()
+    assert not box.switch_count_first.value
+    assert not box.switch_count_last.value
 
 
 @pytest.mark.parametrize(
@@ -261,12 +261,12 @@ def test_switch_toggles(box: ParamForeignPage | ParamGlossaryPage) -> None:
 )
 def test_number_inputs(
     input_name: str,
-    box: ParamForeignPage | ParamGlossaryPage,
+    box: ParamsForeignPage | ParamsGlossaryPage,
 ) -> None:
     """Test a number input widgets.
 
     Testing:
-     * ParamForeignPage and ParamGlossaryPage classes;
+     * ParamsForeignPage and ParamsGlossaryPage classes;
      * that a number input has not initial value;
      * that a number input has an increment/decrement step of ten;
      * that a number input has a minimal value.
@@ -302,7 +302,7 @@ def test_btn_goto_exercise(
     """Test the button to go to foreign exercise.
 
     Testing:
-     * ParamForeignPage and ParamGlossaryPage classes;
+     * ParamsForeignPage and ParamsGlossaryPage classes;
      * that button has specific text;
      * that loop task of exercise was awaited;
      * that window content has been refreshed.
@@ -345,13 +345,13 @@ def test_btn_goto_exercise(
 
 def test_btn_save_params(
     wse: WSE,
-    box: ParamForeignPage | ParamGlossaryPage,
+    box: ParamsForeignPage | ParamsGlossaryPage,
     monkeypatch: MonkeyPatch,
 ) -> None:
     """Test the save params button.
 
     Testing:
-     * ParamForeignPage and ParamGlossaryPage classes;
+     * ParamsForeignPage and ParamsGlossaryPage classes;
      * that button has specific text;
      * that window content has not been refreshed.
 
@@ -416,7 +416,7 @@ def test_btn_goto_sub_main(
     Test a go to foreign main and glossary main box-containers.
 
     Testing:
-     * ParamForeignPage and ParamGlossaryPage classes;
+     * ParamsForeignPage and ParamsGlossaryPage classes;
      * that button has specific text;
      * that window content has not been refreshed.
 
@@ -425,7 +425,7 @@ def test_btn_goto_sub_main(
         otherwise AttributeError;
       * ``httpx.AsyncClient``, otherwise ConnectError.
     """
-    box: ParamForeignPage | ParamGlossaryPage = getattr(wse, box_name)
+    box: ParamsForeignPage | ParamsGlossaryPage = getattr(wse, box_name)
     box_next = getattr(wse, box_togo)
     btn = getattr(box, btn_name)
 

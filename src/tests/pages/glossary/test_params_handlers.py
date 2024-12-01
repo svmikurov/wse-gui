@@ -93,7 +93,7 @@ def test_input_count_first(wse: WSE, selection_params: object) -> None:
     input_field = wse.box_glossary_params.input_count_first
     # Choice by default.
     assert input_field.value == PARAMS['lookup_conditions']['count_first']
-    assert wse.box_glossary_params.count_first_switch.value is False
+    assert wse.box_glossary_params.switch_count_first.value is False
 
 
 def test_input_count_last(wse: WSE, selection_params: object) -> None:
@@ -101,7 +101,7 @@ def test_input_count_last(wse: WSE, selection_params: object) -> None:
     input_field = wse.box_glossary_params.input_count_last
     # Choice by default.
     assert input_field.value == PARAMS['lookup_conditions']['count_last']
-    assert wse.box_glossary_params.count_first_switch.value is False
+    assert wse.box_glossary_params.switch_count_first.value is False
 
 
 @patch('httpx.AsyncClient.put')
