@@ -27,7 +27,7 @@ from wse.constants import (
     TITLE_FOREIGN_PARAMS,
     TITLE_FOREIGN_UPDATE,
 )
-from wse.container.exercise import ExerciseBox, ParamsBox
+from wse.container.exercise import ExerciseBox, ParamsLayout
 from wse.contrib.http_requests import (
     request_post_async,
     request_put_async,
@@ -43,7 +43,7 @@ from wse.handlers.goto_handler import (
 )
 from wse.source.foreign import Word, WordSource
 from wse.widgets.box import FlexBox
-from wse.widgets.box_page import BoxApp
+from wse.widgets.box_page import BaseBox, WidgetMixin
 from wse.widgets.button import BtnApp
 from wse.widgets.form import BaseForm
 from wse.widgets.label import TitleLabel
@@ -52,7 +52,7 @@ from wse.widgets.table import TableApp
 from wse.widgets.text_input import TextInputApp
 
 
-class MainForeignPage(BoxApp):
+class MainForeignWidget(WidgetMixin, BaseBox):
     """Learning foreign words the main page box."""
 
     def __init__(self) -> None:
@@ -82,7 +82,7 @@ class MainForeignPage(BoxApp):
         )
 
 
-class ParamsForeignPage(ParamsBox):
+class ParamsForeignPage(ParamsLayout):
     """Learning foreign words exercise parameters the page box."""
 
     title = TITLE_FOREIGN_PARAMS
@@ -192,7 +192,7 @@ class ExerciseForeignPage(ExerciseBox):
         return self.root.app.box_foreign_params
 
 
-class FormForeign(BaseForm):
+class FormForeign(BaseBox, BaseForm):
     """General form to create and update entries, the container."""
 
     title = ''
@@ -300,7 +300,7 @@ class UpdateWordPage(FormForeign):
         await goto_foreign_list_handler(widget)
 
 
-class ListForeignPage(TableApp):
+class ListForeignPage(TableApp, BaseBox):
     """Table of list of foreign words, the page.
 
     :ivar Button btn_goto_foreign_main: Button go to Foreign Main page.

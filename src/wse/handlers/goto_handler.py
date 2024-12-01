@@ -2,12 +2,12 @@
 
 import toga
 
-from wse.widgets.box_page import BoxApp
+from wse.widgets.box_page import WidgetMixin
 
 
 async def set_window_content(
     widget: toga.Widget,
-    box: BoxApp | toga.Box,
+    box: WidgetMixin | toga.Box,
 ) -> None:
     """Set page box in window content."""
     widget.app.main_window.content = box

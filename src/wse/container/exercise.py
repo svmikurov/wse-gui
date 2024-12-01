@@ -25,15 +25,15 @@ from wse.contrib.task import Task
 from wse.contrib.timer import Timer
 from wse.handlers.goto_handler import set_window_content
 from wse.widgets.box import FlexBox
-from wse.widgets.box_page import BoxApp
+from wse.widgets.box_page import BaseBox, WidgetMixin
 from wse.widgets.button import AnswerBtn, BtnApp
 from wse.widgets.label import TitleLabel
 from wse.widgets.selection import BaseSelection
 from wse.widgets.text_input import TextPanel
 
 
-class ParamsBox(HttpPutMixin, BoxApp):
-    """Exercise params box-container."""
+class ParamsWidgets(HttpPutMixin, WidgetMixin):
+    """Exercise params widgets."""
 
     title = ''
     """The box-container title (`str`).
@@ -43,7 +43,7 @@ class ParamsBox(HttpPutMixin, BoxApp):
     """
 
     def __init__(self) -> None:
-        """Construct."""
+        """Construct a widgets."""
         super().__init__()
 
         # Styles.
@@ -74,92 +74,10 @@ class ParamsBox(HttpPutMixin, BoxApp):
         self.input_count_first = toga.NumberInput(step=10, min=0)
         self.input_count_last = toga.NumberInput(step=10, min=0)
 
-        # Boxes.
-        # The ``box_params`` is container for selection boxes.
-        self.box_params = toga.Box(style=Pack(direction=COLUMN, flex=1))
-        self.construct_selection_boxes()
-
         # General buttons.
         self.btn_save_params = BtnApp('Сохранить настройки', on_press=self.save_params_handler)  # noqa: E501
         self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.goto_box_exercise_handler)  # noqa: E501
         # fmt: on
-
-        # DOM.
-        self.add(
-            self.label_title,
-            self.box_params,
-            self.btn_goto_exercise,
-            self.btn_save_params,
-        )
-        self.box_params.add(
-            self.box_selection_start,
-            self.box_selection_end,
-            self.box_selection_category,
-            self.box_selection_progress,
-            self.box_input_first,
-            self.box_input_last,
-        )
-
-    def construct_selection_boxes(self) -> None:
-        """Construct a selection boxes."""
-        self.box_selection_start = toga.Box(
-            style=self.style_box_selection,
-            children=[
-                FlexBox(children=[self.label_start]),
-                FlexBox(children=[self.selection_start_period]),
-            ],
-        )
-        self.box_selection_start.style.padding_top = 4
-        self.box_selection_end = toga.Box(
-            style=self.style_box_selection,
-            children=[
-                FlexBox(children=[self.label_end]),
-                FlexBox(children=[self.selection_end_period]),
-            ],
-        )
-        self.box_selection_category = toga.Box(
-            style=self.style_box_selection,
-            children=[
-                FlexBox(children=[self.label_category]),
-                FlexBox(children=[self.selection_category]),
-            ],
-        )
-        self.box_selection_progress = toga.Box(
-            style=self.style_box_selection,
-            children=[
-                FlexBox(children=[self.label_progres]),
-                FlexBox(children=[self.selection_progress]),
-            ],
-        )
-        self.box_input_first = toga.Box(
-            style=self.style_box_selection,
-            children=[
-                FlexBox(
-                    children=[self.switch_count_first],
-                    style=Pack(direction=COLUMN, padding_right=20),
-                ),
-                FlexBox(
-                    children=[self.input_count_first],
-                    style=Pack(direction=COLUMN),
-                ),
-            ],
-        )
-        self.box_input_last = toga.Box(
-            style=self.style_box_selection,
-            children=[
-                FlexBox(
-                    children=[self.switch_count_last],
-                    style=Pack(direction=COLUMN, padding_right=20),
-                ),
-                FlexBox(
-                    children=[self.input_count_last],
-                    style=Pack(direction=COLUMN),
-                ),
-            ],
-        )
-
-    # End of widget constructor
-    ###########################
 
     async def on_open(self, widget: toga.Widget) -> None:
         """Request and fill params data of box when box open."""
@@ -242,7 +160,95 @@ class ParamsBox(HttpPutMixin, BoxApp):
             self.switch_count_first.value = False
 
 
-class ExerciseBox(BoxApp):
+class ParamsLayout(ParamsWidgets, BaseBox):
+    """Exercise params layout."""
+
+    def __init__(self) -> None:
+        """Construct the layout."""
+        super().__init__()
+
+        # Exercise parameter widgets are enclosed in boxes.
+        self.construct_selection_boxes()
+
+        # Exercise parameter boxes are enclosed in ``box_params``.
+        self.box_params = toga.Box(style=Pack(direction=COLUMN, flex=1))
+
+        # DOM.
+        self.add(
+            self.label_title,
+            self.box_params,
+            self.btn_goto_exercise,
+            self.btn_save_params,
+        )
+        self.box_params.add(
+            self.box_selection_start,
+            self.box_selection_end,
+            self.box_selection_category,
+            self.box_selection_progress,
+            self.box_input_first,
+            self.box_input_last,
+        )
+
+    def construct_selection_boxes(self) -> None:
+        """Construct a selection boxes."""
+        self.box_selection_start = toga.Box(
+            style=self.style_box_selection,
+            children=[
+                FlexBox(children=[self.label_start]),
+                FlexBox(children=[self.selection_start_period]),
+            ],
+        )
+        self.box_selection_start.style.padding_top = 4
+        self.box_selection_end = toga.Box(
+            style=self.style_box_selection,
+            children=[
+                FlexBox(children=[self.label_end]),
+                FlexBox(children=[self.selection_end_period]),
+            ],
+        )
+        self.box_selection_category = toga.Box(
+            style=self.style_box_selection,
+            children=[
+                FlexBox(children=[self.label_category]),
+                FlexBox(children=[self.selection_category]),
+            ],
+        )
+        self.box_selection_progress = toga.Box(
+            style=self.style_box_selection,
+            children=[
+                FlexBox(children=[self.label_progres]),
+                FlexBox(children=[self.selection_progress]),
+            ],
+        )
+        self.box_input_first = toga.Box(
+            style=self.style_box_selection,
+            children=[
+                FlexBox(
+                    children=[self.switch_count_first],
+                    style=Pack(direction=COLUMN, padding_right=20),
+                ),
+                FlexBox(
+                    children=[self.input_count_first],
+                    style=Pack(direction=COLUMN),
+                ),
+            ],
+        )
+        self.box_input_last = toga.Box(
+            style=self.style_box_selection,
+            children=[
+                FlexBox(
+                    children=[self.switch_count_last],
+                    style=Pack(direction=COLUMN, padding_right=20),
+                ),
+                FlexBox(
+                    children=[self.input_count_last],
+                    style=Pack(direction=COLUMN),
+                ),
+            ],
+        )
+
+
+class ExerciseBox(WidgetMixin, BaseBox):
     """Exercise box-container."""
 
     title = ''
@@ -410,7 +416,7 @@ class ExerciseBox(BoxApp):
         box = self.get_box_params()
         await set_window_content(self, box)
 
-    def get_box_params(self) -> ParamsBox:
+    def get_box_params(self) -> ParamsWidgets:
         """Get box instance with exercise params.
 
         Override this method.

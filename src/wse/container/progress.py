@@ -8,10 +8,10 @@ Choice parameters for exercises:
 import toga
 from toga.style import Pack
 
-from wse.widgets.box_page import BoxApp
+from wse.widgets.box_page import WidgetMixin
 
 
-class ProgressWidgets(BoxApp):
+class ProgressWidgets(WidgetMixin):
     """Progress widgets for exercise params boxes."""
 
     STUDY_STAGES = {

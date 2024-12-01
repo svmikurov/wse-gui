@@ -2,12 +2,12 @@
 
 import toga
 
-from wse.widgets.box_page import BoxApp
+from wse.widgets.box_page import WidgetMixin
 from wse.widgets.data import HandleSuccessResponse
 
 
 class BaseForm(
-    BoxApp,
+    WidgetMixin,
     HandleSuccessResponse,
 ):
     """Base form widget class."""

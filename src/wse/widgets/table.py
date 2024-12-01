@@ -7,7 +7,7 @@ from travertino.constants import ITALIC
 
 from wse.contrib.data import to_entries
 from wse.contrib.http_requests import request_delete_async, request_get
-from wse.widgets.box_page import BoxApp
+from wse.widgets.box_page import WidgetMixin
 from wse.widgets.button import BtnApp, SmBtn
 
 
@@ -27,7 +27,7 @@ class BaseTable(toga.Table):
         super().__init__(*arge, **kwargs)
 
 
-class TableApp(BoxApp):
+class TableApp(WidgetMixin):
     """Base table, the container.
 
     In the derived class:

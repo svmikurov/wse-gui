@@ -27,7 +27,7 @@ def test_order(
     # Invoke the handler.
     wse.loop.run_until_complete(wrapped('button'))
 
-    # Params widget has selections.
+    # ParamsWidgets widget has selections.
     expected = get.return_value.json()['exercise_choices']['orders']
     assert box.selection_order.get_items() == expected
 

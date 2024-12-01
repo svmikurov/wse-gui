@@ -27,7 +27,7 @@ from wse.constants import (
 )
 from wse.container.exercise import (
     ExerciseBox,
-    ParamsBox,
+    ParamsLayout,
 )
 from wse.contrib.http_requests import (
     HttpPostMixin,
@@ -45,7 +45,8 @@ from wse.handlers.goto_handler import (
 )
 from wse.source.glossary import Term, TermSource
 from wse.widgets.box_page import (
-    BoxApp,
+    BaseBox,
+    WidgetMixin,
 )
 from wse.widgets.button import BtnApp
 from wse.widgets.form import BaseForm
@@ -54,7 +55,7 @@ from wse.widgets.table import TableApp
 from wse.widgets.text_input import MulTextInpApp
 
 
-class MainGlossaryPage(BoxApp):
+class MainGlossaryWidget(WidgetMixin, BaseBox):
     """Glossary main box."""
 
     def __init__(self) -> None:
@@ -87,7 +88,7 @@ class MainGlossaryPage(BoxApp):
         )
 
 
-class ParamsGlossaryPage(ParamsBox):
+class ParamsGlossaryPage(ParamsLayout):
     """Glossary page box."""
 
     title = TITLE_GLOSSARY_PARAMS
@@ -141,7 +142,7 @@ class ExerciseGlossaryPage(ExerciseBox):
         return self.root.app.box_glossary_params
 
 
-class FormGlossary(BaseForm):
+class FormGlossary(BaseBox, BaseForm):
     """General form to create and update entries, the container."""
 
     title = ''
@@ -249,7 +250,7 @@ class UpdateTermPage(FormGlossary):
         await goto_glossary_list_handler(widget)
 
 
-class ListGlossaryPage(TableApp):
+class ListGlossaryPage(TableApp, ParamsLayout):
     """Table of list of glossary terms, the page.
 
     :ivar Button label_title: The page title.

@@ -20,7 +20,7 @@ class BaseBox(toga.Box):
         self.style.flex = 1
 
 
-class GoToBoxMixin:
+class GoToMixin:
     """Go to page box mixin."""
 
     async def on_open(self, widget: toga.Widget) -> None:
@@ -32,7 +32,7 @@ class GoToBoxMixin:
         pass
 
 
-class MessageBoxMixin:
+class MessageMixin:
     """Dialog message mixin."""
 
     app: toga.App
@@ -46,7 +46,7 @@ class MessageBoxMixin:
         await self.app.main_window.dialog(toga.InfoDialog(title, message))
 
 
-class BoxApp(MessageBoxMixin, GoToBoxMixin, BaseBox):
+class WidgetMixin(MessageMixin, GoToMixin):
     """General application page box."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:

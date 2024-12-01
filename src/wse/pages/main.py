@@ -25,12 +25,12 @@ from wse.handlers.goto_handler import (
 )
 from wse.source.text_panel_main import MainPanelSource
 from wse.source.user import UserSource
-from wse.widgets.box_page import BoxApp
+from wse.widgets.box_page import BaseBox, WidgetMixin
 from wse.widgets.button import BtnApp
 from wse.widgets.label import TitleLabel
 
 
-class MainBox(BoxApp):
+class MainBox(WidgetMixin, BaseBox):
     """Main box."""
 
     welcome = f'Ready for connect to {HOST_API}'

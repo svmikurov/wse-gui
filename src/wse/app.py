@@ -8,7 +8,7 @@ from wse.constants import (
 )
 from wse.source.text_panel_main import MainPanelSource
 from wse.source.user import UserSource
-from wse.widgets.box_page import BoxApp
+from wse.widgets.box_page import WidgetMixin
 
 
 class WSE(toga.App):
@@ -21,14 +21,14 @@ class WSE(toga.App):
     # Page boxes.
     box_main: pages.MainBox
     # Foreign language study page boxes.
-    box_foreign_main: pages.MainForeignPage
+    box_foreign_main: pages.MainForeignWidget
     box_foreign_params: pages.ParamsForeignPage
     box_foreign_exercise: pages.ExerciseForeignPage
     box_foreign_create: pages.CreateWordPage
     box_foreign_update: pages.UpdateWordPage
     box_foreign_list: pages.ListForeignPage
     # Glossary study page boxes.
-    box_glossary_main: pages.MainGlossaryPage
+    box_glossary_main: pages.MainGlossaryWidget
     box_glossary_params: pages.ParamsGlossaryPage
     box_glossary_exercise: pages.ExerciseGlossaryPage
     box_glossary_create: pages.CreateTermPage
@@ -56,14 +56,14 @@ class WSE(toga.App):
         )
         self.box_login = pages.LoginBox(self.user)
         # Foreign language study page boxes.
-        self.box_foreign_main = pages.MainForeignPage()
+        self.box_foreign_main = pages.MainForeignWidget()
         self.box_foreign_params = pages.ParamsForeignPage()
         self.box_foreign_exercise = pages.ExerciseForeignPage()
         self.box_foreign_create = pages.CreateWordPage()
         self.box_foreign_update = pages.UpdateWordPage()
         self.box_foreign_list = pages.ListForeignPage()
         # Glossary study page boxes.
-        self.box_glossary_main = pages.MainGlossaryPage()
+        self.box_glossary_main = pages.MainGlossaryWidget()
         self.box_glossary_params = pages.ParamsGlossaryPage()
         self.box_glossary_exercise = pages.ExerciseGlossaryPage()
         self.box_glossary_create = pages.CreateTermPage()
@@ -111,7 +111,7 @@ class WSE(toga.App):
         self.box_main.update_widgets()  # by user auth status
         self.main_window.show()
 
-    def move_to_page(self, box: BoxApp) -> None:
+    def move_to_page(self, box: WidgetMixin) -> None:
         """Move to page box."""
         self.main_window.content = box
         box.on_open(box)
