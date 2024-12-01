@@ -20,18 +20,6 @@ class BaseBox(toga.Box):
         self.style.flex = 1
 
 
-class GoToMixin:
-    """Go to page box mixin."""
-
-    async def on_open(self, widget: toga.Widget) -> None:
-        """Run when the current box is assigned to the window content.
-
-        Override it if it necessary to run same actions, then the
-        current box is assigned to :term:`window content`.
-        """
-        pass
-
-
 class MessageMixin:
     """Dialog message mixin."""
 
@@ -46,7 +34,7 @@ class MessageMixin:
         await self.app.main_window.dialog(toga.InfoDialog(title, message))
 
 
-class WidgetMixin(MessageMixin, GoToMixin):
+class WidgetMixin(MessageMixin):
     """General application page box."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:

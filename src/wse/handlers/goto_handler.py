@@ -11,6 +11,8 @@ async def set_window_content(
 ) -> None:
     """Set page box in window content."""
     widget.app.main_window.content = box
+
+    # A box instance may not have ``on_open`` method.
     try:
         await box.on_open(widget)
     except AttributeError:
