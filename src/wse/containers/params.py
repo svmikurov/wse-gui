@@ -3,7 +3,7 @@
 from http import HTTPStatus
 
 import toga
-from toga import Label, NumberInput, Switch, Selection
+from toga import Label, NumberInput, Selection, Switch
 from toga.constants import COLUMN
 from toga.sources import ListSource
 from toga.style import Pack
@@ -13,7 +13,31 @@ from wse.widgets.box import FlexBox
 from wse.widgets.box_page import BaseBox, WidgetMixin
 from wse.widgets.button import BtnApp
 from wse.widgets.label import TitleLabel
-from wse.widgets.selection import BaseSelection
+
+SELECTIONS = {
+    'selection_category': {
+        'source': 'source_category',
+        'items': 'categories',
+        'default': 'category',
+    },
+    'selection_progress': {
+        'source': 'source_progress',
+        'items': 'progress',
+        'default': 'progress',
+    },
+    'selection_start_date': {
+        'source': 'source_start_date',
+        'items': 'edge_period_items',
+        'default': 'period_start_date',
+    },
+    'selection_end_date': {
+        'source': 'source_end_date',
+        'items': 'edge_period_items',
+        'default': 'period_end_date',
+    },
+}
+"""A names of params selections and it attr value names (`dict`).
+"""
 
 
 class Params:
@@ -26,64 +50,55 @@ class Params:
     def __init__(self) -> None:
         """Construct the exercise params."""
         super().__init__()
-        self.accessors_category = ['alias', 'name']
+        self.accessors = ['alias', 'name']
 
         # Sources.
-        self.source = ListSource(accessors=self.accessors_category)
+        self.source_category = ListSource(accessors=self.accessors)
+        self.source_progress = ListSource(accessors=self.accessors)
+        self.source_start_date = ListSource(accessors=self.accessors)
+        self.source_end_date = ListSource(accessors=self.accessors)
 
     async def on_open(self, _: toga.Widget) -> None:
-        """Request and fill params data of box when box open."""
-        self.request_params()
+        """Request params and update widgets when box open."""
+        params = self.request_params()
+        self.update_selections(params)
 
-    def request_params(self) -> None:
+    def request_params(self) -> dict:
         """Request exercise params."""
         response = request_get(url=self.url)
-
         if response.status_code == HTTPStatus.OK:
-            params = response.json()
+            return response.json()
 
-    # def get_params(self) -> dict[str, str | list | None]:
-    #     """Extract exercise params from widgets."""
-    #     # NumberInput return Decimal objects or None.
-    #     count_first = int(self.input_count_first.value or 0)
-    #     count_last = int(self.input_count_last.value or 0)
-    #     params = {
-    #         'period_start_date': self.selection_start_period.get_alias(),
-    #         'period_end_date': self.selection_end_period.get_alias(),
-    #         'category': self.selection_category.get_alias(),
-    #         'progress': [self.selection_progress.get_alias()],
-    #         'count_first': count_first * self.switch_count_first.value,
-    #         'count_last': count_last * self.switch_count_last.value,
-    #     }
-    #     return params
-    #
-    # def set_params(self, value: dict) -> None:
-    #     """Set exercise params to widgets."""
-    #     # Initial values for the selection.
-    #     defaults = value['lookup_conditions']
-    #     # Items to display for selection.
-    #     items = value['exercise_choices']
-    #
-    #     self.selection_start_period.set_items(
-    #         items['edge_period_items'], defaults['period_start_date']
-    #     )
-    #     self.selection_end_period.set_items(
-    #         items['edge_period_items'], defaults['period_end_date']
-    #     )
-    #     self.selection_category.set_items(
-    #         items['categories'], defaults['category']
-    #     )
-    #     self.selection_progress.set_items(
-    #         items['progress'], defaults['progress']
-    #     )  # fmt: skip
-    #     if bool(defaults['count_first']):
-    #         self.input_count_first.value = defaults['count_first']
-    #         self.switch_count_first.value = True
-    #         self.switch_count_last.value = False
-    #     if bool(defaults['count_last']):
-    #         self.input_count_last.value = defaults['count_last']
-    #         self.switch_count_last.value = True
-    #         self.switch_count_first.value = False
+    def update_selections(self, params: dict) -> None:
+        """Update an exercise param selections."""
+        for selection_name, param_attr in SELECTIONS.items():
+            # Get data to update.
+            source_name = param_attr['source']
+            items = params['exercise_choices'][param_attr['items']]
+            default = params['lookup_conditions'][param_attr['default']]
+
+            self.update_selection(items, default, source_name, selection_name)
+
+    def update_selection(
+        self,
+        items: dict,
+        default: str | int | None,
+        source_name: str,
+        selection_name: str,
+    ) -> None:
+        """Update the exercise param selection."""
+        source = getattr(self, source_name)
+        selection = getattr(self, selection_name)
+
+        # Populate selection.
+        for item in items:
+            source.append(data=item)
+
+            # Set default.
+            alias, _ = item
+            if default == alias:
+                selection.value = source.find(item)
+
 
 class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
     """Exercise params widgets."""
@@ -109,42 +124,35 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         self.label_category = Label('Категория:', style=self.style_label)
         self.label_progres = Label('Стадия изучения:', style=self.style_label)
 
+        # Selections.
+        self.selection_start_date = Selection(accessor='name', items=self.source_start_date)  # noqa: E501
+        self.selection_end_date = Selection(accessor='name', items=self.source_end_date)  # noqa: E501
+        self.selection_category = Selection(accessor='name', items=self.source_category)  # noqa: E501
+        self.selection_progress = Selection(accessor='name', items=self.source_progress)  # noqa: E501
+        self.input_count_first = NumberInput(step=10, min=0)
+        self.input_count_last = NumberInput(step=10, min=0)
+
         # Switches for enable/untenable params.
         self.switch_count_first = Switch('Первые', on_change=self.first_switch_handler)  # noqa: E501
         self.switch_count_first.style = self.style_label
         self.switch_count_last = Switch('Последние', on_change=self.last_switch_handler)  # noqa: E501
         self.switch_count_last.style = self.style_label
 
-        # Selections.
-        self.selection_start_period = BaseSelection()
-        self.selection_end_period = BaseSelection()
-        self.selection_category = Selection(accessor='name', items=self.source)
-        self.selection_progress = BaseSelection()
-        self.input_count_first = NumberInput(step=10, min=0)
-        self.input_count_last = NumberInput(step=10, min=0)
-
-        # General buttons.
+        # Buttons.
         self.btn_save_params = BtnApp('Сохранить настройки', on_press=self.save_params_handler)  # noqa: E501
         self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.goto_box_exercise_handler)  # noqa: E501
         # fmt: on
 
-    async def on_open(self, widget: toga.Widget) -> None:
-        """Request and fill params data of box when box open."""
-        await super().on_open(widget)
-
-    ####################################################################
-    # Button callback functions
-
     async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
-        """Go to foreign exercise page box, button handler."""
+        """Go to exercise page box, button handler."""
         raise NotImplementedError(
             'Subclasses must provide a goto_exercise_box_handler() method.'
         )
 
     async def save_params_handler(self, _: toga.Widget) -> None:
-        """Request to save foreign exercise params, button handler."""
+        """Request to save exercise params, button handler."""
         raise NotImplementedError(
-            'Subclasses must provide a goto_exercise_box_handler() method.'
+            'Subclasses must provide a save_params_handler() method.'
         )
 
     def first_switch_handler(self, widget: toga.Widget) -> None:
@@ -196,7 +204,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             style=self.style_box_selection,
             children=[
                 FlexBox(children=[self.label_start]),
-                FlexBox(children=[self.selection_start_period]),
+                FlexBox(children=[self.selection_start_date]),
             ],
         )
         self.box_selection_start.style.padding_top = 4
@@ -204,7 +212,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             style=self.style_box_selection,
             children=[
                 FlexBox(children=[self.label_end]),
-                FlexBox(children=[self.selection_end_period]),
+                FlexBox(children=[self.selection_end_date]),
             ],
         )
         self.box_selection_category = toga.Box(

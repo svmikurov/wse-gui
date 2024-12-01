@@ -88,8 +88,6 @@ class ParamsForeignPage(ParamsLayout):
 
     title = TITLE_FOREIGN_PARAMS
     url = urljoin(HOST_API, FOREIGN_PARAMS_PATH)
-    """Learning foreign word exercise parameters url (`str`).
-    """
 
     def __init__(self) -> None:
         """Construct the box."""
@@ -100,7 +98,7 @@ class ParamsForeignPage(ParamsLayout):
             BTN_GOTO_FOREIGN_MAIN, on_press=goto_foreign_main_handler
         )
 
-        # Original selections.
+        # Additional selections.
         self.label_order = toga.Label(
             'Порядок перевода', style=self.style_label
         )
@@ -113,32 +111,15 @@ class ParamsForeignPage(ParamsLayout):
             ],
         )
 
-        # Selection DOM
+        # Selections.
         self.box_params.insert(0, self.box_selection_order)
 
-        # Widget DOM.
+        # DOM.
         self.insert(4, self.btn_goto_foreign_main)
 
     async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
         """Go to foreign exercise page box, button handler."""
         await goto_foreign_exercise_handler(widget)
-
-    def get_params(self) -> dict[str, str | list | None]:
-        """Add original selections to extract exercise params."""
-        params = super().get_params()
-        params['order'] = self.selection_order.get_alias()
-        return params
-
-    def set_params(self, value: dict) -> None:
-        """Add original selections to set exercise params."""
-        super().set_params(value)
-
-        # Initial values for the selection.
-        defaults = value['lookup_conditions']
-        # Items to display for selection.
-        items = value['exercise_choices']
-
-        self.selection_order.set_items(items['orders'], defaults['order'])
 
 
 class ExerciseForeignPage(ExerciseBox):
