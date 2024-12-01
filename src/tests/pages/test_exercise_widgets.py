@@ -10,7 +10,7 @@ from _pytest.monkeypatch import MonkeyPatch
 from tests.utils import run_until_complete
 from wse.app import WSE
 from wse.constants import HOST_API
-from wse.container.exercise import (
+from wse.containers.exercise import (
     ExerciseBox,
 )
 from wse.contrib.task import Task

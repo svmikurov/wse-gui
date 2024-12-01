@@ -9,7 +9,7 @@ from wse.constants import (
     NO_TASK_MSG,
     TASK_ERROR_MSG,
 )
-from wse.container.params import ParamsWidgets
+from wse.containers.params import ParamsWidgets
 from wse.contrib.http_requests import (
     request_post,
     request_post_async,

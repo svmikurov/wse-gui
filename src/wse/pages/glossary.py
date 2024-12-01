@@ -25,10 +25,10 @@ from wse.constants import (
     TITLE_GLOSSARY_PARAMS,
     TITLE_GLOSSARY_UPDATE,
 )
-from wse.container.exercise import (
+from wse.containers.exercise import (
     ExerciseBox,
 )
-from wse.container.params import ParamsLayout
+from wse.containers.params import ParamsLayout
 from wse.contrib.http_requests import (
     HttpPostMixin,
     request_post_async,
