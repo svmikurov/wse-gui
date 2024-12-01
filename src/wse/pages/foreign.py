@@ -27,7 +27,8 @@ from wse.constants import (
     TITLE_FOREIGN_PARAMS,
     TITLE_FOREIGN_UPDATE,
 )
-from wse.container.exercise import ExerciseBox, ParamsLayout
+from wse.container.exercise import ExerciseBox
+from wse.container.params import ParamsLayout
 from wse.contrib.http_requests import (
     request_post_async,
     request_put_async,

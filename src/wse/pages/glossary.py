@@ -27,8 +27,8 @@ from wse.constants import (
 )
 from wse.container.exercise import (
     ExerciseBox,
-    ParamsLayout,
 )
+from wse.container.params import ParamsLayout
 from wse.contrib.http_requests import (
     HttpPostMixin,
     request_post_async,
