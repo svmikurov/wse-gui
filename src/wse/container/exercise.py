@@ -44,7 +44,6 @@ class ParamBox(HttpPutMixin, BoxApp):
     def __init__(self) -> None:
         """Construct the box."""
         super().__init__()
-        self.style.update(direction=COLUMN)
 
         # Styles.
         self.style_label = Pack(padding=(7, 0, 7, 20))
@@ -246,56 +245,49 @@ class ParamBox(HttpPutMixin, BoxApp):
 
 
 class ExerciseBox(BoxApp):
-    """Exercise container of widgets."""
+    """Exercise box-container."""
 
     title = ''
     """The box-container title (`str`).
     """
+    url_exercise = ''
+    """The task url (`str`).
+    """
+    url_progress = ''
+    """The item study progress url (`str`).
+    """
 
     def __init__(self) -> None:
         """Construct the box."""
-        super().__init__(style=Pack(direction=COLUMN))
-        # The box has event timing control.
+        super().__init__()
         self.timer = Timer()
-        # The box has task control.
         self.task = Task()
-        # To override attrs.
-        self.url_exercise = ''
-        self.url_progress = ''
 
         # Style.
         label_style = Pack(padding=(0, 0, 0, 7))
+
+        # Title.
+        self.label_title = TitleLabel(self.title)
+
+        # Labels.
         self.label_question = toga.Label('Вопрос:', style=label_style)
         self.label_answer = toga.Label('Ответ:', style=label_style)
 
-        self.label_title = TitleLabel(self.title)
+        # Text display widgets.
+        self.text_panel_question = TextPanel(style=Pack(flex=2))
+        self.text_panel_answer = TextPanel(style=Pack(flex=2))
 
+        # Exercise buttons.
         self.btn_pause = AnswerBtn('Пауза', self.pause_handler)
         self.btn_not_know = AnswerBtn('Не знаю', self.not_know_handler)
         self.btn_know = AnswerBtn('Знаю', self.know_handler)
         self.btn_next = AnswerBtn('Далее', self.next_handler)
 
-        # Inner boxes.
-        self.box_exercise = toga.Box(
-            style=Pack(
-                direction=COLUMN,
-                flex=1,
-            )
-        )
-        self.box_btn_group = toga.Box(
-            style=Pack(
-                direction=ROW,
-                height=100,
-            )
-        )
+        # Boxes.
+        self.box_exercise = toga.Box(style=Pack(direction=COLUMN, flex=1))
+        self.box_btn_group = toga.Box(style=Pack(direction=ROW, height=100))
 
-        # Text display widgets.
-        self.text_panel_question = TextPanel()
-        self.text_panel_answer = TextPanel()
-        self.text_panel_question.style.flex = 2
-        self.text_panel_answer.style.flex = 2
-
-        # Widgets DOM.
+        # DOM.
         self.box_exercise.add(
             self.label_question,
             self.text_panel_question,
@@ -311,14 +303,14 @@ class ExerciseBox(BoxApp):
         )
 
     async def on_open(self, widget: toga.Widget) -> None:
-        """Start exercise."""
+        """Start exercise when box was assigned to window content."""
         self.set_params()
         self.clean_text_panel()
         self.reset_task_status()
         await self.loop_task()
 
     ####################################################################
-    # Button handlers
+    # Exercise button handlers
 
     async def know_handler(self, _: toga.Widget) -> None:
         """Mark that know the answer, button handler."""
@@ -332,11 +324,6 @@ class ExerciseBox(BoxApp):
         await request_post_async(self.url_progress, not_know_payload)
         await self.move_to_next_task()
 
-    async def move_to_next_task(self) -> None:
-        """Move to next task."""
-        self.task.status = 'question'
-        await self.loop_task()
-
     def pause_handler(self, _: toga.Widget) -> None:
         """Exercise pause, button handler."""
         self.timer.on_pause()
@@ -346,8 +333,13 @@ class ExerciseBox(BoxApp):
         self.timer.unpause()
         await self.loop_task()
 
-    # End Button handlers
+    # End button handlers
     #####################
+
+    async def move_to_next_task(self) -> None:
+        """Move to next task."""
+        self.task.status = 'question'
+        await self.loop_task()
 
     def set_params(self) -> None:
         """Set exercise params to exercise attr."""
