@@ -5,7 +5,7 @@ from http import HTTPStatus
 import toga
 from toga import Label, NumberInput, Selection, Switch
 from toga.constants import COLUMN
-from toga.sources import ListSource
+from toga.sources import ListSource, ValueSource
 from toga.style import Pack
 
 from wse.contrib.http_requests import HttpPutMixin, request_get
@@ -50,22 +50,31 @@ class Params:
     def __init__(self) -> None:
         """Construct the exercise params."""
         super().__init__()
-        self.accessors = ['alias', 'name']
+        self.accessors_selection = ['alias', 'name']
 
         # Sources.
-        self.source_category = ListSource(accessors=self.accessors)
-        self.source_progress = ListSource(accessors=self.accessors)
-        self.source_start_date = ListSource(accessors=self.accessors)
-        self.source_end_date = ListSource(accessors=self.accessors)
+        # Selections.
+        self.source_category = ListSource(self.accessors_selection)
+        self.source_progress = ListSource(self.accessors_selection)
+        self.source_start_date = ListSource(self.accessors_selection)
+        self.source_end_date = ListSource(self.accessors_selection)
+        # Inputs.
+        self.source_count_first = ValueSource()
+        self.source_count_last = ValueSource()
+        # Switches.
+        # TODO: add switching source after fixing input source.
 
     async def on_open(self, _: toga.Widget) -> None:
         """Request params and update widgets when box open."""
         params = self.request_params()
-        self.update_selections(params)
 
-    def request_params(self) -> dict:
-        """Request exercise params."""
-        response = request_get(url=self.url)
+        if params:
+            self.update_selections(params)
+            self.update_number_inputs(params)
+
+    def request_params(self) -> dict | None:
+        """Request a exercise params."""
+        response = request_get(self.url)
         if response.status_code == HTTPStatus.OK:
             return response.json()
 
@@ -99,12 +108,24 @@ class Params:
             if default == alias:
                 selection.value = source.find(item)
 
+    def update_number_inputs(self, params: dict) -> None:
+        """Update number inputs."""
+        self.source_count_first.value = params['lookup_conditions'][
+            'count_first'
+        ]
+        self.source_count_last.value = params['lookup_conditions'][
+            'count_last'
+        ]
+
+        # Force adding default value for example code.
+        self.input_count_last.value = self.source_count_last.value
+
 
 class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
     """Exercise params widgets."""
 
     title = ''
-    """The box-container title (`str`).
+    """The page title (`str`).
     """
 
     def __init__(self) -> None:
@@ -129,7 +150,9 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         self.selection_end_date = Selection(accessor='name', items=self.source_end_date)  # noqa: E501
         self.selection_category = Selection(accessor='name', items=self.source_category)  # noqa: E501
         self.selection_progress = Selection(accessor='name', items=self.source_progress)  # noqa: E501
-        self.input_count_first = NumberInput(step=10, min=0)
+
+        # Inputs.
+        self.input_count_first = NumberInput(step=10, min=0, value=self.source_count_first.value)  # noqa: E501
         self.input_count_last = NumberInput(step=10, min=0)
 
         # Switches for enable/untenable params.
@@ -149,7 +172,7 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
             'Subclasses must provide a goto_exercise_box_handler() method.'
         )
 
-    async def save_params_handler(self, _: toga.Widget) -> None:
+    async def save_params_handler(self, widget: toga.Widget) -> None:
         """Request to save exercise params, button handler."""
         raise NotImplementedError(
             'Subclasses must provide a save_params_handler() method.'
