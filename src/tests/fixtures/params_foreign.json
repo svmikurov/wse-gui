@@ -7,8 +7,8 @@
         ],
         "period_start_date": "NC",
         "period_end_date": "DT",
-        "count_first": 0,
-        "count_last": 90,
+        "count_first": 22,
+        "count_last": 33,
         "order": "TR",
         "word_count": [
             "OW",
@@ -66,44 +66,44 @@
         ],
         "categories": [
             [
-                1,
-                "Color"
+                null,
+                "Не выбрано"
             ],
             [
-                8,
-                "Developer"
+                1,
+                "Color"
             ],
             [
                 2,
                 "Greetings"
             ],
             [
-                9,
-                "notebook"
-            ],
-            [
-                6,
-                "Other"
-            ],
-            [
-                 3,
+                3,
                 "Default for example"
-            ],
-            [
-                5,
-                "School"
             ],
             [
                 4,
                 "Tasks"
             ],
             [
+                5,
+                "School"
+            ],
+            [
+                6,
+                "Other"
+            ],
+            [
                 7,
                 "Time"
             ],
             [
-                null,
-                "Не выбрано"
+                8,
+                "Developer"
+            ],
+            [
+                9,
+                "notebook"
             ]
         ],
         "progress": [
