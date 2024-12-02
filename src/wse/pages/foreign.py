@@ -27,7 +27,7 @@ from wse.constants import (
     TITLE_FOREIGN_PARAMS,
     TITLE_FOREIGN_UPDATE,
 )
-from wse.containers.exercise import ExerciseBox
+from wse.containers.exercise import ExerciseLayout
 from wse.containers.params import ParamsLayout
 from wse.contrib.http_requests import (
     request_post_async,
@@ -122,7 +122,7 @@ class ParamsForeignPage(ParamsLayout):
         await goto_foreign_exercise_handler(widget)
 
 
-class ExerciseForeignPage(ExerciseBox):
+class ExerciseForeignPage(ExerciseLayout):
     """Foreign exercise box.
 
     :ivar box_exercise: The ExerciseBox attr, container with exercise

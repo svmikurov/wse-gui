@@ -26,7 +26,7 @@ from wse.constants import (
     TITLE_GLOSSARY_UPDATE,
 )
 from wse.containers.exercise import (
-    ExerciseBox,
+    ExerciseLayout,
 )
 from wse.containers.params import ParamsLayout
 from wse.contrib.http_requests import (
@@ -114,7 +114,7 @@ class ParamsGlossaryPage(ParamsLayout):
         await goto_glossary_exercise_handler(widget)
 
 
-class ExerciseGlossaryPage(ExerciseBox):
+class ExerciseGlossaryPage(ExerciseLayout):
     """Glossary exercise page box."""
 
     def __init__(self) -> None:
