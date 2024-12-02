@@ -53,15 +53,15 @@ async def goto_foreign_update_handler(widget: toga.Widget) -> None:
     await set_window_content(widget, box)
 
 
-async def goto_foreign_params_handler(widget: toga.Widget) -> None:
-    """Go to foreign params, button handler."""
-    box = widget.root.app.box_foreign_params
-    await set_window_content(widget, box)
-
-
 async def goto_foreign_list_handler(widget: toga.Widget) -> None:
     """Go to foreign list, button handler."""
     box = widget.root.app.box_foreign_list
+    await set_window_content(widget, box)
+
+
+async def goto_foreign_params_handler(widget: toga.Widget) -> None:
+    """Go to foreign params, button handler."""
+    box = widget.root.app.box_foreign_params
     await set_window_content(widget, box)
 
 
@@ -81,12 +81,6 @@ async def goto_glossary_main_handler(widget: toga.Widget) -> None:
     await set_window_content(widget, box)
 
 
-async def goto_glossary_params_handler(widget: toga.Widget) -> None:
-    """Go to glossary params, button handler."""
-    box = widget.root.app.box_glossary_params
-    await set_window_content(widget, box)
-
-
 async def goto_glossary_create_handler(widget: toga.Widget) -> None:
     """Go to glossary create, button handler."""
     box = widget.root.app.box_glossary_create
@@ -102,6 +96,12 @@ async def goto_glossary_update_handler(widget: toga.Widget) -> None:
 async def goto_glossary_list_handler(widget: toga.Widget) -> None:
     """Go to glossary list, button handler."""
     box = widget.root.app.box_glossary_list
+    await set_window_content(widget, box)
+
+
+async def goto_glossary_params_handler(widget: toga.Widget) -> None:
+    """Go to glossary params, button handler."""
+    box = widget.root.app.box_glossary_params
     await set_window_content(widget, box)
 
 
