@@ -9,17 +9,18 @@ from toga.sources import ListSource, ValueSource
 from toga.style import Pack
 
 from wse.contrib.http_requests import HttpPutMixin, request_get
+from wse.source.params import ParamSource
 from wse.widgets.box import FlexBox
 from wse.widgets.box_page import BaseBox, WidgetMixin
 from wse.widgets.button import BtnApp
 from wse.widgets.label import TitleLabel
 
 SELECTIONS = {
-    'selection_category': {
-        'source': 'source_category',
-        'items': 'categories',
-        'default': 'category',
-    },
+    # 'selection_category': {
+    #     'source': 'source_category',
+    #     'items': 'categories',
+    #     'default': 'category',
+    # },
     'selection_progress': {
         'source': 'source_progress',
         'items': 'progress',
@@ -54,7 +55,7 @@ class Params:
 
         # Sources.
         # Selections.
-        self.source_category = ListSource(self.accessors_selection)
+        self.source_category = ParamSource(self.accessors_selection)
         self.source_progress = ListSource(self.accessors_selection)
         self.source_start_date = ListSource(self.accessors_selection)
         self.source_end_date = ListSource(self.accessors_selection)
@@ -69,6 +70,7 @@ class Params:
         params = self.request_params()
 
         if params:
+            self.update_params_source(params)
             self.update_selections(params)
             self.update_number_inputs(params)
 
@@ -77,6 +79,10 @@ class Params:
         response = request_get(self.url)
         if response.status_code == HTTPStatus.OK:
             return response.json()
+
+    def update_params_source(self, params) -> None:
+        """Update selection source."""
+        self.source_category.update(params)
 
     def update_selections(self, params: dict) -> None:
         """Update an exercise param selections."""
