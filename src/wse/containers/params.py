@@ -3,6 +3,7 @@
 from http import HTTPStatus
 
 import toga
+from pygments.lexer import default
 from toga import Label, NumberInput, Selection, Switch
 from toga.constants import COLUMN
 from toga.sources import Listener, Row
@@ -26,7 +27,7 @@ class Params:
     def __init__(self) -> None:
         """Construct the exercise params."""
         super().__init__()
-        self.source_category = ItemSource(['alias', 'name'])
+        self.source_category = ItemSource(['alias', 'name'], value=8)
 
     async def on_open(self, _: toga.Widget) -> None:
         """Request params and update widgets when box open."""
@@ -43,7 +44,13 @@ class Params:
     def update_params_source(self, params: dict) -> None:
         """Update selection source."""
         categories = params['exercise_choices']['categories']
-        self.source_category.update_items(categories)
+        category = params['lookup_conditions']['category']
+
+        self.source_category.update_data(categories)
+
+    def print_selection(self, _: toga.Selection):
+        """Print selection."""
+        print(f'============ {self.source_category.value = }')
 
 
 class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
@@ -68,9 +75,13 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         self.label_category = Label('Категория:', style=self.style_label)
 
         # Selections.
-        self.selection_category = Selection(accessor='name', items=self.source_category)
+        self.selection_category = Selection(
+            accessor='name',
+            items=self.source_category,
+        )
 
         # Buttons.
+        self.btn_print_value = BtnApp('Напечатай выбор', on_press=self.print_selection)
         self.btn_save_params = BtnApp('Сохранить настройки', on_press=self.save_params_handler)  # noqa: E501
         self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.goto_box_exercise_handler)  # noqa: E501
         # fmt: on
@@ -113,6 +124,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         )
         self.box_params.add(
             self.box_selection_category,
+            self.btn_print_value,
         )
 
     def construct_selection_boxes(self) -> None:
