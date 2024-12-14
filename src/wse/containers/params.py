@@ -3,18 +3,18 @@
 from http import HTTPStatus
 
 import toga
-from pygments.lexer import default
-from toga import Label, NumberInput, Selection, Switch
+from toga import Label, Selection
 from toga.constants import COLUMN
-from toga.sources import Listener, Row
 from toga.style import Pack
 
 from wse.contrib.http_requests import HttpPutMixin, request_get
-from wse.source.params import ItemSource, DefaultSource
+from wse.source.params import ItemSource
 from wse.widgets.box import FlexBox
 from wse.widgets.box_page import BaseBox, WidgetMixin
 from wse.widgets.button import BtnApp
 from wse.widgets.label import TitleLabel
+
+ACCESSORS = ['alias', 'name']
 
 
 class Params:
@@ -27,28 +27,47 @@ class Params:
     def __init__(self) -> None:
         """Construct the exercise params."""
         super().__init__()
-        self.source_category = ItemSource(['alias', 'name'], value=8)
+        self.params = None
+
+        # Source
+        self.source_category = ItemSource(ACCESSORS)
 
     async def on_open(self, _: toga.Widget) -> None:
-        """Request params and update widgets when box open."""
-        params = self.request_params()
-        if params:
-            self.update_params_source(params)
+        """Request and populate selections."""
+        if not self.params:
+            self.request_params()
+            self.populate_selections()
 
-    def request_params(self) -> dict | None:
+    def request_params(self) -> None:
         """Request a exercise params."""
         response = request_get(self.url)
         if response.status_code == HTTPStatus.OK:
-            return response.json()
+            self.params = response.json()
 
-    def update_params_source(self, params: dict) -> None:
-        """Update selection source."""
-        categories = params['exercise_choices']['categories']
-        category = params['lookup_conditions']['category']
-
+    def populate_selections(self) -> None:
+        """Populate selections."""
+        categories = self.params['exercise_choices']['categories']
         self.source_category.update_data(categories)
 
-    def print_selection(self, _: toga.Selection):
+    ####################################################################
+    # Button handlers
+
+    def set_saved_params(self) -> None:
+        """Populate widgets by saved params, bnt handler."""
+        pass
+
+    def set_default_params(self) -> None:
+        """Populate widgets by default params, bnt handler."""
+        pass
+
+    def save_params(self) -> None:
+        """Save params, bnt handler."""
+        pass
+
+    # End Button handler
+    ####################
+
+    def print_selection(self, _: toga.Selection) -> None:
         """Print selection."""
         print(f'============ {self.source_category.value = }')
 
@@ -81,7 +100,7 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         )
 
         # Buttons.
-        self.btn_print_value = BtnApp('Напечатай выбор', on_press=self.print_selection)
+        self.btn_print_value = BtnApp('Напечатай выбор', on_press=self.print_selection)  # noqa: E501
         self.btn_save_params = BtnApp('Сохранить настройки', on_press=self.save_params_handler)  # noqa: E501
         self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.goto_box_exercise_handler)  # noqa: E501
         # fmt: on

@@ -1,11 +1,12 @@
 """Exercise params source."""
+
 from collections.abc import Iterable
 
 from toga.sources import ListSource, Row
 
 
 class DefaultSource(ListSource):
-    """"""
+    """Default source."""
 
 
 class ItemSource(ListSource):
@@ -34,13 +35,15 @@ class ItemSource(ListSource):
 
         self.set_value(value or self._value)
 
-    def set_value(self, value) -> None:
+    def set_value(self, value: object) -> None:
+        """Set value by default."""
         self._value = value
 
         for listener in self.listeners:
-            listener.__dict__["interface"].value = self.find(value)
+            listener.__dict__['interface'].value = self.find(value)
 
     @property
-    def value(self):
-        self._value = self.listeners[0].__dict__["interface"].value
+    def value(self) -> Row:
+        """Choice from selection."""
+        self._value = self.listeners[0].__dict__['interface'].value
         return self._value

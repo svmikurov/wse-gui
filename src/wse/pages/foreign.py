@@ -43,12 +43,10 @@ from wse.handlers.goto_handler import (
     goto_main_handler,
 )
 from wse.source.foreign import Word, WordSource
-from wse.widgets.box import FlexBox
 from wse.widgets.box_page import BaseBox, WidgetMixin
 from wse.widgets.button import BtnApp
 from wse.widgets.form import BaseForm
 from wse.widgets.label import TitleLabel
-from wse.widgets.selection import BaseSelection
 from wse.widgets.table import TableApp
 from wse.widgets.text_input import TextInputApp
 
