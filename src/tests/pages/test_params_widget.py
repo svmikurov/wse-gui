@@ -69,11 +69,11 @@ def test_foreign_widget_order(
     # Selection widgets are parent box-container attr to flex layout.
     assert box.box_selection_start.children == [
         box.label_start.parent,
-        box.selection_start_period.parent,
+        box.selection_start_date.parent,
     ]
     assert box.box_selection_end.children == [
         box.label_end.parent,
-        box.selection_end_period.parent,
+        box.selection_end_date.parent,
     ]
     assert box.box_selection_category.children == [
         box.label_category.parent,
@@ -121,11 +121,11 @@ def test_glossary_widget_order(
     # Selection widgets are included in the parent box to flex layout.
     assert box.box_selection_start.children == [
         box.label_start.parent,
-        box.selection_start_period.parent,
+        box.selection_start_date.parent,
     ]
     assert box.box_selection_end.children == [
         box.label_end.parent,
-        box.selection_end_period.parent,
+        box.selection_end_date.parent,
     ]
     assert box.box_selection_category.children == [
         box.label_category.parent,

@@ -96,7 +96,7 @@ def test_selection_start_period_data(
     selection_params: object,
 ) -> None:
     """Test filling the selection with start period."""
-    selection = wse.box_glossary_params.selection_start_period
+    selection = wse.box_glossary_params.selection_start_date
     # Choice by default.
     assert (
         selection.value.alias

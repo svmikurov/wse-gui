@@ -1,21 +1,26 @@
 """Exercise params source."""
-
+from pygments.lexer import default
 from toga.sources import ListSource, Row
 
 
-class ChoiceRow(Row):
-    """Choice row."""
+class DefaultSource(ListSource):
+    """"""
 
 
-class ParamSource(ListSource):
-    """Exercise param source."""
+class ItemSource(ListSource):
+    """Exercise item source."""
 
-    _data: list[ChoiceRow]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.default = 3
 
-    def __init__(self, accessors, data):
-        super().__init__(accessors, data)
+    def update_items(self, items: list[int, str, None | str]) -> None:
+        """Update source items."""
 
-    def update(self, params) -> None:
-        """Update choices in source."""
-        pass
+        self.clear()
+        for item in items:
+            self.append(item)
+
+        if self.default:
+            self.listeners[-1].__dict__["interface"].value = self.find(self.default)
 

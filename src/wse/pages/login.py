@@ -40,18 +40,13 @@ class LoginBox(WidgetMixin, BaseBox):
         style_input = Pack(height=INPUT_HEIGHT)
 
         # Widgets.
+        # fmt: off
         self.label_title = TitleLabel(text=self.title)
-        self.input_username = toga.TextInput(
-            placeholder='Имя', style=style_input
-        )
-        self.input_password = toga.PasswordInput(
-            placeholder='Пароль', style=style_input
-        )
-        self.btn_login = BtnApp(
-            BTN_LOGIN,
-            on_press=self.login_handler,
-        )
+        self.input_username = toga.TextInput(placeholder='Имя', style=style_input)  # noqa: E501
+        self.input_password = toga.PasswordInput(placeholder='Пароль', style=style_input)  # noqa: E501
+        self.btn_login = BtnApp(BTN_LOGIN, on_press=self.login_handler)
         self.btn_goto_main = BtnApp('На главную', on_press=goto_main_handler)
+        # fmt: on
 
         # Widgets DOM.
         self.add(

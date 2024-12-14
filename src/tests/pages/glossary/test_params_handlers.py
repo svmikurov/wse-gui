@@ -33,7 +33,7 @@ def test_selection_start_period_data(
     selection_params: object,
 ) -> None:
     """Test filling the selection with start period."""
-    selection = wse.box_glossary_params.selection_start_period
+    selection = wse.box_glossary_params.selection_start_date
     # Choice by default.
     assert (
         selection.value.alias
@@ -49,7 +49,7 @@ def test_selection_start_period_data(
 
 def test_selection_end_period_data(wse: WSE, selection_params: object) -> None:
     """Test filling the selection with end period."""
-    selection = wse.box_glossary_params.selection_end_period
+    selection = wse.box_glossary_params.selection_end_date
     # Choice by default.
     assert (
         selection.value.alias == PARAMS['lookup_conditions']['period_end_date']

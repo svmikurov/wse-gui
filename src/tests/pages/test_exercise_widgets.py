@@ -11,7 +11,7 @@ from tests.utils import run_until_complete
 from wse.app import WSE
 from wse.constants import HOST_API
 from wse.containers.exercise import (
-    ExerciseBox,
+    ExerciseLayout,
 )
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
@@ -136,7 +136,7 @@ def test_display_exercise_info(box_foreign: ExerciseForeignPage) -> None:
 
 
 @patch.object(Timer, 'on_pause')
-def test_btn_pause(on_pause: MagicMock, box: ExerciseBox) -> None:
+def test_btn_pause(on_pause: MagicMock, box: ExerciseLayout) -> None:
     """Test the button of pause.
 
     Testing:
@@ -188,7 +188,7 @@ def test_btn_pause(on_pause: MagicMock, box: ExerciseBox) -> None:
     ],
 )
 @patch('httpx.AsyncClient.post', new_callable=AsyncMock)
-@patch.object(ExerciseBox, 'move_to_next_task', new_callable=AsyncMock)
+@patch.object(ExerciseLayout, 'move_to_next_task', new_callable=AsyncMock)
 def test_answer_btns(
     move_to_next_task: AsyncMock,
     post: AsyncMock,
@@ -236,7 +236,7 @@ def test_answer_btns(
     move_to_next_task.assert_awaited()
 
 
-@patch.object(ExerciseBox, 'loop_task', new_callable=AsyncMock)
+@patch.object(ExerciseLayout, 'loop_task', new_callable=AsyncMock)
 def test_btn_next(
     loop_task: AsyncMock,
     box: ExerciseForeignPage | ExerciseGlossaryPage,

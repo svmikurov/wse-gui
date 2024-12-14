@@ -145,8 +145,13 @@ def request_post(
 async def request_get_async(url: str) -> Response:
     """Request the async GET method."""
     async with httpx.AsyncClient(auth=app_auth) as client:
-        response = await client.get(url)
-    return response
+        try:
+            response = await client.get(url)
+        except httpx.ConnectError as error:
+            print(error)
+            return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
+        else:
+            return response
 
 
 async def request_post_async(

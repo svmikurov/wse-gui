@@ -98,21 +98,8 @@ class ParamsForeignPage(ParamsLayout):
             BTN_GOTO_FOREIGN_MAIN, on_press=goto_foreign_main_handler
         )
 
-        # Additional selections.
-        self.label_order = toga.Label(
-            'Порядок перевода', style=self.style_label
-        )
-        self.selection_order = BaseSelection()
-        self.box_selection_order = toga.Box(
-            style=self.style_box_selection,
-            children=[
-                FlexBox(children=[self.label_order]),
-                FlexBox(children=[self.selection_order]),
-            ],
-        )
-
-        # Selections.
-        self.box_params.insert(0, self.box_selection_order)
+        # Buttons
+        self.btn_save_paras = toga.Button
 
         # DOM.
         self.insert(4, self.btn_goto_foreign_main)

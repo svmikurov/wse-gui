@@ -39,11 +39,11 @@ def wse(
 @pytest.fixture(scope='function')
 def selection_params(wse: WSE) -> None:
     """Populate exercise params selections form fixture."""
-    wse.box_glossary_params.selection_start_period.set_items(
+    wse.box_glossary_params.selection_start_date.set_items(
         PARAMS['exercise_choices']['edge_period_items'],
         PARAMS['lookup_conditions']['period_start_date'],
     )
-    wse.box_glossary_params.selection_end_period.set_items(
+    wse.box_glossary_params.selection_end_date.set_items(
         PARAMS['exercise_choices']['edge_period_items'],
         PARAMS['lookup_conditions']['period_end_date'],
     )
