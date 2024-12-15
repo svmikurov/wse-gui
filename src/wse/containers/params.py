@@ -27,30 +27,42 @@ class Params:
     def __init__(self) -> None:
         """Construct the exercise params."""
         super().__init__()
-        self.params = None
-
-        # Source
+        self.choices: dict | None = None
+        self.lookup: dict | None = None
         self.source_category = ItemSource(ACCESSORS)
 
     async def on_open(self, _: toga.Widget) -> None:
-        """Request and populate selections."""
-        if not self.params:
-            self.request_params()
+        """Request params and populate selections."""
+        if not self.choices:
+            self.set_params()
             self.populate_selections_default()
+
+    ####################################################################
+    # Logic
+
+    def set_params(self) -> None:
+        """Set lookup_conditions and exercise_choices."""
+        self.request_params()
 
     def request_params(self) -> None:
         """Request a exercise params."""
         response = request_get(self.url)
         if response.status_code == HTTPStatus.OK:
-            self.params = response.json()
+            params = response.json()
+            self.lookup = params['lookup_conditions']
+            self.choices = params['exercise_choices']
 
     def populate_selections_default(self) -> None:
         """Populate selections."""
-        categories = self.params['exercise_choices']['categories']
+        categories = self.choices['categories']
+        self.source_category.clear()
         self.source_category.update_data(categories)
+        self.source_category.set_value(None)
 
-
-    def
+    def set_saved_params(self) -> None:
+        """Set saved choices."""
+        category = self.lookup['category']
+        self.source_category.set_value(category)
 
 
 class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
@@ -75,31 +87,30 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         self.label_category = Label('Категория:', style=self.style_label)
 
         # Selections.
-        self.selection_category = Selection(
-            accessor='name',
-            items=self.source_category,
-        )
+        self.selection_category = Selection(accessor='name', items=self.source_category)  # noqa: E501
 
         # Buttons.
-        self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.goto_box_exercise_handler)  # noqa: E501
-        self.btn_default_params = BtnApp('Выбор по-умолчанию', on_press=self.set_default_params_handler)  # noqa: E502
-        self.btn_saved_params = BtnApp('Сохраненный выбор', on_press=self.set_saved_params_handler)  # noqa: E502
+        self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.start_exercise_handler)  # noqa: E501
+        self.btn_set_saved_params = BtnApp('Сохраненный выбор', on_press=self.set_saved_params_handler)  # noqa: E501
+        self.btn_reset_params = BtnApp('Сбросить выбор', on_press=self.reset_params_handler)  # noqa: E501
         self.btn_save_params = BtnApp('Сохранить выбор', on_press=self.save_params_handler)  # noqa: E501
+        self.btn_goto_back = BtnApp('Назад', on_press=...)  # noqa: E501
         # fmt: on
 
     ####################################################################
     # Button handlers
 
     def start_exercise_handler(self, _: toga.Widget) -> None:
-        """Start exercise, button handler"""
+        """Start exercise, button handler."""
         pass
 
     def set_saved_params_handler(self, _: toga.Widget) -> None:
         """Set saved params choice, button handler."""
-        pass
+        self.set_saved_params()
 
-    def refresh_params_handler(self, _: toga.Widget) -> None:
+    def reset_params_handler(self, _: toga.Widget) -> None:
         """Populate widgets by default params, button handler."""
+        self.request_params()
         self.populate_selections_default()
 
     def save_params_handler(self, _: toga.Widget) -> None:
@@ -123,7 +134,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         # Exercise parameter boxes are enclosed in ``box_params``.
         self.box_params = toga.Box(style=Pack(direction=COLUMN, flex=1))
 
-        # Exercise parameter buttons are enclosed in ``box_params_btns``.
+        # Exercise params buttons are enclosed in ``box_params_btns``.
         self.box_params_btns = toga.Box(style=Pack(direction=COLUMN, flex=1))
 
         # DOM.
@@ -137,9 +148,10 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         )
         self.box_params_btns.add(
             self.btn_goto_exercise,
-            self.btn_default_params,
-            self.btn_saved_params,
+            self.btn_set_saved_params,
+            self.btn_reset_params,
             self.btn_save_params,
+            self.btn_goto_back,
         )
 
     def construct_selection_boxes(self) -> None:
