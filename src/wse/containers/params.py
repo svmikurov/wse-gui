@@ -36,7 +36,7 @@ class Params:
         """Request and populate selections."""
         if not self.params:
             self.request_params()
-            self.populate_selections()
+            self.populate_selections_default()
 
     def request_params(self) -> None:
         """Request a exercise params."""
@@ -44,32 +44,13 @@ class Params:
         if response.status_code == HTTPStatus.OK:
             self.params = response.json()
 
-    def populate_selections(self) -> None:
+    def populate_selections_default(self) -> None:
         """Populate selections."""
         categories = self.params['exercise_choices']['categories']
         self.source_category.update_data(categories)
 
-    ####################################################################
-    # Button handlers
 
-    def start_exercise(self, _: toga.Widget) -> None:
-        """Start exercise, button handler"""
-        pass
-
-    def set_saved_params(self, _: toga.Widget) -> None:
-        """Populate widgets by saved params, button handler."""
-        pass
-
-    def set_default_params(self, _: toga.Widget) -> None:
-        """Populate widgets by default params, button handler."""
-        self.populate_selections()
-
-    def save_params(self, _: toga.Widget) -> None:
-        """Save params, button handler."""
-        pass
-
-    # End Button handler
-    ####################
+    def
 
 
 class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
@@ -101,22 +82,29 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
 
         # Buttons.
         self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.goto_box_exercise_handler)  # noqa: E501
-        self.btn_default_params = BtnApp('Выбор по-умолчанию', on_press=self.set_default_params)  # noqa: E502
-        self.btn_saved_params = BtnApp('Сохраненный выбор', on_press=self.set_saved_params)  # noqa: E502
+        self.btn_default_params = BtnApp('Выбор по-умолчанию', on_press=self.set_default_params_handler)  # noqa: E502
+        self.btn_saved_params = BtnApp('Сохраненный выбор', on_press=self.set_saved_params_handler)  # noqa: E502
         self.btn_save_params = BtnApp('Сохранить выбор', on_press=self.save_params_handler)  # noqa: E501
         # fmt: on
 
-    async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
-        """Go to exercise page box, button handler."""
-        raise NotImplementedError(
-            'Subclasses must provide a goto_exercise_box_handler() method.'
-        )
+    ####################################################################
+    # Button handlers
 
-    async def save_params_handler(self, widget: toga.Widget) -> None:
-        """Request to save exercise params, button handler."""
-        raise NotImplementedError(
-            'Subclasses must provide a save_params_handler() method.'
-        )
+    def start_exercise_handler(self, _: toga.Widget) -> None:
+        """Start exercise, button handler"""
+        pass
+
+    def set_saved_params_handler(self, _: toga.Widget) -> None:
+        """Set saved params choice, button handler."""
+        pass
+
+    def refresh_params_handler(self, _: toga.Widget) -> None:
+        """Populate widgets by default params, button handler."""
+        self.populate_selections_default()
+
+    def save_params_handler(self, _: toga.Widget) -> None:
+        """Save selected params, button handler."""
+        pass
 
 
 class ParamsLayout(ParamsWidgets, BaseBox):
