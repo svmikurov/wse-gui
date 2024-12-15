@@ -1,8 +1,13 @@
 """Button handlers to go to specific page box."""
 
+from collections import deque
+
 import toga
 
 from wse.widgets.box_page import WidgetMixin
+
+# Visited pages are stored in the history for the "Back" button.
+pages_history = deque()
 
 
 async def set_window_content(
@@ -11,12 +16,15 @@ async def set_window_content(
 ) -> None:
     """Set page box in window content."""
     widget.app.main_window.content = box
+    pages_history.append(box)
 
     # A box instance may not have ``on_open`` method.
     try:
         await box.on_open(widget)
     except AttributeError:
         pass
+
+    print(f'>>>> {pages_history = }')
 
 
 async def goto_main_handler(widget: toga.Widget) -> None:
@@ -28,6 +36,13 @@ async def goto_main_handler(widget: toga.Widget) -> None:
 async def goto_login_handler(widget: toga.Widget) -> None:
     """Go to log in, button handler."""
     box = widget.root.app.box_login
+    await set_window_content(widget, box)
+
+
+async def goto_back(widget: toga.Widget) -> None:
+    """Go to previous page, button handler."""
+    _ = pages_history.pop()
+    box = pages_history.pop()
     await set_window_content(widget, box)
 
 
