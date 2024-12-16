@@ -8,7 +8,7 @@ from toga.constants import COLUMN
 from toga.style import Pack
 
 from wse.contrib.http_requests import HttpPutMixin, request_get
-from wse.handlers.goto_handler import goto_back
+from wse.handlers.goto_handler import goto_back_handler
 from wse.source.params import ItemSource
 from wse.widgets.box import FlexBox
 from wse.widgets.box_page import BaseBox, WidgetMixin
@@ -95,7 +95,7 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         self.btn_set_saved_params = BtnApp('Сохраненный выбор', on_press=self.set_saved_params_handler)  # noqa: E501
         self.btn_reset_params = BtnApp('Сбросить выбор', on_press=self.reset_params_handler)  # noqa: E501
         self.btn_save_params = BtnApp('Сохранить выбор', on_press=self.save_params_handler)  # noqa: E501
-        self.btn_goto_back = BtnApp('Назад', on_press=goto_back)  # noqa: E501
+        self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)  # noqa: E501
         # fmt: on
 
     ####################################################################
