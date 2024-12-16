@@ -9,7 +9,7 @@ class DefaultSource(ListSource):
     """Default source."""
 
 
-class ItemSource(ListSource):
+class SourceCategory(ListSource):
     """Exercise item source."""
 
     def __init__(
@@ -32,8 +32,6 @@ class ItemSource(ListSource):
 
         for item in data:
             self.append(item)
-
-        self.set_value(value or self._value)
 
     def set_value(self, value: object) -> None:
         """Set value by default."""

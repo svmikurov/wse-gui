@@ -10,7 +10,7 @@ from toga.style import Pack
 from wse.contrib.http_requests import HttpPutMixin, request_get, \
     request_put_async
 from wse.handlers.goto_handler import goto_back_handler
-from wse.source.params import ItemSource
+from wse.source.params import SourceCategory
 from wse.widgets.box import FlexBox
 from wse.widgets.box_page import BaseBox, WidgetMixin
 from wse.widgets.button import BtnApp
@@ -32,7 +32,7 @@ class Params:
         super().__init__()
         self.exercise_choices: dict | None = None
         self.lookup_conditions: dict | None = None
-        self.source_category = ItemSource(ACCESSORS)
+        self.source_category = SourceCategory(ACCESSORS)
 
     ####################################################################
     # Logic
@@ -48,6 +48,7 @@ class Params:
         categories = self.exercise_choices['categories']
         self.source_category.clear()
         self.source_category.update_data(categories)
+        # By default, selection has not specific choice.
         self.source_category.set_value(None)
 
     def set_saved_params(self) -> None:
