@@ -98,9 +98,6 @@ class MainBox(WidgetMixin, BaseBox):
             self.btn_goto_login,
             self.btn_goto_foreign_main,
             self.btn_goto_glossary_main,
-            self.label_chapter_exercises,
-            self.btn_goto_foreign_exercise,
-            self.btn_goto_glossary_exercise,
         )
 
     async def on_open(self, widget: toga.Widget) -> None:

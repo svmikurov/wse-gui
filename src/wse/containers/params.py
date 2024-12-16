@@ -7,7 +7,8 @@ from toga import Label, Selection
 from toga.constants import COLUMN
 from toga.style import Pack
 
-from wse.contrib.http_requests import HttpPutMixin, request_get
+from wse.contrib.http_requests import HttpPutMixin, request_get, \
+    request_put_async
 from wse.handlers.goto_handler import goto_back_handler
 from wse.source.params import ItemSource
 from wse.widgets.box import FlexBox
@@ -22,48 +23,55 @@ class Params:
     """Exercise params."""
 
     url = ''
-    """The exercise params url (`str`).
+    """Url to get exercise params with GET method and to save
+    user lookup conditions with PUT method (`str`).
     """
 
     def __init__(self) -> None:
         """Construct the exercise params."""
         super().__init__()
-        self.choices: dict | None = None
-        self.lookup: dict | None = None
+        self.exercise_choices: dict | None = None
+        self.lookup_conditions: dict | None = None
         self.source_category = ItemSource(ACCESSORS)
-
-    async def on_open(self, _: toga.Widget) -> None:
-        """Request params and populate selections."""
-        if not self.choices:
-            self.set_params()
-            self.populate_selections_default()
 
     ####################################################################
     # Logic
 
-    def set_params(self) -> None:
-        """Set lookup_conditions and exercise_choices."""
-        self.request_params()
-
-    def request_params(self) -> None:
-        """Request a exercise params."""
-        response = request_get(self.url)
-        if response.status_code == HTTPStatus.OK:
-            params = response.json()
-            self.lookup = params['lookup_conditions']
-            self.choices = params['exercise_choices']
+    async def on_open(self, _: toga.Widget) -> None:
+        """Request params and populate selections."""
+        if not self.exercise_choices:
+            self.request_params()
+            self.populate_selections_default()
 
     def populate_selections_default(self) -> None:
         """Populate selections."""
-        categories = self.choices['categories']
+        categories = self.exercise_choices['categories']
         self.source_category.clear()
         self.source_category.update_data(categories)
         self.source_category.set_value(None)
 
     def set_saved_params(self) -> None:
         """Set saved choices."""
-        category = self.lookup['category']
+        category = self.lookup_conditions['category']
         self.source_category.set_value(category)
+
+    ####################################################################
+    # HTTP requests
+
+    def request_params(self) -> None:
+        """Request a exercise params."""
+        response = request_get(self.url)
+        if response.status_code == HTTPStatus.OK:
+            params = response.json()
+            self.lookup_conditions = params['lookup_conditions']
+            self.exercise_choices = params['exercise_choices']
+
+    async def request_save_lookup_conditions(self):
+        """Request to save user lookup conditions."""
+        lookup_conditions = {
+            'category': self.source_category.value.alias,
+        }
+        await request_put_async(url=self.url, payload=lookup_conditions)
 
 
 class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
@@ -114,9 +122,9 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         self.request_params()
         self.populate_selections_default()
 
-    def save_params_handler(self, _: toga.Widget) -> None:
+    async def save_params_handler(self, _: toga.Widget) -> None:
         """Save selected params, button handler."""
-        pass
+        await self.request_save_lookup_conditions()
 
 
 class ParamsLayout(ParamsWidgets, BaseBox):
