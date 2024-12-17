@@ -34,8 +34,11 @@ class Params(MessageMixin):
         self.exercise_choices: dict | None = None
         self.default_values: dict | None = None
         self.lookup_conditions: dict | None = None
+
         self.source_category = SourceItems(ACCESSORS)
         self.source_order = SourceItems(ACCESSORS)
+        self.source_period_start_date = SourceItems(ACCESSORS)
+        self.source_period_end_date = SourceItems(ACCESSORS)
 
     async def on_open(self, _: toga.Widget) -> None:
         """Request exercise params and populate selections."""
@@ -69,20 +72,28 @@ class Params(MessageMixin):
         self.default_values = params['default_values']
         self.lookup_conditions = params['lookup_conditions']
 
+    # fmt: off
     def populate_selections(self) -> None:
         """Populate selections."""
         self.source_category.update_data(self.exercise_choices['categories'])
         self.source_order.update_data(self.exercise_choices['orders'])
+        self.source_period_start_date.update_data(self.exercise_choices['edge_period_items'])  # noqa: E501
+        self.source_period_end_date.update_data(self.exercise_choices['edge_period_items'])  # noqa: E501
 
     def set_default_selection_values(self) -> None:
         """Set default selection values."""
         self.source_category.set_value(self.default_values['category'])
         self.source_order.set_value(self.default_values['order'])
+        self.source_period_start_date.set_value(self.default_values['period_start_date'])  # noqa: E501
+        self.source_period_end_date.set_value(self.default_values['period_end_date'])  # noqa: E501
 
     def set_saved_selection_values(self) -> None:
         """Set saved selection values."""
         self.source_category.set_value(self.lookup_conditions['category'])
         self.source_order.set_value(self.lookup_conditions['order'])
+        self.source_period_start_date.set_value(self.lookup_conditions['period_start_date'])  # noqa: E501
+        self.source_period_end_date.set_value(self.lookup_conditions['period_end_date'])  # noqa: E501
+    # fmt: on
 
     ####################################################################
     # HTTP requests
@@ -98,6 +109,8 @@ class Params(MessageMixin):
         lookup_conditions = {
             'category': self.source_category.value.alias,
             'order': self.source_order.value.alias,
+            'period_start_date': self.source_period_start_date.value.alias,
+            'period_end_date': self.source_period_end_date.value.alias,
         }
         await request_put_async(url=self.url, payload=lookup_conditions)
 
@@ -114,19 +127,23 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         super().__init__()
 
         # Styles.
-        self.style_label = Pack(padding=(7, 0, 7, 20))
+        self.style_label = Pack(padding=(7, 0, 7, 2))
 
         # Title.
         self.label_title = TitleLabel(text=self.title)
 
         # fmt: off
-        # Selection labels.
+        # Labels selections.
         self.label_category = Label('Категория:', style=self.style_label)
         self.label_order = Label('Порядок перевода:', style=self.style_label)
+        self.label_period_start_date = Label('Начало периода:', style=self.style_label)
+        self.label_period_end_date = Label('Конец периода:', style=self.style_label)
 
         # Selections.
         self.selection_category = Selection(accessor='name', items=self.source_category)  # noqa: E501
         self.selection_order = Selection(accessor='name', items=self.source_order)  # noqa: E501
+        self.selection_period_start_date = Selection(accessor='name', items=self.source_period_start_date)  # noqa: E501
+        self.selection_period_end_date = Selection(accessor='name', items=self.source_period_end_date)  # noqa: E501
 
         # Buttons.
         self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.start_exercise_handler)  # noqa: E501
@@ -184,6 +201,8 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         self.box_params.add(
             self.box_selection_category,
             self.box_selection_order,
+            self.box_selection_period_start_date,
+            self.box_selection_period_end_date,
         )
         self.box_params_btns.add(
             self.btn_goto_exercise,
@@ -208,5 +227,21 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             children=[
                 FlexBox(children=[self.label_order]),
                 FlexBox(children=[self.selection_order]),
+            ],
+        )
+
+        self.box_selection_period_start_date = toga.Box(
+            style=self.style_box_selection,
+            children=[
+                FlexBox(children=[self.label_period_start_date]),
+                FlexBox(children=[self.selection_period_start_date]),
+            ],
+        )
+
+        self.box_selection_period_end_date = toga.Box(
+            style=self.style_box_selection,
+            children=[
+                FlexBox(children=[self.label_period_end_date]),
+                FlexBox(children=[self.selection_period_end_date]),
             ],
         )
