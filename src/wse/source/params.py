@@ -9,7 +9,7 @@ class DefaultSource(ListSource):
     """Default source."""
 
 
-class SourceCategory(ListSource):
+class SourceItems(ListSource):
     """Exercise item source."""
 
     def __init__(

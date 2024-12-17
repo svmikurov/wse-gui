@@ -10,7 +10,7 @@ from toga.style import Pack
 from wse.contrib.http_requests import HttpPutMixin, request_get, \
     request_put_async
 from wse.handlers.goto_handler import goto_back_handler
-from wse.source.params import SourceCategory
+from wse.source.params import SourceItems
 from wse.widgets.box import FlexBox
 from wse.widgets.box_page import BaseBox, WidgetMixin
 from wse.widgets.button import BtnApp
@@ -32,46 +32,73 @@ class Params(MessageMixin):
         """Construct the exercise params."""
         super().__init__()
         self.exercise_choices: dict | None = None
+        self.default_values: dict | None = None
         self.lookup_conditions: dict | None = None
-        self.source_category = SourceCategory(ACCESSORS)
+        self.source_category = SourceItems(ACCESSORS)
+        self.source_order = SourceItems(ACCESSORS)
 
     ####################################################################
     # Logic
 
     async def on_open(self, _: toga.Widget) -> None:
-        """Request params and populate selections."""
+        """Request exercise params and populate selections."""
         if not self.exercise_choices:
-            self.request_params()
-            self.populate_selections_default()
+            await self.update_params()
 
-    def populate_selections_default(self) -> None:
+    async def update_params(self):
+        """Request exercise params from server.
+
+        If the parameters are received, then populate a selections
+        and set default selection values.
+        """
+        params = self.request_params()
+
+        if params:
+            self.set_params(params)
+            self.populate_selections()
+            self.set_default_selection_values()
+        else:
+            await self.show_message(
+                'Соединение с сервером:',
+                'Ошибка получения\nпараметров упражнения',
+            )
+
+    def set_params(self, params) -> None:
+        """Set exercise params for selection task."""
+        self.exercise_choices = params['exercise_choices']
+        self.default_values = params['default_values']
+        self.lookup_conditions = params['lookup_conditions']
+
+    def populate_selections(self) -> None:
         """Populate selections."""
-        categories = self.exercise_choices['categories']
-        self.source_category.clear()
-        self.source_category.update_data(categories)
-        # By default, selection has not specific choice.
-        self.source_category.set_value(None)
+        self.source_category.update_data(self.exercise_choices['categories'])
+        self.source_order.update_data(self.exercise_choices['orders'])
 
-    def set_saved_params(self) -> None:
-        """Set saved choices."""
-        category = self.lookup_conditions['category']
-        self.source_category.set_value(category)
+    def set_default_selection_values(self) -> None:
+        """Set default selection values."""
+        self.source_category.set_value(self.default_values['category'])
+        self.source_order.set_value(self.default_values['order'])
+
+    def set_saved_selection_values(self) -> None:
+        """Set saved selection values."""
+        self.source_category.set_value(self.lookup_conditions['category'])
+        self.source_order.set_value(self.lookup_conditions['order'])
 
     ####################################################################
     # HTTP requests
 
-    def request_params(self) -> None:
+    def request_params(self) -> dict | None:
         """Request a exercise params."""
         response = request_get(self.url)
         if response.status_code == HTTPStatus.OK:
             params = response.json()
-            self.lookup_conditions = params['lookup_conditions']
-            self.exercise_choices = params['exercise_choices']
+            return params
 
     async def request_save_lookup_conditions(self):
         """Request to save user lookup conditions."""
         lookup_conditions = {
             'category': self.source_category.value.alias,
+            'order': self.source_order.value.alias,
         }
         await request_put_async(url=self.url, payload=lookup_conditions)
 
@@ -96,9 +123,11 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         # fmt: off
         # Selection labels.
         self.label_category = Label('Категория:', style=self.style_label)
+        self.label_order = Label('Порядок перевода:', style=self.style_label)
 
         # Selections.
         self.selection_category = Selection(accessor='name', items=self.source_category)  # noqa: E501
+        self.selection_order = Selection(accessor='name', items=self.source_order)  # noqa: E501
 
         # Buttons.
         self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.start_exercise_handler)  # noqa: E501
@@ -117,12 +146,11 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
 
     def set_saved_params_handler(self, _: toga.Widget) -> None:
         """Set saved params choice, button handler."""
-        self.set_saved_params()
+        self.set_saved_selection_values()
 
-    def reset_params_handler(self, _: toga.Widget) -> None:
+    async def reset_params_handler(self, _: toga.Widget) -> None:
         """Populate widgets by default params, button handler."""
-        self.request_params()
-        self.populate_selections_default()
+        await self.update_params()
 
     async def save_params_handler(self, _: toga.Widget) -> None:
         """Save selected params, button handler."""
@@ -156,6 +184,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         )
         self.box_params.add(
             self.box_selection_category,
+            self.box_selection_order,
         )
         self.box_params_btns.add(
             self.btn_goto_exercise,
@@ -172,5 +201,13 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             children=[
                 FlexBox(children=[self.label_category]),
                 FlexBox(children=[self.selection_category]),
+            ],
+        )
+
+        self.box_selection_order = toga.Box(
+            style=self.style_box_selection,
+            children=[
+                FlexBox(children=[self.label_order]),
+                FlexBox(children=[self.selection_order]),
             ],
         )
