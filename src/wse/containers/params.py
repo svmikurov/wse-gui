@@ -37,13 +37,13 @@ class Params(MessageMixin):
         self.source_category = SourceItems(ACCESSORS)
         self.source_order = SourceItems(ACCESSORS)
 
-    ####################################################################
-    # Logic
-
     async def on_open(self, _: toga.Widget) -> None:
         """Request exercise params and populate selections."""
         if not self.exercise_choices:
             await self.update_params()
+
+    ####################################################################
+    # Logic
 
     async def update_params(self):
         """Request exercise params from server.
@@ -91,8 +91,7 @@ class Params(MessageMixin):
         """Request a exercise params."""
         response = request_get(self.url)
         if response.status_code == HTTPStatus.OK:
-            params = response.json()
-            return params
+            return response.json()
 
     async def request_save_lookup_conditions(self):
         """Request to save user lookup conditions."""
