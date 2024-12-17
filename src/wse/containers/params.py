@@ -15,11 +15,12 @@ from wse.widgets.box import FlexBox
 from wse.widgets.box_page import BaseBox, WidgetMixin
 from wse.widgets.button import BtnApp
 from wse.widgets.label import TitleLabel
+from wse.widgets.message import MessageMixin
 
 ACCESSORS = ['alias', 'name']
 
 
-class Params:
+class Params(MessageMixin):
     """Exercise params."""
 
     url = ''

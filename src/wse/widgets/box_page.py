@@ -4,6 +4,7 @@ import toga
 from toga.style.pack import COLUMN
 
 from wse.constants.settings import PADDING_SM
+from wse.widgets.message import MessageMixin
 
 
 class BaseBox(toga.Box):
@@ -18,20 +19,6 @@ class BaseBox(toga.Box):
         self.style.direction = COLUMN
         self.style.padding = PADDING_SM
         self.style.flex = 1
-
-
-class MessageMixin:
-    """Dialog message mixin."""
-
-    app: toga.App
-
-    async def show_message(self, title: str, message: str) -> None:
-        """Show dialog message.
-
-        :param str title: The message title.
-        :param str message: The message text.
-        """
-        await self.app.main_window.dialog(toga.InfoDialog(title, message))
 
 
 class WidgetMixin(MessageMixin):
