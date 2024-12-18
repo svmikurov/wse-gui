@@ -13,8 +13,17 @@ class ColBox(toga.Box):
         self.style.direction = COLUMN
 
 
-class FlexBox(toga.Box):
-    """Flex style box."""
+class BoxFlexRow(toga.Box):
+    """Flex style box, row direction."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the box."""
+        super().__init__(*args, **kwargs)
+        self.style.flex = 1
+
+
+class BoxFlexCol(toga.Box):
+    """Flex style box, column direction."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the box."""

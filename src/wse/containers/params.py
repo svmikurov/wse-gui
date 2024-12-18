@@ -4,7 +4,6 @@ from http import HTTPStatus
 
 import toga
 from toga import Selection
-from toga.constants import COLUMN
 from toga.style import Pack
 
 from wse.contrib.http_requests import (
@@ -14,7 +13,7 @@ from wse.contrib.http_requests import (
 )
 from wse.handlers.goto_handler import goto_back_handler
 from wse.source.params import SourceItems
-from wse.widgets.box import FlexBox
+from wse.widgets.box import BoxFlexCol, BoxFlexRow
 from wse.widgets.box_page import BaseBox, WidgetMixin
 from wse.widgets.button import BtnApp
 from wse.widgets.label import TitleLabel
@@ -38,6 +37,7 @@ class Params(MessageMixin):
         self.default_values: dict | None = None
         self.lookup_conditions: dict | None = None
 
+        # Sources
         self.source_category = SourceItems(ACCESSORS)
         self.source_order = SourceItems(ACCESSORS)
         self.source_period_start_date = SourceItems(ACCESSORS)
@@ -116,10 +116,10 @@ class Params(MessageMixin):
 
 
 class LabelParam(toga.Label):
-    """Styled labels of params page."""
+    """Styled label of parameter."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct params page labels."""
+        """Construct the style of label."""
         super().__init__(*args, **kwargs)
         self.style.padding = (7, 0, 7, 2)
 
@@ -128,7 +128,7 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
     """Exercise params widgets."""
 
     title = ''
-    """The page title (`str`).
+    """The exercise page title (`str`).
     """
 
     def __init__(self) -> None:
@@ -143,8 +143,7 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         self.label_order = LabelParam('Порядок перевода:')
         self.label_period_start_date = LabelParam('Начало периода:')
         self.label_period_end_date = LabelParam('Конец периода:')
-
-        # Labels switches
+        # Labels NumberInput
         self.label_first = LabelParam('Первые:')
         self.label_last = LabelParam('Последние:')
 
@@ -155,11 +154,11 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         self.selection_period_start_date = Selection(accessor='name', items=self.source_period_start_date)  # noqa: E501
         self.selection_period_end_date = Selection(accessor='name', items=self.source_period_end_date)  # noqa: E501
 
-        # Switch
+        # Switches
         self.switch_count_first = toga.Switch('', on_change=self.first_switch_handler)  # noqa: E501
-        self.switch_count_last = toga.Switch('Последние:', on_change=self.last_switch_handler)  # noqa: E501
+        self.switch_count_last = toga.Switch('', on_change=self.last_switch_handler)  # noqa: E501
 
-        # NumberInput
+        # NumberInputs
         self.input_count_first = toga.NumberInput(step=10, min=0)
         self.input_count_last = toga.NumberInput(step=10, min=0)
 
@@ -194,12 +193,12 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
     # Switch handlers
 
     def first_switch_handler(self, widget: toga.Widget) -> None:
-        """Count of first added words, switch handler."""
+        """Count of first added items, switch handler."""
         if self.switch_count_first.value:
             self.switch_count_last.value = False
 
     def last_switch_handler(self, widget: toga.Widget) -> None:
-        """Count of last added words, switch handler."""
+        """Count of last added items, switch handler."""
         if self.switch_count_last.value:
             self.switch_count_first.value = False
 
@@ -211,34 +210,38 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         """Construct the layout."""
         super().__init__()
 
-        # Styles.
+        # Styles
         self.style_box_selection = Pack(padding=(2, 0, 2, 0))
 
-        # Exercise parameter widgets are enclosed in boxes.
-        self.construct_selection_boxes()
-
-        # ....
-        self.create_number_input_boxes()
+        # Exercise params widgets are enclosed in boxes.
+        self.include_selections_in_boxes()
+        self.include_number_inputs_in_boxes()
 
         # Exercise parameter boxes are enclosed in ``box_params``.
-        self.box_params = toga.Box(style=Pack(direction=COLUMN, flex=1))
+        self.box_params = BoxFlexCol()
 
         # Exercise params buttons are enclosed in ``box_params_btns``.
-        self.box_params_btns = toga.Box(style=Pack(direction=COLUMN, flex=1))
+        self.box_params_btns = BoxFlexCol()
 
-        # DOM.
+        # DOM
         self.add(
             self.label_title,
             self.box_params,
             self.box_params_btns,
         )
+        # Selections
         self.box_params.add(
             self.box_selection_category,
             self.box_selection_order,
             self.box_selection_period_start_date,
             self.box_selection_period_end_date,
         )
-        self.box_params.add(self.box_nuber_input)
+        # NumberInputs
+        self.box_params.add(
+            self.box_nuber_input_first,
+            self.box_nuber_input_last,
+        )
+        # Buttons
         self.box_params_btns.add(
             self.btn_goto_exercise,
             self.btn_set_saved_params,
@@ -247,56 +250,58 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             self.btn_goto_back,
         )
 
-    def create_number_input_boxes(self) -> None:
-        """Create number input boxes."""
-        self.box_nuber_input = toga.Box(
-            children=[
-                toga.Box(
-                    style=Pack(flex=1),
-                    children=[
-                        toga.Box(
-                            style=Pack(flex=1), children=[self.label_first]
-                        ),
-                        toga.Box(
-                            style=Pack(flex=1),
-                            children=[self.switch_count_first],
-                        ),
-                    ],
-                ),
-                FlexBox(children=[self.input_count_first]),
-            ]
-        )
-
-    def construct_selection_boxes(self) -> None:
+    def include_selections_in_boxes(self) -> None:
         """Construct a selection boxes."""
         self.box_selection_category = toga.Box(
             style=self.style_box_selection,
             children=[
-                FlexBox(children=[self.label_category]),
-                FlexBox(children=[self.selection_category]),
+                BoxFlexCol(children=[self.label_category]),
+                BoxFlexCol(children=[self.selection_category]),
             ],
         )
-
         self.box_selection_order = toga.Box(
             style=self.style_box_selection,
             children=[
-                FlexBox(children=[self.label_order]),
-                FlexBox(children=[self.selection_order]),
+                BoxFlexCol(children=[self.label_order]),
+                BoxFlexCol(children=[self.selection_order]),
             ],
         )
-
         self.box_selection_period_start_date = toga.Box(
             style=self.style_box_selection,
             children=[
-                FlexBox(children=[self.label_period_start_date]),
-                FlexBox(children=[self.selection_period_start_date]),
+                BoxFlexCol(children=[self.label_period_start_date]),
+                BoxFlexCol(children=[self.selection_period_start_date]),
             ],
         )
-
         self.box_selection_period_end_date = toga.Box(
             style=self.style_box_selection,
             children=[
-                FlexBox(children=[self.label_period_end_date]),
-                FlexBox(children=[self.selection_period_end_date]),
+                BoxFlexCol(children=[self.label_period_end_date]),
+                BoxFlexCol(children=[self.selection_period_end_date]),
             ],
+        )
+
+    def include_number_inputs_in_boxes(self) -> None:
+        """Create number input boxes."""
+        self.box_nuber_input_first = toga.Box(
+            children=[
+                BoxFlexRow(
+                    children=[
+                        BoxFlexRow(children=[self.label_first]),
+                        BoxFlexRow(children=[self.switch_count_first]),
+                    ],
+                ),
+                BoxFlexCol(children=[self.input_count_first]),
+            ]
+        )
+        self.box_nuber_input_last = toga.Box(
+            children=[
+                BoxFlexRow(
+                    children=[
+                        BoxFlexRow(children=[self.label_last]),
+                        BoxFlexRow(children=[self.switch_count_last]),
+                    ],
+                ),
+                BoxFlexCol(children=[self.input_count_last]),
+            ]
         )
