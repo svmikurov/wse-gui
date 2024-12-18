@@ -3,12 +3,15 @@
 from http import HTTPStatus
 
 import toga
-from toga import Label, Selection
+from toga import Selection
 from toga.constants import COLUMN
 from toga.style import Pack
 
-from wse.contrib.http_requests import HttpPutMixin, request_get, \
-    request_put_async
+from wse.contrib.http_requests import (
+    HttpPutMixin,
+    request_get,
+    request_put_async,
+)
 from wse.handlers.goto_handler import goto_back_handler
 from wse.source.params import SourceItems
 from wse.widgets.box import FlexBox
@@ -45,7 +48,7 @@ class Params(MessageMixin):
         if not self.exercise_choices:
             await self.update_params()
 
-    async def update_params(self):
+    async def update_params(self) -> None:
         """Request exercise params from server.
 
         If the parameters are received, then populate a selections
@@ -63,7 +66,7 @@ class Params(MessageMixin):
                 'Ошибка получения\nпараметров упражнения',
             )
 
-    def set_params(self, params) -> None:
+    def set_params(self, params: dict) -> None:
         """Set exercise params for selection task."""
         self.exercise_choices = params['exercise_choices']
         self.default_values = params['default_values']
@@ -101,7 +104,7 @@ class Params(MessageMixin):
         if response.status_code == HTTPStatus.OK:
             return response.json()
 
-    async def request_save_lookup_conditions(self):
+    async def request_save_lookup_conditions(self) -> None:
         """Request to save user lookup conditions."""
         lookup_conditions = {
             'category': self.source_category.value.alias,
@@ -115,7 +118,7 @@ class Params(MessageMixin):
 class LabelParam(toga.Label):
     """Styled labels of params page."""
 
-    def __init__(self, *args:object, **kwargs:object) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct params page labels."""
         super().__init__(*args, **kwargs)
         self.style.padding = (7, 0, 7, 2)
@@ -215,7 +218,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         self.construct_selection_boxes()
 
         # ....
-        self.construct_number_input_boxes()
+        self.create_number_input_boxes()
 
         # Exercise parameter boxes are enclosed in ``box_params``.
         self.box_params = toga.Box(style=Pack(direction=COLUMN, flex=1))
@@ -235,9 +238,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             self.box_selection_period_start_date,
             self.box_selection_period_end_date,
         )
-        self.box_params.add(
-            self.box_nuber_input
-        )
+        self.box_params.add(self.box_nuber_input)
         self.box_params_btns.add(
             self.btn_goto_exercise,
             self.btn_set_saved_params,
@@ -246,19 +247,23 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             self.btn_goto_back,
         )
 
-    def construct_number_input_boxes(self) -> None:
-        """"""
+    def create_number_input_boxes(self) -> None:
+        """Create number input boxes."""
         self.box_nuber_input = toga.Box(
             children=[
                 toga.Box(
                     style=Pack(flex=1),
                     children=[
-                        toga.Box(style=Pack(flex=1), children=[self.label_first]),
-                        toga.Box(style=Pack(flex=1), children=[self.switch_count_first]),
-                    ]
+                        toga.Box(
+                            style=Pack(flex=1), children=[self.label_first]
+                        ),
+                        toga.Box(
+                            style=Pack(flex=1),
+                            children=[self.switch_count_first],
+                        ),
+                    ],
                 ),
-                FlexBox(children=[self.input_count_first]
-                ),
+                FlexBox(children=[self.input_count_first]),
             ]
         )
 

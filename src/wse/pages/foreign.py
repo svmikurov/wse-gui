@@ -99,7 +99,6 @@ class ParamsForeignPage(ParamsLayout):
         # Buttons
         self.btn_save_paras = toga.Button
 
-
     async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
         """Go to foreign exercise page box, button handler."""
         await goto_foreign_exercise_handler(widget)

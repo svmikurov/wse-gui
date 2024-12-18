@@ -31,7 +31,7 @@ __all__ = (
     'CreateWordPage',
     'ExerciseForeignPage',
     'ExerciseGlossaryPage',
-    'ExplorerLayout'
+    'ExplorerLayout',
     'ListForeignPage',
     'ListGlossaryPage',
     'LoginBox',
@@ -42,4 +42,6 @@ __all__ = (
     'ParamsGlossaryPage',
     'UpdateWordPage',
     'UpdateTermPage',
+    'ExplorerLayout',
+    'ListForeignPage',
 )

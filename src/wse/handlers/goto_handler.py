@@ -46,6 +46,7 @@ async def goto_back_handler(widget: toga.Widget) -> None:
     previous_page = browsing_history.pop()
     await set_window_content(widget, previous_page)
 
+
 async def goto_explorer_handler(widget: toga.Widget) -> None:
     """Go to explorer page, button handler."""
     box = widget.root.app.box_explorer

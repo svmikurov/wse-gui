@@ -1,10 +1,11 @@
 """The page to explore Toga widgets."""
+
 from tkinter.constants import CENTER
 
 import toga
 from toga import colors
-from toga.style import Pack
 from toga.constants import COLUMN
+from toga.style import Pack
 
 from wse.handlers.goto_handler import goto_back_handler
 from wse.widgets.button import BtnApp
@@ -31,7 +32,7 @@ class ExplorerLayout(Explorer):
     def __init__(self) -> None:
         """Construct the page."""
         super().__init__()
-        self.style.direction=COLUMN
+        self.style.direction = COLUMN
 
         self.create_widgets()
 
@@ -42,15 +43,15 @@ class ExplorerLayout(Explorer):
         )
 
     def create_widgets(self) -> None:
+        """Run create widgets."""
         self.create_title_box()
 
     def create_title_box(self) -> None:
+        """Create title box."""
         self.box_title = toga.Box(
             style=Pack(
                 background_color=colors.GREEN,
                 direction=COLUMN,
             ),
-            children=[self.title]
+            children=[self.title],
         )
-
-
