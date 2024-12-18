@@ -126,26 +126,38 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         """Construct a widgets."""
         super().__init__()
 
-        # Styles.
-        self.style_label = Pack(padding=(7, 0, 7, 2))
-
-        # Title.
+        # Title
         self.label_title = TitleLabel(text=self.title)
 
+        # Styles
+        self.style_label = Pack(padding=(7, 0, 7, 2))
+
         # fmt: off
-        # Labels selections.
+        # Labels selections
         self.label_category = Label('Категория:', style=self.style_label)
         self.label_order = Label('Порядок перевода:', style=self.style_label)
         self.label_period_start_date = Label('Начало периода:', style=self.style_label)
         self.label_period_end_date = Label('Конец периода:', style=self.style_label)
 
-        # Selections.
+        # Labels switches
+        self.label_first = Label('Первые:', style=self.style_label)
+        self.label_last = Label('Последние:', style=self.style_label)
+
+        # Selections
         self.selection_category = Selection(accessor='name', items=self.source_category)  # noqa: E501
         self.selection_order = Selection(accessor='name', items=self.source_order)  # noqa: E501
         self.selection_period_start_date = Selection(accessor='name', items=self.source_period_start_date)  # noqa: E501
         self.selection_period_end_date = Selection(accessor='name', items=self.source_period_end_date)  # noqa: E501
 
-        # Buttons.
+        # Switch
+        self.switch_count_first = toga.Switch('', on_change=self.first_switch_handler)
+        self.switch_count_last = toga.Switch('Последние:', style=self.style_label, on_change=self.last_switch_handler)
+
+        # NumberInput
+        self.input_count_first = toga.NumberInput(step=10, min=0)
+        self.input_count_last = toga.NumberInput(step=10, min=0)
+
+        # Buttons
         self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.start_exercise_handler)  # noqa: E501
         self.btn_set_saved_params = BtnApp('Сохраненный выбор', on_press=self.set_saved_params_handler)  # noqa: E501
         self.btn_reset_params = BtnApp('Сбросить выбор', on_press=self.reset_params_handler)  # noqa: E501
@@ -172,6 +184,19 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         """Save selected params, button handler."""
         await self.request_save_lookup_conditions()
 
+    ####################################################################
+    # Switch handlers
+
+    def first_switch_handler(self, widget: toga.Widget) -> None:
+        """Count of first added words, switch handler."""
+        if self.switch_count_first.value:
+            self.switch_count_last.value = False
+
+    def last_switch_handler(self, widget: toga.Widget) -> None:
+        """Count of last added words, switch handler."""
+        if self.switch_count_last.value:
+            self.switch_count_first.value = False
+
 
 class ParamsLayout(ParamsWidgets, BaseBox):
     """Exercise params layout."""
@@ -185,6 +210,9 @@ class ParamsLayout(ParamsWidgets, BaseBox):
 
         # Exercise parameter widgets are enclosed in boxes.
         self.construct_selection_boxes()
+
+        # ....
+        self.construct_number_input_boxes()
 
         # Exercise parameter boxes are enclosed in ``box_params``.
         self.box_params = toga.Box(style=Pack(direction=COLUMN, flex=1))
@@ -204,12 +232,31 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             self.box_selection_period_start_date,
             self.box_selection_period_end_date,
         )
+        self.box_params.add(
+            self.box_nuber_input
+        )
         self.box_params_btns.add(
             self.btn_goto_exercise,
             self.btn_set_saved_params,
             self.btn_reset_params,
             self.btn_save_params,
             self.btn_goto_back,
+        )
+
+    def construct_number_input_boxes(self) -> None:
+        """"""
+        self.box_nuber_input = toga.Box(
+            children=[
+                toga.Box(
+                    style=Pack(flex=1),
+                    children=[
+                        toga.Box(style=Pack(flex=1), children=[self.label_first]),
+                        toga.Box(style=Pack(flex=1), children=[self.switch_count_first]),
+                    ]
+                ),
+                FlexBox(children=[self.input_count_first]
+                ),
+            ]
         )
 
     def construct_selection_boxes(self) -> None:
