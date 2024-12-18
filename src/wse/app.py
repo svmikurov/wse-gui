@@ -6,6 +6,7 @@ from wse import pages
 from wse.constants import (
     SCREEN_SIZE,
 )
+from wse.pages import ExplorerLayout
 from wse.source.text_panel_main import MainPanelSource
 from wse.source.user import UserSource
 from wse.widgets.box_page import WidgetMixin
@@ -20,6 +21,7 @@ class WSE(toga.App):
 
     # Page boxes.
     box_main: pages.MainBox
+    box_explorer: ExplorerLayout
     # Foreign language study page boxes.
     box_foreign_main: pages.MainForeignWidget
     box_foreign_params: pages.ParamsForeignPage
@@ -55,6 +57,7 @@ class WSE(toga.App):
             self.source_main_panel,
         )
         self.box_login = pages.LoginBox(self.user)
+        self.box_explorer = pages.ExplorerLayout()
         # Foreign language study page boxes.
         self.box_foreign_main = pages.MainForeignWidget()
         self.box_foreign_params = pages.ParamsForeignPage()

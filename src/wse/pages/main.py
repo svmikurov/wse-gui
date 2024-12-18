@@ -21,7 +21,7 @@ from wse.handlers.goto_handler import (
     goto_foreign_main_handler,
     goto_glossary_exercise_handler,
     goto_glossary_main_handler,
-    goto_login_handler,
+    goto_login_handler, goto_explorer_handler,
 )
 from wse.source.text_panel_main import MainPanelSource
 from wse.source.user import UserSource
@@ -83,6 +83,10 @@ class MainBox(WidgetMixin, BaseBox):
             'Изучение терминов',
             on_press=goto_glossary_exercise_handler,
         )
+        self.btn_goto_explorer = BtnApp(
+            'Изучение виджетов',
+            on_press=goto_explorer_handler,
+        )
 
         # Info panel
         self.info_panel = toga.MultilineTextInput(
@@ -98,6 +102,7 @@ class MainBox(WidgetMixin, BaseBox):
             self.btn_goto_login,
             self.btn_goto_foreign_main,
             self.btn_goto_glossary_main,
+            self.btn_goto_explorer,
         )
 
     async def on_open(self, widget: toga.Widget) -> None:
