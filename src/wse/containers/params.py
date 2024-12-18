@@ -21,7 +21,7 @@ ACCESSORS = ['alias', 'name']
 
 
 class Params(MessageMixin):
-    """Exercise params."""
+    """Exercise params logic."""
 
     url = ''
     """Url to get exercise params with GET method and to save
@@ -44,9 +44,6 @@ class Params(MessageMixin):
         """Request exercise params and populate selections."""
         if not self.exercise_choices:
             await self.update_params()
-
-    ####################################################################
-    # Logic
 
     async def update_params(self):
         """Request exercise params from server.
@@ -115,6 +112,15 @@ class Params(MessageMixin):
         await request_put_async(url=self.url, payload=lookup_conditions)
 
 
+class LabelParam(toga.Label):
+    """Styled labels of params page."""
+
+    def __init__(self, *args:object, **kwargs:object) -> None:
+        """Construct params page labels."""
+        super().__init__(*args, **kwargs)
+        self.style.padding = (7, 0, 7, 2)
+
+
 class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
     """Exercise params widgets."""
 
@@ -129,20 +135,17 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         # Title
         self.label_title = TitleLabel(text=self.title)
 
-        # Styles
-        self.style_label = Pack(padding=(7, 0, 7, 2))
-
-        # fmt: off
         # Labels selections
-        self.label_category = Label('Категория:', style=self.style_label)
-        self.label_order = Label('Порядок перевода:', style=self.style_label)
-        self.label_period_start_date = Label('Начало периода:', style=self.style_label)
-        self.label_period_end_date = Label('Конец периода:', style=self.style_label)
+        self.label_category = LabelParam('Категория:')
+        self.label_order = LabelParam('Порядок перевода:')
+        self.label_period_start_date = LabelParam('Начало периода:')
+        self.label_period_end_date = LabelParam('Конец периода:')
 
         # Labels switches
-        self.label_first = Label('Первые:', style=self.style_label)
-        self.label_last = Label('Последние:', style=self.style_label)
+        self.label_first = LabelParam('Первые:')
+        self.label_last = LabelParam('Последние:')
 
+        # fmt: off
         # Selections
         self.selection_category = Selection(accessor='name', items=self.source_category)  # noqa: E501
         self.selection_order = Selection(accessor='name', items=self.source_order)  # noqa: E501
@@ -150,8 +153,8 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         self.selection_period_end_date = Selection(accessor='name', items=self.source_period_end_date)  # noqa: E501
 
         # Switch
-        self.switch_count_first = toga.Switch('', on_change=self.first_switch_handler)
-        self.switch_count_last = toga.Switch('Последние:', style=self.style_label, on_change=self.last_switch_handler)
+        self.switch_count_first = toga.Switch('', on_change=self.first_switch_handler)  # noqa: E501
+        self.switch_count_last = toga.Switch('Последние:', on_change=self.last_switch_handler)  # noqa: E501
 
         # NumberInput
         self.input_count_first = toga.NumberInput(step=10, min=0)
