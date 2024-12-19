@@ -14,13 +14,14 @@ from wse.contrib.http_requests import (
 )
 from wse.handlers.goto_handler import goto_back_handler
 from wse.source.number_input import SourceValue
-from wse.source.params import SourceItems
+from wse.source.items import SourceItems
 from wse.widgets.box import BoxFlexCol, BoxFlexRow
 from wse.widgets.box_page import BaseBox, WidgetMixin
 from wse.widgets.button import BtnApp
 from wse.widgets.label import TitleLabel
 from wse.widgets.message import MessageMixin
 from wse.widgets.number_input import NumberInputApp
+from wse.widgets.selection import SelectionApp
 
 ACCESSORS = ['alias', 'name']
 
@@ -45,6 +46,7 @@ class Params(MessageMixin):
         self.source_order = SourceItems(ACCESSORS)
         self.source_period_start_date = SourceItems(ACCESSORS)
         self.source_period_end_date = SourceItems(ACCESSORS)
+        # Value sources
         self.source_input_count_first = SourceValue()
         self.source_input_count_last = SourceValue()
 
@@ -163,7 +165,7 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
 
         # fmt: off
         # Selections
-        self.selection_category = Selection(accessor='name', items=self.source_category)  # noqa: E501
+        self.selection_category = SelectionApp(accessor='name', items=self.source_category)  # noqa: E501
         self.selection_order = Selection(accessor='name', items=self.source_order)  # noqa: E501
         self.selection_period_start_date = Selection(accessor='name', items=self.source_period_start_date)  # noqa: E501
         self.selection_period_end_date = Selection(accessor='name', items=self.source_period_end_date)  # noqa: E501
@@ -173,8 +175,9 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         self.switch_count_last = toga.Switch('', on_change=self.last_switch_handler)  # noqa: E501
 
         # NumberInputs
-        self.input_count_first = NumberInputApp(step=10, min=0, on_change=self.source_input_count_first.update_value)
-        self.input_count_last = NumberInputApp(step=10, min=0, on_change=self.source_input_count_last.update_value)
+        self.input_count_first = NumberInputApp(step=10, min=0, on_change=self.source_input_count_first.update_value)  # noqa: E501
+        self.input_count_last = NumberInputApp(step=10, min=0, on_change=self.source_input_count_last.update_value)  # noqa: E501
+        # NumberInputs ara listener.
         self.source_input_count_first.add_listener(self.input_count_first)
         self.source_input_count_last.add_listener(self.input_count_last)
 

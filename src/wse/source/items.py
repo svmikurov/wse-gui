@@ -5,10 +5,6 @@ from collections.abc import Iterable
 from toga.sources import ListSource, Row
 
 
-class DefaultSource(ListSource):
-    """Default source."""
-
-
 class SourceItems(ListSource):
     """Exercise item source."""
 
