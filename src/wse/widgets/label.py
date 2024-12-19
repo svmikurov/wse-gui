@@ -7,6 +7,15 @@ from travertino.constants import CENTER
 from wse.constants import TITLE_LABEL_FONT_SIZE, TITLE_LABEL_PADDING
 
 
+class LabelParam(toga.Label):
+    """Styled label of parameter."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the style of label."""
+        super().__init__(*args, **kwargs)
+        self.style.padding = (7, 0, 7, 2)
+
+
 class TitleLabel(toga.Label):
     """General title label.
 

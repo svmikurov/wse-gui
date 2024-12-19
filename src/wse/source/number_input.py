@@ -3,13 +3,13 @@
 from decimal import Decimal
 
 import toga
-from toga.sources import Source, ValueSource
+from toga.sources import Source
 
 
 class SourceValue(Source):
     """Custom value source."""
 
-    def __init__(self, value: object = None, accessor: str = "value"):
+    def __init__(self, value: object = None, accessor: str = 'value') -> None:
         """Construct source."""
         super().__init__()
         self.accessor = accessor
@@ -29,4 +29,3 @@ class SourceValue(Source):
         value = getattr(self, self.accessor)
         if isinstance(value, Decimal):
             return int(value)
-

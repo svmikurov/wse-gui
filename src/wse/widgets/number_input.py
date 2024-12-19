@@ -11,6 +11,6 @@ class NumberInputApp(NumberInput, Listener):
         """Construct custom NumberInput."""
         super().__init__(*args, **kwargs)
 
-    def set_value(self, value) -> None:
-        """Set the initial value."""
+    def set_value(self, value: int) -> None:
+        """Set the initial value for the widget."""
         self.value = value
