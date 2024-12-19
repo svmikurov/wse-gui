@@ -1,6 +1,7 @@
 """Exercise params."""
 
 from http import HTTPStatus
+from pprint import pprint
 
 import toga
 from toga import Selection
@@ -12,12 +13,14 @@ from wse.contrib.http_requests import (
     request_put_async,
 )
 from wse.handlers.goto_handler import goto_back_handler
+from wse.source.number_input import SourceValue
 from wse.source.params import SourceItems
 from wse.widgets.box import BoxFlexCol, BoxFlexRow
 from wse.widgets.box_page import BaseBox, WidgetMixin
 from wse.widgets.button import BtnApp
 from wse.widgets.label import TitleLabel
 from wse.widgets.message import MessageMixin
+from wse.widgets.number_input import NumberInputApp
 
 ACCESSORS = ['alias', 'name']
 
@@ -42,6 +45,8 @@ class Params(MessageMixin):
         self.source_order = SourceItems(ACCESSORS)
         self.source_period_start_date = SourceItems(ACCESSORS)
         self.source_period_end_date = SourceItems(ACCESSORS)
+        self.source_input_count_first = SourceValue()
+        self.source_input_count_last = SourceValue()
 
     async def on_open(self, _: toga.Widget) -> None:
         """Request exercise params and populate selections."""
@@ -68,6 +73,7 @@ class Params(MessageMixin):
 
     def set_params(self, params: dict) -> None:
         """Set exercise params for selection task."""
+        pprint(params)
         self.exercise_choices = params['exercise_choices']
         self.default_values = params['default_values']
         self.lookup_conditions = params['lookup_conditions']
@@ -86,6 +92,9 @@ class Params(MessageMixin):
         self.source_order.set_value(self.default_values['order'])
         self.source_period_start_date.set_value(self.default_values['period_start_date'])  # noqa: E501
         self.source_period_end_date.set_value(self.default_values['period_end_date'])  # noqa: E501
+        self.source_input_count_first.set_value(self.default_values['count_first'])  # noqa: E501
+        self.source_input_count_last.set_value(self.default_values['count_last'])  # noqa: E501
+
 
     def set_saved_selection_values(self) -> None:
         """Set saved selection values."""
@@ -93,6 +102,8 @@ class Params(MessageMixin):
         self.source_order.set_value(self.lookup_conditions['order'])
         self.source_period_start_date.set_value(self.lookup_conditions['period_start_date'])  # noqa: E501
         self.source_period_end_date.set_value(self.lookup_conditions['period_end_date'])  # noqa: E501
+        self.source_input_count_first.set_value(self.lookup_conditions['count_first'])  # noqa: E501
+        self.source_input_count_last.set_value(self.lookup_conditions['count_last'])  # noqa: E501
     # fmt: on
 
     ####################################################################
@@ -111,7 +122,10 @@ class Params(MessageMixin):
             'order': self.source_order.value.alias,
             'period_start_date': self.source_period_start_date.value.alias,
             'period_end_date': self.source_period_end_date.value.alias,
+            'count_first': self.source_input_count_first.get_value(),
+            'count_last': self.source_input_count_last.get_value(),
         }
+        print(f'>>> {lookup_conditions = }')
         await request_put_async(url=self.url, payload=lookup_conditions)
 
 
@@ -159,8 +173,10 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, Params):
         self.switch_count_last = toga.Switch('', on_change=self.last_switch_handler)  # noqa: E501
 
         # NumberInputs
-        self.input_count_first = toga.NumberInput(step=10, min=0)
-        self.input_count_last = toga.NumberInput(step=10, min=0)
+        self.input_count_first = NumberInputApp(step=10, min=0, on_change=self.source_input_count_first.update_value)
+        self.input_count_last = NumberInputApp(step=10, min=0, on_change=self.source_input_count_last.update_value)
+        self.source_input_count_first.add_listener(self.input_count_first)
+        self.source_input_count_last.add_listener(self.input_count_last)
 
         # Buttons
         self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.start_exercise_handler)  # noqa: E501
