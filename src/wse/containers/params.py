@@ -1,6 +1,7 @@
 """Exercise params."""
 
 from http import HTTPStatus
+from pprint import pprint
 
 import toga
 from toga import Selection
@@ -78,6 +79,7 @@ class ParamsLogic(MessageMixin, ParamsSources):
         and set default selection values.
         """
         params = self.request_params()
+        pprint(params)
 
         if params:
             self.set_params(params)
@@ -129,6 +131,11 @@ class ParamsLogic(MessageMixin, ParamsSources):
         # Inputs
         self.source_input_count_first.set_value(self.lookup_conditions['count_first'])  # noqa: E501
         self.source_input_count_last.set_value(self.lookup_conditions['count_last'])  # noqa: E501
+        # Switches
+        self.source_progress_study.set_value('S' in self.lookup_conditions['progress'])  # noqa: E501
+        self.source_progress_repeat.set_value('R' in self.lookup_conditions['progress'])  # noqa: E501
+        self.source_progress_examination.set_value('E' in self.lookup_conditions['progress'])  # noqa: E501
+        self.source_progress_know.set_value('K' in self.lookup_conditions['progress'])  # noqa: E501
     # fmt: on
 
     ####################################################################
