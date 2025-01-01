@@ -6,6 +6,8 @@ from wse import pages
 from wse.constants import (
     SCREEN_SIZE,
 )
+from wse.handlers.goto_handler import goto_main_handler, \
+    goto_foreign_main_handler, goto_glossary_main_handler, set_window_content
 from wse.pages import ExplorerLayout
 from wse.source.text_panel_main import MainPanelSource
 from wse.source.user import UserSource
@@ -114,22 +116,21 @@ class WSE(toga.App):
         self.box_main.update_widgets()  # by user auth status
         self.main_window.show()
 
-    def move_to_page(self, box: WidgetMixin) -> None:
+    async def move_to_page(self, box: WidgetMixin) -> None:
         """Move to page box."""
-        self.main_window.content = box
-        box.on_open(box)
+        await set_window_content(self.box_main, box)
 
-    def goto_main(self, _: toga.Widget, **kwargs: object) -> None:
+    async def goto_main(self, _: toga.Widget, **kwargs: object) -> None:
         """Goto main box, command handler."""
-        self.move_to_page(self.box_main)
+        await self.move_to_page(self.box_main)
 
-    def goto_glossary(self, _: toga.Widget, **kwargs: object) -> None:
+    async def goto_glossary(self, _: toga.Widget, **kwargs: object) -> None:
         """Goto glossary box, command handler."""
-        self.move_to_page(self.box_glossary_main)
+        await self.move_to_page(self.box_glossary_main)
 
-    def goto_foreign(self, _: toga.Widget, **kwargs: object) -> None:
+    async def goto_foreign(self, _: toga.Widget, **kwargs: object) -> None:
         """Goto foreign box, command handler."""
-        self.move_to_page(self.box_foreign_main)
+        await self.move_to_page(self.box_foreign_main)
 
 
 def main() -> WSE:
