@@ -250,7 +250,7 @@ class UpdateTermPage(FormGlossary):
         await goto_glossary_list_handler(widget)
 
 
-class ListGlossaryPage(TableApp, ParamsLayout):
+class ListGlossaryPage(TableApp, BaseBox):
     """Table of list of glossary terms, the page.
 
     :ivar Button label_title: The page title.
