@@ -18,6 +18,13 @@ class SourceItems(ListSource):
         super().__init__(accessors, data)
         self._value = value
 
+    def set_value(self, value: object) -> None:
+        """Set value by default."""
+        self._value = value
+
+        for listener in self.listeners:
+            listener.__dict__['interface'].value = self.find(value)
+
     def update_data(
         self,
         data: list[int, str, None | str],
@@ -28,13 +35,6 @@ class SourceItems(ListSource):
 
         for item in data:
             self.append(item)
-
-    def set_value(self, value: object) -> None:
-        """Set value by default."""
-        self._value = value
-
-        for listener in self.listeners:
-            listener.__dict__['interface'].value = self.find(value)
 
     @property
     def value(self) -> Row:
