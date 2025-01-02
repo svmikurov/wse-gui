@@ -36,6 +36,7 @@ class ParamsSources:
 
         # Selection sources
         self.source_category = SourceSelections(ACCESSORS)
+        self.source_source = SourceSelections(ACCESSORS)
         self.source_order = SourceSelections(ACCESSORS)
         self.source_period_start_date = SourceSelections(ACCESSORS)
         self.source_period_end_date = SourceSelections(ACCESSORS)
@@ -108,6 +109,7 @@ class ParamsLogic(MessageMixin, ParamsSources):
         """Populate the selections with the choices."""
         # Only selections has choices.
         self.source_category.update_data(self.exercise_choices['categories'])
+        self.source_source.update_data(self.exercise_choices['source'])
         self.source_order.update_data(self.exercise_choices['orders'])
         self.source_period_start_date.update_data(self.exercise_choices['edge_period_items'])  # noqa: E501
         self.source_period_end_date.update_data(self.exercise_choices['edge_period_items'])  # noqa: E501
@@ -116,6 +118,7 @@ class ParamsLogic(MessageMixin, ParamsSources):
         """Set default params."""
         # Selections
         self.source_category.set_value(self.default_values['category'])
+        self.source_source.set_value(self.default_values['source'])
         self.source_order.set_value(self.default_values['order'])
         self.source_period_start_date.set_value(self.default_values['period_start_date'])  # noqa: E501
         self.source_period_end_date.set_value(self.default_values['period_end_date'])  # noqa: E501
@@ -135,6 +138,7 @@ class ParamsLogic(MessageMixin, ParamsSources):
         """Set saved params."""
         # Selections
         self.source_category.set_value(self.lookup_conditions['category'])
+        self.source_source.set_value(self.lookup_conditions['source'])
         self.source_order.set_value(self.lookup_conditions['order'])
         self.source_period_start_date.set_value(self.lookup_conditions['period_start_date'])  # noqa: E501
         self.source_period_end_date.set_value(self.lookup_conditions['period_end_date'])  # noqa: E501
@@ -177,6 +181,7 @@ class ParamsLogic(MessageMixin, ParamsSources):
         """Request to save user lookup conditions."""
         lookup_conditions = {
             'category': self.source_category.value.alias,
+            'source': self.source_source.value.alias,
             'count_first': self.source_input_count_first.get_value(),
             'count_last': self.source_input_count_last.get_value(),
             'favorites': self.source_favorites.get_value(),
@@ -207,6 +212,7 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, ParamsLogic):
 
         # Selection labels
         self.label_category = LabelParam('Категория:')
+        self.label_source = LabelParam('Источник:')
         self.label_order = LabelParam('Порядок перевода:')
         self.label_period_start_date = LabelParam('Начало периода:')
         self.label_period_end_date = LabelParam('Конец периода:')
@@ -217,6 +223,7 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, ParamsLogic):
         # fmt: off
         # Selections
         self.selection_category = Selection(accessor='name', items=self.source_category)  # noqa: E501
+        self.selection_source = Selection(accessor='name', items=self.source_source)  # noqa: E501
         self.selection_order = Selection(accessor='name', items=self.source_order)  # noqa: E501
         self.selection_period_start_date = Selection(accessor='name', items=self.source_period_start_date)  # noqa: E501
         self.selection_period_end_date = Selection(accessor='name', items=self.source_period_end_date)  # noqa: E501
@@ -308,6 +315,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         # Selections
         self.box_params.add(
             self.box_selection_category,
+            self.box_selection_source,
             self.box_selection_order,
             self.box_selection_period_start_date,
             self.box_selection_period_end_date,
@@ -341,6 +349,13 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             children=[
                 BoxFlexCol(children=[self.label_category]),
                 BoxFlexCol(children=[self.selection_category]),
+            ],
+        )
+        self.box_selection_source = toga.Box(
+            style=self.style_box_selection,
+            children=[
+                BoxFlexCol(children=[self.label_source]),
+                BoxFlexCol(children=[self.selection_source]),
             ],
         )
         self.box_selection_order = toga.Box(
