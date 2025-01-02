@@ -1,12 +1,12 @@
-"""Custom selection source."""
+"""Exercise params source."""
 
-from typing import Iterable
+from collections.abc import Iterable
 
-from toga.sources import ListSource
+from toga.sources import ListSource, Row
 
 
-class SourceSelection(ListSource):
-    """Exercise item source."""
+class SourceSelections(ListSource):
+    """Custom source for selection widget."""
 
     def __init__(
         self,
@@ -18,9 +18,17 @@ class SourceSelection(ListSource):
         super().__init__(accessors, data)
         self._value = value
 
+    def set_value(self, value: object) -> None:
+        """Set value by default."""
+        self._value = value
+
+        for listener in self.listeners:
+            vars(listener)['interface'].value = self.find(value)
+
     def update_data(
         self,
         data: list[int, str, None | str],
+        value: str | int | None = None,
     ) -> None:
         """Update source items."""
         self.clear()
@@ -28,6 +36,8 @@ class SourceSelection(ListSource):
         for item in data:
             self.append(item)
 
-    def set_value(self, value: object) -> None:
-        """Set the initial value for the widget."""
-        self.notify('set_value', value=value)
+    @property
+    def value(self) -> Row:
+        """Choice from selection."""
+        self._value = vars(self.listeners[0])['interface'].value
+        return self._value

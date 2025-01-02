@@ -8,30 +8,6 @@ from toga.widgets.base import StyleT
 from toga.widgets.detailedlist import SourceT
 
 
-class SelectionApp(toga.Selection, Listener):
-    """Custom selection widget."""
-
-    def __init__(
-        self,
-        id: str | None = None,
-        style: StyleT | None = None,
-        items: SourceT | Iterable | None = None,
-        accessor: str | None = None,
-        value: object | None = None,
-        on_change: toga.widgets.selection.OnChangeHandler | None = None,
-        enabled: bool = True,
-        on_select: None = None,  # DEPRECATED
-    ) -> None:
-        """Create a new Selection widget."""
-        super().__init__(
-            id, style, items, accessor, value, on_change, enabled, on_select
-        )
-
-    def set_value(self, value: object) -> None:
-        """Set the initial value for the widget."""
-        self.value = value
-
-
 class BaseSelection(toga.Selection):
     """Custom selection widget.
 

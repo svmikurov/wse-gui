@@ -13,7 +13,7 @@ from wse.contrib.http_requests import (
     request_put_async,
 )
 from wse.handlers.goto_handler import goto_back_handler
-from wse.source.items import SourceItems
+from wse.source.selection import SourceSelections
 from wse.source.number_input import SourceValue
 from wse.source.switch import SourceSwitch
 from wse.widgets.box import BoxFlexCol, BoxFlexRow
@@ -22,7 +22,6 @@ from wse.widgets.button import BtnApp
 from wse.widgets.label import TitleLabel, LabelParam
 from wse.widgets.message import MessageMixin
 from wse.widgets.number_input import NumberInputApp
-from wse.widgets.selection import SelectionApp
 from wse.widgets.switch import SwitchApp
 
 ACCESSORS = ['alias', 'name']
@@ -36,10 +35,10 @@ class ParamsSources:
         super().__init__()
 
         # Selection sources
-        self.source_category = SourceItems(ACCESSORS)
-        self.source_order = SourceItems(ACCESSORS)
-        self.source_period_start_date = SourceItems(ACCESSORS)
-        self.source_period_end_date = SourceItems(ACCESSORS)
+        self.source_category = SourceSelections(ACCESSORS)
+        self.source_order = SourceSelections(ACCESSORS)
+        self.source_period_start_date = SourceSelections(ACCESSORS)
+        self.source_period_end_date = SourceSelections(ACCESSORS)
 
         # Value sources
         self.source_input_count_first = SourceValue()
@@ -121,6 +120,8 @@ class ParamsLogic(MessageMixin, ParamsSources):
         self.source_period_start_date.set_value(self.default_values['period_start_date'])  # noqa: E501
         self.source_period_end_date.set_value(self.default_values['period_end_date'])  # noqa: E501
         # Inputs
+        self.source_is_first.set_value(self.default_values['is_first'])
+        self.source_is_last.set_value(self.default_values['is_last'])
         self.source_input_count_first.set_value(self.default_values['count_first'])  # noqa: E501
         self.source_input_count_last.set_value(self.default_values['count_last'])  # noqa: E501
         # Switches
@@ -138,6 +139,8 @@ class ParamsLogic(MessageMixin, ParamsSources):
         self.source_period_start_date.set_value(self.lookup_conditions['period_start_date'])  # noqa: E501
         self.source_period_end_date.set_value(self.lookup_conditions['period_end_date'])  # noqa: E501
         # Inputs
+        self.source_is_first.set_value(self.lookup_conditions['is_first'])
+        self.source_is_last.set_value(self.lookup_conditions['is_last'])
         self.source_input_count_first.set_value(self.lookup_conditions['count_first'])  # noqa: E501
         self.source_input_count_last.set_value(self.lookup_conditions['count_last'])  # noqa: E501
         # Switches
@@ -151,16 +154,12 @@ class ParamsLogic(MessageMixin, ParamsSources):
     def get_progress_choice(self) -> list:
         """Get progress choice using switches."""
         progress = []
-        print(f'>>>> {self.source_progress_study.get_value() = }')
         if self.source_progress_study.get_value():
             progress.append('S')
-        print(f'>>>> {self.source_progress_repeat.get_value() = }')
         if self.source_progress_repeat.get_value():
             progress.append('R')
-        print(f'>>>> {self.source_progress_examination.get_value() = }')
         if self.source_progress_examination.get_value():
             progress.append('E')
-        print(f'>>>> {self.source_progress_know.get_value() = }')
         if self.source_progress_know.get_value():
             progress.append('K')
         return progress
@@ -217,28 +216,31 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, ParamsLogic):
 
         # fmt: off
         # Selections
-        self.selection_category = SelectionApp(accessor='name', items=self.source_category)  # noqa: E501
+        self.selection_category = Selection(accessor='name', items=self.source_category)  # noqa: E501
         self.selection_order = Selection(accessor='name', items=self.source_order)  # noqa: E501
         self.selection_period_start_date = Selection(accessor='name', items=self.source_period_start_date)  # noqa: E501
         self.selection_period_end_date = Selection(accessor='name', items=self.source_period_end_date)  # noqa: E501
 
         # Switches of count
-        self.switch_count_first = SwitchApp(text='', on_change=self.first_switch_handler)  # noqa: E501
-        self.switch_count_last = SwitchApp(text='', on_change=self.last_switch_handler)  # noqa: E501
+        self.switch_is_first = SwitchApp(text='', on_change=self.source_is_first.update_value)  # noqa: E501
+        self.switch_is_last = SwitchApp(text='', on_change=self.source_is_last.update_value)  # noqa: E501
+        # Switches are listeners.
+        self.source_is_first.add_listener(self.switch_is_first)
+        self.source_is_last.add_listener(self.switch_is_last)
 
         # Switches of progress
-        self.switch_study = SwitchApp(text='', on_change=self.source_progress_study.update_value)
-        self.switch_repeat = SwitchApp(text='', on_change=self.source_progress_repeat.update_value)
-        self.switch_examination = SwitchApp(text='', on_change=self.source_progress_examination.update_value)
-        self.switch_know = SwitchApp(text='', on_change=self.source_progress_know.update_value)
-        # Switches ara listeners.
+        self.switch_study = SwitchApp(text='', on_change=self.source_progress_study.update_value)  # noqa: E501
+        self.switch_repeat = SwitchApp(text='', on_change=self.source_progress_repeat.update_value)  # noqa: E501
+        self.switch_examination = SwitchApp(text='', on_change=self.source_progress_examination.update_value)  # noqa: E501
+        self.switch_know = SwitchApp(text='', on_change=self.source_progress_know.update_value)  # noqa: E501
+        # Switches are listeners.
         self.source_progress_study.add_listener(self.switch_study)
         self.source_progress_repeat.add_listener(self.switch_repeat)
         self.source_progress_examination.add_listener(self.switch_examination)
         self.source_progress_know.add_listener(self.switch_know)
 
         # Switch of favorites
-        self.switch_favorites = SwitchApp(text='')
+        self.switch_favorites = SwitchApp(text='', on_change=self.source_favorites.update_value)  # noqa: E501
         self.source_favorites.add_listener(self.switch_favorites)
 
         # NumberInputs
@@ -274,19 +276,6 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, ParamsLogic):
     async def save_params_handler(self, _: toga.Widget) -> None:
         """Save selected params, button handler."""
         await self.request_save_lookup_conditions()
-
-    ####################################################################
-    # Switch handlers
-
-    def first_switch_handler(self, widget: toga.Widget) -> None:
-        """Count of first added items, switch handler."""
-        if self.switch_count_first.value:
-            self.switch_count_last.value = False
-
-    def last_switch_handler(self, widget: toga.Widget) -> None:
-        """Count of last added items, switch handler."""
-        if self.switch_count_last.value:
-            self.switch_count_first.value = False
 
 
 class ParamsLayout(ParamsWidgets, BaseBox):
@@ -384,7 +373,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
                 BoxFlexRow(
                     children=[
                         BoxFlexRow(children=[self.label_first]),
-                        BoxFlexRow(children=[self.switch_count_first]),
+                        BoxFlexRow(children=[self.switch_is_first]),
                     ],
                 ),
                 BoxFlexCol(children=[self.input_count_first]),
@@ -395,7 +384,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
                 BoxFlexRow(
                     children=[
                         BoxFlexRow(children=[self.label_last]),
-                        BoxFlexRow(children=[self.switch_count_last]),
+                        BoxFlexRow(children=[self.switch_is_last]),
                     ],
                 ),
                 BoxFlexCol(children=[self.input_count_last]),

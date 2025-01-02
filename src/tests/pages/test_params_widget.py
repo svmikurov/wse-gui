@@ -84,11 +84,11 @@ def test_foreign_widget_order(
         box.selection_progress.parent,
     ]
     assert box.box_input_first.children == [
-        box.switch_count_first.parent,
+        box.switch_is_first.parent,
         box.input_count_first.parent,
     ]
     assert box.box_input_last.children == [
-        box.switch_count_last.parent,
+        box.switch_is_last.parent,
         box.input_count_last.parent,
     ]
 
@@ -136,11 +136,11 @@ def test_glossary_widget_order(
         box.selection_progress.parent,
     ]
     assert box.box_input_first.children == [
-        box.switch_count_first.parent,
+        box.switch_is_first.parent,
         box.input_count_first.parent,
     ]
     assert box.box_input_last.children == [
-        box.switch_count_last.parent,
+        box.switch_is_last.parent,
         box.input_count_last.parent,
     ]
 
@@ -233,23 +233,23 @@ def test_switch_toggles(box: ParamsForeignPage | ParamsGlossaryPage) -> None:
 
     """
     # A switch is off by default.
-    assert not box.switch_count_first.value
-    assert not box.switch_count_last.value
+    assert not box.switch_is_first.value
+    assert not box.switch_is_last.value
 
     # Toggle the first switch to set True.
-    box.switch_count_first.toggle()
-    assert box.switch_count_first.value
-    assert not box.switch_count_last.value
+    box.switch_is_first.toggle()
+    assert box.switch_is_first.value
+    assert not box.switch_is_last.value
 
     # Toggle the last switch to True.
-    box.switch_count_last.toggle()
-    assert not box.switch_count_first.value
-    assert box.switch_count_last.value
+    box.switch_is_last.toggle()
+    assert not box.switch_is_first.value
+    assert box.switch_is_last.value
 
     # Toggle the last switch to set False.
-    box.switch_count_last.toggle()
-    assert not box.switch_count_first.value
-    assert not box.switch_count_last.value
+    box.switch_is_last.toggle()
+    assert not box.switch_is_first.value
+    assert not box.switch_is_last.value
 
 
 @pytest.mark.parametrize(
