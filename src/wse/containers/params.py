@@ -151,12 +151,16 @@ class ParamsLogic(MessageMixin, ParamsSources):
     def get_progress_choice(self) -> list:
         """Get progress choice using switches."""
         progress = []
+        print(f'>>>> {self.source_progress_study.get_value() = }')
         if self.source_progress_study.get_value():
             progress.append('S')
+        print(f'>>>> {self.source_progress_repeat.get_value() = }')
         if self.source_progress_repeat.get_value():
             progress.append('R')
+        print(f'>>>> {self.source_progress_examination.get_value() = }')
         if self.source_progress_examination.get_value():
             progress.append('E')
+        print(f'>>>> {self.source_progress_know.get_value() = }')
         if self.source_progress_know.get_value():
             progress.append('K')
         return progress
@@ -223,10 +227,10 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, ParamsLogic):
         self.switch_count_last = SwitchApp(text='', on_change=self.last_switch_handler)  # noqa: E501
 
         # Switches of progress
-        self.switch_study = SwitchApp(text='')
-        self.switch_repeat = SwitchApp(text='')
-        self.switch_examination = SwitchApp(text='')
-        self.switch_know = SwitchApp(text='')
+        self.switch_study = SwitchApp(text='', on_change=self.source_progress_study.update_value)
+        self.switch_repeat = SwitchApp(text='', on_change=self.source_progress_repeat.update_value)
+        self.switch_examination = SwitchApp(text='', on_change=self.source_progress_examination.update_value)
+        self.switch_know = SwitchApp(text='', on_change=self.source_progress_know.update_value)
         # Switches ara listeners.
         self.source_progress_study.add_listener(self.switch_study)
         self.source_progress_repeat.add_listener(self.switch_repeat)
