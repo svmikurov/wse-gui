@@ -1,7 +1,6 @@
 """Exercise params."""
 
 from http import HTTPStatus
-from pprint import pprint
 
 import toga
 from toga import Selection
@@ -13,13 +12,13 @@ from wse.contrib.http_requests import (
     request_put_async,
 )
 from wse.handlers.goto_handler import goto_back_handler
+from wse.source.number_input import SourceDecimal
 from wse.source.selection import SourceSelections
-from wse.source.number_input import SourceValue
 from wse.source.switch import SourceSwitch
 from wse.widgets.box import BoxFlexCol, BoxFlexRow
 from wse.widgets.box_page import BaseBox, WidgetMixin
 from wse.widgets.button import BtnApp
-from wse.widgets.label import TitleLabel, LabelParam
+from wse.widgets.label import LabelParam, TitleLabel
 from wse.widgets.message import MessageMixin
 from wse.widgets.number_input import NumberInputApp
 from wse.widgets.switch import SwitchApp
@@ -41,13 +40,15 @@ class ParamsSources:
         self.source_period_start_date = SourceSelections(ACCESSORS)
         self.source_period_end_date = SourceSelections(ACCESSORS)
 
-        # Value sources
-        self.source_input_count_first = SourceValue()
-        self.source_input_count_last = SourceValue()
+        # Decimal sources
+        self.source_input_count_first = SourceDecimal()
+        self.source_input_count_last = SourceDecimal()
+        self.source_timeout = SourceDecimal()
 
-        # Switches first or last
+        # Switches first or last, timeout
         self.source_is_first = SourceSwitch()
         self.source_is_last = SourceSwitch()
+        self.source_has_timeout = SourceSwitch()
 
         # Switch progress sources
         self.source_progress_study = SourceSwitch()
@@ -86,7 +87,6 @@ class ParamsLogic(MessageMixin, ParamsSources):
         and set default selection values.
         """
         params = self.request_params()
-        pprint(params)
 
         if params:
             self.set_params(params)
@@ -127,6 +127,8 @@ class ParamsLogic(MessageMixin, ParamsSources):
         self.source_is_last.set_value(self.default_values['is_last'])
         self.source_input_count_first.set_value(self.default_values['count_first'])  # noqa: E501
         self.source_input_count_last.set_value(self.default_values['count_last'])  # noqa: E501
+        self.source_has_timeout.set_value(self.default_values['has_timeout'])
+        self.source_timeout.set_value(self.default_values['timeout'])
         # Switches
         self.source_progress_study.set_value('S' in self.default_values['progress'])  # noqa: E501
         self.source_progress_repeat.set_value('R' in self.default_values['progress'])  # noqa: E501
@@ -147,6 +149,9 @@ class ParamsLogic(MessageMixin, ParamsSources):
         self.source_is_last.set_value(self.lookup_conditions['is_last'])
         self.source_input_count_first.set_value(self.lookup_conditions['count_first'])  # noqa: E501
         self.source_input_count_last.set_value(self.lookup_conditions['count_last'])  # noqa: E501
+        self.source_has_timeout.set_value(self.lookup_conditions['has_timeout'])
+        self.source_timeout.set_value(self.lookup_conditions['timeout'])
+
         # Switches
         self.source_progress_study.set_value('S' in self.lookup_conditions['progress'])  # noqa: E501
         self.source_progress_repeat.set_value('R' in self.lookup_conditions['progress'])  # noqa: E501
@@ -191,8 +196,9 @@ class ParamsLogic(MessageMixin, ParamsSources):
             'period_start_date': self.source_period_start_date.value.alias,
             'period_end_date': self.source_period_end_date.value.alias,
             'progress': self.get_progress_choice(),
+            'has_timeout': self.source_has_timeout.get_value(),
+            'timeout': self.source_timeout.get_value(),
         }
-        pprint(lookup_conditions)
         await request_put_async(url=self.url, payload=lookup_conditions)
 
 
@@ -219,6 +225,7 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, ParamsLogic):
         # NumberInput labels
         self.label_first = LabelParam('Первые:')
         self.label_last = LabelParam('Последние:')
+        self.label_timeout = LabelParam('Таймаут:')
 
         # fmt: off
         # Selections
@@ -255,6 +262,12 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, ParamsLogic):
         # Switch of favorites
         self.switch_favorites = SwitchApp(text='', on_change=self.source_favorites.update_value)  # noqa: E501
         self.source_favorites.add_listener(self.switch_favorites)
+
+        # Timeout
+        self.switch_timeout = SwitchApp(text='', on_change=self.source_has_timeout.update_value)  # noqa: E501
+        self.input_timeout = NumberInputApp(step=1, min=0, on_change=self.source_timeout.update_value)  # noqa: E501
+        self.source_has_timeout.add_listener(self.switch_timeout)
+        self.source_timeout.add_listener(self.input_timeout)
 
         # Buttons
         self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.start_exercise_handler)  # noqa: E501
@@ -299,6 +312,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         self.include_number_inputs_to_boxes()
         self.include_progress_switches_to_boxes()
         self.include_favorites_switch_to_box()
+        self.include_timeout_to_box()
 
         # Exercise parameter boxes are enclosed in ``box_params``.
         self.box_params = BoxFlexCol()
@@ -332,6 +346,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         )
         self.box_params.add(
             self.box_favorites,
+            self.box_timeout,
         )
         # Buttons
         self.box_params_btns.add(
@@ -446,5 +461,19 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             children=[
                 BoxFlexRow(children=[LabelParam('Только избранное')]),
                 BoxFlexRow(children=[self.switch_favorites]),
+            ]
+        )
+
+    def include_timeout_to_box(self) -> None:
+        """Create the box-container for timeout switchers."""
+        self.box_timeout = toga.Box(
+            children=[
+                BoxFlexRow(
+                    children=[
+                        BoxFlexRow(children=[self.label_timeout]),
+                        BoxFlexRow(children=[self.switch_timeout]),
+                    ],
+                ),
+                BoxFlexCol(children=[self.input_timeout]),
             ]
         )

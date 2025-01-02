@@ -6,7 +6,7 @@ import toga
 from toga.sources import Source
 
 
-class SourceValue(Source):
+class SourceDecimal(Source):
     """Custom value source."""
 
     def __init__(self, value: object = None, accessor: str = 'value') -> None:

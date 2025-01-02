@@ -1,11 +1,6 @@
 """Custom selections."""
 
-from collections.abc import Iterable
-
 import toga
-from toga.sources import Listener
-from toga.widgets.base import StyleT
-from toga.widgets.detailedlist import SourceT
 
 
 class BaseSelection(toga.Selection):

@@ -6,8 +6,9 @@ from wse import pages
 from wse.constants import (
     SCREEN_SIZE,
 )
-from wse.handlers.goto_handler import goto_main_handler, \
-    goto_foreign_main_handler, goto_glossary_main_handler, set_window_content
+from wse.handlers.goto_handler import (
+    set_window_content,
+)
 from wse.pages import ExplorerLayout
 from wse.source.text_panel_main import MainPanelSource
 from wse.source.user import UserSource

@@ -5,8 +5,7 @@ from collections.abc import Iterable
 from toga.sources import ListSource, Row
 
 # A long item name will break weights layout.
-MAX_LENGTH_ITEM_NAME = 19
-NAME_INDEX = 1
+MAX_LENGTH_ITEM_NAME = 22
 
 
 class SourceSelections(ListSource):
@@ -50,5 +49,8 @@ class SourceSelections(ListSource):
     @staticmethod
     def truncate_long_item_name(item: list) -> None:
         """Truncate long item name."""
-        if len(item[NAME_INDEX]) > MAX_LENGTH_ITEM_NAME:
-            item[NAME_INDEX] = item[NAME_INDEX][0:MAX_LENGTH_ITEM_NAME] + '...'
+        name_index = 1
+        ellipsis_length = 3
+        if len(item[name_index]) > MAX_LENGTH_ITEM_NAME:
+            truncate_length = MAX_LENGTH_ITEM_NAME - ellipsis_length
+            item[name_index] = item[name_index][0:truncate_length] + '...'
