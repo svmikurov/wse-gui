@@ -45,11 +45,18 @@ class ParamsSources:
         self.source_input_count_first = SourceValue()
         self.source_input_count_last = SourceValue()
 
+        # Switches first or last
+        self.source_is_first = SourceSwitch()
+        self.source_is_last = SourceSwitch()
+
         # Switch progress sources
         self.source_progress_study = SourceSwitch()
         self.source_progress_repeat = SourceSwitch()
         self.source_progress_examination = SourceSwitch()
         self.source_progress_know = SourceSwitch()
+
+        # Switch favorites
+        self.source_favorites = SourceSwitch()
 
 
 class ParamsLogic(MessageMixin, ParamsSources):
@@ -92,14 +99,15 @@ class ParamsLogic(MessageMixin, ParamsSources):
             )
 
     def set_params(self, params: dict) -> None:
-        """Set exercise params for selection task."""
+        """Set exercise params for selection task as attr."""
         self.exercise_choices = params['exercise_choices']
         self.default_values = params['default_values']
         self.lookup_conditions = params['lookup_conditions']
 
     # fmt: off
     def populate_selections(self) -> None:
-        """Populate selections."""
+        """Populate the selections with the choices."""
+        # Only selections has choices.
         self.source_category.update_data(self.exercise_choices['categories'])
         self.source_order.update_data(self.exercise_choices['orders'])
         self.source_period_start_date.update_data(self.exercise_choices['edge_period_items'])  # noqa: E501
@@ -120,6 +128,7 @@ class ParamsLogic(MessageMixin, ParamsSources):
         self.source_progress_repeat.set_value('R' in self.default_values['progress'])  # noqa: E501
         self.source_progress_examination.set_value('E' in self.default_values['progress'])  # noqa: E501
         self.source_progress_know.set_value('K' in self.default_values['progress'])  # noqa: E501
+        self.source_favorites.set_value(self.default_values['favorites'])  # noqa: E501
 
     def set_saved_params(self) -> None:
         """Set saved params."""
@@ -136,7 +145,21 @@ class ParamsLogic(MessageMixin, ParamsSources):
         self.source_progress_repeat.set_value('R' in self.lookup_conditions['progress'])  # noqa: E501
         self.source_progress_examination.set_value('E' in self.lookup_conditions['progress'])  # noqa: E501
         self.source_progress_know.set_value('K' in self.lookup_conditions['progress'])  # noqa: E501
+        self.source_favorites.set_value(self.lookup_conditions['favorites'])  # noqa: E501
     # fmt: on
+
+    def get_progress_choice(self) -> list:
+        """Get progress choice using switches."""
+        progress = []
+        if self.source_progress_study.get_value():
+            progress.append('S')
+        if self.source_progress_repeat.get_value():
+            progress.append('R')
+        if self.source_progress_examination.get_value():
+            progress.append('E')
+        if self.source_progress_know.get_value():
+            progress.append('K')
+        return progress
 
     ####################################################################
     # HTTP requests
@@ -151,12 +174,17 @@ class ParamsLogic(MessageMixin, ParamsSources):
         """Request to save user lookup conditions."""
         lookup_conditions = {
             'category': self.source_category.value.alias,
+            'count_first': self.source_input_count_first.get_value(),
+            'count_last': self.source_input_count_last.get_value(),
+            'favorites': self.source_favorites.get_value(),
+            'is_first': self.source_is_first.get_value(),
+            'is_last': self.source_is_last.get_value(),
             'order': self.source_order.value.alias,
             'period_start_date': self.source_period_start_date.value.alias,
             'period_end_date': self.source_period_end_date.value.alias,
-            'count_first': self.source_input_count_first.get_value(),
-            'count_last': self.source_input_count_last.get_value(),
+            'progress': self.get_progress_choice(),
         }
+        pprint(lookup_conditions)
         await request_put_async(url=self.url, payload=lookup_conditions)
 
 
@@ -191,19 +219,23 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, ParamsLogic):
         self.selection_period_end_date = Selection(accessor='name', items=self.source_period_end_date)  # noqa: E501
 
         # Switches of count
-        self.switch_count_first = toga.Switch('', on_change=self.first_switch_handler)  # noqa: E501
-        self.switch_count_last = toga.Switch('', on_change=self.last_switch_handler)  # noqa: E501
+        self.switch_count_first = SwitchApp(text='', on_change=self.first_switch_handler)  # noqa: E501
+        self.switch_count_last = SwitchApp(text='', on_change=self.last_switch_handler)  # noqa: E501
 
         # Switches of progress
-        self.switch_study = SwitchApp('')
-        self.switch_repeat = SwitchApp('')
-        self.switch_examination = SwitchApp('')
-        self.switch_know = SwitchApp('')
+        self.switch_study = SwitchApp(text='')
+        self.switch_repeat = SwitchApp(text='')
+        self.switch_examination = SwitchApp(text='')
+        self.switch_know = SwitchApp(text='')
         # Switches ara listeners.
         self.source_progress_study.add_listener(self.switch_study)
         self.source_progress_repeat.add_listener(self.switch_repeat)
         self.source_progress_examination.add_listener(self.switch_examination)
         self.source_progress_know.add_listener(self.switch_know)
+
+        # Switch of favorites
+        self.switch_favorites = SwitchApp(text='')
+        self.source_favorites.add_listener(self.switch_favorites)
 
         # NumberInputs
         self.input_count_first = NumberInputApp(step=10, min=0, on_change=self.source_input_count_first.update_value)  # noqa: E501
@@ -267,6 +299,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         self.include_selections_to_boxes()
         self.include_number_inputs_to_boxes()
         self.include_progress_switches_to_boxes()
+        self.include_favorites_switch_to_box()
 
         # Exercise parameter boxes are enclosed in ``box_params``.
         self.box_params = BoxFlexCol()
@@ -296,6 +329,9 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         self.box_params.add(
             self.box_progress_switchers_line1,
             self.box_progress_switchers_line2,
+        )
+        self.box_params.add(
+            self.box_favorites,
         )
         # Buttons
         self.box_params_btns.add(
@@ -394,5 +430,14 @@ class ParamsLayout(ParamsWidgets, BaseBox):
                         BoxFlexRow(children=[self.switch_know]),
                     ]
                 ),
+            ]
+        )
+
+    def include_favorites_switch_to_box(self) -> None:
+        """Create the box-container for favorites switchers."""
+        self.box_favorites = toga.Box(
+            children=[
+                BoxFlexRow(children=[LabelParam('Только избранное')]),
+                BoxFlexRow(children=[self.switch_favorites]),
             ]
         )
