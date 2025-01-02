@@ -227,6 +227,12 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, ParamsLogic):
         # Switches are listeners.
         self.source_is_first.add_listener(self.switch_is_first)
         self.source_is_last.add_listener(self.switch_is_last)
+        # NumberInputs
+        self.input_count_first = NumberInputApp(step=10, min=0, on_change=self.source_input_count_first.update_value)  # noqa: E501
+        self.input_count_last = NumberInputApp(step=10, min=0, on_change=self.source_input_count_last.update_value)  # noqa: E501
+        # NumberInputs ara listeners.
+        self.source_input_count_first.add_listener(self.input_count_first)
+        self.source_input_count_last.add_listener(self.input_count_last)
 
         # Switches of progress
         self.switch_study = SwitchApp(text='', on_change=self.source_progress_study.update_value)  # noqa: E501
@@ -242,13 +248,6 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, ParamsLogic):
         # Switch of favorites
         self.switch_favorites = SwitchApp(text='', on_change=self.source_favorites.update_value)  # noqa: E501
         self.source_favorites.add_listener(self.switch_favorites)
-
-        # NumberInputs
-        self.input_count_first = NumberInputApp(step=10, min=0, on_change=self.source_input_count_first.update_value)  # noqa: E501
-        self.input_count_last = NumberInputApp(step=10, min=0, on_change=self.source_input_count_last.update_value)  # noqa: E501
-        # NumberInputs ara listeners.
-        self.source_input_count_first.add_listener(self.input_count_first)
-        self.source_input_count_last.add_listener(self.input_count_last)
 
         # Buttons
         self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.start_exercise_handler)  # noqa: E501
