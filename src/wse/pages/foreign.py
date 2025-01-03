@@ -35,7 +35,6 @@ from wse.contrib.http_requests import (
 )
 from wse.handlers.goto_handler import (
     goto_foreign_create_handler,
-    goto_foreign_exercise_handler,
     goto_foreign_list_handler,
     goto_foreign_main_handler,
     goto_foreign_params_handler,
@@ -86,22 +85,6 @@ class ParamsForeignPage(ParamsLayout):
 
     title = TITLE_FOREIGN_PARAMS
     url = urljoin(HOST_API, FOREIGN_PARAMS_PATH)
-
-    def __init__(self) -> None:
-        """Construct the box."""
-        super().__init__()
-
-        # Buttons.
-        self.btn_goto_foreign_main = BtnApp(
-            BTN_GOTO_FOREIGN_MAIN, on_press=goto_foreign_main_handler
-        )
-
-        # Buttons
-        self.btn_save_paras = toga.Button
-
-    async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
-        """Go to foreign exercise page box, button handler."""
-        await goto_foreign_exercise_handler(widget)
 
 
 class ExerciseForeignPage(ExerciseLayout):
