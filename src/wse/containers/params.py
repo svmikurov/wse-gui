@@ -14,7 +14,7 @@ from wse.contrib.http_requests import (
 from wse.handlers.goto_handler import goto_back_handler
 from wse.source.number_input import SourceDecimal
 from wse.source.selection import SourceSelections
-from wse.source.switch import SourceSwitch
+from wse.source.switch import SourceProgressArray, SourceSwitch
 from wse.widgets.box import BoxFlexCol, BoxFlexRow
 from wse.widgets.box_page import BaseBox, WidgetMixin
 from wse.widgets.button import BtnApp
@@ -33,31 +33,26 @@ class ParamsSources:
         """Construct param sources."""
         super().__init__()
 
-        # Selection sources
+        # Selection
         self.category = SourceSelections(ACCESSORS)
         self.source = SourceSelections(ACCESSORS)
         self.order = SourceSelections(ACCESSORS)
         self.period_start_date = SourceSelections(ACCESSORS)
         self.period_end_date = SourceSelections(ACCESSORS)
 
-        # Decimal sources
+        # Decimal
         self.count_first = SourceDecimal()
         self.count_last = SourceDecimal()
         self.timeout = SourceDecimal()
 
-        # Switches first or last, timeout
+        # Bool
+        self.favorites = SourceSwitch()
         self.is_first = SourceSwitch()
         self.is_last = SourceSwitch()
         self.has_timeout = SourceSwitch()
 
-        # Switch progress sources
-        self.progress_study = SourceSwitch()
-        self.progress_repeat = SourceSwitch()
-        self.progress_examination = SourceSwitch()
-        self.progress_know = SourceSwitch()
-
-        # Switch favorites
-        self.favorites = SourceSwitch()
+        # Progress array
+        self.progress = SourceProgressArray()
 
 
 class ParamsLogic(MessageMixin, ParamsSources):
@@ -81,15 +76,11 @@ class ParamsLogic(MessageMixin, ParamsSources):
             await self.update_params()
 
     async def update_params(self) -> None:
-        """Request exercise params from server.
-
-        If the parameters are received, then populate a selections
-        and set default selection values.
-        """
+        """Request exercise params from server."""
         params = self.request_params()
 
         if params:
-            self.set_params(params)
+            self.set_requested_params(params)
             self.populate_selections()
             self.set_default_params()
         else:
@@ -98,80 +89,32 @@ class ParamsLogic(MessageMixin, ParamsSources):
                 'Ошибка получения\nпараметров упражнения',
             )
 
-    def set_params(self, params: dict) -> None:
+    def set_requested_params(self, params: dict) -> None:
         """Set exercise params for selection task as attr."""
         self.exercise_choices = params['exercise_choices']
         self.default_values = params['default_values']
         self.lookup_conditions = params['lookup_conditions']
 
-    # fmt: off
     def populate_selections(self) -> None:
         """Populate the selections with the choices."""
-        # Only selections has choices.
-        self.category.update_data(self.exercise_choices['categories'])
-        self.source.update_data(self.exercise_choices['source'])
-        self.order.update_data(self.exercise_choices['orders'])
-        self.period_start_date.update_data(self.exercise_choices['edge_period_items'])  # noqa: E501
-        self.period_end_date.update_data(self.exercise_choices['edge_period_items'])  # noqa: E501
+        for name, value in self.exercise_choices.items():
+            if name not in ('progress'):
+                attr = getattr(self, name)
+                attr.update_data(value)
 
     def set_default_params(self) -> None:
         """Set default params."""
-        # Selections
-        self.category.set_value(self.default_values['category'])
-        self.source.set_value(self.default_values['source'])
-        self.order.set_value(self.default_values['order'])
-        self.period_start_date.set_value(self.default_values['period_start_date'])  # noqa: E501
-        self.period_end_date.set_value(self.default_values['period_end_date'])
-        # Inputs
-        self.is_first.set_value(self.default_values['is_first'])
-        self.is_last.set_value(self.default_values['is_last'])
-        self.count_first.set_value(self.default_values['count_first'])
-        self.count_last.set_value(self.default_values['count_last'])
-        self.has_timeout.set_value(self.default_values['has_timeout'])
-        self.timeout.set_value(self.default_values['timeout'])
-        # Switches
-        self.progress_study.set_value('S' in self.default_values['progress'])
-        self.progress_repeat.set_value('R' in self.default_values['progress'])
-        self.progress_examination.set_value('E' in self.default_values['progress'])  # noqa: E501
-        self.progress_know.set_value('K' in self.default_values['progress'])
-        self.favorites.set_value(self.default_values['favorites'])
+        self.set_params(self.default_values)
 
     def set_saved_params(self) -> None:
         """Set saved params."""
-        # Selections
-        self.category.set_value(self.lookup_conditions['category'])
-        self.source.set_value(self.lookup_conditions['source'])
-        self.order.set_value(self.lookup_conditions['order'])
-        self.period_start_date.set_value(self.lookup_conditions['period_start_date'])  # noqa: E501
-        self.period_end_date.set_value(self.lookup_conditions['period_end_date'])  # noqa: E501
-        # Inputs
-        self.is_first.set_value(self.lookup_conditions['is_first'])
-        self.is_last.set_value(self.lookup_conditions['is_last'])
-        self.count_first.set_value(self.lookup_conditions['count_first'])
-        self.count_last.set_value(self.lookup_conditions['count_last'])
-        self.has_timeout.set_value(self.lookup_conditions['has_timeout'])
-        self.timeout.set_value(self.lookup_conditions['timeout'])
+        self.set_params(self.lookup_conditions)
 
-        # Switches
-        self.progress_study.set_value('S' in self.lookup_conditions['progress'])  # noqa: E501
-        self.progress_repeat.set_value('R' in self.lookup_conditions['progress'])  # noqa: E501
-        self.progress_examination.set_value('E' in self.lookup_conditions['progress'])  # noqa: E501
-        self.progress_know.set_value('K' in self.lookup_conditions['progress'])
-        self.favorites.set_value(self.lookup_conditions['favorites'])
-    # fmt: on
-
-    def get_progress_choice(self) -> list:
-        """Get progress choice using switches."""
-        progress = []
-        if self.progress_study.get_value():
-            progress.append('S')
-        if self.progress_repeat.get_value():
-            progress.append('R')
-        if self.progress_examination.get_value():
-            progress.append('E')
-        if self.progress_know.get_value():
-            progress.append('K')
-        return progress
+    def set_params(self, data: dict) -> None:
+        """Set params as attr."""
+        for name, value in data.items():
+            attr = getattr(self, name)
+            attr.set_value(value)
 
     ####################################################################
     # HTTP requests
@@ -184,21 +127,12 @@ class ParamsLogic(MessageMixin, ParamsSources):
 
     async def request_save_lookup_conditions(self) -> None:
         """Request to save user lookup conditions."""
-        lookup_conditions = {
-            'category': self.category.value.alias,
-            'source': self.source.value.alias,
-            'count_first': self.count_first.get_value(),
-            'count_last': self.count_last.get_value(),
-            'favorites': self.favorites.get_value(),
-            'is_first': self.is_first.get_value(),
-            'is_last': self.is_last.get_value(),
-            'order': self.order.value.alias,
-            'period_start_date': self.period_start_date.value.alias,
-            'period_end_date': self.period_end_date.value.alias,
-            'progress': self.get_progress_choice(),
-            'has_timeout': self.has_timeout.get_value(),
-            'timeout': self.timeout.get_value(),
-        }
+        lookup_conditions = {}
+
+        for name in self.lookup_conditions.keys():
+            attr = getattr(self, name)
+            lookup_conditions[name] = attr.get_value()
+
         await request_put_async(url=self.url, payload=lookup_conditions)
 
 
@@ -238,15 +172,15 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, ParamsLogic):
         self.count_last.add_listener(self.input_count_last)
 
         # Switches of progress
-        self.switch_study = SwitchApp(text='', on_change=self.progress_study.update_value)  # noqa: E501
-        self.switch_repeat = SwitchApp(text='', on_change=self.progress_repeat.update_value)  # noqa: E501
-        self.switch_examination = SwitchApp(text='', on_change=self.progress_examination.update_value)  # noqa: E501
-        self.switch_know = SwitchApp(text='', on_change=self.progress_know.update_value)  # noqa: E501
+        self.switch_study = SwitchApp(text='', on_change=self.progress.study.update_value)  # noqa: E501
+        self.switch_repeat = SwitchApp(text='', on_change=self.progress.repeat.update_value)  # noqa: E501
+        self.switch_examination = SwitchApp(text='', on_change=self.progress.examination.update_value)  # noqa: E501
+        self.switch_know = SwitchApp(text='', on_change=self.progress.know.update_value)  # noqa: E501
         # Switches are listeners.
-        self.progress_study.add_listener(self.switch_study)
-        self.progress_repeat.add_listener(self.switch_repeat)
-        self.progress_examination.add_listener(self.switch_examination)
-        self.progress_know.add_listener(self.switch_know)
+        self.progress.study.add_listener(self.switch_study)
+        self.progress.repeat.add_listener(self.switch_repeat)
+        self.progress.examination.add_listener(self.switch_examination)
+        self.progress.know.add_listener(self.switch_know)
 
         # Switch of favorites
         self.switch_favorites = SwitchApp(text='', on_change=self.favorites.update_value)  # noqa: E501

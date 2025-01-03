@@ -46,6 +46,10 @@ class SourceSelections(ListSource):
         self._value = vars(self.listeners[0])['interface'].value
         return self._value
 
+    def get_value(self) -> object:
+        """Return the selection widget value."""
+        return self.value.alias
+
     @staticmethod
     def truncate_long_item_name(item: list) -> None:
         """Truncate long item name."""
