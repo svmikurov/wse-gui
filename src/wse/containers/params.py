@@ -317,14 +317,21 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         # Exercise parameter boxes are enclosed in ``box_params``.
         self.box_params = BoxFlexCol()
 
-        # Exercise params buttons are enclosed in ``box_params_btns``.
-        self.box_params_btns = BoxFlexCol()
+        # Box Params is included in scroll container.
+        self.scroll_container = toga.ScrollContainer(
+            style=Pack(flex=1),
+            content=self.box_params,
+        )
 
         # DOM
         self.add(
             self.label_title,
-            self.box_params,
-            self.box_params_btns,
+            self.scroll_container,
+            self.btn_goto_exercise,
+            self.btn_set_saved_params,
+            self.btn_reset_params,
+            self.btn_save_params,
+            self.btn_goto_back,
         )
         # Selections
         self.box_params.add(
@@ -338,23 +345,16 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         self.box_params.add(
             self.box_nuber_input_first,
             self.box_nuber_input_last,
+            self.box_timeout,
         )
         # Progress switchers
         self.box_params.add(
             self.box_progress_switchers_line1,
             self.box_progress_switchers_line2,
         )
+        # Favorites
         self.box_params.add(
             self.box_favorites,
-            self.box_timeout,
-        )
-        # Buttons
-        self.box_params_btns.add(
-            self.btn_goto_exercise,
-            self.btn_set_saved_params,
-            self.btn_reset_params,
-            self.btn_save_params,
-            self.btn_goto_back,
         )
 
     def include_selections_to_boxes(self) -> None:
