@@ -216,17 +216,6 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, ParamsLogic):
         # Title
         self.label_title = TitleLabel(text=self.title)
 
-        # Selection labels
-        self.label_category = LabelParam('Категория:')
-        self.label_source = LabelParam('Источник:')
-        self.label_order = LabelParam('Порядок перевода:')
-        self.label_period_start_date = LabelParam('Начало периода:')
-        self.label_period_end_date = LabelParam('Конец периода:')
-        # NumberInput labels
-        self.label_first = LabelParam('Первые:')
-        self.label_last = LabelParam('Последние:')
-        self.label_timeout = LabelParam('Таймаут:')
-
         # fmt: off
         # Selections
         self.selection_category = Selection(accessor='name', items=self.source_category)  # noqa: E501
@@ -362,35 +351,35 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         self.box_selection_category = toga.Box(
             style=self.style_box_selection,
             children=[
-                BoxFlexCol(children=[self.label_category]),
+                BoxFlexCol(children=[LabelParam('Категория:')]),
                 BoxFlexCol(children=[self.selection_category]),
             ],
         )
         self.box_selection_source = toga.Box(
             style=self.style_box_selection,
             children=[
-                BoxFlexCol(children=[self.label_source]),
+                BoxFlexCol(children=[LabelParam('Источник:')]),
                 BoxFlexCol(children=[self.selection_source]),
             ],
         )
         self.box_selection_order = toga.Box(
             style=self.style_box_selection,
             children=[
-                BoxFlexCol(children=[self.label_order]),
+                BoxFlexCol(children=[LabelParam('Порядок перевода:')]),
                 BoxFlexCol(children=[self.selection_order]),
             ],
         )
         self.box_selection_period_start_date = toga.Box(
             style=self.style_box_selection,
             children=[
-                BoxFlexCol(children=[self.label_period_start_date]),
+                BoxFlexCol(children=[LabelParam('Начало периода:')]),
                 BoxFlexCol(children=[self.selection_period_start_date]),
             ],
         )
         self.box_selection_period_end_date = toga.Box(
             style=self.style_box_selection,
             children=[
-                BoxFlexCol(children=[self.label_period_end_date]),
+                BoxFlexCol(children=[LabelParam('Конец периода:')]),
                 BoxFlexCol(children=[self.selection_period_end_date]),
             ],
         )
@@ -401,7 +390,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             children=[
                 BoxFlexRow(
                     children=[
-                        BoxFlexRow(children=[self.label_first]),
+                        BoxFlexRow(children=[LabelParam('Первые:')]),
                         BoxFlexRow(children=[self.switch_is_first]),
                     ],
                 ),
@@ -412,7 +401,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             children=[
                 BoxFlexRow(
                     children=[
-                        BoxFlexRow(children=[self.label_last]),
+                        BoxFlexRow(children=[LabelParam('Последние:')]),
                         BoxFlexRow(children=[self.switch_is_last]),
                     ],
                 ),
@@ -470,7 +459,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             children=[
                 BoxFlexRow(
                     children=[
-                        BoxFlexRow(children=[self.label_timeout]),
+                        BoxFlexRow(children=[LabelParam('Таймаут:')]),
                         BoxFlexRow(children=[self.switch_timeout]),
                     ],
                 ),
