@@ -4,7 +4,7 @@ from collections import deque
 
 import toga
 
-from wse.widgets.box_page import WidgetMixin
+from wse.pages.widgets.box_page import WidgetMixin
 
 # Visited pages are stored in the history for the "Back" button.
 browsing_history = deque(maxlen=10)

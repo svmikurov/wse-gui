@@ -8,7 +8,7 @@ Choice parameters for exercises:
 import toga
 from toga.style import Pack
 
-from wse.widgets.box_page import WidgetMixin
+from wse.pages.widgets.box_page import WidgetMixin
 
 
 class ProgressWidgets(WidgetMixin):

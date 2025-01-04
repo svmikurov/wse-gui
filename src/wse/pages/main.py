@@ -20,7 +20,7 @@ from wse.contrib.http_requests import (
     request_post,
     request_user_data,
 )
-from wse.handlers.goto_handler import (
+from wse.pages.handlers.goto_handler import (
     goto_explorer_handler,
     goto_foreign_exercise_handler,
     goto_foreign_main_handler,
@@ -28,11 +28,11 @@ from wse.handlers.goto_handler import (
     goto_glossary_main_handler,
     goto_login_handler,
 )
+from wse.pages.widgets.box_page import BaseBox, WidgetMixin
+from wse.pages.widgets.button import BtnApp
+from wse.pages.widgets.label import TitleLabel
 from wse.source.text_panel_main import MainPanelSource
 from wse.source.user import UserSource
-from wse.widgets.box_page import BaseBox, WidgetMixin
-from wse.widgets.button import BtnApp
-from wse.widgets.label import TitleLabel
 
 
 class MainBox(WidgetMixin, BaseBox):

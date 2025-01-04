@@ -2,8 +2,8 @@
 
 import toga
 
-from wse.widgets.box_page import WidgetMixin
-from wse.widgets.data import HandleSuccessResponse
+from wse.pages.widgets.box_page import WidgetMixin
+from wse.pages.widgets.data import HandleSuccessResponse
 
 
 class BaseForm(

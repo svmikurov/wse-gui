@@ -9,17 +9,17 @@ from wse.constants import (
     NO_TASK_MSG,
     TASK_ERROR_MSG,
 )
-from wse.containers.params import ParamsWidgets
 from wse.contrib.http_requests import (
     request_post,
     request_post_async,
 )
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
-from wse.widgets.box_page import BaseBox, WidgetMixin
-from wse.widgets.button import AnswerBtn
-from wse.widgets.label import TitleLabel
-from wse.widgets.text_input import TextPanel
+from wse.pages.containers.params import ParamsWidgets
+from wse.pages.widgets.box_page import BaseBox, WidgetMixin
+from wse.pages.widgets.button import AnswerBtn
+from wse.pages.widgets.label import TitleLabel
+from wse.pages.widgets.text_input import TextPanel
 
 
 class Exercise:

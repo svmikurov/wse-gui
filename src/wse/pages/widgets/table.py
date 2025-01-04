@@ -7,8 +7,8 @@ from travertino.constants import ITALIC
 
 from wse.contrib.data import to_entries
 from wse.contrib.http_requests import request_delete_async, request_get
-from wse.widgets.box_page import WidgetMixin
-from wse.widgets.button import BtnApp, SmBtn
+from wse.pages.widgets.box_page import WidgetMixin
+from wse.pages.widgets.button import BtnApp, SmBtn
 
 
 class BaseTable(toga.Table):

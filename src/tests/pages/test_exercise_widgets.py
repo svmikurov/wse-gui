@@ -10,14 +10,14 @@ from _pytest.monkeypatch import MonkeyPatch
 from tests.utils import run_until_complete
 from wse.app import WSE
 from wse.constants import HOST_API
-from wse.containers.exercise import (
-    ExerciseLayout,
-)
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
 from wse.pages import (
     ExerciseForeignPage,
     ExerciseGlossaryPage,
+)
+from wse.pages.containers import (
+    ExerciseLayout,
 )
 
 

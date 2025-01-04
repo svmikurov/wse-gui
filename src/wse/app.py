@@ -5,11 +5,11 @@ from toga.command import ActionHandler
 
 from wse import pages
 from wse.constants import SCREEN_SIZE
-from wse.handlers.goto_handler import set_window_content
 from wse.pages import ExplorerLayout
+from wse.pages.handlers.goto_handler import set_window_content
+from wse.pages.widgets.box_page import WidgetMixin
 from wse.source.text_panel_main import MainPanelSource
 from wse.source.user import UserSource
-from wse.widgets.box_page import WidgetMixin
 
 
 class WSE(toga.App):
@@ -40,7 +40,7 @@ class WSE(toga.App):
     ####################################################################
     # Pages
 
-    def add_pages(self):
+    def add_pages(self) -> None:
         """Add pages."""
         self.box_main = pages.MainBox(self.user, self.source_main_panel)
         self.box_login = pages.LoginBox(self.user)
@@ -65,7 +65,7 @@ class WSE(toga.App):
     ####################################################################
     # Menu
 
-    def add_menu(self):
+    def add_menu(self) -> None:
         """Add menu."""
         self.menu = toga.Group('Menu')
 
@@ -92,7 +92,7 @@ class WSE(toga.App):
             self.cmd_goto_main,
             self.cmd_goto_glossary,
             self.cmd_goto_foreign,
-    )
+        )
 
     async def move_to_page(self, box: WidgetMixin) -> None:
         """Move to page box."""

@@ -25,16 +25,14 @@ from wse.constants import (
     TITLE_GLOSSARY_PARAMS,
     TITLE_GLOSSARY_UPDATE,
 )
-from wse.containers.exercise import (
-    ExerciseLayout,
-)
-from wse.containers.params import ParamsLayout
 from wse.contrib.http_requests import (
     HttpPostMixin,
     request_post_async,
     request_put_async,
 )
-from wse.handlers.goto_handler import (
+from wse.pages.containers.exercise import ExerciseLayout
+from wse.pages.containers.params import ParamsLayout
+from wse.pages.handlers.goto_handler import (
     goto_glossary_create_handler,
     goto_glossary_exercise_handler,
     goto_glossary_list_handler,
@@ -43,16 +41,16 @@ from wse.handlers.goto_handler import (
     goto_glossary_update_handler,
     goto_main_handler,
 )
-from wse.source.glossary import Term, TermSource
-from wse.widgets.box_page import (
+from wse.pages.widgets.box_page import (
     BaseBox,
     WidgetMixin,
 )
-from wse.widgets.button import BtnApp
-from wse.widgets.form import BaseForm
-from wse.widgets.label import TitleLabel
-from wse.widgets.table import TableApp
-from wse.widgets.text_input import MulTextInpApp
+from wse.pages.widgets.button import BtnApp
+from wse.pages.widgets.form import BaseForm
+from wse.pages.widgets.label import TitleLabel
+from wse.pages.widgets.table import TableApp
+from wse.pages.widgets.text_input import MulTextInpApp
+from wse.source.glossary import Term, TermSource
 
 
 class MainGlossaryWidget(WidgetMixin, BaseBox):

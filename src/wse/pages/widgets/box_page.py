@@ -4,7 +4,7 @@ import toga
 from toga.style.pack import COLUMN
 
 from wse.constants.settings import PADDING_SM
-from wse.widgets.message import MessageMixin
+from wse.pages.widgets.message import MessageMixin
 
 
 class BaseBox(toga.Box):

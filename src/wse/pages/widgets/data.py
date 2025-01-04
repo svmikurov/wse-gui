@@ -4,7 +4,7 @@ import toga
 from httpx import Response
 from toga.sources import Source
 
-from wse.widgets.button import BtnApp
+from wse.pages.widgets.button import BtnApp
 
 
 class ManagingWidgetData:

@@ -14,11 +14,11 @@ from wse.constants import (
 )
 from wse.constants.settings import CONNECTION_BAD_MSG, CONNECTION_SUCCESS_MSG
 from wse.contrib.http_requests import obtain_token, request_user_data
-from wse.handlers.goto_handler import goto_main_handler
+from wse.pages.handlers.goto_handler import goto_main_handler
+from wse.pages.widgets.box_page import BaseBox, WidgetMixin
+from wse.pages.widgets.button import BtnApp
+from wse.pages.widgets.label import TitleLabel
 from wse.source.user import UserSource
-from wse.widgets.box_page import BaseBox, WidgetMixin
-from wse.widgets.button import BtnApp
-from wse.widgets.label import TitleLabel
 
 
 class LoginBox(WidgetMixin, BaseBox):

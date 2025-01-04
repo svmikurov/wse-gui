@@ -11,17 +11,17 @@ from wse.contrib.http_requests import (
     request_get,
     request_put_async,
 )
-from wse.handlers.goto_handler import goto_back_handler
+from wse.pages.handlers.goto_handler import goto_back_handler
+from wse.pages.widgets.box import BoxFlexCol, BoxFlexRow
+from wse.pages.widgets.box_page import BaseBox, WidgetMixin
+from wse.pages.widgets.button import BtnApp
+from wse.pages.widgets.label import LabelParam, TitleLabel
+from wse.pages.widgets.message import MessageMixin
+from wse.pages.widgets.number_input import NumberInputApp
+from wse.pages.widgets.switch import SwitchApp
 from wse.source.number_input import SourceDecimal
 from wse.source.selection import SourceSelections
 from wse.source.switch import SourceProgressArray, SourceSwitch
-from wse.widgets.box import BoxFlexCol, BoxFlexRow
-from wse.widgets.box_page import BaseBox, WidgetMixin
-from wse.widgets.button import BtnApp
-from wse.widgets.label import LabelParam, TitleLabel
-from wse.widgets.message import MessageMixin
-from wse.widgets.number_input import NumberInputApp
-from wse.widgets.switch import SwitchApp
 
 ACCESSORS = ['alias', 'name']
 

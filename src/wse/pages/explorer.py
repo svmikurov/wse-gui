@@ -7,8 +7,8 @@ from toga import colors
 from toga.constants import COLUMN
 from toga.style import Pack
 
-from wse.handlers.goto_handler import goto_back_handler
-from wse.widgets.button import BtnApp
+from wse.pages.handlers.goto_handler import goto_back_handler
+from wse.pages.widgets.button import BtnApp
 
 
 class Explorer(toga.Box):

@@ -5,7 +5,7 @@ from typing import Callable
 import pytest
 
 from wse.app import WSE
-from wse.handlers import goto_handler as hl
+from wse.pages.handlers import goto_handler as hl
 
 WIDGET_COUNT = 8
 """Widget count at testing box container (int).

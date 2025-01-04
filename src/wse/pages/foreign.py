@@ -27,13 +27,13 @@ from wse.constants import (
     TITLE_FOREIGN_PARAMS,
     TITLE_FOREIGN_UPDATE,
 )
-from wse.containers.exercise import ExerciseLayout
-from wse.containers.params import ParamsLayout
 from wse.contrib.http_requests import (
     request_post_async,
     request_put_async,
 )
-from wse.handlers.goto_handler import (
+from wse.pages.containers.exercise import ExerciseLayout
+from wse.pages.containers.params import ParamsLayout
+from wse.pages.handlers.goto_handler import (
     goto_foreign_create_handler,
     goto_foreign_list_handler,
     goto_foreign_main_handler,
@@ -41,13 +41,13 @@ from wse.handlers.goto_handler import (
     goto_foreign_update_handler,
     goto_main_handler,
 )
+from wse.pages.widgets.box_page import BaseBox, WidgetMixin
+from wse.pages.widgets.button import BtnApp
+from wse.pages.widgets.form import BaseForm
+from wse.pages.widgets.label import TitleLabel
+from wse.pages.widgets.table import TableApp
+from wse.pages.widgets.text_input import TextInputApp
 from wse.source.foreign import Word, WordSource
-from wse.widgets.box_page import BaseBox, WidgetMixin
-from wse.widgets.button import BtnApp
-from wse.widgets.form import BaseForm
-from wse.widgets.label import TitleLabel
-from wse.widgets.table import TableApp
-from wse.widgets.text_input import TextInputApp
 
 
 class MainForeignWidget(WidgetMixin, BaseBox):

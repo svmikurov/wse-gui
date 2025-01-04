@@ -9,7 +9,7 @@ from _pytest.monkeypatch import MonkeyPatch
 from tests.utils import run_until_complete
 from wse.app import WSE
 from wse.pages import ParamsForeignPage, ParamsGlossaryPage
-from wse.widgets.selection import BaseSelection
+from wse.pages.widgets.selection import BaseSelection
 
 
 def set_window_content(
