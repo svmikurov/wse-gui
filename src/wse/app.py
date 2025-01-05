@@ -5,12 +5,12 @@ from toga.command import ActionHandler
 
 from wse import pages
 from wse.constants import SCREEN_SIZE
-from wse.controllers.params import ParamsController
+from wse.controllers.params import ControllerParams
 from wse.pages import ExplorerLayout
 from wse.pages.handlers.goto_handler import set_window_content
 from wse.pages.widgets.box_page import WidgetMixin
-from wse.source.text_panel_main import MainPanelSource
-from wse.source.user import UserSource
+from wse.sources.text_panel_main import SourceMainPanel
+from wse.sources.user import SourceUser
 
 
 class WSE(toga.App):
@@ -19,8 +19,8 @@ class WSE(toga.App):
     def startup(self) -> None:
         """Construct and show the application."""
         # App sources
-        self.user = UserSource()
-        self.source_main_panel = MainPanelSource(self.user)
+        self.user = SourceUser()
+        self.source_main_panel = SourceMainPanel(self.user)
 
         # Set user data
         self.user.on_start()
@@ -44,7 +44,7 @@ class WSE(toga.App):
 
     def add_controllers(self) -> None:
         """Add controllers."""
-        self.cont_params = ParamsController()
+        self.cont_params = ControllerParams()
 
     ####################################################################
     # Pages
@@ -123,8 +123,8 @@ class WSE(toga.App):
     # Annotations
 
     # Sources
-    user: UserSource
-    source_main_panel: MainPanelSource
+    user: SourceUser
+    source_main_panel: SourceMainPanel
 
     # Page boxes
     box_main: pages.MainBox

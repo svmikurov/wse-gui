@@ -5,14 +5,14 @@ from http import HTTPStatus
 import toga
 
 from wse.contrib.http_requests import request_get, request_put_async
-from wse.source.number_input import SourceDecimal
-from wse.source.selection import SourceSelections
-from wse.source.switch import SourceProgressArray, SourceSwitch
+from wse.sources.number_input import SourceDecimal
+from wse.sources.selection import SourceSelections
+from wse.sources.switch import SourceProgressArray, SourceSwitch
 
 ACCESSORS = ['alias', 'name']
 
 
-class ParamsSources:
+class SourcesParams:
     """Exercise params sources."""
 
     def __init__(self) -> None:
@@ -41,7 +41,7 @@ class ParamsSources:
         self.progress = SourceProgressArray()
 
 
-class ParamsController(ParamsSources):
+class ControllerParams(SourcesParams):
     """Exercise params controller."""
 
     def __init__(self) -> None:

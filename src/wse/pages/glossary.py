@@ -50,7 +50,7 @@ from wse.pages.widgets.form import BaseForm
 from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.table import TableApp
 from wse.pages.widgets.text_input import MulTextInpApp
-from wse.source.glossary import Term, TermSource
+from wse.sources.glossary import Term, TermSource
 
 
 class MainGlossaryWidget(WidgetMixin, BaseBox):

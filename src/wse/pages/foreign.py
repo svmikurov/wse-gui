@@ -47,7 +47,7 @@ from wse.pages.widgets.form import BaseForm
 from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.table import TableApp
 from wse.pages.widgets.text_input import TextInputApp
-from wse.source.foreign import Word, WordSource
+from wse.sources.foreign import Word, WordSource
 
 URL_FOREIGN_PARAMS = urljoin(HOST_API, FOREIGN_PARAMS_PATH)
 

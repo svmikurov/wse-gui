@@ -3,7 +3,7 @@
 import pytest
 
 from wse.app import WSE
-from wse.source.user import UserSource
+from wse.sources.user import UserSource
 
 
 @pytest.fixture

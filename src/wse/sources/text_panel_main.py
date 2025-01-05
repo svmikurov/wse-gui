@@ -3,10 +3,10 @@
 from toga.sources import Source
 
 from wse.constants import HOST_API
-from wse.source.user import UserSource
+from wse.sources.user import SourceUser
 
 
-class MainPanelSource(Source):
+class SourceMainPanel(Source):
     """The info text panel source."""
 
     welcome = f'Ready for connect to {HOST_API}'
@@ -16,7 +16,7 @@ class MainPanelSource(Source):
     """User info text (`str`).
     """
 
-    def __init__(self, user: UserSource) -> None:
+    def __init__(self, user: SourceUser) -> None:
         """Construct the source."""
         super().__init__()
         self._value = ''

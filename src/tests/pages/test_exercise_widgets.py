@@ -16,7 +16,7 @@ from wse.pages import (
     ExerciseForeignPage,
     ExerciseGlossaryPage,
 )
-from wse.pages.containers import (
+from wse.pages.containers.exercise import (
     ExerciseLayout,
 )
 

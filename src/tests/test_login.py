@@ -11,8 +11,8 @@ from tests.utils import run_until_complete
 from wse.app import WSE
 from wse.contrib import http_requests
 from wse.pages import LoginBox, MainBox
-from wse.pages.handlers import goto_login_handler
-from wse.source import user
+from wse.pages.handlers.goto_handler import goto_login_handler
+from wse.sources import user
 
 WIDGET_COUNT = 5
 """Widget count at testing box container (int).

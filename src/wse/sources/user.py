@@ -15,7 +15,7 @@ PATH_USERDATA_FILE = os.path.join(
 )
 
 
-class UserSource(Source):
+class SourceUser(Source):
     """User data source."""
 
     def __init__(self) -> None:

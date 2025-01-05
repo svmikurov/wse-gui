@@ -18,7 +18,7 @@ from wse.pages.handlers.goto_handler import goto_main_handler
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.label import TitleLabel
-from wse.source.user import UserSource
+from wse.sources.user import SourceUser
 
 
 class LoginBox(WidgetMixin, BaseBox):
@@ -31,7 +31,7 @@ class LoginBox(WidgetMixin, BaseBox):
     """Url to login (`str`).
     """
 
-    def __init__(self, user: UserSource) -> None:
+    def __init__(self, user: SourceUser) -> None:
         """Construct the widgets."""
         super().__init__()
         self.user = user

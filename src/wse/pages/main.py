@@ -31,8 +31,8 @@ from wse.pages.handlers.goto_handler import (
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.label import TitleLabel
-from wse.source.text_panel_main import MainPanelSource
-from wse.source.user import UserSource
+from wse.sources.text_panel_main import SourceMainPanel
+from wse.sources.user import SourceUser
 
 
 class MainBox(WidgetMixin, BaseBox):
@@ -45,8 +45,8 @@ class MainBox(WidgetMixin, BaseBox):
 
     def __init__(
         self,
-        user: UserSource,
-        source_info_panel: MainPanelSource,
+        user: SourceUser,
+        source_info_panel: SourceMainPanel,
     ) -> None:
         """Construct the Main box."""
         super().__init__()
