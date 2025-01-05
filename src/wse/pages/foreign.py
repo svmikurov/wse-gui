@@ -5,8 +5,6 @@ from urllib.parse import urljoin
 
 import toga
 from httpx import Response
-from toga import MultilineTextInput
-from toga.style import Pack
 
 from wse.constants import (
     BTN_GOTO_FOREIGN_CREATE,
@@ -31,7 +29,9 @@ from wse.contrib.http_requests import (
     request_post_async,
     request_put_async,
 )
-from wse.pages.containers.exercise import ExerciseLayout
+from wse.pages.containers.exercise import (
+    ExerciseLayout,
+)
 from wse.pages.containers.params import ParamsLayout
 from wse.pages.handlers.goto_handler import (
     goto_foreign_create_handler,
@@ -97,55 +97,15 @@ class ParamsForeignPage(ParamsLayout):
 
 
 class ExerciseForeignPage(ExerciseLayout):
-    """Foreign exercise box.
-
-    :ivar box_exercise: The ExerciseBox attr, container with exercise
-        widgets.
-    """
+    """Foreign exercise box."""
 
     title = TITLE_FOREIGN_EXERCISE
 
-    def __init__(self) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the box."""
-        super().__init__()
-        self.url_exercise = urljoin(HOST_API, FOREIGN_EXERCISE_PATH)
-        self.url_progress = urljoin(HOST_API, FOREIGN_ASSESSMENT_PATH)
-
-        # Buttons.
-        self.btn_goto_params = BtnApp(
-            'Параметры упражнения', on_press=goto_foreign_params_handler
-        )
-
-        # TextPanel
-        self.label_textpanel = toga.Label('Информация об упражнении:')
-        self.label_textpanel.style = Pack(padding=(0, 0, 0, 7))
-        self.display_exercise_info = MultilineTextInput(readonly=True)
-
-        # Widget DOM.
-        self.add(
-            self.label_title,
-            self.box_exercise,
-            self.display_exercise_info,
-            self.btn_goto_params,
-        )
-        self.box_exercise.insert(4, self.label_textpanel)
-        self.box_exercise.insert(5, self.display_exercise_info)
-
-    def populate_textpanel(self) -> None:
-        """Populate the text panel."""
-        self.display_exercise_info.value = (
-            f'Найдено слов: {self.task.data["item_count"]}\n'
-            f'Оценка знания слова: {self.task.data["assessment"]}'
-        )
-
-    def show_question(self) -> None:
-        """Add population of text panel."""
-        super().show_question()
-        self.populate_textpanel()
-
-    def get_box_params(self) -> ParamsForeignPage:
-        """Get box instance with exercise params."""
-        return self.root.app.box_foreign_params
+        super().__init__(*args, **kwargs)
+        self.plc.url_exercise = urljoin(HOST_API, FOREIGN_EXERCISE_PATH)
+        self.plc.url_progress = urljoin(HOST_API, FOREIGN_ASSESSMENT_PATH)
 
 
 class FormForeign(BaseBox, BaseForm):

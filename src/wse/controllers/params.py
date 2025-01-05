@@ -110,6 +110,11 @@ class ControllerParams(SourcesParams):
         if response.status_code == HTTPStatus.OK:
             return response.json()
 
+    @property
+    def lookup_conditions(self) -> dict:
+        """Lookup conditions."""
+        return self._lookup_conditions
+
     async def request_save_lookup_conditions(self) -> None:
         """Request to save user lookup conditions."""
         lookup_conditions = {}

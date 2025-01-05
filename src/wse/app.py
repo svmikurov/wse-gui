@@ -5,6 +5,7 @@ from toga.command import ActionHandler
 
 from wse import pages
 from wse.constants import SCREEN_SIZE
+from wse.controllers.exercise import ControllerExercise
 from wse.controllers.params import ControllerParams
 from wse.pages import ExplorerLayout
 from wse.pages.handlers.goto_handler import set_window_content
@@ -44,32 +45,35 @@ class WSE(toga.App):
 
     def add_controllers(self) -> None:
         """Add controllers."""
-        self.cont_params = ControllerParams()
+        self.plc_params = ControllerParams()
+        self.plc_exercise = ControllerExercise(self)
 
     ####################################################################
     # Pages
 
     def add_pages(self) -> None:
         """Add pages."""
+        # fmt: off
         self.box_main = pages.MainBox(self.user, self.source_main_panel)
         self.box_login = pages.LoginBox(self.user)
         self.box_explorer = pages.ExplorerLayout()
 
         # Foreign language study page boxes
         self.box_foreign_main = pages.MainForeignWidget()
-        self.box_foreign_params = pages.ParamsForeignPage(self.cont_params)
-        self.box_foreign_exercise = pages.ExerciseForeignPage()
+        self.box_foreign_params = pages.ParamsForeignPage(self.plc_params)
+        self.box_foreign_exercise = pages.ExerciseForeignPage(self.plc_exercise)  # noqa: E501
         self.box_foreign_create = pages.CreateWordPage()
         self.box_foreign_update = pages.UpdateWordPage()
         self.box_foreign_list = pages.ListForeignPage()
 
         # Glossary study page boxes
         self.box_glossary_main = pages.MainGlossaryWidget()
-        self.box_glossary_params = pages.ParamsGlossaryPage(self.cont_params)
-        self.box_glossary_exercise = pages.ExerciseGlossaryPage()
+        self.box_glossary_params = pages.ParamsGlossaryPage(self.plc_params)
+        self.box_glossary_exercise = pages.ExerciseGlossaryPage(self.plc_exercise)  # noqa: E501
         self.box_glossary_create = pages.CreateTermPage()
         self.box_glossary_update = pages.UpdateTermPage()
         self.box_glossary_list = pages.ListGlossaryPage()
+        # fmt: on
 
     ####################################################################
     # Menu

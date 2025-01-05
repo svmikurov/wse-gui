@@ -51,31 +51,21 @@ class MulTextInpApp(toga.MultilineTextInput):
 
 
 class TextPanel(toga.MultilineTextInput):
-    """Exercise text display widget.
+    """Exercise text display widget."""
 
-    :param str value: The initial content to display in the widget.
-    :param bool readonly: Can the text be modified by the user?
-    """
-
-    def __init__(self, **kwargs: object) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the widget."""
-        style = Pack(
-            flex=1,
-            padding=(0, 2, 0, 2),
-            font_size=TEXT_DISPLAY_FONT_SIZE,
-            font_style=TEXT_DISPLAY_FONT_STYLE,
-        )
-        kwargs['readonly'] = True
-        kwargs['style'] = kwargs.get('style', style)
-        super().__init__(**kwargs)
+        super().__init__(*args, **kwargs)
+        self.style.flex = 1
+        self.style.padding = (0, 2, 0, 2)
+        self.style.font_size = TEXT_DISPLAY_FONT_SIZE
+        self.style.font_style = TEXT_DISPLAY_FONT_STYLE
+        self.readonly = True
 
-    def update(self, text: str | None) -> None:
-        """Update text widget value.
-
-        :param str text: Text to set as widget value.
-        """
+    def change(self, text: str | None) -> None:
+        """Update text widget value."""
         self.value = text
 
     def clean(self) -> None:
         """Clear the value of the text widget."""
-        self.value = None
+        self.value = ''

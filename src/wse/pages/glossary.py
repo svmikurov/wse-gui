@@ -115,9 +115,9 @@ class ParamsGlossaryPage(ParamsLayout):
 class ExerciseGlossaryPage(ExerciseLayout):
     """Glossary exercise page box."""
 
-    def __init__(self) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the box."""
-        super().__init__()
+        super().__init__(*args, **kwargs)
         self.url_exercise = urljoin(HOST_API, GLOSSARY_EXERCISE_PATH)
         self.url_progress = urljoin(HOST_API, GLOSSARY_PROGRESS_PATH)
 
@@ -131,7 +131,6 @@ class ExerciseGlossaryPage(ExerciseLayout):
         # Widget DOM.
         self.add(
             self.label_title,
-            self.box_exercise,
             self.btn_goto_params,
         )
 

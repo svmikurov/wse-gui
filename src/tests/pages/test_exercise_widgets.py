@@ -62,11 +62,11 @@ def test_foreign_widget_order(box_foreign: ExerciseForeignPage) -> None:
         box.text_panel_question,
         box.label_answer,
         box.text_panel_answer,
-        box.label_textpanel,
+        box.label_text_panel,
         box.display_exercise_info,
-        box.box_btn_group,
+        box.box_btn,
     ]
-    assert box.box_btn_group.children == [
+    assert box.box_btn.children == [
         box.btn_pause,
         box.btn_not_know,
         box.btn_know,
@@ -88,9 +88,9 @@ def test_glossary_widget_order(box_glossary: ExerciseGlossaryPage) -> None:
         box.text_panel_question,
         box.label_answer,
         box.text_panel_answer,
-        box.box_btn_group,
+        box.box_btns,
     ]
-    assert box.box_btn_group.children == [
+    assert box.box_btns.children == [
         box.btn_pause,
         box.btn_not_know,
         box.btn_know,
