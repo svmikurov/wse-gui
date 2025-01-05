@@ -5,6 +5,7 @@ from toga.command import ActionHandler
 
 from wse import pages
 from wse.constants import SCREEN_SIZE
+from wse.controllers.params import ParamsController
 from wse.pages import ExplorerLayout
 from wse.pages.handlers.goto_handler import set_window_content
 from wse.pages.widgets.box_page import WidgetMixin
@@ -25,6 +26,7 @@ class WSE(toga.App):
         self.user.on_start()
 
         # Construct
+        self.add_controllers()
         self.add_pages()
         self.add_menu()
 
@@ -38,6 +40,13 @@ class WSE(toga.App):
         self.main_window.show()
 
     ####################################################################
+    # Controllers
+
+    def add_controllers(self) -> None:
+        """Add controllers."""
+        self.cont_params = ParamsController()
+
+    ####################################################################
     # Pages
 
     def add_pages(self) -> None:
@@ -48,7 +57,7 @@ class WSE(toga.App):
 
         # Foreign language study page boxes
         self.box_foreign_main = pages.MainForeignWidget()
-        self.box_foreign_params = pages.ParamsForeignPage()
+        self.box_foreign_params = pages.ParamsForeignPage(self.cont_params)
         self.box_foreign_exercise = pages.ExerciseForeignPage()
         self.box_foreign_create = pages.CreateWordPage()
         self.box_foreign_update = pages.UpdateWordPage()
@@ -56,7 +65,7 @@ class WSE(toga.App):
 
         # Glossary study page boxes
         self.box_glossary_main = pages.MainGlossaryWidget()
-        self.box_glossary_params = pages.ParamsGlossaryPage()
+        self.box_glossary_params = pages.ParamsGlossaryPage(self.cont_params)
         self.box_glossary_exercise = pages.ExerciseGlossaryPage()
         self.box_glossary_create = pages.CreateTermPage()
         self.box_glossary_update = pages.UpdateTermPage()

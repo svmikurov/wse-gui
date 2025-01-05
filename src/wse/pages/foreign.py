@@ -49,6 +49,8 @@ from wse.pages.widgets.table import TableApp
 from wse.pages.widgets.text_input import TextInputApp
 from wse.source.foreign import Word, WordSource
 
+URL_FOREIGN_PARAMS = urljoin(HOST_API, FOREIGN_PARAMS_PATH)
+
 
 class MainForeignWidget(WidgetMixin, BaseBox):
     """Learning foreign words the main page box."""
@@ -84,7 +86,14 @@ class ParamsForeignPage(ParamsLayout):
     """Learning foreign words exercise parameters the page box."""
 
     title = TITLE_FOREIGN_PARAMS
-    url = urljoin(HOST_API, FOREIGN_PARAMS_PATH)
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct page."""
+        super().__init__(*args, **kwargs)
+
+        # Set url with params controller method
+        # what was initialized in base class.
+        self.set_url(URL_FOREIGN_PARAMS)
 
 
 class ExerciseForeignPage(ExerciseLayout):

@@ -1,151 +1,38 @@
 """Exercise params."""
 
-from http import HTTPStatus
-
 import toga
 from toga import Selection
 from toga.style import Pack
 
-from wse.contrib.http_requests import (
-    HttpPutMixin,
-    request_get,
-    request_put_async,
-)
+from wse.contrib.http_requests import HttpPutMixin
 from wse.pages.handlers.goto_handler import goto_back_handler
 from wse.pages.widgets.box import BoxFlexCol, BoxFlexRow
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.label import LabelParam, TitleLabel
-from wse.pages.widgets.message import MessageMixin
 from wse.pages.widgets.number_input import NumberInputApp
 from wse.pages.widgets.switch import SwitchApp
-from wse.source.number_input import SourceDecimal
-from wse.source.selection import SourceSelections
-from wse.source.switch import SourceProgressArray, SourceSwitch
-
-ACCESSORS = ['alias', 'name']
 
 
-class ParamsSources:
-    """Exercise params sources."""
-
-    def __init__(self) -> None:
-        """Construct param sources."""
-        super().__init__()
-
-        # Selection
-        self.category = SourceSelections(ACCESSORS)
-        self.source = SourceSelections(ACCESSORS)
-        self.order = SourceSelections(ACCESSORS)
-        self.period_start_date = SourceSelections(ACCESSORS)
-        self.period_end_date = SourceSelections(ACCESSORS)
-
-        # Decimal
-        self.count_first = SourceDecimal()
-        self.count_last = SourceDecimal()
-        self.timeout = SourceDecimal()
-
-        # Bool
-        self.favorites = SourceSwitch()
-        self.is_first = SourceSwitch()
-        self.is_last = SourceSwitch()
-        self.has_timeout = SourceSwitch()
-
-        # Progress array
-        self.progress = SourceProgressArray()
-
-
-class ParamsLogic(MessageMixin, ParamsSources):
-    """Exercise params logic."""
-
-    url = ''
-    """Url to get exercise params with GET method and to save
-    user lookup conditions with PUT method (`str`).
-    """
-
-    def __init__(self) -> None:
-        """Construct the exercise params."""
-        super().__init__()
-        self.exercise_choices: dict | None = None
-        self.default_values: dict | None = None
-        self.lookup_conditions: dict | None = None
-
-    async def on_open(self, _: toga.Widget) -> None:
-        """Request exercise params and populate selections."""
-        if not self.exercise_choices:
-            await self.update_params()
-
-    async def update_params(self) -> None:
-        """Request exercise params from server."""
-        params = self.request_params()
-
-        if params:
-            self.set_requested_params(params)
-            self.populate_selections()
-            self.set_default_params()
-        else:
-            await self.show_message(
-                'Соединение с сервером:',
-                'Ошибка получения\nпараметров упражнения',
-            )
-
-    def set_requested_params(self, params: dict) -> None:
-        """Set exercise params for selection task as attr."""
-        self.exercise_choices = params['exercise_choices']
-        self.default_values = params['default_values']
-        self.lookup_conditions = params['lookup_conditions']
-
-    def populate_selections(self) -> None:
-        """Populate the selections with the choices."""
-        for name, value in self.exercise_choices.items():
-            if name not in ('progress'):
-                attr = getattr(self, name)
-                attr.update_data(value)
-
-    def set_default_params(self) -> None:
-        """Set default params."""
-        self.set_params(self.default_values)
-
-    def set_saved_params(self) -> None:
-        """Set saved params."""
-        self.set_params(self.lookup_conditions)
-
-    def set_params(self, data: dict) -> None:
-        """Set params as attr."""
-        for name, value in data.items():
-            attr = getattr(self, name)
-            attr.set_value(value)
-
-    ####################################################################
-    # HTTP requests
-
-    def request_params(self) -> dict | None:
-        """Request a exercise params."""
-        response = request_get(self.url)
-        if response.status_code == HTTPStatus.OK:
-            return response.json()
-
-    async def request_save_lookup_conditions(self) -> None:
-        """Request to save user lookup conditions."""
-        lookup_conditions = {}
-
-        for name in self.lookup_conditions.keys():
-            attr = getattr(self, name)
-            lookup_conditions[name] = attr.get_value()
-
-        await request_put_async(url=self.url, payload=lookup_conditions)
-
-
-class ParamsWidgets(HttpPutMixin, WidgetMixin, ParamsLogic):
+class ParamsWidgets(HttpPutMixin, WidgetMixin):
     """Exercise params widgets."""
 
     title = ''
     """The exercise page title (`str`).
     """
 
-    def __init__(self) -> None:
+    # TODO: Fix controller annotation.
+    def __init__(self, controller: object) -> None:
         """Construct a widgets."""
         super().__init__()
+
+        # Widgets use public attributes of the controller.
+        for attr_name in dir(controller):
+            if not attr_name.startswith('_'):
+                attr = getattr(controller, attr_name)
+                setattr(self, attr_name, attr)
+
+        # TODO: Add annotations for controller attrs.
 
         # Title
         self.label_title = TitleLabel(text=self.title)
@@ -223,9 +110,9 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin, ParamsLogic):
 class ParamsLayout(ParamsWidgets, BaseBox):
     """Exercise params layout."""
 
-    def __init__(self) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the layout."""
-        super().__init__()
+        super().__init__(*args, **kwargs)
 
         # Styles
         self.style_box_selection = Pack(padding=(2, 0, 2, 0))

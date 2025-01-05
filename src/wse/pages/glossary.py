@@ -94,9 +94,9 @@ class ParamsGlossaryPage(ParamsLayout):
     """Learning glossary term exercise parameters url (`str`).
     """
 
-    def __init__(self) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the box."""
-        super().__init__()
+        super().__init__(*args, **kwargs)
 
         # Box widgets.
         self.btn_goto_glossary_main = BtnApp(
