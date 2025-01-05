@@ -36,20 +36,11 @@ class SmBtn(toga.Button):
 
 
 class AnswerBtn(toga.Button):
-    """User answer button.
+    """User answer button."""
 
-    For exercise box-container.
-    """
-
-    def __init__(
-        self,
-        text: str | None = None,
-        on_press: toga.widgets.button.OnPressHandler | None = None,
-    ) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the button."""
-        style = Pack(
-            flex=1,
-            height=100,
-            font_size=9,
-        )
-        super().__init__(text=text, style=style, on_press=on_press)
+        super().__init__(*args, **kwargs)
+        self.style.flex = 1
+        self.style.height = 100
+        self.style.font_size = 9

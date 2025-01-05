@@ -3,6 +3,7 @@
 from http import HTTPStatus
 
 import toga
+from toga import MultilineTextInput
 from toga.style.pack import COLUMN, ROW, Pack
 
 from wse.constants import (
@@ -16,6 +17,7 @@ from wse.contrib.http_requests import (
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
 from wse.pages.containers.params import ParamsWidgets
+from wse.pages.handlers.goto_handler import goto_foreign_exercise_handler
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import AnswerBtn
 from wse.pages.widgets.label import TitleLabel
@@ -113,16 +115,17 @@ class Exercise:
         )
 
 
-class ExerciseWidgets(Exercise):
+class ExerciseWidgets:
     """Exercise widgets."""
 
     title = ''
     """The page title (`str`).
     """
 
-    def __init__(self) -> None:
+    def __init__(self, controller) -> None:
         """Construct a exercise widgets."""
         super().__init__()
+        self.controller = controller
 
         # Style.
         label_style = Pack(padding=(0, 0, 0, 7))
@@ -134,63 +137,28 @@ class ExerciseWidgets(Exercise):
         self.label_question = toga.Label('Вопрос:', style=label_style)
         self.label_answer = toga.Label('Ответ:', style=label_style)
 
-        # Text display widgets.
+        # Task text display widgets
         self.text_panel_question = TextPanel(style=Pack(flex=2))
         self.text_panel_answer = TextPanel(style=Pack(flex=2))
 
-        # Exercise buttons.
-        self.btn_pause = AnswerBtn('Пауза', self.pause_handler)
-        self.btn_not_know = AnswerBtn('Не знаю', self.not_know_handler)
-        self.btn_know = AnswerBtn('Знаю', self.know_handler)
-        self.btn_next = AnswerBtn('Далее', self.next_handler)
+        # Task info display widgets
+        self.label_textpanel = toga.Label('Информация об упражнении:')
+        self.label_textpanel.style = Pack(padding=(0, 0, 0, 7))
+        self.text_panel_info = MultilineTextInput(readonly=True)
 
-    async def on_open(self, widget: toga.Widget) -> None:
-        """Start exercise when box was assigned to window content."""
-        await super().on_open(widget)
-        self.clean_text_panel()
-
-    async def know_handler(self, _: toga.Widget) -> None:
-        """Mark that know the answer, button handler."""
-        know_payload = {'action': 'know', 'item_id': self.task.item_id}
-        await request_post_async(self.url_progress, know_payload)
-        await self.move_to_next_task()
-
-    async def not_know_handler(self, _: toga.Widget) -> None:
-        """Mark that not know the answer, button handler."""
-        not_know_payload = {'action': 'not_know', 'item_id': self.task.item_id}
-        await request_post_async(self.url_progress, not_know_payload)
-        await self.move_to_next_task()
-
-    async def move_to_box_params(self, widget: toga.Widget) -> None:
-        """Move to exercise parameters page box."""
-        raise NotImplementedError(
-            'Subclasses must provide a move_to_box_params method.'
-        )
-
-    def clean_text_panel(self) -> None:
-        """Clean the test panel."""
-        self.text_panel_answer.clean()
-        self.text_panel_question.clean()
-
-    ####################################################################
-    # Task control.
-
-    def pause_handler(self, _: toga.Widget) -> None:
-        """Exercise pause, button handler."""
-        self.timer.on_pause()
-
-    async def next_handler(self, _: toga.Widget) -> None:
-        """Switch to the next task, button handler."""
-        self.timer.unpause()
-        await self.loop_task()
+        # Exercise buttons
+        self.btn_pause = AnswerBtn('Пауза', on_press=self.controller.pause)
+        self.btn_not_know = AnswerBtn('Не знаю', on_press=self.controller.not_know)
+        self.btn_know = AnswerBtn('Знаю', on_press=self.controller.know)
+        self.btn_next = AnswerBtn('Далее', on_press=self.controller.next)
 
 
-class ExerciseLayout(WidgetMixin, ExerciseWidgets, BaseBox):
+class ExerciseLayout(ExerciseWidgets, BaseBox):
     """Layout of exercise box-container."""
 
-    def __init__(self) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         """Construct the box."""
-        super().__init__()
+        super().__init__(*args, **kwargs)
 
         # The exercise widgets are enclosed in ``box_exercise``.
         self.box_exercise = toga.Box(style=Pack(direction=COLUMN, flex=1))
