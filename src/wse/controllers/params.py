@@ -47,7 +47,7 @@ class ControllerParams(SourcesParams):
     def __init__(self) -> None:
         """Construct the exercise params."""
         super().__init__()
-        self._url: str | None = None
+        self.url: str | None = None
         self._exercise_choices: dict | None = None
         self._default_values: dict | None = None
         self._lookup_conditions: dict | None = None
@@ -100,13 +100,9 @@ class ControllerParams(SourcesParams):
     ####################################################################
     # HTTP requests
 
-    def set_url(self, url: str) -> None:
-        """Set params url."""
-        self._url = url
-
     def _request_params(self) -> dict | None:
         """Request a exercise params."""
-        response = request_get(self._url)
+        response = request_get(self.url)
         if response.status_code == HTTPStatus.OK:
             return response.json()
 
@@ -123,4 +119,4 @@ class ControllerParams(SourcesParams):
             attr = getattr(self, name)
             lookup_conditions[name] = attr.get_value()
 
-        await request_put_async(url=self._url, payload=lookup_conditions)
+        await request_put_async(url=self.url, payload=lookup_conditions)

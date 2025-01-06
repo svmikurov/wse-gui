@@ -1,4 +1,5 @@
 """Exercise params."""
+from typing import TypeVar
 
 import toga
 from toga import Selection
@@ -16,6 +17,8 @@ from wse.pages.widgets.label import LabelParam, TitleLabel
 from wse.pages.widgets.number_input import NumberInputApp
 from wse.pages.widgets.switch import SwitchApp
 
+T = TypeVar('T')
+
 
 class ParamsWidgets(HttpPutMixin, WidgetMixin):
     """Exercise params widgets."""
@@ -24,63 +27,55 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
     """The exercise page title (`str`).
     """
 
-    # TODO: Fix controller annotation.
-    def __init__(self, controller: object) -> None:
+    def __init__(self, controller: T) -> None:
         """Construct a widgets."""
         super().__init__()
-
-        # Widgets use public attributes of the controller.
-        for attr_name in dir(controller):
-            if not attr_name.startswith('_'):
-                attr = getattr(controller, attr_name)
-                setattr(self, attr_name, attr)
-
-        # TODO: Add annotations for controller attrs.
+        self.plc = controller
 
         # Title
         self.label_title = TitleLabel(text=self.title)
 
         # fmt: off
         # Selections
-        self.selection_category = Selection(accessor='name', items=self.category)  # noqa: E501
-        self.selection_source = Selection(accessor='name', items=self.source)  # noqa: E501
-        self.selection_order = Selection(accessor='name', items=self.order)  # noqa: E501
-        self.selection_period_start_date = Selection(accessor='name', items=self.period_start_date)  # noqa: E501
-        self.selection_period_end_date = Selection(accessor='name', items=self.period_end_date)  # noqa: E501
+        self.selection_category = Selection(accessor='name', items=self.plc.category)  # noqa: E501
+        self.selection_source = Selection(accessor='name', items=self.plc.source)  # noqa: E501
+        self.selection_order = Selection(accessor='name', items=self.plc.order)  # noqa: E501
+        self.selection_period_start_date = Selection(accessor='name', items=self.plc.period_start_date)  # noqa: E501
+        self.selection_period_end_date = Selection(accessor='name', items=self.plc.period_end_date)  # noqa: E501
 
         # Switches of count
-        self.switch_is_first = SwitchApp(text='', on_change=self.is_first.update_value)  # noqa: E501
-        self.switch_is_last = SwitchApp(text='', on_change=self.is_last.update_value)  # noqa: E501
+        self.switch_is_first = SwitchApp(text='', on_change=self.plc.is_first.update_value)  # noqa: E501
+        self.switch_is_last = SwitchApp(text='', on_change=self.plc.is_last.update_value)  # noqa: E501
         # Switches are listeners.
-        self.is_first.add_listener(self.switch_is_first)
-        self.is_last.add_listener(self.switch_is_last)
+        self.plc.is_first.add_listener(self.switch_is_first)
+        self.plc.is_last.add_listener(self.switch_is_last)
         # NumberInputs
-        self.input_count_first = NumberInputApp(step=10, min=0, on_change=self.count_first.update_value)  # noqa: E501
-        self.input_count_last = NumberInputApp(step=10, min=0, on_change=self.count_last.update_value)  # noqa: E501
+        self.input_count_first = NumberInputApp(step=10, min=0, on_change=self.plc.count_first.update_value)  # noqa: E501
+        self.input_count_last = NumberInputApp(step=10, min=0, on_change=self.plc.count_last.update_value)  # noqa: E501
         # NumberInputs ara listeners.
-        self.count_first.add_listener(self.input_count_first)
-        self.count_last.add_listener(self.input_count_last)
+        self.plc.count_first.add_listener(self.input_count_first)
+        self.plc.count_last.add_listener(self.input_count_last)
 
         # Switches of progress
-        self.switch_study = SwitchApp(text='', on_change=self.progress.study.update_value)  # noqa: E501
-        self.switch_repeat = SwitchApp(text='', on_change=self.progress.repeat.update_value)  # noqa: E501
-        self.switch_examination = SwitchApp(text='', on_change=self.progress.examination.update_value)  # noqa: E501
-        self.switch_know = SwitchApp(text='', on_change=self.progress.know.update_value)  # noqa: E501
+        self.switch_study = SwitchApp(text='', on_change=self.plc.progress.study.update_value)  # noqa: E501
+        self.switch_repeat = SwitchApp(text='', on_change=self.plc.progress.repeat.update_value)  # noqa: E501
+        self.switch_examination = SwitchApp(text='', on_change=self.plc.progress.examination.update_value)  # noqa: E501
+        self.switch_know = SwitchApp(text='', on_change=self.plc.progress.know.update_value)  # noqa: E501
         # Switches are listeners.
-        self.progress.study.add_listener(self.switch_study)
-        self.progress.repeat.add_listener(self.switch_repeat)
-        self.progress.examination.add_listener(self.switch_examination)
-        self.progress.know.add_listener(self.switch_know)
+        self.plc.progress.study.add_listener(self.switch_study)
+        self.plc.progress.repeat.add_listener(self.switch_repeat)
+        self.plc.progress.examination.add_listener(self.switch_examination)
+        self.plc.progress.know.add_listener(self.switch_know)
 
         # Switch of favorites
-        self.switch_favorites = SwitchApp(text='', on_change=self.favorites.update_value)  # noqa: E501
-        self.favorites.add_listener(self.switch_favorites)
+        self.switch_favorites = SwitchApp(text='', on_change=self.plc.favorites.update_value)  # noqa: E501
+        self.plc.favorites.add_listener(self.switch_favorites)
 
         # Timeout
-        self.switch_timeout = SwitchApp(text='', on_change=self.has_timeout.update_value)  # noqa: E501
-        self.input_timeout = NumberInputApp(step=1, min=0, on_change=self.timeout.update_value)  # noqa: E501
-        self.has_timeout.add_listener(self.switch_timeout)
-        self.timeout.add_listener(self.input_timeout)
+        self.switch_timeout = SwitchApp(text='', on_change=self.plc.has_timeout.update_value)  # noqa: E501
+        self.input_timeout = NumberInputApp(step=1, min=0, on_change=self.plc.timeout.update_value)  # noqa: E501
+        self.plc.has_timeout.add_listener(self.switch_timeout)
+        self.plc.timeout.add_listener(self.input_timeout)
 
         # Buttons
         self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.start_exercise_handler)  # noqa: E501
@@ -89,6 +84,10 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
         self.btn_save_params = BtnApp('Сохранить выбор', on_press=self.save_params_handler)  # noqa: E501
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)  # noqa: E501
         # fmt: on
+
+    async def on_open(self, widget: toga.Widget) -> None:
+        """Request exercise params and populate selections."""
+        await self.plc.on_open(widget)
 
     ####################################################################
     # Button handlers
@@ -99,15 +98,15 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
 
     def set_saved_params_handler(self, _: toga.Widget) -> None:
         """Set saved params choice, button handler."""
-        self.set_saved_params()
+        self.plc.set_saved_params()
 
     async def reset_params_handler(self, _: toga.Widget) -> None:
         """Populate widgets by default params, button handler."""
-        await self.update_params()
+        await self.plc.update_params()
 
     async def save_params_handler(self, _: toga.Widget) -> None:
         """Save selected params, button handler."""
-        await self.request_save_lookup_conditions()
+        await self.plc.request_save_lookup_conditions()
 
 
 class ParamsLayout(ParamsWidgets, BaseBox):
