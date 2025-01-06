@@ -31,8 +31,8 @@ class ControllerExercise:
         self.answer = Source()
         self.info = Source()
 
-    async def start(self) -> None:
-        """Start the exercise."""
+    async def on_open(self, _: toga.Widget) -> None:
+        """Start exercise when box was assigned to window content."""
         self._set_task_params()
         await self._loop_task()
 

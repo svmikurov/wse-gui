@@ -60,9 +60,9 @@ class ExerciseWidgets:
         self.plc.info.add_listener(self.text_panel_info)
         # fmt: on
 
-    async def on_open(self, _: toga.Widget) -> None:
+    async def on_open(self, widget: toga.Widget) -> None:
         """Start exercise when box was assigned to window content."""
-        await self.plc.start()
+        await self.plc.on_open(widget)
 
 
 class ExerciseLayout(ExerciseWidgets, BaseBox):
