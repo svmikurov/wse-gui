@@ -117,6 +117,7 @@ class ControllerExercise:
         """Mark item in question as know."""
         pass
 
-    def next(self, _: toga.Widget) -> None:
+    async def next(self, _: toga.Widget) -> None:
         """Next task."""
-        pass
+        self._timer.unpause()
+        await self._loop_task()
