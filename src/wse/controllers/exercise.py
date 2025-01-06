@@ -1,6 +1,7 @@
 """Exercise controller."""
 
 from http import HTTPStatus
+from pprint import pprint
 from typing import TypeVar
 
 import toga
@@ -83,6 +84,8 @@ class ControllerExercise:
     def _set_task_params(self) -> None:
         """Set lookup conditions of items to use in the exercise."""
         lookup_conditions = self._app.plc_params.lookup_conditions
+        self._timer.has_timeout = lookup_conditions.pop('has_timeout')
+        self._timer.timeout = lookup_conditions.pop('timeout')
         self._task.params = lookup_conditions
 
     ####################################################################
