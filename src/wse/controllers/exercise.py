@@ -1,21 +1,23 @@
 """Exercise controller."""
 
 from http import HTTPStatus
+from typing import TypeVar
 
 import toga
+from toga.sources import Source
 
 from wse.contrib.http_requests import request_post
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
-from wse.sources.exercise import SourceExercise
+
+T = TypeVar('T')
 
 
-# TODO: Add style to class for annotation.
 class ControllerExercise:
     """Exercise controller."""
 
-    def __init__(self, app: object) -> None:
-        """Construct a exercise."""
+    def __init__(self, app: T) -> None:
+        """Construct the controller."""
         super().__init__()
         self.app = app
         self.url_exercise = None
@@ -24,63 +26,69 @@ class ControllerExercise:
         self.task = Task()
 
         # Sources
-        self.question = SourceExercise()
-        self.answer = SourceExercise()
-        self.info = SourceExercise()
+        self.question = Source()
+        self.answer = Source()
+        self.info = Source()
 
     async def start(self) -> None:
         """Start the exercise."""
-        lookup_conditions = self.get_lookup_conditions()
-        self.task.params = lookup_conditions
-        await self.loop_task()
+        self._set_task_params()
+        await self._loop_task()
 
-    def get_lookup_conditions(self) -> dict:
-        """Get the lookup conditions."""
-        return self.app.plc_params.lookup_conditions
-
-    async def loop_task(self) -> None:
-        """Show new task in loop."""
+    async def _loop_task(self) -> None:
+        """Create new task in loop."""
         self.timer.cancel()
 
-        while self.is_enable_new_task():
+        while self._is_enable_new_task():
             if self.task.status != 'answer':
-                self.clean_text_panel()
-                await self.request_task()
+                self._clean_text_panel()
+                await self._request_task()
                 if not self.task.data:
                     break
-                self.show_question()
+                self._show_question()
                 self.task.status = 'answer'
             else:
-                self.show_answer()
+                self._show_answer()
                 self.task.status = 'question'
 
             await self.timer.start()
 
-    def is_enable_new_task(self) -> bool:
-        """Return `False` to cancel task update, `True` otherwise."""
-        if not self.timer.is_pause():
-            return self.is_visible_page()
-        return False
-
-    def is_visible_page(self) -> bool:
-        """Is the box of widget is main_window content."""
-        return self.app.main_window.content == self.app.box_foreign_exercise
-
-    def show_question(self) -> None:
+    def _show_question(self) -> None:
         """Show the question."""
         self.question.notify('change', text=self.task.question)
         self.answer.notify('clean')
 
-    def show_answer(self) -> None:
+    def _show_answer(self) -> None:
         """Show the answer."""
         self.answer.notify('change', text=self.task.answer)
 
-    def clean_text_panel(self) -> None:
+    def _clean_text_panel(self) -> None:
         """Clear the text panel."""
         self.question.notify('clean')
         self.answer.notify('clean')
 
-    async def request_task(self) -> None:
+    ####################################################################
+    # Utility methods
+
+    def _is_enable_new_task(self) -> bool:
+        """Return `False` to cancel task, `True` otherwise."""
+        if not self.timer.is_pause():
+            return self._is_visible_page()
+        return False
+
+    def _is_visible_page(self) -> bool:
+        """Is the box of widget is main_window content."""
+        return self.app.main_window.content == self.app.box_foreign_exercise
+
+    def _set_task_params(self) -> None:
+        """Set lookup conditions of items to use in the exercise."""
+        lookup_conditions = self.app.plc_params.lookup_conditions
+        self.task.params = lookup_conditions
+
+    ####################################################################
+    # HTTP requests
+
+    async def _request_task(self) -> None:
         """Request the task data."""
         response = request_post(self.url_exercise, self.task.params)
         if response.status_code == HTTPStatus.OK:

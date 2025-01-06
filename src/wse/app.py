@@ -9,7 +9,6 @@ from wse.controllers.exercise import ControllerExercise
 from wse.controllers.params import ControllerParams
 from wse.pages import ExplorerLayout
 from wse.pages.handlers.goto_handler import set_window_content
-from wse.pages.widgets.box_page import WidgetMixin
 from wse.sources.text_panel_main import SourceMainPanel
 from wse.sources.user import SourceUser
 
@@ -52,7 +51,7 @@ class WSE(toga.App):
     # Pages
 
     def add_pages(self) -> None:
-        """Add pages."""
+        """Add page boxes."""
         # fmt: off
         self.box_main = pages.MainBox(self.user, self.source_main_panel)
         self.box_login = pages.LoginBox(self.user)
@@ -107,7 +106,7 @@ class WSE(toga.App):
             self.cmd_goto_foreign,
         )
 
-    async def move_to_page(self, box: WidgetMixin) -> None:
+    async def move_to_page(self, box: toga.Box) -> None:
         """Move to page box."""
         await set_window_content(self.box_main, box)
 
@@ -159,6 +158,10 @@ class WSE(toga.App):
     cmd_goto_main: toga.Command
     cmd_goto_foreign: toga.Command
     cmd_goto_glossary: toga.Command
+
+    # Controllers
+    plc_params: ControllerParams
+    plc_exercise: ControllerExercise
 
 
 def main() -> WSE:
