@@ -109,14 +109,13 @@ class ControllerParams(SourcesParams):
     @property
     def lookup_conditions(self) -> dict:
         """Lookup conditions."""
-        return self._lookup_conditions
+        lookup_conditions = {}
+        for name in self._lookup_conditions.keys():
+            # Current values are stored implicitly.
+            attr = getattr(self, name)
+            lookup_conditions[name] = attr.get_value()
+        return lookup_conditions
 
     async def request_save_lookup_conditions(self) -> None:
         """Request to save user lookup conditions."""
-        lookup_conditions = {}
-
-        for name in self._lookup_conditions.keys():
-            attr = getattr(self, name)
-            lookup_conditions[name] = attr.get_value()
-
-        await request_put_async(url=self.url, payload=lookup_conditions)
+        await request_put_async(url=self.url, payload=self.lookup_conditions)
