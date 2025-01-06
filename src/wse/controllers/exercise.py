@@ -52,7 +52,12 @@ class ControllerExercise:
                 self._show_answer()
                 self._task.status = 'question'
 
-            await self._timer.start()
+            if self._timer.has_timeout:
+                await self._timer.start()
+            else:
+                # The exercise loop task is interrupted
+                # if the exercise is paused.
+                self._timer.on_pause()
 
     def _show_question(self) -> None:
         """Show the question."""

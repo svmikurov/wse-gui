@@ -12,6 +12,7 @@ class Timer:
         """Construct the time control."""
         self.timer = None
         self.pause = False
+        self.has_timeout = False
         self.timeout = DEFAULT_TIMEOUT
 
     async def start(self) -> None:
