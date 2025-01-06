@@ -6,8 +6,9 @@ import toga
 from toga import MultilineTextInput
 from toga.style.pack import Pack
 
+from wse.pages.handlers.goto_handler import goto_back_handler
 from wse.pages.widgets.box_page import BaseBox
-from wse.pages.widgets.button import AnswerBtn
+from wse.pages.widgets.button import AnswerBtn, BtnApp
 from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.text_input import TextPanel
 
@@ -50,6 +51,9 @@ class ExerciseWidgets:
         self.btn_know = AnswerBtn('Знаю', on_press=self.plc.know)
         self.btn_next = AnswerBtn('Далее', on_press=self.plc.next)
 
+        # Navigation buttons
+        self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)  # noqa: E501
+
         # Listeners
         self.plc.question.add_listener(self.text_panel_question)
         self.plc.answer.add_listener(self.text_panel_answer)
@@ -80,6 +84,7 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
             self.label_text_panel,
             self.text_panel_info,
             self.box_btns,
+            self.btn_goto_back,
         )
         self.box_btns.add(
             self.btn_pause,
