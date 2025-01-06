@@ -73,7 +73,7 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
 
         # Timeout
         self.switch_timeout = SwitchApp(text='', on_change=self.plc.has_timeout.update_value)  # noqa: E501
-        self.input_timeout = NumberInputApp(step=1, min=0, on_change=self.plc.timeout.update_value)  # noqa: E501
+        self.input_timeout = NumberInputApp(step=1, min=1, on_change=self.plc.timeout.update_value)  # noqa: E501
         self.plc.has_timeout.add_listener(self.switch_timeout)
         self.plc.timeout.add_listener(self.input_timeout)
 
