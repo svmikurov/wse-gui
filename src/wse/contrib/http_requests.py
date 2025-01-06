@@ -117,6 +117,12 @@ def request_get(url: str) -> Response:
             print(error)
             return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
         else:
+            status_code = response.status_code
+            if status_code != HTTPStatus.OK:
+                print(
+                    'DEBUG: Request by {} returned status code {}'
+                    .format(url, status_code)
+                )
             return response
 
 
