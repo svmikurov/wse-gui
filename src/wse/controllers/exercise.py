@@ -24,6 +24,7 @@ class ControllerExercise:
         self.url_progress = None
         self.timer = Timer()
         self._task = Task()
+        self._has_action = False
 
         # Sources
         self.question = Source()
@@ -53,6 +54,7 @@ class ControllerExercise:
                     break
                 self._show_question()
                 self._task.status = 'answer'
+                self._has_action = False
             else:
                 self._show_answer()
                 self._task.status = 'question'
@@ -135,12 +137,15 @@ class ControllerExercise:
 
     async def not_know(self, _: toga.Widget) -> None:
         """Mark item in question as not know."""
-        await self._update_item_progress(action='not_know')
+        if not self._has_action:
+            await self._update_item_progress(action='not_know')
+            self._has_action = True
         await self._move_to_next_task_status()
 
     async def know(self, _: toga.Widget) -> None:
         """Mark item in question as know."""
-        await self._update_item_progress(action='know')
+        if not self._has_action:
+            await self._update_item_progress(action='know')
         await self._move_to_next_task()
 
     async def next(self, _: toga.Widget) -> None:
