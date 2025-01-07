@@ -10,10 +10,7 @@ from wse.pages.widgets.box_page import WidgetMixin
 browsing_history = deque(maxlen=10)
 
 
-async def set_window_content(
-    widget: toga.Widget,
-    box: WidgetMixin | toga.Box,
-) -> None:
+async def set_window_content(widget: toga.Widget, box: toga.Box) -> None:
     """Set page box in window content."""
     # Visited pages are stored in the history.
     current_page = widget.app.main_window.content

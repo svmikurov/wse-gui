@@ -75,7 +75,7 @@ class WSE(toga.App):
         # fmt: on
 
         # Listeners of events
-        self.plc_exercise.event.add_listener(self.box_glossary_exercise)
+        self.plc_exercise.event.add_listener(self.box_foreign_exercise)
 
     ####################################################################
     # Menu

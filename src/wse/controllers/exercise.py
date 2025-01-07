@@ -33,14 +33,17 @@ class ControllerExercise:
 
     async def on_open(self, _: toga.Widget) -> None:
         """Start exercise when box was assigned to window content."""
-        self._set_task_params()
-        self._refresh_page()
-        await self._loop_task()
+        self._set_exercise_params()
+        self._select_widgets()
+        self._reset_task_status()
+        await self._loop_exercise()
 
-    async def _loop_task(self) -> None:
-        """Create new task in loop."""
-        self.timer.cancel()
-        self.timer.unpause()
+    ####################################################################
+    # Loop exercise
+
+    async def _loop_exercise(self) -> None:
+        """Create new task in exercise loop."""
+        self._on_loop_exercise()
 
         while self._is_enable_new_task():
             if self._task.status != 'answer':
@@ -57,9 +60,14 @@ class ControllerExercise:
             if self.timer.has_timeout:
                 await self.timer.start()
             else:
-                # The exercise loop is interrupted
+                # The exercise cycle does not start
                 # if the exercise is paused.
                 self.timer.on_pause()
+
+    def _on_loop_exercise(self):
+        """Reset the state to start the loop exercise."""
+        self.timer.cancel()
+        self.timer.unpause()
 
     def _show_question(self) -> None:
         """Show the question."""
@@ -85,15 +93,19 @@ class ControllerExercise:
         return False
 
     def _is_visible_page(self) -> bool:
-        """Is the box of widget is main_window content."""
-        return self._app.main_window.content == self._app.box_foreign_exercise
+        """Is the box of widget is main window content."""
+        return self._app.main_window.content is self._app.box_foreign_exercise
 
-    def _set_task_params(self) -> None:
+    def _set_exercise_params(self) -> None:
         """Set lookup conditions of items to use in the exercise."""
         lookup_conditions = self._app.plc_params.lookup_conditions
         self.timer.has_timeout = lookup_conditions.pop('has_timeout')
         self.timer.timeout = lookup_conditions.pop('timeout')
         self._task.params = lookup_conditions
+
+    def _reset_task_status(self):
+        """Reset the task status."""
+        self._task.status = None
 
     ####################################################################
     # HTTP requests
@@ -122,16 +134,15 @@ class ControllerExercise:
 
     async def know(self, _: toga.Widget) -> None:
         """Mark item in question as know."""
-        await self._loop_task()
+        await self._loop_exercise()
 
     async def next(self, _: toga.Widget) -> None:
-        """Next task."""
-        self.timer.unpause()
-        await self._loop_task()
+        """Move to next task status."""
+        await self._loop_exercise()
 
     ####################################################################
     # Page events
 
-    def _refresh_page(self) -> None:
-        """Refresh page widgets."""
+    def _select_widgets(self) -> None:
+        """Select widgets according to exercise parameters."""
         self.event.notify('update_availability_pause_button')
