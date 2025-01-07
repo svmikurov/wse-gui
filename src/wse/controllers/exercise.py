@@ -1,7 +1,6 @@
 """Exercise controller."""
 
 from http import HTTPStatus
-from pprint import pprint
 from typing import TypeVar
 
 import toga
@@ -23,22 +22,25 @@ class ControllerExercise:
         self._app = app
         self.url_exercise = None
         self.url_progress = None
-        self._timer = Timer()
+        self.timer = Timer()
         self._task = Task()
 
         # Sources
         self.question = Source()
         self.answer = Source()
         self.info = Source()
+        self.event = Source()
 
     async def on_open(self, _: toga.Widget) -> None:
         """Start exercise when box was assigned to window content."""
         self._set_task_params()
+        self._refresh_page()
         await self._loop_task()
 
     async def _loop_task(self) -> None:
         """Create new task in loop."""
-        self._timer.cancel()
+        self.timer.cancel()
+        self.timer.unpause()
 
         while self._is_enable_new_task():
             if self._task.status != 'answer':
@@ -52,12 +54,12 @@ class ControllerExercise:
                 self._show_answer()
                 self._task.status = 'question'
 
-            if self._timer.has_timeout:
-                await self._timer.start()
+            if self.timer.has_timeout:
+                await self.timer.start()
             else:
-                # The exercise loop task is interrupted
+                # The exercise loop is interrupted
                 # if the exercise is paused.
-                self._timer.on_pause()
+                self.timer.on_pause()
 
     def _show_question(self) -> None:
         """Show the question."""
@@ -78,7 +80,7 @@ class ControllerExercise:
 
     def _is_enable_new_task(self) -> bool:
         """Return `False` to cancel task, `True` otherwise."""
-        if not self._timer.is_pause():
+        if not self.timer.is_pause():
             return self._is_visible_page()
         return False
 
@@ -89,8 +91,8 @@ class ControllerExercise:
     def _set_task_params(self) -> None:
         """Set lookup conditions of items to use in the exercise."""
         lookup_conditions = self._app.plc_params.lookup_conditions
-        self._timer.has_timeout = lookup_conditions.pop('has_timeout')
-        self._timer.timeout = lookup_conditions.pop('timeout')
+        self.timer.has_timeout = lookup_conditions.pop('has_timeout')
+        self.timer.timeout = lookup_conditions.pop('timeout')
         self._task.params = lookup_conditions
 
     ####################################################################
@@ -112,17 +114,24 @@ class ControllerExercise:
 
     def pause(self, _: toga.Widget) -> None:
         """Pause the task."""
-        pass
+        self.timer.on_pause()
 
-    def not_know(self, _: toga.Widget) -> None:
+    async def not_know(self, _: toga.Widget) -> None:
         """Mark item in question as not know."""
         pass
 
-    def know(self, _: toga.Widget) -> None:
+    async def know(self, _: toga.Widget) -> None:
         """Mark item in question as know."""
-        pass
+        await self._loop_task()
 
     async def next(self, _: toga.Widget) -> None:
         """Next task."""
-        self._timer.unpause()
+        self.timer.unpause()
         await self._loop_task()
+
+    ####################################################################
+    # Page events
+
+    def _refresh_page(self) -> None:
+        """Refresh page widgets."""
+        self.event.notify('update_availability_pause_button')

@@ -92,3 +92,10 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
             self.btn_know,
             self.btn_next,
         )
+
+    def update_availability_pause_button(self) -> None:
+        """Update the availability of the pause button."""
+        if self.plc.timer.has_timeout:
+            self.box_btns.insert(0, self.btn_pause)
+        else:
+            self.box_btns.remove(self.btn_pause)

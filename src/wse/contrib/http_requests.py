@@ -120,8 +120,9 @@ def request_get(url: str) -> Response:
             status_code = response.status_code
             if status_code != HTTPStatus.OK:
                 print(
-                    'DEBUG: Request by {} returned status code {}'
-                    .format(url, status_code)
+                    'DEBUG: Request by {} returned status code {}'.format(
+                        url, status_code
+                    )
                 )
             return response
 

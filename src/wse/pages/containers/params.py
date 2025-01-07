@@ -1,4 +1,5 @@
 """Exercise params."""
+
 from typing import TypeVar
 
 import toga

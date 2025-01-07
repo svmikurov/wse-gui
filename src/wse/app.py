@@ -74,6 +74,9 @@ class WSE(toga.App):
         self.box_glossary_list = pages.ListGlossaryPage()
         # fmt: on
 
+        # Listeners of events
+        self.plc_exercise.event.add_listener(self.box_glossary_exercise)
+
     ####################################################################
     # Menu
 
