@@ -6,7 +6,7 @@ from typing import TypeVar
 import toga
 from toga.sources import Source
 
-from wse.contrib.http_requests import request_post
+from wse.contrib.http_requests import request_post, request_post_async
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
 
@@ -60,7 +60,7 @@ class ControllerExercise:
             if self.timer.has_timeout:
                 await self.timer.start()
             else:
-                # The exercise cycle does not start
+                # The exercise cycle round does not start
                 # if the exercise is paused.
                 self.timer.on_pause()
 
@@ -121,6 +121,11 @@ class ControllerExercise:
         #     await self.move_to_box_params(self)
         self._task.data = None
 
+    async def _update_item_progress(self, action):
+        """Request to update progress study of item."""
+        payload = {'action': action, 'item_id': self._task.item_id}
+        await request_post_async(self.url_progress, payload)
+
     ####################################################################
     # Button handlers
 
@@ -130,13 +135,27 @@ class ControllerExercise:
 
     async def not_know(self, _: toga.Widget) -> None:
         """Mark item in question as not know."""
-        pass
+        await self._update_item_progress(action='not_know')
+        await self._move_to_next_task_status()
 
     async def know(self, _: toga.Widget) -> None:
         """Mark item in question as know."""
-        await self._loop_exercise()
+        await self._update_item_progress(action='know')
+        await self._move_to_next_task()
 
     async def next(self, _: toga.Widget) -> None:
+        """Move to next task status."""
+        await self._move_to_next_task_status()
+
+    #########
+    # Helpers
+
+    async def _move_to_next_task(self) -> None:
+        """Move to next task."""
+        self._task.status = None
+        await self._move_to_next_task_status()
+
+    async def _move_to_next_task_status(self):
         """Move to next task status."""
         await self._loop_exercise()
 
