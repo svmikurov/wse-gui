@@ -4,12 +4,14 @@ from typing import TypeVar
 
 import toga
 from toga import MultilineTextInput
+from toga.constants import COLUMN
 from toga.style.pack import Pack
 
 from wse.pages.handlers.goto_handler import goto_back_handler
 from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.button import AnswerBtn, BtnApp
 from wse.pages.widgets.label import TitleLabel
+from wse.pages.widgets.progress_bar import ProgressBarApp
 from wse.pages.widgets.text_input import TextPanel
 
 T = TypeVar('T')
@@ -36,6 +38,9 @@ class ExerciseWidgets:
         self.label_question = toga.Label('Вопрос:', style=label_style)
         self.label_answer = toga.Label('Ответ:', style=label_style)
 
+        # Progress bar
+        self.progress_bar = ProgressBarApp(max=self.plc.timer.timeout)
+
         # Task text display widgets
         self.text_panel_question = TextPanel(style=Pack(flex=2))
         self.text_panel_answer = TextPanel(style=Pack(flex=2))
@@ -58,6 +63,7 @@ class ExerciseWidgets:
         self.plc.question.add_listener(self.text_panel_question)
         self.plc.answer.add_listener(self.text_panel_answer)
         self.plc.info.add_listener(self.text_panel_info)
+        self.plc.timer.progress_bar_source.add_listener(self.progress_bar)
         # fmt: on
 
     async def on_open(self, widget: toga.Widget) -> None:
@@ -72,12 +78,14 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
         """Construct the box."""
         super().__init__(*args, **kwargs)
 
-        # Exercise buttons are enclosed in box.
+        # Some widgets are enclosed in box.
         self.box_btns = toga.Box(style=Pack(height=100))
+        self.box_progress_bar = toga.Box(style=Pack(direction=COLUMN))
 
         # DOM.
         self.add(
             self.label_question,
+            self.box_progress_bar,
             self.text_panel_question,
             self.label_answer,
             self.text_panel_answer,
@@ -92,6 +100,12 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
             self.btn_know,
             self.btn_next,
         )
+        self.box_progress_bar.add(
+            self.progress_bar,
+        )
+
+    ####################################################################
+    # Adding widgets by condition
 
     def update_availability_pause_button(self) -> None:
         """Update the availability of the pause button."""
@@ -99,3 +113,10 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
             self.box_btns.insert(0, self.btn_pause)
         else:
             self.box_btns.remove(self.btn_pause)
+
+    def update_availability_progress_bar(self) -> None:
+        """Update the availability of the progress bar."""
+        if self.plc.timer.has_timeout:
+            self.insert(0, self.progress_bar)
+        else:
+            self.remove(self.progress_bar)

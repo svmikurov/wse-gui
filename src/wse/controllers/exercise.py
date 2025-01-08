@@ -68,7 +68,8 @@ class ControllerExercise:
                 self._change_task_status(next_status='question')
 
             if self.timer.has_timeout:
-                await self.timer.start()
+                # await self.timer.start()
+                await self._start_timeout_progress_bar()
             else:
                 # The exercise cycle round does not start
                 # if the exercise is paused.
@@ -92,7 +93,7 @@ class ControllerExercise:
         self.answer.notify('clean')
 
     ####################################################################
-    # Loop exercise nethods
+    # Loop exercise methods
 
     def _on_loop_exercise(self) -> None:
         """Reset the state to start the loop exercise."""
@@ -120,6 +121,10 @@ class ControllerExercise:
     def _reset_assessment_event(self) -> None:
         """Reset event of item assessment."""
         self._has_assessment = False
+
+    async def _start_timeout_progress_bar(self) -> None:
+        """Start progress bar."""
+        await self.timer.start_counter(step_size=1)
 
     ####################################################################
     # HTTP requests
@@ -183,3 +188,4 @@ class ControllerExercise:
     def _select_widgets_to_display(self) -> None:
         """Select widgets according to exercise parameters."""
         self.event.notify('update_availability_pause_button')
+        self.event.notify('update_availability_progress_bar')
