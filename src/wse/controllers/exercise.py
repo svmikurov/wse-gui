@@ -149,9 +149,11 @@ class ControllerExercise:
     ####################################################################
     # Button handlers
 
-    def pause(self, _: toga.Widget) -> None:
+    def pause(self, widget: toga.Widget) -> None:
         """Pause the task."""
         self.timer.on_pause()
+        # Once pressed, the button becomes inactive.
+        widget.enabled = False
 
     async def not_know(self, _: toga.Widget) -> None:
         """Mark item in question as not know."""
@@ -180,6 +182,7 @@ class ControllerExercise:
 
     async def _move_to_next_task_status(self) -> None:
         """Move to next task status."""
+        self._activate_pause_button()
         await self._loop_exercise()
 
     ####################################################################
@@ -189,3 +192,7 @@ class ControllerExercise:
         """Select widgets according to exercise parameters."""
         self.event.notify('update_availability_pause_button')
         self.event.notify('update_availability_progress_bar')
+
+    def _activate_pause_button(self) -> None:
+        """Activate the pause button."""
+        self.event.notify('activate_pause_button')

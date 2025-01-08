@@ -105,7 +105,7 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
         )
 
     ####################################################################
-    # Adding widgets by condition
+    # Notifications
 
     def update_availability_pause_button(self) -> None:
         """Update the availability of the pause button."""
@@ -120,3 +120,7 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
             self.insert(0, self.progress_bar)
         else:
             self.remove(self.progress_bar)
+
+    def activate_pause_button(self) -> None:
+        """Activate the pause button."""
+        self.btn_pause.enabled = True

@@ -73,7 +73,7 @@ class Timer:
             if self.is_pause():
                 break
 
-            # Break for restart.
+            # Break to restart.
             if not self.is_countdown():
                 break
 
