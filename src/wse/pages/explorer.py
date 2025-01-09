@@ -1,6 +1,6 @@
 """The page to explore Toga widgets."""
 
-from tkinter.constants import CENTER
+from toga.constants import CENTER
 
 import toga
 from toga import colors
