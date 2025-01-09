@@ -25,7 +25,6 @@ class ControllerExercise:
         self.url_progress = None
         self.timer = Timer()
         self._task = Task()
-        self._has_assessment = False
 
         # Sources
         self.question = Source()
@@ -56,20 +55,19 @@ class ControllerExercise:
 
         while self._is_enable_new_task():
             if self._task.status != 'answer':
-                self._clean_text_panels()
+                self._reset_previous_events()
                 await self._request_task()
                 if not self._task.data:
                     break
                 self._show_exercise_info()
                 self._show_question()
                 self._change_task_status(to_status='answer')
-                self._reset_assessment_event()
             else:
                 self._show_answer()
                 self._change_task_status(to_status='question')
 
             if self.timer.has_timeout:
-                # Start timeout for task status.
+                # Start timeout for each task status.
                 await self._start_timeout_progress_bar()
             else:
                 # Exercise params not include timeout.
@@ -78,7 +76,7 @@ class ControllerExercise:
                 self.timer.on_pause()
 
     ####################################################################
-    # Notifications
+    # Task notifications
 
     def _show_question(self) -> None:
         """Show the question."""
@@ -121,6 +119,11 @@ class ControllerExercise:
         """Is the box of widget is main window content."""
         return self._app.main_window.content is self._app.box_foreign_exercise
 
+    def _reset_previous_events(self) -> None:
+        """Reset previous events at page."""
+        self._clean_text_panels()
+        self._activate_answer_buttons()
+
     def _reset_task_status(self) -> None:
         """Reset the task status."""
         self._task.status = None
@@ -128,10 +131,6 @@ class ControllerExercise:
     def _change_task_status(self, to_status: str) -> None:
         """Change the task status."""
         self._task.status = to_status
-
-    def _reset_assessment_event(self) -> None:
-        """Reset event of item assessment."""
-        self._has_assessment = False
 
     async def _start_timeout_progress_bar(self) -> None:
         """Start progress bar."""
@@ -168,15 +167,13 @@ class ControllerExercise:
 
     async def not_know(self, _: toga.Widget) -> None:
         """Mark item in question as not know."""
-        if not self._has_assessment:
-            await self._update_item_progress(assessment='not_know')
-            self._has_assessment = True
+        self._deactivate_answer_buttons()
+        await self._update_item_progress(assessment='not_know')
         await self._move_to_next_task_status()
 
     async def know(self, _: toga.Widget) -> None:
         """Mark item in question as know."""
-        if not self._has_assessment:
-            await self._update_item_progress(assessment='know')
+        await self._update_item_progress(assessment='know')
         await self._move_to_next_task()
 
     async def next(self, _: toga.Widget) -> None:
@@ -197,7 +194,7 @@ class ControllerExercise:
         await self._loop_exercise()
 
     ####################################################################
-    # Page events
+    # Page event notifications
 
     def _select_widgets_to_display(self) -> None:
         """Select widgets according to exercise parameters."""
@@ -207,3 +204,12 @@ class ControllerExercise:
     def _activate_pause_button(self) -> None:
         """Activate the pause button."""
         self.event.notify('activate_pause_button')
+
+    def _deactivate_answer_buttons(self) -> None:
+        """Deactivate answer button."""
+        # Answer buttons are pressed once per task.
+        self.event.notify('deactivate_answer_buttons')
+
+    def _activate_answer_buttons(self) -> None:
+        """Activate answer button."""
+        self.event.notify('activate_answer_buttons')

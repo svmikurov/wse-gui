@@ -120,3 +120,14 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
     def activate_pause_button(self) -> None:
         """Activate the pause button."""
         self.btn_pause.enabled = True
+
+    def deactivate_answer_buttons(self) -> None:
+        """Deactivate answer button."""
+        # Answer buttons are pressed once per task.
+        for button in (self.btn_know, self.btn_not_know):
+            button.enabled = False
+
+    def activate_answer_buttons(self) -> None:
+        """Activate answer button."""
+        for button in (self.btn_know, self.btn_not_know):
+            button.enabled = True
