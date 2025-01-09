@@ -29,6 +29,9 @@ format:
 check: ruff test
 
 # Briefcase for android
+android:
+	briefcase run android
+
 android-create:
 	briefcase create android
 
