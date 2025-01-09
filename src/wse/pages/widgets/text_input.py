@@ -70,3 +70,18 @@ class TextPanel(toga.MultilineTextInput):
     def clean(self) -> None:
         """Clear the value of the text widget."""
         self.value = ''
+
+
+class MultilineTextInputApp(toga.MultilineTextInput):
+    """Custom MultilineTextInput for info display.
+
+    Adds source notifications.
+    """
+
+    def change(self, text: str | None) -> None:
+        """Update text widget value."""
+        self.value = text
+
+    def clean(self) -> None:
+        """Clear the value of the text widget."""
+        self.value = ''

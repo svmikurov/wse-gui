@@ -3,7 +3,6 @@
 from typing import TypeVar
 
 import toga
-from toga import MultilineTextInput
 from toga.constants import COLUMN
 from toga.style.pack import Pack
 
@@ -12,7 +11,7 @@ from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.button import AnswerBtn, BtnApp
 from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.progress_bar import ProgressBarApp
-from wse.pages.widgets.text_input import TextPanel
+from wse.pages.widgets.text_input import MultilineTextInputApp, TextPanel
 
 T = TypeVar('T')
 
@@ -48,7 +47,7 @@ class ExerciseWidgets:
         # Task info display widgets
         self.label_text_panel = toga.Label('Информация об упражнении:')
         self.label_text_panel.style = Pack(padding=(0, 0, 0, 7))
-        self.text_panel_info = MultilineTextInput(style=Pack(flex=1), readonly=True)  # noqa: E501
+        self.text_panel_info = MultilineTextInputApp(style=Pack(flex=1), readonly=True)  # noqa: E501
 
         # Exercise buttons
         self.btn_pause = AnswerBtn('Пауза', on_press=self.plc.pause)

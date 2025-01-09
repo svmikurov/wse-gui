@@ -56,21 +56,23 @@ class ControllerExercise:
 
         while self._is_enable_new_task():
             if self._task.status != 'answer':
-                self._clean_text_panel()
+                self._clean_text_panels()
                 await self._request_task()
                 if not self._task.data:
                     break
+                self._show_exercise_info()
                 self._show_question()
-                self._change_task_status(next_status='answer')
+                self._change_task_status(to_status='answer')
                 self._reset_assessment_event()
             else:
                 self._show_answer()
-                self._change_task_status(next_status='question')
+                self._change_task_status(to_status='question')
 
             if self.timer.has_timeout:
-                # await self.timer.start()
+                # Start timeout for task status.
                 await self._start_timeout_progress_bar()
             else:
+                # Exercise params not include timeout.
                 # The exercise cycle round does not start
                 # if the exercise is paused.
                 self.timer.on_pause()
@@ -87,10 +89,19 @@ class ControllerExercise:
         """Show the answer."""
         self.answer.notify('change', text=self._task.answer)
 
-    def _clean_text_panel(self) -> None:
+    def _clean_text_panels(self) -> None:
         """Clear the text panel."""
-        self.question.notify('clean')
-        self.answer.notify('clean')
+        for listener in (self.question, self.answer, self.info):
+            listener.notify('clean')
+
+    def _show_exercise_info(self) -> None:
+        self.info.notify(
+            'change',
+            text='Прогресс: {}\nКол-во слов: {}'.format(
+                self._task.data['assessment'],
+                self._task.data['item_count'],
+            ),
+        )
 
     ####################################################################
     # Loop exercise methods
@@ -114,9 +125,9 @@ class ControllerExercise:
         """Reset the task status."""
         self._task.status = None
 
-    def _change_task_status(self, next_status: str) -> None:
+    def _change_task_status(self, to_status: str) -> None:
         """Change the task status."""
-        self._task.status = next_status
+        self._task.status = to_status
 
     def _reset_assessment_event(self) -> None:
         """Reset event of item assessment."""
