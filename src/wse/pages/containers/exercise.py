@@ -1,11 +1,10 @@
 """Exercise."""
 
-from typing import TypeVar
-
 import toga
 from toga.constants import COLUMN
 from toga.style.pack import Pack
 
+from wse.controllers.exercise import ControllerExercise
 from wse.pages.handlers.goto_handler import goto_back_handler
 from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.button import AnswerBtn, BtnApp
@@ -13,15 +12,13 @@ from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.progress_bar import ProgressBarApp
 from wse.pages.widgets.text_input import MultilineTextInputApp, TextPanel
 
-T = TypeVar('T')
-
 
 class ExerciseWidgets:
     """Exercise widgets."""
 
     title = ''
 
-    def __init__(self, controller: T) -> None:
+    def __init__(self, controller: ControllerExercise) -> None:
         """Construct a exercise widgets."""
         super().__init__()
         self.plc = controller
