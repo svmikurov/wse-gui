@@ -10,7 +10,7 @@ import httpx
 from httpx import Request, Response
 
 from wse.constants import (
-    HOST_API,
+    HOST,
     TOKEN_PATH,
     USER_ME_PATH,
 )
@@ -20,8 +20,8 @@ PATH_TOKEN_FILE = os.path.join(
     'resources/token.txt',
 )
 
-url_token = urljoin(HOST_API, TOKEN_PATH)
-url_login = urljoin(HOST_API, USER_ME_PATH)
+url_token = urljoin(HOST, TOKEN_PATH)
+url_login = urljoin(HOST, USER_ME_PATH)
 
 
 class AppAuth(httpx.Auth):

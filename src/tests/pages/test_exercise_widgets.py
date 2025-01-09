@@ -9,7 +9,7 @@ from _pytest.monkeypatch import MonkeyPatch
 
 from tests.utils import run_until_complete
 from wse.app import WSE
-from wse.constants import HOST_API
+from wse.constants import HOST
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
 from wse.pages import (
@@ -229,7 +229,7 @@ def test_answer_btns(
 
     # The button handler coroutine invoke http post request.
     assert post.call_args == call(
-        urljoin(HOST_API, request_path),
+        urljoin(HOST, request_path),
         json={'action': action, 'item_id': 1},
     )
     # The button handler coroutine invoke the next task.

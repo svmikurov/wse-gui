@@ -1,7 +1,6 @@
 """Exercise controller."""
 
 from http import HTTPStatus
-from pprint import pprint
 from typing import TypeVar
 
 import toga
@@ -47,7 +46,7 @@ class ControllerExercise:
         self._task.params = lookup_conditions
 
     ####################################################################
-    # Loop exercise
+    # Exercise loop
 
     async def _loop_exercise(self) -> None:
         """Create new task in exercise loop."""
@@ -102,7 +101,7 @@ class ControllerExercise:
         )
 
     ####################################################################
-    # Loop exercise methods
+    # Exercise loop methods
 
     def _on_loop_exercise(self) -> None:
         """Reset the state to start the loop exercise."""
@@ -134,7 +133,7 @@ class ControllerExercise:
 
     async def _start_timeout_progress_bar(self) -> None:
         """Start progress bar."""
-        await self.timer.start_counter(step_size=1)
+        await self.timer.start_counter()
 
     ####################################################################
     # HTTP requests
@@ -144,7 +143,6 @@ class ControllerExercise:
         response = request_post(self.url_exercise, self._task.params)
         if response.status_code == HTTPStatus.OK:
             self._task.data = response.json()
-            pprint(self._task.data)
             return
         # elif response.status_code == HTTPStatus.NO_CONTENT:
         #     # TODO:Add message no task.

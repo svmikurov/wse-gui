@@ -10,7 +10,7 @@ from toga.sources import ListSource
 
 from tests.utils import FixtureReader
 from wse.app import WSE
-from wse.constants import HOST_API
+from wse.constants import HOST
 from wse.pages import ParamsForeignPage, ParamsGlossaryPage
 
 PARAMS = FixtureReader('params.json').json()
@@ -68,7 +68,7 @@ def test_on_open(
 ) -> None:
     """Test the call of on_open method params box."""
     box: ParamsForeignPage | ParamsGlossaryPage = getattr(wse, box_name)
-    url = urljoin(HOST_API, params_path)
+    url = urljoin(HOST, params_path)
 
     wrapped = simple_handler(box.on_open, box)
 

@@ -58,7 +58,7 @@ class WSE(toga.App):
         self.box_explorer = pages.ExplorerLayout()
 
         # Foreign language study page boxes
-        self.box_foreign_main = pages.MainForeignWidget()
+        self.box_foreign_main = pages.MainForeignPage()
         self.box_foreign_params = pages.ParamsForeignPage(self.plc_params)
         self.box_foreign_exercise = pages.ExerciseForeignPage(self.plc_exercise)  # noqa: E501
         self.box_foreign_create = pages.CreateWordPage()
@@ -138,7 +138,7 @@ class WSE(toga.App):
     box_login: pages.LoginBox
 
     # Foreign language study page boxes
-    box_foreign_main: pages.MainForeignWidget
+    box_foreign_main: pages.MainForeignPage
     box_foreign_params: pages.ParamsForeignPage
     box_foreign_exercise: pages.ExerciseForeignPage
     box_foreign_create: pages.CreateWordPage

@@ -35,8 +35,7 @@ class Explorer(toga.Box):
 
     async def start_progress_bar(self, _: toga.Widget) -> None:
         """Start progress bar."""
-        print('Start')
-        await self.time.start_counter(step_size=1)
+        await self.time.start_counter()
 
 
 class ExplorerLayout(Explorer):

@@ -7,7 +7,7 @@ from wse.pages.foreign import (
     CreateWordPage,
     ExerciseForeignPage,
     ListForeignPage,
-    MainForeignWidget,
+    MainForeignPage,
     ParamsForeignPage,
     UpdateWordPage,
 )
@@ -36,7 +36,7 @@ __all__ = (
     'ListGlossaryPage',
     'LoginBox',
     'MainBox',
-    'MainForeignWidget',
+    'MainForeignPage',
     'MainGlossaryWidget',
     'ParamsForeignPage',
     'ParamsGlossaryPage',

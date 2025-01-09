@@ -17,7 +17,7 @@ from wse.constants import (
     FOREIGN_EXERCISE_PATH,
     FOREIGN_PARAMS_PATH,
     FOREIGN_PATH,
-    HOST_API,
+    HOST,
     TITLE_FOREIGN_CREATE,
     TITLE_FOREIGN_EXERCISE,
     TITLE_FOREIGN_LIST,
@@ -34,6 +34,7 @@ from wse.pages.containers.exercise import (
 )
 from wse.pages.containers.params import ParamsLayout
 from wse.pages.handlers.goto_handler import (
+    goto_back_handler,
     goto_foreign_create_handler,
     goto_foreign_list_handler,
     goto_foreign_main_handler,
@@ -50,33 +51,31 @@ from wse.pages.widgets.text_input import TextInputApp
 from wse.sources.foreign import Word, WordSource
 
 
-class MainForeignWidget(WidgetMixin, BaseBox):
+class MainForeignPage(WidgetMixin, BaseBox):
     """Learning foreign words the main page box."""
 
     def __init__(self) -> None:
         """Construct the box."""
         super().__init__()
 
-        # Box widgets.
+        # fmt: off
+        # Box widgets
         self.label_title = TitleLabel(TITLE_FOREIGN_MAIN)
         self.btn_goto_main = BtnApp(BTN_GOTO_MAIN, on_press=goto_main_handler)
-        self.btn_goto_params = BtnApp(
-            BTN_GOTO_FOREIGN_PARAMS, on_press=goto_foreign_params_handler
-        )
-        self.btn_goto_create = BtnApp(
-            BTN_GOTO_FOREIGN_CREATE, on_press=goto_foreign_create_handler
-        )
-        self.btn_goto_list = BtnApp(
-            BTN_GOTO_FOREIGN_LIST, on_press=goto_foreign_list_handler
-        )
+        self.btn_goto_params = BtnApp(BTN_GOTO_FOREIGN_PARAMS, on_press=goto_foreign_params_handler)  # noqa: E501
+        self.btn_goto_create = BtnApp(BTN_GOTO_FOREIGN_CREATE, on_press=goto_foreign_create_handler)  # noqa: E501
+        self.btn_goto_list = BtnApp(BTN_GOTO_FOREIGN_LIST, on_press=goto_foreign_list_handler)  # noqa: E501
+        self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)  # noqa: E501
+        # fmt: on
 
-        # Widget DOM.
+        # DOM
         self.add(
             self.label_title,
             self.btn_goto_main,
             self.btn_goto_params,
             self.btn_goto_create,
             self.btn_goto_list,
+            self.btn_goto_back,
         )
 
 
@@ -88,7 +87,7 @@ class ParamsForeignPage(ParamsLayout):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct page."""
         super().__init__(*args, **kwargs)
-        self.plc.url = urljoin(HOST_API, FOREIGN_PARAMS_PATH)
+        self.plc.url = urljoin(HOST, FOREIGN_PARAMS_PATH)
 
 
 class ExerciseForeignPage(ExerciseLayout):
@@ -99,16 +98,14 @@ class ExerciseForeignPage(ExerciseLayout):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the box."""
         super().__init__(*args, **kwargs)
-        self.plc.url_exercise = urljoin(HOST_API, FOREIGN_EXERCISE_PATH)
-        self.plc.url_progress = urljoin(HOST_API, FOREIGN_ASSESSMENT_PATH)
+        self.plc.url_exercise = urljoin(HOST, FOREIGN_EXERCISE_PATH)
+        self.plc.url_progress = urljoin(HOST, FOREIGN_ASSESSMENT_PATH)
 
 
 class FormForeign(BaseBox, BaseForm):
     """General form to create and update entries, the container."""
 
     title = ''
-    """Page box title (`str`).
-    """
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the foreign form."""
@@ -116,24 +113,19 @@ class FormForeign(BaseBox, BaseForm):
         self._entry = Word
 
         self.label_title = TitleLabel(text=self.title)
-        self.btn_goto_foreign_list = BtnApp(
-            BTN_GOTO_FOREIGN_LIST,
-            on_press=goto_foreign_list_handler,
-        )
-        self.btn_goto_foreign_main = BtnApp(
-            BTN_GOTO_FOREIGN_MAIN,
-            on_press=goto_foreign_main_handler,
-        )
 
-        # Word data input widgets.
+        # fmt: off
+        # Word data input widgets
         self.input_native = TextInputApp(placeholder='Слово на русском')
         self.input_native.style.padding_bottom = 1
         self.input_foreign = TextInputApp(placeholder='Слово на иностранном')
-        self.btn_submit = BtnApp(
-            self.btn_submit_text,
-            on_press=self.submit_handler,
-        )
+        self.btn_submit = BtnApp(self.btn_submit_text, on_press=self.submit_handler)  # noqa: E501
+        # Buttons
+        self.btn_goto_foreign_list = BtnApp(BTN_GOTO_FOREIGN_LIST, on_press=goto_foreign_list_handler)  # noqa: E501
+        self.btn_goto_foreign_main = BtnApp(BTN_GOTO_FOREIGN_MAIN, on_press=goto_foreign_main_handler)  # noqa: E501
+        # fmt: on
 
+        # DOM
         self.add(
             self.label_title,
             self.input_native,
@@ -162,7 +154,7 @@ class CreateWordPage(FormForeign):
     """Add word to foreign dictionary."""
 
     title = TITLE_FOREIGN_CREATE
-    url = urljoin(HOST_API, FOREIGN_PATH)
+    url = urljoin(HOST, FOREIGN_PATH)
     btn_submit_text = 'Добавить'
     success_http_status = HTTPStatus.CREATED
 
@@ -188,7 +180,7 @@ class UpdateWordPage(FormForeign):
     """Update the foreign word the box."""
 
     title = TITLE_FOREIGN_UPDATE
-    url = urljoin(HOST_API, FOREIGN_DETAIL_PATH)
+    url = urljoin(HOST, FOREIGN_DETAIL_PATH)
     btn_submit_text = 'Изменить'
     success_http_status = HTTPStatus.OK
 
@@ -218,8 +210,8 @@ class ListForeignPage(TableApp, BaseBox):
     """
 
     source_class = WordSource()
-    source_url = urljoin(HOST_API, FOREIGN_PATH)
-    source_url_detail = urljoin(HOST_API, FOREIGN_DETAIL_PATH)
+    source_url = urljoin(HOST, FOREIGN_PATH)
+    source_url_detail = urljoin(HOST, FOREIGN_DETAIL_PATH)
     headings = ['Иностранный', 'Русский']
 
     def __init__(self) -> None:
@@ -228,13 +220,13 @@ class ListForeignPage(TableApp, BaseBox):
 
         self.label_title = TitleLabel(TITLE_FOREIGN_LIST)
 
-        # The navigation buttons.
+        # The navigation button
         self.btn_goto_foreign_main = BtnApp(
             BTN_GOTO_FOREIGN_MAIN,
             on_press=goto_foreign_main_handler,
         )
 
-        # Page widgets DOM.
+        #  DOM
         self.add(
             self.label_title,
             self.btn_goto_foreign_main,

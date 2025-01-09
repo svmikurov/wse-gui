@@ -8,19 +8,26 @@ import toga
 browsing_history = deque(maxlen=10)
 
 
-async def set_window_content(widget: toga.Widget, box: toga.Box) -> None:
+async def set_window_content(
+    widget: toga.Widget,
+    box: toga.Box,
+    action: str = 'next',
+) -> None:
     """Set page box in window content."""
-    # Visited pages are stored in the history.
-    current_page = widget.app.main_window.content
-    browsing_history.append(current_page)
+    # Visited last 10 pages are stored in the history,
+    # but not the previous ones.
+    if action != 'back':
+        current_page = widget.app.main_window.content
+        browsing_history.append(current_page)
 
     # Assign another page to window content.
     widget.app.main_window.content = box
 
-    # A box instance may not have ``on_open`` method.
+    # Some pages are has specific events when opened.
     try:
         await box.on_open(widget)
     except AttributeError:
+        # The page has no events when opened.
         pass
 
 
@@ -39,7 +46,7 @@ async def goto_login_handler(widget: toga.Widget) -> None:
 async def goto_back_handler(widget: toga.Widget) -> None:
     """Go to previous page, button handler."""
     previous_page = browsing_history.pop()
-    await set_window_content(widget, previous_page)
+    await set_window_content(widget, previous_page, 'back')
 
 
 async def goto_explorer_handler(widget: toga.Widget) -> None:

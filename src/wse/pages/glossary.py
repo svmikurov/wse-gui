@@ -17,7 +17,7 @@ from wse.constants import (
     GLOSSARY_PARAMS_PATH,
     GLOSSARY_PATH,
     GLOSSARY_PROGRESS_PATH,
-    HOST_API,
+    HOST,
     TITLE_GLOSSARY_CREATE,
     TITLE_GLOSSARY_EXERCISE,
     TITLE_GLOSSARY_LIST,
@@ -90,7 +90,7 @@ class ParamsGlossaryPage(ParamsLayout):
     """Glossary page box."""
 
     title = TITLE_GLOSSARY_PARAMS
-    url = urljoin(HOST_API, GLOSSARY_PARAMS_PATH)
+    url = urljoin(HOST, GLOSSARY_PARAMS_PATH)
     """Learning glossary term exercise parameters url (`str`).
     """
 
@@ -118,8 +118,8 @@ class ExerciseGlossaryPage(ExerciseLayout):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the box."""
         super().__init__(*args, **kwargs)
-        self.url_exercise = urljoin(HOST_API, GLOSSARY_EXERCISE_PATH)
-        self.url_progress = urljoin(HOST_API, GLOSSARY_PROGRESS_PATH)
+        self.url_exercise = urljoin(HOST, GLOSSARY_EXERCISE_PATH)
+        self.url_progress = urljoin(HOST, GLOSSARY_PROGRESS_PATH)
 
         # Widgets.
         self.label_title = TitleLabel(TITLE_GLOSSARY_EXERCISE)
@@ -198,7 +198,7 @@ class CreateTermPage(HttpPostMixin, FormGlossary):
     """Glossary create page."""
 
     title = TITLE_GLOSSARY_CREATE
-    url = urljoin(HOST_API, GLOSSARY_PATH)
+    url = urljoin(HOST, GLOSSARY_PATH)
     btn_submit_text = 'Добавить'
 
     def get_widget_data(self) -> dict:
@@ -223,7 +223,7 @@ class UpdateTermPage(FormGlossary):
     """Glossary update page."""
 
     title = TITLE_GLOSSARY_UPDATE
-    url = urljoin(HOST_API, GLOSSARY_DETAIL_PATH)
+    url = urljoin(HOST, GLOSSARY_DETAIL_PATH)
     btn_submit_text = 'Изменить'
     success_http_status = HTTPStatus.OK
 
@@ -256,8 +256,8 @@ class ListGlossaryPage(TableApp, BaseBox):
     """
 
     source_class = TermSource()
-    source_url = urljoin(HOST_API, GLOSSARY_PATH)
-    source_url_detail = urljoin(HOST_API, GLOSSARY_DETAIL_PATH)
+    source_url = urljoin(HOST, GLOSSARY_PATH)
+    source_url_detail = urljoin(HOST, GLOSSARY_DETAIL_PATH)
     headings = ['ID', 'Термин', 'Толкование']
 
     def __init__(self) -> None:

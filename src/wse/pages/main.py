@@ -11,7 +11,7 @@ from wse.constants import (
     BTN_GOTO_GLOSSARY_MAIN,
     BTN_GOTO_LOGIN,
     BTN_LOGOUT,
-    HOST_API,
+    HOST,
     LOGOUT_PATH,
     TITLE_MAIN,
 )
@@ -38,8 +38,8 @@ from wse.sources.user import SourceUser
 class MainBox(WidgetMixin, BaseBox):
     """Main box."""
 
-    welcome = f'Ready for connect to {HOST_API}'
-    url_logout = urljoin(HOST_API, LOGOUT_PATH)
+    welcome = f'Ready for connect to {HOST}'
+    url_logout = urljoin(HOST, LOGOUT_PATH)
     """User logout url, allowed POST method (`str`).
     """
 

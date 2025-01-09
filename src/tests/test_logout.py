@@ -10,7 +10,7 @@ from _pytest.monkeypatch import MonkeyPatch
 
 from tests.utils import run_until_complete
 from wse.app import WSE
-from wse.constants import HOST_API
+from wse.constants import HOST
 from wse.contrib import http_requests
 from wse.pages import MainBox
 from wse.sources import user
@@ -60,4 +60,4 @@ def test_logout(
             url='http://127.0.0.1/auth/token/logout/', json=None
         )
 
-        assert box_main.info_panel.value == f'Ready for connect to {HOST_API}'
+        assert box_main.info_panel.value == f'Ready for connect to {HOST}'

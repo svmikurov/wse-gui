@@ -59,21 +59,21 @@ class Timer:
         """Unpause the event."""
         self.pause = False
 
-    async def start_counter(self, step_size: int = 0) -> None:
+    async def start_counter(self) -> None:
         """Notify time progress bar about next step."""
         smooth = 15
-        step = step_size / smooth
+        step = 1 / smooth
         self.progress_bar_source.notify('reset')
 
         for _ in range(self.timeout * smooth):
             self.countdown = asyncio.create_task(asyncio.sleep(step))
             self.progress_bar_source.notify('increase', step_size=step)
 
-            # Break to pause and stop drawing the progress line.
+            # Break on pause and stop drawing the progress line.
             if self.is_pause():
                 break
 
-            # Break to restart.
+            # Break on restart.
             if not self.is_countdown():
                 break
 

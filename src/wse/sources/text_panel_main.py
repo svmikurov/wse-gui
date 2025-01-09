@@ -2,14 +2,14 @@
 
 from toga.sources import Source
 
-from wse.constants import HOST_API
+from wse.constants import HOST
 from wse.sources.user import SourceUser
 
 
 class SourceMainPanel(Source):
     """The info text panel source."""
 
-    welcome = f'Ready for connect to {HOST_API}'
+    welcome = f'Ready for connect to {HOST}'
     """Welcome text on the information display (`str`).
     """
     text_user_info = 'Добро пожаловать, %s!'

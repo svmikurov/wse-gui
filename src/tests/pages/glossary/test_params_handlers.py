@@ -13,7 +13,7 @@ from toga.sources import ListSource
 
 from tests.utils import FixtureReader, run_until_complete
 from wse.app import WSE
-from wse.constants import HOST_API
+from wse.constants import HOST
 
 REQEUST_PARAMS_URL = '/api/v1/glossary/params/'
 REQEUST_EXERCISE_URL = '/api/v1/glossary/exercise/'
@@ -116,7 +116,7 @@ def test_save_params_handler(
     btn_save_params._impl.simulate_press()
 
     # Request to save params by url.
-    expected_url = urljoin(HOST_API, REQEUST_PARAMS_URL)
+    expected_url = urljoin(HOST, REQEUST_PARAMS_URL)
     expected_json = {
         'period_start_date': 'NC',
         'period_end_date': 'DT',
