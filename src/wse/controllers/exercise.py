@@ -31,11 +31,14 @@ class ControllerExercise:
         self.info = Source()
         self.event = Source()
 
+        # Widget conditions
+        self.has_progress_bar = False
+
     async def on_open(self, _: toga.Widget) -> None:
         """Start exercise when box was assigned to window content."""
         self._set_exercise_params()
+        self._reset_previous_conditions()
         self._select_widgets_to_display()
-        self._reset_task_status()
         await self._loop_exercise()
 
     def _set_exercise_params(self) -> None:
@@ -100,6 +103,23 @@ class ControllerExercise:
             ),
         )
 
+    #####################################################################
+    # Utility methods
+
+    def _reset_previous_conditions(self) -> None:
+        """Reset previous exercise conditions."""
+        # Reset task status.
+        self._task.status = None
+        # Reset condition has progress bar
+        self.has_progress_bar = False
+
+    def _set_progress_bar_availability(self) -> None:
+        """Set progress bar availability."""
+        min_time_for_bar = 3  # sec
+        self.has_progress_bar = bool(
+            self.timer.has_timeout and self.timer.timeout >= min_time_for_bar
+        )
+
     ####################################################################
     # Exercise loop methods
 
@@ -122,10 +142,6 @@ class ControllerExercise:
         """Reset previous events at page."""
         self._clean_text_panels()
         self._activate_answer_buttons()
-
-    def _reset_task_status(self) -> None:
-        """Reset the task status."""
-        self._task.status = None
 
     def _change_task_status(self, to_status: str) -> None:
         """Change the task status."""
@@ -196,6 +212,7 @@ class ControllerExercise:
 
     def _select_widgets_to_display(self) -> None:
         """Select widgets according to exercise parameters."""
+        self._set_progress_bar_availability()
         self.event.notify('update_availability_pause_button')
         self.event.notify('update_availability_progress_bar')
 

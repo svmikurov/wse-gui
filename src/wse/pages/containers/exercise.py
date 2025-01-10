@@ -112,10 +112,10 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
 
     def update_availability_progress_bar(self) -> None:
         """Update the availability of the progress bar."""
-        if self.plc.timer.has_timeout:
-            self.insert(0, self.progress_bar)
+        if self.plc.has_progress_bar:
+            self.insert(0, self.box_progress_bar)
         else:
-            self.remove(self.progress_bar)
+            self.remove(self.box_progress_bar)
 
     def activate_pause_button(self) -> None:
         """Activate the pause button."""
