@@ -54,10 +54,10 @@ def test_widget_order(wse: WSE) -> None:
 
     assert box.children == [
         box.label_title,
-        box.btn_goto_foreign_main,
         box.btns_manage,
         box.table,
         box.btns_paginate,
+        box.btn_goto_back,
     ]
 
     assert box.btns_manage.children == [
@@ -92,20 +92,6 @@ def test_label_title(wse: WSE) -> None:
     """Test page box title."""
     title = wse.box_foreign_list.label_title
     assert title.text == 'Словарь иностранных слов'
-
-
-def test_btn_goto_foreign(wse: WSE) -> None:
-    """Test button to go to foreign main page box."""
-    btn = wse.box_foreign_list.btn_goto_foreign_main
-    assert btn.text == 'Иностранный'
-
-    # Window switching.
-    btn._impl.simulate_press()
-
-    # Run a fake main loop.
-    run_until_complete(wse)
-
-    assert wse.main_window.content == wse.box_foreign_main
 
 
 def test_btn_goto_foreign_create(wse: WSE) -> None:

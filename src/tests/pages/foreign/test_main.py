@@ -33,19 +33,6 @@ def mock_list_json(*args: object, **kwargs: object) -> FixtureReader:
     return FixtureReader(FIXTURE)
 
 
-def test_widget_order(wse: WSE) -> None:
-    """Test the widget orger at foreign main page."""
-    box = wse.box_foreign_main
-
-    assert box.children == [
-        box.label_title,
-        box.btn_goto_main,
-        box.btn_goto_params,
-        box.btn_goto_create,
-        box.btn_goto_list,
-    ]
-
-
 def test_label_title(wse: WSE) -> None:
     """Test label of page box title."""
     # Label text.

@@ -3,13 +3,13 @@
 import pytest
 
 from wse.app import WSE
-from wse.sources.user import UserSource
+from wse.sources.user import SourceUser
 
 
 @pytest.fixture
-def source() -> UserSource:
+def source() -> SourceUser:
     """Return the source instance, fixture."""
-    return UserSource()
+    return SourceUser()
 
 
 def test_create_instance(wse: WSE) -> None:
@@ -26,7 +26,7 @@ def test_source_main_box(wse: WSE) -> None:
     assert hasattr(wse.box_main, 'user')
 
 
-def test_set_auth_data(source: UserSource) -> None:
+def test_set_auth_data(source: SourceUser) -> None:
     """Test set auth data method of source."""
     # Set for auth user.
     source._username = None
