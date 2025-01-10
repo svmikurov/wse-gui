@@ -28,36 +28,7 @@ class BaseTable(toga.Table):
 
 
 class TableApp(WidgetMixin):
-    """Base table, the container.
-
-    In the derived class:
-        * Assign source class.
-        * Add source urls (list-create, detail).
-        * Add table column head names.
-        * Add the necessary page widgets.
-        * Construct the page DOM.
-
-    .. important::
-
-        Override the methods:
-            * create_handler()
-            * update_handler()
-
-        Override the attrs:
-            * source_class
-            * source_url
-            * source_url_detail
-            * headings
-
-    :cvar source_class: The widget entries data source class.
-    :cvar source_url: Url to request the widget entries data.
-    :cvar source_url_detail: Url to request the widget entry.
-    :cvar headings: The entries table column name.
-
-    :ivar btns_manage: The box of buttons for managing of entries.
-    :ivar table: The table of entries list.
-    :ivar btns_paginate: The box of buttons for managing of pagination.
-    """
+    """Base table, the container."""
 
     source_class = None
     source_url = None

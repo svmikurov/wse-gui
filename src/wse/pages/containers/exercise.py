@@ -53,7 +53,7 @@ class ExerciseWidgets:
         self.btn_next = AnswerBtn('Далее', on_press=self.plc.next)
 
         # Navigation buttons
-        self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)  # noqa: E501
+        self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
 
         # Listeners
         self.plc.question.add_listener(self.text_panel_question)

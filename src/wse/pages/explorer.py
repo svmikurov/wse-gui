@@ -1,10 +1,8 @@
 """The page to explore Toga widgets."""
 
-from toga.constants import CENTER
-
 import toga
 from toga import colors
-from toga.constants import COLUMN
+from toga.constants import CENTER, COLUMN
 from toga.style import Pack
 
 from wse.contrib.timer import Timer

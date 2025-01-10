@@ -32,6 +32,7 @@ from wse.contrib.http_requests import (
 )
 from wse.pages.containers.exercise import ExerciseLayout
 from wse.pages.containers.params import ParamsLayout
+from wse.pages.containers.table import TableLayout
 from wse.pages.handlers.goto_handler import (
     goto_glossary_create_handler,
     goto_glossary_exercise_handler,
@@ -48,7 +49,6 @@ from wse.pages.widgets.box_page import (
 from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.form import BaseForm
 from wse.pages.widgets.label import TitleLabel
-from wse.pages.widgets.table import TableApp
 from wse.pages.widgets.text_input import MulTextInpApp
 from wse.sources.glossary import Term, TermSource
 
@@ -247,14 +247,10 @@ class UpdateTermPage(FormGlossary):
         await goto_glossary_list_handler(widget)
 
 
-class ListGlossaryPage(TableApp, BaseBox):
-    """Table of list of glossary terms, the page.
+class ListGlossaryPage(TableLayout):
+    """Table of list of glossary terms, the page."""
 
-    :ivar Button label_title: The page title.
-    :ivar Button btn_goto_glossary_main: Button go to Glossary Main
-        page.
-    """
-
+    title = TITLE_GLOSSARY_LIST
     source_class = TermSource()
     source_url = urljoin(HOST, GLOSSARY_PATH)
     source_url_detail = urljoin(HOST, GLOSSARY_DETAIL_PATH)
@@ -263,23 +259,6 @@ class ListGlossaryPage(TableApp, BaseBox):
     def __init__(self) -> None:
         """Construct the page."""
         super().__init__()
-
-        self.label_title = TitleLabel(TITLE_GLOSSARY_LIST)
-
-        # The navigation buttons.
-        self.btn_goto_glossary_main = BtnApp(
-            BTN_GOTO_GLOSSARY_MAIN,
-            on_press=goto_glossary_main_handler,
-        )
-
-        # Page widgets DOM.
-        self.add(
-            self.label_title,
-            self.btn_goto_glossary_main,
-            self.btns_manage,
-            self.table,
-            self.btns_paginate,
-        )
 
     async def create_handler(self, widget: toga.Widget) -> None:
         """Go to create the term form, button handler."""

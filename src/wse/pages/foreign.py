@@ -33,6 +33,7 @@ from wse.pages.containers.exercise import (
     ExerciseLayout,
 )
 from wse.pages.containers.params import ParamsLayout
+from wse.pages.containers.table import TableLayout
 from wse.pages.handlers.goto_handler import (
     goto_back_handler,
     goto_foreign_create_handler,
@@ -46,7 +47,6 @@ from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.form import BaseForm
 from wse.pages.widgets.label import TitleLabel
-from wse.pages.widgets.table import TableApp
 from wse.pages.widgets.text_input import TextInputApp
 from wse.sources.foreign import Word, WordSource
 
@@ -203,12 +203,10 @@ class UpdateWordPage(FormForeign):
         await goto_foreign_list_handler(widget)
 
 
-class ListForeignPage(TableApp, BaseBox):
-    """Table of list of foreign words, the page.
+class ListForeignPage(TableLayout):
+    """Table of list of foreign words."""
 
-    :ivar Button btn_goto_foreign_main: Button go to Foreign Main page.
-    """
-
+    title = TITLE_FOREIGN_LIST
     source_class = WordSource()
     source_url = urljoin(HOST, FOREIGN_PATH)
     source_url_detail = urljoin(HOST, FOREIGN_DETAIL_PATH)
@@ -217,23 +215,6 @@ class ListForeignPage(TableApp, BaseBox):
     def __init__(self) -> None:
         """Construct the page."""
         super().__init__()
-
-        self.label_title = TitleLabel(TITLE_FOREIGN_LIST)
-
-        # The navigation button
-        self.btn_goto_foreign_main = BtnApp(
-            BTN_GOTO_FOREIGN_MAIN,
-            on_press=goto_foreign_main_handler,
-        )
-
-        #  DOM
-        self.add(
-            self.label_title,
-            self.btn_goto_foreign_main,
-            self.btns_manage,
-            self.table,
-            self.btns_paginate,
-        )
 
     async def create_handler(self, widget: toga.Widget) -> None:
         """Go to create the word form, button handler."""
