@@ -55,7 +55,7 @@ class ControllerExercise:
         while self._is_enable_new_task():
             if self._task.status != 'answer':
                 self._reset_previous_events()
-                await self._request_task()
+                self._request_task()
                 if not self._task.data:
                     break
                 self._show_exercise_info()
@@ -138,7 +138,7 @@ class ControllerExercise:
     ####################################################################
     # HTTP requests
 
-    async def _request_task(self) -> None:
+    def _request_task(self) -> None:
         """Request the task data."""
         response = request_post(self.url_exercise, self._task.params)
         if response.status_code == HTTPStatus.OK:
