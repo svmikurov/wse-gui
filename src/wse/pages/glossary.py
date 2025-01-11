@@ -87,12 +87,12 @@ class ParamsGlossaryPage(ParamsLayout):
 
 
 class ExerciseGlossaryPage(ExerciseLayout):
-    """Glossary exercise page box."""
+    """Glossary exercise page."""
 
     title = TITLE_GLOSSARY_EXERCISE
 
     def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the box."""
+        """Construct the page."""
         super().__init__(*args, **kwargs)
         self.url_exercise = urljoin(HOST, GLOSSARY_EXERCISE_PATH)
         self.url_progress = urljoin(HOST, GLOSSARY_PROGRESS_PATH)

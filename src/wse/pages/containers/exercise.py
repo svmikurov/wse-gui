@@ -110,15 +110,9 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
         else:
             self.box_btns.remove(self.btn_pause)
 
-    def update_availability_progress_bar(self) -> None:
-        """Update the availability of the progress bar."""
-        if self.plc.has_progress_bar:
-            self.insert(0, self.box_progress_bar)
-        else:
-            self.remove(self.box_progress_bar)
-
     def activate_pause_button(self) -> None:
         """Activate the pause button."""
+        # Pause button deactivated on press with button handler.
         self.btn_pause.enabled = True
 
     def deactivate_answer_buttons(self) -> None:
@@ -131,3 +125,11 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
         """Activate answer button."""
         for button in (self.btn_know, self.btn_not_know):
             button.enabled = True
+
+    def update_availability_progress_bar(self) -> None:
+        """Update the availability of the progress bar."""
+        if self.plc.has_progress_bar:
+            self.insert(0, self.box_progress_bar)
+        else:
+            self.remove(self.box_progress_bar)
+

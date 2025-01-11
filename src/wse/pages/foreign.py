@@ -85,12 +85,12 @@ class ParamsForeignPage(ParamsLayout):
 
 
 class ExerciseForeignPage(ExerciseLayout):
-    """Foreign exercise box."""
+    """Foreign exercise page."""
 
     title = TITLE_FOREIGN_EXERCISE
 
     def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the box."""
+        """Construct the page."""
         super().__init__(*args, **kwargs)
         self.plc.url_exercise = urljoin(HOST, FOREIGN_EXERCISE_PATH)
         self.plc.url_progress = urljoin(HOST, FOREIGN_ASSESSMENT_PATH)
