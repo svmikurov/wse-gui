@@ -1,6 +1,7 @@
 """The page to explore Toga widgets."""
 
 import toga
+from click import style
 from toga import colors
 from toga.constants import CENTER, COLUMN
 from toga.style import Pack
@@ -29,6 +30,16 @@ class Explorer(toga.Box):
         self.progress_bar = ProgressBarApp(max=self.time.timeout)
         self.btn_start_progress_bar = BtnApp('Запустить прогресс', on_press=self.start_progress_bar)  # noqa: E501
         self.time.progress_bar_source.add_listener(self.progress_bar)
+
+        # Divider
+        self.box_divider = toga.Box(
+            children=[toga.Divider()],
+            style=Pack(
+                direction=COLUMN,
+                padding=(5, 10, 5, 10),
+                background_color=colors.GREEN
+            )
+        )
         # fmt: on
 
     async def start_progress_bar(self, _: toga.Widget) -> None:
@@ -52,6 +63,7 @@ class ExplorerLayout(Explorer):
         self.add(
             self.box_title,
             self.btn_goto_back,
+            self.box_divider,
             self.box_progress_bar,
             self.btn_start_progress_bar,
         )

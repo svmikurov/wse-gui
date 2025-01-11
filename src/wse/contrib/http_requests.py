@@ -166,7 +166,11 @@ async def request_post_async(
 ) -> Response:  # noqa: E501
     """Request the async POST method."""
     async with httpx.AsyncClient(auth=app_auth) as client:
-        response = await client.post(url, json=payload)
+        try:
+            response = await client.post(url, json=payload)
+        except httpx.ConnectError as error:
+            print(error)
+            return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
     return response
 
 

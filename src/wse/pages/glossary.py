@@ -9,9 +9,7 @@ from httpx import Response
 from wse.constants import (
     BTN_GOTO_GLOSSARY_CREATE,
     BTN_GOTO_GLOSSARY_LIST,
-    BTN_GOTO_GLOSSARY_MAIN,
     BTN_GOTO_GLOSSARY_PARAMS,
-    BTN_GOTO_MAIN,
     GLOSSARY_DETAIL_PATH,
     GLOSSARY_EXERCISE_PATH,
     GLOSSARY_PARAMS_PATH,
@@ -34,13 +32,11 @@ from wse.pages.containers.exercise import ExerciseLayout
 from wse.pages.containers.params import ParamsLayout
 from wse.pages.containers.table import TableLayout
 from wse.pages.handlers.goto_handler import (
+    goto_back_handler,
     goto_glossary_create_handler,
-    goto_glossary_exercise_handler,
     goto_glossary_list_handler,
-    goto_glossary_main_handler,
     goto_glossary_params_handler,
     goto_glossary_update_handler,
-    goto_main_handler,
 )
 from wse.pages.widgets.box_page import (
     BaseBox,
@@ -60,29 +56,22 @@ class MainGlossaryWidget(WidgetMixin, BaseBox):
         """Construct the box."""
         super().__init__()
 
+        # fmt: off
         # Box widgets.
         self.label_title = TitleLabel(TITLE_GLOSSARY_MAIN)
-        self.btn_goto_main = BtnApp(BTN_GOTO_MAIN, on_press=goto_main_handler)
-        self.btn_goto_params = BtnApp(
-            BTN_GOTO_GLOSSARY_PARAMS,
-            on_press=goto_glossary_params_handler,
-        )
-        self.btn_goto_create = BtnApp(
-            BTN_GOTO_GLOSSARY_CREATE,
-            on_press=goto_glossary_create_handler,
-        )
-        self.btn_goto_list = BtnApp(
-            BTN_GOTO_GLOSSARY_LIST,
-            on_press=goto_glossary_list_handler,
-        )
+        self.btn_goto_params = BtnApp(BTN_GOTO_GLOSSARY_PARAMS, on_press=goto_glossary_params_handler)  # noqa: E501
+        self.btn_goto_create = BtnApp(BTN_GOTO_GLOSSARY_CREATE, on_press=goto_glossary_create_handler)  # noqa: E501
+        self.btn_goto_list = BtnApp(BTN_GOTO_GLOSSARY_LIST, on_press=goto_glossary_list_handler)  # noqa: E501
+        self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
+        # fmt: on
 
         # Widget DOM.
         self.add(
             self.label_title,
-            self.btn_goto_main,
             self.btn_goto_params,
             self.btn_goto_create,
             self.btn_goto_list,
+            self.btn_goto_back,
         )
 
 
@@ -90,30 +79,17 @@ class ParamsGlossaryPage(ParamsLayout):
     """Glossary page box."""
 
     title = TITLE_GLOSSARY_PARAMS
-    url = urljoin(HOST, GLOSSARY_PARAMS_PATH)
-    """Learning glossary term exercise parameters url (`str`).
-    """
 
     def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the box."""
+        """Construct the page."""
         super().__init__(*args, **kwargs)
-
-        # Box widgets.
-        self.btn_goto_glossary_main = BtnApp(
-            BTN_GOTO_GLOSSARY_MAIN,
-            on_press=goto_glossary_main_handler,
-        )
-
-        # Widget DOM.
-        self.insert(4, self.btn_goto_glossary_main)
-
-    async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
-        """Go to glossary exercise, button handler."""
-        await goto_glossary_exercise_handler(widget)
+        self.plc.url = urljoin(HOST, GLOSSARY_PARAMS_PATH)
 
 
 class ExerciseGlossaryPage(ExerciseLayout):
     """Glossary exercise page box."""
+
+    title = TITLE_GLOSSARY_EXERCISE
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the box."""
@@ -121,54 +97,29 @@ class ExerciseGlossaryPage(ExerciseLayout):
         self.url_exercise = urljoin(HOST, GLOSSARY_EXERCISE_PATH)
         self.url_progress = urljoin(HOST, GLOSSARY_PROGRESS_PATH)
 
-        # Widgets.
-        self.label_title = TitleLabel(TITLE_GLOSSARY_EXERCISE)
-        self.btn_goto_params = BtnApp(
-            'Параметры упражнения',
-            on_press=goto_glossary_params_handler,
-        )
-
-        # Widget DOM.
-        self.add(
-            self.label_title,
-            self.btn_goto_params,
-        )
-
-    def get_box_params(self) -> ParamsGlossaryPage:
-        """Get box instance with exercise params."""
-        return self.root.app.box_glossary_params
-
 
 class FormGlossary(BaseBox, BaseForm):
     """General form to create and update entries, the container."""
 
     title = ''
-    """Page box title (`str`).
-    """
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the glossary form."""
         super().__init__(*args, **kwargs)
         self._entry = Term
 
-        # Widgets.
         self.label_title = TitleLabel(text=self.title)
-        self.btn_goto_glossary_list = BtnApp(
-            BTN_GOTO_GLOSSARY_LIST,
-            on_press=goto_glossary_list_handler,
-        )
-        self.btn_goto_glossary_main = BtnApp(
-            BTN_GOTO_GLOSSARY_MAIN,
-            on_press=goto_glossary_main_handler,
-        )
 
-        # Data input widgets.
+        # fmt: off
+        # Term data input widgets
         self.input_term = MulTextInpApp(placeholder='Термин')
         self.input_term.style.padding_bottom = 1
         self.input_definition = MulTextInpApp(placeholder='Определение')
-        self.btn_submit = BtnApp(
-            self.btn_submit_text, on_press=self.submit_handler
-        )
+        self.btn_submit = BtnApp(self.btn_submit_text, on_press=self.submit_handler)  # noqa: E501
+        # Buttons
+        self.btn_goto_glossary_list = BtnApp(BTN_GOTO_GLOSSARY_LIST, on_press=goto_glossary_list_handler)  # noqa: E501
+        self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
+        # fmt: on
 
         self.add(
             self.label_title,
@@ -176,7 +127,7 @@ class FormGlossary(BaseBox, BaseForm):
             self.input_definition,
             self.btn_submit,
             self.btn_goto_glossary_list,
-            self.btn_goto_glossary_main,
+            self.btn_goto_back,
         )
 
     def populate_entry_input(self) -> None:
@@ -200,14 +151,15 @@ class CreateTermPage(HttpPostMixin, FormGlossary):
     title = TITLE_GLOSSARY_CREATE
     url = urljoin(HOST, GLOSSARY_PATH)
     btn_submit_text = 'Добавить'
+    success_http_status = HTTPStatus.CREATED
 
     def get_widget_data(self) -> dict:
         """Get the entered into the form data."""
-        submit_entry = {
+        entry_create = {
             'term': self.input_term.value,
             'definition': self.input_definition.value,
         }
-        return submit_entry
+        return entry_create
 
     @classmethod
     async def request_async(cls, url: str, payload: dict) -> Response:

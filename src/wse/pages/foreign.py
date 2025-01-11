@@ -9,9 +9,7 @@ from httpx import Response
 from wse.constants import (
     BTN_GOTO_FOREIGN_CREATE,
     BTN_GOTO_FOREIGN_LIST,
-    BTN_GOTO_FOREIGN_MAIN,
     BTN_GOTO_FOREIGN_PARAMS,
-    BTN_GOTO_MAIN,
     FOREIGN_ASSESSMENT_PATH,
     FOREIGN_DETAIL_PATH,
     FOREIGN_EXERCISE_PATH,
@@ -38,10 +36,8 @@ from wse.pages.handlers.goto_handler import (
     goto_back_handler,
     goto_foreign_create_handler,
     goto_foreign_list_handler,
-    goto_foreign_main_handler,
     goto_foreign_params_handler,
     goto_foreign_update_handler,
-    goto_main_handler,
 )
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
@@ -61,17 +57,15 @@ class MainForeignPage(WidgetMixin, BaseBox):
         # fmt: off
         # Box widgets
         self.label_title = TitleLabel(TITLE_FOREIGN_MAIN)
-        self.btn_goto_main = BtnApp(BTN_GOTO_MAIN, on_press=goto_main_handler)
         self.btn_goto_params = BtnApp(BTN_GOTO_FOREIGN_PARAMS, on_press=goto_foreign_params_handler)  # noqa: E501
         self.btn_goto_create = BtnApp(BTN_GOTO_FOREIGN_CREATE, on_press=goto_foreign_create_handler)  # noqa: E501
         self.btn_goto_list = BtnApp(BTN_GOTO_FOREIGN_LIST, on_press=goto_foreign_list_handler)  # noqa: E501
-        self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)  # noqa: E501
+        self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
         # fmt: on
 
         # DOM
         self.add(
             self.label_title,
-            self.btn_goto_main,
             self.btn_goto_params,
             self.btn_goto_create,
             self.btn_goto_list,
@@ -85,7 +79,7 @@ class ParamsForeignPage(ParamsLayout):
     title = TITLE_FOREIGN_PARAMS
 
     def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct page."""
+        """Construct the page."""
         super().__init__(*args, **kwargs)
         self.plc.url = urljoin(HOST, FOREIGN_PARAMS_PATH)
 
@@ -122,7 +116,7 @@ class FormForeign(BaseBox, BaseForm):
         self.btn_submit = BtnApp(self.btn_submit_text, on_press=self.submit_handler)  # noqa: E501
         # Buttons
         self.btn_goto_foreign_list = BtnApp(BTN_GOTO_FOREIGN_LIST, on_press=goto_foreign_list_handler)  # noqa: E501
-        self.btn_goto_foreign_main = BtnApp(BTN_GOTO_FOREIGN_MAIN, on_press=goto_foreign_main_handler)  # noqa: E501
+        self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
         # fmt: on
 
         # DOM
@@ -132,7 +126,7 @@ class FormForeign(BaseBox, BaseForm):
             self.input_foreign,
             self.btn_submit,
             self.btn_goto_foreign_list,
-            self.btn_goto_foreign_main,
+            self.btn_goto_back,
         )
 
     def populate_entry_input(self) -> None:

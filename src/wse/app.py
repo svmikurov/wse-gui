@@ -44,8 +44,12 @@ class WSE(toga.App):
 
     def add_controllers(self) -> None:
         """Add controllers."""
-        self.plc_params = ControllerParams()
-        self.plc_exercise = ControllerExercise(self)
+        # fmt: off
+        self.plc_params_foreign = ControllerParams()
+        self.plc_params_glossary = ControllerParams()
+        self.plc_exercise_foreign = ControllerExercise(self, self.plc_params_foreign)  # noqa: E501
+        self.plc_exercise_glossary = ControllerExercise(self, self.plc_params_glossary)  # noqa: E501
+        # fmt: on
 
     ####################################################################
     # Pages
@@ -59,23 +63,24 @@ class WSE(toga.App):
 
         # Foreign language study page boxes
         self.box_foreign_main = pages.MainForeignPage()
-        self.box_foreign_params = pages.ParamsForeignPage(self.plc_params)
-        self.box_foreign_exercise = pages.ExerciseForeignPage(self.plc_exercise)  # noqa: E501
+        self.box_foreign_params = pages.ParamsForeignPage(self.plc_params_foreign)  # noqa: E501
+        self.box_foreign_exercise = pages.ExerciseForeignPage(self.plc_exercise_foreign)  # noqa: E501
         self.box_foreign_create = pages.CreateWordPage()
         self.box_foreign_update = pages.UpdateWordPage()
         self.box_foreign_list = pages.ListForeignPage()
 
         # Glossary study page boxes
         self.box_glossary_main = pages.MainGlossaryWidget()
-        self.box_glossary_params = pages.ParamsGlossaryPage(self.plc_params)
-        self.box_glossary_exercise = pages.ExerciseGlossaryPage(self.plc_exercise)  # noqa: E501
+        self.box_glossary_params = pages.ParamsGlossaryPage(self.plc_params_glossary)  # noqa: E501
+        self.box_glossary_exercise = pages.ExerciseGlossaryPage(self.plc_exercise_glossary)  # noqa: E501
         self.box_glossary_create = pages.CreateTermPage()
         self.box_glossary_update = pages.UpdateTermPage()
         self.box_glossary_list = pages.ListGlossaryPage()
-        # fmt: on
 
         # Listeners of events
-        self.plc_exercise.event.add_listener(self.box_foreign_exercise)
+        self.plc_exercise_foreign.event.add_listener(self.box_foreign_exercise)
+        self.plc_exercise_glossary.event.add_listener(self.box_glossary_exercise)  # noqa: E501
+        # fmt: on
 
     ####################################################################
     # Menu
@@ -163,8 +168,10 @@ class WSE(toga.App):
     cmd_goto_glossary: toga.Command
 
     # Controllers
-    plc_params: ControllerParams
-    plc_exercise: ControllerExercise
+    plc_params_foreign: ControllerParams
+    plc_params_glossary: ControllerParams
+    plc_exercise_foreign: ControllerExercise
+    plc_exercise_glossary: ControllerExercise
 
 
 def main() -> WSE:

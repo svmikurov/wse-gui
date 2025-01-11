@@ -6,9 +6,10 @@ from typing import TypeVar
 import toga
 from toga.sources import Source
 
-from wse.contrib.http_requests import request_post, request_post_async
+from wse.contrib.http_requests import request_post_async, request_post
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
+from wse.controllers.params import ControllerParams
 
 T = TypeVar('T')
 
@@ -16,10 +17,11 @@ T = TypeVar('T')
 class ControllerExercise:
     """Exercise controller."""
 
-    def __init__(self, app: T) -> None:
+    def __init__(self, app: T, plc_params: ControllerParams) -> None:
         """Construct the controller."""
         super().__init__()
         self._app = app
+        self._plc_params = plc_params
         self.url_exercise = None
         self.url_progress = None
         self.timer = Timer()
@@ -43,7 +45,7 @@ class ControllerExercise:
 
     def _set_exercise_params(self) -> None:
         """Set lookup conditions of items to use in the exercise."""
-        lookup_conditions = self._app.plc_params.lookup_conditions
+        lookup_conditions = self._plc_params.lookup_conditions
         self.timer.has_timeout = lookup_conditions.pop('has_timeout')
         self.timer.timeout = lookup_conditions.pop('timeout')
         self._task.params = lookup_conditions

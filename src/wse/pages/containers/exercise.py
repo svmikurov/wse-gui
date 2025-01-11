@@ -80,8 +80,8 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
 
         # DOM.
         self.add(
-            self.label_question,
             self.box_progress_bar,
+            self.label_question,
             self.text_panel_question,
             self.label_answer,
             self.text_panel_answer,

@@ -65,9 +65,8 @@ class Timer:
         self.progress_bar_source.notify('reset')
         self.progress_bar_source.notify('set_max', max=self.timeout)
 
-        for _ in range(self.timeout):
+        for _ in range(self.timeout + 1):
             self.countdown = asyncio.create_task(asyncio.sleep(step_size))
-            self.progress_bar_source.notify('increase', step_size=step_size)
 
             # Break on pause and stop drawing the progress line.
             if self.is_pause():
@@ -78,3 +77,4 @@ class Timer:
                 break
 
             await self.countdown
+            self.progress_bar_source.notify('increase', step_size=step_size)

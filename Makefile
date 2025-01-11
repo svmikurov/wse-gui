@@ -6,7 +6,7 @@ start:
 # Test
 test:
 	export TOGA_BACKEND=toga_dummy && \
-	pytest -s
+	pytest
 
 test-just:
 	export TOGA_BACKEND=toga_dummy && \
@@ -38,4 +38,4 @@ android-create:
 android-build:
 	briefcase build android
 
-update: android-create android-build
+android-update: android-create android-build android
