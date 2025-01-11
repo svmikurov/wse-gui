@@ -24,7 +24,7 @@ def test_widget_order(wse: WSE) -> None:
         box.input_foreign,
         box.btn_submit,
         box.btn_goto_foreign_list,
-        box.btn_goto_foreign_main,
+        box.btn_goto_back,
     ]
     assert box.children == expected_widget_order
 
@@ -58,19 +58,6 @@ def test_btn_submit(
     assert wse.main_window.content == wse.box_foreign_create
 
     request_async.assert_awaited()
-
-
-def test_btn_goto_foreign_main(wse: WSE) -> None:
-    """Test button to go to foreign main page box."""
-    btn = wse.box_foreign_create.btn_goto_foreign_main
-    btn._impl.simulate_press()
-
-    # Run a fake main loop.
-    run_until_complete(wse)
-
-    assert btn.text == 'Иностранный'
-
-    assert wse.main_window.content == wse.box_foreign_main
 
 
 @patch.object(ListForeignPage, 'on_open')

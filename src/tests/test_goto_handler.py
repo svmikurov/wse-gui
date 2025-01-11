@@ -40,7 +40,7 @@ MOCK_REQUEST_GLOSSARY_LIST = [
             goto_handler.goto_main_handler,
             'box_foreign_main',
             'box_main',
-            'btn_goto_main',
+            'btn_goto_back',
             None,
         ),
         (

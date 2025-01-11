@@ -32,10 +32,10 @@ def test_widget_order(wse: WSE) -> None:
 
     assert box.children == [
         box.label_title,
-        box.btn_goto_main,
         box.btn_goto_params,
         box.btn_goto_create,
         box.btn_goto_list,
+        box.btn_goto_back,
     ]
 
 
@@ -43,19 +43,6 @@ def test_label_title(wse: WSE) -> None:
     """Test the title of glossary term create page box."""
     title = wse.box_glossary_main.label_title
     assert title.text == 'Глоссарий'
-
-
-def test_btn_goto_main_page(wse: WSE) -> None:
-    """Test the button of go to main page box."""
-    btn = wse.box_glossary_main.btn_goto_main
-
-    btn._impl.simulate_press()
-
-    # Run a fake main loop.
-    run_until_complete(wse)
-
-    assert btn.text == 'На главную'
-    assert wse.main_window.content == wse.box_main
 
 
 def test_btn_goto_glossary_create_page(wse: WSE) -> None:

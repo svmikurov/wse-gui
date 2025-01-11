@@ -40,20 +40,6 @@ def test_label_title(wse: WSE) -> None:
     assert title.text == 'Иностранный словарь'
 
 
-def test_btn_goto_main(wse: WSE) -> None:
-    """Test the button go to main page box."""
-    btn = wse.box_foreign_main.btn_goto_main
-    assert btn.text == 'На главную'
-
-    btn._impl.simulate_press()
-
-    # Run a fake main loop.
-    run_until_complete(wse)
-
-    # Window switching.
-    assert wse.main_window.content == wse.box_main
-
-
 def test_btn_goto_create(wse: WSE) -> None:
     """Test the button go to foreign create page box."""
     btn = wse.box_foreign_main.btn_goto_create

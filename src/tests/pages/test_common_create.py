@@ -46,7 +46,7 @@ def test_foreign_widget_order(wse: WSE) -> None:
         box.input_foreign,
         box.btn_submit,
         box.btn_goto_foreign_list,
-        box.btn_goto_foreign_main,
+        box.btn_goto_back,
     ]
     assert box.children == expected_widget_order
 
@@ -62,7 +62,7 @@ def test_glossary_widget_order(wse: WSE) -> None:
         box.input_definition,
         box.btn_submit,
         box.btn_goto_glossary_list,
-        box.btn_goto_glossary_main,
+        box.btn_goto_back,
     ]
 
 

@@ -73,16 +73,3 @@ def test_btn_goto_glossary_list(
 
     assert btn.text == 'Словарь терминов'
     assert wse.main_window.content == wse.box_glossary_list
-
-
-def test_btn_goto_glossary_main(wse: WSE) -> None:
-    """Test the button of go to glossary main page."""
-    btn = wse.box_glossary_create.btn_goto_glossary_main
-
-    btn._impl.simulate_press()
-
-    # Run a fake main loop.
-    run_until_complete(wse)
-
-    assert btn.text == 'Глоссарий'
-    assert wse.main_window.content == wse.box_glossary_main
