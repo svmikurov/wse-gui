@@ -5,6 +5,7 @@ from urllib.parse import urljoin
 
 import toga
 from httpx import Response
+from toga.style import Pack
 
 from wse.constants import (
     BTN_GOTO_GLOSSARY_CREATE,
@@ -66,9 +67,13 @@ class MainGlossaryWidget(WidgetMixin, BaseBox):
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
         # fmt: on
 
-        # Widget DOM.
+        # The buttons are located at the bottom of the page.
+        self.box_alignment = toga.Box(style=Pack(flex=1))
+
+        # DOM
         self.add(
             self.label_title,
+            self.box_alignment,
             self.btn_goto_params,
             self.btn_goto_create,
             self.btn_goto_list,
@@ -117,9 +122,11 @@ class FormGlossary(BaseBox, BaseForm):
         # Term data input widgets
         self.input_term = MulTextInpApp(placeholder='Термин')
         self.input_term.style.padding_bottom = 1
+        self.input_term.style.flex = 1
         self.input_definition = MulTextInpApp(placeholder='Определение')
-        self.btn_submit = BtnApp(self.btn_submit_text, on_press=self.submit_handler)  # noqa: E501
+        self.input_definition.style.flex = 1
         # Buttons
+        self.btn_submit = BtnApp(self.btn_submit_text, on_press=self.submit_handler)  # noqa: E501
         self.btn_goto_glossary_list = BtnApp(BTN_GOTO_GLOSSARY_LIST, on_press=goto_glossary_list_handler)  # noqa: E501
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
         # fmt: on

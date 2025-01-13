@@ -10,7 +10,7 @@ from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.button import AnswerBtn, BtnApp
 from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.progress_bar import ProgressBarApp
-from wse.pages.widgets.text_input import MultilineTextInputApp, TextPanel
+from wse.pages.widgets.text_input import TextPanel, TaskTextPanel
 
 
 class ExerciseWidgets:
@@ -38,13 +38,13 @@ class ExerciseWidgets:
         self.progress_bar = ProgressBarApp(max=self.plc.timer.timeout)
 
         # Task text display widgets
-        self.text_panel_question = TextPanel(style=Pack(flex=2))
-        self.text_panel_answer = TextPanel(style=Pack(flex=2))
+        self.text_panel_question = TaskTextPanel(style=Pack(flex=2))
+        self.text_panel_answer = TaskTextPanel(style=Pack(flex=2))
 
         # Task info display widgets
         self.label_text_panel = toga.Label('Информация об упражнении:')
         self.label_text_panel.style = Pack(padding=(0, 0, 0, 7))
-        self.text_panel_info = MultilineTextInputApp(style=Pack(flex=1), readonly=True)  # noqa: E501
+        self.text_panel_info = TextPanel()  # noqa: E501
 
         # Exercise buttons
         self.btn_pause = AnswerBtn('Пауза', on_press=self.plc.pause)

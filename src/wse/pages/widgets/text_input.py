@@ -20,13 +20,10 @@ class TextInputApp(toga.TextInput):
 
     def __init__(self, **kwargs: object) -> None:
         """Construct the widget."""
-        style = Pack(
-            padding=(0, 0, 0, 0),
-            height=BUTTON_HEIGHT,
-            font_size=FONT_SIZE_APP,
-        )
-        kwargs['style'] = kwargs.get('style', style)
         super().__init__(**kwargs)
+        self.style.flex = 1
+        self.style.height = BUTTON_HEIGHT
+        self.style.font_size = FONT_SIZE_APP
 
     def clean(self) -> None:
         """Clear the text input widget value."""
@@ -38,12 +35,10 @@ class MulTextInpApp(toga.MultilineTextInput):
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the table."""
-        style = Pack(
-            padding=(2, 0, 2, 0),
-            font_style=ITALIC,
-        )
-        kwargs['style'] = kwargs.get('style', style)
         super().__init__(*args, **kwargs)
+        self.style.flex = 1
+        self.style.padding = (2, 0, 2, 0)
+        self.style.font_style = ITALIC
 
     def clean(self) -> None:
         """Clear the text input widget value."""
@@ -51,37 +46,29 @@ class MulTextInpApp(toga.MultilineTextInput):
 
 
 class TextPanel(toga.MultilineTextInput):
+    """Custom MultilineTextInput for info display."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the input."""
+        super().__init__(*args, **kwargs)
+        self.style.style = Pack(flex=1)
+        self.style.readonly = True
+
+    def change(self, text: str | None) -> None:
+        """Update text widget value."""
+        self.value = text
+
+    def clean(self) -> None:
+        """Clear the value of the text widget."""
+        self.value = None
+
+
+class TaskTextPanel(TextPanel):
     """Exercise text display widget."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the widget."""
-        style = Pack(flex=1)
-        kwargs['style'] = kwargs.get('style', style)
         super().__init__(*args, **kwargs)
         self.style.padding = (0, 2, 0, 2)
         self.style.font_size = TEXT_DISPLAY_FONT_SIZE
         self.style.font_style = TEXT_DISPLAY_FONT_STYLE
-        self.readonly = True
-
-    def change(self, text: str | None) -> None:
-        """Update text widget value."""
-        self.value = text
-
-    def clean(self) -> None:
-        """Clear the value of the text widget."""
-        self.value = ''
-
-
-class MultilineTextInputApp(toga.MultilineTextInput):
-    """Custom MultilineTextInput for info display.
-
-    Adds source notifications.
-    """
-
-    def change(self, text: str | None) -> None:
-        """Update text widget value."""
-        self.value = text
-
-    def clean(self) -> None:
-        """Clear the value of the text widget."""
-        self.value = ''

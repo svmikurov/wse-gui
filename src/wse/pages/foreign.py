@@ -5,6 +5,7 @@ from urllib.parse import urljoin
 
 import toga
 from httpx import Response
+from toga.style import Pack
 
 from wse.constants import (
     BTN_GOTO_FOREIGN_CREATE,
@@ -44,7 +45,7 @@ from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.form import BaseForm
 from wse.pages.widgets.label import TitleLabel
-from wse.pages.widgets.text_input import TextInputApp
+from wse.pages.widgets.text_input import TextInputApp, MulTextInpApp
 from wse.sources.foreign import Word, WordSource
 
 
@@ -64,9 +65,13 @@ class MainForeignPage(WidgetMixin, BaseBox):
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
         # fmt: on
 
+        # The buttons are located at the bottom of the page.
+        self.box_alignment = toga.Box(style=Pack(flex=1))
+
         # DOM
         self.add(
             self.label_title,
+            self.box_alignment,
             self.btn_goto_params,
             self.btn_goto_create,
             self.btn_goto_list,
@@ -113,9 +118,9 @@ class FormForeign(BaseBox, BaseForm):
 
         # fmt: off
         # Word data input widgets
-        self.input_native = TextInputApp(placeholder='Слово на русском')
+        self.input_native = MulTextInpApp(placeholder='Слово на русском')
         self.input_native.style.padding_bottom = 1
-        self.input_foreign = TextInputApp(placeholder='Слово на иностранном')
+        self.input_foreign = MulTextInpApp(placeholder='Слово на иностранном')
         self.btn_submit = BtnApp(self.btn_submit_text, on_press=self.submit_handler)  # noqa: E501
         # Buttons
         self.btn_goto_foreign_list = BtnApp(BTN_GOTO_FOREIGN_LIST, on_press=goto_foreign_list_handler)  # noqa: E501
