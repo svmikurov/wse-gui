@@ -37,7 +37,7 @@ from wse.pages.handlers.goto_handler import (
     goto_foreign_create_handler,
     goto_foreign_list_handler,
     goto_foreign_params_handler,
-    goto_foreign_update_handler,
+    goto_foreign_update_handler, goto_foreign_exercise_handler,
 )
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
@@ -82,6 +82,7 @@ class ParamsForeignPage(ParamsLayout):
         """Construct the page."""
         super().__init__(*args, **kwargs)
         self.plc.url = urljoin(HOST, FOREIGN_PARAMS_PATH)
+        self.plc.goto_exercise_handler = goto_foreign_exercise_handler
 
 
 class ExerciseForeignPage(ExerciseLayout):
@@ -94,6 +95,7 @@ class ExerciseForeignPage(ExerciseLayout):
         super().__init__(*args, **kwargs)
         self.plc.url_exercise = urljoin(HOST, FOREIGN_EXERCISE_PATH)
         self.plc.url_progress = urljoin(HOST, FOREIGN_ASSESSMENT_PATH)
+        self.plc.exercise_page = self
 
 
 class FormForeign(BaseBox, BaseForm):

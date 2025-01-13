@@ -36,7 +36,7 @@ from wse.pages.handlers.goto_handler import (
     goto_glossary_create_handler,
     goto_glossary_list_handler,
     goto_glossary_params_handler,
-    goto_glossary_update_handler,
+    goto_glossary_update_handler, goto_glossary_exercise_handler,
 )
 from wse.pages.widgets.box_page import (
     BaseBox,
@@ -84,7 +84,7 @@ class ParamsGlossaryPage(ParamsLayout):
         """Construct the page."""
         super().__init__(*args, **kwargs)
         self.plc.url = urljoin(HOST, GLOSSARY_PARAMS_PATH)
-
+        self.plc.goto_exercise_handler = goto_glossary_exercise_handler
 
 class ExerciseGlossaryPage(ExerciseLayout):
     """Glossary exercise page."""
@@ -94,8 +94,9 @@ class ExerciseGlossaryPage(ExerciseLayout):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the page."""
         super().__init__(*args, **kwargs)
-        self.url_exercise = urljoin(HOST, GLOSSARY_EXERCISE_PATH)
-        self.url_progress = urljoin(HOST, GLOSSARY_PROGRESS_PATH)
+        self.plc.url_exercise = urljoin(HOST, GLOSSARY_EXERCISE_PATH)
+        self.plc.url_progress = urljoin(HOST, GLOSSARY_PROGRESS_PATH)
+        self.plc.exercise_page = self
 
 
 class FormGlossary(BaseBox, BaseForm):

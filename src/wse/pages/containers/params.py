@@ -5,12 +5,10 @@ from typing import TypeVar
 import toga
 from toga import Selection
 from toga.style import Pack
+from toga.widgets import button
 
 from wse.contrib.http_requests import HttpPutMixin
-from wse.pages.handlers.goto_handler import (
-    goto_back_handler,
-    goto_foreign_exercise_handler,
-)
+from wse.pages.handlers.goto_handler import goto_back_handler
 from wse.pages.widgets.box import BoxFlexCol, BoxFlexRow
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
@@ -32,6 +30,8 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
         """Construct a widgets."""
         super().__init__()
         self.plc = controller
+        # Params page has button to go to exercise.
+        self.goto_exercise_handler: button.OnPressHandler | None = None
 
         # Title
         self.label_title = TitleLabel(text=self.title)
@@ -104,7 +104,7 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
 
     async def start_exercise_handler(self, widget: toga.Widget) -> None:
         """Start exercise, button handler."""
-        await goto_foreign_exercise_handler(widget)
+        await self.plc.goto_exercise_handler(widget)
 
     def set_saved_params_handler(self, _: toga.Widget) -> None:
         """Set saved params choice, button handler."""

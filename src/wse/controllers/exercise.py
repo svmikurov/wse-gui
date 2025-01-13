@@ -35,11 +35,12 @@ class ControllerExercise:
 
         # Widget conditions
         self.has_progress_bar = False
+        self.exercise_page = None
 
     async def on_open(self, _: toga.Widget) -> None:
         """Start exercise when box was assigned to window content."""
         self._set_exercise_params()
-        self._reset_previous_conditions()
+        self._reset_previous_exercise()
         self._select_widgets_to_display()
         await self._loop_exercise()
 
@@ -108,8 +109,8 @@ class ControllerExercise:
     #####################################################################
     # Utility methods
 
-    def _reset_previous_conditions(self) -> None:
-        """Reset previous exercise conditions."""
+    def _reset_previous_exercise(self) -> None:
+        """Reset previous exercise."""
         # Reset task status.
         self._task.status = None
         # Reset condition has progress bar
@@ -138,7 +139,7 @@ class ControllerExercise:
 
     def _is_visible_page(self) -> bool:
         """Is the box of widget is main window content."""
-        return self._app.main_window.content is self._app.box_foreign_exercise
+        return self._app.main_window.content is self.exercise_page
 
     def _reset_previous_events(self) -> None:
         """Reset previous events at page."""
