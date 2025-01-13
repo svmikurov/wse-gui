@@ -132,4 +132,3 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
             self.insert(0, self.box_progress_bar)
         else:
             self.remove(self.box_progress_bar)
-

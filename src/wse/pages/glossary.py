@@ -34,9 +34,10 @@ from wse.pages.containers.table import TableLayout
 from wse.pages.handlers.goto_handler import (
     goto_back_handler,
     goto_glossary_create_handler,
+    goto_glossary_exercise_handler,
     goto_glossary_list_handler,
     goto_glossary_params_handler,
-    goto_glossary_update_handler, goto_glossary_exercise_handler,
+    goto_glossary_update_handler,
 )
 from wse.pages.widgets.box_page import (
     BaseBox,
@@ -85,6 +86,7 @@ class ParamsGlossaryPage(ParamsLayout):
         super().__init__(*args, **kwargs)
         self.plc.url = urljoin(HOST, GLOSSARY_PARAMS_PATH)
         self.plc.goto_exercise_handler = goto_glossary_exercise_handler
+
 
 class ExerciseGlossaryPage(ExerciseLayout):
     """Glossary exercise page."""

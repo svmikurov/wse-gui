@@ -6,7 +6,7 @@ from typing import TypeVar
 import toga
 from toga.sources import Source
 
-from wse.contrib.http_requests import request_post_async, request_post
+from wse.contrib.http_requests import request_post, request_post_async
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
 from wse.controllers.params import ControllerParams
@@ -84,16 +84,13 @@ class ControllerExercise:
     # Task notifications
 
     def _show_question(self) -> None:
-        """Show the question."""
         self.question.notify('change', text=self._task.question)
         self.answer.notify('clean')
 
     def _show_answer(self) -> None:
-        """Show the answer."""
         self.answer.notify('change', text=self._task.answer)
 
     def _clean_text_panels(self) -> None:
-        """Clear the text panel."""
         for listener in (self.question, self.answer, self.info):
             listener.notify('clean')
 
@@ -110,14 +107,12 @@ class ControllerExercise:
     # Utility methods
 
     def _reset_previous_exercise(self) -> None:
-        """Reset previous exercise."""
         # Reset task status.
         self._task.status = None
         # Reset condition has progress bar
         self.has_progress_bar = False
 
     def _set_progress_bar_availability(self) -> None:
-        """Set progress bar availability."""
         min_time_for_bar = 3  # sec
         self.has_progress_bar = bool(
             self.timer.has_timeout and self.timer.timeout >= min_time_for_bar
@@ -147,11 +142,9 @@ class ControllerExercise:
         self._activate_answer_buttons()
 
     def _change_task_status(self, to_status: str) -> None:
-        """Change the task status."""
         self._task.status = to_status
 
     async def _start_timeout_progress_bar(self) -> None:
-        """Start progress bar."""
         await self.timer.start_counter()
 
     ####################################################################
@@ -201,12 +194,10 @@ class ControllerExercise:
     # Helpers
 
     async def _move_to_next_task(self) -> None:
-        """Move to next task."""
         self._task.status = None
         await self._move_to_next_task_status()
 
     async def _move_to_next_task_status(self) -> None:
-        """Move to next task status."""
         self._activate_pause_button()
         await self._loop_exercise()
 
@@ -220,14 +211,11 @@ class ControllerExercise:
         self.event.notify('update_availability_progress_bar')
 
     def _activate_pause_button(self) -> None:
-        """Activate the pause button."""
         self.event.notify('activate_pause_button')
 
     def _deactivate_answer_buttons(self) -> None:
-        """Deactivate answer button."""
         # Answer buttons are pressed once per task.
         self.event.notify('deactivate_answer_buttons')
 
     def _activate_answer_buttons(self) -> None:
-        """Activate answer button."""
         self.event.notify('activate_answer_buttons')

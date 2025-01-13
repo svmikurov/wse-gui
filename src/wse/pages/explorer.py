@@ -1,7 +1,6 @@
 """The page to explore Toga widgets."""
 
 import toga
-from click import style
 from toga import colors
 from toga.constants import CENTER, COLUMN
 from toga.style import Pack

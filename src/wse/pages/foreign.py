@@ -35,9 +35,10 @@ from wse.pages.containers.table import TableLayout
 from wse.pages.handlers.goto_handler import (
     goto_back_handler,
     goto_foreign_create_handler,
+    goto_foreign_exercise_handler,
     goto_foreign_list_handler,
     goto_foreign_params_handler,
-    goto_foreign_update_handler, goto_foreign_exercise_handler,
+    goto_foreign_update_handler,
 )
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
