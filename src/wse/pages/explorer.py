@@ -61,10 +61,10 @@ class ExplorerLayout(Explorer):
         # DOM
         self.add(
             self.box_title,
-            self.btn_goto_back,
             self.box_divider,
             self.box_progress_bar,
             self.btn_start_progress_bar,
+            self.btn_goto_back,
         )
 
     def create_title_box(self) -> None:
