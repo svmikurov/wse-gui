@@ -72,9 +72,9 @@ class MainForeignPage(WidgetMixin, BaseBox):
         self.add(
             self.label_title,
             self.box_alignment,
-            self.btn_goto_params,
             self.btn_goto_create,
             self.btn_goto_list,
+            self.btn_goto_params,
             self.btn_goto_back,
         )
 

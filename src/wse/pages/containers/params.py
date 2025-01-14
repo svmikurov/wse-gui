@@ -181,10 +181,10 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             self.label_title,
             self.scroll_container,
             self.box_divider,
-            self.btn_goto_exercise,
-            self.btn_set_saved_params,
             self.btn_reset_params,
             self.btn_save_params,
+            self.btn_set_saved_params,
+            self.btn_goto_exercise,
             self.btn_goto_back,
         )
         # Selections
