@@ -7,7 +7,6 @@ from wse import pages
 from wse.constants import SCREEN_SIZE
 from wse.controllers.exercise import ControllerExercise
 from wse.controllers.params import ControllerParams
-from wse.pages import ExplorerLayout
 from wse.pages.handlers.goto_handler import set_window_content
 from wse.sources.text_panel_main import SourceMainPanel
 from wse.sources.user import SourceUser
@@ -59,7 +58,6 @@ class WSE(toga.App):
         # fmt: off
         self.box_main = pages.MainBox(self.user, self.source_main_panel)
         self.box_login = pages.LoginBox(self.user)
-        self.box_explorer = pages.ExplorerLayout()
 
         # Foreign language study page boxes
         self.box_foreign_main = pages.MainForeignPage()
@@ -139,7 +137,6 @@ class WSE(toga.App):
 
     # Page boxes
     box_main: pages.MainBox
-    box_explorer: ExplorerLayout
     box_login: pages.LoginBox
 
     # Foreign language study page boxes

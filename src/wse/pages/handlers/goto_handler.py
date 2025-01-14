@@ -49,12 +49,6 @@ async def goto_back_handler(widget: toga.Widget) -> None:
     await set_window_content(widget, previous_page, 'back')
 
 
-async def goto_explorer_handler(widget: toga.Widget) -> None:
-    """Go to explorer page, button handler."""
-    box = widget.root.app.box_explorer
-    await set_window_content(widget, box)
-
-
 ########################################################################
 # Foreign
 
