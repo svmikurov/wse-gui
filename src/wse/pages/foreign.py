@@ -88,7 +88,7 @@ class ParamsForeignPage(ParamsLayout):
         """Construct the page."""
         super().__init__(*args, **kwargs)
         self.plc.url = urljoin(HOST, FOREIGN_PARAMS_PATH)
-        self.plc.goto_exercise_handler = goto_foreign_exercise_handler
+        self.goto_exercise_handler = goto_foreign_exercise_handler
 
 
 class ExerciseForeignPage(ExerciseLayout):

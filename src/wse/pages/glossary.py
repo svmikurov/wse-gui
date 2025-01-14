@@ -90,7 +90,7 @@ class ParamsGlossaryPage(ParamsLayout):
         """Construct the page."""
         super().__init__(*args, **kwargs)
         self.plc.url = urljoin(HOST, GLOSSARY_PARAMS_PATH)
-        self.plc.goto_exercise_handler = goto_glossary_exercise_handler
+        self.goto_exercise_handler = goto_glossary_exercise_handler
 
 
 class ExerciseGlossaryPage(ExerciseLayout):

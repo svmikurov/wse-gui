@@ -1,14 +1,12 @@
 """Exercise params."""
 
-from typing import TypeVar
-
 import toga
 from toga import Selection, colors
 from toga.constants import COLUMN
 from toga.style import Pack
-from toga.widgets import button
 
 from wse.contrib.http_requests import HttpPutMixin
+from wse.controllers.params import ControllerParams
 from wse.pages.handlers.goto_handler import goto_back_handler
 from wse.pages.widgets.box import BoxFlexCol, BoxFlexRow
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
@@ -16,8 +14,6 @@ from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.label import LabelParam, TitleLabel
 from wse.pages.widgets.number_input import NumberInputApp
 from wse.pages.widgets.switch import SwitchApp
-
-T = TypeVar('T')
 
 
 class ParamsWidgets(HttpPutMixin, WidgetMixin):
@@ -27,12 +23,12 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
     """The exercise page title (`str`).
     """
 
-    def __init__(self, controller: T) -> None:
+    def __init__(self, controller: ControllerParams) -> None:
         """Construct a widgets."""
         super().__init__()
         self.plc = controller
         # Params page has button to go to exercise.
-        self.goto_exercise_handler: button.OnPressHandler | None = None
+        self.goto_exercise_handler = None
 
         # Title
         self.label_title = TitleLabel(text=self.title)
@@ -107,7 +103,7 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
 
     async def start_exercise_handler(self, widget: toga.Widget) -> None:
         """Start exercise, button handler."""
-        await self.plc.goto_exercise_handler(widget)
+        await self.goto_exercise_handler(widget)
 
     def set_saved_params_handler(self, _: toga.Widget) -> None:
         """Set saved params choice, button handler."""
@@ -214,6 +210,11 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         self.box_params.add(
             self.box_favorites,
         )
+
+    async def on_open(self, widget: toga.Widget) -> None:
+        """Request exercise params and populate selections."""
+        await super().on_open(widget)
+        self._select_widgets_to_display()
 
     def include_selections_to_boxes(self) -> None:
         """Construct a selection boxes."""
@@ -382,3 +383,19 @@ class ParamsLayout(ParamsWidgets, BaseBox):
     def undisplay_confirm_reset_handler(self, _: toga.Widget) -> None:
         """Replace confirm to reset button, button handler."""
         self.replace(self.box_confirm_reset, self.btn_reset_params)
+
+    #####################################################################
+    # Select widgets to display
+
+    def _select_widgets_to_display(self) -> None:
+        if 'order' in self.plc.lookup_conditions:
+            self._insert_order_param()
+        else:
+            self._remove_order_param()
+
+    def _insert_order_param(self) -> None:
+        order_param_index = 2
+        self.box_params.insert(order_param_index, self.box_selection_order)
+
+    def _remove_order_param(self) -> None:
+        self.box_params.remove(self.box_selection_order)
