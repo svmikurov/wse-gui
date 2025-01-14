@@ -87,10 +87,7 @@ class ExplorerLayout(Explorer):
         box_scroll = toga.Box(style=Pack(direction=COLUMN, flex=1))
         for color in NAMED_COLOR:
             box_scroll.add(
-                toga.Button(
-                    style=Pack(background_color=color),
-                    text=color
-                )
+                toga.Button(style=Pack(background_color=color), text=color)
             )
         self.color_scroll = toga.ScrollContainer(
             style=Pack(flex=1),
