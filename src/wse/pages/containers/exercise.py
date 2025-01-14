@@ -1,6 +1,7 @@
 """Exercise."""
 
 import toga
+from toga import colors
 from toga.constants import COLUMN
 from toga.style.pack import Pack
 
@@ -114,17 +115,23 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
         """Activate the pause button."""
         # Pause button deactivated on press with button handler.
         self.btn_pause.enabled = True
+        del self.btn_pause.style.background_color
+        del self.btn_pause.style.color
 
     def deactivate_answer_buttons(self) -> None:
         """Deactivate answer button."""
         # Answer buttons are pressed once per task.
         for button in (self.btn_know, self.btn_not_know):
             button.enabled = False
+            button.style.background_color = colors.rgb(32, 32, 32)
+            button.style.color = colors.WHITE
 
     def activate_answer_buttons(self) -> None:
         """Activate answer button."""
         for button in (self.btn_know, self.btn_not_know):
             button.enabled = True
+            del button.style.background_color
+            del button.style.color
 
     def update_availability_progress_bar(self) -> None:
         """Update the availability of the progress bar."""

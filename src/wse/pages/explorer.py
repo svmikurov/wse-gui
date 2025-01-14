@@ -1,7 +1,6 @@
 """The page to explore Toga widgets."""
 
 import toga
-from pygments.lexers import find_lexer_class
 from toga import colors
 from toga.constants import CENTER, COLUMN
 from toga.style import Pack
@@ -29,7 +28,7 @@ class Explorer(toga.Box):
         # Progress bar
         self.time.timeout = 5
         self.progress_bar = ProgressBarApp(max=self.time.timeout)
-        self.btn_start_progress_bar = BtnApp('Запустить прогресс', on_press=self.start_progress_bar)  # noqa: E501
+        self.btn_start_progress_bar = BtnApp('Запустить прогресс', on_press=self._start_progress_bar)  # noqa: E501
         self.time.progress_bar_source.add_listener(self.progress_bar)
 
         # Divider
@@ -44,10 +43,9 @@ class Explorer(toga.Box):
         # fmt: on
 
         # Colors
-        self.create_color_scroll()
+        self._create_color_scroll()
 
-    async def start_progress_bar(self, _: toga.Widget) -> None:
-        """Start progress bar."""
+    async def _start_progress_bar(self, _: toga.Widget) -> None:
         await self.time.start_counter()
 
 
@@ -60,8 +58,8 @@ class ExplorerLayout(Explorer):
         self.style.direction = COLUMN
 
         # Create widgets
-        self.create_title_box()
-        self.create_progress_bar_box()
+        self._create_title_box()
+        self._create_progress_bar_box()
 
         # DOM
         self.add(
@@ -73,8 +71,7 @@ class ExplorerLayout(Explorer):
             self.btn_goto_back,
         )
 
-    def create_title_box(self) -> None:
-        """Create title box."""
+    def _create_title_box(self) -> None:
         self.box_title = toga.Box(
             style=Pack(
                 background_color=colors.GREEN,
@@ -83,12 +80,10 @@ class ExplorerLayout(Explorer):
             children=[self.title],
         )
 
-    def create_progress_bar_box(self) -> None:
-        """Create progress bar."""
+    def _create_progress_bar_box(self) -> None:
         self.box_progress_bar = BoxFlexCol(children=[self.progress_bar])
 
-
-    def create_color_scroll(self) -> None:
+    def _create_color_scroll(self) -> None:
         box_scroll = toga.Box(style=Pack(direction=COLUMN, flex=1))
         for color in NAMED_COLOR:
             box_scroll.add(

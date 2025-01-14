@@ -4,7 +4,9 @@ from http import HTTPStatus
 from typing import TypeVar
 
 import toga
+from toga import colors
 from toga.sources import Source
+from travertino.colors import rgb
 
 from wse.contrib.http_requests import request_post, request_post_async
 from wse.contrib.task import Task
@@ -181,6 +183,8 @@ class ControllerExercise:
         self.timer.on_pause()
         # Once pressed, the button becomes inactive.
         widget.enabled = False
+        widget.style.background_color = rgb(32, 32, 32)
+        widget.style.color = colors.WHITE
 
     async def not_know(self, _: toga.Widget) -> None:
         """Mark item in question as not know."""
@@ -226,3 +230,6 @@ class ControllerExercise:
 
     def _activate_answer_buttons(self) -> None:
         self.event.notify('activate_answer_buttons')
+
+    def print_btn_style(self) -> None:
+        self.event.notify('print_btn_style')
