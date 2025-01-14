@@ -45,7 +45,7 @@ from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.form import BaseForm
 from wse.pages.widgets.label import TitleLabel
-from wse.pages.widgets.text_input import TextInputApp, MulTextInpApp
+from wse.pages.widgets.text_input import MulTextInpApp
 from wse.sources.foreign import Word, WordSource
 
 

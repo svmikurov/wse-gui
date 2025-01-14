@@ -3,7 +3,8 @@
 from typing import TypeVar
 
 import toga
-from toga import Selection
+from toga import Selection, colors
+from toga.constants import COLUMN
 from toga.style import Pack
 from toga.widgets import button
 
@@ -90,10 +91,12 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
         self.btn_confirm_save = BtnApp('Сохранить', on_press=self.confirm_save_handler)  # noqa: E501
         self.btn_cancel_reset = BtnApp('Назад', on_press=self.undisplay_confirm_reset_handler)  # noqa: E501
         self.btn_confirm_reset = BtnApp('Сбросить', on_press=self.confirm_reset_handler)  # noqa: E501
-        # fmt: on
-
         # Divider
-        self.divider = toga.Divider()
+        self.box_divider = toga.Box(
+            children=[toga.Divider()],
+            style=Pack(direction=COLUMN, padding=(5, 10, 5, 10), background_color=colors.WHITE)  # noqa: E501
+        )
+        # fmt: on
 
     async def on_open(self, widget: toga.Widget) -> None:
         """Request exercise params and populate selections."""
@@ -181,8 +184,8 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         self.add(
             self.label_title,
             self.scroll_container,
+            self.box_divider,
             self.btn_goto_exercise,
-            self.divider,
             self.btn_set_saved_params,
             self.btn_reset_params,
             self.btn_save_params,

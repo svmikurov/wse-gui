@@ -3,7 +3,7 @@
 from http import HTTPStatus
 
 HOST = 'http://127.0.0.1/'
-# HOST_API = 'http://wselfedu.online/'
+# HOST = 'http://wselfedu.online/'
 """Host to connect (`str`).
 """
 

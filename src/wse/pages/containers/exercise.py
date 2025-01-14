@@ -10,7 +10,7 @@ from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.button import AnswerBtn, BtnApp
 from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.progress_bar import ProgressBarApp
-from wse.pages.widgets.text_input import TextPanel, TaskTextPanel
+from wse.pages.widgets.text_input import TaskTextPanel, TextPanel
 
 
 class ExerciseWidgets:

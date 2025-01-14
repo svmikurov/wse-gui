@@ -39,6 +39,7 @@ class MulTextInpApp(toga.MultilineTextInput):
         self.style.flex = 1
         self.style.padding = (2, 0, 2, 0)
         self.style.font_style = ITALIC
+        self.style.readonly = True
 
     def clean(self) -> None:
         """Clear the text input widget value."""
@@ -52,7 +53,7 @@ class TextPanel(toga.MultilineTextInput):
         """Construct the input."""
         super().__init__(*args, **kwargs)
         self.style.style = Pack(flex=1)
-        self.style.readonly = True
+        self.readonly = True
 
     def change(self, text: str | None) -> None:
         """Update text widget value."""
