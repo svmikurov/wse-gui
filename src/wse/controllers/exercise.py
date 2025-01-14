@@ -4,9 +4,7 @@ from http import HTTPStatus
 from typing import TypeVar
 
 import toga
-from toga import colors
 from toga.sources import Source
-from travertino.colors import rgb
 
 from wse.contrib.http_requests import request_post, request_post_async
 from wse.contrib.task import Task
@@ -15,6 +13,7 @@ from wse.controllers.params import ControllerParams
 from wse.pages.handlers.goto_handler import (
     goto_back_handler,
 )
+from wse.pages.widgets.button import AnswerBtn
 
 T = TypeVar('T')
 
@@ -46,6 +45,7 @@ class ControllerExercise:
         """Start exercise when box was assigned to window content."""
         self._set_exercise_params()
         self._reset_previous_exercise()
+        self._reset_previous_events()
         self._select_widgets_to_display()
         await self._loop_exercise()
 
@@ -145,7 +145,7 @@ class ControllerExercise:
     def _reset_previous_events(self) -> None:
         """Reset previous events at page."""
         self._clean_text_panels()
-        self._activate_answer_buttons()
+        self._activate_buttons()
 
     def _change_task_status(self, to_status: str) -> None:
         self._task.status = to_status
@@ -178,13 +178,10 @@ class ControllerExercise:
     ####################################################################
     # Button handlers
 
-    def pause(self, widget: toga.Widget) -> None:
+    def pause(self, widget: AnswerBtn) -> None:
         """Pause the task."""
         self.timer.on_pause()
-        # Once pressed, the button becomes inactive.
-        widget.enabled = False
-        widget.style.background_color = rgb(32, 32, 32)
-        widget.style.color = colors.WHITE
+        widget.deactivate()
 
     async def not_know(self, _: toga.Widget) -> None:
         """Mark item in question as not know."""
@@ -228,8 +225,6 @@ class ControllerExercise:
         # Answer buttons are pressed once per task.
         self.event.notify('deactivate_answer_buttons')
 
-    def _activate_answer_buttons(self) -> None:
+    def _activate_buttons(self) -> None:
         self.event.notify('activate_answer_buttons')
-
-    def print_btn_style(self) -> None:
-        self.event.notify('print_btn_style')
+        self.event.notify('activate_pause_button')
