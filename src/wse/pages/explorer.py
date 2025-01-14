@@ -1,9 +1,11 @@
 """The page to explore Toga widgets."""
 
 import toga
+from pygments.lexers import find_lexer_class
 from toga import colors
 from toga.constants import CENTER, COLUMN
 from toga.style import Pack
+from travertino.colors import NAMED_COLOR
 
 from wse.contrib.timer import Timer
 from wse.pages.handlers.goto_handler import goto_back_handler
@@ -41,6 +43,9 @@ class Explorer(toga.Box):
         )
         # fmt: on
 
+        # Colors
+        self.create_color_scroll()
+
     async def start_progress_bar(self, _: toga.Widget) -> None:
         """Start progress bar."""
         await self.time.start_counter()
@@ -63,6 +68,7 @@ class ExplorerLayout(Explorer):
             self.box_title,
             self.box_divider,
             self.box_progress_bar,
+            self.color_scroll,
             self.btn_start_progress_bar,
             self.btn_goto_back,
         )
@@ -80,3 +86,18 @@ class ExplorerLayout(Explorer):
     def create_progress_bar_box(self) -> None:
         """Create progress bar."""
         self.box_progress_bar = BoxFlexCol(children=[self.progress_bar])
+
+
+    def create_color_scroll(self) -> None:
+        box_scroll = toga.Box(style=Pack(direction=COLUMN, flex=1))
+        for color in NAMED_COLOR:
+            box_scroll.add(
+                toga.Button(
+                    style=Pack(background_color=color),
+                    text=color
+                )
+            )
+        self.color_scroll = toga.ScrollContainer(
+            style=Pack(flex=1),
+            content=box_scroll,
+        )
