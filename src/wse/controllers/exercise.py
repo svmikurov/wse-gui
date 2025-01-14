@@ -10,6 +10,9 @@ from wse.contrib.http_requests import request_post, request_post_async
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
 from wse.controllers.params import ControllerParams
+from wse.pages.handlers.goto_handler import (
+    goto_back_handler,
+)
 
 T = TypeVar('T')
 
@@ -63,6 +66,7 @@ class ControllerExercise:
                 self._reset_previous_events()
                 self._request_task()
                 if not self._task.data:
+                    await self._handle_no_task()
                     break
                 self._show_exercise_info()
                 self._show_question()
@@ -146,6 +150,9 @@ class ControllerExercise:
 
     async def _start_timeout_progress_bar(self) -> None:
         await self.timer.start_counter()
+
+    async def _handle_no_task(self) -> None:
+        await goto_back_handler(self.exercise_page)
 
     ####################################################################
     # HTTP requests
