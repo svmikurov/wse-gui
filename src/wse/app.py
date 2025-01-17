@@ -7,7 +7,7 @@ from wse import pages
 from wse.constants import SCREEN_SIZE
 from wse.controllers.exercise import ControllerExercise
 from wse.controllers.params import ControllerParams
-from wse.controllers.selected import Selected
+from wse.controllers.table import ConntrollerTable
 from wse.pages import ExplorerLayout
 from wse.pages.examples.examples import ExampleLayout
 from wse.pages.examples.table_source import TableSourceLayout
@@ -52,8 +52,8 @@ class WSE(toga.App):
         self.plc_params_glossary = ControllerParams()
         self.plc_exercise_foreign = ControllerExercise(self, self.plc_params_foreign)  # noqa: E501
         self.plc_exercise_glossary = ControllerExercise(self, self.plc_params_glossary)  # noqa: E501
-        self.plc_selected_foreign = Selected(self.plc_params_foreign)
-        self.plc_selected_glossary = Selected(self.plc_params_glossary)
+        self.plc_selected_foreign = ConntrollerTable(self.plc_params_foreign)
+        self.plc_selected_glossary = ConntrollerTable(self.plc_params_glossary)
         # fmt: on
 
     ####################################################################

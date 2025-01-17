@@ -14,7 +14,7 @@ def to_entries(items: list[dict]) -> list[tuple[str, ...]]:
     >>> to_entries(http_response_data)
     [('6', 'apple', 'green'), ('7', 'tomato', 'red')]
     """
-    return [tuple(map(str, d.values())) for d in items]
+    return [tuple(map(str, item.values())) for item in items]
 
 
 class SelectionEntries:

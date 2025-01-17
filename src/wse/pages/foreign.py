@@ -209,13 +209,13 @@ class SelectedForeignPage(TableLayout):
 
     title = TITLE_FOREIGN_LIST
     source_class = WordSource()
-    source_url = urljoin(HOST, FOREIGN_PATH)
-    source_url_detail = urljoin(HOST, FOREIGN_DETAIL_PATH)
-    headings = ['Иностранный', 'Русский']
 
     def __init__(self, *args, **kwargs) -> None:
         """Construct the page."""
         super().__init__(*args, **kwargs)
+        self.plc.source_url = urljoin(HOST, FOREIGN_PATH)
+        self.plc.source_url_detail = urljoin(HOST, FOREIGN_DETAIL_PATH)
+        self.plc.headings = ['Иностранный', 'Русский']
 
     async def create_handler(self, widget: toga.Widget) -> None:
         """Go to create the word form, button handler."""
@@ -223,7 +223,7 @@ class SelectedForeignPage(TableLayout):
 
     async def update_handler(self, widget: toga.Widget) -> None:
         """Go to update the word form, button handler."""
-        entry = self.table.selection
+        entry = self._table.selection
         box = self.root.app.box_foreign_update
         box.entry = entry
         await goto_foreign_update_handler(widget)

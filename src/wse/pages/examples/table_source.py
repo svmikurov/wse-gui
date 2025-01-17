@@ -1,12 +1,12 @@
 """Table source example."""
 
 from random import choice
+from typing_extensions import Self
 
 import toga
 from toga.constants import COLUMN
 from toga.sources import Source
 from toga.style import Pack
-from typing_extensions import Self
 
 from wse.pages.handlers.goto_handler import goto_back_handler
 from wse.pages.widgets.button import BtnApp
@@ -215,7 +215,7 @@ class TableSourceWidgets:
         elif len(self.table1.data) > 0:
             self.table1.data.remove(self.table1.data[0])
         else:
-            print('Table is empty!')
+            print('INFO: Table is empty!')
 
     def clear_handler(self, _: toga.Widget) -> None:
         """Clear the source."""

@@ -39,16 +39,16 @@ class WordSource(Source):
 
         Adds ('item', 'item', ...) to self._terms (`list`).
         """
-        term = Word(*entry)
-        self.add_term(term)
+        item = Word(*entry)
+        self.add_item(item)
 
-    def add_term(self, term: Word) -> None:
-        """Add term to terms.
+    def add_item(self, item: Word) -> None:
+        """Add item to items.
 
-        Add <wse.sources.glossary.Term X ...> to self._terms (`list`).
+        Add <wse.sources.glossary.Term X ...> to self._words (`list`).
         """
-        self._words.append(term)
-        self.notify('insert', index=self._words.index(term), item=term)
+        self._words.append(item)
+        self.notify('insert', index=self._words.index(item), item=item)
 
     def remove(self, item: str) -> None:
         """Remove entry from entries."""

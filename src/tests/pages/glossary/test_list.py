@@ -34,20 +34,20 @@ def test_widget_order(wse: WSE) -> None:
     box = wse.box_glossary_selected
 
     assert box.children == [
-        box.label_title,
-        box.btns_manage,
-        box.table,
-        box.box_paginate,
-        box.btn_goto_back,
+        box._label_title,
+        box._box_btns_manage,
+        box._table,
+        box.box_btns_paginate,
+        box._btn_goto_back,
     ]
 
-    assert box.btns_manage.children == [
+    assert box._box_btns_manage.children == [
         box._btn_create,
         box._btn_update,
         box._btn_delete,
     ]
 
-    assert box.box_paginate.children == [
+    assert box.box_btns_paginate.children == [
         box._btn_previous,
         box._btn_table_reload,
         box._btn_next,
@@ -56,13 +56,13 @@ def test_widget_order(wse: WSE) -> None:
 
 def test_label_title(wse: WSE) -> None:
     """Test page box title."""
-    title = wse.box_glossary_selected.label_title
+    title = wse.box_glossary_selected._label_title
     assert title.text == 'Список терминов'
 
 
 def test_table(wse: WSE) -> None:
     """Test table of glossary term list."""
-    table = wse.box_glossary_selected.table
+    table = wse.box_glossary_selected._table
     assert table.headings == ['ID', 'Термин', 'Толкование']
     assert table.accessors == ['id', 'term', 'definition']
 
@@ -94,7 +94,7 @@ def test_btn_goto_glossary_update(wse: WSE) -> None:
 
     # Select table entry to update.
     entry_index = 1
-    table = wse.box_glossary_selected.table
+    table = wse.box_glossary_selected._table
     table._impl.simulate_selection(entry_index)
 
     # Simulate a button press.
@@ -124,7 +124,7 @@ def test_btn_glossary_delete(
 
     # Select table entry to delete.
     entry_index = 1
-    table = wse.box_glossary_selected.table
+    table = wse.box_glossary_selected._table
     table._impl.simulate_selection(entry_index)
 
     # Simulate a button press.

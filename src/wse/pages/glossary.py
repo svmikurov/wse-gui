@@ -229,7 +229,7 @@ class SelectedGlossaryPage(TableLayout):
 
     async def update_handler(self, widget: toga.Widget) -> None:
         """Go to update the term form, button handler."""
-        entry = self.table.selection
+        entry = self._table.selection
         box = self.root.app.box_glossary_update
         box.entry = entry
         await goto_glossary_update_handler(widget)

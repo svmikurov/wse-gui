@@ -53,20 +53,20 @@ def test_widget_order(wse: WSE) -> None:
     box = wse.box_foreign_selected
 
     assert box.children == [
-        box.label_title,
-        box.btns_manage,
-        box.table,
-        box.box_paginate,
-        box.btn_goto_back,
+        box._label_title,
+        box._box_btns_manage,
+        box._table,
+        box.box_btns_paginate,
+        box._btn_goto_back,
     ]
 
-    assert box.btns_manage.children == [
+    assert box._box_btns_manage.children == [
         box._btn_create,
         box._btn_update,
         box._btn_delete,
     ]
 
-    assert box.box_paginate.children == [
+    assert box.box_btns_paginate.children == [
         box._btn_previous,
         box._btn_table_reload,
         box._btn_next,
@@ -75,7 +75,7 @@ def test_widget_order(wse: WSE) -> None:
 
 def test_table(wse: WSE) -> None:
     """Test table of foreign word list."""
-    table = wse.box_foreign_selected.table
+    table = wse.box_foreign_selected._table
     assert table.headings == ['Иностранный', 'Русский']
     assert table.accessors == ['foreign_word', 'native_word']
 
@@ -83,14 +83,14 @@ def test_table(wse: WSE) -> None:
 def test_populate_table(wse: WSE, monkeypatch: MonkeyPatch) -> None:
     """Test the populate foreign word list table."""
     entry_index = 0
-    entry = wse.box_foreign_selected.table.data._words[entry_index]
+    entry = wse.box_foreign_selected._table.data._words[entry_index]
     assert entry.foreign_word == 'hello'
     assert entry.native_word == 'привет'
 
 
 def test_label_title(wse: WSE) -> None:
     """Test page box title."""
-    title = wse.box_foreign_selected.label_title
+    title = wse.box_foreign_selected._label_title
     assert title.text == 'Словарь иностранных слов'
 
 
@@ -117,7 +117,7 @@ def test_btn_goto_foreign_update(wse: WSE, monkeypatch: MonkeyPatch) -> None:
 
     # Select table entry to update.
     entry_index = 1
-    table = wse.box_foreign_selected.table
+    table = wse.box_foreign_selected._table
     table._impl.simulate_selection(entry_index)
 
     # Simulate a button press.
@@ -148,7 +148,7 @@ def test_btn_foreign_delete(delete: AsyncMock, wse: WSE) -> None:
 
     # Select table entry to delete.
     entry_index = 1
-    table = wse.box_foreign_selected.table
+    table = wse.box_foreign_selected._table
     table._impl.simulate_selection(entry_index)
 
     # Simulate a button press.
