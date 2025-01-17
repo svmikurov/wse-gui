@@ -49,12 +49,6 @@ async def goto_back_handler(widget: toga.Widget) -> None:
     await set_window_content(widget, previous_page, 'back')
 
 
-async def goto_explorer_handler(widget: toga.Widget) -> None:
-    """Go to explorer page, button handler."""
-    box = widget.root.app.box_explorer
-    await set_window_content(widget, box)
-
-
 ########################################################################
 # Foreign
 
@@ -132,4 +126,26 @@ async def goto_glossary_params_handler(widget: toga.Widget) -> None:
 async def goto_glossary_exercise_handler(widget: toga.Widget) -> None:
     """Go to glossary exercise, button handler."""
     box = widget.root.app.box_glossary_exercise
+    await set_window_content(widget, box)
+
+
+#########################################################################
+# Examples
+
+
+async def goto_explorer_handler(widget: toga.Widget) -> None:
+    """Go to explorer page, button handler."""
+    box = widget.root.app.box_explorer
+    await set_window_content(widget, box)
+
+
+async def goto_examples_handler(widget: toga.Widget) -> None:
+    """Go to table source page, button handler."""
+    box = widget.root.app.box_examples
+    await set_window_content(widget, box)
+
+
+async def goto_table_source_handler(widget: toga.Widget) -> None:
+    """Go to table source page, button handler."""
+    box = widget.root.app.box_table_source
     await set_window_content(widget, box)

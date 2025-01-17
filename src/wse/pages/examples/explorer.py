@@ -7,7 +7,10 @@ from toga.style import Pack
 from travertino.colors import NAMED_COLOR
 
 from wse.contrib.timer import Timer
-from wse.pages.handlers.goto_handler import goto_back_handler
+from wse.pages.handlers.goto_handler import (
+    goto_back_handler,
+    goto_examples_handler,
+)
 from wse.pages.widgets.box import BoxFlexCol
 from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.progress_bar import ProgressBarApp
@@ -23,7 +26,10 @@ class Explorer(toga.Box):
 
         # fmt: off
         self.title = toga.Label(text='Страница изучения виджетов.', style=Pack(text_align=CENTER))  # noqa: E501
+
+        # Buttons
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
+        self.btn_goto_examples = BtnApp('Примеры', on_press=goto_examples_handler)  # noqa: E501
 
         # Progress bar
         self.time.timeout = 5
@@ -68,6 +74,7 @@ class ExplorerLayout(Explorer):
             self.box_progress_bar,
             self.color_scroll,
             self.btn_start_progress_bar,
+            self.btn_goto_examples,
             self.btn_goto_back,
         )
 

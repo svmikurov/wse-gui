@@ -44,36 +44,23 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
         # Switches of count
         self.switch_is_first = SwitchApp(text='', on_change=self.plc.is_first.update_value)  # noqa: E501
         self.switch_is_last = SwitchApp(text='', on_change=self.plc.is_last.update_value)  # noqa: E501
-        # Switches are listeners.
-        self.plc.is_first.add_listener(self.switch_is_first)
-        self.plc.is_last.add_listener(self.switch_is_last)
+
         # NumberInputs
         self.input_count_first = NumberInputApp(step=10, min=0, on_change=self.plc.count_first.update_value)  # noqa: E501
         self.input_count_last = NumberInputApp(step=10, min=0, on_change=self.plc.count_last.update_value)  # noqa: E501
-        # NumberInputs ara listeners.
-        self.plc.count_first.add_listener(self.input_count_first)
-        self.plc.count_last.add_listener(self.input_count_last)
 
         # Switches of progress
         self.switch_study = SwitchApp(text='', on_change=self.plc.progress.study.update_value)  # noqa: E501
         self.switch_repeat = SwitchApp(text='', on_change=self.plc.progress.repeat.update_value)  # noqa: E501
         self.switch_examination = SwitchApp(text='', on_change=self.plc.progress.examination.update_value)  # noqa: E501
         self.switch_know = SwitchApp(text='', on_change=self.plc.progress.know.update_value)  # noqa: E501
-        # Switches are listeners.
-        self.plc.progress.study.add_listener(self.switch_study)
-        self.plc.progress.repeat.add_listener(self.switch_repeat)
-        self.plc.progress.examination.add_listener(self.switch_examination)
-        self.plc.progress.know.add_listener(self.switch_know)
 
         # Switch of favorites
         self.switch_favorites = SwitchApp(text='', on_change=self.plc.favorites.update_value)  # noqa: E501
-        self.plc.favorites.add_listener(self.switch_favorites)
 
         # Timeout
         self.switch_timeout = SwitchApp(text='', on_change=self.plc.has_timeout.update_value)  # noqa: E501
         self.input_timeout = NumberInputApp(step=1, min=1, on_change=self.plc.timeout.update_value)  # noqa: E501
-        self.plc.has_timeout.add_listener(self.switch_timeout)
-        self.plc.timeout.add_listener(self.input_timeout)
 
         # Buttons
         self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.start_exercise_handler)  # noqa: E501
@@ -93,6 +80,19 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
             style=Pack(direction=COLUMN, padding=(5, 10, 5, 10), background_color=colors.WHITE)  # noqa: E501
         )
         # fmt: on
+
+        # Listeners
+        self.plc.is_first.add_listener(self.switch_is_first)
+        self.plc.is_last.add_listener(self.switch_is_last)
+        self.plc.count_first.add_listener(self.input_count_first)
+        self.plc.count_last.add_listener(self.input_count_last)
+        self.plc.progress.study.add_listener(self.switch_study)
+        self.plc.progress.repeat.add_listener(self.switch_repeat)
+        self.plc.progress.examination.add_listener(self.switch_examination)
+        self.plc.progress.know.add_listener(self.switch_know)
+        self.plc.favorites.add_listener(self.switch_favorites)
+        self.plc.has_timeout.add_listener(self.switch_timeout)
+        self.plc.timeout.add_listener(self.input_timeout)
 
     async def on_open(self, widget: toga.Widget) -> None:
         """Request exercise params and populate selections."""

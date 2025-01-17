@@ -56,6 +56,7 @@ var/
 
 # IntelliJ Idea family of suites
 .idea
+.vscode
 *.iml
 ## File-based project format:
 *.ipr

@@ -1,6 +1,6 @@
 """App boxes to assign to window content."""
 
-from wse.pages.explorer import (
+from wse.pages.examples.explorer import (
     ExplorerLayout,
 )
 from wse.pages.foreign import (
