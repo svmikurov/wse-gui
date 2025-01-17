@@ -13,6 +13,7 @@ from wse.constants import (
     BTN_GOTO_GLOSSARY_PARAMS,
     GLOSSARY_DETAIL_PATH,
     GLOSSARY_EXERCISE_PATH,
+    GLOSSARY_FAVORITES_PATH,
     GLOSSARY_PARAMS_PATH,
     GLOSSARY_PATH,
     GLOSSARY_PROGRESS_PATH,
@@ -104,6 +105,7 @@ class ExerciseGlossaryPage(ExerciseLayout):
         super().__init__(*args, **kwargs)
         self.plc.url_exercise = urljoin(HOST, GLOSSARY_EXERCISE_PATH)
         self.plc.url_progress = urljoin(HOST, GLOSSARY_PROGRESS_PATH)
+        self.plc.url_favorites = urljoin(HOST, GLOSSARY_FAVORITES_PATH)
         self.plc.exercise_page = self
 
 
@@ -219,7 +221,7 @@ class SelectedGlossaryPage(TableLayout):
     source_url_detail = urljoin(HOST, GLOSSARY_DETAIL_PATH)
     headings = ['ID', 'Термин', 'Толкование']
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the page."""
         super().__init__(*args, **kwargs)
 

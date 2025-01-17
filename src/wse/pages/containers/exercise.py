@@ -51,6 +51,7 @@ class ExerciseWidgets:
         self.btn_not_know = AnswerBtn('Не знаю', on_press=self.plc.not_know)
         self.btn_know = AnswerBtn('Знаю', on_press=self.plc.know)
         self.btn_next = AnswerBtn('Далее', on_press=self.plc.next)
+        self.btn_favorites = BtnApp('Избранное', on_press=self.plc.favorites)
 
         # Navigation buttons
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
@@ -87,6 +88,7 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
             self.text_panel_answer,
             self.label_text_panel,
             self.text_panel_info,
+            self.btn_favorites,
             self.box_btns,
             self.btn_goto_back,
         )
@@ -131,3 +133,10 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
             self.insert(0, self.box_progress_bar)
         else:
             self.remove(self.box_progress_bar)
+
+    def update_favorites_button(self, is_favorites: bool) -> None:
+        """Update the favorites button."""
+        if is_favorites:
+            self.btn_favorites.text = 'Убрать из избранного'
+        else:
+            self.btn_favorites.text = 'Добавить в избранное'

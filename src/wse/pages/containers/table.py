@@ -55,7 +55,7 @@ class TableWidgets:
             headings=self.headings,
             data=self.plc.entry,
             accessors=self.entry.accessors,
-            style=Pack(flex=1, font_style=ITALIC)
+            style=Pack(flex=1, font_style=ITALIC),
         )
 
     async def on_open(self, widget: toga.Widget) -> None:
@@ -86,7 +86,7 @@ class TableWidgets:
 class TableLayout(TableWidgets, BaseBox):
     """Table of items list."""
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the page."""
         super().__init__(*args, **kwargs)
         self._box_btns_manage = toga.Box()

@@ -1,7 +1,5 @@
 """Controller of selected items list."""
 
-from pprint import pprint
-
 import toga
 from httpx import Response
 from toga.sources import Source
@@ -60,8 +58,6 @@ class ConntrollerTable:
             lookup_conditions,
         )
 
-        pprint(lookup_conditions)
-
         # Set the pagination urls.
         self.set_pagination_urls(response)
 
@@ -94,7 +90,7 @@ class ConntrollerTable:
 
     #####################################################################
     # Pagination
-    
+
     def set_pagination_urls(self, response: Response) -> None:
         """Set pagination urls."""
         payload = response.json()
@@ -102,7 +98,8 @@ class ConntrollerTable:
         self.current_pagination_url = response.url
         self.previous_pagination_url = payload['previous']
 
-    def reset_pageination_urls(self):
+    def reset_pageination_urls(self) -> None:
+        """Reset pagination urls."""
         self.next_pagination_url = None
         self.current_pagination_url = None
         self.previous_pagination_url = None
@@ -126,7 +123,7 @@ class ConntrollerTable:
     def previous_pagination_url(self, value: str | None) -> None:
         self._previous_pagination_url = value
         self.event.notify('update_previous_button', is_active=bool(value))
-        
+
     #############################
     # Pagination buttons handlers
 

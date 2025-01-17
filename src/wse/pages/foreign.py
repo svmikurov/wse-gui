@@ -14,9 +14,10 @@ from wse.constants import (
     FOREIGN_ASSESSMENT_PATH,
     FOREIGN_DETAIL_PATH,
     FOREIGN_EXERCISE_PATH,
+    FOREIGN_FAVORITES_PATH,
     FOREIGN_PARAMS_PATH,
-    FOREIGN_PATH_SELECTED,
     FOREIGN_PATH,
+    FOREIGN_PATH_SELECTED,
     HOST,
     TITLE_FOREIGN_CREATE,
     TITLE_FOREIGN_EXERCISE,
@@ -101,6 +102,7 @@ class ExerciseForeignPage(ExerciseLayout):
         super().__init__(*args, **kwargs)
         self.plc.url_exercise = urljoin(HOST, FOREIGN_EXERCISE_PATH)
         self.plc.url_progress = urljoin(HOST, FOREIGN_ASSESSMENT_PATH)
+        self.plc.url_favorites = urljoin(HOST, FOREIGN_FAVORITES_PATH)
         self.plc.exercise_page = self
 
 
@@ -211,7 +213,7 @@ class SelectedForeignPage(TableLayout):
     title = TITLE_FOREIGN_LIST
     source_class = WordSource()
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the page."""
         super().__init__(*args, **kwargs)
         self.plc.source_url = urljoin(HOST, FOREIGN_PATH_SELECTED)

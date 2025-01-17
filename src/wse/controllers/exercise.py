@@ -28,6 +28,7 @@ class ControllerExercise:
         self._plc_params = plc_params
         self.url_exercise = None
         self.url_progress = None
+        self.url_favorites = None
         self.timer = Timer()
         self._task = Task()
 
@@ -70,6 +71,7 @@ class ControllerExercise:
                 if not self._task.data:
                     await self._handle_no_task()
                     break
+                self._update_favorites_button()
                 self._show_exercise_info()
                 self._show_question()
                 self._change_task_status(to_status='answer')
@@ -175,6 +177,10 @@ class ControllerExercise:
         payload = {'action': assessment, 'item_id': self._task.item_id}
         await request_post_async(self.url_progress, payload)
 
+    async def _request_favorites(self, id: int) -> None:
+        """Update item favorites status."""
+        await request_post_async(self.url_favorites, payload={'id': id})
+
     ####################################################################
     # Button handlers
 
@@ -197,6 +203,18 @@ class ControllerExercise:
     async def next(self, _: toga.Widget) -> None:
         """Move to next task status."""
         await self._move_to_next_task_status()
+
+    async def favorites(self, _: toga.Widget) -> None:
+        """Update favorites status."""
+        await self._request_favorites(id=self._task.data['id'])
+
+        is_favorites = self._task.data['favorites']
+        if is_favorites:
+            self._task.data['favorites'] = False
+        else:
+            self._task.data['favorites'] = True
+
+        self._update_favorites_button()
 
     #########
     # Helpers
@@ -228,3 +246,7 @@ class ControllerExercise:
     def _activate_buttons(self) -> None:
         self.event.notify('activate_answer_buttons')
         self.event.notify('activate_pause_button')
+
+    def _update_favorites_button(self) -> None:
+        is_favorites = self._task.data['favorites']
+        self.event.notify('update_favorites_button', is_favorites=is_favorites)

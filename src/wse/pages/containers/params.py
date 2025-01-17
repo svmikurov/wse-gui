@@ -188,33 +188,27 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             self.label_title,
             self.scroll_container,
             self.box_divider,
+            self.btn_goto_selected,
             self.box_save_reset,
             self.btn_set_saved_params,
-            self.btn_goto_selected,
             self.btn_goto_exercise,
             self.btn_goto_back,
         )
-        # Selections
         self.box_params.add(
+            # Selections
             self.box_selection_category,
             self.box_selection_source,
             self.box_selection_order,
             self.box_selection_period_start_date,
             self.box_selection_period_end_date,
-        )
-        # NumberInputs
-        self.box_params.add(
+            # NumberInputs
             self.box_nuber_input_first,
             self.box_nuber_input_last,
             self.box_timeout,
-        )
-        # Progress switchers
-        self.box_params.add(
+            # Progress switchers
             self.box_progress_switchers_line1,
             self.box_progress_switchers_line2,
-        )
-        # Favorites
-        self.box_params.add(
+            # Favorites
             self.box_favorites,
         )
 

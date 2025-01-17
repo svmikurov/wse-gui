@@ -47,12 +47,18 @@ FOREIGN_PATH = '/api/v1/foreign/'
 FOREIGN_PATH_SELECTED = '/api/v1/foreign/selected/'
 """Selected foreign words the url path(`str`).
 """
+FOREIGN_FAVORITES_PATH = '/api/v1/foreign/favorites/'
+"""Update word favorites status the url path(`str`).
+"""
 FOREIGN_DETAIL_PATH = '/api/v1/foreign/%s/'
 """Detail foreign word the url path(`str`).
 """
 
 GLOSSARY_EXERCISE_PATH = '/api/v1/glossary/exercise/'
 """Glossary exercise path (`str`).
+"""
+GLOSSARY_FAVORITES_PATH = '/api/v1/glossary/favorites/'
+"""Update term favorites status the url path(`str`).
 """
 GLOSSARY_PARAMS_PATH = '/api/v1/glossary/params/'
 """Glossary exercise parameters path (`str`).
