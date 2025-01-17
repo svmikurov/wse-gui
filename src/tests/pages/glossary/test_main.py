@@ -102,4 +102,4 @@ def test_btn_goto_list(
     # Run a fake main loop.
     run_until_complete(wse)
 
-    assert wse.main_window.content == wse.box_glossary_list
+    assert wse.main_window.content == wse.box_glossary_selected

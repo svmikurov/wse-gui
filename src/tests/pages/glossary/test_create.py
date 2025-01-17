@@ -72,4 +72,4 @@ def test_btn_goto_glossary_list(
     run_until_complete(wse)
 
     assert btn.text == 'Словарь терминов'
-    assert wse.main_window.content == wse.box_glossary_list
+    assert wse.main_window.content == wse.box_glossary_selected

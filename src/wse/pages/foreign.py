@@ -37,8 +37,8 @@ from wse.pages.handlers.goto_handler import (
     goto_back_handler,
     goto_foreign_create_handler,
     goto_foreign_exercise_handler,
-    goto_foreign_list_handler,
     goto_foreign_params_handler,
+    goto_foreign_selected_handler,
     goto_foreign_update_handler,
 )
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
@@ -61,7 +61,6 @@ class MainForeignPage(WidgetMixin, BaseBox):
         self.label_title = TitleLabel(TITLE_FOREIGN_MAIN)
         self.btn_goto_params = BtnApp(BTN_GOTO_FOREIGN_PARAMS, on_press=goto_foreign_params_handler)  # noqa: E501
         self.btn_goto_create = BtnApp(BTN_GOTO_FOREIGN_CREATE, on_press=goto_foreign_create_handler)  # noqa: E501
-        self.btn_goto_list = BtnApp(BTN_GOTO_FOREIGN_LIST, on_press=goto_foreign_list_handler)  # noqa: E501
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
         # fmt: on
 
@@ -73,7 +72,6 @@ class MainForeignPage(WidgetMixin, BaseBox):
             self.label_title,
             self.box_alignment,
             self.btn_goto_create,
-            self.btn_goto_list,
             self.btn_goto_params,
             self.btn_goto_back,
         )
@@ -89,6 +87,7 @@ class ParamsForeignPage(ParamsLayout):
         super().__init__(*args, **kwargs)
         self.plc.url = urljoin(HOST, FOREIGN_PARAMS_PATH)
         self.goto_exercise_handler = goto_foreign_exercise_handler
+        self.goto_selected_handler = goto_foreign_selected_handler
 
 
 class ExerciseForeignPage(ExerciseLayout):
@@ -123,7 +122,7 @@ class FormForeign(BaseBox, BaseForm):
         self.input_foreign = MulTextInpApp(placeholder='Слово на иностранном')
         self.btn_submit = BtnApp(self.btn_submit_text, on_press=self.submit_handler)  # noqa: E501
         # Buttons
-        self.btn_goto_foreign_list = BtnApp(BTN_GOTO_FOREIGN_LIST, on_press=goto_foreign_list_handler)  # noqa: E501
+        self.btn_goto_foreign_list = BtnApp(BTN_GOTO_FOREIGN_LIST, on_press=goto_foreign_selected_handler)  # noqa: E501
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
         # fmt: on
 
@@ -202,10 +201,10 @@ class UpdateWordPage(FormForeign):
 
     async def handle_success(self, widget: toga.Widget) -> None:
         """Go to foreign list page, if success."""
-        await goto_foreign_list_handler(widget)
+        await goto_foreign_selected_handler(widget)
 
 
-class ListForeignPage(TableLayout):
+class SelectedForeignPage(TableLayout):
     """Table of list of foreign words."""
 
     title = TITLE_FOREIGN_LIST
@@ -214,9 +213,9 @@ class ListForeignPage(TableLayout):
     source_url_detail = urljoin(HOST, FOREIGN_DETAIL_PATH)
     headings = ['Иностранный', 'Русский']
 
-    def __init__(self) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         """Construct the page."""
-        super().__init__()
+        super().__init__(*args, **kwargs)
 
     async def create_handler(self, widget: toga.Widget) -> None:
         """Go to create the word form, button handler."""

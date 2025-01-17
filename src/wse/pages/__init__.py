@@ -6,17 +6,17 @@ from wse.pages.examples.explorer import (
 from wse.pages.foreign import (
     CreateWordPage,
     ExerciseForeignPage,
-    ListForeignPage,
     MainForeignPage,
     ParamsForeignPage,
+    SelectedForeignPage,
     UpdateWordPage,
 )
 from wse.pages.glossary import (
     CreateTermPage,
     ExerciseGlossaryPage,
-    ListGlossaryPage,
     MainGlossaryWidget,
     ParamsGlossaryPage,
+    SelectedGlossaryPage,
     UpdateTermPage,
 )
 from wse.pages.login import (
@@ -32,8 +32,8 @@ __all__ = (
     'ExerciseForeignPage',
     'ExerciseGlossaryPage',
     'ExplorerLayout',
-    'ListForeignPage',
-    'ListGlossaryPage',
+    'SelectedForeignPage',
+    'SelectedGlossaryPage',
     'LoginBox',
     'MainBox',
     'MainForeignPage',
@@ -43,5 +43,5 @@ __all__ = (
     'UpdateWordPage',
     'UpdateTermPage',
     'ExplorerLayout',
-    'ListForeignPage',
+    'SelectedForeignPage',
 )

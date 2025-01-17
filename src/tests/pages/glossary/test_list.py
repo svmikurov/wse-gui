@@ -13,7 +13,7 @@ from wse.app import WSE
 @pytest.fixture(autouse=True)
 def goto_glossary_list_page(wse: WSE) -> None:
     """Assign the glossary list box to main window content, fixture."""
-    wse.main_window.content = wse.box_glossary_list
+    wse.main_window.content = wse.box_glossary_selected
 
 
 def mock_list_json(*args: object, **kwargs: object) -> FixtureReader:
@@ -26,18 +26,18 @@ def populate_table(wse: WSE, monkeypatch: MonkeyPatch) -> None:
     """Populate glossary table list table."""
     # Mock http request word list, populate table.
     monkeypatch.setattr(Client, 'get', mock_list_json)
-    wse.box_glossary_list.populate_table()
+    wse.box_glossary_selected.populate_table()
 
 
 def test_widget_order(wse: WSE) -> None:
     """Test the widget and containers orger at glossary list page."""
-    box = wse.box_glossary_list
+    box = wse.box_glossary_selected
 
     assert box.children == [
         box.label_title,
         box.btns_manage,
         box.table,
-        box.btns_paginate,
+        box.box_paginate,
         box.btn_goto_back,
     ]
 
@@ -47,7 +47,7 @@ def test_widget_order(wse: WSE) -> None:
         box._btn_delete,
     ]
 
-    assert box.btns_paginate.children == [
+    assert box.box_paginate.children == [
         box._btn_previous,
         box._btn_table_reload,
         box._btn_next,
@@ -56,13 +56,13 @@ def test_widget_order(wse: WSE) -> None:
 
 def test_label_title(wse: WSE) -> None:
     """Test page box title."""
-    title = wse.box_glossary_list.label_title
+    title = wse.box_glossary_selected.label_title
     assert title.text == 'Список терминов'
 
 
 def test_table(wse: WSE) -> None:
     """Test table of glossary term list."""
-    table = wse.box_glossary_list.table
+    table = wse.box_glossary_selected.table
     assert table.headings == ['ID', 'Термин', 'Толкование']
     assert table.accessors == ['id', 'term', 'definition']
 
@@ -73,7 +73,7 @@ def test_table(wse: WSE) -> None:
 
 def test_btn_goto_glossary_create(wse: WSE) -> None:
     """Test the button go to create glossary term."""
-    button = wse.box_glossary_list._btn_create
+    button = wse.box_glossary_selected._btn_create
 
     # Simulate a button press.
     button._impl.simulate_press()
@@ -90,11 +90,11 @@ def test_btn_goto_glossary_create(wse: WSE) -> None:
 
 def test_btn_goto_glossary_update(wse: WSE) -> None:
     """Test the button go to update glossary term."""
-    button = wse.box_glossary_list._btn_update
+    button = wse.box_glossary_selected._btn_update
 
     # Select table entry to update.
     entry_index = 1
-    table = wse.box_glossary_list.table
+    table = wse.box_glossary_selected.table
     table._impl.simulate_selection(entry_index)
 
     # Simulate a button press.
@@ -120,11 +120,11 @@ def test_btn_glossary_delete(
     wse: WSE,
 ) -> None:
     """Test the button of delete glossary term."""
-    btn = wse.box_glossary_list._btn_delete
+    btn = wse.box_glossary_selected._btn_delete
 
     # Select table entry to delete.
     entry_index = 1
-    table = wse.box_glossary_list.table
+    table = wse.box_glossary_selected.table
     table._impl.simulate_selection(entry_index)
 
     # Simulate a button press.
@@ -137,7 +137,7 @@ def test_btn_glossary_delete(
     assert btn.text == 'Удалить'
 
     # The window content has not been refreshed.
-    assert wse.main_window.content == wse.box_glossary_list
+    assert wse.main_window.content == wse.box_glossary_selected
 
     # Assert http request called with arg.
     delete.assert_called_once_with('http://127.0.0.1/api/v1/glossary/2/')

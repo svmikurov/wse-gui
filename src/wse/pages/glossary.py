@@ -36,8 +36,8 @@ from wse.pages.handlers.goto_handler import (
     goto_back_handler,
     goto_glossary_create_handler,
     goto_glossary_exercise_handler,
-    goto_glossary_list_handler,
     goto_glossary_params_handler,
+    goto_glossary_selected_handler,
     goto_glossary_update_handler,
 )
 from wse.pages.widgets.box_page import (
@@ -63,7 +63,7 @@ class MainGlossaryWidget(WidgetMixin, BaseBox):
         self.label_title = TitleLabel(TITLE_GLOSSARY_MAIN)
         self.btn_goto_params = BtnApp(BTN_GOTO_GLOSSARY_PARAMS, on_press=goto_glossary_params_handler)  # noqa: E501
         self.btn_goto_create = BtnApp(BTN_GOTO_GLOSSARY_CREATE, on_press=goto_glossary_create_handler)  # noqa: E501
-        self.btn_goto_list = BtnApp(BTN_GOTO_GLOSSARY_LIST, on_press=goto_glossary_list_handler)  # noqa: E501
+        self.btn_goto_list = BtnApp(BTN_GOTO_GLOSSARY_LIST, on_press=goto_glossary_selected_handler)  # noqa: E501
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
         # fmt: on
 
@@ -91,6 +91,7 @@ class ParamsGlossaryPage(ParamsLayout):
         super().__init__(*args, **kwargs)
         self.plc.url = urljoin(HOST, GLOSSARY_PARAMS_PATH)
         self.goto_exercise_handler = goto_glossary_exercise_handler
+        self.goto_selected_handler = goto_glossary_selected_handler
 
 
 class ExerciseGlossaryPage(ExerciseLayout):
@@ -127,7 +128,7 @@ class FormGlossary(BaseBox, BaseForm):
         self.input_definition.style.flex = 1
         # Buttons
         self.btn_submit = BtnApp(self.btn_submit_text, on_press=self.submit_handler)  # noqa: E501
-        self.btn_goto_glossary_list = BtnApp(BTN_GOTO_GLOSSARY_LIST, on_press=goto_glossary_list_handler)  # noqa: E501
+        self.btn_goto_glossary_list = BtnApp(BTN_GOTO_GLOSSARY_LIST, on_press=goto_glossary_selected_handler)  # noqa: E501
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
         # fmt: on
 
@@ -206,10 +207,10 @@ class UpdateTermPage(FormGlossary):
     @classmethod
     async def handle_success(cls, widget: toga.Widget) -> None:
         """Go to glossary list page, if success."""
-        await goto_glossary_list_handler(widget)
+        await goto_glossary_selected_handler(widget)
 
 
-class ListGlossaryPage(TableLayout):
+class SelectedGlossaryPage(TableLayout):
     """Table of list of glossary terms, the page."""
 
     title = TITLE_GLOSSARY_LIST
@@ -218,9 +219,9 @@ class ListGlossaryPage(TableLayout):
     source_url_detail = urljoin(HOST, GLOSSARY_DETAIL_PATH)
     headings = ['ID', 'Термин', 'Толкование']
 
-    def __init__(self) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         """Construct the page."""
-        super().__init__()
+        super().__init__(*args, **kwargs)
 
     async def create_handler(self, widget: toga.Widget) -> None:
         """Go to create the term form, button handler."""

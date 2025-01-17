@@ -6,21 +6,21 @@ import pytest
 
 from tests.utils import FixtureReader
 from wse.app import WSE
-from wse.pages import ListForeignPage
+from wse.pages import SelectedForeignPage
 
 URL_PAGINATION = 'http://127.0.0.1/api/v1/foreign/?limit=3&offset=3'
 
 
 @pytest.fixture
-def box_list(wse: WSE) -> ListForeignPage:
+def box_list(wse: WSE) -> SelectedForeignPage:
     """Return the tested box-container, fixture."""
-    return wse.box_foreign_list
+    return wse.box_foreign_selected
 
 
 @patch('httpx.Client.get')
 def test_pagination_first_page(
     get: MagicMock,
-    box_list: ListForeignPage,
+    box_list: SelectedForeignPage,
 ) -> None:
     """Test pagination buttons at first page."""
     get.return_value = FixtureReader('pagination_foreign_first.json')
@@ -47,7 +47,7 @@ def test_pagination_first_page(
 @patch('httpx.Client.get')
 def test_pagination_last_page(
     get: MagicMock,
-    box_list: ListForeignPage,
+    box_list: SelectedForeignPage,
 ) -> None:
     """Test pagination buttons at last page."""
     get.return_value = FixtureReader('pagination_foreign_last.json')
@@ -71,7 +71,7 @@ def test_pagination_last_page(
     get.assert_called_with(URL_PAGINATION)
 
 
-def test_btn_text(box_list: ListForeignPage) -> None:
+def test_btn_text(box_list: SelectedForeignPage) -> None:
     """Test the handler of button pagination next."""
     assert box_list._btn_previous.text == '<'
     assert box_list._btn_table_reload.text == 'Обновить'

@@ -81,7 +81,11 @@ class Selected:
     ####################################################################
     # Create, update, delete entry
 
-    def update_item(self, entry: object) -> None:
+    def create_handler(self, entry: object) -> None:
+        """Update item."""
+        pass
+
+    def update_handler(self, entry: object) -> None:
         """Update item."""
         pass
 
@@ -95,3 +99,15 @@ class Selected:
             url = self.source_url_detail % entry.id
             await request_delete_async(url)
             self.populate_table(self.current_pagination_url)
+
+    #####################################################################
+    # Pagination
+
+    def previous_handler(self) -> None:
+        pass
+
+    def reload_handler(self) -> None:
+        pass
+
+    def next_handler(self) -> None:
+        pass

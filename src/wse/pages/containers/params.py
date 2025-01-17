@@ -7,7 +7,9 @@ from toga.style import Pack
 
 from wse.contrib.http_requests import HttpPutMixin
 from wse.controllers.params import ControllerParams
-from wse.pages.handlers.goto_handler import goto_back_handler
+from wse.pages.handlers.goto_handler import (
+    goto_back_handler,
+)
 from wse.pages.widgets.box import BoxFlexCol, BoxFlexRow
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
@@ -20,15 +22,14 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
     """Exercise params widgets."""
 
     title = ''
-    """The exercise page title (`str`).
-    """
 
     def __init__(self, controller: ControllerParams) -> None:
         """Construct a widgets."""
         super().__init__()
         self.plc = controller
-        # Params page has button to go to exercise.
+        # To override
         self.goto_exercise_handler = None
+        self.goto_selected_handler = None
 
         # Title
         self.label_title = TitleLabel(text=self.title)
@@ -63,10 +64,11 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
         self.input_timeout = NumberInputApp(step=1, min=1, on_change=self.plc.timeout.update_value)  # noqa: E501
 
         # Buttons
-        self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.start_exercise_handler)  # noqa: E501
-        self.btn_set_saved_params = BtnApp('Сохраненный выбор', on_press=self.set_saved_params_handler)  # noqa: E501
         self.btn_reset_params = BtnApp('Сбросить выбор', on_press=self.display_confirm_reset_handler)  # noqa: E501
         self.btn_save_params = BtnApp('Сохранить выбор', on_press=self.display_confirm_save_handler)  # noqa: E501
+        self.btn_goto_selected = BtnApp('Список выбранных', on_press=self.display_selected_handler)  # noqa: E501
+        self.btn_set_saved_params = BtnApp('Сохраненный выбор', on_press=self.set_saved_params_handler)  # noqa: E501
+        self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.start_exercise_handler)  # noqa: E501
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)  # noqa: E501
 
         # Confirm buttons
@@ -116,6 +118,10 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
     async def save_params_handler(self, _: toga.Widget) -> None:
         """Save selected params, button handler."""
         await self.plc.request_save_lookup_conditions()
+
+    async def display_selected_handler(self, widget: toga.Widget) -> None:
+        """Save selected params, button handler."""
+        await self.goto_selected_handler(widget)
 
     #########
     # Confirm
@@ -184,6 +190,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             self.btn_reset_params,
             self.btn_save_params,
             self.btn_set_saved_params,
+            self.btn_goto_selected,
             self.btn_goto_exercise,
             self.btn_goto_back,
         )

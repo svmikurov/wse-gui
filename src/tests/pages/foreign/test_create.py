@@ -6,7 +6,7 @@ import pytest
 
 from tests.utils import run_until_complete
 from wse.app import WSE
-from wse.pages import CreateWordPage, ListForeignPage
+from wse.pages import CreateWordPage, SelectedForeignPage
 
 
 @pytest.fixture(autouse=True)
@@ -60,7 +60,7 @@ def test_btn_submit(
     request_async.assert_awaited()
 
 
-@patch.object(ListForeignPage, 'on_open')
+@patch.object(SelectedForeignPage, 'on_open')
 def test_btn_goto_foreign_list(
     on_open: AsyncMock,
     wse: WSE,
@@ -75,4 +75,4 @@ def test_btn_goto_foreign_list(
 
     assert btn.text == 'Словарь иностранных слов'
 
-    assert wse.main_window.content == wse.box_foreign_list
+    assert wse.main_window.content == wse.box_foreign_selected

@@ -73,7 +73,7 @@ MOCK_REQUEST_GLOSSARY_LIST = [
             None,
         ),
         (
-            goto_handler.goto_foreign_list_handler,
+            goto_handler.goto_foreign_selected_handler,
             'box_foreign_main',
             'box_foreign_list',
             'btn_goto_list',
@@ -109,7 +109,7 @@ MOCK_REQUEST_GLOSSARY_LIST = [
             None,
         ),
         (
-            goto_handler.goto_glossary_list_handler,
+            goto_handler.goto_glossary_selected_handler,
             'box_glossary_main',
             'box_glossary_list',
             'btn_goto_list',

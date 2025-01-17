@@ -94,4 +94,4 @@ def test_btn_goto_list(wse: WSE, monkeypatch: MonkeyPatch) -> None:
     # Run a fake main loop.
     run_until_complete(wse)
 
-    assert wse.main_window.content == wse.box_foreign_list
+    assert wse.main_window.content == wse.box_foreign_selected
