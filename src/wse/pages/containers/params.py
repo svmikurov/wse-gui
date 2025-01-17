@@ -172,6 +172,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
         # is replaced by a confirm button.
         self.create_box_confirm_save()
         self.create_box_confirm_reset()
+        self.create_box_save_reset()
 
         # Exercise parameter boxes are enclosed in ``box_params``.
         self.box_params = BoxFlexCol()
@@ -187,8 +188,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             self.label_title,
             self.scroll_container,
             self.box_divider,
-            self.btn_reset_params,
-            self.btn_save_params,
+            self.box_save_reset,
             self.btn_set_saved_params,
             self.btn_goto_selected,
             self.btn_goto_exercise,
@@ -356,6 +356,12 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             children=[self.btn_cancel_reset, self.btn_confirm_reset]
         )
 
+    def create_box_save_reset(self) -> None:
+        """Save or reset params the container of buttons."""
+        self.box_save_reset = toga.Box(
+            children=[self.btn_save_params, self.btn_reset_params]
+        )
+
     #####################################################################
     # Button handlers
 
@@ -364,7 +370,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
 
     def display_confirm_save_handler(self, _: toga.Widget) -> None:
         """Display confirm, button handler."""
-        self.replace(self.btn_save_params, self.box_confirm_save)
+        self.replace(self.box_save_reset, self.box_confirm_save)
 
     async def confirm_save_handler(self, widget: toga.Widget) -> None:
         """Confirm save params, button handler."""
@@ -373,14 +379,14 @@ class ParamsLayout(ParamsWidgets, BaseBox):
 
     def undisplay_confirm_save_handler(self, _: toga.Widget) -> None:
         """Replace confirm to save button, button handler."""
-        self.replace(self.box_confirm_save, self.btn_save_params)
+        self.replace(self.box_confirm_save, self.box_save_reset)
 
     ###############
     # Reset confirm
 
     def display_confirm_reset_handler(self, _: toga.Widget) -> None:
         """Display confirm, button handler."""
-        self.replace(self.btn_reset_params, self.box_confirm_reset)
+        self.replace(self.box_save_reset, self.box_confirm_reset)
 
     async def confirm_reset_handler(self, widget: toga.Widget) -> None:
         """Confirm reset params, button handler."""
@@ -389,7 +395,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
 
     def undisplay_confirm_reset_handler(self, _: toga.Widget) -> None:
         """Replace confirm to reset button, button handler."""
-        self.replace(self.box_confirm_reset, self.btn_reset_params)
+        self.replace(self.box_confirm_reset, self.box_save_reset)
 
     #####################################################################
     # Select widgets to display
