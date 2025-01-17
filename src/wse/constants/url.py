@@ -44,6 +44,9 @@ FOREIGN_PARAMS_PATH = '/api/v1/foreign/params/'
 FOREIGN_PATH = '/api/v1/foreign/'
 """Create foreign word and list of foreign word the url path(`str`).
 """
+FOREIGN_PATH_SELECTED = '/api/v1/foreign/selected/'
+"""Selected foreign words the url path(`str`).
+"""
 FOREIGN_DETAIL_PATH = '/api/v1/foreign/%s/'
 """Detail foreign word the url path(`str`).
 """

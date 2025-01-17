@@ -15,6 +15,7 @@ from wse.constants import (
     FOREIGN_DETAIL_PATH,
     FOREIGN_EXERCISE_PATH,
     FOREIGN_PARAMS_PATH,
+    FOREIGN_PATH_SELECTED,
     FOREIGN_PATH,
     HOST,
     TITLE_FOREIGN_CREATE,
@@ -213,7 +214,7 @@ class SelectedForeignPage(TableLayout):
     def __init__(self, *args, **kwargs) -> None:
         """Construct the page."""
         super().__init__(*args, **kwargs)
-        self.plc.source_url = urljoin(HOST, FOREIGN_PATH)
+        self.plc.source_url = urljoin(HOST, FOREIGN_PATH_SELECTED)
         self.plc.source_url_detail = urljoin(HOST, FOREIGN_DETAIL_PATH)
         self.plc.headings = ['Иностранный', 'Русский']
 

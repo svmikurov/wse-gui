@@ -1,11 +1,13 @@
 """Controller of selected items list."""
 
+from pprint import pprint
+
 import toga
 from httpx import Response
 from toga.sources import Source
 
 from wse.contrib.data import to_entries
-from wse.contrib.http_requests import request_delete_async, request_get
+from wse.contrib.http_requests import request_delete_async, request_post
 from wse.controllers.params import ControllerParams
 from wse.sources.foreign import WordSource
 
@@ -15,7 +17,7 @@ class ConntrollerTable:
 
     def __init__(self, plc_params: ControllerParams) -> None:
         """Construct the controller."""
-        self.plc_params = plc_params
+        self._plc_params = plc_params
 
         # The pagination urls
         self._next_pagination_url = None
@@ -45,8 +47,20 @@ class ConntrollerTable:
         pagination_url: str | None = None,
     ) -> list[tuple[str, ...]]:
         """Request the entries to populate the table."""
+        lookup_conditions = self._plc_params.lookup_conditions
+        # TODO: Refactor remove 'has_timeout', 'timeout', 'order'
+        #  from lookup_conditions.
+        lookup_conditions.pop('has_timeout')
+        lookup_conditions.pop('timeout')
+        lookup_conditions.pop('order')
+
         # Update pagination page if it, otherwise request first page.
-        response = request_get(pagination_url or self.source_url)
+        response = request_post(
+            pagination_url or self.source_url,
+            lookup_conditions,
+        )
+
+        pprint(lookup_conditions)
 
         # Set the pagination urls.
         self.set_pagination_urls(response)
