@@ -25,6 +25,7 @@ from wse.constants import (
     TITLE_GLOSSARY_PARAMS,
     TITLE_GLOSSARY_UPDATE,
 )
+from wse.constants.url import GLOSSARY_SELECTED_PATH
 from wse.contrib.http_requests import (
     HttpPostMixin,
     request_post_async,
@@ -49,7 +50,7 @@ from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.form import BaseForm
 from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.text_input import MulTextInpApp
-from wse.sources.glossary import Term, TermSource
+from wse.sources.glossary import Term, TermSourceList
 
 
 class MainGlossaryWidget(WidgetMixin, BaseBox):
@@ -64,7 +65,6 @@ class MainGlossaryWidget(WidgetMixin, BaseBox):
         self.label_title = TitleLabel(TITLE_GLOSSARY_MAIN)
         self.btn_goto_params = BtnApp(BTN_GOTO_GLOSSARY_PARAMS, on_press=goto_glossary_params_handler)  # noqa: E501
         self.btn_goto_create = BtnApp(BTN_GOTO_GLOSSARY_CREATE, on_press=goto_glossary_create_handler)  # noqa: E501
-        self.btn_goto_list = BtnApp(BTN_GOTO_GLOSSARY_LIST, on_press=goto_glossary_selected_handler)  # noqa: E501
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
         # fmt: on
 
@@ -76,7 +76,6 @@ class MainGlossaryWidget(WidgetMixin, BaseBox):
             self.label_title,
             self.box_alignment,
             self.btn_goto_create,
-            self.btn_goto_list,
             self.btn_goto_params,
             self.btn_goto_back,
         )
@@ -216,14 +215,16 @@ class SelectedGlossaryPage(TableLayout):
     """Table of list of glossary terms, the page."""
 
     title = TITLE_GLOSSARY_LIST
-    source_class = TermSource()
-    source_url = urljoin(HOST, GLOSSARY_PATH)
-    source_url_detail = urljoin(HOST, GLOSSARY_DETAIL_PATH)
-    headings = ['ID', 'Термин', 'Толкование']
+    headings = ['Термин', 'Толкование']
+    table_accessors = ['term', 'definition']
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the page."""
         super().__init__(*args, **kwargs)
+        self._plc.source_url = urljoin(HOST, GLOSSARY_SELECTED_PATH)
+        self._plc.source_url_detail = urljoin(HOST, GLOSSARY_DETAIL_PATH)
+        self._plc.entry = TermSourceList()
+        self._table.data = self._plc.entry
 
     async def create_handler(self, widget: toga.Widget) -> None:
         """Go to create the term form, button handler."""

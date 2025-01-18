@@ -4,7 +4,7 @@ import toga
 from toga.constants import ITALIC
 from toga.style import Pack
 
-from wse.controllers.table import ConntrollerTable
+from wse.controllers.table import ControllerTable
 from wse.pages.handlers.goto_handler import (
     goto_back_handler,
     goto_foreign_update_handler,
@@ -17,50 +17,47 @@ from wse.pages.widgets.label import TitleLabel
 class TableWidgets:
     """Table of selected items."""
 
-    title = ''
-    source_class = None
+    title: str
+    headings: list
+    table_accessors: list
 
-    def __init__(self, controller: ConntrollerTable) -> None:
+    def __init__(self, controller: ControllerTable) -> None:
         """Construct the table."""
         super().__init__()
-        self.plc = controller
-        self.plc.event.add_listener(self)
-        # To override
-        self.headings = None
+        self._plc = controller
+        self._plc.event.add_listener(self)
 
+        # fmt: off
         # Title
         self._label_title = TitleLabel(self.title)
 
-        # Source
-        self.entry = self.source_class
-
         # The table entries management buttons
-        self._btn_create = SmBtn('Добавить', on_press=self.plc.create_handler)
-        self._btn_update = SmBtn('Изменить', on_press=self.plc.update_handler)
-        self._btn_delete = SmBtn('Удалить', on_press=self.plc.delete_handler)
+        self._btn_create = SmBtn('Добавить', on_press=self._plc.create_handler)
+        self._btn_update = SmBtn('Изменить', on_press=self._plc.update_handler)
+        self._btn_delete = SmBtn('Удалить', on_press=self._plc.delete_handler)
 
         # The pagination buttons
-        self._btn_previous = BtnApp('<', on_press=self.plc.previous_handler)
-        self._btn_reload = BtnApp('Обновить', on_press=self.plc.reload_handler)
-        self._btn_next = BtnApp('>', on_press=self.plc.next_handler)
+        self._btn_previous = BtnApp('<', on_press=self._plc.previous_handler)
+        self._btn_reload = BtnApp('Обновить', on_press=self._plc.reload_handler)  # noqa: E501
+        self._btn_next = BtnApp('>', on_press=self._plc.next_handler)
         # By default, the pagination buttons is disabled.
         self._btn_previous.enabled = False
         self._btn_next.enabled = False
 
         # Navigation buttons
         self._btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
+        # fmt: on
 
         # Table
         self._table = toga.Table(
             headings=self.headings,
-            data=self.plc.entry,
-            accessors=self.entry.accessors,
+            accessors=self.table_accessors,
             style=Pack(flex=1, font_style=ITALIC),
         )
 
     async def on_open(self, widget: toga.Widget) -> None:
         """Invoke the populate the table when the table opens."""
-        self.plc.on_open(widget)
+        self._plc.on_open(widget)
 
     #####################################################################
     # Button handlers
@@ -68,7 +65,7 @@ class TableWidgets:
     async def update_handler(self, widget: toga.Widget) -> None:
         """Update the entry, button handler."""
         entry = self._table.selection
-        self.plc.update_item(entry)
+        self._plc.update_item(entry)
         await goto_foreign_update_handler(widget)
 
     #####################################################################

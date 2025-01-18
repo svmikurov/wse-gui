@@ -1,6 +1,20 @@
 """Glossary data source implementation."""
 
-from toga.sources import Source
+from toga.sources import ListSource, Source
+
+
+class TermSourceList(ListSource):
+    """Term list source."""
+
+    def __init__(self) -> None:
+        """Construct the spurce."""
+        accessors = ['id', 'term', 'definition']
+        super().__init__(accessors=accessors)
+
+    def add_entry(self, entry: object) -> None:
+        """Add entry to source."""
+        self.append(entry)
+        self.notify('append', data=entry)
 
 
 class Term:
@@ -25,11 +39,7 @@ class TermSource(Source):
         """Construct the source."""
         super().__init__()
         self._terms = []
-        self.accessors = [
-            'id',
-            'term',
-            'definition',
-        ]
+        self.accessors = ['id', 'term', 'definition']
 
     def __len__(self) -> int:
         """Get len items."""

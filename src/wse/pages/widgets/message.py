@@ -13,9 +13,5 @@ class MessageMixin:
         super().__init__(*args, **kwargs)
 
     async def show_message(self, title: str, message: str) -> None:
-        """Show dialog message.
-
-        :param str title: The message title.
-        :param str message: The message text.
-        """
+        """Show dialog message."""
         await self.app.main_window.dialog(toga.InfoDialog(title, message))

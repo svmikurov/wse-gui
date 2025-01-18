@@ -1,14 +1,13 @@
 """General label widget."""
 
 import toga
-from toga.style import Pack
 from travertino.constants import CENTER
 
 from wse.constants import TITLE_LABEL_FONT_SIZE, TITLE_LABEL_PADDING
 
 
 class LabelParam(toga.Label):
-    """Styled label of parameter."""
+    """Styled label of exercise parameters."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the style of label."""
@@ -17,18 +16,11 @@ class LabelParam(toga.Label):
 
 
 class TitleLabel(toga.Label):
-    """General title label.
-
-    Defines a common style for derived label widgets.
-    """
+    """General title label."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the label."""
-        style = Pack(
-            # flex=1,
-            text_align=CENTER,
-            font_size=TITLE_LABEL_FONT_SIZE,
-            padding=TITLE_LABEL_PADDING,
-        )
-        kwargs['style'] = kwargs.pop('style', style)
         super().__init__(*args, **kwargs)
+        self.style.text_align = CENTER
+        self.style.font_size = TITLE_LABEL_FONT_SIZE
+        self.style.padding = TITLE_LABEL_PADDING

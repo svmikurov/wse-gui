@@ -17,7 +17,7 @@ from wse.constants import (
     FOREIGN_FAVORITES_PATH,
     FOREIGN_PARAMS_PATH,
     FOREIGN_PATH,
-    FOREIGN_PATH_SELECTED,
+    FOREIGN_SELECTED_PATH,
     HOST,
     TITLE_FOREIGN_CREATE,
     TITLE_FOREIGN_EXERCISE,
@@ -48,7 +48,7 @@ from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.form import BaseForm
 from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.text_input import MulTextInpApp
-from wse.sources.foreign import Word, WordSource
+from wse.sources.foreign import Word, WordSourceList
 
 
 class MainForeignPage(WidgetMixin, BaseBox):
@@ -211,14 +211,16 @@ class SelectedForeignPage(TableLayout):
     """Table of list of foreign words."""
 
     title = TITLE_FOREIGN_LIST
-    source_class = WordSource()
+    headings = ['На иностранном', 'На родном']
+    table_accessors = ['foreign_word', 'native_word']
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the page."""
         super().__init__(*args, **kwargs)
-        self.plc.source_url = urljoin(HOST, FOREIGN_PATH_SELECTED)
-        self.plc.source_url_detail = urljoin(HOST, FOREIGN_DETAIL_PATH)
-        self.plc.headings = ['Иностранный', 'Русский']
+        self._plc.source_url = urljoin(HOST, FOREIGN_SELECTED_PATH)
+        self._plc.source_url_detail = urljoin(HOST, FOREIGN_DETAIL_PATH)
+        self._plc.entry = WordSourceList()
+        self._table.data = self._plc.entry
 
     async def create_handler(self, widget: toga.Widget) -> None:
         """Go to create the word form, button handler."""

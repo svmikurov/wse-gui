@@ -7,34 +7,29 @@ from toga.sources import Source
 from wse.contrib.data import to_entries
 from wse.contrib.http_requests import request_delete_async, request_post
 from wse.controllers.params import ControllerParams
-from wse.sources.foreign import WordSource
 
 
-class ConntrollerTable:
+class ControllerTable:
     """Controller of selected items list."""
+
+    source_url: str
+    source_url_detail: str
 
     def __init__(self, plc_params: ControllerParams) -> None:
         """Construct the controller."""
         self._plc_params = plc_params
 
-        # The pagination urls
+        # Pagination urls
         self._next_pagination_url = None
         self.current_pagination_url = None
         self._previous_pagination_url = None
 
-        # To override
-        self.source_url = ''
-        self.source_url_detail = ''
-        self.source_class = None
-        self.headings = None
-
-        # Sources
-        self.entry = WordSource()
+        # Page events source
         self.event = Source()
 
     def on_open(self, widget: toga.Widget) -> None:
         """Request the items."""
-        self.reset_pageination_urls()
+        self.reset_pagination_urls()
         self.populate_table()
 
     ####################################################################
@@ -48,9 +43,9 @@ class ConntrollerTable:
         lookup_conditions = self._plc_params.lookup_conditions
         # TODO: Refactor remove 'has_timeout', 'timeout', 'order'
         #  from lookup_conditions.
-        lookup_conditions.pop('has_timeout')
-        lookup_conditions.pop('timeout')
-        lookup_conditions.pop('order')
+        lookup_conditions.pop('has_timeout', None)
+        lookup_conditions.pop('timeout', None)
+        lookup_conditions.pop('order', None)
 
         # Update pagination page if it, otherwise request first page.
         response = request_post(
@@ -98,7 +93,7 @@ class ConntrollerTable:
         self.current_pagination_url = response.url
         self.previous_pagination_url = payload['previous']
 
-    def reset_pageination_urls(self) -> None:
+    def reset_pagination_urls(self) -> None:
         """Reset pagination urls."""
         self.next_pagination_url = None
         self.current_pagination_url = None
@@ -140,14 +135,14 @@ class ConntrollerTable:
         self.populate_table(self.next_pagination_url)
 
     #####################################################################
-    # Table
+    # Table methods
 
     def populate_table(self, url: str | None = None) -> None:
         """Populate the table on url request."""
         self.clear_table()
         entries = self.request_entries(url)
         for entry in entries:
-            self.entry.add_entry(entry)
+            self.entry.append(entry)
 
     def clear_table(self) -> None:
         """Clear the table."""

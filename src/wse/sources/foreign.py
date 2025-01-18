@@ -1,6 +1,20 @@
 """Foreign data source implementation."""
 
-from toga.sources import Source
+from toga.sources import ListSource, Source
+
+
+class WordSourceList(ListSource):
+    """Word list source."""
+
+    def __init__(self) -> None:
+        """Construct the source."""
+        accessors = ['id', 'foreign_word', 'native_word']
+        super().__init__(accessors=accessors)
+
+    def add_entry(self, entry: object) -> None:
+        """Add entry to source."""
+        self.append(entry)
+        self.notify('append', data=entry)
 
 
 class Word:
@@ -20,13 +34,14 @@ class WordSource(Source):
         """Construct the source."""
         super().__init__()
         self._words = words or []
-        self.accessors = ['foreign_word', 'native_word']
+        self.headings = ['ID', 'На иностранном', 'На родном']
+        self.accessors = ['id', 'foreign_word', 'native_word']
 
     def __len__(self) -> int:
         """Get len items."""
         return len(self._words)
 
-    def __getitem__(self, index: int) -> str:
+    def __getitem__(self, index: int) -> Word:
         """Get entry value."""
         return self._words[index]
 
@@ -35,18 +50,12 @@ class WordSource(Source):
         return self._words.index(entry)
 
     def add_entry(self, entry: tuple[str, ...]) -> None:
-        """Add entry to terms.
-
-        Adds ('item', 'item', ...) to self._terms (`list`).
-        """
+        """Add entry to terms."""
         item = Word(*entry)
         self.add_item(item)
 
     def add_item(self, item: Word) -> None:
-        """Add item to items.
-
-        Add <wse.sources.glossary.Term X ...> to self._words (`list`).
-        """
+        """Add item to items."""
         self._words.append(item)
         self.notify('insert', index=self._words.index(item), item=item)
 
