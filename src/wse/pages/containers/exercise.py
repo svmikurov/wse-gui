@@ -22,6 +22,7 @@ class ExerciseWidgets:
         """Construct a exercise widgets."""
         super().__init__()
         self.plc = controller
+        self.plc.exercise_page = self
 
         # fmt: off
         # Style
@@ -103,7 +104,7 @@ class ExerciseLayout(ExerciseWidgets, BaseBox):
         )
 
     ####################################################################
-    # Notifications
+    # Layout notifications
 
     def update_availability_pause_button(self) -> None:
         """Update the availability of the pause button."""

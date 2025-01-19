@@ -102,7 +102,6 @@ class ExerciseForeignPage(ExerciseLayout):
         self.plc.url_exercise = urljoin(HOST, FOREIGN_EXERCISE_PATH)
         self.plc.url_progress = urljoin(HOST, FOREIGN_ASSESSMENT_PATH)
         self.plc.url_favorites = urljoin(HOST, FOREIGN_FAVORITES_PATH)
-        self.plc.exercise_page = self
 
 
 class FormForeign(BaseBox, BaseForm):

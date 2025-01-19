@@ -104,7 +104,6 @@ class ExerciseGlossaryPage(ExerciseLayout):
         self.plc.url_exercise = urljoin(HOST, GLOSSARY_EXERCISE_PATH)
         self.plc.url_progress = urljoin(HOST, GLOSSARY_PROGRESS_PATH)
         self.plc.url_favorites = urljoin(HOST, GLOSSARY_FAVORITES_PATH)
-        self.plc.exercise_page = self
 
 
 class FormGlossary(BaseBox, BaseForm):
