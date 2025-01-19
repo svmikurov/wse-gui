@@ -152,7 +152,7 @@ class WSE(toga.App):
 
     # Temp pages
     box_explorer: ExplorerLayout
-    box_example: ExampleLayout
+    box_examples: ExampleLayout
     box_table_source: TableSourceLayout
 
     # Foreign language study page boxes
@@ -161,7 +161,7 @@ class WSE(toga.App):
     box_foreign_exercise: pages.ExerciseForeignPage
     box_foreign_create: pages.CreateWordPage
     box_foreign_update: pages.UpdateWordPage
-    box_foreign_list: pages.SelectedForeignPage
+    box_foreign_selected: pages.SelectedForeignPage
 
     # Glossary study page boxes
     box_glossary_main: pages.MainGlossaryWidget
@@ -169,7 +169,7 @@ class WSE(toga.App):
     box_glossary_exercise: pages.ExerciseGlossaryPage
     box_glossary_create: pages.CreateTermPage
     box_glossary_update: pages.UpdateTermPage
-    box_glossary_list: pages.SelectedGlossaryPage
+    box_glossary_selected: pages.SelectedGlossaryPage
 
     # Menu
     menu: toga.Group
@@ -185,6 +185,8 @@ class WSE(toga.App):
     plc_params_glossary: ControllerParams
     plc_exercise_foreign: ControllerExercise
     plc_exercise_glossary: ControllerExercise
+    plc_selected_foreign = ControllerTable
+    plc_selected_glossary = ControllerTable
 
 
 def main() -> WSE:

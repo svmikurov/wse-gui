@@ -1,20 +1,6 @@
 """Foreign data source implementation."""
 
-from toga.sources import ListSource, Source
-
-
-class WordSourceList(ListSource):
-    """Word list source."""
-
-    def __init__(self) -> None:
-        """Construct the source."""
-        accessors = ['id', 'foreign_word', 'native_word']
-        super().__init__(accessors=accessors)
-
-    def add_entry(self, entry: object) -> None:
-        """Add entry to source."""
-        self.append(entry)
-        self.notify('append', data=entry)
+from toga.sources import Source
 
 
 class Word:

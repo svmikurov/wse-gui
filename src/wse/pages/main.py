@@ -40,8 +40,6 @@ class MainBox(WidgetMixin, BaseBox):
 
     welcome = f'Ready for connect to {HOST}'
     url_logout = urljoin(HOST, LOGOUT_PATH)
-    """User logout url, allowed POST method (`str`).
-    """
 
     def __init__(
         self,

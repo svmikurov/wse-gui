@@ -50,7 +50,8 @@ from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.form import BaseForm
 from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.text_input import MulTextInpApp
-from wse.sources.glossary import Term, TermSourceList
+from wse.sources.glossary import Term
+from wse.sources.source_list import SourceListApp
 
 
 class MainGlossaryWidget(WidgetMixin, BaseBox):
@@ -223,7 +224,8 @@ class SelectedGlossaryPage(TableLayout):
         super().__init__(*args, **kwargs)
         self._plc.source_url = urljoin(HOST, GLOSSARY_SELECTED_PATH)
         self._plc.source_url_detail = urljoin(HOST, GLOSSARY_DETAIL_PATH)
-        self._plc.entry = TermSourceList()
+        accessors = ['id', 'term', 'definition']
+        self._plc.entry = SourceListApp(accessors=accessors)
         self._table.data = self._plc.entry
 
     async def create_handler(self, widget: toga.Widget) -> None:
