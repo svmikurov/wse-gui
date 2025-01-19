@@ -9,7 +9,6 @@ from toga.style import Pack
 
 from wse.constants import (
     BTN_GOTO_GLOSSARY_CREATE,
-    BTN_GOTO_GLOSSARY_LIST,
     BTN_GOTO_GLOSSARY_PARAMS,
     GLOSSARY_DETAIL_PATH,
     GLOSSARY_EXERCISE_PATH,
@@ -128,8 +127,7 @@ class FormGlossary(BaseBox, BaseForm):
         self.input_definition = MulTextInpApp(placeholder='Определение')
         self.input_definition.style.flex = 1
         # Buttons
-        self.btn_submit = BtnApp(self.btn_submit_text, on_press=self.submit_handler)  # noqa: E501
-        self.btn_goto_glossary_list = BtnApp(BTN_GOTO_GLOSSARY_LIST, on_press=goto_glossary_selected_handler)  # noqa: E501
+        self.btn_submit = BtnApp(self.btn_submit, on_press=self.submit_handler)
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
         # fmt: on
 
@@ -138,7 +136,6 @@ class FormGlossary(BaseBox, BaseForm):
             self.input_term,
             self.input_definition,
             self.btn_submit,
-            self.btn_goto_glossary_list,
             self.btn_goto_back,
         )
 
@@ -162,7 +159,7 @@ class CreateTermPage(HttpPostMixin, FormGlossary):
 
     title = TITLE_GLOSSARY_CREATE
     url = urljoin(HOST, GLOSSARY_PATH)
-    btn_submit_text = 'Добавить'
+    btn_submit = 'Добавить'
     success_http_status = HTTPStatus.CREATED
 
     def get_widget_data(self) -> dict:
@@ -188,7 +185,7 @@ class UpdateTermPage(FormGlossary):
 
     title = TITLE_GLOSSARY_UPDATE
     url = urljoin(HOST, GLOSSARY_DETAIL_PATH)
-    btn_submit_text = 'Изменить'
+    btn_submit = 'Изменить'
     success_http_status = HTTPStatus.OK
 
     def get_widget_data(self) -> dict:

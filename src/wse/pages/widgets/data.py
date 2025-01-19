@@ -61,13 +61,13 @@ class HandleSuccessResponse(ManagingWidgetData):
 
     url = None
     success_http_status = None
-    btn_submit_text = 'Отправить'
+    btn_submit = 'Отправить'
 
     def __init__(self) -> None:
         """Construct."""
         super().__init__()
         self.btn_submit = BtnApp(
-            self.btn_submit_text, on_press=self.submit_handler
+            self.btn_submit, on_press=self.submit_handler
         )
 
     async def submit_handler(self, widget: toga.Widget) -> None:

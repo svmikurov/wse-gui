@@ -9,7 +9,6 @@ from toga.style import Pack
 
 from wse.constants import (
     BTN_GOTO_FOREIGN_CREATE,
-    BTN_GOTO_FOREIGN_LIST,
     BTN_GOTO_FOREIGN_PARAMS,
     FOREIGN_ASSESSMENT_PATH,
     FOREIGN_DETAIL_PATH,
@@ -118,16 +117,13 @@ class FormForeign(BaseBox, BaseForm):
 
         self.label_title = TitleLabel(text=self.title)
 
-        # fmt: off
         # Word data input widgets
         self.input_native = MulTextInpApp(placeholder='Слово на русском')
         self.input_native.style.padding_bottom = 1
         self.input_foreign = MulTextInpApp(placeholder='Слово на иностранном')
-        self.btn_submit = BtnApp(self.btn_submit_text, on_press=self.submit_handler)  # noqa: E501
         # Buttons
-        self.btn_goto_foreign_list = BtnApp(BTN_GOTO_FOREIGN_LIST, on_press=goto_foreign_selected_handler)  # noqa: E501
+        self.btn_submit = BtnApp(self.btn_submit, on_press=self.submit_handler)
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
-        # fmt: on
 
         # DOM
         self.add(
@@ -135,7 +131,6 @@ class FormForeign(BaseBox, BaseForm):
             self.input_native,
             self.input_foreign,
             self.btn_submit,
-            self.btn_goto_foreign_list,
             self.btn_goto_back,
         )
 
@@ -159,7 +154,7 @@ class CreateWordPage(FormForeign):
 
     title = TITLE_FOREIGN_CREATE
     url = urljoin(HOST, FOREIGN_PATH)
-    btn_submit_text = 'Добавить'
+    btn_submit = 'Добавить'
     success_http_status = HTTPStatus.CREATED
 
     def get_widget_data(self) -> dict:
@@ -185,7 +180,7 @@ class UpdateWordPage(FormForeign):
 
     title = TITLE_FOREIGN_UPDATE
     url = urljoin(HOST, FOREIGN_DETAIL_PATH)
-    btn_submit_text = 'Изменить'
+    btn_submit = 'Изменить'
     success_http_status = HTTPStatus.OK
 
     def get_widget_data(self) -> dict:
