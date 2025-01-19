@@ -51,7 +51,6 @@ from wse.pages.widgets.form import BaseForm
 from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.text_input import MulTextInpApp
 from wse.sources.glossary import Term
-from wse.sources.source_list import SourceListApp
 
 
 class MainGlossaryWidget(WidgetMixin, BaseBox):
@@ -216,19 +215,18 @@ class SelectedGlossaryPage(TableLayout):
     """Table of list of glossary terms, the page."""
 
     title = TITLE_GLOSSARY_LIST
-    headings = ['Термин', 'Толкование']
+    table_headings = ['Термин', 'Толкование']
     table_accessors = ['term', 'definition']
+    source_accessors = ['id', 'term', 'definition']
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the page."""
         super().__init__(*args, **kwargs)
         self._plc.source_url = urljoin(HOST, GLOSSARY_SELECTED_PATH)
         self._plc.source_url_detail = urljoin(HOST, GLOSSARY_DETAIL_PATH)
-        accessors = ['id', 'term', 'definition']
-        self._plc.entry = SourceListApp(accessors=accessors)
-        self._table.data = self._plc.entry
 
-    async def create_handler(self, widget: toga.Widget) -> None:
+    @staticmethod
+    async def create_handler(widget: toga.Widget) -> None:
         """Go to create the term form, button handler."""
         await goto_glossary_create_handler(widget)
 

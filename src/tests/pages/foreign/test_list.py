@@ -76,8 +76,8 @@ def test_widget_order(wse: WSE) -> None:
 def test_table(wse: WSE) -> None:
     """Test table of foreign word list."""
     table = wse.box_foreign_selected._table
-    assert table.headings == ['Иностранный', 'Русский']
-    assert table.accessors == ['foreign_word', 'native_word']
+    assert table.table_headings == ['Иностранный', 'Русский']
+    assert table.source_accessors == ['foreign_word', 'native_word']
 
 
 def test_populate_table(wse: WSE, monkeypatch: MonkeyPatch) -> None:

@@ -49,7 +49,6 @@ from wse.pages.widgets.form import BaseForm
 from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.text_input import MulTextInpApp
 from wse.sources.foreign import Word
-from wse.sources.source_list import SourceListApp
 
 
 class MainForeignPage(WidgetMixin, BaseBox):
@@ -212,19 +211,18 @@ class SelectedForeignPage(TableLayout):
     """Table of list of foreign words."""
 
     title = TITLE_FOREIGN_LIST
-    headings = ['На иностранном', 'На родном']
+    table_headings = ['На иностранном', 'На родном']
     table_accessors = ['foreign_word', 'native_word']
+    source_accessors = ['id', 'foreign_word', 'native_word']
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the page."""
         super().__init__(*args, **kwargs)
         self._plc.source_url = urljoin(HOST, FOREIGN_SELECTED_PATH)
         self._plc.source_url_detail = urljoin(HOST, FOREIGN_DETAIL_PATH)
-        accessors = ['id', 'foreign_word', 'native_word']
-        self._plc.entry = SourceListApp(accessors=accessors)
-        self._table.data = self._plc.entry
 
-    async def create_handler(self, widget: toga.Widget) -> None:
+    @staticmethod
+    async def create_handler(widget: toga.Widget) -> None:
         """Go to create the word form, button handler."""
         await goto_foreign_create_handler(widget)
 

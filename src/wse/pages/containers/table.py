@@ -12,19 +12,22 @@ from wse.pages.handlers.goto_handler import (
 from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.button import BtnApp, SmBtn
 from wse.pages.widgets.label import TitleLabel
+from wse.sources.source_list import SourceListApp
 
 
 class TableWidgets:
     """Table of selected items."""
 
     title: str
-    headings: list
+    table_headings: list
     table_accessors: list
+    source_accessors: list
 
     def __init__(self, controller: ControllerTable) -> None:
         """Construct the table."""
         super().__init__()
         self._plc = controller
+        self._plc.entry = SourceListApp(accessors=self.source_accessors)
         self._plc.event.add_listener(self)
 
         # fmt: off
@@ -50,7 +53,8 @@ class TableWidgets:
 
         # Table
         self._table = toga.Table(
-            headings=self.headings,
+            headings=self.table_headings,
+            data=self._plc.entry,
             accessors=self.table_accessors,
             style=Pack(flex=1, font_style=ITALIC),
         )

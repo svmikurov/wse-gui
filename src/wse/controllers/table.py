@@ -7,6 +7,7 @@ from toga.sources import Source
 from wse.contrib.data import to_entries
 from wse.contrib.http_requests import request_delete_async, request_post
 from wse.controllers.params import ControllerParams
+from wse.sources.source_list import SourceListApp
 
 
 class ControllerTable:
@@ -14,6 +15,7 @@ class ControllerTable:
 
     source_url: str
     source_url_detail: str
+    entry: SourceListApp
 
     def __init__(self, plc_params: ControllerParams) -> None:
         """Construct the controller."""
