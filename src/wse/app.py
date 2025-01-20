@@ -6,6 +6,7 @@ from toga.command import ActionHandler
 from wse import pages
 from wse.constants import SCREEN_SIZE
 from wse.controllers.exercise import ControllerExercise
+from wse.controllers.form import ForeignFormController, FormController
 from wse.controllers.params import ControllerParams
 from wse.controllers.table import ControllerTable
 from wse.pages import ExplorerLayout
@@ -54,6 +55,7 @@ class WSE(toga.App):
         self.plc_exercise_glossary = ControllerExercise(self, self.plc_params_glossary)  # noqa: E501
         self.plc_selected_foreign = ControllerTable(self.plc_params_foreign)
         self.plc_selected_glossary = ControllerTable(self.plc_params_glossary)
+        self.plc_form_foreign = ForeignFormController()
         # fmt: on
 
     ####################################################################
@@ -75,7 +77,7 @@ class WSE(toga.App):
         self.box_foreign_params = pages.ParamsForeignPage(self.plc_params_foreign)  # noqa: E501
         self.box_foreign_exercise = pages.ExerciseForeignPage(self.plc_exercise_foreign)  # noqa: E501
         self.box_foreign_create = pages.CreateWordPage()
-        self.box_foreign_update = pages.UpdateWordPage()
+        self.box_foreign_update = pages.UpdateWordPage(self.plc_form_foreign)
         self.box_foreign_selected = pages.SelectedForeignPage(self.plc_selected_foreign)  # noqa: E501
 
         # Glossary study page boxes
@@ -187,6 +189,7 @@ class WSE(toga.App):
     plc_exercise_glossary: ControllerExercise
     plc_selected_foreign = ControllerTable
     plc_selected_glossary = ControllerTable
+    plc_form_foreign: FormController
 
 
 def main() -> WSE:

@@ -66,9 +66,7 @@ class HandleSuccessResponse(ManagingWidgetData):
     def __init__(self) -> None:
         """Construct."""
         super().__init__()
-        self.btn_submit = BtnApp(
-            self.btn_submit, on_press=self.submit_handler
-        )
+        self.btn_submit = BtnApp(self.btn_submit, on_press=self.submit_handler)
 
     async def submit_handler(self, widget: toga.Widget) -> None:
         """Submit, button handler."""

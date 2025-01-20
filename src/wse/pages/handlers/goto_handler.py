@@ -12,6 +12,7 @@ async def set_window_content(
     widget: toga.Widget,
     box: toga.Box,
     action: str = 'next',
+    **kwargs: object,
 ) -> None:
     """Set page box in window content."""
     # Visited last 10 pages are stored in the history,
@@ -25,7 +26,7 @@ async def set_window_content(
 
     # Some pages are has specific events when opened.
     try:
-        await box.on_open(widget)
+        await box.on_open(widget, **kwargs)
     except AttributeError:
         # The page has no events when opened.
         pass
@@ -65,10 +66,12 @@ async def goto_foreign_create_handler(widget: toga.Widget) -> None:
     await set_window_content(widget, box)
 
 
-async def goto_foreign_update_handler(widget: toga.Widget) -> None:
+async def goto_foreign_update_handler(
+    widget: toga.Widget, **kwargs: object
+) -> None:
     """Go to foreign update, button handler."""
     box = widget.root.app.box_foreign_update
-    await set_window_content(widget, box)
+    await set_window_content(widget, box, **kwargs)
 
 
 async def goto_foreign_selected_handler(widget: toga.Widget) -> None:

@@ -29,73 +29,58 @@ class ControllerTable:
         # Page events source
         self.event = Source()
 
+        # To override
+        self.goto_create_handler = None
+        self.goto_update_handler = None
+
     def on_open(self, widget: toga.Widget) -> None:
         """Request the items."""
-        self.reset_pagination_urls()
-        self.populate_table()
+        self._reset_pagination_urls()
+        self._populate_table()
 
     ####################################################################
-    # HTTP request
+    # Create, update, delete handlers
 
-    def request_entries(
-        self,
-        pagination_url: str | None = None,
-    ) -> list[tuple[str, ...]]:
-        """Request the entries to populate the table."""
-        lookup_conditions = self._plc_params.lookup_conditions
-        # TODO: Refactor remove 'has_timeout', 'timeout', 'order'
-        #  from lookup_conditions.
-        lookup_conditions.pop('has_timeout', None)
-        lookup_conditions.pop('timeout', None)
-        lookup_conditions.pop('order', None)
+    async def create_handler(self, widget: toga.Widget) -> None:
+        """Go to create the term form, button handler."""
+        await self.goto_create_handler(widget)
 
-        # Update pagination page if it, otherwise request first page.
-        response = request_post(
-            pagination_url or self.source_url,
-            lookup_conditions,
-        )
-
-        # Set the pagination urls.
-        self.set_pagination_urls(response)
-
-        # Get entries to input at table.
-        payload = response.json()
-        entries = to_entries(payload['results'])
-        return entries
-
-    ####################################################################
-    # Create, update, delete entry
-
-    def create_handler(self, entry: object) -> None:
+    async def update_handler(self, *args: object, **kwargs: object) -> None:
         """Update item."""
-        pass
+        await self.goto_update_handler(*args, **kwargs)
 
-    def update_handler(self, entry: object) -> None:
-        """Update item."""
-        pass
-
-    async def delete_handler(self, _: toga.Widget) -> None:
+    async def delete_handler(self, _: toga.Widget, item_id: str) -> None:
         """Delete the entry, button handler."""
-        try:
-            entry = self.table.selection
-        except IndexError:
-            print('DEBUG: The entry is empty')
-        else:
-            url = self.source_url_detail % entry.id
-            await request_delete_async(url)
-            self.populate_table(self.current_pagination_url)
+        url = self.source_url_detail % item_id
+        await request_delete_async(url)
+        self._populate_table(self.current_pagination_url)
 
     #####################################################################
-    # Pagination
+    # Pagination handlers
 
-    def set_pagination_urls(self, response: Response) -> None:
+    def previous_handler(self, _: toga.Widget) -> None:
+        """Populate the table by previous pagination, button handler."""
+        self._populate_table(self.previous_pagination_url)
+
+    def reload_handler(self, _: toga.Widget) -> None:
+        """Update the table, button handler."""
+        self._populate_table()
+
+    def next_handler(self, _: toga.Widget) -> None:
+        """Populate the table by next pagination, button handler."""
+        self._populate_table(self.next_pagination_url)
+
+    ############################
+    # Utility pagination methods
+
+    def _set_pagination_urls(self, response: Response) -> None:
         """Set pagination urls."""
         payload = response.json()
         self.next_pagination_url = payload['next']
         self.current_pagination_url = response.url
         self.previous_pagination_url = payload['previous']
 
-    def reset_pagination_urls(self) -> None:
+    def _reset_pagination_urls(self) -> None:
         """Reset pagination urls."""
         self.next_pagination_url = None
         self.current_pagination_url = None
@@ -121,31 +106,42 @@ class ControllerTable:
         self._previous_pagination_url = value
         self.event.notify('update_previous_button', is_active=bool(value))
 
-    #############################
-    # Pagination buttons handlers
-
-    def previous_handler(self, _: toga.Widget) -> None:
-        """Populate the table by previous pagination, button handler."""
-        self.populate_table(self.previous_pagination_url)
-
-    def reload_handler(self, _: toga.Widget) -> None:
-        """Update the table, button handler."""
-        self.populate_table()
-
-    def next_handler(self, _: toga.Widget) -> None:
-        """Populate the table by next pagination, button handler."""
-        self.populate_table(self.next_pagination_url)
-
     #####################################################################
     # Table methods
 
-    def populate_table(self, url: str | None = None) -> None:
+    def _populate_table(self, url: str | None = None) -> None:
         """Populate the table on url request."""
-        self.clear_table()
-        entries = self.request_entries(url)
+        self._clear_table()
+        entries = self._request_entries(url)
         for entry in entries:
             self.entry.append(entry)
 
-    def clear_table(self) -> None:
+    def _clear_table(self) -> None:
         """Clear the table."""
         self.entry.clear()
+
+    ####################################################################
+    # HTTP request
+
+    def _request_entries(
+        self,
+        pagination_url: str | None = None,
+    ) -> list[tuple[str, ...]]:
+        """Request the entries to populate the table."""
+        lookup_conditions = self._plc_params.lookup_conditions
+        for key in ('order', 'timeout', 'has_timeout'):
+            lookup_conditions.pop(key, None)
+
+        # Update pagination page if it, otherwise request first page.
+        response = request_post(
+            pagination_url or self.source_url,
+            lookup_conditions,
+        )
+
+        # Set the pagination urls.
+        self._set_pagination_urls(response)
+
+        # Get entries to input at table.
+        payload = response.json()
+        entries = to_entries(payload['results'])
+        return entries

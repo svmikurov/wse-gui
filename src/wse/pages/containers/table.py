@@ -7,7 +7,6 @@ from toga.style import Pack
 from wse.controllers.table import ControllerTable
 from wse.pages.handlers.goto_handler import (
     goto_back_handler,
-    goto_foreign_update_handler,
 )
 from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.button import BtnApp, SmBtn
@@ -36,8 +35,8 @@ class TableWidgets:
 
         # The table entries management buttons
         self._btn_create = SmBtn('Добавить', on_press=self._plc.create_handler)
-        self._btn_update = SmBtn('Изменить', on_press=self._plc.update_handler)
-        self._btn_delete = SmBtn('Удалить', on_press=self._plc.delete_handler)
+        self._btn_update = SmBtn('Изменить', on_press=self.update_handler)
+        self._btn_delete = SmBtn('Удалить', on_press=self.delete_handler)
 
         # The pagination buttons
         self._btn_previous = BtnApp('<', on_press=self._plc.previous_handler)
@@ -68,12 +67,20 @@ class TableWidgets:
 
     async def update_handler(self, widget: toga.Widget) -> None:
         """Update the entry, button handler."""
-        entry = self._table.selection
-        self._plc.update_item(entry)
-        await goto_foreign_update_handler(widget)
+        item_id = self._get_entry_id()
+        if item_id:
+            await self._plc.update_handler(widget, item_id=item_id)
+
+    async def delete_handler(self, widget: toga.Widget) -> None:
+        """Delete the entry, button handler."""
+        item_id = self._get_entry_id()
+        if item_id:
+            await self._plc.delete_handler(
+                widget, item_id=self._get_entry_id()
+            )
 
     #####################################################################
-    # Source handlers
+    # Listener methods
 
     def update_next_button(self, is_active: bool) -> None:
         """Set active or not the next button."""
@@ -82,6 +89,18 @@ class TableWidgets:
     def update_previous_button(self, is_active: bool) -> None:
         """Set active or not the next button."""
         self._btn_previous.enabled = is_active
+
+    #####################################################################
+    # Utility methods
+
+    def _get_entry_id(self) -> str:
+        """Get entry id."""
+        try:
+            entry_id = self._table.selection.id
+        except AttributeError:
+            print('INFO: The entry is empty')
+        else:
+            return entry_id
 
 
 class TableLayout(TableWidgets, BaseBox):
