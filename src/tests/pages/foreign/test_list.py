@@ -133,8 +133,8 @@ def test_btn_goto_foreign_update(wse: WSE, monkeypatch: MonkeyPatch) -> None:
     assert wse.main_window.content == wse.box_foreign_update
 
     # Assert fill input fields.
-    assert wse.box_foreign_update.input_foreign.value == 'apple'
-    assert wse.box_foreign_update.input_native.value == 'яблоко'
+    assert wse.box_foreign_update.input_definition.value == 'apple'
+    assert wse.box_foreign_update._input_native.value == 'яблоко'
 
 
 ########################################################################

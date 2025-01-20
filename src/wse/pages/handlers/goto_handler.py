@@ -60,10 +60,12 @@ async def goto_foreign_main_handler(widget: toga.Widget) -> None:
     await set_window_content(widget, box)
 
 
-async def goto_foreign_create_handler(widget: toga.Widget) -> None:
+async def goto_foreign_create_handler(
+    widget: toga.Widget, **kwargs: object
+) -> None:
     """Go to foreign create, button handler."""
     box = widget.root.app.box_foreign_create
-    await set_window_content(widget, box)
+    await set_window_content(widget, box, **kwargs)
 
 
 async def goto_foreign_update_handler(
@@ -74,7 +76,7 @@ async def goto_foreign_update_handler(
     await set_window_content(widget, box, **kwargs)
 
 
-async def goto_foreign_selected_handler(widget: toga.Widget) -> None:
+async def goto_foreign_table_handler(widget: toga.Widget) -> None:
     """Go to foreign list of selected words, button handler."""
     box = widget.root.app.box_foreign_selected
     await set_window_content(widget, box)
@@ -102,16 +104,20 @@ async def goto_glossary_main_handler(widget: toga.Widget) -> None:
     await set_window_content(widget, box)
 
 
-async def goto_glossary_create_handler(widget: toga.Widget) -> None:
+async def goto_glossary_create_handler(
+    widget: toga.Widget, **kwargs: object
+) -> None:
     """Go to glossary create, button handler."""
     box = widget.root.app.box_glossary_create
-    await set_window_content(widget, box)
+    await set_window_content(widget, box, **kwargs)
 
 
-async def goto_glossary_update_handler(widget: toga.Widget) -> None:
+async def goto_glossary_update_handler(
+    widget: toga.Widget, **kwargs: object
+) -> None:
     """Go to glossary update, button handler."""
     box = widget.root.app.box_glossary_update
-    await set_window_content(widget, box)
+    await set_window_content(widget, box, **kwargs)
 
 
 async def goto_glossary_selected_handler(widget: toga.Widget) -> None:

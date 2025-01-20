@@ -1,11 +1,10 @@
 """Exercise params."""
 
 import toga
-from toga import Selection, colors
+from toga import colors, Selection
 from toga.constants import COLUMN
 from toga.style import Pack
 
-from wse.contrib.http_requests import HttpPutMixin
 from wse.controllers.params import ControllerParams
 from wse.pages.handlers.goto_handler import (
     goto_back_handler,
@@ -18,7 +17,7 @@ from wse.pages.widgets.number_input import NumberInputApp
 from wse.pages.widgets.switch import SwitchApp
 
 
-class ParamsWidgets(HttpPutMixin, WidgetMixin):
+class ParamsWidgets(WidgetMixin):
     """Exercise params widgets."""
 
     title = ''
@@ -29,7 +28,7 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
         self.plc = controller
         # To override
         self.goto_exercise_handler = None
-        self.goto_selected_handler = None
+        self.goto_table_handler = None
 
         # Title
         self.label_title = TitleLabel(text=self.title)
@@ -66,15 +65,15 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
         # Buttons
         self.btn_reset_params = BtnApp('Сбросить выбор', on_press=self.display_confirm_reset_handler)  # noqa: E501
         self.btn_save_params = BtnApp('Сохранить выбор', on_press=self.display_confirm_save_handler)  # noqa: E501
-        self.btn_goto_selected = BtnApp('Список выбранных', on_press=self.display_selected_handler)  # noqa: E501
+        self.btn_goto_table = BtnApp('Список выбранных', on_press=self.display_selected_handler)  # noqa: E501
         self.btn_set_saved_params = BtnApp('Сохраненный выбор', on_press=self.set_saved_params_handler)  # noqa: E501
         self.btn_goto_exercise = BtnApp('Начать упражнение', on_press=self.start_exercise_handler)  # noqa: E501
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)  # noqa: E501
 
         # Confirm buttons
-        self.btn_cancel_save = BtnApp('Назад', on_press=self.undisplay_confirm_save_handler)  # noqa: E501
+        self.btn_cancel_save = BtnApp('Отмена', on_press=self.undisplay_confirm_save_handler)  # noqa: E501
         self.btn_confirm_save = BtnApp('Сохранить', on_press=self.confirm_save_handler)  # noqa: E501
-        self.btn_cancel_reset = BtnApp('Назад', on_press=self.undisplay_confirm_reset_handler)  # noqa: E501
+        self.btn_cancel_reset = BtnApp('Отмена', on_press=self.undisplay_confirm_reset_handler)  # noqa: E501
         self.btn_confirm_reset = BtnApp('Сбросить', on_press=self.confirm_reset_handler)  # noqa: E501
         # Divider
         self.box_divider = toga.Box(
@@ -121,7 +120,7 @@ class ParamsWidgets(HttpPutMixin, WidgetMixin):
 
     async def display_selected_handler(self, widget: toga.Widget) -> None:
         """Save selected params, button handler."""
-        await self.goto_selected_handler(widget)
+        await self.goto_table_handler(widget)
 
     #########
     # Confirm
@@ -188,7 +187,7 @@ class ParamsLayout(ParamsWidgets, BaseBox):
             self.label_title,
             self.scroll_container,
             self.box_divider,
-            self.btn_goto_selected,
+            self.btn_goto_table,
             self.box_save_reset,
             self.btn_set_saved_params,
             self.btn_goto_exercise,

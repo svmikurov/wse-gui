@@ -1,10 +1,8 @@
 """Foreign words page boxes."""
 
-from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
-from httpx import Response
 from toga.style import Pack
 
 from wse.constants import (
@@ -25,13 +23,10 @@ from wse.constants import (
     TITLE_FOREIGN_PARAMS,
     TITLE_FOREIGN_UPDATE,
 )
-from wse.contrib.http_requests import (
-    request_post_async,
-)
 from wse.pages.containers.exercise import (
     ExerciseLayout,
 )
-from wse.pages.containers.form import FormLayout
+from wse.pages.containers.form import ForeignFormLayout
 from wse.pages.containers.params import ParamsLayout
 from wse.pages.containers.table import TableLayout
 from wse.pages.handlers.goto_handler import (
@@ -39,15 +34,14 @@ from wse.pages.handlers.goto_handler import (
     goto_foreign_create_handler,
     goto_foreign_exercise_handler,
     goto_foreign_params_handler,
-    goto_foreign_selected_handler,
+    goto_foreign_table_handler,
     goto_foreign_update_handler,
 )
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
-from wse.pages.widgets.form import BaseForm
 from wse.pages.widgets.label import TitleLabel
-from wse.pages.widgets.text_input import MulTextInpApp
-from wse.sources.foreign import Word
+
+ACCESSORS = ['id', 'foreign_word', 'native_word']
 
 
 class MainForeignPage(WidgetMixin, BaseBox):
@@ -57,13 +51,18 @@ class MainForeignPage(WidgetMixin, BaseBox):
         """Construct the box."""
         super().__init__()
 
-        # fmt: off
-        # Box widgets
         self.label_title = TitleLabel(TITLE_FOREIGN_MAIN)
-        self.btn_goto_params = BtnApp(BTN_GOTO_FOREIGN_PARAMS, on_press=goto_foreign_params_handler)  # noqa: E501
-        self.btn_goto_create = BtnApp(BTN_GOTO_FOREIGN_CREATE, on_press=goto_foreign_create_handler)  # noqa: E501
+
+        # Buttons
+        self.btn_goto_params = BtnApp(
+            BTN_GOTO_FOREIGN_PARAMS,
+            on_press=goto_foreign_params_handler,
+        )
+        self.btn_goto_create = BtnApp(
+            BTN_GOTO_FOREIGN_CREATE,
+            on_press=goto_foreign_create_handler,
+        )
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
-        # fmt: on
 
         # The buttons are located at the bottom of the page.
         self.box_alignment = toga.Box(style=Pack(flex=1))
@@ -88,7 +87,7 @@ class ParamsForeignPage(ParamsLayout):
         super().__init__(*args, **kwargs)
         self.plc.url = urljoin(HOST, FOREIGN_PARAMS_PATH)
         self.goto_exercise_handler = goto_foreign_exercise_handler
-        self.goto_selected_handler = goto_foreign_selected_handler
+        self.goto_table_handler = goto_foreign_table_handler
 
 
 class ExerciseForeignPage(ExerciseLayout):
@@ -104,103 +103,36 @@ class ExerciseForeignPage(ExerciseLayout):
         self.plc.url_favorites = urljoin(HOST, FOREIGN_FAVORITES_PATH)
 
 
-class FormForeign(BaseBox, BaseForm):
-    """General form to create and update entries, the container."""
-
-    title = ''
-
-    def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the foreign form."""
-        super().__init__(*args, **kwargs)
-        self._entry = Word
-
-        self.label_title = TitleLabel(text=self.title)
-
-        # Word data input widgets
-        self.input_native = MulTextInpApp(placeholder='Слово на русском')
-        self.input_native.style.padding_bottom = 1
-        self.input_foreign = MulTextInpApp(placeholder='Слово на иностранном')
-        # Buttons
-        self.btn_submit = BtnApp(self.btn_submit, on_press=self.submit_handler)
-        self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
-
-        # DOM
-        self.add(
-            self.label_title,
-            self.input_native,
-            self.input_foreign,
-            self.btn_submit,
-            self.btn_goto_back,
-        )
-
-    def populate_entry_input(self) -> None:
-        """Populate the entry input widgets value."""
-        self.input_native.value = self.entry.native_word
-        self.input_foreign.value = self.entry.foreign_word
-
-    def clear_entry_input(self) -> None:
-        """Clear the entry input widgets value."""
-        self.input_native.clean()
-        self.input_foreign.clean()
-
-    def focus_to_input_field(self) -> None:
-        """Focus to input field."""
-        self.input_native.focus()
-
-
-class CreateWordPage(FormForeign):
+class CreateWordPage(ForeignFormLayout):
     """Add word to foreign dictionary."""
 
     title = TITLE_FOREIGN_CREATE
     url = urljoin(HOST, FOREIGN_PATH)
-    btn_submit = 'Добавить'
-    success_http_status = HTTPStatus.CREATED
-
-    def get_widget_data(self) -> dict:
-        """Get the entered into the form data."""
-        entry_create = {
-            'foreign_word': self.input_foreign.value,
-            'native_word': self.input_native.value,
-        }
-        return entry_create
-
-    @classmethod
-    async def request_async(cls, url: str, payload: dict) -> Response:
-        """Request to update."""
-        return await request_post_async(url, payload)
-
-    async def handle_success(self, widget: toga.Widget) -> None:
-        """Go to foreign list page, if success."""
-        self.focus_to_input_field()
+    submit_text = 'Добавить'
+    accessors = ACCESSORS
 
 
-class UpdateWordPage(FormLayout):
+class UpdateWordPage(ForeignFormLayout):
     """Update the foreign word the box."""
 
     title = TITLE_FOREIGN_UPDATE
+    url = urljoin(HOST, FOREIGN_DETAIL_PATH)
     submit_text = 'Изменить'
-    success_http_status = HTTPStatus.OK
-    accessors = ['id', 'foreign_word', 'native_word']
-
-    def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the page."""
-        super().__init__(*args, **kwargs)
-        self.plc.url = urljoin(HOST, FOREIGN_DETAIL_PATH)
-        self.plc.accessors = ['id', 'foreign_word', 'native_word']
+    accessors = ACCESSORS
 
 
-class SelectedForeignPage(TableLayout):
+class TableForeignPage(TableLayout):
     """Table of list of foreign words."""
 
     title = TITLE_FOREIGN_LIST
+    url = urljoin(HOST, FOREIGN_SELECTED_PATH)
+    url_detail = urljoin(HOST, FOREIGN_DETAIL_PATH)
     table_headings = ['На иностранном', 'На родном']
     table_accessors = ['foreign_word', 'native_word']
-    source_accessors = ['id', 'foreign_word', 'native_word']
+    source_accessors = ACCESSORS
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the page."""
         super().__init__(*args, **kwargs)
-        self._plc.source_url = urljoin(HOST, FOREIGN_SELECTED_PATH)
-        self._plc.source_url_detail = urljoin(HOST, FOREIGN_DETAIL_PATH)
-        self._plc.create_handler = goto_foreign_create_handler
-        self._plc.update_handler = goto_foreign_update_handler
+        self._plc.goto_create_handler = goto_foreign_create_handler
+        self._plc.goto_update_handler = goto_foreign_update_handler

@@ -11,10 +11,10 @@ from unittest.mock import Mock
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
+from wse.pages.widgets.table import TableApp
 
 from tests.utils import run_until_complete
 from wse.app import WSE
-from wse.pages.widgets.table import TableApp
 
 
 @pytest.fixture(autouse=True)
@@ -28,21 +28,21 @@ def goto_glossary_term_create_page(wse: WSE) -> None:
 
 def test_input_term(wse: WSE) -> None:
     """Test the term input field of glossary create page."""
-    input_field = wse.box_glossary_create.input_term
+    input_field = wse.box_glossary_create._input_term
     assert input_field.placeholder == 'Термин'
     assert input_field.readonly is False
 
 
 def test_input_definition(wse: WSE) -> None:
     """Test the definition input field of glossary create page."""
-    input_field = wse.box_glossary_create.input_definition
+    input_field = wse.box_glossary_create._input_definition
     assert input_field.placeholder == 'Определение'
     assert input_field.readonly is False
 
 
 def test_btn_submit(wse: WSE) -> None:
     """Test the button of create glossary term create."""
-    btn = wse.box_glossary_create.btn_submit
+    btn = wse.box_glossary_create._btn_submit
     # Mock the button handler, otherwise http request.
     btn.on_press = Mock()
     btn._impl.simulate_press()

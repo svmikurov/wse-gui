@@ -13,12 +13,11 @@ from wse.sources.source_list import SourceListApp
 class ControllerTable:
     """Controller of selected items list."""
 
-    source_url: str
-    source_url_detail: str
     entry: SourceListApp
 
     def __init__(self, plc_params: ControllerParams) -> None:
         """Construct the controller."""
+        self.source_url= None
         self._plc_params = plc_params
 
         # Pagination urls
@@ -33,25 +32,28 @@ class ControllerTable:
         self.goto_create_handler = None
         self.goto_update_handler = None
 
-    def on_open(self, widget: toga.Widget) -> None:
+    def on_open(self, widget: toga.Widget, url: str) -> None:
         """Request the items."""
+        self.source_url = url
         self._reset_pagination_urls()
-        self._populate_table()
+        self._populate_table(url)
 
     ####################################################################
     # Create, update, delete handlers
 
-    async def create_handler(self, widget: toga.Widget) -> None:
+    async def goto_create_handler(self, widget: toga.Widget) -> None:
         """Go to create the term form, button handler."""
         await self.goto_create_handler(widget)
 
-    async def update_handler(self, *args: object, **kwargs: object) -> None:
+    async def goto_update_handler(
+        self, *args: object, **kwargs: object
+    ) -> None:
         """Update item."""
         await self.goto_update_handler(*args, **kwargs)
 
-    async def delete_handler(self, _: toga.Widget, item_id: str) -> None:
+    async def delete_handler(self, _: toga.Widget, url: str, item_id: str) -> None:
         """Delete the entry, button handler."""
-        url = self.source_url_detail % item_id
+        url = url % item_id
         await request_delete_async(url)
         self._populate_table(self.current_pagination_url)
 

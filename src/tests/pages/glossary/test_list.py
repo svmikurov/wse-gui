@@ -110,8 +110,8 @@ def test_btn_goto_glossary_update(wse: WSE) -> None:
     assert wse.main_window.content == wse.box_glossary_update
 
     # Assert fill input fields.
-    assert wse.box_glossary_update.input_term.value == 'apple'
-    assert wse.box_glossary_update.input_definition.value == 'яблоко'
+    assert wse.box_glossary_update._input_term.value == 'apple'
+    assert wse.box_glossary_update._input_definition.value == 'яблоко'
 
 
 @patch('httpx.AsyncClient.delete')

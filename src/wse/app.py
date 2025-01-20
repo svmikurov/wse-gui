@@ -6,7 +6,11 @@ from toga.command import ActionHandler
 from wse import pages
 from wse.constants import SCREEN_SIZE
 from wse.controllers.exercise import ControllerExercise
-from wse.controllers.form import ForeignFormController, FormController
+from wse.controllers.form import (
+    ForeignFormController,
+    FormController,
+    GlossaryFormController,
+)
 from wse.controllers.params import ControllerParams
 from wse.controllers.table import ControllerTable
 from wse.pages import ExplorerLayout
@@ -56,6 +60,7 @@ class WSE(toga.App):
         self.plc_selected_foreign = ControllerTable(self.plc_params_foreign)
         self.plc_selected_glossary = ControllerTable(self.plc_params_glossary)
         self.plc_form_foreign = ForeignFormController()
+        self.plc_form_glossary = GlossaryFormController()
         # fmt: on
 
     ####################################################################
@@ -76,17 +81,17 @@ class WSE(toga.App):
         self.box_foreign_main = pages.MainForeignPage()
         self.box_foreign_params = pages.ParamsForeignPage(self.plc_params_foreign)  # noqa: E501
         self.box_foreign_exercise = pages.ExerciseForeignPage(self.plc_exercise_foreign)  # noqa: E501
-        self.box_foreign_create = pages.CreateWordPage()
+        self.box_foreign_create = pages.CreateWordPage(self.plc_form_foreign)
         self.box_foreign_update = pages.UpdateWordPage(self.plc_form_foreign)
-        self.box_foreign_selected = pages.SelectedForeignPage(self.plc_selected_foreign)  # noqa: E501
+        self.box_foreign_selected = pages.TableForeignPage(self.plc_selected_foreign)  # noqa: E501
 
         # Glossary study page boxes
         self.box_glossary_main = pages.MainGlossaryWidget()
         self.box_glossary_params = pages.ParamsGlossaryPage(self.plc_params_glossary)  # noqa: E501
         self.box_glossary_exercise = pages.ExerciseGlossaryPage(self.plc_exercise_glossary)  # noqa: E501
-        self.box_glossary_create = pages.CreateTermPage()
-        self.box_glossary_update = pages.UpdateTermPage()
-        self.box_glossary_selected = pages.SelectedGlossaryPage(self.plc_selected_glossary)  # noqa: E501
+        self.box_glossary_create = pages.CreateTermPage(self.plc_form_glossary)
+        self.box_glossary_update = pages.UpdateTermPage(self.plc_form_glossary)
+        self.box_glossary_selected = pages.TableTermPage(self.plc_selected_glossary)  # noqa: E501
 
         # Listeners of events
         self.plc_exercise_foreign.event.add_listener(self.box_foreign_exercise)
@@ -163,7 +168,7 @@ class WSE(toga.App):
     box_foreign_exercise: pages.ExerciseForeignPage
     box_foreign_create: pages.CreateWordPage
     box_foreign_update: pages.UpdateWordPage
-    box_foreign_selected: pages.SelectedForeignPage
+    box_foreign_selected: pages.TableForeignPage
 
     # Glossary study page boxes
     box_glossary_main: pages.MainGlossaryWidget
@@ -171,7 +176,7 @@ class WSE(toga.App):
     box_glossary_exercise: pages.ExerciseGlossaryPage
     box_glossary_create: pages.CreateTermPage
     box_glossary_update: pages.UpdateTermPage
-    box_glossary_selected: pages.SelectedGlossaryPage
+    box_glossary_selected: pages.TableTermPage
 
     # Menu
     menu: toga.Group
@@ -190,6 +195,7 @@ class WSE(toga.App):
     plc_selected_foreign = ControllerTable
     plc_selected_glossary = ControllerTable
     plc_form_foreign: FormController
+    plc_form_glossary: GlossaryFormController
 
 
 def main() -> WSE:

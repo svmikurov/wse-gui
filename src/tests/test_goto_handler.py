@@ -73,7 +73,7 @@ MOCK_REQUEST_GLOSSARY_LIST = [
             None,
         ),
         (
-            goto_handler.goto_foreign_selected_handler,
+            goto_handler.goto_foreign_table_handler,
             'box_foreign_main',
             'box_foreign_list',
             'btn_goto_list',

@@ -21,6 +21,8 @@ class TableWidgets:
     table_headings: list
     table_accessors: list
     source_accessors: list
+    url: str
+    url_detail: str
 
     def __init__(self, controller: ControllerTable) -> None:
         """Construct the table."""
@@ -34,9 +36,11 @@ class TableWidgets:
         self._label_title = TitleLabel(self.title)
 
         # The table entries management buttons
-        self._btn_create = SmBtn('Добавить', on_press=self._plc.create_handler)
-        self._btn_update = SmBtn('Изменить', on_press=self.update_handler)
-        self._btn_delete = SmBtn('Удалить', on_press=self.delete_handler)
+        self._btn_create = SmBtn('Добавить', on_press=self._create_handler)
+        self._btn_update = SmBtn('Изменить', on_press=self._update_handler)
+        self._btn_delete = SmBtn('Удалить', on_press=self._display_confirm_deletion_handler)  # noqa: E501
+        self._btn_delete_cancel = SmBtn('Отмена', on_press=self._hide_confirm_deletion_handler)  # noqa: E501
+        self._btn_delete_confirm = SmBtn('Удалить', on_press=self._confirm_deletion_handler)  # noqa: E501
 
         # The pagination buttons
         self._btn_previous = BtnApp('<', on_press=self._plc.previous_handler)
@@ -59,25 +63,8 @@ class TableWidgets:
         )
 
     async def on_open(self, widget: toga.Widget) -> None:
-        """Invoke the populate the table when the table opens."""
-        self._plc.on_open(widget)
-
-    #####################################################################
-    # Button handlers
-
-    async def update_handler(self, widget: toga.Widget) -> None:
-        """Update the entry, button handler."""
-        item_id = self._get_entry_id()
-        if item_id:
-            await self._plc.update_handler(widget, item_id=item_id)
-
-    async def delete_handler(self, widget: toga.Widget) -> None:
-        """Delete the entry, button handler."""
-        item_id = self._get_entry_id()
-        if item_id:
-            await self._plc.delete_handler(
-                widget, item_id=self._get_entry_id()
-            )
+        """Call a methods when opening a page."""
+        self._plc.on_open(widget, self.url)
 
     #####################################################################
     # Listener methods
@@ -91,10 +78,26 @@ class TableWidgets:
         self._btn_previous.enabled = is_active
 
     #####################################################################
+    # Button handlers
+
+    async def _create_handler(self, widget: toga.Widget) -> None:
+        await self._plc.goto_create_handler(widget, url=self.url)
+
+    async def _update_handler(self, widget: toga.Widget) -> None:
+        item_id = self._get_entry_id()
+        if item_id:
+            await self._plc.goto_update_handler(
+                widget, url=self.url_detail, item_id=item_id
+            )
+
+    async def _confirm_deletion_handler(self, widget: toga.Widget) -> None:
+        await self._delete(widget)
+        self._hide_confirm_deletion_handler(widget)
+
+    #################
     # Utility methods
 
     def _get_entry_id(self) -> str:
-        """Get entry id."""
         try:
             entry_id = self._table.selection.id
         except AttributeError:
@@ -102,15 +105,38 @@ class TableWidgets:
         else:
             return entry_id
 
+    async def _delete(self, widget: toga.Widget) -> None:
+        item_id = self._get_entry_id()
+        if item_id:
+            await self._plc.delete_handler(
+                widget, self.url_detail, item_id=self._get_entry_id()
+            )
+
+    #############################
+    # Interactive button handlers
+
+    def _display_confirm_deletion_handler(self, _: toga.Widget) -> None:
+        raise NotImplementedError()
+
+    def _hide_confirm_deletion_handler(self, _: toga.Widget) -> None:
+        raise NotImplementedError()
+
 
 class TableLayout(TableWidgets, BaseBox):
-    """Table of items list."""
+    """Item list table."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the page."""
+        """Construct a table layout."""
         super().__init__(*args, **kwargs)
+        # Table button box
         self._box_btns_manage = toga.Box()
+        # Pagination button box
         self._box_btns_paginate = toga.Box()
+
+        # Interactive widgets
+        self._box_confirm_deletion = toga.Box(
+            children=[self._btn_delete_cancel, self._btn_delete_confirm]
+        )
 
         # DOM
         self.add(
@@ -130,3 +156,12 @@ class TableLayout(TableWidgets, BaseBox):
             self._btn_reload,
             self._btn_next,
         )
+
+    #############################
+    # Interactive button handlers
+
+    def _display_confirm_deletion_handler(self, _: toga.Widget) -> None:
+        self.replace(self._box_btns_manage, self._box_confirm_deletion)
+
+    def _hide_confirm_deletion_handler(self, _: toga.Widget) -> None:
+        self.replace(self._box_confirm_deletion, self._box_btns_manage)

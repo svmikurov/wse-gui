@@ -57,12 +57,12 @@ def test_glossary_widget_order(wse: WSE) -> None:
     set_window_content(wse, box)
 
     assert box.children == [
-        box.label_title,
-        box.input_term,
-        box.input_definition,
-        box.btn_submit,
+        box._label_title,
+        box._input_term,
+        box._input_definition,
+        box._btn_submit,
         box.btn_goto_glossary_list,
-        box.btn_goto_back,
+        box._btn_goto_back,
     ]
 
 
@@ -78,4 +78,4 @@ def test_label_title(box_name: str, label_text: str, wse: WSE) -> None:
     box: CreateWordPage | CreateTermPage = getattr(wse, box_name)
 
     # The label has a specific text.
-    assert box.label_title.text == label_text
+    assert box._label_title.text == label_text

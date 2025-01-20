@@ -198,27 +198,19 @@ async def request_delete_async(url: str) -> Response:
 
 
 #########################################################################
-# Request mixins
-#########################################################################
+# Named requests
 
+async def request_data_async(url: str) -> dict:
+    """Request to get data."""
+    response = await request_get_async(url)
+    if response.status_code == HTTPStatus.OK:
+        data = response.json()
+        return data
 
-class HttpPostMixin:
-    """Request POST method, the mixin."""
+async def request_update_async(url: str, payload: dict) -> None:
+    """Request to update."""
+    await request_put_async(url, payload)
 
-    success_http_status = HTTPStatus.CREATED
-
-    @classmethod
-    async def request_post_async(cls, url: str, payload: dict) -> Response:
-        """Send http request, POST method."""
-        return await request_post_async(url, payload)
-
-
-class HttpPutMixin:
-    """Request PUT method, the mixin."""
-
-    success_http_status = HTTPStatus.OK
-
-    @classmethod
-    async def request_put_async(cls, url: str, payload: dict) -> Response:
-        """Send http request, PUT method."""
-        return await request_put_async(url, payload)
+async def request_create_async(url: str, payload: dict) -> None:
+    """Request to create."""
+    await request_post_async(url, payload)
