@@ -1,71 +1,111 @@
 """WSE application."""
 
 import toga
+from toga.command import ActionHandler
 
-from wse import page
-from wse.constants import (
-    SCREEN_SIZE,
+from wse import pages
+from wse.constants import SCREEN_SIZE
+from wse.controllers.exercise import ControllerExercise
+from wse.controllers.form import (
+    ForeignFormController,
+    FormController,
+    GlossaryFormController,
 )
-from wse.general.box_page import BoxApp
+from wse.controllers.params import ControllerParams
+from wse.controllers.table import ControllerTable
+from wse.pages import ExplorerLayout
+from wse.pages.examples.examples import ExampleLayout
+from wse.pages.examples.table_source import TableSourceLayout
+from wse.pages.handlers.goto_handler import set_window_content
+from wse.sources.text_panel_main import SourceMainPanel
+from wse.sources.user import SourceUser
 
 
 class WSE(toga.App):
     """WSE application."""
 
-    # Page boxes.
-    box_main: page.MainBox
-    # Foreign language study page boxes.
-    box_foreign_main: page.MainForeignPage
-    box_foreign_params: page.ParamForeignPage
-    box_foreign_exercise: page.ExerciseForeignPage
-    box_foreign_create: page.CreateWordPage
-    box_foreign_update: page.UpdateWordPage
-    box_foreign_list: page.ListForeignPage
-    # Glossary study page boxes.
-    box_glossary_main: page.MainGlossaryPage
-    box_glossary_params: page.ParamGlossaryBox
-    box_glossary_exercise: page.ExerciseGlossaryBox
-    box_glossary_create: page.CreateTermPage
-    box_glossary_update: page.UpdateTermPage
-    box_glossary_list: page.ListTermPage
-    # Login box.
-    box_login: page.LoginBox
-
-    # Menu.
-    menu: toga.Group
-    cmd_goto_main: toga.Command
-    cmd_goto_foreign: toga.Command
-    cmd_goto_glossary: toga.Command
-
     def startup(self) -> None:
-        """Initialise widgets to start application.
+        """Construct and show the application."""
+        # App sources
+        self.user = SourceUser()
+        self.source_main_panel = SourceMainPanel(self.user)
 
-        * Initialises the page boxes.
-        * Creates the app command menu.
-        * Define the main window.
-        """
-        # Page boxes.
-        self.box_main = page.MainBox()
-        # Foreign language study page boxes.
-        self.box_foreign_main = page.MainForeignPage()
-        self.box_foreign_params = page.ParamForeignPage()
-        self.box_foreign_exercise = page.ExerciseForeignPage()
-        self.box_foreign_create = page.CreateWordPage()
-        self.box_foreign_update = page.UpdateWordPage()
-        self.box_foreign_list = page.ListForeignPage()
-        # Glossary study page boxes.
-        self.box_glossary_main = page.MainGlossaryPage()
-        self.box_glossary_params = page.ParamGlossaryBox()
-        self.box_glossary_exercise = page.ExerciseGlossaryBox()
-        self.box_glossary_create = page.CreateTermPage()
-        self.box_glossary_update = page.UpdateTermPage()
-        self.box_glossary_list = page.ListTermPage()
-        # Login box.
-        self.box_login = page.LoginBox()
+        # Set user data
+        self.user.on_start()
 
-        # Menu.
+        # Construct
+        self.add_controllers()
+        self.add_pages()
+        self.add_menu()
+
+        # Application start with Main page box content.
+        self.main_window = toga.MainWindow(
+            title=self.formal_name,
+            size=toga.Size(*SCREEN_SIZE),
+        )
+        self.main_window.content = self.box_main
+        self.box_main.update_widgets()  # by user auth status
+        self.main_window.show()
+
+    ####################################################################
+    # Controllers
+
+    def add_controllers(self) -> None:
+        """Add controllers."""
+        # fmt: off
+        self.plc_params_foreign = ControllerParams()
+        self.plc_params_glossary = ControllerParams()
+        self.plc_exercise_foreign = ControllerExercise(self, self.plc_params_foreign)  # noqa: E501
+        self.plc_exercise_glossary = ControllerExercise(self, self.plc_params_glossary)  # noqa: E501
+        self.plc_selected_foreign = ControllerTable(self.plc_params_foreign)
+        self.plc_selected_glossary = ControllerTable(self.plc_params_glossary)
+        self.plc_form_foreign = ForeignFormController()
+        self.plc_form_glossary = GlossaryFormController()
+        # fmt: on
+
+    ####################################################################
+    # Pages
+
+    def add_pages(self) -> None:
+        """Add page boxes."""
+        # fmt: off
+        self.box_main = pages.MainBox(self.user, self.source_main_panel)
+        self.box_login = pages.LoginBox(self.user)
+
+        # Temp pages
+        self.box_explorer = ExplorerLayout()
+        self.box_examples = ExampleLayout()
+        self.box_table_source = TableSourceLayout()
+
+        # Foreign language study page boxes
+        self.box_foreign_main = pages.MainForeignPage()
+        self.box_foreign_params = pages.ParamsForeignPage(self.plc_params_foreign)  # noqa: E501
+        self.box_foreign_exercise = pages.ExerciseForeignPage(self.plc_exercise_foreign)  # noqa: E501
+        self.box_foreign_create = pages.CreateWordPage(self.plc_form_foreign)
+        self.box_foreign_update = pages.UpdateWordPage(self.plc_form_foreign)
+        self.box_foreign_selected = pages.TableForeignPage(self.plc_selected_foreign)  # noqa: E501
+
+        # Glossary study page boxes
+        self.box_glossary_main = pages.MainGlossaryWidget()
+        self.box_glossary_params = pages.ParamsGlossaryPage(self.plc_params_glossary)  # noqa: E501
+        self.box_glossary_exercise = pages.ExerciseGlossaryPage(self.plc_exercise_glossary)  # noqa: E501
+        self.box_glossary_create = pages.CreateTermPage(self.plc_form_glossary)
+        self.box_glossary_update = pages.UpdateTermPage(self.plc_form_glossary)
+        self.box_glossary_selected = pages.TableTermPage(self.plc_selected_glossary)  # noqa: E501
+
+        # Listeners of events
+        self.plc_exercise_foreign.event.add_listener(self.box_foreign_exercise)
+        self.plc_exercise_glossary.event.add_listener(self.box_glossary_exercise)  # noqa: E501
+        # fmt: on
+
+    ####################################################################
+    # Menu
+
+    def add_menu(self) -> None:
+        """Add menu."""
         self.menu = toga.Group('Menu')
-        # Menu commands.
+
+        # Menu commands
         self.cmd_goto_main = toga.Command(
             self.goto_main,
             text='Главная страница',
@@ -90,32 +130,72 @@ class WSE(toga.App):
             self.cmd_goto_foreign,
         )
 
-        # Main window.
-        self.main_window = toga.MainWindow(
-            title=self.formal_name,
-            size=toga.Size(*SCREEN_SIZE),
-        )
-        # Application start with Main page box content.
-        self.main_window.content = self.box_main
-        self.box_main.on_open()
-        self.main_window.show()
-
-    def move_to_page(self, box: BoxApp) -> None:
+    async def move_to_page(self, box: toga.Box) -> None:
         """Move to page box."""
-        self.main_window.content = box
-        box.on_open()
+        await set_window_content(self.box_main, box)
 
-    def goto_main(self, _: toga.Widget, **kwargs: object) -> None:
+    async def goto_main(self, _: toga.Widget, **kwargs: object) -> None:
         """Goto main box, command handler."""
-        self.move_to_page(self.box_main)
+        await self.move_to_page(self.box_main)
 
-    def goto_glossary(self, _: toga.Widget, **kwargs: object) -> None:
+    async def goto_glossary(self, _: toga.Widget, **kwargs: object) -> None:
         """Goto glossary box, command handler."""
-        self.move_to_page(self.box_glossary_main)
+        await self.move_to_page(self.box_glossary_main)
 
-    def goto_foreign(self, _: toga.Widget, **kwargs: object) -> None:
+    async def goto_foreign(self, _: toga.Widget, **kwargs: object) -> None:
         """Goto foreign box, command handler."""
-        self.move_to_page(self.box_foreign_main)
+        await self.move_to_page(self.box_foreign_main)
+
+    ####################################################################
+    # Annotations
+
+    # Sources
+    user: SourceUser
+    source_main_panel: SourceMainPanel
+
+    # Page boxes
+    box_main: pages.MainBox
+    box_login: pages.LoginBox
+
+    # Temp pages
+    box_explorer: ExplorerLayout
+    box_examples: ExampleLayout
+    box_table_source: TableSourceLayout
+
+    # Foreign language study page boxes
+    box_foreign_main: pages.MainForeignPage
+    box_foreign_params: pages.ParamsForeignPage
+    box_foreign_exercise: pages.ExerciseForeignPage
+    box_foreign_create: pages.CreateWordPage
+    box_foreign_update: pages.UpdateWordPage
+    box_foreign_selected: pages.TableForeignPage
+
+    # Glossary study page boxes
+    box_glossary_main: pages.MainGlossaryWidget
+    box_glossary_params: pages.ParamsGlossaryPage
+    box_glossary_exercise: pages.ExerciseGlossaryPage
+    box_glossary_create: pages.CreateTermPage
+    box_glossary_update: pages.UpdateTermPage
+    box_glossary_selected: pages.TableTermPage
+
+    # Menu
+    menu: toga.Group
+    goto_main: ActionHandler
+    goto_foreign: ActionHandler
+    goto_glossary: ActionHandler
+    cmd_goto_main: toga.Command
+    cmd_goto_foreign: toga.Command
+    cmd_goto_glossary: toga.Command
+
+    # Controllers
+    plc_params_foreign: ControllerParams
+    plc_params_glossary: ControllerParams
+    plc_exercise_foreign: ControllerExercise
+    plc_exercise_glossary: ControllerExercise
+    plc_selected_foreign = ControllerTable
+    plc_selected_glossary = ControllerTable
+    plc_form_foreign: FormController
+    plc_form_glossary: GlossaryFormController
 
 
 def main() -> WSE:

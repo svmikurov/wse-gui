@@ -1,16 +1,16 @@
 # This project was generated with 0.3.19 using template: https://github.com/beeware/briefcase-template@v0.3.19
 [tool.briefcase]
-project_name = "WSE"
+project_name = "WSE GUI"
 bundle = "online.wselfedu"
-version = "0.0.1"
+version = "0.1.1"
 url = "http://wselfedu.online"
 license.file = "LICENSE"
 author = "Sergei Mikurov"
 author_email = "454004@mail.ru"
 
 [tool.briefcase.app.wse]
-formal_name = "WSE"
-description = "WSE Toga app"
+formal_name = "WSE GUI"
+description = "WSE GUI Toga app"
 long_description = """More details about the app should go here.
 """
 sources = [
@@ -208,7 +208,6 @@ select = [
     "C90",  # mccabe: https://pypi.org/project/mccabe/
     "ANN",  # flake8-annotations: https://pypi.org/project/flake8-annotations/
     "Q",    # flake8-quotes: https://pypi.org/project/flake8-quotes/
-    "TD",   # flake8-todos: https://github.com/orsinium-labs/flake8-todos/
 ]
 ignore = [
     "D203",     # 1 blank line required before class docstring

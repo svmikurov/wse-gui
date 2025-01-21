@@ -1,5 +1,7 @@
-.venv_wse_toga/
-*token.json
+.env
+.venv_wse_gui/
+*token.txt
+*userdata.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -54,6 +56,7 @@ var/
 
 # IntelliJ Idea family of suites
 .idea
+.vscode
 *.iml
 ## File-based project format:
 *.ipr

@@ -1,55 +1,43 @@
 """App http requests module."""
 
-import json
 import os.path
 import typing
 from http import HTTPStatus
 from pathlib import Path
+from urllib.parse import urljoin
 
 import httpx
 from httpx import Request, Response
 
-import wse.constants as const
-from wse.constants import CONNECTION_ERROR_MSG
+from wse.constants import (
+    HOST,
+    TOKEN_PATH,
+    USER_ME_PATH,
+)
+
+PATH_TOKEN_FILE = os.path.join(
+    Path(__file__).parent.parent,
+    'resources/token.txt',
+)
+
+url_token = urljoin(HOST, TOKEN_PATH)
+url_login = urljoin(HOST, USER_ME_PATH)
 
 
 class AppAuth(httpx.Auth):
-    """Authentication.
-
-    :ivar token: User authentication token.
-    :vartype token: str
-    """
-
-    token_path = os.path.join(
-        Path(__file__).parent.parent,
-        'resources/token.json',
-    )
-    """Path to reade or save token (`str`).
-    """
+    """Authentication."""
 
     def __init__(self) -> None:
         """Construct the token auth."""
-        self._token = None
+        self._token: str | None = None
 
     def auth_flow(
         self,
         request: Request,
     ) -> typing.Generator[Request, Response, None]:
-        """Execute the authentication flow.
-
-        Adds auth ``token`` to "Authorization" header.
-        """
+        """Execute the authentication flow."""
         request.headers['Authorization'] = f'Token {self.token}'
         yield request
-
-    def set_token(self, response: Response) -> None:
-        """Set auth token from login response."""
-        self.token = response.json()[const.AUTH_TOKEN]
-
-    def delete_token(self) -> None:
-        """Delete current auth token."""
-        self._token = None
-        del self.token
 
     @property
     def token(self) -> str | None:
@@ -58,22 +46,28 @@ class AppAuth(httpx.Auth):
             return self._token
 
         try:
-            with open(self.token_path, 'r') as file:
-                data = json.load(file)
-                return data.get('token')
+            with open(PATH_TOKEN_FILE, 'r') as file:
+                token = file.read()
         except FileNotFoundError:
             return None
+        else:
+            # Set None if token is empty.
+            self._token = token if token else None
+            return self._token
 
     @token.setter
     def token(self, token: str) -> None:
-        data = {'token': token}
-        with open(self.token_path, 'w') as file:
-            json.dump(data, file, indent=2)
+        with open(PATH_TOKEN_FILE, 'w') as file:
+            file.write(token)
         self._token = token
+        print('INFO: token has been saved')
 
     @token.deleter
     def token(self) -> None:
-        os.unlink(self.token_path)
+        try:
+            os.unlink(PATH_TOKEN_FILE)
+        except FileNotFoundError:
+            pass
         self._token = None
 
 
@@ -90,7 +84,23 @@ class ErrorResponse(Response):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct response."""
         super().__init__(*args, **kwargs)
-        self.conn_error_msg = CONNECTION_ERROR_MSG
+        self.conn_error_msg = 'Ошибка соединения с сервером'
+
+
+def obtain_token(credentials: dict) -> Response:
+    """Obtain the user token."""
+    response = request_post(url_token, credentials, token=False)
+
+    if response.status_code == HTTPStatus.OK:
+        token = response.json()['auth_token']
+        app_auth.token = token
+
+    return response
+
+
+def request_user_data() -> Response:
+    """Request the user data."""
+    return request_get(url_login)
 
 
 #########################################################################
@@ -102,13 +112,18 @@ def request_get(url: str) -> Response:
     """Send GET request."""
     with httpx.Client(auth=app_auth) as client:
         try:
-            response = client.get(
-                url=url,
-            )
-        except httpx.ConnectError:
-            print('Connection error')
+            response = client.get(url)
+        except httpx.ConnectError as error:
+            print(error)
             return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
         else:
+            status_code = response.status_code
+            if status_code != HTTPStatus.OK:
+                print(
+                    'DEBUG: Request by {} returned status code {}'.format(
+                        url, status_code
+                    )
+                )
             return response
 
 
@@ -123,8 +138,8 @@ def request_post(
     with httpx.Client(auth=auth) as client:
         try:
             response = client.post(url=url, json=payload)
-        except httpx.ConnectError:
-            print('Connection error')
+        except httpx.ConnectError as error:
+            print(error)
             return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
     return response
 
@@ -137,8 +152,13 @@ def request_post(
 async def request_get_async(url: str) -> Response:
     """Request the async GET method."""
     async with httpx.AsyncClient(auth=app_auth) as client:
-        response = await client.get(url)
-    return response
+        try:
+            response = await client.get(url)
+        except httpx.ConnectError as error:
+            print(error)
+            return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
+        else:
+            return response
 
 
 async def request_post_async(
@@ -146,6 +166,19 @@ async def request_post_async(
 ) -> Response:  # noqa: E501
     """Request the async POST method."""
     async with httpx.AsyncClient(auth=app_auth) as client:
+        try:
+            response = await client.post(url, json=payload)
+        except httpx.ConnectError as error:
+            print(error)
+            return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
+    return response
+
+
+async def request_token_async(
+    url: str, payload: dict | None = None
+) -> Response:
+    """Request the async POST method."""
+    async with httpx.AsyncClient() as client:
         response = await client.post(url, json=payload)
     return response
 
@@ -165,38 +198,19 @@ async def request_delete_async(url: str) -> Response:
 
 
 #########################################################################
-# Request mixins
-#########################################################################
+# Named requests
 
+async def request_data_async(url: str) -> dict:
+    """Request to get data."""
+    response = await request_get_async(url)
+    if response.status_code == HTTPStatus.OK:
+        data = response.json()
+        return data
 
-class HttpGetMixin:
-    """Request GET method, the mixin."""
+async def request_update_async(url: str, payload: dict) -> None:
+    """Request to update."""
+    await request_put_async(url, payload)
 
-    success_http_status = HTTPStatus.OK
-
-    @classmethod
-    async def request_get_async(cls, url: str, payload: dict) -> Response:
-        """Send http request, GET method."""
-        return await request_put_async(url, payload)
-
-
-class HttpPostMixin:
-    """Request POST method, the mixin."""
-
-    success_http_status = HTTPStatus.CREATED
-
-    @classmethod
-    async def request_post_async(cls, url: str, payload: dict) -> Response:
-        """Send http request, POST method."""
-        return await request_post_async(url, payload)
-
-
-class HttpPutMixin:
-    """Request PUT method, the mixin."""
-
-    success_http_status = HTTPStatus.OK
-
-    @classmethod
-    async def request_put_async(cls, url: str, payload: dict) -> Response:
-        """Send http request, PUT method."""
-        return await request_put_async(url, payload)
+async def request_create_async(url: str, payload: dict) -> None:
+    """Request to create."""
+    await request_post_async(url, payload)

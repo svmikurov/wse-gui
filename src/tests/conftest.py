@@ -1,4 +1,6 @@
 import asyncio
+from asyncio import AbstractEventLoop
+from unittest.mock import patch, MagicMock
 
 import pytest
 
@@ -7,7 +9,7 @@ import toga
 from tests.utils import FixtureReader
 from wse.app import WSE
 
-FIXTURE = 'params_glossary.json'
+FIXTURE = 'params.json'
 PARAMS = FixtureReader(FIXTURE).json()
 
 
@@ -18,8 +20,13 @@ def event_loop(request):
     loop.close()
 
 
-@pytest.fixture
-def wse(event_loop):
+@pytest.fixture(scope='function')
+@patch('httpx.Client.get')
+def wse(
+    get: MagicMock,
+    event_loop: AbstractEventLoop
+):
+    """Return the application instance, fixture."""
     # The app icon is cached; purge the app icon cache if it exists
     try:
         del toga.Icon.__APP_ICON
@@ -32,11 +39,11 @@ def wse(event_loop):
 @pytest.fixture(scope='function')
 def selection_params(wse: WSE) -> None:
     """Populate exercise params selections form fixture."""
-    wse.box_glossary_params.selection_start_period.set_items(
+    wse.box_glossary_params.selection_start_date.set_items(
         PARAMS['exercise_choices']['edge_period_items'],
         PARAMS['lookup_conditions']['period_start_date'],
     )
-    wse.box_glossary_params.selection_end_period.set_items(
+    wse.box_glossary_params.selection_end_date.set_items(
         PARAMS['exercise_choices']['edge_period_items'],
         PARAMS['lookup_conditions']['period_end_date'],
     )

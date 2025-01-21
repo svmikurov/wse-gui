@@ -1,23 +1,36 @@
 """Utils for testing."""
 
+import asyncio
 import json
 import os
 import pathlib
+from http import HTTPStatus
+
+from wse.app import WSE
+
+
+def run_until_complete(wse: WSE) -> object:
+    """Run the event loop until a Future is done."""
+    time_to_sleep = 0.1
+    return wse.loop.run_until_complete(asyncio.sleep(time_to_sleep))
 
 
 class FixtureReader:
     """Reader of fixtures.
 
-    :param str fixture: The fixture file name.
+    Use to reade fixture for http response.
     """
 
     module_dir = pathlib.Path(__file__).parent
-    """Current module dir path (`str`).
-    """
 
-    def __init__(self, fixture: str) -> None:
+    def __init__(
+        self,
+        fixture_file_name: str,
+        status_code: int = HTTPStatus.OK,
+    ) -> None:
         """Construct the reader."""
-        self.fixture = fixture
+        self.fixture = fixture_file_name
+        self.status_code = status_code
 
     @property
     def fixture_path(self) -> str:
@@ -26,14 +39,11 @@ class FixtureReader:
 
     @staticmethod
     def url() -> str:
-        """Return the url."""
-        return ''
+        """Stub to return the url for http response fixture."""
+        return 'NOTE: url stub from FixtureReader'
 
     def json(self) -> dict:
-        """Reade the fixture.
-
-        :return: the fixture data.
-        """  # noqa: D401
+        """Return the data from http response fixture."""
         with open(self.fixture_path, 'r') as file:
-            fixture = json.load(file)
-        return fixture
+            data = json.load(file)
+        return data

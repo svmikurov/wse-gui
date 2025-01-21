@@ -1,22 +1,22 @@
 {
-  "count": 100,
-  "next": "http://...",
-  "previous": "http://...",
+  "count": 9,
+  "next": "http://127.0.0.1/api/v1/foreign/?limit=3&offset=6",
+  "previous": "http://127.0.0.1/api/v1/foreign/?limit=3",
   "results": [
     {
-      "id": 1,
-      "foreign_word": "hello",
-      "native_word": "привет"
+      "id": 4,
+      "foreign_word": "table foreign",
+      "native_word": "table native"
     },
     {
-      "id": 2,
-      "foreign_word": "apple",
-      "native_word": "яблоко"
+      "id": 5,
+      "foreign_word": "box foreign",
+      "native_word": "box native"
     },
     {
-      "id": 3,
-      "foreign_word": "pen",
-      "native_word": "ручка"
+      "id": 6,
+      "foreign_word": "word foreign",
+      "native_word": "word native"
     }
   ]
 }
