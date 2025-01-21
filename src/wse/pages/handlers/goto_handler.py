@@ -94,6 +94,18 @@ async def goto_foreign_exercise_handler(widget: toga.Widget) -> None:
     await set_window_content(widget, box)
 
 
+async def goto_foreign_tasks_handler(widget: toga.Widget) -> None:
+    """Go to foreign tasks, button handler."""
+    box = widget.root.app.box_foreign_tasks
+    await set_window_content(widget, box)
+
+
+async def goto_foreign_test_handler(widget: toga.Widget) -> None:
+    """Go to foreign test, button handler."""
+    box = widget.root.app.box_foreign_test
+    await set_window_content(widget, box)
+
+
 ########################################################################
 # Glossary
 

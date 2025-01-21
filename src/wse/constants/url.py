@@ -26,8 +26,8 @@ USER_ME_PATH = '/api/v1/auth/users/me/'
 """User detail endpoint, allowed GET method (`str`).
 """
 TOKEN_PATH = '/auth/token/login/'
-"""Endpoint to obtain the user authentication token, allowed method: POST (`str`).
-"""  # noqa: W505, E501
+"""Endpoint to obtain the user auth token, allowed method: POST (`str`).
+"""
 
 FOREIGN_EXERCISE_PATH = '/api/v1/foreign/exercise/'
 """Learning foreign word exercise path (`str`).

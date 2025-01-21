@@ -74,5 +74,5 @@ def test_pagination_last_page(
 def test_btn_text(box_list: TableTermPage) -> None:
     """Test the handler of button pagination next."""
     assert box_list._btn_previous.text == '<'
-    assert box_list._btn_table_reload.text == 'Обновить'
+    assert box_list._btn_reload.text == 'В начало'
     assert box_list._btn_next.text == '>'

@@ -200,6 +200,7 @@ async def request_delete_async(url: str) -> Response:
 #########################################################################
 # Named requests
 
+
 async def request_data_async(url: str) -> dict:
     """Request to get data."""
     response = await request_get_async(url)
@@ -207,9 +208,11 @@ async def request_data_async(url: str) -> dict:
         data = response.json()
         return data
 
+
 async def request_update_async(url: str, payload: dict) -> None:
     """Request to update."""
     await request_put_async(url, payload)
+
 
 async def request_create_async(url: str, payload: dict) -> None:
     """Request to create."""

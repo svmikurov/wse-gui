@@ -11,10 +11,10 @@ from unittest.mock import Mock
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
-from wse.pages.widgets.table import TableApp
 
 from tests.utils import run_until_complete
 from wse.app import WSE
+from wse.pages.widgets.table import TableApp
 
 
 @pytest.fixture(autouse=True)

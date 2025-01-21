@@ -50,9 +50,9 @@ def test_logout(
         wse.main_window.content = wse.box_main
         wse.user._username = 'name'
         wse.user._is_auth = True
-        box_main.update_widgets()
+        box_main._update_widgets()
 
-        box_main.btn_logout._impl.simulate_press()
+        box_main._btn_logout._impl.simulate_press()
 
         run_until_complete(wse)
 
@@ -60,4 +60,4 @@ def test_logout(
             url='http://127.0.0.1/auth/token/logout/', json=None
         )
 
-        assert box_main.info_panel.value == f'Ready for connect to {HOST}'
+        assert box_main._info_panel.value == f'Ready for connect to {HOST}'

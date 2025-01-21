@@ -1,55 +1,52 @@
-"""General app text input."""
+"""General app text inputs."""
 
 import toga
-from toga.style import Pack
-from travertino.constants import ITALIC
 
 from wse.constants import (
     TEXT_DISPLAY_FONT_SIZE,
     TEXT_DISPLAY_FONT_STYLE,
+    TEXT_DISPLAY_PADDING,
 )
 
 
-class MulTextInpApp(toga.MultilineTextInput):
-    """MultilineTextInput application widget."""
+class ListenerMixin:
+    """Listener methods mixin."""
 
-    def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the table."""
-        super().__init__(*args, **kwargs)
-        self.style.flex = 1
-        self.style.padding = (2, 0, 2, 0)
-        self.style.font_style = ITALIC
-        self.style.readonly = True
+    value: str
 
-    def clean(self) -> None:
-        """Clear the text input widget value."""
-        self.value = None
-
-
-class TextPanel(toga.MultilineTextInput):
-    """Custom MultilineTextInput for info display."""
-
-    def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the input."""
-        super().__init__(*args, **kwargs)
-        self.style.style = Pack(flex=1)
-        self.readonly = True
-
-    def change(self, text: str | None) -> None:
+    def change(self, text: str) -> None:
         """Update text widget value."""
         self.value = text
 
     def clean(self) -> None:
         """Clear the value of the text widget."""
-        self.value = None
+        self.value = ''
 
 
-class TaskTextPanel(TextPanel):
-    """Exercise text display widget."""
+class InfoTextPanel(ListenerMixin, toga.MultilineTextInput):
+    """Text panel for info display."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the widget."""
         super().__init__(*args, **kwargs)
-        self.style.padding = (0, 2, 0, 2)
+        self.readonly = True
+
+
+class ExerciseTextPanel(ListenerMixin, toga.MultilineTextInput):
+    """Text panel for exercise info display."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the widget."""
+        super().__init__(*args, **kwargs)
+        self.readonly = True
+        self.style.padding = TEXT_DISPLAY_PADDING
         self.style.font_size = TEXT_DISPLAY_FONT_SIZE
         self.style.font_style = TEXT_DISPLAY_FONT_STYLE
+
+
+class InputTextField(ListenerMixin, toga.MultilineTextInput):
+    """Text input field."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the widget."""
+        super().__init__(*args, **kwargs)

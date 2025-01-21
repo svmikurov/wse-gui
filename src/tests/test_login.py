@@ -54,10 +54,10 @@ def test_text(box_login: LoginBox) -> None:
 
 def test_main_box_btns(box_main: MainBox) -> None:
     """Test the auth button at main box-container."""
-    assert box_main.btn_goto_login.text == 'Вход в учетную запись'
-    assert box_main.btn_goto_login.on_press._raw == goto_login_handler
-    assert box_main.btn_logout.text == 'Выйти из учетной записи'
-    assert box_main.btn_logout.on_press._raw == box_main.logout_handler
+    assert box_main._btn_goto_login.text == 'Вход в учетную запись'
+    assert box_main._btn_goto_login.on_press._raw == goto_login_handler
+    assert box_main._btn_logout.text == 'Выйти из учетной записи'
+    assert box_main._btn_logout.on_press._raw == box_main._logout_handler
 
 
 RESPONSE_AUTH_POST = Mock(
@@ -91,8 +91,8 @@ def test_login(
         monkeypatch.setattr(http_requests, 'PATH_TOKEN_FILE', path_token)
 
         # Main box-container include button to log in.
-        assert wse.box_main.btn_goto_login in wse.box_main.children
-        assert wse.box_main.btn_logout not in wse.box_main.children
+        assert wse.box_main._btn_goto_login in wse.box_main.children
+        assert wse.box_main._btn_logout not in wse.box_main.children
 
         # Input username and password.
         box_login.input_username.value = 'name'
@@ -116,15 +116,15 @@ def test_login(
         assert wse.main_window.content is wse.box_main
 
         # Main box-container include button to log out.
-        assert wse.box_main.btn_logout in wse.box_main.children
-        assert wse.box_main.btn_goto_login not in wse.box_main.children
+        assert wse.box_main._btn_logout in wse.box_main.children
+        assert wse.box_main._btn_goto_login not in wse.box_main.children
 
         # The user data has been updated.
         assert wse.user.is_auth is True
         assert wse.user.username == 'name'
 
         # The main information panel contains user greetings.
-        assert wse.box_main.info_panel.value == 'Добро пожаловать, name!'
+        assert wse.box_main._info_panel.value == 'Добро пожаловать, name!'
 
         # The username and password input fields have been cleared.
         assert box_login.input_username.value == ''
