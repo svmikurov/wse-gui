@@ -18,9 +18,13 @@ PADDING_AROUND_WIDGET = (PADDING_SM, PADDING_SM, PADDING_SM, PADDING_SM)
 FONT_SIZE_APP = 11
 BUTTON_HEIGHT = 60
 INPUT_HEIGHT = 60
+MAX_LINE_LENGTH = 23
+"""Max length of table line length (`int`)
+"""
 
 #########################################################################
 # TextDisplay
+
 TEXT_DISPLAY_FONT_SIZE = 18
 TEXT_DISPLAY_FONT_STYLE = ITALIC
 TEXT_DISPLAY_PADDING = (0, 2, 0, 2)
@@ -52,20 +56,23 @@ TITLE_GLOSSARY_EXERCISE = 'Изучение терминов'
 BTN_GOTO_GLOSSARY_MAIN = 'Глоссарий'
 BTN_GOTO_GLOSSARY_LIST = 'Словарь терминов'
 BTN_GOTO_GLOSSARY_EXERCISE = 'Начать упражнение'
-BTN_GOTO_GLOSSARY_PARAMS = 'Упражнение'
+BTN_GOTO_GLOSSARY_PARAMS = 'Изучение терминов'
 BTN_GOTO_GLOSSARY_CREATE = 'Добавить термин'
 # Foreign
-TITLE_FOREIGN_MAIN = 'Иностранный словарь'
+TITLE_FOREIGN_MAIN = 'Иностранный язык'
 TITLE_FOREIGN_CREATE = 'Добавить слово'
 TITLE_FOREIGN_UPDATE = 'Изменить термин'
 TITLE_FOREIGN_LIST = 'Словарь иностранных слов'
 TITLE_FOREIGN_PARAMS = 'Параметры изучения слов'
 TITLE_FOREIGN_EXERCISE = 'Изучение иностранных слов'
+TITLE_FOREIGN_TASKS = 'Задания по Иностранному языку'
+TITLE_FOREIGN_TEST = 'Тест по Иностранному языку'
 BTN_GOTO_FOREIGN_MAIN = 'Иностранный'
 BTN_GOTO_FOREIGN_CREATE = 'Добавить слово'
 BTN_GOTO_FOREIGN_LIST = 'Словарь иностранных слов'
 BTN_GOTO_FOREIGN_EXERCISE = 'Начать упражнение'
-BTN_GOTO_FOREIGN_PARAMS = 'Упражнение'
+BTN_GOTO_FOREIGN_PARAMS = 'Изучение слов'
+BTN_GOTO_FOREIGN_TASKS = 'Выполнение заданий'
 
 #########################################################################
 # Messages

@@ -1,9 +1,8 @@
 import asyncio
 from asyncio import AbstractEventLoop
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
-
 import toga
 
 from tests.utils import FixtureReader
@@ -47,7 +46,7 @@ def selection_params(wse: WSE) -> None:
         PARAMS['exercise_choices']['edge_period_items'],
         PARAMS['lookup_conditions']['period_end_date'],
     )
-    wse.box_glossary_params.selection_category.set_items(
+    wse.box_glossary_params._selection_category.set_items(
         PARAMS['exercise_choices']['categories'],
         PARAMS['lookup_conditions']['category'],
     )
@@ -55,9 +54,9 @@ def selection_params(wse: WSE) -> None:
         PARAMS['exercise_choices']['progress'],
         PARAMS['lookup_conditions']['progress'],
     )
-    wse.box_glossary_params.input_count_first.value = (
+    wse.box_glossary_params._input_count_first.value = (
         PARAMS['lookup_conditions']['count_first']
     )
-    wse.box_glossary_params.input_count_last.value = (
+    wse.box_glossary_params._input_count_last.value = (
         PARAMS['lookup_conditions']['count_last']
     )

@@ -22,7 +22,7 @@ class ButtonMixin:
     def deactivate(self) -> None:
         """Activate the bottom."""
         self.enabled = False
-        self.style.background_color = colors.rgb(32, 32, 32)
+        self.style.background_color = colors.CADETBLUE
         self.style.color = colors.WHITE
 
 

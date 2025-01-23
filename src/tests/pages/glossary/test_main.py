@@ -31,23 +31,23 @@ def test_widget_order(wse: WSE) -> None:
     box = wse.box_glossary_main
 
     assert box.children == [
-        box.label_title,
-        box.btn_goto_params,
-        box.btn_goto_create,
+        box._label_title,
+        box._btn_goto_params,
+        box._btn_goto_create,
         box.btn_goto_list,
-        box.btn_goto_back,
+        box._btn_goto_back,
     ]
 
 
 def test_label_title(wse: WSE) -> None:
     """Test the title of glossary term create page box."""
-    title = wse.box_glossary_main.label_title
+    title = wse.box_glossary_main._label_title
     assert title.text == 'Глоссарий'
 
 
 def test_btn_goto_glossary_create_page(wse: WSE) -> None:
     """Test the button of go to create glossary term page box."""
-    btn = wse.box_glossary_main.btn_goto_create
+    btn = wse.box_glossary_main._btn_goto_create
 
     btn._impl.simulate_press()
 
@@ -68,7 +68,7 @@ def test_btn_goto_glossary_params_page(
     Mock:
      * ``httpx.Client``, otherwise http request.
     """
-    btn = wse.box_glossary_main.btn_goto_params
+    btn = wse.box_glossary_main._btn_goto_params
 
     btn._impl.simulate_press()
 

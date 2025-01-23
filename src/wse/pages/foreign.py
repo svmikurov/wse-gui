@@ -1,32 +1,15 @@
-"""Foreign words page boxes."""
+"""Foreign pages."""
 
 from urllib.parse import urljoin
 
 import toga
 from toga.style import Pack
 
-from wse.constants import (
-    BTN_GOTO_FOREIGN_CREATE,
-    BTN_GOTO_FOREIGN_PARAMS,
-    FOREIGN_ASSESSMENT_PATH,
-    FOREIGN_DETAIL_PATH,
-    FOREIGN_EXERCISE_PATH,
-    FOREIGN_FAVORITES_PATH,
-    FOREIGN_PARAMS_PATH,
-    FOREIGN_PATH,
-    FOREIGN_SELECTED_PATH,
-    HOST,
-    TITLE_FOREIGN_CREATE,
-    TITLE_FOREIGN_EXERCISE,
-    TITLE_FOREIGN_LIST,
-    TITLE_FOREIGN_MAIN,
-    TITLE_FOREIGN_PARAMS,
-    TITLE_FOREIGN_UPDATE,
-)
-from wse.pages.containers.exercise import (
-    ExerciseLayout,
-)
-from wse.pages.containers.form import ForeignFormLayout
+from wse import constants as const
+from wse.constants import TEXT_DISPLAY_FONT_SIZE
+from wse.controllers.form import WordFormController
+from wse.pages.containers.exercise import ExerciseLayout
+from wse.pages.containers.form import FormLayout
 from wse.pages.containers.params import ParamsLayout
 from wse.pages.containers.table import TableLayout
 from wse.pages.handlers.goto_handler import (
@@ -35,31 +18,37 @@ from wse.pages.handlers.goto_handler import (
     goto_foreign_exercise_handler,
     goto_foreign_params_handler,
     goto_foreign_table_handler,
+    goto_foreign_tasks_handler,
+    goto_foreign_test_handler,
     goto_foreign_update_handler,
 )
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.label import TitleLabel
+from wse.pages.widgets.text_input import InfoTextPanel, InputTextField
 
 ACCESSORS = ['id', 'foreign_word', 'native_word']
 
 
 class MainForeignPage(WidgetMixin, BaseBox):
-    """Learning foreign words the main page box."""
+    """Foreign main page."""
 
     def __init__(self) -> None:
-        """Construct the box."""
+        """Construct the page."""
         super().__init__()
 
-        self.label_title = TitleLabel(TITLE_FOREIGN_MAIN)
+        self.label_title = TitleLabel(const.TITLE_FOREIGN_MAIN)
 
         # Buttons
+        self.btn_goto_tasks = BtnApp(
+            const.BTN_GOTO_FOREIGN_TASKS, on_press=goto_foreign_tasks_handler
+        )
         self.btn_goto_params = BtnApp(
-            BTN_GOTO_FOREIGN_PARAMS,
+            const.BTN_GOTO_FOREIGN_PARAMS,
             on_press=goto_foreign_params_handler,
         )
         self.btn_goto_create = BtnApp(
-            BTN_GOTO_FOREIGN_CREATE,
+            const.BTN_GOTO_FOREIGN_CREATE,
             on_press=goto_foreign_create_handler,
         )
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
@@ -72,61 +61,104 @@ class MainForeignPage(WidgetMixin, BaseBox):
             self.label_title,
             self.box_alignment,
             self.btn_goto_create,
+            self.btn_goto_tasks,
             self.btn_goto_params,
             self.btn_goto_back,
         )
 
 
 class ParamsForeignPage(ParamsLayout):
-    """Learning foreign words exercise parameters the page box."""
+    """Foreign exercise params page."""
 
-    title = TITLE_FOREIGN_PARAMS
-
-    def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the page."""
-        super().__init__(*args, **kwargs)
-        self.plc.url = urljoin(HOST, FOREIGN_PARAMS_PATH)
-        self.goto_exercise_handler = goto_foreign_exercise_handler
-        self.goto_table_handler = goto_foreign_table_handler
+    title = const.TITLE_FOREIGN_PARAMS
+    url = urljoin(const.HOST, const.FOREIGN_PARAMS_PATH)
+    goto_exercise_handler = goto_foreign_exercise_handler
+    goto_table_handler = goto_foreign_table_handler
 
 
 class ExerciseForeignPage(ExerciseLayout):
     """Foreign exercise page."""
 
-    title = TITLE_FOREIGN_EXERCISE
+    title = const.TITLE_FOREIGN_EXERCISE
+    url_exercise = urljoin(const.HOST, const.FOREIGN_EXERCISE_PATH)
+    url_progress = urljoin(const.HOST, const.FOREIGN_ASSESSMENT_PATH)
+    url_favorites = urljoin(const.HOST, const.FOREIGN_FAVORITES_PATH)
+
+
+class WordForm(FormLayout):
+    """Word form container."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the page."""
+        """Construct the form."""
         super().__init__(*args, **kwargs)
-        self.plc.url_exercise = urljoin(HOST, FOREIGN_EXERCISE_PATH)
-        self.plc.url_progress = urljoin(HOST, FOREIGN_ASSESSMENT_PATH)
-        self.plc.url_favorites = urljoin(HOST, FOREIGN_FAVORITES_PATH)
+
+        # Word data input widgets
+        self._input_native = InputTextField(
+            style=Pack(
+                flex=1,
+                font_size=TEXT_DISPLAY_FONT_SIZE,
+                padding_bottom=1,
+            ),
+            placeholder='Слово на русском',
+            on_change=self._plc.native_word.change,
+        )
+        self._input_foreign = InputTextField(
+            style=Pack(
+                flex=1,
+                font_size=TEXT_DISPLAY_FONT_SIZE,
+            ),
+            placeholder='Слово на иностранном',
+            on_change=self._plc.foreign_word.change,
+        )
+
+        # Update DOM
+        self.insert(1, self._input_foreign)
+        self.insert(2, self._input_native)
+
+    #####################################################################
+    # Notification methods
+
+    def populate_form(self, data: WordFormController) -> None:
+        """Set initial values for form input widgets."""
+        self._input_native.value = data.native_word.value
+        self._input_foreign.value = data.foreign_word.value
+
+    def clear_form(self) -> None:
+        """Clear the form."""
+        self._input_native.value = ''
+        self._input_foreign.value = ''
+
+    #####################################################################
+    # Interactive methods
+
+    def _focus_to_input_field(self) -> None:
+        self._input_foreign.focus()
 
 
-class CreateWordPage(ForeignFormLayout):
-    """Add word to foreign dictionary."""
+class CreateWordPage(WordForm):
+    """Word create page."""
 
-    title = TITLE_FOREIGN_CREATE
-    url = urljoin(HOST, FOREIGN_PATH)
+    title = const.TITLE_FOREIGN_CREATE
+    url = urljoin(const.HOST, const.FOREIGN_PATH)
     submit_text = 'Добавить'
     accessors = ACCESSORS
 
 
-class UpdateWordPage(ForeignFormLayout):
-    """Update the foreign word the box."""
+class UpdateWordPage(WordForm):
+    """Word update page."""
 
-    title = TITLE_FOREIGN_UPDATE
-    url = urljoin(HOST, FOREIGN_DETAIL_PATH)
+    title = const.TITLE_FOREIGN_UPDATE
+    url = urljoin(const.HOST, const.FOREIGN_DETAIL_PATH)
     submit_text = 'Изменить'
     accessors = ACCESSORS
 
 
-class TableForeignPage(TableLayout):
-    """Table of list of foreign words."""
+class TableWordPage(TableLayout):
+    """Wordlist table page."""
 
-    title = TITLE_FOREIGN_LIST
-    url = urljoin(HOST, FOREIGN_SELECTED_PATH)
-    url_detail = urljoin(HOST, FOREIGN_DETAIL_PATH)
+    title = const.TITLE_FOREIGN_LIST
+    url = urljoin(const.HOST, const.FOREIGN_SELECTED_PATH)
+    url_detail = urljoin(const.HOST, const.FOREIGN_DETAIL_PATH)
     table_headings = ['На иностранном', 'На родном']
     table_accessors = ['foreign_word', 'native_word']
     source_accessors = ACCESSORS
@@ -136,3 +168,51 @@ class TableForeignPage(TableLayout):
         super().__init__(*args, **kwargs)
         self._plc.goto_create_handler = goto_foreign_create_handler
         self._plc.goto_update_handler = goto_foreign_update_handler
+
+
+class TasksForeignPage(BaseBox):
+    """Foreign tasks page."""
+
+    def __init__(self) -> None:
+        """Construct the page."""
+        super().__init__()
+        self._label_title = TitleLabel(const.TITLE_FOREIGN_TASKS)
+
+        # Info panel
+        self._info_panel = InfoTextPanel(style=Pack(flex=1), value='')
+
+        # fmt: off
+        # Navigation buttons
+        self._btn_goto_test = BtnApp('Тест', on_press=goto_foreign_test_handler)  # noqa: E501
+        self._btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
+        # fmt: on
+
+        # DOM
+        self.add(
+            self._label_title,
+            self._info_panel,
+            self._btn_goto_test,
+            self._btn_goto_back,
+        )
+
+
+class TestForeignPage(BaseBox):
+    """Foreign test page."""
+
+    def __init__(self) -> None:
+        """Construct the page."""
+        super().__init__()
+        self._label_title = TitleLabel(const.TITLE_FOREIGN_TEST)
+
+        # Test body
+        self._box_test = toga.Box(style=Pack(flex=1))
+
+        # Navigation button
+        self._btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
+
+        # DOM
+        self.add(
+            self._label_title,
+            self._box_test,
+            self._btn_goto_back,
+        )

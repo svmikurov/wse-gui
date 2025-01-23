@@ -44,7 +44,7 @@ class TableWidgets:
 
         # The pagination buttons
         self._btn_previous = BtnApp('<', on_press=self._plc.previous_handler)
-        self._btn_reload = BtnApp('Обновить', on_press=self._plc.reload_handler)  # noqa: E501
+        self._btn_reload = BtnApp('В начало', on_press=self._plc.reload_handler)  # noqa: E501
         self._btn_next = BtnApp('>', on_press=self._plc.next_handler)
         # By default, the pagination buttons is disabled.
         self._btn_previous.enabled = False

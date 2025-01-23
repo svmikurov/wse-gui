@@ -3,8 +3,11 @@
 import toga
 from toga.sources import Source, ValueSource
 
-from wse.contrib.http_requests import request_create_async, request_data_async, \
-    request_update_async
+from wse.contrib.http_requests import (
+    request_create_async,
+    request_data_async,
+    request_update_async,
+)
 from wse.pages.handlers.goto_handler import goto_back_handler
 
 
@@ -35,7 +38,8 @@ class FormController(Source):
         self.accessors = []
 
     async def on_open(
-        self, _: toga.Widget,
+        self,
+        _: toga.Widget,
         url: str | None = None,
         item_id: str | None = None,
     ) -> None:
@@ -73,7 +77,7 @@ class FormController(Source):
     #################
     # Utility methods
 
-    def _clear(self):
+    def _clear(self) -> None:
         self._clear_sources()
         self._clear_form()
 
@@ -103,7 +107,7 @@ class FormController(Source):
         return data
 
 
-class ForeignFormController(FormController):
+class WordFormController(FormController):
     """Foreign form controller."""
 
     def __init__(self) -> None:
@@ -114,7 +118,7 @@ class ForeignFormController(FormController):
         self.foreign_word = TextInputSource()
 
 
-class GlossaryFormController(FormController):
+class TermFormController(FormController):
     """Glossary form controller."""
 
     def __init__(self) -> None:

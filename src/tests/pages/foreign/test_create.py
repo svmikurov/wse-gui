@@ -6,7 +6,7 @@ import pytest
 
 from tests.utils import run_until_complete
 from wse.app import WSE
-from wse.pages import CreateWordPage, TableForeignPage
+from wse.pages import CreateWordPage, TableWordPage
 
 
 @pytest.fixture(autouse=True)
@@ -60,7 +60,7 @@ def test_btn_submit(
     request_async.assert_awaited()
 
 
-@patch.object(TableForeignPage, 'on_open')
+@patch.object(TableWordPage, 'on_open')
 def test_btn_goto_foreign_list(
     on_open: AsyncMock,
     wse: WSE,

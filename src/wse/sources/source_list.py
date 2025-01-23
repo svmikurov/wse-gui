@@ -4,6 +4,7 @@ from collections.abc import Iterable
 
 from toga.sources import ListSource, Row
 
+from wse.constants.settings import MAX_LINE_LENGTH
 from wse.contrib.utils import add_line_break
 
 
@@ -13,7 +14,7 @@ class SourceListApp(ListSource):
     def __init__(
         self,
         *args: object,
-        max_length: int = 25,
+        max_length: int = MAX_LINE_LENGTH,
         **kwargs: object,
     ) -> None:
         """Construct the source."""

@@ -17,7 +17,7 @@ class ControllerTable:
 
     def __init__(self, plc_params: ControllerParams) -> None:
         """Construct the controller."""
-        self.source_url= None
+        self.source_url = None
         self._plc_params = plc_params
 
         # Pagination urls
@@ -51,7 +51,9 @@ class ControllerTable:
         """Update item."""
         await self.goto_update_handler(*args, **kwargs)
 
-    async def delete_handler(self, _: toga.Widget, url: str, item_id: str) -> None:
+    async def delete_handler(
+        self, _: toga.Widget, url: str, item_id: str
+    ) -> None:
         """Delete the entry, button handler."""
         url = url % item_id
         await request_delete_async(url)
