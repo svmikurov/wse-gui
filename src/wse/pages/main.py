@@ -25,6 +25,7 @@ from wse.pages.handlers.goto_handler import (
     goto_foreign_main_handler,
     goto_glossary_main_handler,
     goto_login_handler,
+    goto_mentoring_handler,
 )
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
@@ -66,6 +67,9 @@ class MainBox(WidgetMixin, BaseBox):
         self._btn_logout = BtnApp(
             BTN_LOGOUT, on_press=self._logout_handler
         )
+        self._btn_goto_mentoring = BtnApp(
+            'Наставничество', on_press=goto_mentoring_handler,
+        )
         self._btn_goto_glossary_main = BtnApp(
             BTN_GOTO_GLOSSARY_MAIN, on_press=goto_glossary_main_handler
         )
@@ -82,6 +86,7 @@ class MainBox(WidgetMixin, BaseBox):
             self._label_title,
             self._info_panel,
             self._btn_goto_login,
+            self._btn_goto_mentoring,
             self._btn_goto_foreign_main,
             self._btn_goto_glossary_main,
             self._btn_goto_explorer,

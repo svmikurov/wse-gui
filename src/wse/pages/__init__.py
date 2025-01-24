@@ -21,6 +21,9 @@ from wse.pages.glossary import (
 )
 from wse.pages.login import LoginBox
 from wse.pages.main import MainBox
+from wse.pages.mentoring import (
+    MentoringPage,
+)
 
 __all__ = (
     'CreateTermPage',
@@ -32,6 +35,7 @@ __all__ = (
     'MainBox',
     'MainForeignPage',
     'MainGlossaryWidget',
+    'MentoringPage',
     'ParamsForeignPage',
     'ParamsGlossaryPage',
     'TableTermPage',

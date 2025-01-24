@@ -51,6 +51,16 @@ async def goto_back_handler(widget: toga.Widget) -> None:
 
 
 ########################################################################
+# Mentoring
+
+
+async def goto_mentoring_handler(widget: toga.Widget) -> None:
+    """Go to mentoring page, button handler."""
+    box = widget.root.app.box_mentoring
+    await set_window_content(widget, box)
+
+
+########################################################################
 # Foreign
 
 

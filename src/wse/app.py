@@ -95,6 +95,9 @@ class WSE(toga.App):
         self.box_glossary_update = pages.UpdateTermPage(self.plc_form_glossary)
         self.box_glossary_selected = pages.TableTermPage(self.plc_selected_glossary)  # noqa: E501
 
+        # Mentoring pages
+        self.box_mentoring = pages.MentoringPage()
+
         # Listeners of events
         self.plc_exercise_foreign.event.add_listener(self.box_foreign_exercise)
         self.plc_exercise_glossary.event.add_listener(self.box_glossary_exercise)  # noqa: E501
@@ -181,6 +184,9 @@ class WSE(toga.App):
     box_glossary_create: pages.CreateTermPage
     box_glossary_update: pages.UpdateTermPage
     box_glossary_selected: pages.TableTermPage
+
+    # Mentoring pages
+    box_mentoring: pages.MentoringPage
 
     # Menu
     menu: toga.Group
