@@ -194,25 +194,3 @@ class TasksForeignPage(BaseBox):
             self._btn_goto_test,
             self._btn_goto_back,
         )
-
-
-class TestForeignPage(BaseBox):
-    """Foreign test page."""
-
-    def __init__(self) -> None:
-        """Construct the page."""
-        super().__init__()
-        self._label_title = TitleLabel(const.TITLE_FOREIGN_TEST)
-
-        # Test body
-        self._box_test = toga.Box(style=Pack(flex=1))
-
-        # Navigation button
-        self._btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
-
-        # DOM
-        self.add(
-            self._label_title,
-            self._box_test,
-            self._btn_goto_back,
-        )

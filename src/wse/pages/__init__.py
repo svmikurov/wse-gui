@@ -8,7 +8,6 @@ from wse.pages.foreign import (
     ParamsForeignPage,
     TableWordPage,
     TasksForeignPage,
-    TestForeignPage,
     UpdateWordPage,
 )
 from wse.pages.glossary import (
@@ -23,6 +22,7 @@ from wse.pages.login import LoginBox
 from wse.pages.main import MainBox
 from wse.pages.mentoring import (
     MentoringPage,
+    WordTestPage,
 )
 
 __all__ = (
@@ -41,7 +41,7 @@ __all__ = (
     'TableTermPage',
     'TableWordPage',
     'TasksForeignPage',
-    'TestForeignPage',
     'UpdateTermPage',
     'UpdateWordPage',
+    'WordTestPage',
 )

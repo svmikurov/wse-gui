@@ -85,7 +85,6 @@ class WSE(toga.App):
         self.box_foreign_update = pages.UpdateWordPage(self.plc_form_foreign)
         self.box_foreign_selected = pages.TableWordPage(self.plc_selected_foreign)  # noqa: E501
         self.box_foreign_tasks = pages.TasksForeignPage()
-        self.box_foreign_test = pages.TestForeignPage()
 
         # Glossary study page boxes
         self.box_glossary_main = pages.MainGlossaryWidget()
@@ -97,6 +96,7 @@ class WSE(toga.App):
 
         # Mentoring pages
         self.box_mentoring = pages.MentoringPage()
+        self.box_word_test = pages.WordTestPage()
 
         # Listeners of events
         self.plc_exercise_foreign.event.add_listener(self.box_foreign_exercise)
@@ -175,7 +175,6 @@ class WSE(toga.App):
     box_foreign_update: pages.UpdateWordPage
     box_foreign_selected: pages.TableWordPage
     box_foreign_tasks = pages.TasksForeignPage
-    box_foreign_test = pages.TestForeignPage
 
     # Glossary study page boxes
     box_glossary_main: pages.MainGlossaryWidget
@@ -187,6 +186,7 @@ class WSE(toga.App):
 
     # Mentoring pages
     box_mentoring: pages.MentoringPage
+    box_word_test: pages.WordTestPage
 
     # Menu
     menu: toga.Group

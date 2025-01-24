@@ -60,6 +60,12 @@ async def goto_mentoring_handler(widget: toga.Widget) -> None:
     await set_window_content(widget, box)
 
 
+async def goto_word_test_handler(widget: toga.Widget) -> None:
+    """Go to foreign word test page, button handler."""
+    box = widget.root.app.box_word_test
+    await set_window_content(widget, box)
+
+
 ########################################################################
 # Foreign
 
@@ -112,7 +118,7 @@ async def goto_foreign_tasks_handler(widget: toga.Widget) -> None:
 
 async def goto_foreign_test_handler(widget: toga.Widget) -> None:
     """Go to foreign test, button handler."""
-    box = widget.root.app.box_foreign_test
+    box = widget.root.app.box_word_test
     await set_window_content(widget, box)
 
 
