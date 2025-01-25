@@ -13,6 +13,7 @@ from wse.controllers.form import (
 )
 from wse.controllers.params import ControllerParams
 from wse.controllers.table import ControllerTable
+from wse.controllers.testing import ControllerTest
 from wse.pages import ExplorerLayout
 from wse.pages.examples.examples import ExampleLayout
 from wse.pages.examples.table_source import TableSourceLayout
@@ -56,6 +57,7 @@ class WSE(toga.App):
         self.plc_params_foreign = ControllerParams()
         self.plc_params_glossary = ControllerParams()
         self.plc_exercise_foreign = ControllerExercise(self, self.plc_params_foreign)  # noqa: E501
+        self.plc_test_foreign = ControllerTest()
         self.plc_exercise_glossary = ControllerExercise(self, self.plc_params_glossary)  # noqa: E501
         self.plc_selected_foreign = ControllerTable(self.plc_params_foreign)
         self.plc_selected_glossary = ControllerTable(self.plc_params_glossary)
@@ -96,7 +98,7 @@ class WSE(toga.App):
 
         # Mentoring pages
         self.box_mentoring = pages.MentoringPage()
-        self.box_word_test = pages.WordTestPage()
+        self.box_word_test = pages.WordTestPage(self.plc_test_foreign)
 
         # Listeners of events
         self.plc_exercise_foreign.event.add_listener(self.box_foreign_exercise)
@@ -201,6 +203,7 @@ class WSE(toga.App):
     plc_params_foreign: ControllerParams
     plc_params_glossary: ControllerParams
     plc_exercise_foreign: ControllerExercise
+    plc_test_foreign: ControllerTest
     plc_exercise_glossary: ControllerExercise
     plc_selected_foreign = ControllerTable
     plc_selected_glossary = ControllerTable

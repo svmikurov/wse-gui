@@ -2,85 +2,84 @@
 
 import toga
 from toga.constants import COLUMN
+from toga.sources import ValueSource
 from toga.style import Pack
 
 from wse import constants as const
+from wse.controllers.testing import ControllerTest
 from wse.pages.handlers.goto_handler import goto_back_handler
 from wse.pages.widgets.box import BoxFlexCol
 from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.button import BtnApp
+from wse.pages.widgets.choice import ChoiceBox
 from wse.pages.widgets.label import TitleLabel
-from wse.pages.widgets.switch import SwitchApp
-
-TASK = {
-    'question': 'question',
-    'answer': (
-        ('1', 'answer var 1'),
-        ('2', 'answer answer answer answer answer answer var 2'),
-        ('3', 'answer var 3'),
-        ('4', 'answer var 4'),
-        ('5', 'answer var 5'),
-        ('6', 'answer var 6'),
-        ('7', 'answer var 7'),
-    ),
-}
 
 
 class TestWidgets:
     """Foreign word test exercise widgets."""
 
-    def __init__(self) -> None:
+    def __init__(self, controller: ControllerTest) -> None:
         """Construct the page."""
         super().__init__()
-        self._answer_checkbox_count = len(TASK['answer'])
+        self._plc = controller
+        self._plc.add_listener(self)
+        self._choicebox_name = '_choicebox_%s'
 
-        _label_style = Pack(padding=(0, 0, 0, 7))
+        _style_label = Pack(padding=(0, 0, 0, 7))
 
+        # fmt: off
         self._label_title = TitleLabel(const.TITLE_FOREIGN_TEST)
-        self._label_question = toga.Label('Вопрос:', style=_label_style)
-        self._label_answer = toga.Label('Ответ:', style=_label_style)
+        self._label_question = toga.Label('Вопрос:', style=_style_label)
+        self._label_result = toga.Label('Правильный ответ:', style=_style_label)  # noqa: E501
+        self._label_answer = toga.Label('Ответ:', style=_style_label)
+        # fmt: on
 
         self._text_panel_question = toga.MultilineTextInput(
             style=Pack(flex=1, height=46, font_size=14),
-            value=TASK['question'],
         )
 
-        self._btn_submit_answer = BtnApp('Ответить', on_press=...)
+        self._btn_submit = BtnApp('Ответить', on_press=...)
+        self._btn_next_question = BtnApp('Далее', on_press=...)
         self._btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
 
-        self._create_answer_checkboxes()
+    async def on_open(self, widget: toga.Widget) -> None:
+        """Invoke methods on page open."""
+        await self._plc.on_open(widget)
 
-    def _create_answer_checkboxes(self) -> None:
-        for index, text in TASK['answer']:
-            box = toga.Box(
+    #####################################################################
+    #
+
+    #####################################################################
+    # Notifications
+
+    def create_choices(self, choices: tuple[tuple[str, str], ...]) -> None:
+        """Create a checkboxes."""
+        for index, _ in choices:
+            choicebox = ChoiceBox(
+                text=ValueSource(),
                 style=Pack(padding=(7, 0, 7, 0)),
-                children=[
-                    toga.Box(
-                        style=Pack(direction=COLUMN, padding=(0, 5, 0, 5)),
-                        children=[SwitchApp(text='')],
-                    ),
-                    toga.MultilineTextInput(
-                        style=Pack(
-                            flex=1,
-                            height=46,
-                            font_size=14,
-                            padding=(0, 0, 0, 15),
-                        ),
-                        readonly=True,
-                        value=text,
-                    ),
-                ],
+                style_switch=Pack(padding=(0, 5, 0, 5)),
+                style_text=Pack(height=46, font_size=14, padding_left=15),
             )
-            setattr(self, f'_checkbox_{index}', box)
+            setattr(self, self._choicebox_name % index, choicebox)
+
+    def populate_choices(
+        self, choices: tuple[tuple[str, str], ...]
+    ) -> None:
+        print(f'populate check boxes; {choices = }')
+        for index, value in choices:
+            choicebox = getattr(self, self._choicebox_name % index)
+            choicebox.text.value = value
 
 
 class TestLayout(TestWidgets, BaseBox):
     """Foreign word test layout."""
 
-    def __init__(self) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the page."""
-        super().__init__()
+        super().__init__(*args, **kwargs)
         self._box_test = toga.Box(style=Pack(direction=COLUMN))
+        self._box_result = toga.Box(style=Pack(direction=COLUMN))
         self._box_alignment = BoxFlexCol()
 
         # DOM
@@ -88,7 +87,7 @@ class TestLayout(TestWidgets, BaseBox):
             self._label_title,
             self._box_test,
             self._box_alignment,
-            self._btn_submit_answer,
+            self._btn_submit,
             self._btn_goto_back,
         )
         self._box_test.add(
@@ -96,10 +95,23 @@ class TestLayout(TestWidgets, BaseBox):
             self._text_panel_question,
             self._label_answer,
         )
-        self._add_checkboxes()
 
-    def _add_checkboxes(self) -> None:
-        """Add checkbox to box."""
-        for index, _ in TASK['answer']:
-            checkbox: SwitchApp = getattr(self, f'_checkbox_{index}')
+    #####################################################################
+    # Notifications
+
+    def add_choices(self, choices: tuple[tuple[str, str], ...]) -> None:
+        """Add choices."""
+        for index, _ in choices:
+            checkbox: ChoiceBox = getattr(self, self._choicebox_name % index)
             self._box_test.add(checkbox)
+
+    #####################################################################
+    # Layout methods
+
+    def _display_result_widgets(self) -> None:
+        self.replace(self._box_test, self._box_result)
+        self.replace(self._btn_submit, self._btn_next_question)
+
+    def _display_test_widgets(self) -> None:
+        self.replace(self._box_result, self._box_test)
+        self.replace(self._btn_next_question, self._btn_submit)
