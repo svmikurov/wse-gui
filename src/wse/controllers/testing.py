@@ -18,8 +18,8 @@ TASK = {
         ('3', 'answer var 3'),
         ('4', 'answer var 4'),
         ('5', 'answer var 5'),
-        # ('6', 'answer var 6'),
-        # ('7', 'answer var 7'),
+        ('6', 'answer var 6'),
+        ('7', 'answer var 7'),
     ),
 }
 
@@ -70,11 +70,14 @@ class ControllerTest(Source):
         await self._display_task()
 
     #####################################################################
-    # Sources
+    # Source methods
 
     def create_source(self, index) -> SourceT:
         """Create choice text source."""
         setattr(self, self._choice_source_name % index, ChoiceSource())
+        return self._get_source(index)
+
+    def _get_source(self, index) -> SourceT:
         return getattr(self, self._choice_source_name % index)
 
     #####################################################################
@@ -98,7 +101,7 @@ class ControllerTest(Source):
         """User answer choices."""
         answers = []
         for index, _ in self.task.choices:
-            source = getattr(self, self._choice_source_name % index)
+            source = self._get_source(index)
             if source.value:
                 answers.append(index)
         return answers
