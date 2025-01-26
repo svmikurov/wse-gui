@@ -44,4 +44,4 @@ class MentoringPage(BaseBox):
 class WordTestPage(TestLayout):
     """A vocabulary test page."""
 
-    url_question = 'http://'
+    url_question = 'http://127.0.0.1/api/v1/foreign/assigned/test/'

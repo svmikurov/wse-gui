@@ -69,9 +69,8 @@ class TestWidgets:
             )
             setattr(self, self._choicebox_name % index, choicebox)
 
-    def populate_choices(
-        self, choices: tuple[tuple[str, str], ...]
-    ) -> None:
+    def populate_choices(self, choices: tuple[tuple[str, str], ...]) -> None:
+        """Populate a choices."""
         for index, value in choices:
             choicebox = getattr(self, self._choicebox_name % index)
             choicebox.change(value)

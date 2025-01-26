@@ -1,11 +1,12 @@
 """Test exercise controller."""
 
+import json
 from typing import TypeVar
 
 import toga
 from toga.sources import Source
 
-from wse.contrib.http_requests import request_post_async
+from wse.contrib.http_requests import request_get_async, request_post_async
 
 SourceT = TypeVar('SourceT', bound=Source)
 
@@ -31,7 +32,7 @@ class Task:
         """Construct the task."""
         self.question: str = data['question']
         self.answer: str = data['answer']
-        self.choices: tuple[tuple[str, str], ...] = data['choices']
+        self.choices: list[list[str, str]] = data['choices']
 
 
 class ChoiceSource(Source):
@@ -72,12 +73,12 @@ class ControllerTest(Source):
     #####################################################################
     # Source methods
 
-    def create_source(self, index) -> SourceT:
+    def create_source(self, index: str) -> SourceT:
         """Create choice text source."""
         setattr(self, self._choice_source_name % index, ChoiceSource())
         return self._get_source(index)
 
-    def _get_source(self, index) -> SourceT:
+    def _get_source(self, index: str) -> SourceT:
         return getattr(self, self._choice_source_name % index)
 
     #####################################################################
@@ -111,7 +112,6 @@ class ControllerTest(Source):
 
     def submit_handler(self, _: toga.Widget) -> None:
         """Submit the answer, button handler."""
-        print(f'>>> {self.answers = }')
 
     def next_handler(self, _: toga.Widget) -> None:
         """Start the next test task, button handler."""
@@ -120,17 +120,13 @@ class ControllerTest(Source):
     #####################################################################
     # Notify listeners
 
-    def _create_choices(
-        self, choices: tuple[tuple[str, str], ...]
-    ) -> None:
+    def _create_choices(self, choices: list[list[str, str]]) -> None:
         self.notify('create_choices', choices=choices)
 
-    def _add_choices(self, choices: tuple[tuple[str, str], ...]) -> None:
+    def _add_choices(self, choices: list[list[str, str]]) -> None:
         self.notify('add_choices', choices=choices)
 
-    def _populate_choices(
-        self, choices: tuple[tuple[str, str], ...]
-    ) -> None:
+    def _populate_choices(self, choices: list[list[str, str]]) -> None:
         self.notify('populate_choices', choices=choices)
 
     def _remove_choices(self) -> None:
@@ -144,9 +140,9 @@ class ControllerTest(Source):
 
     @staticmethod
     async def _request_task(url: str) -> dict:
-        # r = await request_get_async(url)
-        # return r.json()
-        return TASK
+        r = await request_get_async(url)
+        data = r.json()
+        return json.loads(data)
 
     @staticmethod
     async def _send_answer(url: str, payload: dict) -> None:
