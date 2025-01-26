@@ -93,12 +93,22 @@ class ControllerTest(Source):
         self._populate_question(self.task.question)
         self._populate_choices(self.task.choices)
 
+    @property
+    def answers(self) -> list[str]:
+        """User answer choices."""
+        answers = []
+        for index, _ in self.task.choices:
+            source = getattr(self, self._choice_source_name % index)
+            if source.value:
+                answers.append(index)
+        return answers
+
     #####################################################################
     # Button handlers
 
     def submit_handler(self, _: toga.Widget) -> None:
         """Submit the answer, button handler."""
-        pass
+        print(f'>>> {self.answers = }')
 
     def next_handler(self, _: toga.Widget) -> None:
         """Start the next test task, button handler."""

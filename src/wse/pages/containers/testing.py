@@ -106,14 +106,15 @@ class TestLayout(TestWidgets, BaseBox):
     # Notifications
 
     def add_choices(self, choices: tuple[tuple[str, str], ...]) -> None:
-        """Add choices."""
+        """Add choices to page."""
         for index, _ in choices:
             checkbox: ChoiceBox = getattr(self, self._choicebox_name % index)
             self._box_checkboxes.add(checkbox)
         self._box_test.add(self._box_checkboxes)
 
     def remove_choices(self) -> None:
-        self.remove(self._box_checkboxes)
+        """Remove task choices from page."""
+        self._box_checkboxes.clear()
 
     def display_result_widgets(self) -> None:
         """Display answer result widgets."""
