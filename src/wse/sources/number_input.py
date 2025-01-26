@@ -10,7 +10,7 @@ class SourceDecimal(Source):
     """Custom value source."""
 
     def __init__(self, value: object = None, accessor: str = 'value') -> None:
-        """Construct source."""
+        """Construct the source."""
         super().__init__()
         self.accessor = accessor
         setattr(self, accessor, value)
