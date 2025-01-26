@@ -44,4 +44,4 @@ class MentoringPage(BaseBox):
 class WordTestPage(TestLayout):
     """A vocabulary test page."""
 
-    pass
+    url_question = '...'

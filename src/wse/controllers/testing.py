@@ -5,7 +5,7 @@ from typing import TypeVar
 import toga
 from toga.sources import Source
 
-from wse.contrib.http_requests import request_get_async, request_post_async
+from wse.contrib.http_requests import request_post_async
 
 SourceT = TypeVar('SourceT', bound=Source)
 
@@ -48,11 +48,11 @@ class ControllerTest(Source):
 
     async def on_open(self, _: toga.Widget) -> None:
         """Request task."""
-        # task_data = await self._request_task(self.url_question)
-        task_data = TASK
+        task_data = await self._request_task(self.url_question)
         self.task = Task(task_data)
         self._create_choices(self.task.choices)
         self._add_choices(self.task.choices)
+        self._populate_question(self.task.question)
         self._populate_choices(self.task.choices)
 
     #####################################################################
@@ -74,6 +74,9 @@ class ControllerTest(Source):
     def _add_choices(self, choices: tuple[tuple[str, str], ...]) -> None:
         self.notify('add_choices', choices=choices)
 
+    def _populate_question(self, question: str) -> None:
+        self.notify('populate_question', question=question)
+
     def _populate_choices(
         self, choices: tuple[tuple[str, str], ...]
     ) -> None:
@@ -84,8 +87,9 @@ class ControllerTest(Source):
 
     @staticmethod
     async def _request_task(url: str) -> dict:
-        r = await request_get_async(url)
-        return r.json()
+        # r = await request_get_async(url)
+        # return r.json()
+        return TASK
 
     @staticmethod
     async def _send_answer(url: str, payload: dict) -> None:

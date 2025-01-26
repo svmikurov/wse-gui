@@ -18,10 +18,13 @@ from wse.pages.widgets.label import TitleLabel
 class TestWidgets:
     """Foreign word test exercise widgets."""
 
+    url_question: str
+
     def __init__(self, controller: ControllerTest) -> None:
         """Construct the page."""
         super().__init__()
         self._plc = controller
+        self._plc.url_question = self.url_question
         self._plc.add_listener(self)
         self._choicebox_name = '_choicebox_%s'
 
@@ -62,14 +65,21 @@ class TestWidgets:
                 style_text=Pack(height=46, font_size=14, padding_left=15),
             )
             setattr(self, self._choicebox_name % index, choicebox)
+            
+    def populate_question(self, question: str) -> None:
+        """Populate the question text panel."""
+        self._text_panel_question.value = question
 
     def populate_choices(
         self, choices: tuple[tuple[str, str], ...]
     ) -> None:
-        print(f'populate check boxes; {choices = }')
         for index, value in choices:
             choicebox = getattr(self, self._choicebox_name % index)
             choicebox.text.value = value
+
+    def clear_question(self) -> None:
+        """Clear the question text panel."""
+        self._text_panel_question.value = ''
 
 
 class TestLayout(TestWidgets, BaseBox):
@@ -105,13 +115,12 @@ class TestLayout(TestWidgets, BaseBox):
             checkbox: ChoiceBox = getattr(self, self._choicebox_name % index)
             self._box_test.add(checkbox)
 
-    #####################################################################
-    # Layout methods
-
-    def _display_result_widgets(self) -> None:
+    def display_result_widgets(self) -> None:
+        """Display answer result widgets."""
         self.replace(self._box_test, self._box_result)
         self.replace(self._btn_submit, self._btn_next_question)
 
-    def _display_test_widgets(self) -> None:
+    def display_test_widgets(self) -> None:
+        """Display widgets for test question."""
         self.replace(self._box_result, self._box_test)
         self.replace(self._btn_next_question, self._btn_submit)
