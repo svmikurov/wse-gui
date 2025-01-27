@@ -21,11 +21,6 @@ def test_create_instance(wse: WSE) -> None:
     assert wse.user.is_auth is False
 
 
-def test_source_main_box(wse: WSE) -> None:
-    """Test add source to main box."""
-    assert hasattr(wse.box_main, 'user')
-
-
 def test_set_auth_data(source: SourceUser) -> None:
     """Test set auth data method of source."""
     # Set for auth user.

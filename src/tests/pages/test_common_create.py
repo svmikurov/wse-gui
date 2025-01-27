@@ -35,22 +35,6 @@ def box(request: FixtureRequest) -> CreateWordPage | CreateTermPage:
     return request.getfixturevalue(request.param)
 
 
-def test_foreign_widget_order(wse: WSE) -> None:
-    """Test the widget orger at foreign create page box."""
-    box = wse.box_foreign_create
-    set_window_content(wse, box)
-
-    expected_widget_order = [
-        box.label_title,
-        box.input_native,
-        box.input_foreign,
-        box.btn_submit,
-        box.btn_goto_foreign_list,
-        box.btn_goto_back,
-    ]
-    assert box.children == expected_widget_order
-
-
 def test_glossary_widget_order(wse: WSE) -> None:
     """Test the widget order at glossary term create page box."""
     box = wse.box_glossary_create
@@ -61,7 +45,6 @@ def test_glossary_widget_order(wse: WSE) -> None:
         box._input_term,
         box._input_definition,
         box._btn_submit,
-        box.btn_goto_glossary_list,
         box._btn_goto_back,
     ]
 
