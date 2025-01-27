@@ -116,6 +116,8 @@ class ParamsWidgets(WidgetMixin):
 
     async def _save_params_handler(self, _: toga.Widget) -> None:
         await self._plc.request_save_lookup_conditions()
+        await self._plc.update_params()
+        self._plc.set_saved_params()
 
     @classmethod
     async def _display_selected_handler(cls, widget: toga.Widget) -> None:
