@@ -99,7 +99,7 @@ class WordForm(FormLayout):
                 font_size=TEXT_DISPLAY_FONT_SIZE,
                 padding_bottom=1,
             ),
-            placeholder='Слово на русском',
+            placeholder='Слово на родном языке',
             on_change=self._plc.native_word.change,
         )
         self._input_foreign = InputTextField(
@@ -107,7 +107,7 @@ class WordForm(FormLayout):
                 flex=1,
                 font_size=TEXT_DISPLAY_FONT_SIZE,
             ),
-            placeholder='Слово на иностранном',
+            placeholder='Слово на иностранном языке',
             on_change=self._plc.foreign_word.change,
         )
 
