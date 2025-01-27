@@ -32,6 +32,9 @@ TOKEN_PATH = '/auth/token/login/'
 FOREIGN_EXERCISE_PATH = '/api/v1/foreign/exercise/'
 """Learning foreign word exercise path (`str`).
 """
+FOREIGN_TESTING_PATH = '/api/v1/foreign/assigned/test/'
+"""Foreign word testing exercise path (`str`).
+"""
 FOREIGN_ASSESSMENT_PATH = '/api/v1/foreign/progress/'
 """User knowledge assessment update of foreign word path (`str`).
 """

@@ -1,7 +1,9 @@
 """Mentoring page."""
+from urllib.parse import urljoin
 
 from toga.style import Pack
 
+from wse.constants import FOREIGN_TESTING_PATH, HOST
 from wse.pages.containers.testing import TestLayout
 from wse.pages.handlers.goto_handler import (
     goto_back_handler,
@@ -44,4 +46,4 @@ class MentoringPage(BaseBox):
 class WordTestPage(TestLayout):
     """A vocabulary test page."""
 
-    url_question = 'http://127.0.0.1/api/v1/foreign/assigned/test/'
+    url_question = urljoin(HOST, FOREIGN_TESTING_PATH)
