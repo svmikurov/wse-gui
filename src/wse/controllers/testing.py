@@ -90,12 +90,12 @@ class ControllerTest(Source):
 
     async def _display_task(self) -> None:
         """Display the test exercise task."""
-        await self._create_task()
         self._remove_choices()
+        await self._create_task()
         self._create_choices(self.task.choices)
-        self._add_choices(self.task.choices)
         self._populate_question(self.task.question)
         self._populate_choices(self.task.choices)
+        self._add_choices(self.task.choices)
 
     @property
     def answers(self) -> list[str]:
