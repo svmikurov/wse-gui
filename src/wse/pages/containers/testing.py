@@ -1,7 +1,10 @@
 """Foreign word test exercise."""
 
+from typing import TypeVar
+
 import toga
 from toga.constants import COLUMN
+from toga.sources import Source
 from toga.style import Pack
 
 from wse import constants as const
@@ -12,6 +15,8 @@ from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.choice import ChoiceBox
 from wse.pages.widgets.label import TitleLabel
+
+SourceT = TypeVar('SourceT', bound=Source)
 
 CHOICE_TEXT_HEIGHT = 48
 CHOICE_TEXT_SIZE = 14
@@ -64,20 +69,18 @@ class TestWidgets:
         """Populate the question text panel."""
         self._text_panel_question.value = question
 
-    def create_choices(self, choices: tuple[tuple[str, str], ...]) -> None:
-        """Create a checkboxes."""
-        for index, _ in choices:
-            source = self._plc.create_source(index)
-            choicebox = ChoiceBox(
-                style_switch=Pack(padding=(0, 5, 0, 5)),
-                style_text=Pack(
-                    height=CHOICE_TEXT_HEIGHT * const.PHONE_SCALING,
-                    font_size=CHOICE_TEXT_SIZE,
-                    padding=(0, 0, 0, 15),
-                ),
-                on_change=source.update_value,
-            )
-            setattr(self, self._choicebox_name % index, choicebox)
+    def create_choicebox(self, index: str, source: SourceT) -> None:
+        """Create a choice box."""
+        choicebox = ChoiceBox(
+            style_switch=Pack(padding=(0, 5, 0, 5)),
+            style_text=Pack(
+                height=CHOICE_TEXT_HEIGHT * const.PHONE_SCALING,
+                font_size=CHOICE_TEXT_SIZE,
+                padding=(0, 0, 0, 15),
+            ),
+            on_change=source.update_value,
+        )
+        setattr(self, self._choicebox_name % index, choicebox)
 
     def populate_choices(self, choices: tuple[tuple[str, str], ...]) -> None:
         """Populate a choices."""

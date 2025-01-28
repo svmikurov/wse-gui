@@ -59,7 +59,7 @@ class ControllerTest(Source):
     #####################################################################
     # Source methods
 
-    def create_source(self, index: str) -> SourceT:
+    def _create_source(self, index: str) -> SourceT:
         """Create choice text source."""
         setattr(self, self._choice_source_name % index, ChoiceSource())
         return self._get_source(index)
@@ -107,7 +107,9 @@ class ControllerTest(Source):
     # Notify listeners
 
     def _create_choices(self, choices: list[list[str, str]]) -> None:
-        self.notify('create_choices', choices=choices)
+        for index, _ in choices:
+            source = self._create_source(index)
+            self.notify('create_choicebox', index=index, source=source)
 
     def _add_choices(self, choices: list[list[str, str]]) -> None:
         self.notify('add_choices', choices=choices)
