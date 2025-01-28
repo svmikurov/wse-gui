@@ -13,6 +13,9 @@ from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.choice import ChoiceBox
 from wse.pages.widgets.label import TitleLabel
 
+CHOICE_TEXT_HEIGHT = 48
+CHOICE_TEXT_SIZE = 14
+
 
 class TestWidgets:
     """Foreign word test exercise widgets."""
@@ -38,7 +41,11 @@ class TestWidgets:
         self._label_answer = toga.Label('Ответ:', style=_style_label)
 
         self._text_panel_question = toga.MultilineTextInput(
-            style=Pack(flex=1, height=46, font_size=14),
+            style=Pack(
+                flex=1,
+                height=CHOICE_TEXT_HEIGHT,
+                font_size=CHOICE_TEXT_SIZE,
+            ),
         )
 
         self._btn_submit = BtnApp('Ответить', on_press=self._plc.submit_handler)  # noqa: E501
@@ -64,7 +71,11 @@ class TestWidgets:
             choicebox = ChoiceBox(
                 style=Pack(padding=(7, 0, 7, 0)),
                 style_switch=Pack(padding=(0, 5, 0, 5)),
-                style_text=Pack(height=46, font_size=14, padding_left=15),
+                style_text=Pack(
+                    height=CHOICE_TEXT_HEIGHT * const.PHONE_SCALING,
+                    font_size=CHOICE_TEXT_SIZE,
+                    padding=(0, 0, 0, 15),
+                ),
                 on_change=source.update_value,
             )
             setattr(self, self._choicebox_name % index, choicebox)

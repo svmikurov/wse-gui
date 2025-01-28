@@ -10,6 +10,10 @@ DEFAULT_TIMEOUT = 5
 # Widget constants
 ########################################################################
 
+PIXEL_DESKTOP = 1 / 96
+PIXEL_PHONE = 1 / 160
+PHONE_SCALING = PS = 1 / (PIXEL_PHONE / PIXEL_DESKTOP)
+
 SCREEN_SIZE = (440, 700)
 PADDING_NO = 0
 PADDING_SM = 2

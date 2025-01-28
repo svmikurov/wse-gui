@@ -10,20 +10,6 @@ from wse.contrib.http_requests import request_get_async, request_post_async
 
 SourceT = TypeVar('SourceT', bound=Source)
 
-TASK = {
-    'question': 'question',
-    'answer': '3',
-    'choices': (
-        ('1', 'answer var 1'),
-        ('2', 'answer answer answer answer answer answer var 2'),
-        ('3', 'answer var 3'),
-        ('4', 'answer var 4'),
-        ('5', 'answer var 5'),
-        ('6', 'answer var 6'),
-        ('7', 'answer var 7'),
-    ),
-}
-
 
 class Task:
     """Task wrapper."""
