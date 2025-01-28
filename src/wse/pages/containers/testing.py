@@ -93,16 +93,20 @@ class TestLayout(TestWidgets, BaseBox):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the page."""
         super().__init__(*args, **kwargs)
-        self._box_test = toga.Box(style=Pack(direction=COLUMN))
-        self._box_checkboxes = toga.Box(style=Pack(direction=COLUMN))
+        self._box_test = BoxFlexCol()
+        self._box_checkboxes = BoxFlexCol()
         self._box_result = toga.Box(style=Pack(direction=COLUMN))
-        self._box_alignment = BoxFlexCol()
+
+        # Check boxes are included in scroll container.
+        self._scroll_checkboxes = toga.ScrollContainer(
+            style=Pack(flex=1, direction=COLUMN),
+            content=self._box_checkboxes,
+        )
 
         # DOM
         self.add(
             self._label_title,
             self._box_test,
-            self._box_alignment,
             self._btn_submit,
             self._btn_goto_back,
         )
@@ -110,6 +114,7 @@ class TestLayout(TestWidgets, BaseBox):
             self._label_question,
             self._text_panel_question,
             self._label_answer,
+            self._scroll_checkboxes,
         )
 
     #####################################################################
@@ -120,7 +125,6 @@ class TestLayout(TestWidgets, BaseBox):
         for index, _ in choices:
             checkbox: ChoiceBox = getattr(self, self._choicebox_name % index)
             self._box_checkboxes.add(checkbox)
-        self._box_test.add(self._box_checkboxes)
 
     def remove_choices(self) -> None:
         """Remove task choices from page."""
