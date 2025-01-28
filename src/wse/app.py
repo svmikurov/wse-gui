@@ -15,7 +15,8 @@ from wse.controllers.params import ControllerParams
 from wse.controllers.table import ControllerTable
 from wse.controllers.testing import ControllerTest
 from wse.pages import ExplorerLayout
-from wse.pages.examples.examples import ExampleLayout
+from wse.pages.examples.fraction import FractionPage
+from wse.pages.examples.main import ExampleLayout
 from wse.pages.examples.table_source import TableSourceLayout
 from wse.pages.handlers.goto_handler import set_window_content
 from wse.sources.text_panel_main import SourceMainPanel
@@ -78,6 +79,7 @@ class WSE(toga.App):
         self.box_explorer = ExplorerLayout()
         self.box_examples = ExampleLayout()
         self.box_table_source = TableSourceLayout()
+        self.box_fraction = FractionPage()
 
         # Foreign language study page boxes
         self.box_foreign_main = pages.MainForeignPage()
@@ -168,6 +170,7 @@ class WSE(toga.App):
     box_explorer: ExplorerLayout
     box_examples: ExampleLayout
     box_table_source: TableSourceLayout
+    box_fraction: FractionPage
 
     # Foreign language study page boxes
     box_foreign_main: pages.MainForeignPage

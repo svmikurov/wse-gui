@@ -6,6 +6,7 @@ from toga.style import Pack
 
 from wse.pages.handlers.goto_handler import (
     goto_back_handler,
+    goto_fraction_handler,
     goto_table_source_handler,
 )
 from wse.pages.widgets.button import BtnApp
@@ -20,11 +21,14 @@ class ExampleWidgets:
 
         self.label_title = toga.Label('Примеры')
 
-        # fmt: off
         # Buttons
-        self.btn_goto_table_source = BtnApp('Таблица с источниками', on_press=goto_table_source_handler)  # noqa: E501
+        self.btn_goto_table_source = BtnApp(
+            'Таблица с источниками', on_press=goto_table_source_handler
+        )
+        self.btn_goto_fraction = BtnApp(
+            'Дроби', on_press=goto_fraction_handler
+        )
         self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
-        # fmt: on
 
 
 class ExampleLayout(ExampleWidgets, toga.Box):
@@ -42,5 +46,6 @@ class ExampleLayout(ExampleWidgets, toga.Box):
             self.label_title,
             box_alignment,
             self.btn_goto_table_source,
+            self.btn_goto_fraction,
             self.btn_goto_back,
         )

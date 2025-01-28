@@ -186,3 +186,9 @@ async def goto_table_source_handler(widget: toga.Widget) -> None:
     """Go to table source page, button handler."""
     box = widget.root.app.box_table_source
     await set_window_content(widget, box)
+
+
+async def goto_fraction_handler(widget: toga.Widget) -> None:
+    """Go to fraction page, button handler."""
+    box = widget.root.app.box_fraction
+    await set_window_content(widget, box)
