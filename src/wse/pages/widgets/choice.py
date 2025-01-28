@@ -1,10 +1,29 @@
 """Custom choice box representation."""
 
+from typing import TypeVar
+
 import toga
+from toga.sources import Source
 from toga.style import Pack
 from toga.widgets.base import StyleT
 
+from wse.pages.widgets.box import BoxFlexCol
 from wse.pages.widgets.switch import SwitchApp
+
+SourceT = TypeVar('SourceT', bound=Source)
+
+WIDTH = 70
+
+
+class ItemDisplay(toga.TextInput):
+    """The item display widget."""
+
+    def __init__(self, source: SourceT | None = None) -> None:
+        """Construct the widget."""
+        super().__init__()
+        self.value = source if source else '123'
+        self.readonly = True
+        self.style.flex = 1
 
 
 class ChoiceBox(toga.Box):
@@ -19,32 +38,49 @@ class ChoiceBox(toga.Box):
     ) -> None:
         """Construct the box."""
         super().__init__()
-        # Box
-        self.style = style if style else Pack()
-        # Switch
-        self._style_switch = style_switch if style_text else Pack()
+        self.style.flex = 1
         self.on_change = on_change
-        # MultilineTextInput
-        self._style_text = style_text if style_text else Pack()
 
-        # Widgets
-        self._choice_switch = SwitchApp(
+        # Switch
+        _choice_switch = SwitchApp(
             text='',
-            style=self._style_switch,
             on_change=self.on_change,
         )
-        self._choice_text = toga.MultilineTextInput(
-            style=self._style_text,
-            readonly=True,
+        _box_align_top = BoxFlexCol()
+        _box_align_bottom = BoxFlexCol()
+        _box_switch = toga.Box(children=[_choice_switch])
+        _box_switch_outer = BoxFlexCol(
+            style=Pack(width=WIDTH),
+            children=[
+                _box_align_top,
+                _box_switch,
+                _box_align_bottom,
+            ],
         )
-        self._choice_text.style.flex = 1
+
+        # Text
+        self._text_line1 = ItemDisplay()
+        self._text_line2 = ItemDisplay()
+        _box_line1 = toga.Box(children=[self._text_line1])
+        _box_line2 = toga.Box(children=[self._text_line2])
+        _box_text_outer = BoxFlexCol(
+            children=[
+                _box_line1,
+                _box_line2,
+            ],
+        )
 
         # DOM
-        self.add(self._choice_switch, self._choice_text)
+        self.add(
+            _box_switch_outer,
+            _box_text_outer,
+        )
 
     #####################################################################
     # Listener method
 
-    def change(self, item: str) -> None:
+    def change(self, item: list[str, str]) -> None:
         """Update choice box text."""
-        self._choice_text.value = item
+        # item_line1, item_line2 = item
+        self._text_line1.value = 'item_line1'
+        self._text_line2.value = 'item_line2'
