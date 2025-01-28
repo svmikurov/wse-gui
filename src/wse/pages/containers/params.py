@@ -3,7 +3,7 @@
 from typing import Callable
 
 import toga
-from toga import colors, Selection
+from toga import Selection, colors
 from toga.constants import COLUMN
 from toga.style import Pack
 
@@ -73,13 +73,13 @@ class ParamsWidgets(WidgetMixin):
 
         # Confirm buttons
         self._btn_cancel_save = BtnApp('Отмена', on_press=self._undisplay_confirm_save_handler)  # noqa: E501
-        self._btn_cancel_save.style.background_color=colors.TOMATO
+        self._btn_cancel_save.style.background_color = colors.TOMATO
         self._btn_confirm_save = BtnApp('Сохранить', on_press=self._confirm_save_handler)  # noqa: E501
-        self._btn_confirm_save.style.background_color=colors.GREEN
+        self._btn_confirm_save.style.background_color = colors.GREEN
         self._btn_cancel_reset = BtnApp('Отмена', on_press=self._undisplay_confirm_reset_handler)  # noqa: E501
-        self._btn_cancel_reset.style.background_color=colors.TOMATO
+        self._btn_cancel_reset.style.background_color = colors.TOMATO
         self._btn_confirm_reset = BtnApp('Сбросить', on_press=self._confirm_reset_handler)  # noqa: E501
-        self._btn_confirm_reset.style.background_color=colors.GREEN
+        self._btn_confirm_reset.style.background_color = colors.GREEN
         # Divider
         self._box_divider = toga.Box(
             children=[toga.Divider()],

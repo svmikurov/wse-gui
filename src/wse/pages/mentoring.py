@@ -1,4 +1,5 @@
 """Mentoring page."""
+
 from urllib.parse import urljoin
 
 from toga.style import Pack
