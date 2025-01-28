@@ -43,7 +43,7 @@ class TestWidgets:
         self._text_panel_question = toga.MultilineTextInput(
             style=Pack(
                 flex=1,
-                height=CHOICE_TEXT_HEIGHT,
+                height=CHOICE_TEXT_HEIGHT * const.PHONE_SCALING,
                 font_size=CHOICE_TEXT_SIZE,
             ),
         )
@@ -69,7 +69,6 @@ class TestWidgets:
         for index, _ in choices:
             source = self._plc.create_source(index)
             choicebox = ChoiceBox(
-                style=Pack(padding=(7, 0, 7, 0)),
                 style_switch=Pack(padding=(0, 5, 0, 5)),
                 style_text=Pack(
                     height=CHOICE_TEXT_HEIGHT * const.PHONE_SCALING,

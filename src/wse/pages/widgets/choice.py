@@ -40,7 +40,9 @@ class ChoiceBox(toga.Box):
         self._choice_text.style.flex = 1
 
         # DOM
-        self.add(self._choice_switch, self._choice_text)
+        self.add(_box_switch, _box_text)
+        _box_switch.add(self._choice_switch)
+        _box_text.add(self._choice_text)
 
     #####################################################################
     # Listener method
