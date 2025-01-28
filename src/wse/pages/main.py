@@ -4,6 +4,7 @@ from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
+from toga import colors
 from toga.style import Pack
 
 from wse.constants import (
@@ -59,16 +60,15 @@ class MainBox(WidgetMixin, BaseBox):
             style=Pack(flex=1), value=self._welcome
         )
 
-        # fmt: off
         # Navigation buttons
         self._btn_goto_login = BtnApp(
             BTN_GOTO_LOGIN, on_press=goto_login_handler
         )
         self._btn_logout = BtnApp(
-            BTN_LOGOUT, on_press=self._logout_handler
+            BTN_LOGOUT, on_press=self._display_logout_handler
         )
         self._btn_goto_mentoring = BtnApp(
-            'Наставничество', on_press=goto_mentoring_handler,
+            'Наставничество', on_press=goto_mentoring_handler
         )
         self._btn_goto_glossary_main = BtnApp(
             BTN_GOTO_GLOSSARY_MAIN, on_press=goto_glossary_main_handler
@@ -79,7 +79,22 @@ class MainBox(WidgetMixin, BaseBox):
         self._btn_goto_explorer = BtnApp(
             'Изучение виджетов', on_press=goto_explorer_handler
         )
-        # fmt: on
+        # Confirm buttons
+        self._btn_logout_cancel = BtnApp(
+            'Отмена',
+            style=Pack(background_color=colors.TOMATO),
+            on_press=self._undisplay_logout_handler,
+        )
+        self._btn_logout_confirm = BtnApp(
+            'Выйти',
+            style=Pack(background_color=colors.GREEN),
+            on_press=self._confirm_logout_handler,
+        )
+
+        # Boxes
+        self._box_logout_confirm = toga.Box(
+            children=[self._btn_logout_cancel, self._btn_logout_confirm]
+        )
 
         # DOM
         self.add(
@@ -155,3 +170,18 @@ class MainBox(WidgetMixin, BaseBox):
 
     def _display_greetings(self) -> None:
         self._info_panel.value = self._welcome
+
+    ##################
+    # Confirm handlers
+
+    def _display_logout_handler(self, _: toga.Widget) -> None:
+        self.replace(self._btn_logout, self._box_logout_confirm)
+
+    def _undisplay_logout_handler(self, _: toga.Widget) -> None:
+        self.replace(self._box_logout_confirm, self._btn_logout)
+
+    async def _confirm_logout_handler(self, widget: toga.Widget) -> None:
+        await self._logout_handler(widget)
+        # TODO: Refactor: remove _undisplay_logout_handler method.
+        self._undisplay_logout_handler(widget)
+        self._place_login_button()
