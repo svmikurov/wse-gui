@@ -20,6 +20,7 @@ SourceT = TypeVar('SourceT', bound=Source)
 
 CHOICE_TEXT_HEIGHT = 48
 CHOICE_TEXT_SIZE = 14
+SWITCH_WIDTH = 70
 
 
 class TestWidgets:
@@ -35,7 +36,7 @@ class TestWidgets:
         self._plc.url_question = self.url_question
         # Choice boxes are dynamically created
         # based on the number of answer options.
-        self._choicebox_name = '_choicebox_%s'
+        self._choice_box_name = '_choice_box_%s'
 
         _style_label = Pack(padding=(0, 0, 0, 7))
 
@@ -69,24 +70,27 @@ class TestWidgets:
         """Populate the question text panel."""
         self._text_panel_question.value = question
 
-    def create_choicebox(self, index: str, source: SourceT) -> None:
+    def clear_question(self) -> None:
+        """Clear a question field."""
+        self._text_panel_question.value = ''
+
+    def add_choice(self, index: int, source: SourceT) -> None:
         """Create a choice box."""
-        choicebox = ChoiceBox(
-            style_switch=Pack(padding=(0, 5, 0, 5)),
+        choice_box = ChoiceBox(
+            style_switch=Pack(
+                width=SWITCH_WIDTH,
+            ),
             style_text=Pack(
                 height=CHOICE_TEXT_HEIGHT * const.PHONE_SCALING,
                 font_size=CHOICE_TEXT_SIZE,
-                padding=(0, 0, 0, 15),
             ),
-            on_change=source.update_value,
         )
-        setattr(self, self._choicebox_name % index, choicebox)
+        setattr(self, self._choice_box_name % index, choice_box)
+        source.add_listener(choice_box)
+        self._display_choice_box(choice_box)
 
-    def populate_choices(self, choices: tuple[tuple[str, str], ...]) -> None:
-        """Populate a choices."""
-        for index, value in choices:
-            choicebox = getattr(self, self._choicebox_name % index)
-            choicebox.change(value)
+    def _display_choice_box(self, choice_box: ChoiceBox) -> None:
+        raise NotImplementedError
 
 
 class TestLayout(TestWidgets, BaseBox):
@@ -122,11 +126,8 @@ class TestLayout(TestWidgets, BaseBox):
     #####################################################################
     # Notifications
 
-    def add_choices(self, choices: tuple[tuple[str, str], ...]) -> None:
-        """Add choices to page."""
-        for index, _ in choices:
-            checkbox: ChoiceBox = getattr(self, self._choicebox_name % index)
-            self._box_checkboxes.add(checkbox)
+    def _display_choice_box(self, choice_box: ChoiceBox) -> None:
+        self._box_checkboxes.add(choice_box)
 
     def remove_choices(self) -> None:
         """Remove task choices from page."""

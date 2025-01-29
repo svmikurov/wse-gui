@@ -18,7 +18,7 @@ class Task:
         """Construct the task."""
         self.question: str = data['question']
         self.answer: str = data['answer']
-        self.choices: list[list[str, str]] = data['choices']
+        self.choices: list[list[int, str]] = data['choices']
 
 
 class ChoiceSource(Source):
@@ -76,11 +76,10 @@ class ControllerTest(Source):
 
     async def _display_task(self) -> None:
         """Display the test exercise task."""
+        self._clear_question()
         self._remove_choices()
         await self._create_task()
-        self._create_choices(self.task.choices)
         self._populate_question(self.task.question)
-        self._populate_choices(self.task.choices)
         self._add_choices(self.task.choices)
 
     @property
@@ -106,22 +105,20 @@ class ControllerTest(Source):
     #####################################################################
     # Notify listeners
 
-    def _create_choices(self, choices: list[list[str, str]]) -> None:
-        for index, _ in choices:
+    def _populate_question(self, question: str) -> None:
+        self.notify('populate_question', question=question)
+
+    def _clear_question(self) -> None:
+        self.notify('clear_question')
+
+    def _add_choices(self, choices: list[list[int, str]]) -> None:
+        for index, choice in choices:
             source = self._create_source(index)
-            self.notify('create_choicebox', index=index, source=source)
-
-    def _add_choices(self, choices: list[list[str, str]]) -> None:
-        self.notify('add_choices', choices=choices)
-
-    def _populate_choices(self, choices: list[list[str, str]]) -> None:
-        self.notify('populate_choices', choices=choices)
+            self.notify('add_choice', index=index, source=source)
+            source.notify('change', item=choice)
 
     def _remove_choices(self) -> None:
         self.notify('remove_choices')
-
-    def _populate_question(self, question: str) -> None:
-        self.notify('populate_question', question=question)
 
     #####################################################################
     # Http requests
