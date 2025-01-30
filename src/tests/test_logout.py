@@ -50,7 +50,7 @@ def test_logout(
         wse.main_window.content = wse.box_main
         wse.user._username = 'name'
         wse.user._is_auth = True
-        box_main._update_widgets()
+        box_main.update_widgets()
 
         box_main._btn_logout._impl.simulate_press()
 

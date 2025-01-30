@@ -3,17 +3,9 @@
 import toga
 from toga.command import ActionHandler
 
+from wse import controllers as plc
 from wse import pages
 from wse.constants import SCREEN_SIZE
-from wse.controllers.exercise import ControllerExercise
-from wse.controllers.form import (
-    FormController,
-    TermFormController,
-    WordFormController,
-)
-from wse.controllers.params import ControllerParams
-from wse.controllers.table import ControllerTable
-from wse.controllers.testing import ControllerTest
 from wse.pages import ExplorerLayout
 from wse.pages.examples.fraction import FractionPage
 from wse.pages.examples.main import ExampleLayout
@@ -46,7 +38,7 @@ class WSE(toga.App):
             size=toga.Size(*SCREEN_SIZE),
         )
         self.main_window.content = self.box_main
-        self.box_main._update_widgets()  # by user auth status
+        self.box_main.update_widgets()  # by user auth status
         self.main_window.show()
 
     ####################################################################
@@ -55,15 +47,16 @@ class WSE(toga.App):
     def add_controllers(self) -> None:
         """Add controllers."""
         # fmt: off
-        self.plc_params_foreign = ControllerParams()
-        self.plc_params_glossary = ControllerParams()
-        self.plc_exercise_foreign = ControllerExercise(self, self.plc_params_foreign)  # noqa: E501
-        self.plc_test_foreign = ControllerTest()
-        self.plc_exercise_glossary = ControllerExercise(self, self.plc_params_glossary)  # noqa: E501
-        self.plc_selected_foreign = ControllerTable(self.plc_params_foreign)
-        self.plc_selected_glossary = ControllerTable(self.plc_params_glossary)
-        self.plc_form_foreign = WordFormController()
-        self.plc_form_glossary = TermFormController()
+        self.plc_params_foreign = plc.ControllerParams()
+        self.plc_params_glossary = plc.ControllerParams()
+        self.plc_exercise_foreign = plc.ControllerExercise(self, self.plc_params_foreign)  # noqa: E501
+        self.plc_test_foreign = plc.ControllerTest()
+        self.plc_exercise_glossary = plc.ControllerExercise(self, self.plc_params_glossary)  # noqa: E501
+        self.plc_selected_foreign = plc.ControllerTable(self.plc_params_foreign)  # noqa: E501
+        self.plc_selected_glossary = plc.ControllerTable(self.plc_params_glossary)  # noqa: E501
+        self.plc_form_foreign = plc.WordFormController()
+        self.plc_form_glossary = plc.TermFormController()
+        self.plc_mulctipliation = plc.MultiplicationController()
         # fmt: on
 
     ####################################################################
@@ -97,6 +90,11 @@ class WSE(toga.App):
         self.box_glossary_create = pages.CreateTermPage(self.plc_form_glossary)
         self.box_glossary_update = pages.UpdateTermPage(self.plc_form_glossary)
         self.box_glossary_selected = pages.TableTermPage(self.plc_selected_glossary)  # noqa: E501
+
+        # Mathematical study page boxes
+        self.box_mathematics_main = pages.MathematicalMainPage()
+        self.box_multiplication_exercise = pages.MultiplicationExercisePage(self.plc_mulctipliation)  # noqa: E501
+        self.box_fraction_exercise = pages.FractionExercisePage()
 
         # Mentoring pages
         self.box_mentoring = pages.MentoringPage()
@@ -189,6 +187,11 @@ class WSE(toga.App):
     box_glossary_update: pages.UpdateTermPage
     box_glossary_selected: pages.TableTermPage
 
+    # Mathematical study page boxes
+    box_mathematics_main: pages.MathematicalMainPage
+    box_multiplication_exercise: pages.MultiplicationExercisePage
+    box_fraction_exercise: pages.FractionExercisePage
+
     # Mentoring pages
     box_mentoring: pages.MentoringPage
     box_word_test: pages.WordTestPage
@@ -203,15 +206,16 @@ class WSE(toga.App):
     cmd_goto_glossary: toga.Command
 
     # Controllers
-    plc_params_foreign: ControllerParams
-    plc_params_glossary: ControllerParams
-    plc_exercise_foreign: ControllerExercise
-    plc_test_foreign: ControllerTest
-    plc_exercise_glossary: ControllerExercise
-    plc_selected_foreign = ControllerTable
-    plc_selected_glossary = ControllerTable
-    plc_form_foreign: FormController
-    plc_form_glossary: TermFormController
+    plc_params_foreign: plc.ControllerParams
+    plc_params_glossary: plc.ControllerParams
+    plc_exercise_foreign: plc.ControllerExercise
+    plc_test_foreign: plc.ControllerTest
+    plc_exercise_glossary: plc.ControllerExercise
+    plc_selected_foreign: plc.ControllerTable
+    plc_selected_glossary: plc.ControllerTable
+    plc_form_foreign: plc.FormController
+    plc_form_glossary: plc.TermFormController
+    plc_multiplication: plc.MultiplicationController
 
 
 def main() -> WSE:

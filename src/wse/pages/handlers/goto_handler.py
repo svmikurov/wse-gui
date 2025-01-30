@@ -167,6 +167,28 @@ async def goto_glossary_exercise_handler(widget: toga.Widget) -> None:
 
 
 #########################################################################
+# Mathematical
+
+
+async def goto_mathematics_main_handler(widget: toga.Widget) -> None:
+    """Go to mathematics main, button handler."""
+    box = widget.root.app.box_mathematics_main
+    await set_window_content(widget, box)
+
+
+async def goto_multiplication_exercise_handler(widget: toga.Widget) -> None:
+    """Go to multiplication exercise, button handler."""
+    box = widget.root.app.box_multiplication_exercise
+    await set_window_content(widget, box)
+
+
+async def goto_fraction_exercise_handler(widget: toga.Widget) -> None:
+    """Go to fraction exercise, button handler."""
+    box = widget.root.app.box_fraction_exercise
+    await set_window_content(widget, box)
+
+
+#########################################################################
 # Examples
 
 

@@ -79,7 +79,7 @@ class LoginBox(WidgetMixin, BaseBox):
 
                     # Update widgets.
                     self._clear_input_fields()
-                    widget.root.app.box_main._update_widgets()
+                    widget.root.app.box_main.update_widgets()
                     await goto_main_handler(widget)
 
                     # Display success message.

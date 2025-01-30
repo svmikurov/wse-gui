@@ -8,6 +8,7 @@ from wse.pages.handlers.goto_handler import goto_back_handler
 from wse.pages.widgets.box import BoxFlexRow
 from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.fraction import Fraction
+from wse.pages.widgets.label import TitleLabel
 
 
 class FractionPage(toga.Box):
@@ -19,7 +20,7 @@ class FractionPage(toga.Box):
         self.style.flex = 1
         self.style.direction = COLUMN
 
-        _label_title = toga.Label(
+        _label_title = TitleLabel(
             text='Построение виджета "Дроби"',
             style=Pack(text_align=CENTER),
         )

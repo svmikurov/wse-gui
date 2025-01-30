@@ -26,6 +26,7 @@ from wse.pages.handlers.goto_handler import (
     goto_foreign_main_handler,
     goto_glossary_main_handler,
     goto_login_handler,
+    goto_mathematics_main_handler,
     goto_mentoring_handler,
 )
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
@@ -68,13 +69,16 @@ class MainBox(WidgetMixin, BaseBox):
             BTN_LOGOUT, on_press=self._display_logout_handler
         )
         self._btn_goto_mentoring = BtnApp(
-            'Наставничество', on_press=goto_mentoring_handler
+            'Выполнение заданий', on_press=goto_mentoring_handler
         )
         self._btn_goto_glossary_main = BtnApp(
             BTN_GOTO_GLOSSARY_MAIN, on_press=goto_glossary_main_handler
         )
         self._btn_goto_foreign_main = BtnApp(
             BTN_GOTO_FOREIGN_MAIN, on_press=goto_foreign_main_handler
+        )
+        self._btn_goto_mathematics_main = BtnApp(
+            'Математика', on_press=goto_mathematics_main_handler
         )
         self._btn_goto_explorer = BtnApp(
             'Изучение виджетов', on_press=goto_explorer_handler
@@ -103,6 +107,7 @@ class MainBox(WidgetMixin, BaseBox):
             self._btn_goto_login,
             self._btn_goto_mentoring,
             self._btn_goto_foreign_main,
+            self._btn_goto_mathematics_main,
             self._btn_goto_glossary_main,
             self._btn_goto_explorer,
         )
@@ -123,7 +128,7 @@ class MainBox(WidgetMixin, BaseBox):
             elif response.status_code == HTTPStatus.INTERNAL_SERVER_ERROR:
                 self._user.is_auth = False
 
-            self._update_widgets()
+            self.update_widgets()
 
     #####################################################################
     # Button handlers
@@ -135,12 +140,12 @@ class MainBox(WidgetMixin, BaseBox):
         if response.status_code == HTTPStatus.NO_CONTENT:
             del app_auth.token
             self._user.delete_userdata()
-            self._update_widgets()
+            self.update_widgets()
 
     #####################################################################
     # Construct page methods
 
-    def _update_widgets(self) -> None:
+    def update_widgets(self) -> None:
         """Update widgets by user auth status."""
         if self._user.is_auth:
             self._place_logout_button()

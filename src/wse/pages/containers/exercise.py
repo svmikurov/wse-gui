@@ -4,7 +4,6 @@ import toga
 from toga.constants import COLUMN
 from toga.style.pack import Pack
 
-from wse.controllers.exercise import ControllerExercise
 from wse.pages.handlers.goto_handler import goto_back_handler
 from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.button import AnswerBtn, BtnApp
@@ -21,7 +20,7 @@ class ExerciseWidgets:
     url_progress: str
     url_favorites: str
 
-    def __init__(self, controller: ControllerExercise) -> None:
+    def __init__(self, controller: object) -> None:
         """Construct a exercise widgets."""
         super().__init__()
         self._plc = controller
