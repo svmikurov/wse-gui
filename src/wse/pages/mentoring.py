@@ -48,3 +48,4 @@ class WordTestPage(TestLayout):
     """A vocabulary test page."""
 
     url_question = urljoin(HOST, FOREIGN_TESTING_PATH)
+    url_answer = urljoin(HOST, FOREIGN_TESTING_PATH)

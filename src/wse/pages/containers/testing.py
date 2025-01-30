@@ -27,6 +27,7 @@ class TestWidgets:
     """Foreign word test exercise widgets."""
 
     url_question: str
+    url_answer: str
 
     def __init__(self, controller: ControllerTest) -> None:
         """Construct the page."""
@@ -34,6 +35,7 @@ class TestWidgets:
         self._plc = controller
         self._plc.add_listener(self)
         self._plc.url_question = self.url_question
+        self._plc.url_answer = self.url_answer
         # Choice boxes are dynamically created
         # based on the number of answer options.
         self._choice_box_name = '_choice_box_%s'
@@ -84,6 +86,7 @@ class TestWidgets:
                 height=CHOICE_TEXT_HEIGHT * const.PHONE_SCALING,
                 font_size=CHOICE_TEXT_SIZE,
             ),
+            on_change=source.update_value,
         )
         setattr(self, self._choice_box_name % index, choice_box)
         source.add_listener(choice_box)

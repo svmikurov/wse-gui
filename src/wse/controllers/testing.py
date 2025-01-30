@@ -83,7 +83,7 @@ class ControllerTest(Source):
         self._add_choices(self.task.choices)
 
     @property
-    def answers(self) -> list[str]:
+    def answer(self) -> list[str]:
         """User answer choices."""
         answers = []
         for index, _ in self.task.choices:
@@ -95,8 +95,9 @@ class ControllerTest(Source):
     #####################################################################
     # Button handlers
 
-    def submit_handler(self, _: toga.Widget) -> None:
+    async def submit_handler(self, _: toga.Widget) -> None:
         """Submit the answer, button handler."""
+        await self._send_answer(self.url_answer, {'answer': self.answer})
 
     def next_handler(self, _: toga.Widget) -> None:
         """Start the next test task, button handler."""
