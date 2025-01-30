@@ -40,20 +40,16 @@ class ManagingWidgetData:
     def populate_entry_input(self) -> None:
         """Populate the entry input widgets value."""
         raise NotImplementedError(
-            'Subclasses must provide a populate_entry_input() method.'
+            '`populate_entry_input()` must be implemented.'
         )
 
     def get_widget_data(self) -> dict:
         """Get the entered into the widget data."""
-        raise NotImplementedError(
-            'Subclasses must provide a get_widget_data() method.'
-        )
+        raise NotImplementedError('`get_widget_data()` must be implemented.')
 
     def clear_entry_input(self) -> None:
         """Clear the entry input widgets value."""
-        raise NotImplementedError(
-            'Subclasses must provide a clear_entry_input() method.'
-        )
+        raise NotImplementedError('`clear_entry_input()` must be implemented.')
 
 
 class HandleSuccessResponse(ManagingWidgetData):
@@ -82,9 +78,7 @@ class HandleSuccessResponse(ManagingWidgetData):
     @classmethod
     async def request_async(cls, url: str, payload: dict) -> Response:
         """Send http async request."""
-        raise NotImplementedError(
-            'Subclasses must provide a request_async method.'
-        )
+        raise NotImplementedError('`request_async()` must be implemented.')
 
     async def handle_success(self, widget: toga.Widget) -> None:
         """Invoke if success."""

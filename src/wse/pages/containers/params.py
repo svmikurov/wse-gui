@@ -131,24 +131,36 @@ class ParamsWidgets(WidgetMixin):
     # Confirm
 
     def _display_confirm_save_handler(self, _: toga.Widget) -> None:
-        raise NotImplementedError()
+        raise NotImplementedError(
+            '`_display_confirm_save_handler()` must be implemented.'
+        )
 
     def _confirm_save_handler(self, widget: toga.Widget) -> None:
-        raise NotImplementedError()
+        raise NotImplementedError(
+            '`_confirm_save_handler()` must be implemented.'
+        )
 
     def _undisplay_confirm_save_handler(self, _: toga.Widget) -> None:
         """Replace confirm to save button, button handler."""
-        raise NotImplementedError()
+        raise NotImplementedError(
+            '`_confirm_save_handler()` must be implemented.'
+        )
 
     def _display_confirm_reset_handler(self, _: toga.Widget) -> None:
-        raise NotImplementedError()
+        raise NotImplementedError(
+            '`_display_confirm_reset_handler()` must be implemented.'
+        )
 
     async def _confirm_reset_handler(self, widget: toga.Widget) -> None:
-        raise NotImplementedError()
+        raise NotImplementedError(
+            '`_confirm_reset_handler()` must be implemented.'
+        )
 
     def _undisplay_confirm_reset_handler(self, _: toga.Widget) -> None:
         """Replace confirm to reset button, button handler."""
-        raise NotImplementedError()
+        raise NotImplementedError(
+            '`_undisplay_confirm_reset_handler()` must be implemented.'
+        )
 
 
 class ParamsLayout(ParamsWidgets, BaseBox):

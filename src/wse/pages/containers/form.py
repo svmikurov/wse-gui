@@ -55,7 +55,9 @@ class FormWidgets:
     # Interactive methods
 
     def _focus_to_input_field(self) -> None:
-        raise NotImplementedError()
+        raise NotImplementedError(
+            '`_focus_to_input_field()` must be implemented.'
+        )
 
 
 class FormLayout(FormWidgets, BaseBox):

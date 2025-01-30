@@ -116,10 +116,14 @@ class TableWidgets:
     # Interactive button handlers
 
     def _display_confirm_deletion_handler(self, _: toga.Widget) -> None:
-        raise NotImplementedError()
+        raise NotImplementedError(
+            '`_display_confirm_deletion_handler()` must be implemented.'
+        )
 
     def _hide_confirm_deletion_handler(self, _: toga.Widget) -> None:
-        raise NotImplementedError()
+        raise NotImplementedError(
+            '`_hide_confirm_deletion_handler()` must be implemented.'
+        )
 
 
 class TableLayout(TableWidgets, BaseBox):

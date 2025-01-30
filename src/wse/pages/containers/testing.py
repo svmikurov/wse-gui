@@ -93,7 +93,9 @@ class TestWidgets:
         self._display_choice_box(choice_box)
 
     def _display_choice_box(self, choice_box: ChoiceBox) -> None:
-        raise NotImplementedError
+        raise NotImplementedError(
+            '`_display_choice_box()` must be implemented.'
+        )
 
 
 class TestLayout(TestWidgets, BaseBox):
