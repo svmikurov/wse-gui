@@ -163,7 +163,7 @@ async def request_get_async(url: str) -> Response:
 
 async def request_post_async(
     url: str, payload: dict | None = None
-) -> Response:  # noqa: E501
+) -> Response:
     """Request the async POST method."""
     async with httpx.AsyncClient(auth=app_auth) as client:
         try:

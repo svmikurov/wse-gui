@@ -1,9 +1,11 @@
 """Test exercise controller."""
 
 import json
+from http import HTTPStatus
 from typing import TypeVar
 
 import toga
+from httpx import Response
 from toga.sources import Source
 
 from wse.contrib.http_requests import request_get_async, request_post_async
@@ -97,7 +99,12 @@ class ControllerTest(Source):
 
     async def submit_handler(self, _: toga.Widget) -> None:
         """Submit the answer, button handler."""
-        await self._send_answer(self.url_answer, {'answer': self.answer})
+        if self.answer:
+            payload = {'answer': self.answer}
+            response = await self._send_answer(self.url_answer, payload)
+
+            if response.status_code == HTTPStatus.NO_CONTENT:
+                await self._display_task()
 
     def next_handler(self, _: toga.Widget) -> None:
         """Start the next test task, button handler."""
@@ -131,5 +138,5 @@ class ControllerTest(Source):
         return json.loads(data)
 
     @staticmethod
-    async def _send_answer(url: str, payload: dict) -> None:
-        await request_post_async(url, payload)
+    async def _send_answer(url: str, payload: dict) -> Response:
+        return await request_post_async(url, payload)
