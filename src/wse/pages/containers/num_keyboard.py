@@ -8,7 +8,7 @@ from wse.pages.widgets.box import BoxFlexRow
 
 BUTTON_HEIGHT = 70
 FONT_SIZE = 20
-MAX_DIGITS = 19
+MAX_DIGIT_COUNT = 19
 
 
 class KeyboardButton(toga.Button):
@@ -28,42 +28,45 @@ class NumKeyboardController(Source):
     def __init__(self) -> None:
         """Construct the controller."""
         super().__init__()
-        self.text_number: str = ''
+        self.number: str = ''
+        self.max_digit_count = MAX_DIGIT_COUNT
 
     def num_handler(self, widget: toga.Button) -> None:
         """Handle press a number button."""
-        if len(self.text_number) < MAX_DIGITS:
+        if len(self.number) < self.max_digit_count:
             symbol = widget.text
-            self.text_number += symbol
+            self.number += symbol
             self._update_num_panel()
 
     def point_handler(self, widget: toga.Button) -> None:
         """Handle press a point button."""
         symbol = widget.text
         if (
-            symbol not in self.text_number
-            and len(self.text_number) < MAX_DIGITS - 1
+            symbol not in self.number
+            and len(self.number) < self.max_digit_count - 1
         ):
-            self.text_number += symbol
+            self.number += symbol
             self._update_num_panel()
 
     def backspace_handler(self, widget: toga.Button) -> None:
         """Handle press the backspace."""
-        self.text_number = self.text_number[: len(self.text_number) - 1]
+        self.number = self.number[: len(self.number) - 1]
         self._update_num_panel()
 
     def _update_num_panel(self) -> None:
-        self.notify('change', text=self.text_number)
+        self.notify('change', text=self.number)
 
 
 class NumKeyboard(toga.Box):
     """Custom number keyboard container."""
 
-    def __init__(self) -> None:
+    def __init__(self, max_digit_count: int | None = None) -> None:
         """Construct the container."""
         super().__init__()
         self.style.direction = COLUMN
         self.plc = NumKeyboardController()
+        if max_digit_count:
+            self.plc.max_digit_count = max_digit_count
 
         _btn_0 = KeyboardButton(text='0', on_press=self.plc.num_handler)
         _btn_1 = KeyboardButton(text='1', on_press=self.plc.num_handler)

@@ -33,6 +33,13 @@ class MultiplicationController(Source):
         pass
 
     #####################################################################
+    # Button handlers
+
+    def submit_handler(self, _: toga.Widget) -> None:
+        """Submit answer, button handler."""
+        pass
+
+    #####################################################################
     # HTTP requests
 
     async def _request_task(self, url: str) -> None:
