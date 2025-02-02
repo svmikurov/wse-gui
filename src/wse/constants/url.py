@@ -79,6 +79,8 @@ GLOSSARY_SELECTED_PATH = '/api/v1/glossary/selected/'
 """Selected glossary terms the url path(`str`).
 """
 
+MATHEMATICS_MULTIPLICATION_PATH = '/api/v1/mathematics/multiplication/'
+
 HTTP_400_BAD_REQUEST = HTTPStatus.BAD_REQUEST
 HTTP_401_UNAUTHORIZED = HTTPStatus.UNAUTHORIZED
 HTTP_500_INTERNAL_SERVER_ERROR = HTTPStatus.INTERNAL_SERVER_ERROR

@@ -2,6 +2,7 @@
 
 import toga
 from toga.constants import LEFT, RIGHT
+from toga.style import Pack
 
 from wse.controllers.multiplication import MultiplicationController
 from wse.pages.containers.num_keyboard import NumKeyboard
@@ -25,10 +26,7 @@ class NumInput(ListenerMixin, toga.MultilineTextInput):
         """Construct the widget."""
         super().__init__(*args, **kwargs)
         self.readonly = True
-        self.placeholder = '0.0'
-        self.style.flex = 1
         self.style.height = NUM_HEIGHT
-        self.style.text_align = RIGHT
         self.style.font_size = NUM_FONT_SIZE
 
 
@@ -42,26 +40,30 @@ class MultiplicationWidgets:
         super().__init__()
         self._plc = controller
 
-        # fmt: off
         self._label_title = TitleLabel(text=self.title)
-        self._label_question = toga.Label(text='Вопрос:')
-        self._label_answer = toga.Label(text='Ответ:')
 
-        self._text_question = NumInput()
-        self._text_question.value = '2 x 4 = '
-        self._text_question.style.flex = 2
+        self._question = NumInput()
 
-        self._input_answer = NumInput()
-        self._input_answer.placeholder = '?'
-        self._input_answer.style.flex = 1
-        self._input_answer.style.text_align = LEFT
+        self._answer = NumInput()
+        self._answer.placeholder = '?'
+        self._answer.on_change = self._plc.update_value
+
+        self._result = toga.MultilineTextInput(readonly=True)
 
         self._num_keyboard = NumKeyboard(max_digit_count=MAX_DIGIT_COUNT)
+
+        # This widget is a listener.
+        self._plc.add_listener(self)
         self._num_keyboard.plc.add_listener(self)
 
-        self._btn_submit = BtnApp('Ответить', on_press=self._plc.submit_handler)  # noqa: E501
-        self._btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
-        # fmt: on
+        self._btn_submit = BtnApp(
+            'Ответить',
+            on_press=self._plc.submit_handler,
+        )
+        self._btn_goto_back = BtnApp(
+            'Назад',
+            on_press=goto_back_handler,
+        )
 
     async def on_open(self, widget: toga.Widget) -> None:
         """Invoke methods on page open."""
@@ -70,32 +72,66 @@ class MultiplicationWidgets:
     ####################################################################
     # Listener methods
 
-    def change(self, text: str) -> None:
+    def display_answer(self, text: str) -> None:
         """Change the answer numbers."""
-        self._input_answer.value = text
+        self._answer.value = text
+
+    def clear_answer(self) -> None:
+        """Clear text of answer."""
+        self._num_keyboard.plc.clear()
+
+    def display_question(self, text: str) -> None:
+        """Display the task question."""
+        question = f'{text} = '
+        self._question.value = question
+
+    def clear_question(self) -> None:
+        """Clear text of question."""
+        self._question.value = ''
+
+    def display_result(self, text: str) -> None:
+        """Display answer result."""
+        self._result.value = text
+        self.clear_answer()
+
+    def clear_result(self) -> None:
+        """Clear text of result."""
+        self._result.value = None
 
 
 class MultiplicationLayout(MultiplicationWidgets, BaseBox):
     """Multiplication exercise layout."""
 
+    _task_padding = (20, 0, 0, 0)
+    _result_padding = (20, 0, 0, 0)
+
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the layout."""
         super().__init__(*args, **kwargs)
 
-        _box_task = toga.Box()
+        self._question.style.flex = 2
+        self._question.style.text_align = RIGHT
+
+        self._answer.style.flex = 1
+        self._answer.style.text_align = LEFT
+
+        self._result.style.flex = 1
+        self._result.style.font_size = 32
+        self._result.style.padding = self._result_padding
+
+        _box_task = toga.Box(
+            style=Pack(padding=self._task_padding),
+            children=[self._question, self._answer],
+        )
         _box_align = BoxFlexCol()
-        _box_btns = toga.Box()
+        _box_btns = toga.Box(children=[self._btn_goto_back, self._btn_submit])
 
         # DOM
         self.add(
             self._label_title,
             _box_task,
+            self._result,
             _box_align,
             self._num_keyboard,
             _box_btns,
         )
-        _box_task.add(
-            self._text_question,
-            self._input_answer,
-        )
-        _box_btns.add(self._btn_goto_back, self._btn_submit)

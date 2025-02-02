@@ -53,8 +53,16 @@ class NumKeyboardController(Source):
         self.number = self.number[: len(self.number) - 1]
         self._update_num_panel()
 
+    ####################################################################
+    # Notifications
+
+    def clear(self) -> None:
+        self.number = ''
+        self._update_num_panel()
+
     def _update_num_panel(self) -> None:
-        self.notify('change', text=self.number)
+        self.notify('display_answer', text=self.number)
+
 
 
 class NumKeyboard(toga.Box):
