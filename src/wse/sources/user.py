@@ -7,7 +7,7 @@ from pathlib import Path
 
 from toga.sources import Source
 
-from wse.contrib.http_requests import app_auth, request_user_data
+from wse.contrib.http_requests import app_auth, request_auth_data
 
 PATH_USERDATA_FILE = os.path.join(
     Path(__file__).parent.parent,
@@ -23,6 +23,7 @@ class SourceUser(Source):
         super().__init__()
         self._username: str | None = None
         self._is_auth: bool = False
+        self._points: str | None = None
 
     @property
     def username(self) -> str:
@@ -53,18 +54,16 @@ class SourceUser(Source):
         """Delete user data."""
         self._username = None
         self._is_auth = False
-        self.delete_userdata_fail()
+        self._delete_userdata_fail()
 
     @staticmethod
-    def delete_userdata_fail() -> None:
-        """Delete the userdata fail."""
+    def _delete_userdata_fail() -> None:
         try:
             os.unlink(PATH_USERDATA_FILE)
         except FileNotFoundError:
             pass
 
-    def load_userdata(self) -> None:
-        """Load user data on start app."""
+    def _load_userdata(self) -> None:
         try:
             with open(PATH_USERDATA_FILE, 'r') as file:
                 userdata = json.load(file)
@@ -76,7 +75,7 @@ class SourceUser(Source):
 
     def on_start(self) -> None:
         """Set user data on start app."""
-        response = request_user_data()
+        response = request_auth_data()
 
         if response.status_code == HTTPStatus.OK:
             userdata = response.json()

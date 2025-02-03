@@ -98,7 +98,7 @@ def obtain_token(credentials: dict) -> Response:
     return response
 
 
-def request_user_data() -> Response:
+def request_auth_data() -> Response:
     """Request the user data."""
     return request_get(url_login)
 

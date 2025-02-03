@@ -19,7 +19,7 @@ from wse.constants import (
 from wse.contrib.http_requests import (
     app_auth,
     request_post,
-    request_user_data,
+    request_auth_data,
 )
 from wse.pages.handlers.goto_handler import (
     goto_explorer_handler,
@@ -45,13 +45,13 @@ class MainBox(WidgetMixin, BaseBox):
 
     def __init__(
         self,
-        _user: SourceUser,
-        _source_info_panel: SourceMainPanel,
+        user: SourceUser,
+        source_info_panel: SourceMainPanel,
     ) -> None:
         """Construct the Main box."""
         super().__init__()
-        self._user = _user
-        self._source_main_panel = _source_info_panel
+        self._user = user
+        self._source_main_panel = source_info_panel
         self._index_btn_auth = 2
 
         self._label_title = TitleLabel(TITLE_MAIN)
@@ -115,7 +115,7 @@ class MainBox(WidgetMixin, BaseBox):
     async def on_open(self, _: toga.Widget) -> None:
         """Update widgets."""
         if app_auth.token:
-            response = request_user_data()
+            response = request_auth_data()
 
             if (
                 response.status_code == HTTPStatus.OK

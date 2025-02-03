@@ -13,7 +13,7 @@ from wse.constants import (
     TITLE_LOGIN,
 )
 from wse.constants.settings import CONNECTION_BAD_MSG, CONNECTION_SUCCESS_MSG
-from wse.contrib.http_requests import obtain_token, request_user_data
+from wse.contrib.http_requests import obtain_token, request_auth_data
 from wse.pages.handlers.goto_handler import goto_main_handler
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
@@ -69,7 +69,7 @@ class LoginBox(WidgetMixin, BaseBox):
             response_token = obtain_token(credentials)
 
             if response_token.status_code == HTTPStatus.OK:
-                response_userdata = request_user_data()
+                response_userdata = request_auth_data()
 
                 if response_userdata.status_code == HTTPStatus.OK:
                     payload = response_userdata.json()
