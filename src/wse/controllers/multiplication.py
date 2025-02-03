@@ -31,18 +31,27 @@ class MultiplicationController(Source):
 
     async def on_open(self, widget: toga.Widget) -> None:
         """Invoke methods on page open."""
-        data = await self._request_task(self.url)
-        self._save_task_data(data)
-        self._display_question()
+        await self._start_new_task()
 
     #####################################################################
     # Exercise methods
 
+    async def _start_new_task(self) -> None:
+        data = await self._request_task(self.url)
+        self._save_task_data(data)
+        self._display_question()
+
     def _save_task_data(self, data: dict) -> None:
         self._task = Task(data)
 
-    def _check_answer(self) -> bool:
-        return self.user_answer == self._task.answer
+    async def _check_answer(self) -> None:
+        if self.user_answer == self._task.answer:
+            text_result = 'Верно!'
+            await self._start_new_task()
+        else:
+            text_result = 'Не верно!'
+
+        self._display_result(text_result)
 
     @property
     def user_answer(self) -> str:
@@ -67,10 +76,9 @@ class MultiplicationController(Source):
 
     async def submit_handler(self, _: toga.Widget) -> None:
         """Submit answer, button handler."""
+        await self._check_answer()
+        # The user's answer is stored.
         await self._sent_answer(self.url, self.user_answer)
-        result = self._check_answer()
-        text_result = 'Верно!' if result else 'Не верно!'
-        self._display_result(text_result)
 
     def update_value(self, widget: toga.MultilineTextInput) -> None:
         """Set the current user answer."""
@@ -82,8 +90,7 @@ class MultiplicationController(Source):
     @staticmethod
     async def _request_task(url: str) -> dict:
         response = await request_get_async(url)
-        data = json.loads(response.json())
-        return data
+        return response.json()
 
     @staticmethod
     async def _sent_answer(url: str, user_answer: str) -> None:
