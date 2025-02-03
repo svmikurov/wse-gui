@@ -4,10 +4,19 @@ import json
 import os
 from http import HTTPStatus
 from pathlib import Path
+from urllib.parse import urljoin
 
 from toga.sources import Source
 
-from wse.contrib.http_requests import app_auth, request_auth_data
+from wse.constants import (
+    HOST,
+    USER_DATA_PATH,
+)
+from wse.contrib.http_requests import (
+    app_auth,
+    request_auth_data,
+    request_get,
+)
 
 PATH_USERDATA_FILE = os.path.join(
     Path(__file__).parent.parent,
@@ -18,12 +27,14 @@ PATH_USERDATA_FILE = os.path.join(
 class SourceUser(Source):
     """User data source."""
 
+    _url_user_data = urljoin(HOST, USER_DATA_PATH)
+
     def __init__(self) -> None:
         """Construct the source."""
         super().__init__()
         self._username: str | None = None
         self._is_auth: bool = False
-        self._points: str | None = None
+        self._point_balance: str | None = None
 
     @property
     def username(self) -> str:
@@ -75,6 +86,13 @@ class SourceUser(Source):
 
     def on_start(self) -> None:
         """Set user data on start app."""
+        self._set_auth_data()
+        self._set_user_data()
+
+    ####################################################################
+    # HTTP requests
+
+    def _set_auth_data(self) -> None:
         response = request_auth_data()
 
         if response.status_code == HTTPStatus.OK:
@@ -85,3 +103,8 @@ class SourceUser(Source):
         elif response.status_code == HTTPStatus.UNAUTHORIZED:
             self.delete_userdata()
             del app_auth.token
+
+    def _set_user_data(self) -> None:
+        response = request_get(self._url_user_data)
+        data = response.json()
+        self._point_balance = data.get('point_balance')

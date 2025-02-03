@@ -28,6 +28,9 @@ USER_ME_PATH = '/api/v1/auth/users/me/'
 TOKEN_PATH = '/auth/token/login/'
 """Endpoint to obtain the user auth token, allowed method: POST (`str`).
 """
+USER_DATA_PATH = '/api/v1/users/data/'
+"""User data used in exercises (`str`).
+"""
 
 FOREIGN_EXERCISE_PATH = '/api/v1/foreign/exercise/'
 """Learning foreign word exercise path (`str`).
