@@ -1,10 +1,10 @@
-"""Test widgets of create page boxes."""
+"""Test widgets of create pages boxes."""
 
 import pytest
 from _pytest.fixtures import FixtureRequest
 
 from wse.app import WSE
-from wse.page import CreateTermPage, CreateWordPage
+from wse.pages import CreateTermPage, CreateWordPage
 
 
 def set_window_content(
@@ -36,7 +36,7 @@ def box(request: FixtureRequest) -> CreateWordPage | CreateTermPage:
 
 
 def test_glossary_widget_order(wse: WSE) -> None:
-    """Test the widget order at glossary term create page box."""
+    """Test the widget order at glossary term create pages box."""
     box = wse.box_glossary_create
     set_window_content(wse, box)
 

@@ -2,15 +2,15 @@
 
 import toga
 
-from wse import contr as plc
-from wse import page
+from wse import controllers as plc
+from wse import pages
 from wse.constants import SCREEN_SIZE
 from wse.contrib.factory import factory
-from wse.page import ExplorerLayout
-from wse.page.examples.fraction import FractionPage
-from wse.page.examples.main import ExampleLayout
-from wse.page.examples.table_source import TableSourceLayout
-from wse.page.handlers.goto_handler import set_window_content
+from wse.pages import ExplorerLayout
+from wse.pages.examples.fraction import FractionPage
+from wse.pages.examples.main import ExampleLayout
+from wse.pages.examples.table_source import TableSourceLayout
+from wse.pages.handlers.goto_handler import set_window_content
 from wse.sources.text_panel_main import SourceMainPanel
 from wse.sources.user import SourceUser
 
@@ -28,15 +28,14 @@ class WSE(toga.App):
         self.user.on_start()
 
         # Construct MVC
-        self.factory = factory
-        self.factory.initialize(self)
+        factory.initialize(self)
 
         # TODO: Refactor MVC.
         self.add_controllers()
         self.add_pages()
         self.add_menu()
 
-        # Application start with Main page box content.
+        # Application start with Main pages box content.
         self.main_window = toga.MainWindow(
             title=self.formal_name,
             size=toga.Size(*SCREEN_SIZE),
@@ -49,7 +48,7 @@ class WSE(toga.App):
     # Controllers
 
     def add_controllers(self) -> None:
-        """Add contr."""
+        """Add controllers."""
         # fmt: off
         self.plc_params_foreign = plc.ControllerParams()
         self.plc_params_glossary = plc.ControllerParams()
@@ -66,41 +65,41 @@ class WSE(toga.App):
     # Pages
 
     def add_pages(self) -> None:
-        """Add page boxes."""
+        """Add pages boxes."""
         # fmt: off
-        self.box_main = page.MainBox(self.user, self.source_main_panel)
-        self.box_login = page.LoginBox(self.user)
+        self.box_main = pages.MainBox(self.user, self.source_main_panel)
+        self.box_login = pages.LoginBox(self.user)
 
-        # Temp page
+        # Temp pages
         self.box_explorer = ExplorerLayout()
         self.box_examples = ExampleLayout()
         self.box_table_source = TableSourceLayout()
         self.box_fraction = FractionPage()
 
-        # Foreign language study page boxes
-        self.box_foreign_main = page.MainForeignPage()
-        self.box_foreign_params = page.ParamsForeignPage(self.plc_params_foreign)  # noqa: E501
-        self.box_foreign_exercise = page.ExerciseForeignPage(self.plc_exercise_foreign)  # noqa: E501
-        self.box_foreign_create = page.CreateWordPage(self.plc_form_foreign)
-        self.box_foreign_update = page.UpdateWordPage(self.plc_form_foreign)
-        self.box_foreign_selected = page.TableWordPage(self.plc_selected_foreign)  # noqa: E501
-        self.box_foreign_tasks = page.TasksForeignPage()
+        # Foreign language study pages boxes
+        self.box_foreign_main = pages.MainForeignPage()
+        self.box_foreign_params = pages.ParamsForeignPage(self.plc_params_foreign)  # noqa: E501
+        self.box_foreign_exercise = pages.ExerciseForeignPage(self.plc_exercise_foreign)  # noqa: E501
+        self.box_foreign_create = pages.CreateWordPage(self.plc_form_foreign)
+        self.box_foreign_update = pages.UpdateWordPage(self.plc_form_foreign)
+        self.box_foreign_selected = pages.TableWordPage(self.plc_selected_foreign)  # noqa: E501
+        self.box_foreign_tasks = pages.TasksForeignPage()
 
-        # Glossary study page boxes
-        self.box_glossary_main = page.MainGlossaryWidget()
-        self.box_glossary_params = page.ParamsGlossaryPage(self.plc_params_glossary)  # noqa: E501
-        self.box_glossary_exercise = page.ExerciseGlossaryPage(self.plc_exercise_glossary)  # noqa: E501
-        self.box_glossary_create = page.CreateTermPage(self.plc_form_glossary)
-        self.box_glossary_update = page.UpdateTermPage(self.plc_form_glossary)
-        self.box_glossary_selected = page.TableTermPage(self.plc_selected_glossary)  # noqa: E501
+        # Glossary study pages boxes
+        self.box_glossary_main = pages.MainGlossaryWidget()
+        self.box_glossary_params = pages.ParamsGlossaryPage(self.plc_params_glossary)  # noqa: E501
+        self.box_glossary_exercise = pages.ExerciseGlossaryPage(self.plc_exercise_glossary)  # noqa: E501
+        self.box_glossary_create = pages.CreateTermPage(self.plc_form_glossary)
+        self.box_glossary_update = pages.UpdateTermPage(self.plc_form_glossary)
+        self.box_glossary_selected = pages.TableTermPage(self.plc_selected_glossary)  # noqa: E501
 
-        # Mathematical study page boxes
-        self.box_mathematics_main = page.MathematicalMainPage()
-        self.box_fraction_exercise = page.FractionExercisePage()
+        # Mathematical study pages boxes
+        self.box_mathematics_main = pages.MathematicalMainPage()
+        self.box_fraction_exercise = pages.FractionExercisePage()
 
-        # Mentoring page
-        self.box_mentoring = page.MentoringPage()
-        self.box_word_test = page.WordTestPage(self.plc_test_foreign)
+        # Mentoring pages
+        self.box_mentoring = pages.MentoringPage()
+        self.box_word_test = pages.WordTestPage(self.plc_test_foreign)
 
         # Listeners of events
         self.plc_exercise_foreign.event.add_listener(self.box_foreign_exercise)
@@ -140,7 +139,7 @@ class WSE(toga.App):
         )
 
     async def move_to_page(self, box: toga.Box) -> None:
-        """Move to page box."""
+        """Move to pages box."""
         await set_window_content(self.box_main, box)
 
     async def goto_main(self, _: toga.Widget, **kwargs: object) -> None:

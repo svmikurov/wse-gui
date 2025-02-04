@@ -1,4 +1,4 @@
-"""Test convert http response data to Source Toga model."""
+"""Test convert http response data to Source Toga models."""
 
 from wse.contrib.data import to_entries
 

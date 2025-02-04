@@ -1,4 +1,4 @@
-"""The source of info text panel at main page."""
+"""The source of info text panel at main pages."""
 
 from toga.sources import Source
 

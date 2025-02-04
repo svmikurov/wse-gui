@@ -6,7 +6,7 @@ from typing import Type, TypeVar
 import toga
 from toga.sources import Listener, Source
 
-from wse import contr, model, page
+from wse import controllers, models, pages
 
 ModelT = Type[Source]
 ViewT = Type[toga.Box]
@@ -15,7 +15,7 @@ ContrT = TypeVar('ContrT', bound=Listener)
 
 @dataclass
 class MVCData:
-    """MVC model instances data class."""
+    """MVC models instances data class."""
 
     model_instance: str
     model_class: ModelT
@@ -26,7 +26,7 @@ class MVCData:
 
 
 class MVCFactory:
-    """Factory of MVC model instances to initialize."""
+    """Factory of models-controller-view instances."""
 
     def __init__(self) -> None:
         """Construct the factory."""
@@ -41,7 +41,7 @@ class MVCFactory:
         contr_instance: str,
         contr_class: ContrT,
     ) -> None:
-        """Add model-controller-view."""
+        """Add models-controller-view."""
         instance = MVCData(
             model_instance,
             model_class,
@@ -52,27 +52,26 @@ class MVCFactory:
         )
         self._mvc_collection.append(instance)
 
-    def initialize(self, cls: Type) -> None:
-        """Initialize the MVC model instances."""
+    def initialize(self, obj: toga.App) -> None:
+        """Initialize the MVC models instances."""
         for mvc in self._mvc_collection:
-            setattr(cls, mvc.model_instance, mvc.model_class())
-            setattr(cls, mvc.view_instance, mvc.view_class())
-            model = getattr(cls, mvc.model_instance)
-            view = getattr(cls, mvc.view_instance)
-            setattr(cls, mvc.contr_instance, mvc.contr_class(model, view))
+            setattr(obj, mvc.model_instance, mvc.model_class())
+            setattr(obj, mvc.view_instance, mvc.view_class())
+            model = getattr(obj, mvc.model_instance)
+            view = getattr(obj, mvc.view_instance)
+            setattr(obj, mvc.contr_instance, mvc.contr_class(model, view))
 
 
 factory = MVCFactory()
-# flake8: noqa: E501
 # fmt: off
 factory.add_mvc(
-    'model_main', model.MainModel,
-    'page_main', page.MainPage,
-    'contr_main', contr.MainContr,
+    'model_main', models.MainModel,
+    'page_main', pages.MainPage,
+    'contr_main', controllers.MainContr,
 )
 factory.add_mvc(
-    'model_mult', model.TaskModel,
-    'page_mult', page.MultPage,
-    'contr_mult', contr.MultContr,
+    'model_mult', models.TaskModel,
+    'page_mult', pages.MultPage,
+    'contr_mult', controllers.MultContr,
 )
 # fmt: on
