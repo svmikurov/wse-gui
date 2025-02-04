@@ -6,12 +6,7 @@ from typing import Type, TypeVar
 import toga
 from toga.sources import Listener, Source
 
-from wse.controllers import MultContr
-from wse.controllers.main import MainContr
-from wse.models.main import MainModel
-from wse.models.task import TaskModel
-from wse.pages import MultPage
-from wse.pages.main import MainPage
+from wse import contr, model, page
 
 ModelT = Type[Source]
 ViewT = Type[toga.Box]
@@ -70,6 +65,14 @@ class MVCFactory:
 factory = MVCFactory()
 # flake8: noqa: E501
 # fmt: off
-factory.add_mvc('model_main', MainModel, 'page_main', MainPage, 'contr_main', MainContr)
-factory.add_mvc('model_mult', TaskModel, 'page_mult', MultPage, 'contr_mult', MultContr)
+factory.add_mvc(
+    'model_main', model.MainModel,
+    'page_main', page.MainPage,
+    'contr_main', contr.MainContr,
+)
+factory.add_mvc(
+    'model_mult', model.TaskModel,
+    'page_mult', page.MultPage,
+    'contr_mult', contr.MultContr,
+)
 # fmt: on

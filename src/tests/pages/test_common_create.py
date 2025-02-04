@@ -4,7 +4,7 @@ import pytest
 from _pytest.fixtures import FixtureRequest
 
 from wse.app import WSE
-from wse.pages import CreateTermPage, CreateWordPage
+from wse.page import CreateTermPage, CreateWordPage
 
 
 def set_window_content(
