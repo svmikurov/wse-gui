@@ -6,7 +6,9 @@ from toga.command import ActionHandler
 from wse import controllers as plc
 from wse import pages
 from wse.constants import SCREEN_SIZE
-from wse.pages import ExplorerLayout
+from wse.controllers import MultiplicationController
+from wse.models.task import TaskModel
+from wse.pages import ExplorerLayout, MultiplicationExercisePage
 from wse.pages.examples.fraction import FractionPage
 from wse.pages.examples.main import ExampleLayout
 from wse.pages.examples.table_source import TableSourceLayout
@@ -28,6 +30,11 @@ class WSE(toga.App):
         self.user.on_start()
 
         # Construct
+        self._initialize_models()
+        self._initialize_views()
+        self._initialize_controllers()
+
+        # TODO: Refactor MVC.
         self.add_controllers()
         self.add_pages()
         self.add_menu()
@@ -56,8 +63,22 @@ class WSE(toga.App):
         self.plc_selected_glossary = plc.ControllerTable(self.plc_params_glossary)  # noqa: E501
         self.plc_form_foreign = plc.WordFormController()
         self.plc_form_glossary = plc.TermFormController()
-        self.plc_mulctipliation = plc.MultiplicationController()
         # fmt: on
+
+    ####################################################################
+    # MVC Refactoring
+
+    def _initialize_models(self) -> None:
+        self.model_multiplication_exercise = TaskModel()
+
+    def _initialize_views(self) -> None:
+        self.page_multiplication_exercise = MultiplicationExercisePage()
+
+    def _initialize_controllers(self) -> None:
+        self.controller_multiplication_exercise2 = MultiplicationController(
+            model=self.model_multiplication_exercise,
+            view=self.page_multiplication_exercise,
+        )
 
     ####################################################################
     # Pages
@@ -93,7 +114,6 @@ class WSE(toga.App):
 
         # Mathematical study page boxes
         self.box_mathematics_main = pages.MathematicalMainPage()
-        self.box_multiplication_exercise = pages.MultiplicationExercisePage(self.plc_mulctipliation)  # noqa: E501
         self.box_fraction_exercise = pages.FractionExercisePage()
 
         # Mentoring pages

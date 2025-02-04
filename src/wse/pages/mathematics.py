@@ -1,7 +1,7 @@
 """Mathematical exercise pages."""
 
 from wse.pages.containers.fraction import FractionLayout
-from wse.pages.containers.multiplication import MultiplicationLayout
+from wse.pages.containers.multiplication import MultiplicationWidgets
 from wse.pages.handlers.goto_handler import (
     goto_back_handler,
     goto_fraction_exercise_handler,
@@ -43,7 +43,7 @@ class MathematicalMainPage(BaseBox):
         )
 
 
-class MultiplicationExercisePage(MultiplicationLayout):
+class MultiplicationExercisePage(MultiplicationWidgets):
     """Multiplication exercise page."""
 
     title = 'Таблица умножения'

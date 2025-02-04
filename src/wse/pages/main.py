@@ -18,8 +18,8 @@ from wse.constants import (
 )
 from wse.contrib.http_requests import (
     app_auth,
-    request_post,
     request_auth_data,
+    request_post,
 )
 from wse.pages.handlers.goto_handler import (
     goto_explorer_handler,

@@ -2,7 +2,7 @@
 
 import toga
 from toga.constants import COLUMN
-from toga.sources import Source
+from toga.sources import Listener, Source
 
 from wse.pages.widgets.box import BoxFlexRow
 
@@ -48,21 +48,21 @@ class NumKeyboardController(Source):
             self.number += symbol
             self._update_num_panel()
 
-    def backspace_handler(self, widget: toga.Button) -> None:
+    def backspace_handler(self, _: toga.Button) -> None:
         """Handle press the backspace."""
         self.number = self.number[: len(self.number) - 1]
+        self._update_num_panel()
+
+    def clean(self) -> None:
+        """Clean entered text."""
+        self.number = ''
         self._update_num_panel()
 
     ####################################################################
     # Notifications
 
-    def clear(self) -> None:
-        self.number = ''
-        self._update_num_panel()
-
     def _update_num_panel(self) -> None:
-        self.notify('display_answer', text=self.number)
-
+        self.notify('update_num_panel', text=self.number)
 
 
 class NumKeyboard(toga.Box):
@@ -98,3 +98,11 @@ class NumKeyboard(toga.Box):
             BoxFlexRow(children=[_btn_7, _btn_8, _btn_9]),
             BoxFlexRow(children=[_btn_point, _btn_0, _btn_backspace]),
         )
+
+    def add_listener(self, listener: Listener) -> None:
+        """Add a new listener."""
+        self.plc.add_listener(listener)
+
+    def clean(self) -> None:
+        """Clean the entered digits."""
+        self.plc.clean()

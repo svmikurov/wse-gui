@@ -1,98 +1,73 @@
 """Multiplication exercise controller."""
 
-import json
-from urllib.parse import urljoin
+from typing import TypeVar
 
 import toga
-from toga.sources import Source
+from toga.sources import Listener, Source
 
-from wse.constants import HOST, MATHEMATICS_MULTIPLICATION_PATH
-from wse.contrib.http_requests import request_get_async, request_post_async
-
-
-class Task:
-    """Multiplication task."""
-
-    def __init__(self, data: dict) -> None:
-        """Construct the task."""
-        self.question = data['question']
-        self.answer = data['answer']
+ModelT = TypeVar('ModelT', bound=Source)
+ViewT = TypeVar('ViewT', bound=toga.Box)
 
 
-class MultiplicationController(Source):
+class MultiplicationController(Listener):
     """Multiplication exercise controller."""
 
-    def __init__(self) -> None:
+    def __init__(self, model: ModelT, view: ViewT) -> None:
         """Construct ht controller."""
         super().__init__()
-        self.url = urljoin(HOST, MATHEMATICS_MULTIPLICATION_PATH)
-        self._task: Task | None = None
-        self._user_answer: str | None = None
+        self._model = model
+        self._model.add_listener(self)
 
-    async def on_open(self, widget: toga.Widget) -> None:
+        self._view = view
+        self._view.on_open_func = self.on_open
+        self._view.btn_submit.on_press = self.check_user_answer
+        self._view.num_keyboard.add_listener(self)
+
+    async def on_open(self, _: toga.Widget) -> None:
         """Invoke methods on page open."""
-        await self._start_new_task()
+        self.clear()
+        await self._model.start_new_task()
 
-    #####################################################################
-    # Exercise methods
+    ####################################################################
+    # Listener methods
 
-    async def _start_new_task(self) -> None:
-        data = await self._request_task(self.url)
-        self._save_task_data(data)
-        self._display_question()
+    def clear(self) -> None:
+        """Clear previous values of widgets."""
+        self._clear_question()
+        self._clear_user_answer()
+        self._clear_result()
 
-    def _save_task_data(self, data: dict) -> None:
-        self._task = Task(data)
+    def display_question(self, text: str) -> None:
+        """Display the task question."""
+        question = f'{text} = '
+        self._view.question_text.text = question
 
-    async def _check_answer(self) -> None:
-        if self.user_answer == self._task.answer:
-            text_result = 'Верно!'
-            await self._start_new_task()
-        else:
-            text_result = 'Не верно!'
+    def update_num_panel(self, text: str) -> None:
+        """Update the current user answer."""
+        self._model.update_user_answer(text)
+        self._clear_result()
 
-        self._display_result(text_result)
-
-    @property
-    def user_answer(self) -> str:
-        """User answer."""
-        return self._user_answer
-
-    @user_answer.setter
-    def user_answer(self, value: str) -> None:
-        self._user_answer = value
-
-    #####################################################################
-    # Notifications
-
-    def _display_question(self) -> None:
-        self.notify('display_question', text=self._task.question)
-
-    def _display_result(self, text: str) -> None:
-        self.notify('display_result', text=text)
-
-    #####################################################################
-    # Widget callback functions
-
-    async def submit_handler(self, _: toga.Widget) -> None:
-        """Submit answer, button handler."""
-        await self._check_answer()
-        # The user's answer is stored.
-        await self._sent_answer(self.url, self.user_answer)
-
-    def update_value(self, widget: toga.MultilineTextInput) -> None:
+    def display_user_answer(self, text: str) -> None:
         """Set the current user answer."""
-        self.user_answer = widget.value
+        self._view.input_answer.text = text
 
-    #####################################################################
-    # HTTP requests
+    def display_result(self, text: str) -> None:
+        """Display answer result."""
+        self._view.panel_result.text = text
 
-    @staticmethod
-    async def _request_task(url: str) -> dict:
-        response = await request_get_async(url)
-        return response.json()
+    ####################################################################
+    # Button callback functions
 
-    @staticmethod
-    async def _sent_answer(url: str, user_answer: str) -> None:
-        payload = {'answer': user_answer}
-        await request_post_async(url, payload)
+    async def check_user_answer(self, _: toga.Widget) -> None:
+        """Submit answer, button handler."""
+        await self._model.check_user_answer()
+
+    def _clear_user_answer(self) -> None:
+        self._view.num_keyboard.clean()
+        self.display_user_answer('?')
+
+    def _clear_question(self) -> None:
+        self._view.question_text.text = ''
+
+    def _clear_result(self) -> None:
+        self.display_result('')
