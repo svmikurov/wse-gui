@@ -6,7 +6,7 @@ from wse.controllers.form import (
     TermFormController,
     WordFormController,
 )
-from wse.controllers.multiplication import MultiplicationController
+from wse.controllers.multiplication import MultContr
 from wse.controllers.params import ControllerParams
 from wse.controllers.table import ControllerTable
 from wse.controllers.testing import ControllerTest
@@ -19,5 +19,5 @@ __all__ = [
     'FormController',
     'WordFormController',
     'TermFormController',
-    'MultiplicationController',
+    'MultContr',
 ]

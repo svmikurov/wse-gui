@@ -43,7 +43,7 @@ class MathematicalMainPage(BaseBox):
         )
 
 
-class MultiplicationExercisePage(MultiplicationWidgets):
+class MultPage(MultiplicationWidgets):
     """Multiplication exercise page."""
 
     title = 'Таблица умножения'

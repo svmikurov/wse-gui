@@ -6,9 +6,9 @@ from toga.command import ActionHandler
 from wse import controllers as plc
 from wse import pages
 from wse.constants import SCREEN_SIZE
-from wse.controllers import MultiplicationController
+from wse.controllers import MultContr
 from wse.models.task import TaskModel
-from wse.pages import ExplorerLayout, MultiplicationExercisePage
+from wse.pages import ExplorerLayout, MultPage
 from wse.pages.examples.fraction import FractionPage
 from wse.pages.examples.main import ExampleLayout
 from wse.pages.examples.table_source import TableSourceLayout
@@ -69,16 +69,13 @@ class WSE(toga.App):
     # MVC Refactoring
 
     def _initialize_models(self) -> None:
-        self.model_multiplication_exercise = TaskModel()
+        self.model_mult = TaskModel()
 
     def _initialize_views(self) -> None:
-        self.page_multiplication_exercise = MultiplicationExercisePage()
+        self.page_mult = MultPage()
 
     def _initialize_controllers(self) -> None:
-        self.controller_multiplication_exercise2 = MultiplicationController(
-            model=self.model_multiplication_exercise,
-            view=self.page_multiplication_exercise,
-        )
+        self.controller_mult = MultContr(self.model_mult, self.page_mult)
 
     ####################################################################
     # Pages
@@ -209,7 +206,7 @@ class WSE(toga.App):
 
     # Mathematical study page boxes
     box_mathematics_main: pages.MathematicalMainPage
-    box_multiplication_exercise: pages.MultiplicationExercisePage
+    box_multiplication_exercise: pages.MultPage
     box_fraction_exercise: pages.FractionExercisePage
 
     # Mentoring pages
@@ -235,7 +232,7 @@ class WSE(toga.App):
     plc_selected_glossary: plc.ControllerTable
     plc_form_foreign: plc.FormController
     plc_form_glossary: plc.TermFormController
-    plc_multiplication: plc.MultiplicationController
+    plc_multiplication: plc.MultContr
 
 
 def main() -> WSE:

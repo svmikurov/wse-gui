@@ -29,7 +29,7 @@ from wse.pages.main import (
 from wse.pages.mathematics import (
     FractionExercisePage,
     MathematicalMainPage,
-    MultiplicationExercisePage,
+    MultPage,
 )
 from wse.pages.mentoring import (
     MentoringPage,
@@ -49,7 +49,7 @@ __all__ = (
     'MainGlossaryWidget',
     'MathematicalMainPage',
     'MentoringPage',
-    'MultiplicationExercisePage',
+    'MultPage',
     'ParamsForeignPage',
     'ParamsGlossaryPage',
     'TableTermPage',
