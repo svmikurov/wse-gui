@@ -21,6 +21,7 @@ from wse.contrib.http_requests import (
     request_auth_data,
     request_post,
 )
+from wse.pages.base import BasePage
 from wse.pages.handlers.goto_handler import (
     goto_explorer_handler,
     goto_foreign_main_handler,
@@ -35,6 +36,47 @@ from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.text_input import InfoTextPanel
 from wse.sources.text_panel_main import SourceMainPanel
 from wse.sources.user import SourceUser
+
+
+class InfoPanel(toga.MultilineTextInput):
+    """Text panel for info display."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the widget."""
+        super().__init__(*args, **kwargs)
+        self.style.flex = 1
+        self.readonly = True
+
+
+class MainPage(BasePage):
+    """Main page."""
+
+    def __init__(self) -> None:
+        """Construct the page."""
+        super().__init__()
+
+        # Info panel
+        self._info_panel = InfoPanel()
+
+        # Navigation buttons
+        self.btn_goto_login = BtnApp(BTN_GOTO_LOGIN)
+        self.btn_logout = BtnApp(BTN_LOGOUT)
+        self.btn_goto_mentoring = BtnApp('Выполнение заданий')
+        self.btn_goto_glossary_main = BtnApp(BTN_GOTO_GLOSSARY_MAIN)
+        self.btn_goto_foreign_main = BtnApp(BTN_GOTO_FOREIGN_MAIN)
+        self.btn_goto_mathematics_main = BtnApp('Математика')
+        self.btn_goto_explorer = BtnApp('Изучение виджетов')
+
+        # DOM
+        self.add(
+            self._info_panel,
+            self.btn_goto_login,
+            self.btn_goto_mentoring,
+            self.btn_goto_foreign_main,
+            self.btn_goto_mathematics_main,
+            self.btn_goto_glossary_main,
+            self.btn_goto_explorer,
+        )
 
 
 class MainBox(WidgetMixin, BaseBox):

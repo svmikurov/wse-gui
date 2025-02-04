@@ -41,7 +41,7 @@ class TaskModel(Source):
             self._clear()
             await self.start_new_task()
         else:
-            self._display_result('Не верно!')
+            self._display_result('Неверно!')
 
     #####################################################################
     # Notifications

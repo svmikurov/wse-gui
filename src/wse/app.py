@@ -1,14 +1,12 @@
 """WSE application."""
 
 import toga
-from toga.command import ActionHandler
 
 from wse import controllers as plc
 from wse import pages
 from wse.constants import SCREEN_SIZE
-from wse.controllers import MultContr
-from wse.models.task import TaskModel
-from wse.pages import ExplorerLayout, MultPage
+from wse.contrib.factory import factory
+from wse.pages import ExplorerLayout
 from wse.pages.examples.fraction import FractionPage
 from wse.pages.examples.main import ExampleLayout
 from wse.pages.examples.table_source import TableSourceLayout
@@ -29,10 +27,9 @@ class WSE(toga.App):
         # Set user data
         self.user.on_start()
 
-        # Construct
-        self._initialize_models()
-        self._initialize_views()
-        self._initialize_controllers()
+        # Construct MVC
+        self.factory = factory
+        self.factory.initialize(self)
 
         # TODO: Refactor MVC.
         self.add_controllers()
@@ -64,18 +61,6 @@ class WSE(toga.App):
         self.plc_form_foreign = plc.WordFormController()
         self.plc_form_glossary = plc.TermFormController()
         # fmt: on
-
-    ####################################################################
-    # MVC Refactoring
-
-    def _initialize_models(self) -> None:
-        self.model_mult = TaskModel()
-
-    def _initialize_views(self) -> None:
-        self.page_mult = MultPage()
-
-    def _initialize_controllers(self) -> None:
-        self.controller_mult = MultContr(self.model_mult, self.page_mult)
 
     ####################################################################
     # Pages
@@ -169,70 +154,6 @@ class WSE(toga.App):
     async def goto_foreign(self, _: toga.Widget, **kwargs: object) -> None:
         """Goto foreign box, command handler."""
         await self.move_to_page(self.box_foreign_main)
-
-    ####################################################################
-    # Annotations
-
-    # Sources
-    user: SourceUser
-    source_main_panel: SourceMainPanel
-
-    # Page boxes
-    box_main: pages.MainBox
-    box_login: pages.LoginBox
-
-    # Temp pages
-    box_explorer: ExplorerLayout
-    box_examples: ExampleLayout
-    box_table_source: TableSourceLayout
-    box_fraction: FractionPage
-
-    # Foreign language study page boxes
-    box_foreign_main: pages.MainForeignPage
-    box_foreign_params: pages.ParamsForeignPage
-    box_foreign_exercise: pages.ExerciseForeignPage
-    box_foreign_create: pages.CreateWordPage
-    box_foreign_update: pages.UpdateWordPage
-    box_foreign_selected: pages.TableWordPage
-    box_foreign_tasks = pages.TasksForeignPage
-
-    # Glossary study page boxes
-    box_glossary_main: pages.MainGlossaryWidget
-    box_glossary_params: pages.ParamsGlossaryPage
-    box_glossary_exercise: pages.ExerciseGlossaryPage
-    box_glossary_create: pages.CreateTermPage
-    box_glossary_update: pages.UpdateTermPage
-    box_glossary_selected: pages.TableTermPage
-
-    # Mathematical study page boxes
-    box_mathematics_main: pages.MathematicalMainPage
-    box_multiplication_exercise: pages.MultPage
-    box_fraction_exercise: pages.FractionExercisePage
-
-    # Mentoring pages
-    box_mentoring: pages.MentoringPage
-    box_word_test: pages.WordTestPage
-
-    # Menu
-    menu: toga.Group
-    goto_main: ActionHandler
-    goto_foreign: ActionHandler
-    goto_glossary: ActionHandler
-    cmd_goto_main: toga.Command
-    cmd_goto_foreign: toga.Command
-    cmd_goto_glossary: toga.Command
-
-    # Controllers
-    plc_params_foreign: plc.ControllerParams
-    plc_params_glossary: plc.ControllerParams
-    plc_exercise_foreign: plc.ControllerExercise
-    plc_test_foreign: plc.ControllerTest
-    plc_exercise_glossary: plc.ControllerExercise
-    plc_selected_foreign: plc.ControllerTable
-    plc_selected_glossary: plc.ControllerTable
-    plc_form_foreign: plc.FormController
-    plc_form_glossary: plc.TermFormController
-    plc_multiplication: plc.MultContr
 
 
 def main() -> WSE:

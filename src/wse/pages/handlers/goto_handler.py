@@ -182,12 +182,6 @@ async def goto_multiplication_exercise_handler(widget: toga.Widget) -> None:
     await set_window_content(widget, box)
 
 
-async def goto_multiplication_exercise2_handler(widget: toga.Widget) -> None:
-    """Go to multiplication exercise, button handler."""
-    box = widget.root.app.page_multiplication_exercise2
-    await set_window_content(widget, box)
-
-
 async def goto_fraction_exercise_handler(widget: toga.Widget) -> None:
     """Go to fraction exercise, button handler."""
     box = widget.root.app.box_fraction_exercise
