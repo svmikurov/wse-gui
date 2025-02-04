@@ -17,11 +17,11 @@ ContrT = TypeVar('ContrT', bound=Listener)
 class MVCData:
     """MVC models instances data class."""
 
-    model_instance: str
+    model_attr_name: str
     model_class: ModelT
-    view_instance: str
+    view_attr_name: str
     view_class: ViewT
-    contr_instance: str
+    contr_attr_name: str
     contr_class: ContrT
 
 
@@ -42,7 +42,7 @@ class MVCFactory:
         contr_class: ContrT,
     ) -> None:
         """Add models-controller-view."""
-        instance = MVCData(
+        mvc = MVCData(
             model_instance,
             model_class,
             view_instance,
@@ -50,16 +50,19 @@ class MVCFactory:
             contr_instance,
             contr_class,
         )
-        self._mvc_collection.append(instance)
+        self._mvc_collection.append(mvc)
 
     def initialize(self, obj: toga.App) -> None:
-        """Initialize the MVC models instances."""
+        """Initialize the MVC model instances."""
         for mvc in self._mvc_collection:
-            setattr(obj, mvc.model_instance, mvc.model_class())
-            setattr(obj, mvc.view_instance, mvc.view_class())
-            model = getattr(obj, mvc.model_instance)
-            view = getattr(obj, mvc.view_instance)
-            setattr(obj, mvc.contr_instance, mvc.contr_class(model, view))
+            model = self._setattr(obj, mvc.model_attr_name, mvc.model_class())
+            view = self._setattr(obj, mvc.view_attr_name, mvc.view_class())
+            setattr(obj, mvc.contr_attr_name, mvc.contr_class(model, view))
+
+    @staticmethod
+    def _setattr(obj: toga.App, name: str, value: ModelT | ViewT) -> object:
+        setattr(obj, name, value)
+        return getattr(obj, name)
 
 
 factory = MVCFactory()
