@@ -6,7 +6,7 @@ from wse.pages.handlers.goto_handler import (
     goto_fraction_exercise_handler,
     goto_multiplication_exercise_handler,
 )
-from wse.pages.widgets.box import BoxFlexRow
+from wse.pages.widgets.box import BoxAlignRow
 from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.button import BtnApp, BtnBack
 from wse.pages.widgets.label import TitleLabel
@@ -32,7 +32,7 @@ class MathematicalMainPage(BaseBox):
         # DOM
         self.add(
             _label_title,
-            BoxFlexRow(),
+            BoxAlignRow(),
             _btn_goto_multiplication,
             _btn_goto_fraction,
             BtnBack(),
