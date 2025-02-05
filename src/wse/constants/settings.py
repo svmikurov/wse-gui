@@ -1,5 +1,7 @@
 """The application widget settings constants."""
 
+from toga import colors
+from toga.style import Pack
 from travertino.constants import ITALIC
 
 DEFAULT_TIMEOUT = 5
@@ -25,6 +27,9 @@ INPUT_HEIGHT = 60
 MAX_LINE_LENGTH = 23
 """Max length of table line length (`int`)
 """
+
+STYLE_BTN_CANCEL = Pack(background_color=colors.TOMATO)
+STYLE_BTN_CONFIRM = Pack(background_color=colors.GREEN)
 
 #########################################################################
 # TextDisplay

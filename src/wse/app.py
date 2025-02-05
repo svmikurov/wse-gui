@@ -6,6 +6,7 @@ from wse import controllers as plc
 from wse import pages
 from wse.constants import SCREEN_SIZE
 from wse.contrib.factory import mvc_factory
+from wse.controllers.goto import GoToContr
 from wse.menu import MenuMixin
 from wse.models.user import SourceUser
 from wse.pages import ExplorerLayout
@@ -24,11 +25,15 @@ class WSE(MenuMixin, toga.App):
         self.user = SourceUser()
         self.source_main_panel = SourceMainPanel(self.user)
 
-        # Set user data
+        # Models
         self.user.on_start()
+
+        # Controllers
+        self._goto = GoToContr()
 
         # Construct MVC
         mvc_factory.initialize(self)
+        self.contr_main.set_user(self.user)
 
         # TODO: Refactor MVC.
         self.add_controllers()
@@ -40,8 +45,8 @@ class WSE(MenuMixin, toga.App):
             title=self.formal_name,
             size=toga.Size(*SCREEN_SIZE),
         )
-        self.main_window.content = self.box_main
-        self.box_main.update_widgets()  # by user auth status
+        self.main_window.content = self.page_main
+        # self.page_main.update_widgets()  # by user auth status
         self.main_window.show()
 
     ####################################################################
@@ -67,7 +72,6 @@ class WSE(MenuMixin, toga.App):
     def add_pages(self) -> None:
         """Add pages boxes."""
         # fmt: off
-        self.box_main = pages.MainBox(self.user, self.source_main_panel)
         self.box_login = pages.LoginBox(self.user)
 
         # Temp pages

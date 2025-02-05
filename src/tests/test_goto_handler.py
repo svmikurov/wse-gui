@@ -44,7 +44,7 @@ MOCK_REQUEST_GLOSSARY_LIST = [
             None,
         ),
         (
-            goto_handler.goto_login_handler,
+            goto_handler.goto_login,
             'box_main',
             'box_login',
             '_btn_goto_login',
@@ -52,7 +52,7 @@ MOCK_REQUEST_GLOSSARY_LIST = [
         ),
         # Foreign
         (
-            goto_handler.goto_foreign_main_handler,
+            goto_handler.goto_foreign_main,
             'box_main',
             'box_foreign_main',
             '_btn_goto_foreign_main',
@@ -81,7 +81,7 @@ MOCK_REQUEST_GLOSSARY_LIST = [
         ),
         # Glossary
         (
-            goto_handler.goto_glossary_main_handler,
+            goto_handler.goto_glossary_main,
             'box_main',
             'box_glossary_main',
             '_btn_goto_glossary_main',

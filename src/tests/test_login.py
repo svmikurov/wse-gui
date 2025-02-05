@@ -12,7 +12,7 @@ from wse.app import WSE
 from wse.contrib import http_requests
 from wse.models import user
 from wse.pages import LoginBox, MainBox
-from wse.pages.handlers.goto_handler import goto_login_handler
+from wse.pages.handlers.goto_handler import goto_login
 
 WIDGET_COUNT = 5
 """Widget count at testing box container (int).
@@ -55,7 +55,7 @@ def test_text(box_login: LoginBox) -> None:
 def test_main_box_btns(box_main: MainBox) -> None:
     """Test the auth button at main box-container."""
     assert box_main._btn_goto_login.text == 'Вход в учетную запись'
-    assert box_main._btn_goto_login.on_press._raw == goto_login_handler
+    assert box_main._btn_goto_login.on_press._raw == goto_login
     assert box_main._btn_logout.text == 'Выйти из учетной записи'
     assert box_main._btn_logout.on_press._raw == box_main._logout_handler
 

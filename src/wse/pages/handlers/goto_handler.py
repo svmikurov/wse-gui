@@ -38,7 +38,7 @@ async def goto_main_handler(widget: toga.Widget) -> None:
     await set_window_content(widget, box)
 
 
-async def goto_login_handler(widget: toga.Widget) -> None:
+async def goto_login(widget: toga.Widget) -> None:
     """Go to log in, button handler."""
     box = widget.root.app.box_login
     await set_window_content(widget, box)
@@ -54,7 +54,7 @@ async def goto_back_handler(widget: toga.Widget) -> None:
 # Mentoring
 
 
-async def goto_mentoring_handler(widget: toga.Widget) -> None:
+async def goto_mentoring(widget: toga.Widget) -> None:
     """Go to mentoring pages, button handler."""
     box = widget.root.app.box_mentoring
     await set_window_content(widget, box)
@@ -70,7 +70,7 @@ async def goto_word_test_handler(widget: toga.Widget) -> None:
 # Foreign
 
 
-async def goto_foreign_main_handler(widget: toga.Widget) -> None:
+async def goto_foreign_main(widget: toga.Widget) -> None:
     """Go to foreign main, button handler."""
     box = widget.root.app.box_foreign_main
     await set_window_content(widget, box)
@@ -126,7 +126,7 @@ async def goto_foreign_test_handler(widget: toga.Widget) -> None:
 # Glossary
 
 
-async def goto_glossary_main_handler(widget: toga.Widget) -> None:
+async def goto_glossary_main(widget: toga.Widget) -> None:
     """Go to glossary main, button handler."""
     box = widget.root.app.box_glossary_main
     await set_window_content(widget, box)
@@ -170,7 +170,7 @@ async def goto_glossary_exercise_handler(widget: toga.Widget) -> None:
 # Mathematical
 
 
-async def goto_mathematics_main_handler(widget: toga.Widget) -> None:
+async def goto_math_main(widget: toga.Widget) -> None:
     """Go to mathematics main, button handler."""
     box = widget.root.app.box_mathematics_main
     await set_window_content(widget, box)
@@ -192,7 +192,7 @@ async def goto_fraction_exercise_handler(widget: toga.Widget) -> None:
 # Examples
 
 
-async def goto_explorer_handler(widget: toga.Widget) -> None:
+async def goto_explorer(widget: toga.Widget) -> None:
     """Go to explorer pages, button handler."""
     box = widget.root.app.box_explorer
     await set_window_content(widget, box)

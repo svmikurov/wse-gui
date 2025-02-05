@@ -4,33 +4,23 @@ from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
-from toga import colors
 from toga.style import Pack
 
 from wse.constants import (
-    BTN_GOTO_FOREIGN_MAIN,
-    BTN_GOTO_GLOSSARY_MAIN,
-    BTN_GOTO_LOGIN,
     BTN_LOGOUT,
     HOST,
     LOGOUT_PATH,
     TITLE_MAIN,
 )
+from wse.constants.settings import STYLE_BTN_CANCEL, STYLE_BTN_CONFIRM
 from wse.contrib.http_requests import (
     app_auth,
     request_auth_data,
     request_post,
 )
+from wse.controllers.goto import GoToContr
 from wse.models.user import SourceUser
 from wse.pages.base import BasePage
-from wse.pages.handlers.goto_handler import (
-    goto_explorer_handler,
-    goto_foreign_main_handler,
-    goto_glossary_main_handler,
-    goto_login_handler,
-    goto_mathematics_main_handler,
-    goto_mentoring_handler,
-)
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.label import TitleLabel
@@ -51,23 +41,22 @@ class MainPage(BasePage):
         self._info_panel = InfoPanel()
 
         # Navigation buttons
-        self.btn_goto_login = BtnApp(BTN_GOTO_LOGIN)
-        self.btn_logout = BtnApp(BTN_LOGOUT)
-        self.btn_goto_mentoring = BtnApp('Выполнение заданий')
-        self.btn_goto_glossary_main = BtnApp(BTN_GOTO_GLOSSARY_MAIN)
-        self.btn_goto_foreign_main = BtnApp(BTN_GOTO_FOREIGN_MAIN)
-        self.btn_goto_mathematics_main = BtnApp('Математика')
-        self.btn_goto_explorer = BtnApp('Изучение виджетов')
+        self._btn_goto_login = BtnApp(**self._goto.login)
+        self._btn_goto_foreign_main = BtnApp(**self._goto.foreign_main)
+        self._btn_goto_glossary_main = BtnApp(**self._goto.glossary_main)
+        self._btn_goto_math_main = BtnApp(**self._goto.math_main)
+        self._btn_goto_mentoring = BtnApp(**self._goto.mentoring)
+        self._btn_goto_explorer = BtnApp(**self._goto.explorer_main)
 
         # DOM
         self.add(
             self._info_panel,
-            self.btn_goto_login,
-            self.btn_goto_mentoring,
-            self.btn_goto_foreign_main,
-            self.btn_goto_mathematics_main,
-            self.btn_goto_glossary_main,
-            self.btn_goto_explorer,
+            self._btn_goto_login,
+            self._btn_goto_foreign_main,
+            self._btn_goto_glossary_main,
+            self._btn_goto_math_main,
+            self._btn_goto_mentoring,
+            self._btn_goto_explorer,
         )
 
 
@@ -88,6 +77,8 @@ class MainBox(WidgetMixin, BaseBox):
         self._source_main_panel = source_info_panel
         self._index_btn_auth = 2
 
+        self._goto = GoToContr()
+
         self._label_title = TitleLabel(TITLE_MAIN)
 
         # Info panel
@@ -96,36 +87,25 @@ class MainBox(WidgetMixin, BaseBox):
         )
 
         # Navigation buttons
-        self._btn_goto_login = BtnApp(
-            BTN_GOTO_LOGIN, on_press=goto_login_handler
-        )
+        self._btn_goto_login = BtnApp(**self._goto.login)
         self._btn_logout = BtnApp(
             BTN_LOGOUT, on_press=self._display_logout_handler
         )
-        self._btn_goto_mentoring = BtnApp(
-            'Выполнение заданий', on_press=goto_mentoring_handler
-        )
-        self._btn_goto_glossary_main = BtnApp(
-            BTN_GOTO_GLOSSARY_MAIN, on_press=goto_glossary_main_handler
-        )
-        self._btn_goto_foreign_main = BtnApp(
-            BTN_GOTO_FOREIGN_MAIN, on_press=goto_foreign_main_handler
-        )
-        self._btn_goto_mathematics_main = BtnApp(
-            'Математика', on_press=goto_mathematics_main_handler
-        )
-        self._btn_goto_explorer = BtnApp(
-            'Изучение виджетов', on_press=goto_explorer_handler
-        )
+        self._btn_goto_mentoring = BtnApp(**self._goto.mentoring)
+        self._btn_goto_glossary_main = BtnApp(**self._goto.glossary_main)
+        self._btn_goto_foreign_main = BtnApp(**self._goto.foreign_main)
+        self._btn_goto_math_main = BtnApp(**self._goto.math_main)
+        self._btn_goto_explorer = BtnApp(**self._goto.explorer_main)
+
         # Confirm buttons
         self._btn_logout_cancel = BtnApp(
             'Отмена',
-            style=Pack(background_color=colors.TOMATO),
+            style=STYLE_BTN_CANCEL,
             on_press=self._undisplay_logout_handler,
         )
         self._btn_logout_confirm = BtnApp(
             'Выйти',
-            style=Pack(background_color=colors.GREEN),
+            style=STYLE_BTN_CONFIRM,
             on_press=self._confirm_logout_handler,
         )
 
@@ -141,7 +121,7 @@ class MainBox(WidgetMixin, BaseBox):
             self._btn_goto_login,
             self._btn_goto_mentoring,
             self._btn_goto_foreign_main,
-            self._btn_goto_mathematics_main,
+            self._btn_goto_math_main,
             self._btn_goto_glossary_main,
             self._btn_goto_explorer,
         )

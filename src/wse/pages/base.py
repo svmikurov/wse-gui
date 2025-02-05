@@ -5,6 +5,7 @@ from typing import TypeVar
 import toga
 from toga.sources import Listener
 
+from wse.controllers.goto import GoToContr
 from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.label import TitleLabel
 
@@ -20,6 +21,7 @@ class BasePage(BaseBox):
         """Construct the pages."""
         super().__init__()
         self._controller: ContrT | None = None
+        self._goto = GoToContr()
 
         if self.title:
             self._label_title = TitleLabel(text=self.title)
