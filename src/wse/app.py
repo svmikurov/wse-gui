@@ -5,7 +5,7 @@ import toga
 from wse import controllers as plc
 from wse import pages
 from wse.constants import SCREEN_SIZE
-from wse.contrib.factory import factory
+from wse.contrib.factory import mvc_factory
 from wse.menu import MenuMixin
 from wse.models.user import SourceUser
 from wse.pages import ExplorerLayout
@@ -28,7 +28,7 @@ class WSE(MenuMixin, toga.App):
         self.user.on_start()
 
         # Construct MVC
-        factory.initialize(self)
+        mvc_factory.initialize(self)
 
         # TODO: Refactor MVC.
         self.add_controllers()

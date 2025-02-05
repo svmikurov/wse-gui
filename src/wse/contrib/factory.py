@@ -65,14 +65,14 @@ class MVCFactory:
         return getattr(obj, name)
 
 
-factory = MVCFactory()
+mvc_factory = MVCFactory()
 # fmt: off
-factory.add_mvc(
+mvc_factory.add_mvc(
     'model_main', models.MainModel,
     'page_main', pages.MainPage,
     'contr_main', controllers.MainContr,
 )
-factory.add_mvc(
+mvc_factory.add_mvc(
     'model_mult', models.TaskModel,
     'page_mult', pages.MultPage,
     'contr_mult', controllers.MultContr,
