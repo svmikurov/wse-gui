@@ -1,11 +1,14 @@
 """Base pages."""
 
-from typing import Callable
+from typing import TypeVar
 
 import toga
+from toga.sources import Listener
 
 from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.label import TitleLabel
+
+ContrT = TypeVar('ContrT', bound=Listener)
 
 
 class BasePage(BaseBox):
@@ -16,11 +19,16 @@ class BasePage(BaseBox):
     def __init__(self) -> None:
         """Construct the pages."""
         super().__init__()
-        self.on_open_func: Callable | None = None
+        self._controller: ContrT | None = None
 
         if self.title:
-            _label_title = TitleLabel(text=self.title)
+            self._label_title = TitleLabel(text=self.title)
+            self.add(self._label_title)
 
     async def on_open(self, widget: toga.Widget) -> None:
         """Invoke methods on pages open."""
-        await self.on_open_func(widget)
+        await self._controller.on_open(widget)
+
+    def set_controller(self, controller: ContrT) -> None:
+        """Set the view controller."""
+        self._controller = controller

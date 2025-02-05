@@ -1,22 +1,24 @@
 """Multiplication exercise pages."""
 
-from typing import Callable
+from typing import TypeVar
 
 import toga
 from toga.constants import LEFT, RIGHT
+from toga.sources import Listener
 from toga.style import Pack
 
+from wse.pages.base import BasePage
 from wse.pages.containers.num_keyboard import NumKeyboard
 from wse.pages.handlers.goto_handler import goto_back_handler
 from wse.pages.widgets.box import BoxFlexCol, BoxFlexRow
-from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.button import BtnApp
-from wse.pages.widgets.label import TitleLabel
 
 NUM_FONT_SIZE = 48
 HEIGHT_VS_FONT_SIZE_RATIO = 1.6
 MAX_DIGIT_COUNT = 3
 NUM_HEIGHT = int(NUM_FONT_SIZE * HEIGHT_VS_FONT_SIZE_RATIO)
+
+ContrT = TypeVar('ContrT', bound=Listener)
 
 
 class Panel(toga.Label):
@@ -30,18 +32,14 @@ class Panel(toga.Label):
         self.style.font_size = NUM_FONT_SIZE
 
 
-class MultiplicationWidgets(BaseBox):
+class MultiplicationWidgets(BasePage):
     """Multiplication exercise widgets."""
 
-    title: str
     _padding = (30, 0, 0, 0)
 
     def __init__(self) -> None:
         """Construct the pages."""
         super().__init__()
-        self.on_open_func: Callable | None = None
-
-        _label_title = TitleLabel(text=self.title)
 
         # Panels
         self.question_text = Panel(style=Pack(flex=2, text_align=RIGHT))
@@ -71,14 +69,9 @@ class MultiplicationWidgets(BaseBox):
 
         # DOM
         self.add(
-            _label_title,
             _box_task_outer,
             _box_panel_result_outer,
             _box_align,
             self.num_keyboard,
             _box_btns,
         )
-
-    async def on_open(self, widget: toga.Widget) -> None:
-        """Invoke methods on pages open."""
-        await self.on_open_func(widget)

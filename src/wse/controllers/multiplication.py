@@ -17,9 +17,9 @@ class MultContr(Listener):
         super().__init__()
         self._model = model
         self._model.add_listener(self)
-
         self._view = view
-        self._view.on_open_func = self.on_open
+        self._view.set_controller(self)
+
         self._view.btn_submit.on_press = self.check_user_answer
         self._view.num_keyboard.add_listener(self)
 

@@ -51,6 +51,8 @@ class InfoPanel(toga.MultilineTextInput):
 class MainPage(BasePage):
     """Main pages."""
 
+    title = TITLE_MAIN
+
     def __init__(self) -> None:
         """Construct the pages."""
         super().__init__()
