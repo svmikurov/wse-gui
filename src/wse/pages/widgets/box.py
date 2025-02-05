@@ -21,7 +21,3 @@ class BoxFlexCol(toga.Box):
         super().__init__(*args, **kwargs)
         self.style.flex = 1
         self.style.direction = COLUMN
-
-
-class BoxAlignRow(BoxFlexRow):
-    """The box to align a widgets in row."""
