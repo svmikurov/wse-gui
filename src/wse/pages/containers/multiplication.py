@@ -51,7 +51,7 @@ class MultiplicationWidgets(BasePage):
         self.btn_submit = BtnApp('Ответить')
         _btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
 
-        # Inner boxes
+        # Boxes
         _box_task = toga.Box(
             style=Pack(padding=self._padding),
             children=[self.question_text, self.input_answer],
