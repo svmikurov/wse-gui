@@ -6,16 +6,16 @@ from wse import controllers as plc
 from wse import pages
 from wse.constants import SCREEN_SIZE
 from wse.contrib.factory import factory
+from wse.menu import MenuMixin
 from wse.pages import ExplorerLayout
 from wse.pages.examples.fraction import FractionPage
 from wse.pages.examples.main import ExampleLayout
 from wse.pages.examples.table_source import TableSourceLayout
-from wse.pages.handlers.goto_handler import set_window_content
 from wse.sources.text_panel_main import SourceMainPanel
 from wse.sources.user import SourceUser
 
 
-class WSE(toga.App):
+class WSE(MenuMixin, toga.App):
     """WSE application."""
 
     def startup(self) -> None:
@@ -105,54 +105,6 @@ class WSE(toga.App):
         self.plc_exercise_foreign.event.add_listener(self.box_foreign_exercise)
         self.plc_exercise_glossary.event.add_listener(self.box_glossary_exercise)  # noqa: E501
         # fmt: on
-
-    ####################################################################
-    # Menu
-
-    def add_menu(self) -> None:
-        """Add menu."""
-        self.menu = toga.Group('Menu')
-
-        # Menu commands
-        self.cmd_goto_main = toga.Command(
-            self.goto_main,
-            text='Главная страница',
-            group=self.menu,
-            order=1,
-        )
-        self.cmd_goto_foreign = toga.Command(
-            self.goto_foreign,
-            text='Иностранный словарь',
-            group=self.menu,
-            order=2,
-        )
-        self.cmd_goto_glossary = toga.Command(
-            self.goto_glossary,
-            text='Глоссарий',
-            group=self.menu,
-            order=3,
-        )
-        self.commands.add(
-            self.cmd_goto_main,
-            self.cmd_goto_glossary,
-            self.cmd_goto_foreign,
-        )
-
-    async def move_to_page(self, box: toga.Box) -> None:
-        """Move to pages box."""
-        await set_window_content(self.box_main, box)
-
-    async def goto_main(self, _: toga.Widget, **kwargs: object) -> None:
-        """Goto main box, command handler."""
-        await self.move_to_page(self.box_main)
-
-    async def goto_glossary(self, _: toga.Widget, **kwargs: object) -> None:
-        """Goto glossary box, command handler."""
-        await self.move_to_page(self.box_glossary_main)
-
-    async def goto_foreign(self, _: toga.Widget, **kwargs: object) -> None:
-        """Goto foreign box, command handler."""
-        await self.move_to_page(self.box_foreign_main)
 
 
 def main() -> WSE:
