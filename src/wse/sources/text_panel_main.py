@@ -3,7 +3,7 @@
 from toga.sources import Source
 
 from wse.constants import HOST
-from wse.sources.user import SourceUser
+from wse.models.user import SourceUser
 
 
 class SourceMainPanel(Source):

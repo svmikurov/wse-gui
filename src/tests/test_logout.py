@@ -12,8 +12,8 @@ from tests.utils import run_until_complete
 from wse.app import WSE
 from wse.constants import HOST
 from wse.contrib import http_requests
+from wse.models import user
 from wse.pages import MainBox
-from wse.sources import user
 
 USER_DATA = {'email': '', 'id': 1, 'username': 'name'}
 

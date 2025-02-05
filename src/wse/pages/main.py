@@ -21,6 +21,7 @@ from wse.contrib.http_requests import (
     request_auth_data,
     request_post,
 )
+from wse.models.user import SourceUser
 from wse.pages.base import BasePage
 from wse.pages.handlers.goto_handler import (
     goto_explorer_handler,
@@ -35,7 +36,6 @@ from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.text_input import InfoPanel, InfoTextPanel
 from wse.sources.text_panel_main import SourceMainPanel
-from wse.sources.user import SourceUser
 
 
 class MainPage(BasePage):

@@ -7,12 +7,12 @@ from wse import pages
 from wse.constants import SCREEN_SIZE
 from wse.contrib.factory import factory
 from wse.menu import MenuMixin
+from wse.models.user import SourceUser
 from wse.pages import ExplorerLayout
 from wse.pages.examples.fraction import FractionPage
 from wse.pages.examples.main import ExampleLayout
 from wse.pages.examples.table_source import TableSourceLayout
 from wse.sources.text_panel_main import SourceMainPanel
-from wse.sources.user import SourceUser
 
 
 class WSE(MenuMixin, toga.App):
