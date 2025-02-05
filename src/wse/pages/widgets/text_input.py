@@ -44,6 +44,16 @@ class ExerciseTextPanel(ListenerMixin, toga.MultilineTextInput):
         self.style.font_style = TEXT_DISPLAY_FONT_STYLE
 
 
+class InfoPanel(toga.MultilineTextInput):
+    """Text panel for info display."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the widget."""
+        super().__init__(*args, **kwargs)
+        self.style.flex = 1
+        self.readonly = True
+
+
 class InputTextField(ListenerMixin, toga.MultilineTextInput):
     """Text input field."""
 

@@ -33,19 +33,9 @@ from wse.pages.handlers.goto_handler import (
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.label import TitleLabel
-from wse.pages.widgets.text_input import InfoTextPanel
+from wse.pages.widgets.text_input import InfoPanel, InfoTextPanel
 from wse.sources.text_panel_main import SourceMainPanel
 from wse.sources.user import SourceUser
-
-
-class InfoPanel(toga.MultilineTextInput):
-    """Text panel for info display."""
-
-    def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the widget."""
-        super().__init__(*args, **kwargs)
-        self.style.flex = 1
-        self.readonly = True
 
 
 class MainPage(BasePage):
