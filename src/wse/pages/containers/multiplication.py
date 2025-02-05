@@ -9,9 +9,8 @@ from toga.style import Pack
 
 from wse.pages.base import BasePage
 from wse.pages.containers.num_keyboard import NumKeyboard
-from wse.pages.handlers.goto_handler import goto_back_handler
 from wse.pages.widgets.box import BoxFlexCol, BoxFlexRow
-from wse.pages.widgets.button import BtnApp
+from wse.pages.widgets.button import BtnApp, BtnBack
 
 NUM_FONT_SIZE = 48
 HEIGHT_VS_FONT_SIZE_RATIO = 1.6
@@ -49,7 +48,7 @@ class MultiplicationWidgets(BasePage):
         # Buttons
         self.num_keyboard = NumKeyboard(max_digit_count=MAX_DIGIT_COUNT)
         self.btn_submit = BtnApp('Ответить')
-        _btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
+        _btn_goto_back = BtnBack()
 
         # Boxes
         _box_task = toga.Box(

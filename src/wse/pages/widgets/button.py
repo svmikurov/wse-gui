@@ -5,6 +5,7 @@ from toga import colors
 from toga.widgets.base import StyleT
 
 from wse.constants import BUTTON_HEIGHT, FONT_SIZE_APP
+from wse.pages.handlers.goto_handler import goto_back_handler
 
 
 class ButtonMixin:
@@ -56,3 +57,13 @@ class AnswerBtn(ButtonMixin, toga.Button):
         self.style.flex = 1
         self.style.height = 100
         self.style.font_size = 9
+
+
+class BtnBack(BtnApp):
+    """Go back button."""
+
+    def __init__(self) -> None:
+        """Construct the button."""
+        super().__init__()
+        self.text = 'Назад'
+        self.on_press = goto_back_handler
