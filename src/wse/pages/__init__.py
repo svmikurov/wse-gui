@@ -24,7 +24,6 @@ from wse.pages.login import (
     LoginBox,
 )
 from wse.pages.main import (
-    MainBox,
     MainPage,
 )
 from wse.pages.mathematics import (
@@ -45,7 +44,6 @@ __all__ = (
     'ExplorerLayout',
     'FractionExercisePage',
     'LoginBox',
-    'MainBox',
     'MainPage',
     'MainForeignPage',
     'MainGlossaryWidget',

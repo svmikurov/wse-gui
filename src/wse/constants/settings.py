@@ -45,7 +45,6 @@ TITLE_LABEL_FONT_SIZE = 16
 TITLE_LABEL_HEIGHT = 35
 TITLE_LABEL_PADDING = (5, 0, 10, 0)
 # Main
-TITLE_MAIN = 'WSELFEDU'
 BTN_GOTO_MAIN = 'На главную'
 # User
 TITLE_LOGIN = 'Вход в учетную запись'

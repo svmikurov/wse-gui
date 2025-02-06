@@ -25,18 +25,35 @@ class MainContr(Listener):
         self._view = view
         self._view.set_controller(self)
         self._view.btn_logout.on_press = self.logout
+        self._view.btn_logout_cancel.on_press = self.cancel_logout
+        self._view.btn_logout_confirm.on_press = self.confirm_logout
 
     async def on_open(self, _: toga.Widget) -> None:
         """Invoke methods on pages open."""
         self._update_widgets()
 
-    def logout(self, _: toga.Widget) -> None:
+    ###################################################################
+    # Button handlers
+
+    def logout(self, _: toga.Button) -> None:
         """Logout."""
+        self._place_logout_confirm()
+
+    def confirm_logout(self, _: toga.Button) -> None:
+        """Confirm logout."""
         self._model.logout()
+        # TODO: delegate management to model.
         self._update_widgets()
 
+    def cancel_logout(self, _: toga.Button) -> None:
+        """Cancel logout."""
+        self._place_logout_button()
+
     ###################################################################
-    # View management methods
+    # View management
+
+    ###############
+    # Place widgets
 
     def _update_widgets(self) -> None:
         """Update widgets by user auth status."""
@@ -47,13 +64,26 @@ class MainContr(Listener):
             self._place_login_button()
             self._display_greetings()
 
-    def _place_login_button(self) -> None:
+    def _clear_auth_box(self) -> None:
         self._view.box_auth_btn.clear()
+
+    def _place_login_button(self) -> None:
+        self._clear_auth_box()
         self._view.box_auth_btn.add(self._view.btn_goto_login)
 
     def _place_logout_button(self) -> None:
-        self._view.box_auth_btn.clear()
+        self._clear_auth_box()
         self._view.box_auth_btn.add(self._view.btn_logout)
+
+    def _place_logout_confirm(self) -> None:
+        self._clear_auth_box()
+        self._view.box_auth_btn.add(
+            self._view.btn_logout_cancel, self._view.btn_logout_confirm
+        )
+
+    ##############
+    # Display text
+    # TODO: delegate management to model.
 
     def _display_userdata(self) -> None:
         self._view.info_panel.value = 'Добро пожаловать, {}!'.format(
