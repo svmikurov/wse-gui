@@ -21,6 +21,8 @@ class BasePage(BaseBox):
         """Construct the pages."""
         super().__init__()
         self._controller: ContrT | None = None
+
+        # Base page has button controller to move to pages.
         self._goto = GoToContr()
 
         if self.title:

@@ -39,11 +39,11 @@ class MenuMixin:
 
     async def move_to_page(self, box: toga.Box) -> None:
         """Move to pages box."""
-        await set_window_content(self.box_main, box)
+        await set_window_content(self.page_main, box)
 
     async def goto_main(self, _: toga.Widget, **kwargs: object) -> None:
         """Goto main box, command handler."""
-        await self.move_to_page(self.box_main)
+        await self.move_to_page(self.page_main)
 
     async def goto_glossary(self, _: toga.Widget, **kwargs: object) -> None:
         """Goto glossary box, command handler."""

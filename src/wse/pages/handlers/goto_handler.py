@@ -34,7 +34,7 @@ async def set_window_content(
 
 async def goto_main_handler(widget: toga.Widget) -> None:
     """Go to main, button handler."""
-    box = widget.root.app.box_main
+    box = widget.root.app.page_main
     await set_window_content(widget, box)
 
 
