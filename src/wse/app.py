@@ -1,12 +1,13 @@
 """WSE application."""
 
+import asyncio
+
 import toga
 
 from wse import controllers as plc
 from wse import pages
 from wse.constants import SCREEN_SIZE
 from wse.contrib.factory import mvc_factory
-from wse.controllers.nav import Navigation
 from wse.menu import MenuMixin
 from wse.models.user import User
 from wse.pages import ExplorerLayout
@@ -28,12 +29,8 @@ class WSE(MenuMixin, toga.App):
         # Models
         self.user.on_start()
 
-        # Controllers
-        self._goto = Navigation()
-
         # Construct MVC
         mvc_factory.initialize(self)
-        self.contr_main.set_user(self.user)
 
         # TODO: Refactor MVC.
         self.add_controllers()
@@ -46,7 +43,8 @@ class WSE(MenuMixin, toga.App):
             size=toga.Size(*SCREEN_SIZE),
         )
         self.main_window.content = self.page_main
-        # self.page_main.update_widgets()  # by user auth status
+        self.contr_main._model = self.user
+        asyncio.create_task(self.page_main.on_open(self))
         self.main_window.show()
 
     ####################################################################

@@ -18,7 +18,7 @@ class MVCData:
     """MVC models instances data class."""
 
     model_attr_name: str
-    model_class: ModelT
+    model_class: ModelT | None
     view_attr_name: str
     view_class: ViewT
     contr_attr_name: str
@@ -35,7 +35,7 @@ class MVCFactory:
     def add_mvc(
         self,
         model_instance: str,
-        model_class: ModelT,
+        model_class: ModelT | None,
         view_instance: str,
         view_class: ViewT,
         contr_instance: str,
@@ -55,7 +55,11 @@ class MVCFactory:
     def initialize(self, obj: toga.App) -> None:
         """Initialize the MVC model instances."""
         for mvc in self._mvc_collection:
-            model = self._setattr(obj, mvc.model_attr_name, mvc.model_class())
+            model = (
+                self._setattr(obj, mvc.model_attr_name, mvc.model_class())
+                if mvc.model_class
+                else None
+            )
             view = self._setattr(obj, mvc.view_attr_name, mvc.view_class())
             setattr(obj, mvc.contr_attr_name, mvc.contr_class(model, view))
 
@@ -68,7 +72,7 @@ class MVCFactory:
 mvc_factory = MVCFactory()
 # fmt: off
 mvc_factory.add_mvc(
-    'model_main', models.MainModel,
+    'model_main', None,
     'page_main', pages.MainPage,
     'contr_main', controllers.MainContr,
 )

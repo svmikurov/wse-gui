@@ -91,7 +91,7 @@ def test_login(
         monkeypatch.setattr(http_requests, 'PATH_TOKEN_FILE', path_token)
 
         # Main box-container include button to log in.
-        assert wse.box_main._btn_goto_login in wse.box_main.children
+        assert wse.box_main.btn_goto_login in wse.box_main.children
         assert wse.box_main._btn_logout not in wse.box_main.children
 
         # Input username and password.
@@ -117,7 +117,7 @@ def test_login(
 
         # Main box-container include button to log out.
         assert wse.box_main._btn_logout in wse.box_main.children
-        assert wse.box_main._btn_goto_login not in wse.box_main.children
+        assert wse.box_main.btn_goto_login not in wse.box_main.children
 
         # The user data has been updated.
         assert wse.user.is_auth is True

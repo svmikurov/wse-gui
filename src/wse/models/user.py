@@ -7,16 +7,17 @@ from pathlib import Path
 from urllib.parse import urljoin
 
 from toga.sources import Source
-from typing_extensions import Self
 
 from wse.constants import (
     HOST,
+    LOGOUT_PATH,
     USER_DATA_PATH,
 )
 from wse.contrib.http_requests import (
     app_auth,
     request_auth_data,
     request_get,
+    request_post,
 )
 
 PATH_USERDATA_FILE = os.path.join(
@@ -28,21 +29,26 @@ PATH_USERDATA_FILE = os.path.join(
 class User(Source):
     """User data source."""
 
-    __instance = None
     _url_user_data = urljoin(HOST, USER_DATA_PATH)
-
-    def __new__(cls, *args: object, **kwargs: object) -> Self:
-        """Create single instance."""
-        if not cls.__instance:
-            return super().__new__(cls)
-        return cls.__instance
+    _url_logout = urljoin(HOST, LOGOUT_PATH)
 
     def __init__(self) -> None:
         """Construct the source."""
         super().__init__()
         self._username: str | None = None
-        self._is_auth: bool = False
+        self._is_auth = False
         self._point_balance: str | None = None
+
+    def logout(self) -> None:
+        """Logout."""
+        response = request_post(url=self._url_logout)
+
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            del app_auth.token
+            self.delete_userdata()
+
+    ####################################################################
+    # User data
 
     @property
     def username(self) -> str:
@@ -61,7 +67,7 @@ class User(Source):
     def set_userdata(self, userdata: dict) -> None:
         """Set user source."""
         self._username = userdata.get('username')
-        self._is_auth = True if self._username else False
+        self.is_auth = True if self._username else False
 
     @staticmethod
     def save_userdata(userdata: dict) -> None:
@@ -96,6 +102,9 @@ class User(Source):
         """Set user data on start app."""
         self._set_auth_data()
         self._set_user_data()
+
+    ####################################################################
+    # Notifications
 
     ####################################################################
     # HTTP requests

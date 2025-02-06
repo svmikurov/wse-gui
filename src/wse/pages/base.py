@@ -27,7 +27,7 @@ class BasePage(toga.Box):
         self.style.flex = 1
 
         # Controllers
-        self._controller: ContrT | None = None
+        self._contr: ContrT | None = None
         # Base page has button controller to move to pages.
         self._nav_to = Navigation()
 
@@ -37,8 +37,8 @@ class BasePage(toga.Box):
 
     async def on_open(self, widget: toga.Widget) -> None:
         """Invoke methods on pages open."""
-        await self._controller.on_open(widget)
+        pass
 
-    def set_controller(self, controller: ContrT) -> None:
+    def set_controller(self, contr: ContrT) -> None:
         """Set the view controller."""
-        self._controller = controller
+        self._contr = contr

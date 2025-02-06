@@ -38,26 +38,34 @@ class MainPage(BasePage):
         super().__init__()
 
         # Info panel
-        self._info_panel = InfoPanel()
+        self.info_panel = InfoPanel()
 
         # Navigation buttons
-        self._btn_goto_login = BtnApp(**self._nav_to.login)
+        self.btn_goto_login = BtnApp(**self._nav_to.login)
+        self.btn_logout = BtnApp('Выйти из учетной записи')
         self._btn_goto_foreign_main = BtnApp(**self._nav_to.foreign_main)
         self._btn_goto_glossary_main = BtnApp(**self._nav_to.glossary_main)
         self._btn_goto_math_main = BtnApp(**self._nav_to.math_main)
         self._btn_goto_mentoring = BtnApp(**self._nav_to.mentoring)
         self._btn_goto_explorer = BtnApp(**self._nav_to.explorer_main)
 
+        # Inner boxes
+        self.box_auth_btn = toga.Box()
+
         # DOM
         self.add(
-            self._info_panel,
-            self._btn_goto_login,
+            self.info_panel,
+            self.box_auth_btn,
             self._btn_goto_foreign_main,
             self._btn_goto_glossary_main,
             self._btn_goto_math_main,
             self._btn_goto_mentoring,
             self._btn_goto_explorer,
         )
+
+    async def on_open(self, widget: toga.Widget) -> None:
+        """Invoke methods on page open."""
+        await self._contr.on_open(widget)
 
 
 class MainBox(WidgetMixin, BaseBox):
@@ -77,7 +85,7 @@ class MainBox(WidgetMixin, BaseBox):
         self._source_main_panel = source_info_panel
         self._index_btn_auth = 2
 
-        self._goto = Navigation()
+        self._nav = Navigation()
 
         self._label_title = TitleLabel(TITLE_MAIN)
 
@@ -87,15 +95,15 @@ class MainBox(WidgetMixin, BaseBox):
         )
 
         # Navigation buttons
-        self._btn_goto_login = BtnApp(**self._goto.login)
+        self._btn_goto_login = BtnApp(**self._nav.login)
         self._btn_logout = BtnApp(
             BTN_LOGOUT, on_press=self._display_logout_handler
         )
-        self._btn_goto_mentoring = BtnApp(**self._goto.mentoring)
-        self._btn_goto_glossary_main = BtnApp(**self._goto.glossary_main)
-        self._btn_goto_foreign_main = BtnApp(**self._goto.foreign_main)
-        self._btn_goto_math_main = BtnApp(**self._goto.math_main)
-        self._btn_goto_explorer = BtnApp(**self._goto.explorer_main)
+        self._btn_goto_mentoring = BtnApp(**self._nav.mentoring)
+        self._btn_goto_glossary_main = BtnApp(**self._nav.glossary_main)
+        self._btn_goto_foreign_main = BtnApp(**self._nav.foreign_main)
+        self._btn_goto_math_main = BtnApp(**self._nav.math_main)
+        self._btn_goto_explorer = BtnApp(**self._nav.explorer_main)
 
         # Confirm buttons
         self._btn_logout_cancel = BtnApp(
