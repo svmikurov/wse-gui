@@ -18,7 +18,7 @@ from wse.contrib.http_requests import (
     request_auth_data,
     request_post,
 )
-from wse.controllers.nav import GoToContr
+from wse.controllers.nav import Navigation
 from wse.models.user import SourceUser
 from wse.pages.base import BasePage
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
@@ -41,12 +41,12 @@ class MainPage(BasePage):
         self._info_panel = InfoPanel()
 
         # Navigation buttons
-        self._btn_goto_login = BtnApp(**self._goto.login)
-        self._btn_goto_foreign_main = BtnApp(**self._goto.foreign_main)
-        self._btn_goto_glossary_main = BtnApp(**self._goto.glossary_main)
-        self._btn_goto_math_main = BtnApp(**self._goto.math_main)
-        self._btn_goto_mentoring = BtnApp(**self._goto.mentoring)
-        self._btn_goto_explorer = BtnApp(**self._goto.explorer_main)
+        self._btn_goto_login = BtnApp(**self._nav.login)
+        self._btn_goto_foreign_main = BtnApp(**self._nav.foreign_main)
+        self._btn_goto_glossary_main = BtnApp(**self._nav.glossary_main)
+        self._btn_goto_math_main = BtnApp(**self._nav.math_main)
+        self._btn_goto_mentoring = BtnApp(**self._nav.mentoring)
+        self._btn_goto_explorer = BtnApp(**self._nav.explorer_main)
 
         # DOM
         self.add(
@@ -77,7 +77,7 @@ class MainBox(WidgetMixin, BaseBox):
         self._source_main_panel = source_info_panel
         self._index_btn_auth = 2
 
-        self._goto = GoToContr()
+        self._goto = Navigation()
 
         self._label_title = TitleLabel(TITLE_MAIN)
 

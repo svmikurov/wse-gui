@@ -3,11 +3,11 @@
 from typing import TypeVar
 
 import toga
-from toga.sources import Listener
 from toga.constants import COLUMN
+from toga.sources import Listener
 
 from wse.constants.settings import PADDING_SM
-from wse.controllers.nav import GoToContr
+from wse.controllers.nav import Navigation
 from wse.pages.widgets.label import TitleLabel
 
 ContrT = TypeVar('ContrT', bound=Listener)
@@ -29,7 +29,7 @@ class BasePage(toga.Box):
         self._controller: ContrT | None = None
 
         # Base page has button controller to move to pages.
-        self._goto = GoToContr()
+        self._nav = Navigation()
 
         if self.title:
             self._label_title = TitleLabel(text=self.title)

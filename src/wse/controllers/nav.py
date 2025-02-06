@@ -12,7 +12,7 @@ from wse.pages.handlers.goto_handler import (
 )
 
 
-class GoToContr:
+class Navigation:
     """Moving to page the button controller."""
 
     @staticmethod
@@ -20,12 +20,16 @@ class GoToContr:
         """Return the button named attributes."""
         return {'text': text, 'on_press': on_press}
 
+    ####################################################################
+    # Navigation targets                                               #
+    ####################################################################
+
     @property
     def login(self) -> dict:
         """The attrs of button go to login page."""
         return self._create_attrs('Вход в учетную запись', goto_login)
 
-    #####################################################################
+    ####################################################################
     # Foreign
 
     @property
@@ -33,7 +37,7 @@ class GoToContr:
         """The attrs of button go to foreign main page."""
         return self._create_attrs('Иностранный', goto_foreign_main)
 
-    #####################################################################
+    ####################################################################
     # Glossary
 
     @property
@@ -41,7 +45,7 @@ class GoToContr:
         """The attrs of button go to glossary main page."""
         return self._create_attrs('Глоссарий', goto_glossary_main)
 
-    #####################################################################
+    ####################################################################
     # Mathematics
 
     @property
@@ -49,7 +53,7 @@ class GoToContr:
         """The attrs of button go to mathematics main page."""
         return self._create_attrs('Математика', goto_math_main)
 
-    #####################################################################
+    ####################################################################
     # Mentoring
 
     @property
@@ -57,7 +61,7 @@ class GoToContr:
         """The attrs of button go to mentoring main page."""
         return self._create_attrs('Выполнение заданий', goto_mentoring)
 
-    #####################################################################
+    ####################################################################
     # Explorer
 
     @property
