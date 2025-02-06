@@ -23,16 +23,16 @@ class HelloWorld(toga.App):
 
     def sync_task(self, arg: object) -> None:
         """Call sync method."""
-        print(f'running sync task: {arg}')
+        print(f'INFO: running sync task: {arg}')
         asyncio.create_task(self.async_task('from sync task'))
 
     async def async_task(self, arg: object) -> None:
         """Call async method."""
-        print(f'running async task: {arg}')
+        print(f'INFO: running async task: {arg}')
 
     async def on_running(self) -> None:
         """On running."""
-        print('on_running')
+        print('INFO: on_running')
 
 
 def main() -> HelloWorld:

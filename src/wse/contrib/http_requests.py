@@ -114,7 +114,7 @@ def request_get(url: str) -> Response:
         try:
             response = client.get(url)
         except httpx.ConnectError as error:
-            print(error)
+            print(f'ERROR: {error}')
             return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
         else:
             status_code = response.status_code
@@ -139,7 +139,7 @@ def request_post(
         try:
             response = client.post(url=url, json=payload)
         except httpx.ConnectError as error:
-            print(error)
+            print(f'ERROR: {error}')
             return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
     return response
 
@@ -155,7 +155,7 @@ async def request_get_async(url: str) -> Response:
         try:
             response = await client.get(url)
         except httpx.ConnectError as error:
-            print(error)
+            print(f'ERROR: {error}')
             return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
         else:
             return response
@@ -169,7 +169,7 @@ async def request_post_async(
         try:
             response = await client.post(url, json=payload)
         except httpx.ConnectError as error:
-            print(error)
+            print(f'ERROR: {error}')
             return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
     return response
 
