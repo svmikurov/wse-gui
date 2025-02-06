@@ -5,7 +5,7 @@ from typing import TypeVar
 import toga
 from toga.sources import Listener
 
-from wse.controllers.goto import GoToContr
+from wse.controllers.nav import GoToContr
 from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.label import TitleLabel
 

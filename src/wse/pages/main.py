@@ -18,7 +18,7 @@ from wse.contrib.http_requests import (
     request_auth_data,
     request_post,
 )
-from wse.controllers.goto import GoToContr
+from wse.controllers.nav import GoToContr
 from wse.models.user import SourceUser
 from wse.pages.base import BasePage
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin

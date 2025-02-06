@@ -6,7 +6,7 @@ from wse import controllers as plc
 from wse import pages
 from wse.constants import SCREEN_SIZE
 from wse.contrib.factory import mvc_factory
-from wse.controllers.goto import GoToContr
+from wse.controllers.nav import GoToContr
 from wse.menu import MenuMixin
 from wse.models.user import SourceUser
 from wse.pages import ExplorerLayout
