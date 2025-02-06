@@ -8,6 +8,18 @@ from wse.pages.handlers import goto_handler as gh
 class Navigation:
     """Moving to page the button controller."""
 
+    __instance = None
+
+    def __new__(cls) -> None:
+        """Create single instance."""
+        if not cls.__instance:
+            cls.__instance = super().__new__(cls)
+        return cls.__instance
+
+    def __del__(self) -> None:
+        """Delete the class instance."""
+        Navigation.__instance = None
+
     @staticmethod
     def _create_attrs(text: str, on_press: Callable) -> dict:
         """Return the button named attributes."""
