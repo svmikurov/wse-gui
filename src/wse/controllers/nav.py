@@ -2,14 +2,7 @@
 
 from typing import Callable
 
-from wse.pages.handlers.goto_handler import (
-    goto_explorer,
-    goto_foreign_main,
-    goto_glossary_main,
-    goto_login,
-    goto_math_main,
-    goto_mentoring,
-)
+from wse.pages.handlers import goto_handler as gh
 
 
 class Navigation:
@@ -27,7 +20,7 @@ class Navigation:
     @property
     def login(self) -> dict:
         """The attrs of button go to login page."""
-        return self._create_attrs('Вход в учетную запись', goto_login)
+        return self._create_attrs('Вход в учетную запись', gh.goto_login)
 
     ####################################################################
     # Foreign
@@ -35,7 +28,7 @@ class Navigation:
     @property
     def foreign_main(self) -> dict:
         """The attrs of button go to foreign main page."""
-        return self._create_attrs('Иностранный', goto_foreign_main)
+        return self._create_attrs('Иностранный', gh.goto_foreign_main)
 
     ####################################################################
     # Glossary
@@ -43,7 +36,7 @@ class Navigation:
     @property
     def glossary_main(self) -> dict:
         """The attrs of button go to glossary main page."""
-        return self._create_attrs('Глоссарий', goto_glossary_main)
+        return self._create_attrs('Глоссарий', gh.goto_glossary_main)
 
     ####################################################################
     # Mathematics
@@ -51,7 +44,7 @@ class Navigation:
     @property
     def math_main(self) -> dict:
         """The attrs of button go to mathematics main page."""
-        return self._create_attrs('Математика', goto_math_main)
+        return self._create_attrs('Математика', gh.goto_math_main)
 
     ####################################################################
     # Mentoring
@@ -59,7 +52,7 @@ class Navigation:
     @property
     def mentoring(self) -> dict:
         """The attrs of button go to mentoring main page."""
-        return self._create_attrs('Выполнение заданий', goto_mentoring)
+        return self._create_attrs('Выполнение заданий', gh.goto_mentoring)
 
     ####################################################################
     # Explorer
@@ -67,4 +60,4 @@ class Navigation:
     @property
     def explorer_main(self) -> dict:
         """The attrs of button go to Toga explorer main page."""
-        return self._create_attrs('Изучение виджетов', goto_explorer)
+        return self._create_attrs('Изучение виджетов', gh.goto_explorer)
