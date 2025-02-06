@@ -31,6 +31,10 @@ class WSE(MenuMixin, toga.App):
 
         # Construct MVC
         mvc_factory.initialize(self)
+        # TODO: Configure User singleton without overwriting instance
+        #  attributes on re-initializations.
+        # TODO: Add user as model to MVC factory for main page.
+        self.contr_main._model = self.user
 
         # TODO: Refactor MVC.
         self.add_controllers()
@@ -43,7 +47,6 @@ class WSE(MenuMixin, toga.App):
             size=toga.Size(*SCREEN_SIZE),
         )
         self.main_window.content = self.page_main
-        self.contr_main._model = self.user
         asyncio.create_task(self.page_main.on_open(self))
         self.main_window.show()
 
