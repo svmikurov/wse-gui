@@ -16,6 +16,10 @@ class Navigation:
             cls.__instance = super().__new__(cls)
         return cls.__instance
 
+    def __init__(self) -> None:
+        """Construct the navigation."""
+        pass
+
     def __del__(self) -> None:
         """Delete the class instance."""
         Navigation.__instance = None

@@ -41,12 +41,12 @@ class MainPage(BasePage):
         self._info_panel = InfoPanel()
 
         # Navigation buttons
-        self._btn_goto_login = BtnApp(**self._nav.login)
-        self._btn_goto_foreign_main = BtnApp(**self._nav.foreign_main)
-        self._btn_goto_glossary_main = BtnApp(**self._nav.glossary_main)
-        self._btn_goto_math_main = BtnApp(**self._nav.math_main)
-        self._btn_goto_mentoring = BtnApp(**self._nav.mentoring)
-        self._btn_goto_explorer = BtnApp(**self._nav.explorer_main)
+        self._btn_goto_login = BtnApp(**self._nav_to.login)
+        self._btn_goto_foreign_main = BtnApp(**self._nav_to.foreign_main)
+        self._btn_goto_glossary_main = BtnApp(**self._nav_to.glossary_main)
+        self._btn_goto_math_main = BtnApp(**self._nav_to.math_main)
+        self._btn_goto_mentoring = BtnApp(**self._nav_to.mentoring)
+        self._btn_goto_explorer = BtnApp(**self._nav_to.explorer_main)
 
         # DOM
         self.add(

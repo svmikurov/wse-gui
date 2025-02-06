@@ -29,7 +29,7 @@ class BasePage(toga.Box):
         self._controller: ContrT | None = None
 
         # Base page has button controller to move to pages.
-        self._nav = Navigation()
+        self._nav_to = Navigation()
 
         if self.title:
             self._label_title = TitleLabel(text=self.title)
