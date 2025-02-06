@@ -3,27 +3,24 @@
 from typing import TypeVar
 
 import toga
-from toga.sources import Listener, Source
+from toga.sources import Source
 
 from wse.constants import HOST
+from wse.controllers.base import BaseContr
 
 ModelT = TypeVar('ModelT', bound=Source)
 ViewT = TypeVar('ViewT', bound=toga.Box)
 
 
-class MainContr(Listener):
+class MainContr(BaseContr):
     """Main pages controller."""
 
     _welcome = f'Ready for connect to {HOST}'
 
     def __init__(self, model: ModelT, view: ViewT) -> None:
         """Construct the controller."""
-        self._model = model
-        if self._model:
-            self._model.add_listener(self)
+        super().__init__(model, view)
 
-        self._view = view
-        self._view.set_controller(self)
         self._view.btn_logout.on_press = self.logout
         self._view.btn_logout_cancel.on_press = self.cancel_logout
         self._view.btn_logout_confirm.on_press = self.confirm_logout
@@ -42,7 +39,7 @@ class MainContr(Listener):
     def confirm_logout(self, _: toga.Button) -> None:
         """Confirm logout."""
         self._model.logout()
-        # TODO: delegate management to model.
+        # TODO: delegate management to model notifications.
         self._update_widgets()
 
     def cancel_logout(self, _: toga.Button) -> None:
@@ -83,7 +80,7 @@ class MainContr(Listener):
 
     ##############
     # Display text
-    # TODO: delegate management to model.
+    # TODO: delegate management to model notifications.
 
     def _display_userdata(self) -> None:
         self._view.info_panel.value = 'Добро пожаловать, {}!'.format(

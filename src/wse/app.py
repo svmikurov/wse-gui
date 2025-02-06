@@ -1,13 +1,15 @@
 """WSE application."""
 
 import asyncio
+from typing import TypeVar
 
 import toga
+from toga.sources import Listener, Source
 
 from wse import controllers as plc
 from wse import pages
 from wse.constants import SCREEN_SIZE
-from wse.contrib.factory import mvc_factory
+from wse.factory import mvc_factory
 from wse.menu import MenuMixin
 from wse.models.user import User
 from wse.pages import ExplorerLayout
@@ -16,25 +18,31 @@ from wse.pages.examples.main import ExampleLayout
 from wse.pages.examples.table_source import TableSourceLayout
 from wse.sources.text_panel_main import SourceMainPanel
 
+ModelT = TypeVar('ModelT', bound=Source)
+ViewT = TypeVar('ViewT', bound=toga.Box)
+ContrT = TypeVar('ContrT', bound=Listener)
+
 
 class WSE(MenuMixin, toga.App):
     """WSE application."""
 
+    user: ModelT
+    source_main_panel: ModelT
+    page_main: ViewT
+    contr_main: ContrT
+
     def startup(self) -> None:
         """Construct and show the application."""
-        # App sources
-        self.user = User()
-        self.source_main_panel = SourceMainPanel(self.user)
-
         # Models
+        self.user = User()
         self.user.on_start()
+        self.source_main_panel = SourceMainPanel(self.user)
 
         # Construct MVC
         mvc_factory.initialize(self)
         # TODO: Configure User singleton without overwriting instance
         #  attributes on re-initializations.
-        # TODO: Add user as model to MVC factory for main page.
-        self.contr_main._model = self.user
+        self.contr_main.set_model(self.user)
 
         # TODO: Refactor MVC.
         self.add_controllers()
@@ -47,8 +55,8 @@ class WSE(MenuMixin, toga.App):
             size=toga.Size(*SCREEN_SIZE),
         )
         self.main_window.content = self.page_main
-        asyncio.create_task(self.page_main.on_open(self))
         self.main_window.show()
+        asyncio.create_task(self.page_main.on_open(self))
 
     ####################################################################
     # Controllers
