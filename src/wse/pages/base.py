@@ -21,13 +21,13 @@ class BasePage(toga.Box):
     def __init__(self) -> None:
         """Construct the pages."""
         super().__init__()
+        # Page style
         self.style.direction = COLUMN
         self.style.padding = PADDING_SM
         self.style.flex = 1
 
         # Controllers
         self._controller: ContrT | None = None
-
         # Base page has button controller to move to pages.
         self._nav_to = Navigation()
 
