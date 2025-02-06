@@ -4,15 +4,16 @@ from typing import TypeVar
 
 import toga
 from toga.sources import Listener
+from toga.constants import COLUMN
 
+from wse.constants.settings import PADDING_SM
 from wse.controllers.nav import GoToContr
-from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.label import TitleLabel
 
 ContrT = TypeVar('ContrT', bound=Listener)
 
 
-class BasePage(BaseBox):
+class BasePage(toga.Box):
     """Base pages."""
 
     title: str | None = None
@@ -20,6 +21,11 @@ class BasePage(BaseBox):
     def __init__(self) -> None:
         """Construct the pages."""
         super().__init__()
+        self.style.direction = COLUMN
+        self.style.padding = PADDING_SM
+        self.style.flex = 1
+
+        # Controllers
         self._controller: ContrT | None = None
 
         # Base page has button controller to move to pages.
