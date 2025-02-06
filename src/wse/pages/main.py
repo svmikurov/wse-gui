@@ -19,7 +19,7 @@ from wse.contrib.http_requests import (
     request_post,
 )
 from wse.controllers.nav import Navigation
-from wse.models.user import SourceUser
+from wse.models.user import User
 from wse.pages.base import BasePage
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
@@ -68,7 +68,7 @@ class MainBox(WidgetMixin, BaseBox):
 
     def __init__(
         self,
-        user: SourceUser,
+        user: User,
         source_info_panel: SourceMainPanel,
     ) -> None:
         """Construct the Main box."""

@@ -7,6 +7,7 @@ from pathlib import Path
 from urllib.parse import urljoin
 
 from toga.sources import Source
+from typing_extensions import Self
 
 from wse.constants import (
     HOST,
@@ -24,10 +25,17 @@ PATH_USERDATA_FILE = os.path.join(
 )
 
 
-class SourceUser(Source):
+class User(Source):
     """User data source."""
 
+    __instance = None
     _url_user_data = urljoin(HOST, USER_DATA_PATH)
+
+    def __new__(cls, *args: object, **kwargs: object) -> Self:
+        """Create single instance."""
+        if not cls.__instance:
+            return super().__new__(cls)
+        return cls.__instance
 
     def __init__(self) -> None:
         """Construct the source."""

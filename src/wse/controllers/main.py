@@ -5,7 +5,7 @@ from typing import TypeVar
 import toga
 from toga.sources import Listener, Source
 
-from wse.models.user import SourceUser
+from wse.models.user import User
 
 ModelT = TypeVar('ModelT', bound=Source)
 ViewT = TypeVar('ViewT', bound=toga.Box)
@@ -18,10 +18,10 @@ class MainContr(Listener):
         """Construct the controller."""
         self._model = model
         self._model.add_listener(self)
-        self._user: SourceUser | None = None
+        self._user: User | None = None
 
         self._view = view
 
-    def set_user(self, user: SourceUser) -> None:
+    def set_user(self, user: User) -> None:
         """Set user instance to controller."""
         self._user = user

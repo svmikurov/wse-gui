@@ -14,7 +14,7 @@ from wse.constants import (
 )
 from wse.constants.settings import CONNECTION_BAD_MSG, CONNECTION_SUCCESS_MSG
 from wse.contrib.http_requests import obtain_token, request_auth_data
-from wse.models.user import SourceUser
+from wse.models.user import User
 from wse.pages.handlers.goto_handler import goto_main_handler
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
@@ -31,7 +31,7 @@ class LoginBox(WidgetMixin, BaseBox):
     """Url to login (`str`).
     """
 
-    def __init__(self, user: SourceUser) -> None:
+    def __init__(self, user: User) -> None:
         """Construct the widgets."""
         super().__init__()
         self.user = user

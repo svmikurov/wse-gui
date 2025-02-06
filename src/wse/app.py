@@ -8,7 +8,7 @@ from wse.constants import SCREEN_SIZE
 from wse.contrib.factory import mvc_factory
 from wse.controllers.nav import Navigation
 from wse.menu import MenuMixin
-from wse.models.user import SourceUser
+from wse.models.user import User
 from wse.pages import ExplorerLayout
 from wse.pages.examples.fraction import FractionPage
 from wse.pages.examples.main import ExampleLayout
@@ -22,7 +22,7 @@ class WSE(MenuMixin, toga.App):
     def startup(self) -> None:
         """Construct and show the application."""
         # App sources
-        self.user = SourceUser()
+        self.user = User()
         self.source_main_panel = SourceMainPanel(self.user)
 
         # Models

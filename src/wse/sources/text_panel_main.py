@@ -3,7 +3,7 @@
 from toga.sources import Source
 
 from wse.constants import HOST
-from wse.models.user import SourceUser
+from wse.models.user import User
 
 
 class SourceMainPanel(Source):
@@ -16,7 +16,7 @@ class SourceMainPanel(Source):
     """User info text (`str`).
     """
 
-    def __init__(self, user: SourceUser) -> None:
+    def __init__(self, user: User) -> None:
         """Construct the source."""
         super().__init__()
         self._value = ''
