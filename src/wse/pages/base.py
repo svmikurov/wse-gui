@@ -32,13 +32,14 @@ class BasePage(toga.Box):
         # Base page has button controller to move to pages.
         self._nav = Navigation()
 
+        # User data panel
+        self.user_info_panel = UserInfoPanel()
+
+        # DOM
+        self.insert(0, self.user_info_panel)
         if self.title:
             self._label_title = TitleLabel(text=self.title)
             self.add(self._label_title)
-
-        # User data panel
-        self.user_info_panel = UserInfoPanel()
-        self.insert(0, self.user_info_panel)
 
     async def on_open(self, widget: toga.Widget) -> None:
         """Invoke methods on pages open."""
