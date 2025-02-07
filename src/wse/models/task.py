@@ -68,6 +68,6 @@ class TaskModel(Source):
         return response.json()
 
     @staticmethod
-    async def _sent_answer(url: str, user_answer: str) -> None:
+    async def _send_answer(url: str, user_answer: str) -> None:
         payload = {'answer': user_answer}
         await request_post_async(url, payload)
