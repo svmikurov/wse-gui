@@ -62,6 +62,10 @@ class MVCFactory:
             )
             view = self._setattr(obj, mvc.view_attr_name, mvc.view_class())
             setattr(obj, mvc.contr_attr_name, mvc.contr_class(model, view))
+            contr = self._setattr(
+                obj, mvc.contr_attr_name, mvc.contr_class(model, view)
+            )
+            contr.set_user(obj.user)
 
     @staticmethod
     def _setattr(obj: toga.App, name: str, value: ModelT | ViewT) -> object:

@@ -3,18 +3,20 @@
 from typing import TypeVar
 
 import toga
-from toga.sources import Listener, Source
+from toga.sources import Source
+
+from wse.controllers.base import BaseContr
 
 ModelT = TypeVar('ModelT', bound=Source)
 ViewT = TypeVar('ViewT', bound=toga.Box)
 
 
-class MultContr(Listener):
+class MultContr(BaseContr):
     """Multiplication exercise controller."""
 
     def __init__(self, model: ModelT, view: ViewT) -> None:
         """Construct ht controller."""
-        super().__init__()
+        super().__init__(model, view)
         self._model = model
         self._model.add_listener(self)
         self._view = view

@@ -39,9 +39,6 @@ class WSE(MenuMixin, toga.App):
 
         # Construct MVC
         mvc_factory.initialize(self)
-        # TODO: Configure User singleton without overwriting instance
-        #  attributes on re-initializations.
-        self.contr_main.set_model(self.user)
 
         # TODO: Refactor MVC.
         self.add_controllers()

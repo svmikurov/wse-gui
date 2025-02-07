@@ -15,7 +15,7 @@ ViewT = TypeVar('ViewT', bound=toga.Box)
 class MainContr(BaseContr):
     """Main pages controller."""
 
-    _model: User
+    _user: User
 
     def __init__(self, model: ModelT, view: ViewT) -> None:
         """Construct the controller."""
@@ -27,7 +27,7 @@ class MainContr(BaseContr):
 
     async def on_open(self, _: toga.Widget) -> None:
         """Invoke methods on pages open."""
-        self._model.on_open()
+        self._user.on_open()
 
     ###################################################################
     # Button handlers
@@ -38,7 +38,7 @@ class MainContr(BaseContr):
 
     def confirm_logout(self, _: toga.Button) -> None:
         """Confirm logout."""
-        self._model.logout()
+        self._user.logout()
 
     def cancel_logout(self, _: toga.Button) -> None:
         """Cancel logout."""
