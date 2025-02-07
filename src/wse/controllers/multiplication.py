@@ -17,10 +17,6 @@ class MultContr(BaseContr):
     def __init__(self, model: ModelT, view: ViewT) -> None:
         """Construct ht controller."""
         super().__init__(model, view)
-        self._model = model
-        self._model.add_listener(self)
-        self._view = view
-        self._view.set_controller(self)
 
         self._view.btn_submit.on_press = self.check_user_answer
         self._view.num_keyboard.add_listener(self)

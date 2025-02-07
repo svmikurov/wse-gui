@@ -74,3 +74,7 @@ class MultiplicationWidgets(BasePage):
             self.num_keyboard,
             _box_btns,
         )
+
+    async def on_open(self, widget: toga.Widget) -> None:
+        """Invoke methods on page open."""
+        await self._contr.on_open(widget)
