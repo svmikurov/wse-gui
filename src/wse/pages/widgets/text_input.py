@@ -60,3 +60,14 @@ class InputTextField(ListenerMixin, toga.MultilineTextInput):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the widget."""
         super().__init__(*args, **kwargs)
+
+
+class UserInfoPanel(toga.Label):
+    """User info panel."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the widget."""
+        kwargs.setdefault('text', '')
+        super().__init__(*args, **kwargs)
+        self.style.flex = 1
+        self.readonly = True

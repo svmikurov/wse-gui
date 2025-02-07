@@ -26,6 +26,7 @@ PATH_USERDATA_FILE = os.path.join(
 )
 
 
+# TODO: Split class into parents by responsibilities.
 class User(Source):
     """User data source."""
 
@@ -48,6 +49,7 @@ class User(Source):
             self._place_unauth_widgets()
 
         self._display_data(self.greeting)
+        self._update_info_panel()
 
     def logout(self) -> None:
         """Logout."""
@@ -119,6 +121,9 @@ class User(Source):
     def _place_unauth_widgets(self) -> None:
         self.notify('place_unauth_widgets')
 
+    def _update_info_panel(self) -> None:
+        self.notify('update_info_panel', text=self.info)
+
     ####################################################################
     # Data
 
@@ -129,6 +134,12 @@ class User(Source):
         data = {key: f'Добро пожаловать, {self.username}!'}
         if not self.username:
             data[key] = f'Ready for connect to {HOST}'
+        return data
+
+    @property
+    def info(self) -> str:
+        """User points."""
+        data = f'Баланс: {self._point_balance}'
         return data
 
     ####################################################################

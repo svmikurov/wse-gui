@@ -24,6 +24,9 @@ class BaseContr(Listener):
         self.set_model(model)
         self.set_view(view)
 
+    ####################################################################
+    # Set attr methods
+
     def set_model(self, model: ModelT | None) -> None:
         """Set model."""
         self._model = model
@@ -39,3 +42,10 @@ class BaseContr(Listener):
         """Set user."""
         self._user = model
         self._user.add_listener(self)
+
+    ####################################################################
+    # Listener methods
+
+    def update_info_panel(self, text: str) -> None:
+        """Update info panel text."""
+        self._view.user_info_panel.text = text

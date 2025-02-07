@@ -9,6 +9,7 @@ from toga.sources import Listener
 from wse.constants.settings import PADDING_SM
 from wse.controllers.nav import Navigation
 from wse.pages.widgets.label import TitleLabel
+from wse.pages.widgets.text_input import UserInfoPanel
 
 ContrT = TypeVar('ContrT', bound=Listener)
 
@@ -34,6 +35,10 @@ class BasePage(toga.Box):
         if self.title:
             self._label_title = TitleLabel(text=self.title)
             self.add(self._label_title)
+
+        # User data panel
+        self.user_info_panel = UserInfoPanel()
+        self.insert(0, self.user_info_panel)
 
     async def on_open(self, widget: toga.Widget) -> None:
         """Invoke methods on pages open."""
