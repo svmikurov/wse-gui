@@ -36,8 +36,18 @@ class User(Source):
         """Construct the source."""
         super().__init__()
         self._username: str | None = None
-        self._is_auth = False
         self._point_balance: str | None = None
+
+    def on_open(self) -> None:
+        """Set user data on start app."""
+        if self.is_auth:
+            self._set_auth_data()
+            self._set_user_data()
+            self._place_auth_widgets()
+        else:
+            self._place_unauth_widgets()
+
+        self._display_data(self.greeting)
 
     def logout(self) -> None:
         """Logout."""
@@ -46,6 +56,8 @@ class User(Source):
         if response.status_code == HTTPStatus.NO_CONTENT:
             del app_auth.token
             self.delete_userdata()
+            self._place_unauth_widgets()
+            self._display_data(self.greeting)
 
     ####################################################################
     # User data
@@ -58,16 +70,14 @@ class User(Source):
     @property
     def is_auth(self) -> bool:
         """The user auth status (`bool`)."""
-        return self._is_auth
-
-    @is_auth.setter
-    def is_auth(self, value: bool) -> None:
-        self._is_auth = value
+        response = request_auth_data()
+        if response.status_code == HTTPStatus.OK:
+            return True
+        return False
 
     def set_userdata(self, userdata: dict) -> None:
         """Set user source."""
         self._username = userdata.get('username')
-        self.is_auth = True if self._username else False
 
     @staticmethod
     def save_userdata(userdata: dict) -> None:
@@ -78,7 +88,6 @@ class User(Source):
     def delete_userdata(self) -> None:
         """Delete user data."""
         self._username = None
-        self._is_auth = False
         self._delete_userdata_fail()
 
     @staticmethod
@@ -98,13 +107,29 @@ class User(Source):
         else:
             self.set_userdata(userdata)
 
-    def on_start(self) -> None:
-        """Set user data on start app."""
-        self._set_auth_data()
-        self._set_user_data()
-
     ####################################################################
     # Notifications
+
+    def _display_data(self, data: dict) -> None:
+        self.notify('display_data', data=data)
+
+    def _place_auth_widgets(self) -> None:
+        self.notify('place_auth_widgets')
+
+    def _place_unauth_widgets(self) -> None:
+        self.notify('place_unauth_widgets')
+
+    ####################################################################
+    # Data
+
+    @property
+    def greeting(self) -> dict[str, str]:
+        """App greeting."""
+        key = 'greetings'
+        data = {key: f'Добро пожаловать, {self.username}!'}
+        if not self.username:
+            data[key] = f'Ready for connect to {HOST}'
+        return data
 
     ####################################################################
     # HTTP requests

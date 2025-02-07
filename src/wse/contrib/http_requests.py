@@ -21,7 +21,7 @@ PATH_TOKEN_FILE = os.path.join(
 )
 
 url_token = urljoin(HOST, TOKEN_PATH)
-url_login = urljoin(HOST, USER_ME_PATH)
+url_auth_status = urljoin(HOST, USER_ME_PATH)
 
 
 class AppAuth(httpx.Auth):
@@ -100,7 +100,7 @@ def obtain_token(credentials: dict) -> Response:
 
 def request_auth_data() -> Response:
     """Request the user data."""
-    return request_get(url_login)
+    return request_get(url_auth_status)
 
 
 #########################################################################

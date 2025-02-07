@@ -35,7 +35,6 @@ class WSE(MenuMixin, toga.App):
         """Construct and show the application."""
         # Models
         self.user = User()
-        self.user.on_start()
         self.source_main_panel = SourceMainPanel(self.user)
 
         # Construct MVC

@@ -2,7 +2,7 @@
 
 import toga
 
-from wse.constants.settings import STYLE_BTN_CANCEL, STYLE_BTN_CONFIRM
+from wse.constants import STYLE_BTN_CANCEL, STYLE_BTN_CONFIRM
 from wse.pages.base import BasePage
 from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.text_input import InfoPanel

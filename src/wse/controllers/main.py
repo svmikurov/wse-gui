@@ -5,8 +5,8 @@ from typing import TypeVar
 import toga
 from toga.sources import Source
 
-from wse.constants import HOST
 from wse.controllers.base import BaseContr
+from wse.models import User
 
 ModelT = TypeVar('ModelT', bound=Source)
 ViewT = TypeVar('ViewT', bound=toga.Box)
@@ -15,7 +15,7 @@ ViewT = TypeVar('ViewT', bound=toga.Box)
 class MainContr(BaseContr):
     """Main pages controller."""
 
-    _welcome = f'Ready for connect to {HOST}'
+    _model: User
 
     def __init__(self, model: ModelT, view: ViewT) -> None:
         """Construct the controller."""
@@ -27,7 +27,7 @@ class MainContr(BaseContr):
 
     async def on_open(self, _: toga.Widget) -> None:
         """Invoke methods on pages open."""
-        self._update_widgets()
+        self._model.on_open()
 
     ###################################################################
     # Button handlers
@@ -39,27 +39,30 @@ class MainContr(BaseContr):
     def confirm_logout(self, _: toga.Button) -> None:
         """Confirm logout."""
         self._model.logout()
-        # TODO: delegate management to model notifications.
-        self._update_widgets()
 
     def cancel_logout(self, _: toga.Button) -> None:
         """Cancel logout."""
         self._place_logout_button()
 
     ###################################################################
-    # View management
+    # Listener methods
 
-    ###############
+    def place_auth_widgets(self) -> None:
+        """Call methods if user is auth."""
+        self._place_logout_button()
+
+    def place_unauth_widgets(self) -> None:
+        """Call methods if user is not auth."""
+        self._place_login_button()
+
+    def display_data(self, data: dict) -> None:
+        """Display model data."""
+        greetings = data.get('greetings')
+        if greetings:
+            self._display_greetings(greetings)
+
+    ###################################################################
     # Place widgets
-
-    def _update_widgets(self) -> None:
-        """Update widgets by user auth status."""
-        if self._model.is_auth:
-            self._place_logout_button()
-            self._display_userdata()
-        else:
-            self._place_login_button()
-            self._display_greetings()
 
     def _clear_auth_box(self) -> None:
         self._view.box_auth_btn.clear()
@@ -78,14 +81,8 @@ class MainContr(BaseContr):
             self._view.btn_logout_cancel, self._view.btn_logout_confirm
         )
 
-    ##############
-    # Display text
-    # TODO: delegate management to model notifications.
+    ###################################################################
+    # Display data
 
-    def _display_userdata(self) -> None:
-        self._view.info_panel.value = 'Добро пожаловать, {}!'.format(
-            self._model.username
-        )
-
-    def _display_greetings(self) -> None:
-        self._view.info_panel.value = self._welcome
+    def _display_greetings(self, greetings: str) -> None:
+        self._view.info_panel.value = greetings
