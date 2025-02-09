@@ -8,62 +8,52 @@ from toga.style import Pack
 from wse import constants as const
 from wse.constants import TEXT_DISPLAY_FONT_SIZE
 from wse.controllers.form import WordFormController
+from wse.pages.base import BasePage
 from wse.pages.containers.exercise import ExerciseLayout
 from wse.pages.containers.form import FormLayout
 from wse.pages.containers.params import ParamsLayout
 from wse.pages.containers.table import TableLayout
 from wse.pages.handlers.goto_handler import (
     goto_back_handler,
-    goto_foreign_create_handler,
+    goto_foreign_create,
     goto_foreign_exercise_handler,
-    goto_foreign_params_handler,
+    goto_foreign_params,
     goto_foreign_table_handler,
-    goto_foreign_tasks_handler,
-    goto_foreign_test_handler,
+    goto_foreign_tasks,
+    goto_foreign_test,
     goto_foreign_update_handler,
 )
+from wse.pages.widgets import BoxFlexCol
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
-from wse.pages.widgets.button import BtnApp
+from wse.pages.widgets.button import BtnApp, BtnBack
 from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.text_input import InfoTextPanel, InputTextField
 
 ACCESSORS = ['id', 'foreign_word', 'native_word']
 
 
-class MainForeignPage(WidgetMixin, BaseBox):
+class MainForeignPage(WidgetMixin, BasePage):
     """Foreign main pages."""
+
+    title = 'Иностранный язык'
 
     def __init__(self) -> None:
         """Construct the pages."""
         super().__init__()
 
-        self.label_title = TitleLabel(const.TITLE_FOREIGN_MAIN)
-
         # Buttons
-        self.btn_goto_tasks = BtnApp(
-            const.BTN_GOTO_FOREIGN_TASKS, on_press=goto_foreign_tasks_handler
-        )
-        self.btn_goto_params = BtnApp(
-            const.BTN_GOTO_FOREIGN_PARAMS,
-            on_press=goto_foreign_params_handler,
-        )
-        self.btn_goto_create = BtnApp(
-            const.BTN_GOTO_FOREIGN_CREATE,
-            on_press=goto_foreign_create_handler,
-        )
-        self.btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
-
-        # The buttons are located at the bottom of the pages.
-        self.box_alignment = toga.Box(style=Pack(flex=1))
+        self._btn_goto_tasks = BtnApp(**self._nav.foreign_tasks)
+        self._btn_goto_params = BtnApp(**self._nav.foreign_params)
+        self._btn_goto_create = BtnApp(**self._nav.foreign_create)
+        self._btn_goto_back = BtnBack()
 
         # DOM
         self.add(
-            self.label_title,
-            self.box_alignment,
-            self.btn_goto_create,
-            self.btn_goto_tasks,
-            self.btn_goto_params,
-            self.btn_goto_back,
+            BoxFlexCol(),
+            self._btn_goto_create,
+            self._btn_goto_tasks,
+            self._btn_goto_params,
+            self._btn_goto_back,
         )
 
 
@@ -166,30 +156,30 @@ class TableWordPage(TableLayout):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the pages."""
         super().__init__(*args, **kwargs)
-        self._plc.goto_create_handler = goto_foreign_create_handler
+        self._plc.goto_create_handler = goto_foreign_create
         self._plc.goto_update_handler = goto_foreign_update_handler
 
 
-class TasksForeignPage(BaseBox):
+class TasksForeignPage(BasePage):
     """Foreign tasks pages."""
+
+    title = 'Задания по Иностранному языку'
 
     def __init__(self) -> None:
         """Construct the pages."""
         super().__init__()
-        self._label_title = TitleLabel(const.TITLE_FOREIGN_TASKS)
 
         # Info panel
         self._info_panel = InfoTextPanel(style=Pack(flex=1), value='')
 
         # fmt: off
         # Navigation buttons
-        self._btn_goto_test = BtnApp('Тест', on_press=goto_foreign_test_handler)  # noqa: E501
-        self._btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
+        self._btn_goto_test = BtnApp(self._nav.foreign_test)
+        self._btn_goto_back = BtnBack()
         # fmt: on
 
         # DOM
         self.add(
-            self._label_title,
             self._info_panel,
             self._btn_goto_test,
             self._btn_goto_back,

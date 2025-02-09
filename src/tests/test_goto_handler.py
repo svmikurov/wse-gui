@@ -59,14 +59,14 @@ MOCK_REQUEST_GLOSSARY_LIST = [
             '',
         ),
         (
-            goto_handler.goto_foreign_create_handler,
+            goto_handler.goto_foreign_create,
             'box_foreign_main',
             'box_foreign_create',
             'btn_goto_create',
             None,
         ),
         (
-            goto_handler.goto_foreign_params_handler,
+            goto_handler.goto_foreign_params,
             'box_foreign_main',
             'box_foreign_params',
             'btn_goto_params',

@@ -76,7 +76,7 @@ async def goto_foreign_main(widget: toga.Widget) -> None:
     await set_window_content(widget, box)
 
 
-async def goto_foreign_create_handler(
+async def goto_foreign_create(
     widget: toga.Widget, **kwargs: object
 ) -> None:
     """Go to foreign create, button handler."""
@@ -98,7 +98,7 @@ async def goto_foreign_table_handler(widget: toga.Widget) -> None:
     await set_window_content(widget, box)
 
 
-async def goto_foreign_params_handler(widget: toga.Widget) -> None:
+async def goto_foreign_params(widget: toga.Widget) -> None:
     """Go to foreign params, button handler."""
     box = widget.root.app.box_foreign_params
     await set_window_content(widget, box)
@@ -110,13 +110,13 @@ async def goto_foreign_exercise_handler(widget: toga.Widget) -> None:
     await set_window_content(widget, box)
 
 
-async def goto_foreign_tasks_handler(widget: toga.Widget) -> None:
+async def goto_foreign_tasks(widget: toga.Widget) -> None:
     """Go to foreign tasks, button handler."""
     box = widget.root.app.box_foreign_tasks
     await set_window_content(widget, box)
 
 
-async def goto_foreign_test_handler(widget: toga.Widget) -> None:
+async def goto_foreign_test(widget: toga.Widget) -> None:
     """Go to foreign test, button handler."""
     box = widget.root.app.box_word_test
     await set_window_content(widget, box)

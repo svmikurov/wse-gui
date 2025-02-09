@@ -30,7 +30,26 @@ class Navigation:
     ####################################################################
     # Foreign
 
-    foreign_main = {'text': 'Иностранный', 'on_press': gh.goto_foreign_main}
+    foreign_main = {
+        'text': 'Иностранный',
+        'on_press': gh.goto_foreign_main,
+    }
+    foreign_create = {
+        'text': 'Добавить слово',
+        'on_press': gh.goto_foreign_create,
+    }
+    foreign_params = {
+        'text': 'Изучение слов',
+        'on_press': gh.goto_foreign_params,
+    }
+    foreign_tasks = {
+        'text': 'Выполнение заданий',
+        'on_press': gh.goto_foreign_tasks,
+    }
+    foreign_test = {
+        'text': 'Тест',
+        'on_press': gh.goto_foreign_test,
+    }
 
     ####################################################################
     # Glossary
