@@ -10,26 +10,21 @@ from wse.constants import (
     CONNECTION_ERROR_MSG,
     INPUT_HEIGHT,
     LOGIN_PATH,
-    TITLE_LOGIN,
 )
 from wse.constants.settings import CONNECTION_BAD_MSG, CONNECTION_SUCCESS_MSG
 from wse.contrib.http_requests import obtain_token, request_auth_data
 from wse.models.user import User
+from wse.pages.base import BasePage
 from wse.pages.handlers.goto_handler import goto_main_handler
-from wse.pages.widgets.box_page import BaseBox, WidgetMixin
-from wse.pages.widgets.button import BtnApp
-from wse.pages.widgets.label import TitleLabel
+from wse.pages.widgets.box_page import WidgetMixin
+from wse.pages.widgets.button import BtnApp, BtnBack
 
 
-class LoginBox(WidgetMixin, BaseBox):
+class LoginBox(WidgetMixin, BasePage):
     """Credentials input widgets container."""
 
-    title = TITLE_LOGIN
-    """Box-container title (`str`).
-    """
+    title = 'Вход в учетную запись'
     url_path = LOGIN_PATH
-    """Url to login (`str`).
-    """
 
     def __init__(self, user: User) -> None:
         """Construct the widgets."""
@@ -41,20 +36,17 @@ class LoginBox(WidgetMixin, BaseBox):
 
         # Widgets.
         # fmt: off
-        self.label_title = TitleLabel(text=self.title)
         self.input_username = toga.TextInput(placeholder='Имя', style=style_input)  # noqa: E501
         self.input_password = toga.PasswordInput(placeholder='Пароль', style=style_input)  # noqa: E501
         self.btn_login = BtnApp(BTN_LOGIN, on_press=self.login_handler)
-        self.btn_goto_main = BtnApp('На главную', on_press=goto_main_handler)
         # fmt: on
 
         # Widgets DOM.
         self.add(
-            self.label_title,
             self.input_username,
             self.input_password,
             self.btn_login,
-            self.btn_goto_main,
+            BtnBack(),
         )
 
     async def on_open(self, widget: toga.Widget) -> None:

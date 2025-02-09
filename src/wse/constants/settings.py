@@ -47,7 +47,6 @@ TITLE_LABEL_PADDING = (5, 0, 10, 0)
 # Main
 BTN_GOTO_MAIN = 'На главную'
 # User
-TITLE_LOGIN = 'Вход в учетную запись'
 TITLE_USER_MAIN = 'Учетная запись'
 TITLE_USER_UPDATE = 'Изменить имя'
 TITLE_USER_CREATE = 'Регистрация'
