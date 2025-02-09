@@ -102,11 +102,6 @@ mvc_factory.add(
 # Mathematics
 
 mvc_factory.add(
-    'model_mult', models.MultiplicationModel,
-    'page_mult', pages.MultiplicationPage,
-    'contr_mult', controllers.MultContr,
-)
-mvc_factory.add(
     'model_calc', models.CalculationsModel,
     'page_calc', pages.CalculationsPage,
     'contr_calc', controllers.MultContr,
