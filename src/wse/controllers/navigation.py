@@ -6,9 +6,9 @@ from wse.contrib.singelton import Singleton
 from wse.pages.handlers import goto_handler as gh
 
 
-# TODO: Refactor: Add programming creation of button callbacks.
+# TODO: Refactor: Add programmatically creation of button callbacks.
 class Navigation(Singleton):
-    """Moving to page the button controller."""
+    """Navigation button controller."""
 
     def add(self, attr_name: str, text: str, callback: Callable) -> None:
         """Add button attrs for navigation."""

@@ -32,25 +32,12 @@ class MVCFactory:
         """Construct the factory."""
         self._mvc_collection = []
 
-    def add(
-        self,
-        model_instance: str,
-        model_class: ModelT | None,
-        view_instance: str,
-        view_class: ViewT,
-        contr_instance: str,
-        contr_class: ContrT,
-    ) -> None:
-        """Add models-controller-view."""
-        mvc = MVCData(
-            model_instance,
-            model_class,
-            view_instance,
-            view_class,
-            contr_instance,
-            contr_class,
-        )
-        self._mvc_collection.append(mvc)
+    def add(self, **kwargs: object) -> None:
+        """Add programmatically models-controller-view."""
+        attrs = []
+        for item in kwargs.items():
+            attrs.extend(item)
+        self._mvc_collection.append(MVCData(*attrs))
 
     def initialize(self, obj: toga.App) -> None:
         """Initialize the MVC model instances."""
@@ -71,21 +58,19 @@ class MVCFactory:
         # fmt: on
 
     @staticmethod
-    def _setattr(obj: toga.App, name: str, value: ModelT | ViewT) -> object:
+    def _setattr(obj: object, name: str, value: object) -> object:
         setattr(obj, name, value)
         return getattr(obj, name)
 
 
 mvc_factory = MVCFactory()
-# fmt: off
-
 ########################################################################
 # Main
 
 mvc_factory.add(
-    'model_main', None,
-    'page_main', pages.HomePage,
-    'contr_main', controllers.MainContr,
+    model_main=None,
+    page_main=pages.HomePage,
+    contr_main=controllers.MainContr,
 )
 
 ########################################################################
@@ -102,8 +87,7 @@ mvc_factory.add(
 # Mathematics
 
 mvc_factory.add(
-    'model_calc', models.CalculationsModel,
-    'page_calc', pages.CalculationsPage,
-    'contr_calc', controllers.MultContr,
+    model_calc=models.CalculationsModel,
+    page_calc=pages.CalculationsPage,
+    contr_calc=controllers.MultContr,
 )
-# fmt: on
