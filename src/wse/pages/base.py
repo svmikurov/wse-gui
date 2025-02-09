@@ -7,7 +7,7 @@ from toga.constants import COLUMN
 from toga.sources import Listener
 
 from wse.constants.settings import PADDING_SM
-from wse.controllers.nav import Navigation
+from wse.controllers.navigation import Navigation
 from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.text_input import UserInfoPanel
 

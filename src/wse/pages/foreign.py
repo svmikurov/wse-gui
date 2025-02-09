@@ -166,15 +166,9 @@ class TasksForeignPage(BasePage):
         # Info panel
         self._info_panel = InfoTextPanel(style=Pack(flex=1), value='')
 
-        # fmt: off
-        # Navigation buttons
-        self._btn_goto_test = BtnApp(self._nav.foreign_test)
-        self._btn_goto_back = BtnBack()
-        # fmt: on
-
         # DOM
         self.add(
             self._info_panel,
-            self._btn_goto_test,
-            self._btn_goto_back,
+            BtnApp(**self._nav.foreign_test),
+            BtnBack(),
         )
