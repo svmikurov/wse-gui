@@ -5,17 +5,18 @@ from toga.constants import LEFT, RIGHT
 from toga.style import Pack
 
 from wse.pages.base import BasePage
-from wse.pages.containers.fraction import FractionLayout
-from wse.pages.containers.num_keyboard import NumKeyboard
-from wse.pages.handlers.goto_handler import (
-    goto_calculations_exercise,
-    goto_fraction_exercise_handler,
-    goto_multiplication_exercise_handler,
+from wse.pages.containers import FractionLayout, NumKeyboard
+from wse.pages.widgets import (
+    BoxFlexCol,
+    BoxFlexRow,
+    BtnApp,
+    BtnBack,
 )
-from wse.pages.widgets.box import BoxFlexCol, BoxFlexRow
-from wse.pages.widgets.box_page import BaseBox
-from wse.pages.widgets.button import BtnApp, BtnBack
-from wse.pages.widgets.label import TitleLabel
+
+NUM_FONT_SIZE = 48
+HEIGHT_VS_FONT_SIZE_RATIO = 1.6
+MAX_DIGIT_COUNT = 3
+NUM_HEIGHT = int(NUM_FONT_SIZE * HEIGHT_VS_FONT_SIZE_RATIO)
 
 
 class Panel(toga.Label):
@@ -29,37 +30,26 @@ class Panel(toga.Label):
         self.style.font_size = NUM_FONT_SIZE
 
 
-class MathematicalMainPage(BaseBox):
-    """Mathematical exercises main pages."""
+class MathematicsMainPage(BasePage):
+    """Mathematics exercises main pages."""
 
     title = 'Упражнения по математике'
 
     def __init__(self) -> None:
         """Construct the pages."""
         super().__init__()
-        _label_title = TitleLabel(text=self.title)
 
-        _btn_goto_calculations = BtnApp(
-            'Упражнение на вычисления', on_press=goto_calculations_exercise
-        )
-        _btn_goto_fraction = BtnApp(
-            'Упражнения с дробями', on_press=goto_fraction_exercise_handler
-        )
+        # Navigation buttons
+        _btn_goto_calculations = BtnApp(**self._nav.calculations)
+        _btn_goto_fraction = BtnApp(**self._nav.fractions)
 
         # DOM
         self.add(
-            _label_title,
             BoxFlexRow(),
             _btn_goto_calculations,
             _btn_goto_fraction,
             BtnBack(),
         )
-
-
-NUM_FONT_SIZE = 48
-HEIGHT_VS_FONT_SIZE_RATIO = 1.6
-MAX_DIGIT_COUNT = 3
-NUM_HEIGHT = int(NUM_FONT_SIZE * HEIGHT_VS_FONT_SIZE_RATIO)
 
 
 class CalculationsPage(BasePage):
@@ -86,7 +76,6 @@ class CalculationsPage(BasePage):
             style=Pack(padding=self._padding),
             children=[self.question_text, self.input_answer],
         )
-        _box_align = BoxFlexCol()
         _box_btns = toga.Box(children=[_btn_goto_back, self.btn_submit])
 
         # Outer boxes
@@ -101,7 +90,7 @@ class CalculationsPage(BasePage):
         self.add(
             _box_task_outer,
             _box_panel_result_outer,
-            _box_align,
+            BoxFlexCol(),
             self.num_keyboard,
             _box_btns,
         )

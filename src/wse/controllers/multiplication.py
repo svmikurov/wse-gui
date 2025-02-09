@@ -53,11 +53,6 @@ class MultContr(BaseContr):
         """Display answer result."""
         self._view.panel_result.text = text
 
-    def set_title(self, text: str) -> None:
-        """Set page title."""
-        self._view.label_title.text = text
-        self._view.insert(1, self._view.label_title)
-
     ####################################################################
     # Button callback functions
 

@@ -1,7 +1,5 @@
 """Moving to page controller."""
 
-from typing import Callable
-
 from wse.pages.handlers import goto_handler as gh
 
 
@@ -42,7 +40,18 @@ class Navigation:
     ####################################################################
     # Mathematics
 
-    math_main = {'text': 'Математика', 'on_press': gh.goto_math_main}
+    math_main = {
+        'text': 'Математика',
+        'on_press': gh.goto_math_main,
+    }
+    calculations = {
+        'text': 'Упражнение на вычисления',
+        'on_press': gh.goto_calculations_exercise,
+    }
+    fractions = {
+        'text': 'Упражнения с дробями',
+        'on_press': gh.goto_fraction_exercise,
+    }
 
     ####################################################################
     # Mentoring

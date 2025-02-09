@@ -43,6 +43,11 @@ class BaseContr(Listener):
         self._user = model
         self._user.add_listener(self)
 
+    def set_title(self, text: str) -> None:
+        """Set page title."""
+        self._view.label_title.text = text
+        self._view.insert(1, self._view.label_title)
+
     ####################################################################
     # Listener methods
 

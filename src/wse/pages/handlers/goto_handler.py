@@ -188,7 +188,7 @@ async def goto_calculations_exercise(widget: toga.Widget) -> None:
     await set_window_content(widget, box)
 
 
-async def goto_fraction_exercise_handler(widget: toga.Widget) -> None:
+async def goto_fraction_exercise(widget: toga.Widget) -> None:
     """Go to fraction exercise, button handler."""
     box = widget.root.app.box_fraction_exercise
     await set_window_content(widget, box)

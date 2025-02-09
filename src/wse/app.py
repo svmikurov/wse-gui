@@ -103,7 +103,7 @@ class WSE(MenuMixin, toga.App):
         self.box_glossary_selected = pages.TableTermPage(self.plc_selected_glossary)  # noqa: E501
 
         # Mathematical study pages boxes
-        self.box_mathematics_main = pages.MathematicalMainPage()
+        self.box_mathematics_main = pages.MathematicsMainPage()
         self.box_fraction_exercise = pages.FractionExercisePage()
 
         # Mentoring pages

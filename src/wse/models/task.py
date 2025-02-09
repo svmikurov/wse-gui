@@ -4,7 +4,7 @@ from urllib.parse import urljoin
 
 from toga.sources import Source
 
-from wse.constants import HOST, MATHEMATICS_MULTIPLICATION_PATH
+from wse.constants import HOST
 from wse.constants.url import MATH_CALCULATIONS_PATH
 from wse.contrib.http_requests import request_get_async, request_post_async
 
@@ -79,13 +79,6 @@ class _TaskModel(Source):
         await request_post_async(url, payload)
 
 
-class MultiplicationModel(_TaskModel):
-    """Calculations model with user input."""
-
-    url = urljoin(HOST, MATHEMATICS_MULTIPLICATION_PATH)
-    title = 'Таблица умножения'
-
-
 class CalculationsModel(_TaskModel):
     """Calculations model with user input."""
 
@@ -94,6 +87,6 @@ class CalculationsModel(_TaskModel):
 
     @staticmethod
     async def _request_task(url: str) -> dict:
-        payload = {'exercise_type': 'sub'}
+        payload = {'exercise_type': 'mul'}
         response = await request_post_async(url, payload)
         return response.json()

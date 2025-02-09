@@ -17,6 +17,8 @@ ContrT = TypeVar('ContrT', bound=Listener)
 class BasePage(toga.Box):
     """Base pages."""
 
+    title = ''
+
     def __init__(self) -> None:
         """Construct the pages."""
         super().__init__()
@@ -30,7 +32,7 @@ class BasePage(toga.Box):
         # Base page has button controller to move to pages.
         self._nav = Navigation()
 
-        self.label_title = TitleLabel('')
+        self.label_title = TitleLabel(self.title)
 
         # User data panel
         self.user_info_panel = UserInfoPanel()
@@ -38,6 +40,7 @@ class BasePage(toga.Box):
         # DOM
         self.add(
             self.user_info_panel,
+            self.label_title,
         )
 
     async def on_open(self, widget: toga.Widget) -> None:
