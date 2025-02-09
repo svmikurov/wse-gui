@@ -2,59 +2,47 @@
 
 from urllib.parse import urljoin
 
-import toga
 from toga.style import Pack
 
 from wse import constants as const
 from wse.constants import TEXT_DISPLAY_FONT_SIZE
 from wse.controllers.form import TermFormController
+from wse.pages.base import BasePage
 from wse.pages.containers.exercise import ExerciseLayout
 from wse.pages.containers.form import FormLayout
 from wse.pages.containers.params import ParamsLayout
 from wse.pages.containers.table import TableLayout
 from wse.pages.handlers.goto_handler import (
-    goto_back_handler,
-    goto_glossary_create_handler,
+    goto_glossary_create,
     goto_glossary_exercise_handler,
-    goto_glossary_params_handler,
     goto_glossary_selected_handler,
     goto_glossary_update_handler,
 )
-from wse.pages.widgets.box_page import BaseBox, WidgetMixin
-from wse.pages.widgets.button import BtnApp
-from wse.pages.widgets.label import TitleLabel
+from wse.pages.widgets import BoxFlexCol
+from wse.pages.widgets.box_page import WidgetMixin
+from wse.pages.widgets.button import BtnApp, BtnBack
 from wse.pages.widgets.text_input import InputTextField
 
 ACCESSORS = ['id', 'term', 'definition']
 
 
-class MainGlossaryWidget(WidgetMixin, BaseBox):
+class MainGlossaryWidget(WidgetMixin, BasePage):
     """Glossary main box."""
+
+    title = 'Глоссарий'
 
     def __init__(self) -> None:
         """Construct the pages."""
         super().__init__()
 
-        self._label_title = TitleLabel(const.TITLE_GLOSSARY_MAIN)
-
         # Buttons
-        self._btn_goto_params = BtnApp(
-            const.BTN_GOTO_GLOSSARY_PARAMS,
-            on_press=goto_glossary_params_handler,
-        )
-        self._btn_goto_create = BtnApp(
-            const.BTN_GOTO_GLOSSARY_CREATE,
-            on_press=goto_glossary_create_handler,
-        )
-        self._btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
-
-        # The buttons are located at the bottom of the pages.
-        self._box_alignment = toga.Box(style=Pack(flex=1))
+        self._btn_goto_params = BtnApp(**self._nav.glossary_params)
+        self._btn_goto_create = BtnApp(**self._nav.glossary_create)
+        self._btn_goto_back = BtnBack()
 
         # DOM
         self.add(
-            self._label_title,
-            self._box_alignment,
+            BoxFlexCol(),
             self._btn_goto_create,
             self._btn_goto_params,
             self._btn_goto_back,
@@ -167,5 +155,5 @@ class TableTermPage(TableLayout):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the pages."""
         super().__init__(*args, **kwargs)
-        self._plc.goto_create_handler = goto_glossary_create_handler
+        self._plc.goto_create_handler = goto_glossary_create
         self._plc.goto_update_handler = goto_glossary_update_handler

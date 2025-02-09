@@ -2,7 +2,6 @@
 
 from urllib.parse import urljoin
 
-import toga
 from toga.style import Pack
 
 from wse import constants as const
@@ -14,19 +13,14 @@ from wse.pages.containers.form import FormLayout
 from wse.pages.containers.params import ParamsLayout
 from wse.pages.containers.table import TableLayout
 from wse.pages.handlers.goto_handler import (
-    goto_back_handler,
     goto_foreign_create,
     goto_foreign_exercise_handler,
-    goto_foreign_params,
     goto_foreign_table_handler,
-    goto_foreign_tasks,
-    goto_foreign_test,
     goto_foreign_update_handler,
 )
 from wse.pages.widgets import BoxFlexCol
-from wse.pages.widgets.box_page import BaseBox, WidgetMixin
+from wse.pages.widgets.box_page import WidgetMixin
 from wse.pages.widgets.button import BtnApp, BtnBack
-from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.text_input import InfoTextPanel, InputTextField
 
 ACCESSORS = ['id', 'foreign_word', 'native_word']

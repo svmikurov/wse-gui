@@ -54,7 +54,18 @@ class Navigation:
     ####################################################################
     # Glossary
 
-    glossary_main = {'text': 'Глоссарий', 'on_press': gh.goto_glossary_main}
+    glossary_main = {
+        'text': 'Глоссарий',
+        'on_press': gh.goto_glossary_main,
+    }
+    glossary_params = {
+        'text': 'Изучение терминов',
+        'on_press': gh.goto_glossary_params,
+    }
+    glossary_create = {
+        'text': 'Добавить термин',
+        'on_press': gh.goto_glossary_create,
+    }
 
     ####################################################################
     # Mathematics

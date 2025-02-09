@@ -4,9 +4,8 @@ import toga
 from toga.constants import COLUMN
 from toga.style.pack import Pack
 
-from wse.pages.handlers.goto_handler import goto_back_handler
 from wse.pages.widgets.box_page import BaseBox
-from wse.pages.widgets.button import AnswerBtn, BtnApp
+from wse.pages.widgets.button import AnswerBtn, BtnApp, BtnBack
 from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.progress_bar import ProgressBarApp
 from wse.pages.widgets.text_input import ExerciseTextPanel, InfoTextPanel
@@ -60,7 +59,7 @@ class ExerciseWidgets:
         self._btn_favorites = BtnApp('Избранное', on_press=self._plc.favorites)
 
         # Navigation buttons
-        self._btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
+        self._btn_goto_back = BtnBack()
 
         # Listeners
         self._plc.question.add_listener(self._text_panel_question)

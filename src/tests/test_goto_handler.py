@@ -88,14 +88,14 @@ MOCK_REQUEST_GLOSSARY_LIST = [
             None,
         ),
         (
-            goto_handler.goto_glossary_create_handler,
+            goto_handler.goto_glossary_create,
             'box_glossary_main',
             'box_glossary_create',
             '_btn_goto_create',
             None,
         ),
         (
-            goto_handler.goto_glossary_params_handler,
+            goto_handler.goto_glossary_params,
             'box_glossary_main',
             'box_glossary_params',
             '_btn_goto_params',
