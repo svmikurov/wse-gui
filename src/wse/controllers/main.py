@@ -12,7 +12,7 @@ ModelT = TypeVar('ModelT', bound=Source)
 ViewT = TypeVar('ViewT', bound=toga.Box)
 
 
-class MainContr(BaseContr):
+class HomeContr(BaseContr):
     """Main pages controller."""
 
     _user: User

@@ -1,11 +1,11 @@
 """Application models."""
 
 from wse.models.task import (
-    CalculationsModel,
+    CalcModel,
 )
 from wse.models.user import User
 
 __all__ = [
-    'CalculationsModel',
+    'CalcModel',
     'User',
 ]

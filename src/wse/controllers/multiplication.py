@@ -11,7 +11,7 @@ ModelT = TypeVar('ModelT', bound=Source)
 ViewT = TypeVar('ViewT', bound=toga.Box)
 
 
-class MultContr(BaseContr):
+class CalcContr(BaseContr):
     """Multiplication exercise controller."""
 
     def __init__(self, model: ModelT, view: ViewT) -> None:

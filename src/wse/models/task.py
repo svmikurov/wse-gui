@@ -79,7 +79,7 @@ class _TaskModel(Source):
         await request_post_async(url, payload)
 
 
-class CalculationsModel(_TaskModel):
+class CalcModel(_TaskModel):
     """Calculations model with user input."""
 
     url = urljoin(HOST, MATH_CALCULATIONS_PATH)

@@ -70,7 +70,7 @@ mvc_factory = MVCFactory()
 mvc_factory.add(
     model_main=None,
     page_main=pages.HomePage,
-    contr_main=controllers.MainContr,
+    contr_main=controllers.HomeContr,
 )
 
 ########################################################################
@@ -87,7 +87,7 @@ mvc_factory.add(
 # Mathematics
 
 mvc_factory.add(
-    model_calc=models.CalculationsModel,
-    page_calc=pages.CalculationsPage,
-    contr_calc=controllers.MultContr,
+    model_calc=models.CalcModel,
+    page_calc=pages.CalcPage,
+    contr_calc=controllers.CalcContr,
 )

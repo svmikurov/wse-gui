@@ -52,7 +52,7 @@ class MathematicsMainPage(BasePage):
         )
 
 
-class CalculationsPage(BasePage):
+class CalcPage(BasePage):
     """Mathematics calculations page."""
 
     _padding = (30, 0, 0, 0)

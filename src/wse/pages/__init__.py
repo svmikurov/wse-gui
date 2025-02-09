@@ -27,7 +27,7 @@ from wse.pages.main import (
     HomePage,
 )
 from wse.pages.mathematics import (
-    CalculationsPage,
+    CalcPage,
     FractionExercisePage,
     MathematicsMainPage,
 )
@@ -37,7 +37,7 @@ from wse.pages.mentoring import (
 )
 
 __all__ = (
-    'CalculationsPage',
+    'CalcPage',
     'CreateTermPage',
     'CreateWordPage',
     'ExerciseForeignPage',
