@@ -76,7 +76,7 @@ class Navigation:
     }
     calculations = {
         'text': 'Упражнение на вычисления',
-        'on_press': gh.goto_calculations_exercise,
+        'on_press': gh.goto_calc_exercise,
     }
     fractions = {
         'text': 'Упражнения с дробями',
@@ -86,7 +86,14 @@ class Navigation:
     ####################################################################
     # Mentoring
 
-    mentoring = {'text': 'Выполнение заданий', 'on_press': gh.goto_mentoring}
+    mentoring = {
+        'text': 'Выполнение заданий',
+        'on_press': gh.goto_mentoring,
+    }
+    word_test = {
+        'text': 'Тест по иностранному языку',
+        'on_press': gh.goto_word_test,
+    }
 
     ####################################################################
     # Explorer

@@ -4,8 +4,7 @@ import toga
 
 from wse.constants import STYLE_BTN_CANCEL, STYLE_BTN_CONFIRM
 from wse.pages.base import BasePage
-from wse.pages.widgets.button import BtnApp
-from wse.pages.widgets.text_input import InfoPanel
+from wse.pages.widgets import BtnApp, InfoPanel
 
 
 class MainPage(BasePage):

@@ -69,27 +69,26 @@ class CalculationsPage(BasePage):
         # Buttons
         self.num_keyboard = NumKeyboard(max_digit_count=MAX_DIGIT_COUNT)
         self.btn_submit = BtnApp('Ответить')
-        _btn_goto_back = BtnBack()
 
         # Inner boxes
-        _box_task = toga.Box(
+        _box_task_inner = toga.Box(
             style=Pack(padding=self._padding),
             children=[self.question_text, self.input_answer],
         )
-        _box_btns = toga.Box(children=[_btn_goto_back, self.btn_submit])
 
-        # Outer boxes
-        _box_task_outer = toga.Box(
-            children=[BoxFlexRow(), _box_task, BoxFlexRow()]
+        # Boxes
+        _box_task = toga.Box(
+            children=[BoxFlexRow(), _box_task_inner, BoxFlexRow()]
         )
-        _box_panel_result_outer = toga.Box(
+        _box_panel_result = toga.Box(
             children=[BoxFlexRow(), self.panel_result, BoxFlexRow()]
         )
+        _box_btns = toga.Box(children=[BtnBack(), self.btn_submit])
 
         # DOM
         self.add(
-            _box_task_outer,
-            _box_panel_result_outer,
+            _box_task,
+            _box_panel_result,
             BoxFlexCol(),
             self.num_keyboard,
             _box_btns,
