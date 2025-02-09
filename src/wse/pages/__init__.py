@@ -24,7 +24,7 @@ from wse.pages.login import (
     LoginBox,
 )
 from wse.pages.main import (
-    MainPage,
+    HomePage,
 )
 from wse.pages.mathematics import (
     CalculationsPage,
@@ -47,7 +47,7 @@ __all__ = (
     'LoginBox',
     'MainForeignPage',
     'MainGlossaryWidget',
-    'MainPage',
+    'HomePage',
     'MathematicsMainPage',
     'MentoringPage',
     'ParamsForeignPage',

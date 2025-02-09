@@ -84,7 +84,7 @@ mvc_factory = MVCFactory()
 
 mvc_factory.add(
     'model_main', None,
-    'page_main', pages.MainPage,
+    'page_main', pages.HomePage,
     'contr_main', controllers.MainContr,
 )
 

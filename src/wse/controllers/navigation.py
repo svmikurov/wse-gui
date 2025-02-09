@@ -18,7 +18,7 @@ class Navigation(Singleton):
 
 nav = Navigation()
 
-####################################################################
+########################################################################
 # Main
 
 nav.add('login', 'Вход в учетную запись', gh.goto_login)
@@ -32,7 +32,7 @@ nav.add('foreign_params', 'Изучение слов', gh.goto_foreign_params)
 nav.add('foreign_tasks', 'Выполнение заданий', gh.goto_foreign_tasks)
 nav.add('foreign_test', 'Тест', gh.goto_foreign_test)
 
-####################################################################
+########################################################################
 # Glossary
 
 nav.add('glossary_main', 'Глоссарий', gh.goto_glossary_main)
