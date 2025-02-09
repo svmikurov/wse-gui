@@ -41,7 +41,7 @@ def test_glossary_widget_order(wse: WSE) -> None:
     set_window_content(wse, box)
 
     assert box.children == [
-        box._label_title,
+        box.label_title,
         box._input_term,
         box._input_definition,
         box._btn_submit,

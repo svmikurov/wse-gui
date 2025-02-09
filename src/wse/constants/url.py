@@ -83,6 +83,7 @@ GLOSSARY_SELECTED_PATH = '/api/v1/glossary/selected/'
 """
 
 MATHEMATICS_MULTIPLICATION_PATH = '/api/v1/mathematics/multiplication/'
+MATH_CALCULATIONS_PATH = '/api/v1/mathematics/calculations/'
 
 HTTP_400_BAD_REQUEST = HTTPStatus.BAD_REQUEST
 HTTP_401_UNAUTHORIZED = HTTPStatus.UNAUTHORIZED

@@ -32,7 +32,7 @@ class MVCFactory:
         """Construct the factory."""
         self._mvc_collection = []
 
-    def add_mvc(
+    def add(
         self,
         model_instance: str,
         model_class: ModelT | None,
@@ -54,18 +54,21 @@ class MVCFactory:
 
     def initialize(self, obj: toga.App) -> None:
         """Initialize the MVC model instances."""
+        # fmt: off
         for mvc in self._mvc_collection:
             model = (
                 self._setattr(obj, mvc.model_attr_name, mvc.model_class())
                 if mvc.model_class
                 else None
             )
-            view = self._setattr(obj, mvc.view_attr_name, mvc.view_class())
-            setattr(obj, mvc.contr_attr_name, mvc.contr_class(model, view))
+            view = self._setattr(
+                obj, mvc.view_attr_name, mvc.view_class()
+            )
             contr = self._setattr(
                 obj, mvc.contr_attr_name, mvc.contr_class(model, view)
             )
             contr.set_user(obj.user)
+        # fmt: on
 
     @staticmethod
     def _setattr(obj: toga.App, name: str, value: ModelT | ViewT) -> object:
@@ -75,14 +78,37 @@ class MVCFactory:
 
 mvc_factory = MVCFactory()
 # fmt: off
-mvc_factory.add_mvc(
+
+########################################################################
+# Main
+
+mvc_factory.add(
     'model_main', None,
     'page_main', pages.MainPage,
     'contr_main', controllers.MainContr,
 )
-mvc_factory.add_mvc(
-    'model_mult', models.TaskModel,
-    'page_mult', pages.MultPage,
+
+########################################################################
+# Foreign
+
+...
+
+########################################################################
+# Glossary
+
+...
+
+########################################################################
+# Mathematics
+
+mvc_factory.add(
+    'model_mult', models.MultiplicationModel,
+    'page_mult', pages.MultiplicationPage,
     'contr_mult', controllers.MultContr,
+)
+mvc_factory.add(
+    'model_calc', models.CalculationsModel,
+    'page_calc', pages.CalculationsPage,
+    'contr_calc', controllers.MultContr,
 )
 # fmt: on

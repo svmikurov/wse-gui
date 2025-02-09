@@ -5,13 +5,15 @@ from urllib.parse import urljoin
 from toga.sources import Source
 
 from wse.constants import HOST, MATHEMATICS_MULTIPLICATION_PATH
+from wse.constants.url import MATH_CALCULATIONS_PATH
 from wse.contrib.http_requests import request_get_async, request_post_async
 
 
-class TaskModel(Source):
+class _TaskModel(Source):
     """Task models with user answer input."""
 
-    url = urljoin(HOST, MATHEMATICS_MULTIPLICATION_PATH)
+    url: str
+    title: str
 
     def __init__(self) -> None:
         """Construct the task."""
@@ -23,6 +25,7 @@ class TaskModel(Source):
     async def start_new_task(self) -> None:
         """Start a new task."""
         data = await self._request_task(self.url)
+        self._set_page_data()
         self._save_task_data(data)
         self._display_question()
 
@@ -59,6 +62,9 @@ class TaskModel(Source):
     def _display_result(self, text: str) -> None:
         self.notify('display_result', text=text)
 
+    def _set_page_data(self) -> None:
+        self.notify('set_title', text=self.title)
+
     #####################################################################
     # HTTP requests
 
@@ -71,3 +77,23 @@ class TaskModel(Source):
     async def _send_answer(url: str, user_answer: str) -> None:
         payload = {'answer': user_answer}
         await request_post_async(url, payload)
+
+
+class MultiplicationModel(_TaskModel):
+    """Calculations model with user input."""
+
+    url = urljoin(HOST, MATHEMATICS_MULTIPLICATION_PATH)
+    title = 'Таблица умножения'
+
+
+class CalculationsModel(_TaskModel):
+    """Calculations model with user input."""
+
+    url = urljoin(HOST, MATH_CALCULATIONS_PATH)
+    title = 'Упражнение на вычисления'
+
+    @staticmethod
+    async def _request_task(url: str) -> dict:
+        payload = {'exercise_type': 'sub'}
+        response = await request_post_async(url, payload)
+        return response.json()

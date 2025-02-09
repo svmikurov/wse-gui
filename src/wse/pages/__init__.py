@@ -1,5 +1,11 @@
 """App boxes to assign to window content."""
 
+from wse.pages.containers.calculations import (
+    CalculationsPage,
+)
+from wse.pages.containers.multiplication import (
+    MultiplicationPage,
+)
 from wse.pages.examples.explorer import (
     ExplorerLayout,
 )
@@ -29,7 +35,6 @@ from wse.pages.main import (
 from wse.pages.mathematics import (
     FractionExercisePage,
     MathematicalMainPage,
-    MultPage,
 )
 from wse.pages.mentoring import (
     MentoringPage,
@@ -37,6 +42,7 @@ from wse.pages.mentoring import (
 )
 
 __all__ = (
+    'CalculationsPage',
     'CreateTermPage',
     'CreateWordPage',
     'ExerciseForeignPage',
@@ -44,12 +50,12 @@ __all__ = (
     'ExplorerLayout',
     'FractionExercisePage',
     'LoginBox',
-    'MainPage',
     'MainForeignPage',
     'MainGlossaryWidget',
+    'MainPage',
     'MathematicalMainPage',
     'MentoringPage',
-    'MultPage',
+    'MultiplicationPage',
     'ParamsForeignPage',
     'ParamsGlossaryPage',
     'TableTermPage',

@@ -1,8 +1,8 @@
 """Mathematical exercise pages."""
 
 from wse.pages.containers.fraction import FractionLayout
-from wse.pages.containers.multiplication import MultiplicationWidgets
 from wse.pages.handlers.goto_handler import (
+    goto_calculations_exercise,
     goto_fraction_exercise_handler,
     goto_multiplication_exercise_handler,
 )
@@ -25,6 +25,9 @@ class MathematicalMainPage(BaseBox):
         _btn_goto_multiplication = BtnApp(
             'Таблица умножения', on_press=goto_multiplication_exercise_handler
         )
+        _btn_goto_calculations = BtnApp(
+            'Упражнение на вычисления', on_press=goto_calculations_exercise
+        )
         _btn_goto_fraction = BtnApp(
             'Упражнения с дробями', on_press=goto_fraction_exercise_handler
         )
@@ -34,15 +37,10 @@ class MathematicalMainPage(BaseBox):
             _label_title,
             BoxFlexRow(),
             _btn_goto_multiplication,
+            _btn_goto_calculations,
             _btn_goto_fraction,
             BtnBack(),
         )
-
-
-class MultPage(MultiplicationWidgets):
-    """Multiplication exercise pages."""
-
-    title = 'Таблица умножения'
 
 
 class FractionExercisePage(FractionLayout):

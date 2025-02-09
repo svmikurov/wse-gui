@@ -1,10 +1,7 @@
-"""Multiplication exercise pages."""
-
-from typing import TypeVar
+"""Mathematics calculations page."""
 
 import toga
 from toga.constants import LEFT, RIGHT
-from toga.sources import Listener
 from toga.style import Pack
 
 from wse.pages.base import BasePage
@@ -16,8 +13,6 @@ NUM_FONT_SIZE = 48
 HEIGHT_VS_FONT_SIZE_RATIO = 1.6
 MAX_DIGIT_COUNT = 3
 NUM_HEIGHT = int(NUM_FONT_SIZE * HEIGHT_VS_FONT_SIZE_RATIO)
-
-ContrT = TypeVar('ContrT', bound=Listener)
 
 
 class Panel(toga.Label):
@@ -31,8 +26,8 @@ class Panel(toga.Label):
         self.style.font_size = NUM_FONT_SIZE
 
 
-class MultiplicationPage(BasePage):
-    """Multiplication exercise widgets."""
+class CalculationsPage(BasePage):
+    """Mathematics calculations page."""
 
     _padding = (30, 0, 0, 0)
 
@@ -50,7 +45,7 @@ class MultiplicationPage(BasePage):
         self.btn_submit = BtnApp('Ответить')
         _btn_goto_back = BtnBack()
 
-        # Boxes
+        # Inner boxes
         _box_task = toga.Box(
             style=Pack(padding=self._padding),
             children=[self.question_text, self.input_answer],
