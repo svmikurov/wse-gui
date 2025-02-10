@@ -1,18 +1,19 @@
 """Exercise models."""
-
+import asyncio
 from urllib.parse import urljoin
 
 from toga.sources import Source
 
 from wse.constants import HOST
-from wse.constants.url import MATH_CALCULATIONS_PATH
+from wse.constants.url import CALC_TASK_PATH, CALC_ANSWER_PATH
 from wse.contrib.http_requests import request_get_async, request_post_async
 
 
 class _TaskModel(Source):
     """Task models with user answer input."""
 
-    url: str
+    url_task: str
+    url_answer: str
     title: str
 
     def __init__(self) -> None:
@@ -24,7 +25,7 @@ class _TaskModel(Source):
 
     async def start_new_task(self) -> None:
         """Start a new task."""
-        data = await self._request_task(self.url)
+        data = await self._request_task(self.url_task)
         self._set_page_data()
         self._save_task_data(data)
         self._display_question()
@@ -40,6 +41,8 @@ class _TaskModel(Source):
 
     async def check_user_answer(self) -> None:
         """Clear entered answer."""
+        await self._send_answer(self.url_answer, self._user_answer)
+
         if self._user_answer == self._answer:
             self._clear()
             await self.start_new_task()
@@ -82,7 +85,8 @@ class _TaskModel(Source):
 class CalcModel(_TaskModel):
     """Calculations model with user input."""
 
-    url = urljoin(HOST, MATH_CALCULATIONS_PATH)
+    url_task = urljoin(HOST, CALC_TASK_PATH)
+    url_answer = urljoin(HOST, CALC_ANSWER_PATH)
     title = 'Упражнение на вычисления'
 
     @staticmethod

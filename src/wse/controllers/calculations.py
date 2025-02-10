@@ -12,7 +12,7 @@ ViewT = TypeVar('ViewT', bound=toga.Box)
 
 
 class CalcContr(BaseContr):
-    """Multiplication exercise controller."""
+    """Calculation exercise controller."""
 
     def __init__(self, model: ModelT, view: ViewT) -> None:
         """Construct ht controller."""
