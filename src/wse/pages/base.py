@@ -7,7 +7,7 @@ from toga.constants import COLUMN
 from toga.sources import Listener
 
 from wse.constants.settings import PADDING_SM
-from wse.controllers.navigation import Navigation
+from wse.contrib.navigation import NavigationAttrs
 from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.text_input import UserInfoPanel
 
@@ -30,7 +30,7 @@ class BasePage(toga.Box):
         # Controllers
         self._contr: ContrT | None = None
         # Base page has button controller to move to pages.
-        self._nav = Navigation()
+        self._nav = NavigationAttrs()
 
         self.label_title = TitleLabel(self.title)
 

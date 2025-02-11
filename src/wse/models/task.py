@@ -1,11 +1,11 @@
 """Exercise models."""
-import asyncio
+
 from urllib.parse import urljoin
 
 from toga.sources import Source
 
 from wse.constants import HOST
-from wse.constants.url import CALC_TASK_PATH, CALC_ANSWER_PATH
+from wse.constants.url import CALC_ANSWER_PATH, CALC_TASK_PATH
 from wse.contrib.http_requests import request_get_async, request_post_async
 
 
