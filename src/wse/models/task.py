@@ -9,7 +9,7 @@ from wse.constants.url import CALC_ANSWER_PATH, CALC_TASK_PATH
 from wse.contrib.http_requests import request_get_async, request_post_async
 
 
-class _TaskModel(Source):
+class TaskModel(Source):
     """Task models with user answer input."""
 
     url_task: str
@@ -20,30 +20,30 @@ class _TaskModel(Source):
         """Construct the task."""
         super().__init__()
         self._question: str | None = None
+        self._solution: str | None = None
         self._answer: str | None = None
-        self._user_answer: str | None = None
 
     async def start_new_task(self) -> None:
         """Start a new task."""
         data = await self._request_task(self.url_task)
         self._set_page_data()
-        self._save_task_data(data)
+        self._set_task_data(data)
         self._display_question()
 
-    def _save_task_data(self, data: dict) -> None:
+    def _set_task_data(self, data: dict) -> None:
         self._question = data['question']
-        self._answer = data['answer']
+        self._solution = data['solution']
 
-    def update_user_answer(self, user_answer: str) -> None:
+    def update_answer(self, answer: str) -> None:
         """Update entered answer."""
-        self._user_answer = user_answer
-        self._display_user_answer()
+        self._answer = answer
+        self._display_answer()
 
-    async def check_user_answer(self) -> None:
-        """Clear entered answer."""
-        await self._send_answer(self.url_answer, self._user_answer)
+    async def check_answer(self) -> None:
+        """Check user answer."""
+        await self._send_answer(self.url_answer, self._answer)
 
-        if self._user_answer == self._answer:
+        if self._solution == self._answer:
             self._clear()
             await self.start_new_task()
         else:
@@ -53,14 +53,14 @@ class _TaskModel(Source):
     # Notifications
 
     def _clear(self) -> None:
-        """Clear previous values of widgets."""
+        """Clear values of widgets."""
         self.notify('clear')
 
     def _display_question(self) -> None:
         self.notify('display_question', text=self._question)
 
-    def _display_user_answer(self) -> None:
-        self.notify('display_user_answer', text=self._user_answer)
+    def _display_answer(self) -> None:
+        self.notify('display_answer', text=self._answer)
 
     def _display_result(self, text: str) -> None:
         self.notify('display_result', text=text)
@@ -82,7 +82,7 @@ class _TaskModel(Source):
         await request_post_async(url, payload)
 
 
-class CalcModel(_TaskModel):
+class CalcModel(TaskModel):
     """Calculations model with user input."""
 
     url_task = urljoin(HOST, CALC_TASK_PATH)

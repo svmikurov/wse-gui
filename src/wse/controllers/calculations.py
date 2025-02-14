@@ -32,7 +32,7 @@ class CalcContr(BaseContr):
     def clear(self) -> None:
         """Clear previous values of widgets."""
         self._clear_question()
-        self._clear_user_answer()
+        self._clear_answer()
         self._clear_result()
 
     def display_question(self, text: str) -> None:
@@ -42,10 +42,10 @@ class CalcContr(BaseContr):
 
     def update_num_panel(self, text: str) -> None:
         """Update the current user answer."""
-        self._model.update_user_answer(text)
+        self._model.update_answer(text)
         self._clear_result()
 
-    def display_user_answer(self, text: str) -> None:
+    def display_answer(self, text: str) -> None:
         """Set the current user answer."""
         self._view.input_answer.text = text
 
@@ -58,14 +58,14 @@ class CalcContr(BaseContr):
 
     async def check_user_answer(self, _: toga.Widget) -> None:
         """Submit answer, button handler."""
-        await self._model.check_user_answer()
+        await self._model.check_answer()
 
     ####################################################################
     # Utility methods
 
-    def _clear_user_answer(self) -> None:
+    def _clear_answer(self) -> None:
         self._view.num_keyboard.clean()
-        self.display_user_answer('?')
+        self.display_answer('?')
 
     def _clear_question(self) -> None:
         self._view.question_text.text = ''
