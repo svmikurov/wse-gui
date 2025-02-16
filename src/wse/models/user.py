@@ -32,12 +32,13 @@ class User(Source):
 
     _url_user_data = urljoin(HOST, USER_DATA_PATH)
     _url_logout = urljoin(HOST, LOGOUT_PATH)
+    info = 'Баланс: %s'
 
     def __init__(self) -> None:
         """Construct the source."""
         super().__init__()
         self._username: str | None = None
-        self._point_balance: str | None = None
+        self._points: str | None = None
 
     def on_open(self) -> None:
         """Set user data on start app."""
@@ -122,7 +123,8 @@ class User(Source):
         self.notify('place_unauth_widgets')
 
     def _update_info_panel(self) -> None:
-        self.notify('update_info_panel', text=self.info)
+        text = self.info % self._points
+        self.notify('update_info_panel', text=text)
 
     ####################################################################
     # Data
@@ -134,12 +136,6 @@ class User(Source):
         data = {key: f'Добро пожаловать, {self.username}!'}
         if not self.username:
             data[key] = f'Ready for connect to {HOST}'
-        return data
-
-    @property
-    def info(self) -> str:
-        """User points."""
-        data = f'Баланс: {self._point_balance}'
         return data
 
     ####################################################################
@@ -160,4 +156,4 @@ class User(Source):
     def _set_user_data(self) -> None:
         response = request_get(self._url_user_data)
         data = response.json()
-        self._point_balance = data.get('points')
+        self._points = data.get('points')

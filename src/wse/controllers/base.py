@@ -38,9 +38,9 @@ class BaseContr(Listener):
         self._view = view
         self._view.set_controller(self)
 
-    def set_user(self, model: User) -> None:
+    def set_user(self, user: User) -> None:
         """Set user."""
-        self._user = model
+        self._user = user
         self._user.add_listener(self)
 
     def set_title(self, text: str) -> None:

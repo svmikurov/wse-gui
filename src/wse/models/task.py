@@ -5,15 +5,17 @@ from urllib.parse import urljoin
 from toga.sources import Source
 
 from wse.constants import HOST
-from wse.constants.url import CALC_ANSWER_PATH, CALC_TASK_PATH
+from wse.constants.url import CALC_ANSWER_PATH, CALC_TASK_PATH, USER_DATA_PATH
 from wse.contrib.http_requests import request_get_async, request_post_async
+from wse.models.user import User
 
 
 class TaskModel(Source):
     """Task models with user answer input."""
 
-    url_task: str
+    _url_user_data = urljoin(HOST, USER_DATA_PATH)
     url_answer: str
+    url_task: str
     title: str
     exercise: str
 
@@ -43,6 +45,7 @@ class TaskModel(Source):
     async def check_answer(self) -> None:
         """Check user answer."""
         await self._send_answer(self.url_answer, self._answer)
+        await self._update_info_panel()
 
         if self._solution == self._answer:
             self._clear()
@@ -68,6 +71,12 @@ class TaskModel(Source):
 
     def _set_page_data(self) -> None:
         self.notify('set_title', text=self.title)
+
+    async def _update_info_panel(self) -> None:
+        response = await request_get_async(self._url_user_data)
+        data = response.json()
+        text = User.info % data['points']
+        self.notify('update_info_panel', text=text)
 
     #####################################################################
     # HTTP requests
