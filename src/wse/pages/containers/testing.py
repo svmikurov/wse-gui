@@ -14,7 +14,7 @@ from wse.pages.widgets.box import BoxFlexCol
 from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.button import BtnApp
 from wse.pages.widgets.choice import ChoiceBox
-from wse.pages.widgets.label import TitleLabel
+from wse.pages.widgets.text import TitleLabel
 
 SourceT = TypeVar('SourceT', bound=Source)
 
@@ -85,6 +85,7 @@ class TestWidgets:
             style_text=Pack(
                 height=CHOICE_TEXT_HEIGHT * const.PHONE_SCALING,
                 font_size=CHOICE_TEXT_SIZE,
+                flex=1,
             ),
             on_change=source.update_value,
         )

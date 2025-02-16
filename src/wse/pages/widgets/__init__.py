@@ -2,14 +2,12 @@
 
 from wse.pages.widgets.box import BoxFlexCol, BoxFlexRow
 from wse.pages.widgets.button import BtnApp, BtnBack
-from wse.pages.widgets.label import TitleLabel
-from wse.pages.widgets.text_input import InfoPanel
+from wse.pages.widgets.text import MultilineInfoPanel
 
 __all__ = [
     'BoxFlexCol',
     'BoxFlexRow',
     'BtnApp',
     'BtnBack',
-    'InfoPanel',
-    'TitleLabel',
+    'MultilineInfoPanel',
 ]

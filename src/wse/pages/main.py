@@ -4,7 +4,7 @@ import toga
 
 from wse.constants import STYLE_BTN_CANCEL, STYLE_BTN_CONFIRM
 from wse.pages.base import BasePage
-from wse.pages.widgets import BtnApp, InfoPanel
+from wse.pages.widgets import BtnApp, MultilineInfoPanel
 
 
 class HomePage(BasePage):
@@ -17,7 +17,7 @@ class HomePage(BasePage):
         super().__init__()
 
         # Info panel
-        self.info_panel = InfoPanel()
+        self.info_panel = MultilineInfoPanel()
 
         # Auth buttons
         self.btn_goto_login = BtnApp(**self._nav.login)

@@ -10,7 +10,7 @@ from wse.pages.handlers.goto_handler import (
 )
 from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.button import BtnApp, SmBtn
-from wse.pages.widgets.label import TitleLabel
+from wse.pages.widgets.text import TitleLabel
 from wse.sources.source_list import SourceListApp
 
 

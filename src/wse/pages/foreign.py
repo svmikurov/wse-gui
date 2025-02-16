@@ -5,7 +5,7 @@ from urllib.parse import urljoin
 from toga.style import Pack
 
 from wse import constants as const
-from wse.constants import TEXT_DISPLAY_FONT_SIZE
+from wse.constants.settings import TEXT_DISPLAY_FONT_SIZE
 from wse.controllers.form import WordFormController
 from wse.pages.base import BasePage
 from wse.pages.containers.exercise import ExerciseLayout
@@ -21,7 +21,7 @@ from wse.pages.handlers.goto_handler import (
 from wse.pages.widgets import BoxFlexCol
 from wse.pages.widgets.box_page import WidgetMixin
 from wse.pages.widgets.button import BtnApp, BtnBack
-from wse.pages.widgets.text_input import InfoTextPanel, InputTextField
+from wse.pages.widgets.text import InputTextField, MultilineInfoPanel
 
 ACCESSORS = ['id', 'foreign_word', 'native_word']
 
@@ -164,7 +164,7 @@ class TasksForeignPage(BasePage):
         super().__init__()
 
         # Info panel
-        self._info_panel = InfoTextPanel(style=Pack(flex=1), value='')
+        self._info_panel = MultilineInfoPanel()
 
         # DOM
         self.add(

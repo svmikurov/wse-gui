@@ -2,13 +2,11 @@
 
 from urllib.parse import urljoin
 
-from toga.style import Pack
-
 from wse.constants import FOREIGN_TESTING_PATH, HOST
 from wse.pages.base import BasePage
 from wse.pages.containers.testing import TestLayout
 from wse.pages.widgets.button import BtnApp, BtnBack
-from wse.pages.widgets.text_input import InfoTextPanel
+from wse.pages.widgets.text import MultilineInfoPanel
 
 
 class MentoringPage(BasePage):
@@ -21,7 +19,7 @@ class MentoringPage(BasePage):
         super().__init__()
 
         # Info panel
-        self._info_panel = InfoTextPanel(style=Pack(flex=1), value=self._info)
+        self._info_panel = MultilineInfoPanel(value=self._info)
 
         # DOM
         self.add(

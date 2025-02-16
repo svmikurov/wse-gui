@@ -92,11 +92,11 @@ class ControllerExercise:
     # Task notifications
 
     def _show_question(self) -> None:
-        self.question.notify('change', text=self._task.question)
+        self.question.notify('change', value=self._task.question)
         self.answer.notify('clean')
 
     def _show_answer(self) -> None:
-        self.answer.notify('change', text=self._task.answer)
+        self.answer.notify('change', value=self._task.answer)
 
     def _clean_text_panels(self) -> None:
         for listener in (self.question, self.answer, self.info):
@@ -105,7 +105,7 @@ class ControllerExercise:
     def _show_exercise_info(self) -> None:
         self.info.notify(
             'change',
-            text='Прогресс: {}\nКол-во слов: {}'.format(
+            value='Прогресс: {}\nКол-во слов: {}'.format(
                 self._task.data['assessment'],
                 self._task.data['item_count'],
             ),

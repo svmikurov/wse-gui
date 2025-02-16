@@ -6,9 +6,12 @@ from toga.style.pack import Pack
 
 from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.button import AnswerBtn, BtnApp, BtnBack
-from wse.pages.widgets.label import TitleLabel
 from wse.pages.widgets.progress_bar import ProgressBarApp
-from wse.pages.widgets.text_input import ExerciseTextPanel, InfoTextPanel
+from wse.pages.widgets.text import (
+    ExerciseTextPanel,
+    MultilineInfoPanel,
+    TitleLabel,
+)
 
 
 class ExerciseWidgets:
@@ -49,7 +52,7 @@ class ExerciseWidgets:
         # Task info display widgets
         self._label_text_panel = toga.Label('Информация об упражнении:')
         self._label_text_panel.style = Pack(padding=(0, 0, 0, 7))
-        self._text_panel_info = InfoTextPanel()
+        self._text_panel_info = MultilineInfoPanel()
 
         # Exercise buttons
         self._btn_pause = AnswerBtn('Пауза', on_press=self._plc.pause)

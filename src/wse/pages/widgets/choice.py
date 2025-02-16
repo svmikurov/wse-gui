@@ -12,16 +12,6 @@ from wse.pages.widgets.switch import SwitchApp
 SourceT = TypeVar('SourceT', bound=Source)
 
 
-class ItemDisplay(toga.MultilineTextInput):
-    """The item display widget."""
-
-    def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the widget."""
-        super().__init__(*args, **kwargs)
-        self.readonly = True
-        self.style.flex = 1
-
-
 class ChoiceBox(toga.Box):
     """Custom choice box representation."""
 
@@ -74,9 +64,10 @@ class ChoiceBox(toga.Box):
     def _add_text_line(self, text: str) -> None:
         choice_text = toga.Box(
             children=[
-                ItemDisplay(
+                toga.MultilineTextInput(
                     style=self.style_text,
                     value=text,
+                    readonly=True,
                 )
             ],
         )

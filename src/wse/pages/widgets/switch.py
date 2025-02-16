@@ -11,6 +11,6 @@ class SwitchApp(toga.Switch, Listener):
         """Construct custom switch."""
         super().__init__(*args, **kwargs)
 
-    def set_value(self, value: bool) -> None:
+    def change(self, item: object) -> None:
         """Set the initial value from data source for the widget."""
-        self.value = value
+        self.value = item

@@ -32,9 +32,9 @@ class ChoiceSource(Source):
         self.accessor = accessor
         setattr(self, accessor, value)
 
-    def set_value(self, value: str | int | None = None) -> None:
+    def set_value(self, item: str | int | None = None) -> None:
         """Set the initial value for the widget."""
-        self.notify('set_value', value=value)
+        self.notify('change', item=item)
 
     def update_value(self, widget: toga.Widget) -> None:
         """Update the source value."""

@@ -12,9 +12,9 @@ from wse.pages.handlers.goto_handler import goto_back_handler
 from wse.pages.widgets.box import BoxFlexCol, BoxFlexRow
 from wse.pages.widgets.box_page import BaseBox, WidgetMixin
 from wse.pages.widgets.button import BtnApp
-from wse.pages.widgets.label import LabelParam, TitleLabel
-from wse.pages.widgets.number_input import NumberInputApp
+from wse.pages.widgets.number import NumberInputApp
 from wse.pages.widgets.switch import SwitchApp
+from wse.pages.widgets.text import LabelParam, TitleLabel
 
 
 class ParamsWidgets(WidgetMixin):

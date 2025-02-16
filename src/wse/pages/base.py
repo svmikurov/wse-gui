@@ -8,8 +8,7 @@ from toga.sources import Listener
 
 from wse.constants.settings import PADDING_SM
 from wse.contrib.navigation import NavigationAttrs
-from wse.pages.widgets.label import TitleLabel
-from wse.pages.widgets.text_input import UserInfoPanel
+from wse.pages.widgets.text import TitleLabel, UserInfoPanel
 
 ContrT = TypeVar('ContrT', bound=Listener)
 

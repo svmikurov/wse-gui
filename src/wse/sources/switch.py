@@ -15,9 +15,9 @@ class SourceSwitch(Source):
         self.accessor = accessor
         setattr(self, accessor, value)
 
-    def set_value(self, value: bool) -> None:
+    def set_value(self, item: bool) -> None:
         """Set the initial value for the widget."""
-        self.notify('set_value', value=value)
+        self.notify('change', item=item)
 
     def update_value(self, widget: toga.Widget) -> None:
         """Update value of widget."""
@@ -50,7 +50,7 @@ class SourceProgressArray:
         """Set the initial value for widgets."""
         for name, alias in self.PROGRESS_ALIASES.items():
             attr = getattr(self, name)
-            attr.notify('set_value', value=bool(alias in value))
+            attr.notify('change', item=bool(alias in value))
 
     def get_value(self) -> list:
         """Return the value of widgets."""

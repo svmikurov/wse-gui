@@ -4,7 +4,7 @@ from wse.pages.handlers.goto_handler import goto_back_handler
 from wse.pages.widgets.box import BoxFlexRow
 from wse.pages.widgets.box_page import BaseBox
 from wse.pages.widgets.button import BtnApp
-from wse.pages.widgets.label import TitleLabel
+from wse.pages.widgets.text import TitleLabel
 
 
 class FractionWidgets:
