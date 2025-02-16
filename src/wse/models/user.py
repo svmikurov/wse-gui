@@ -160,4 +160,4 @@ class User(Source):
     def _set_user_data(self) -> None:
         response = request_get(self._url_user_data)
         data = response.json()
-        self._point_balance = data.get('point_balance')
+        self._point_balance = data.get('points')

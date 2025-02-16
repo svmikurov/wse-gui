@@ -15,6 +15,7 @@ class TaskModel(Source):
     url_task: str
     url_answer: str
     title: str
+    exercise: str
 
     def __init__(self) -> None:
         """Construct the task."""
@@ -71,9 +72,9 @@ class TaskModel(Source):
     #####################################################################
     # HTTP requests
 
-    @staticmethod
-    async def _request_task(url: str) -> dict:
-        response = await request_get_async(url)
+    async def _request_task(self, url: str) -> dict:
+        payload = {'exercise': self.exercise}
+        response = await request_post_async(url, payload)
         return response.json()
 
     @staticmethod
@@ -82,15 +83,15 @@ class TaskModel(Source):
         await request_post_async(url, payload)
 
 
-class CalcModel(TaskModel):
-    """Calculations model with user input."""
+class CalculationModel(TaskModel):
+    """Calculation model with user input."""
 
     url_task = urljoin(HOST, CALC_TASK_PATH)
     url_answer = urljoin(HOST, CALC_ANSWER_PATH)
-    title = 'Упражнение на вычисления'
 
-    @staticmethod
-    async def _request_task(url: str) -> dict:
-        payload = {'exercise_type': 'mul'}
-        response = await request_post_async(url, payload)
-        return response.json()
+
+class MultiplicationModel(CalculationModel):
+    """Multiplication model with user input."""
+
+    title = 'Таблица умножения'
+    exercise = 'mul'

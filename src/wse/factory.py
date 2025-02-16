@@ -87,7 +87,7 @@ mvc_factory.add(
 # Mathematics
 
 mvc_factory.add(
-    model_calc=models.CalcModel,
+    model_calc=models.MultiplicationModel,
     page_calc=pages.CalcPage,
     contr_calc=controllers.CalcContr,
 )
