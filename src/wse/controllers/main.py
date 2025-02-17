@@ -25,7 +25,7 @@ class HomeContr(BaseContr):
         self._view.btn_logout_cancel.on_press = self.cancel_logout
         self._view.btn_logout_confirm.on_press = self.confirm_logout
 
-    async def on_open(self, _: toga.Widget) -> None:
+    def on_open(self, _: toga.Widget) -> None:
         """Invoke methods on pages open."""
         self._user.on_open()
 

@@ -2,20 +2,18 @@
 
 from typing import Callable
 
-from wse.contrib.singelton import Singleton
 from wse.pages.handlers import goto_handler as gh
 
 
-# TODO: Refactor: add programmatically creation of button callbacks.
-# TODO: Refactor: try singleton_decorator
-#       https://github.com/Kemaweyan/singleton_decorator
-class NavigationAttrs(Singleton):
+# TODO: Add programmatically creation of button callbacks.
+class NavigationAttrs:
     """Navigation buttons attributes."""
 
-    def set(self, attr_name: str, text: str, callback: Callable) -> None:
+    @classmethod
+    def set(cls, attr_name: str, text: str, callback: Callable) -> None:
         """Set button attrs."""
         btn_attrs = {'text': text, 'on_press': callback}
-        setattr(self, attr_name, btn_attrs)
+        setattr(cls, attr_name, btn_attrs)
 
 
 nav = NavigationAttrs()

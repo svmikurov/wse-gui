@@ -42,4 +42,4 @@ class HomePage(BasePage):
 
     async def on_open(self, widget: toga.Widget) -> None:
         """Invoke methods on page open."""
-        await self._contr.on_open(widget)
+        self._contr.on_open(widget)
