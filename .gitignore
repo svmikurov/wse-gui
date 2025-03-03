@@ -2,6 +2,7 @@
 .venv_wse_gui/
 *token.txt
 *userdata.json
+*ds/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
