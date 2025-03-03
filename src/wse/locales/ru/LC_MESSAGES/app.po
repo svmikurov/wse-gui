@@ -1,0 +1,32 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ru\n"
+
+msgid "Back"
+msgstr "Назад"
+
+msgid "Forward"
+msgstr "Вперед"
+
+msgid "Username"
+msgstr "Имя пользователя"
+
+msgid "Password"
+msgstr "Пароль"
+
+msgid "Login"
+msgstr "Войти"
+
+msgid "Welcome!"
+msgstr "Добро пожаловать!"
+
+msgid "Auth Demo"
+msgstr "Демо аутентификации"
+
+msgid "Login failed"
+msgstr "Ошибка входа"
+
+msgid "Unknown route: {}"
+msgstr "Неизвестный маршрут: {}"
