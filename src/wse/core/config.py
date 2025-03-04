@@ -39,6 +39,7 @@ class Settings(BaseSettings):
     ui: UiSettings = Field(default_factory=UiSettings)
 
     encryption_key: SecretStr
+
     model_config = {
         'env_file': PROJECT_PATH / '.env',
         'env_file_encoding': 'utf-8',
