@@ -3,14 +3,14 @@
 from pathlib import Path
 from typing import Tuple
 
-from pydantic import Field
+from pydantic import Field, BaseModel, SecretStr
 from pydantic_settings import BaseSettings
 
 MODULE_PATH = Path(__file__).resolve().parent
 PROJECT_PATH = MODULE_PATH.parent.parent.parent
 
 
-class UiSettings(BaseSettings):
+class UiSettings(BaseModel):
     """User interface settings."""
 
     SCREEN_SIZE: Tuple[int, int] = (440, 700)
@@ -20,11 +20,10 @@ class UiSettings(BaseSettings):
     HEADING_PADDING: Tuple[int, int, int, int] = (5, 0, 10, 0)
 
 
-class ApiSettings(BaseSettings):
+class ApiSettings(BaseModel):
     """External API settings."""
 
     API_BASE_URL: str = Field(default='http://wselfedu.online')
-
     LOGIN: str = '/auth/token/login/'
     CHECK_TOKEN: str = '/api/v1/auth/users/me/'
     TASK: str = '/api/v1/task/'
@@ -39,6 +38,7 @@ class Settings(BaseSettings):
     api: ApiSettings = Field(default_factory=ApiSettings)
     ui: UiSettings = Field(default_factory=UiSettings)
 
+    encryption_key: SecretStr
     model_config = {
         'env_file': PROJECT_PATH / '.env',
         'env_file_encoding': 'utf-8',
