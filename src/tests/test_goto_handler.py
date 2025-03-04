@@ -10,7 +10,7 @@ from _pytest.monkeypatch import MonkeyPatch
 from toga.handlers import simple_handler
 
 from tests.utils import FixtureReader
-from wse.app import WSE
+from wse.core.app import WSE
 from wse.pages.handlers import goto_handler
 
 MOCK_REQUEST_GET_SIMPLE = [httpx.Client, 'get']

@@ -2,7 +2,7 @@
 
 import pytest
 
-from wse.app import WSE
+from wse.core.app import WSE
 from wse.models.user import User
 
 

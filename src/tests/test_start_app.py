@@ -1,6 +1,6 @@
 """Test start app."""
 
-from wse.app import WSE
+from wse.core.app import WSE
 
 
 def test_start(

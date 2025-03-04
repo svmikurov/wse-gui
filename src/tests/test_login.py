@@ -8,8 +8,8 @@ import pytest
 from _pytest.monkeypatch import MonkeyPatch
 
 from tests.utils import run_until_complete
-from wse.app import WSE
 from wse.contrib import http_requests
+from wse.core.app import WSE
 from wse.models import user
 from wse.pages import LoginBox, MainBox
 from wse.pages.handlers.goto_handler import goto_login

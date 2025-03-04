@@ -1,12 +1,23 @@
 """Application settings."""
 
 from pathlib import Path
+from typing import Tuple
 
 from pydantic import Field
 from pydantic_settings import BaseSettings
 
 MODULE_PATH = Path(__file__).resolve().parent
 PROJECT_PATH = MODULE_PATH.parent.parent.parent
+
+
+class UiSettings(BaseSettings):
+    """User interface settings."""
+
+    SCREEN_SIZE: Tuple[int, int] = (440, 700)
+
+    HEADING_LABEL_FONT_SIZE: int = 16
+    HEADING_HEIGHT: int = 35
+    HEADING_PADDING: Tuple[int, int, int, int] = (5, 0, 10, 0)
 
 
 class ApiSettings(BaseSettings):
@@ -23,9 +34,10 @@ class Settings(BaseSettings):
     """Application settings."""
 
     APP_NAME: str = 'WSE'
-    PROJECT_PATH: Path
+    PROJECT_PATH: Path = PROJECT_PATH
 
     api: ApiSettings = Field(default_factory=ApiSettings)
+    ui: UiSettings = Field(default_factory=UiSettings)
 
     model_config = {
         'env_file': PROJECT_PATH / '.env',

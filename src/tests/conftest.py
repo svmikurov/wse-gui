@@ -6,7 +6,7 @@ import pytest
 import toga
 
 from tests.utils import FixtureReader
-from wse.app import WSE
+from wse.core.app import WSE
 
 FIXTURE = 'params.json'
 PARAMS = FixtureReader(FIXTURE).json()

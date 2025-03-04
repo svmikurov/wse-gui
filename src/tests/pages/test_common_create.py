@@ -3,7 +3,7 @@
 import pytest
 from _pytest.fixtures import FixtureRequest
 
-from wse.app import WSE
+from wse.core.app import WSE
 from wse.pages import CreateTermPage, CreateWordPage
 
 
