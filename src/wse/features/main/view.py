@@ -1,7 +1,7 @@
 """Main model."""
 
-from wse.features.share.ui.heading import Heading
-from wse.features.share.view import BaseView
+from wse.features.shared.ui.heading import Heading
+from wse.features.shared.view import BaseView
 
 
 class HomeView(BaseView):

@@ -4,8 +4,6 @@ import toga
 from toga.constants import COLUMN
 from toga.style import Pack
 
-from wse.interfaces.iview import IView
-
 
 class StyleView(toga.Box):
     """Base style view."""
@@ -19,7 +17,7 @@ class StyleView(toga.Box):
         )
 
 
-class BaseView(StyleView, IView):
+class BaseView(StyleView):
     """Base view."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:

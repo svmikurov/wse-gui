@@ -1,14 +1,13 @@
 """API client."""
 
 import logging
-from typing import Any, Dict, Optional
-from urllib.parse import urljoin
 
 import httpx
 
-from wse.core.api.exceptions import APIError
-from wse.core.config import Settings
-from wse.interfaces.iapi import IApiClient
+from wse.core.api.auth_api import AuthAPI
+from wse.core.api.http_methods import HTTPMethod
+from wse.core.auth.auth import AuthService
+from wse.interfaces.icore import IApiClient
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s -%(message)s',
@@ -18,55 +17,47 @@ logger = logging.getLogger(__name__)
 
 
 class ApiClient(IApiClient):
-    """API client."""
+    """Client for working with API."""
 
-    def __init__(
-        self,
-        settings: Settings,
-    ) -> None:
+    def __init__(self, auth_service: AuthService) -> None:
         """Construct the client."""
-        self.settings = settings
-        self._access_token: Optional[str] = None
+        self._auth_service = auth_service
+        self._auth_api = AuthAPI(auth_service.settings.api)
 
     async def _request(
         self,
         method: str,
         endpoint: str,
-        **kwargs: Dict[str, Any],
+        **kwargs: object,
     ) -> httpx.Response:
-        """Send an HTTP request to the API."""
-        url = urljoin(self.settings.api_config.base_url, endpoint)
-        timeout = self.settings.api_config.request_timeout
-        headers: Dict = kwargs.get('headers', {})
+        return await self._auth_api.perform_request(method, endpoint, **kwargs)
 
-        if self._access_token:
-            headers['Authorization'] = f'Token {self._access_token}'
+    async def get(self, endpoint: str, **kwargs: object) -> httpx.Response:
+        """Request get method."""
+        return await self._auth_api.perform_request(
+            HTTPMethod.GET, endpoint, **kwargs
+        )
 
-        try:
-            async with httpx.AsyncClient(timeout=timeout) as client:
-                response = await client.request(
-                    method,
-                    url,
-                    headers=headers,
-                    **kwargs,
-                )
-                response.raise_for_status()
-                return response
+    async def post(self, endpoint: str, **kwargs: object) -> httpx.Response:
+        """Request post method."""
+        return await self._auth_api.perform_request(
+            HTTPMethod.POST, endpoint, **kwargs
+        )
 
-        except httpx.HTTPStatusError as e:
-            logger.error(f'HTTP error {e.response.status_code}: {e}')
-            if e.response.status_code == 401:
-                await self._handle_unauthorized_error(e)
-            raise APIError(f'API request failed: {e}') from e
+    async def put(self, endpoint: str, **kwargs: object) -> httpx.Response:
+        """Request put method."""
+        return await self._auth_api.perform_request(
+            HTTPMethod.PUT, endpoint, **kwargs
+        )
 
-        except httpx.RequestError as e:
-            logger.error(f'Request error: {e}')
-            raise APIError(f'API request failed: {e}') from e
+    async def patch(self, endpoint: str, **kwargs: object) -> httpx.Response:
+        """Request patch method."""
+        return await self._auth_api.perform_request(
+            HTTPMethod.PATCH, endpoint, **kwargs
+        )
 
-    async def _handle_unauthorized_error(
-        self,
-        error: httpx.HTTPStatusError,
-    ) -> None:
-        """Handle 401 Unauthorized errors."""
-        logger.info('Attempting token refresh due to 401 error')
-        ...
+    async def delete(self, endpoint: str, **kwargs: object) -> httpx.Response:
+        """Request delete method."""
+        return await self._auth_api.perform_request(
+            HTTPMethod.DELETE, endpoint, **kwargs
+        )

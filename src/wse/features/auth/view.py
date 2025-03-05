@@ -2,7 +2,7 @@
 
 import toga
 
-from wse.features.share.view import BaseView
+from wse.features.shared.view import BaseView
 
 
 class LoginView(BaseView):
