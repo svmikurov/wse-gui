@@ -13,3 +13,6 @@ pydantic==2.10.6
 pydantic-settings==2.8.1
 pydantic_core==2.27.2
 dependency-injector==4.46.0
+
+toga==0.4.9
+cryptography==44.0.1
