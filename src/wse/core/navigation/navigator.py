@@ -4,9 +4,10 @@ import toga
 
 from wse.core.config import UIConfig
 from wse.core.navigation.routes import Route
+from wse.interfaces.icore import INavigator
 
 
-class Navigator:
+class Navigator(INavigator):
     """Application navigation."""
 
     def __init__(self, ui: UIConfig, main_window: toga.Window) -> None:

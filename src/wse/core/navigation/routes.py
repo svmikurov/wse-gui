@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 from wse.features.auth.view import LoginView
 from wse.features.main.view import HomeView
-from wse.features.share.view import BaseView
+from wse.features.shared.view import BaseView
 
 
 @dataclass
