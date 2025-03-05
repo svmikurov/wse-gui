@@ -49,7 +49,9 @@ class StorageConfig(BaseSettings):
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
 
+    APP_ID: str = 'online.wselfedu'
     APP_NAME: str = 'WSE'
+    FORMAL_NAME: str = 'WSE'
 
     api_config: APIConfig = Field(default_factory=APIConfig)
     storage_config: StorageConfig = Field(default_factory=StorageConfig)

@@ -17,7 +17,11 @@ class WSE(toga.App):
         auth_service: AuthService,
     ) -> None:
         """Construct the application."""
-        super().__init__()
+        super().__init__(
+            app_id=settings.APP_ID,
+            app_name=settings.APP_NAME,
+            formal_name=settings.APP_NAME,
+        )
         self.settings = settings
         self.auth_service = auth_service
 
