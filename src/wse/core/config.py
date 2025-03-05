@@ -3,14 +3,15 @@
 from pathlib import Path
 from typing import Tuple
 
-from pydantic import Field, BaseModel, SecretStr
+from pydantic import BaseModel, Field, SecretStr
+from pydantic.json import SecretStrJsonMixin
 from pydantic_settings import BaseSettings
 
 MODULE_PATH = Path(__file__).resolve().parent
 PROJECT_PATH = MODULE_PATH.parent.parent.parent
 
 
-class UiSettings(BaseModel):
+class UIConfig(BaseModel):
     """User interface settings."""
 
     SCREEN_SIZE: Tuple[int, int] = (440, 700)
@@ -35,8 +36,8 @@ class Settings(BaseSettings):
     APP_NAME: str = 'WSE'
     PROJECT_PATH: Path = PROJECT_PATH
 
-    api: ApiSettings = Field(default_factory=ApiSettings)
-    ui: UiSettings = Field(default_factory=UiSettings)
+    api_config: APIConfig = Field(default_factory=APIConfig)
+    ui_config: UIConfig = Field(default_factory=UIConfig)
 
     encryption_key: SecretStr
 

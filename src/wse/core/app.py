@@ -24,7 +24,7 @@ class WSE(toga.App):
     def startup(self) -> None:
         """Construct and show the application."""
         self.main_window = toga.MainWindow(
-            size=toga.Size(*self.settings.ui.SCREEN_SIZE),
+            size=toga.Size(*self.settings.ui_config.SCREEN_SIZE),
         )
 
         if self.auth_service.is_authenticated():
