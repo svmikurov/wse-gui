@@ -1,4 +1,5 @@
 """WSE application."""
+
 import asyncio
 
 import toga

@@ -2,8 +2,6 @@
 
 from dataclasses import dataclass
 
-from pydantic import BaseModel
-
 from wse.features.auth.view import LoginView
 from wse.features.main.view import HomeView
 from wse.features.shared.view import BaseView
