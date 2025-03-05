@@ -17,7 +17,7 @@ class Route:
     view: BaseView
 
 
-class Routes(BaseModel):
+class Routes:
     """Routes to screen."""
 
     HOME: Route = Route('Home', HomeView)

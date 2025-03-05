@@ -22,7 +22,7 @@ class AuthService(IAuthService):
         """Construct the service."""
         self.settings = settings
         self.token_storage: TokenStorage = self._get_token_storage(settings)
-        self._auth_api = AuthAPI(settings.api)
+        self._auth_api = AuthAPI(settings.api_config)
         # Auth token loads from storage, is None by default.
         self._token: Optional[str] = None
         self._load_token()

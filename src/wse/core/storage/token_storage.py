@@ -6,6 +6,8 @@ from typing import Optional
 
 from cryptography.fernet import Fernet, InvalidToken
 
+from wse.interfaces.icore import ITokenStorage
+
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO,
@@ -13,7 +15,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-class TokenStorage:
+class TokenStorage(ITokenStorage):
     """Token storage."""
 
     def __init__(self, token_path: str | Path, encryption_key: str) -> None:
