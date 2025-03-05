@@ -8,7 +8,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 MODULE_PATH = Path(__file__).resolve().parent
 PROJECT_PATH = MODULE_PATH.parent.parent.parent
-ENV_PATH = PROJECT_PATH / '.env',
+ENV_PATH = PROJECT_PATH / '.env'
 
 
 class UIConfig(BaseModel):
