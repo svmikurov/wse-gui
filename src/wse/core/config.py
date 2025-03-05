@@ -21,17 +21,32 @@ class UIConfig(BaseModel):
     HEADING_PADDING: Tuple[int, int, int, int] = (5, 0, 10, 0)
 
 
-class ApiSettings(BaseModel):
-    """External API settings."""
+class APIConfig(BaseModel):
+    """Configuration for API endpoints and settings.
 
-    API_BASE_URL: str = Field(default='http://wselfedu.online')
+    :param base_url: Base URL of the API.
+    :param REQUEST_TIMEOUT: Timeout for HTTP requests in seconds.
+    :param LOGIN: Endpoint for authentication.
+    :param VALIDATE_TOKEN: Endpoint for token validation.
+    :param TASK: Endpoint for get task, send answer.
+    """
+
+    base_url: str = Field(default='http://wselfedu.online')
+
+    REQUEST_TIMEOUT: int = 10
+
     LOGIN: str = '/auth/token/login/'
-    CHECK_TOKEN: str = '/api/v1/auth/users/me/'
+    VALIDATE_TOKEN: str = '/api/v1/auth/users/me/'
     TASK: str = '/api/v1/task/'
 
 
-class Settings(BaseSettings):
-    """Application settings."""
+class Settings(SecretStrJsonMixin, BaseSettings):
+    """Application settings loaded from environment variables.
+
+    :param api_config: Configuration for API endpoints.
+    :param token_file: File to store the authentication token.
+    :param encryption_key: Secret key for encrypting the token file.
+    """
 
     APP_NAME: str = 'WSE'
     PROJECT_PATH: Path = PROJECT_PATH
@@ -39,6 +54,7 @@ class Settings(BaseSettings):
     api_config: APIConfig = Field(default_factory=APIConfig)
     ui_config: UIConfig = Field(default_factory=UIConfig)
 
+    token_file: Path = PROJECT_PATH / 'token'
     encryption_key: SecretStr
 
     model_config = {
