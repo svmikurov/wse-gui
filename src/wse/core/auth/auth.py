@@ -1,21 +1,50 @@
 """Authentication service."""
 
+import logging
+from typing import Optional
+
+from wse.core.api.auth_api import AuthAPI
 from wse.core.config import Settings
 from wse.core.storage.token_storage import TokenStorage
-from wse.interfaces.iservices import IAuthService
+from wse.interfaces.icore import IAuthService
+
+logging.basicConfig(
+    format='%(asctime)% - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO,
+)
+logger = logging.getLogger(__name__)
 
 
-class  AuthService(IAuthService):
+class AuthService(IAuthService):
     """Authentication service."""
 
     def __init__(self, settings: Settings) -> None:
         """Construct the service."""
         self.settings = settings
         self.token_storage: TokenStorage = self._get_token_storage(settings)
+        self._auth_api = AuthAPI(settings.api)
+        # Auth token loads from storage, is None by default.
+        self._token: Optional[str] = None
+        self._load_token()
 
-    def _get_token_storage(self, settings: Settings) -> TokenStorage:
-        pass
+    def _load_token(self) -> None:
+        self._token = self.token_storage.load_token()
 
-    def is_authenticated(self) -> bool:
+    @staticmethod
+    def _get_token_storage(settings: Settings) -> TokenStorage:
+        return TokenStorage(
+            settings.storage_config.token_file,
+            settings.storage_config.encryption_key.get_secret_value(),
+        )
+
+    async def is_authenticated(self) -> bool:
         """Is authenticated user."""
-        return True
+        if not self._token:
+            return False
+        return await self._auth_api.validate_token(self._token)
+
+    async def authenticate(self, username: str, password: str) -> None:
+        """Authenticate."""
+        self._token = await self._auth_api.authenticate(username, password)
+        self.token_storage.save_token(self._token)
+        logger.info('Authentication successful')
