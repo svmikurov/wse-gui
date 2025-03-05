@@ -8,6 +8,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 MODULE_PATH = Path(__file__).resolve().parent
 PROJECT_PATH = MODULE_PATH.parent.parent.parent
+ENV_PATH = PROJECT_PATH / '.env',
 
 
 class UIConfig(BaseModel):
@@ -31,21 +32,32 @@ class APIConfig(BaseModel):
     TASK: str = '/api/v1/task/'
 
 
-class Settings(BaseSettings):
-    """Application settings loaded from environment variables."""
-
-    APP_NAME: str = 'WSE'
-    PROJECT_PATH: Path = PROJECT_PATH
-
-    api_config: APIConfig = Field(default_factory=APIConfig)
-    ui_config: UIConfig = Field(default_factory=UIConfig)
+class StorageConfig(BaseSettings):
+    """Configuration for storage."""
 
     token_file: Path = PROJECT_PATH / 'token.enc'
     encryption_key: SecretStr
 
     model_config = SettingsConfigDict(
-        env_file=PROJECT_PATH / '.env',
+        env_prefix='STORAGE_',
+        env_file=ENV_PATH,
         env_file_encoding='utf-8',
-        env_prefix='API_',
+        extra='ignore',
+    )
+
+
+class Settings(BaseSettings):
+    """Application settings loaded from environment variables."""
+
+    APP_NAME: str = 'WSE'
+
+    api_config: APIConfig = Field(default_factory=APIConfig)
+    storage_config: StorageConfig = Field(default_factory=StorageConfig)
+    ui_config: UIConfig = Field(default_factory=UIConfig)
+
+    model_config = SettingsConfigDict(
+        env_prefix='APP_',
+        env_file=ENV_PATH,
+        env_file_encoding='utf-8',
         extra='ignore',
     )
