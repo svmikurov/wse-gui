@@ -1,4 +1,5 @@
 """WSE application."""
+import asyncio
 
 import toga
 
@@ -31,7 +32,7 @@ class WSE(toga.App):
             size=toga.Size(*self.settings.ui_config.SCREEN_SIZE),
         )
 
-        if self.auth_service.is_authenticated():
+        if asyncio.create_task(self.auth_service.is_authenticated()):
             self.main_window.content = HomeView()
         else:
             self.main_window.content = LoginView()
