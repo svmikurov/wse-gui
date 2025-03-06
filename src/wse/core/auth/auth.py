@@ -2,10 +2,10 @@
 
 from typing import Optional
 
-from wse.core.api.auth_api import AuthAPI
+from wse.core.api.auth import AuthAPI
 from wse.core.config import Settings
 from wse.core.logger import root_logger as logger
-from wse.core.storage.token_storage import TokenStorage
+from wse.core.storage.token import TokenStorage
 from wse.interfaces.icore import IAuthService
 
 

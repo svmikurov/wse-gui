@@ -6,7 +6,7 @@ from urllib.parse import urljoin
 import httpx
 
 from wse.core.api.exceptions import AuthenticationError
-from wse.core.api.http_methods import HTTPMethod
+from wse.core.api.methods import HTTPMethod
 from wse.core.config import APIConfig
 from wse.core.logger import root_logger as logger
 from wse.interfaces.icore import IAuthAPI

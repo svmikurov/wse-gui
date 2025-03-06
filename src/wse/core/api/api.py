@@ -2,8 +2,8 @@
 
 import httpx
 
-from wse.core.api.auth_api import AuthAPI
-from wse.core.api.http_methods import HTTPMethod
+from wse.core.api.auth import AuthAPI
+from wse.core.api.methods import HTTPMethod
 from wse.core.auth.auth import AuthService
 from wse.interfaces.icore import IApiClient
 
