@@ -1,5 +1,5 @@
 """Defines application settings and configurations."""
-
+from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
 from typing import Literal, Tuple
@@ -7,25 +7,27 @@ from typing import Literal, Tuple
 from pydantic import BaseModel, Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+# Type alias for supported languages
 SupportedLanguages = Literal['en', 'ru']
 
+# Paths
 MODULE_PATH = Path(__file__).resolve().parent
 PROJECT_PATH = MODULE_PATH.parent.parent.parent
 ENV_PATH = PROJECT_PATH / '.env'
 
 
 class Language(str, Enum):
-    """Defines languages aliases."""
+    """Defines language aliases."""
 
     EN = 'en'
     RU = 'ru'
 
 
-class UIConfig(BaseModel):
+@dataclass
+class UIConfig:
     """Stores user interface settings."""
 
     SCREEN_SIZE: Tuple[int, int] = (440, 700)
-
     HEADING_LABEL_FONT_SIZE: int = 16
     HEADING_HEIGHT: int = 35
     HEADING_PADDING: Tuple[int, int, int, int] = (5, 0, 10, 0)
