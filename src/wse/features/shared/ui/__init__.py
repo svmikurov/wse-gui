@@ -1,1 +1,1 @@
-"""User interface widgets."""
+"""Provides user interface widgets for the application."""

@@ -1,4 +1,4 @@
-"""Authentication service."""
+"""Manages user authentication and token validation."""
 
 from typing import Optional
 
@@ -10,7 +10,7 @@ from wse.interfaces.icore import IAuthService
 
 
 class AuthService(IAuthService):
-    """Authentication service."""
+    """Handles authentication logic and token management."""
 
     def __init__(self, settings: Settings) -> None:
         """Construct the service."""
@@ -32,13 +32,13 @@ class AuthService(IAuthService):
         )
 
     async def is_authenticated(self) -> bool:
-        """Is authenticated user."""
+        """Check if the user is authenticated."""
         if not self._token:
             return False
         return await self._auth_api.validate_token(self._token)
 
     async def authenticate(self, username: str, password: str) -> None:
-        """Authenticate."""
+        """Authenticate the user with the provided credentials."""
         self._token = await self._auth_api.authenticate(username, password)
         self.token_storage.save_token(self._token)
         logger.info('Authentication successful')

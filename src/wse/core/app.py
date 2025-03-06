@@ -1,4 +1,4 @@
-"""WSE application."""
+"""Defines the main application class."""
 
 import asyncio
 
@@ -11,7 +11,7 @@ from wse.features.main.view import HomeView
 
 
 class WSE(toga.App):
-    """WSE application."""
+    """Represents the WSE application."""
 
     def __init__(
         self,
@@ -28,7 +28,7 @@ class WSE(toga.App):
         self.auth_service = auth_service
 
     def startup(self) -> None:
-        """Construct and show the application."""
+        """Initialize and display the application window."""
         self.main_window = toga.MainWindow(
             size=toga.Size(*self.settings.ui_config.SCREEN_SIZE),
         )

@@ -1,4 +1,4 @@
-"""Application settings."""
+"""Defines application settings and configurations."""
 
 from pathlib import Path
 from typing import Tuple
@@ -12,7 +12,7 @@ ENV_PATH = PROJECT_PATH / '.env'
 
 
 class UIConfig(BaseModel):
-    """User interface settings."""
+    """Stores user interface settings."""
 
     SCREEN_SIZE: Tuple[int, int] = (440, 700)
 
@@ -22,7 +22,7 @@ class UIConfig(BaseModel):
 
 
 class APIConfig(BaseModel):
-    """Configuration for API endpoints and settings."""
+    """Stores configuration for API endpoints and settings."""
 
     base_url: str = Field(default='http://wselfedu.online')
     REQUEST_TIMEOUT: int = 10
@@ -33,7 +33,7 @@ class APIConfig(BaseModel):
 
 
 class StorageConfig(BaseSettings):
-    """Configuration for storage."""
+    """Stores configuration for storage-related settings."""
 
     token_file: Path = PROJECT_PATH / 'token.enc'
     encryption_key: SecretStr
@@ -47,7 +47,7 @@ class StorageConfig(BaseSettings):
 
 
 class Settings(BaseSettings):
-    """Application settings loaded from environment variables."""
+    """Stores and manages application settings."""
 
     APP_ID: str = 'online.wselfedu'
     APP_NAME: str = 'WSE'

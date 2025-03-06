@@ -1,4 +1,4 @@
-"""Token storage."""
+"""Manages storage and retrieval of authentication tokens."""
 
 from pathlib import Path
 from typing import Optional
@@ -10,15 +10,15 @@ from wse.interfaces.icore import ITokenStorage
 
 
 class TokenStorage(ITokenStorage):
-    """Token storage."""
+    """Handles encryption and decryption of tokens."""
 
     def __init__(self, token_path: str | Path, encryption_key: str) -> None:
-        """Construct the storage."""
+        """Encrypt and save the token to a file."""
         self._token_path = Path(token_path)
         self._cipher = Fernet(encryption_key.encode())
 
     def save_token(self, token: str) -> None:
-        """Save token."""
+        """Encrypt and save the token to a file."""
         try:
             encrypted_data = self._cipher.encrypt(token.encode())
             self._token_path.write_bytes(encrypted_data)
@@ -29,7 +29,7 @@ class TokenStorage(ITokenStorage):
             raise
 
     def load_token(self) -> Optional[str]:
-        """Load token."""
+        """Load and decrypt the token from a file."""
         if not self._token_path.exists():
             logger.warning('Token file not found')
             return None

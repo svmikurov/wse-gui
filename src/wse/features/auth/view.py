@@ -1,4 +1,4 @@
-"""Authentication view."""
+"""Defines the login screen view."""
 
 import toga
 
@@ -6,7 +6,7 @@ from wse.features.shared.view import BaseView
 
 
 class LoginView(BaseView):
-    """Login screen view."""
+    """Represents the login screen."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the view."""

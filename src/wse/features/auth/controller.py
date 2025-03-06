@@ -1,1 +1,1 @@
-"""Authentication controller."""
+"""Manages the logic for the authentication feature."""

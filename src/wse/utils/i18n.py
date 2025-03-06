@@ -1,11 +1,11 @@
-"""Language setting."""
+"""Manages internationalization and language settings."""
 
 import gettext
 import os
 
 
 class I18N:
-    """Language setting."""
+    """Handles translations and language settings."""
 
     _instance = None
 
@@ -35,12 +35,12 @@ class I18N:
         self.translations[self.current_lang].install()
 
     def set_language(self, lang: str) -> None:
-        """Set the langauge."""
+        """Set the application language."""
         self.current_lang = lang
         self.translations[lang].install()
 
     def gettext(self, text: str) -> str:
-        """Return translation."""
+        """Return the translated text."""
         return self.translations[self.current_lang].gettext(text)
 
 

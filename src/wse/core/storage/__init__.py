@@ -1,1 +1,1 @@
-"""Storage."""
+"""Provides storage-related functionality."""

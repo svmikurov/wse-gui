@@ -1,1 +1,1 @@
-"""Authentication."""
+"""Provides authentication-related functionality."""

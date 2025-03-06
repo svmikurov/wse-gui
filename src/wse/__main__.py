@@ -1,4 +1,4 @@
-"""Start app."""
+"""Start the application."""
 
 from wse.main import main
 

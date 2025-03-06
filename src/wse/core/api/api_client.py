@@ -1,4 +1,4 @@
-"""API client."""
+"""Provides a client for making API requests."""
 
 import httpx
 
@@ -9,7 +9,7 @@ from wse.interfaces.icore import IApiClient
 
 
 class ApiClient(IApiClient):
-    """Client for working with API."""
+    """Handles HTTP requests to the API."""
 
     def __init__(self, auth_service: AuthService) -> None:
         """Construct the client."""
@@ -25,31 +25,31 @@ class ApiClient(IApiClient):
         return await self._auth_api.perform_request(method, endpoint, **kwargs)
 
     async def get(self, endpoint: str, **kwargs: object) -> httpx.Response:
-        """Request get method."""
+        """Send a GET request to the specified endpoint."""
         return await self._auth_api.perform_request(
             HTTPMethod.GET, endpoint, **kwargs
         )
 
     async def post(self, endpoint: str, **kwargs: object) -> httpx.Response:
-        """Request post method."""
+        """Send a POST request to the specified endpoint."""
         return await self._auth_api.perform_request(
             HTTPMethod.POST, endpoint, **kwargs
         )
 
     async def put(self, endpoint: str, **kwargs: object) -> httpx.Response:
-        """Request put method."""
+        """Send a PUT request to the specified endpoint."""
         return await self._auth_api.perform_request(
             HTTPMethod.PUT, endpoint, **kwargs
         )
 
     async def patch(self, endpoint: str, **kwargs: object) -> httpx.Response:
-        """Request patch method."""
+        """Send a PATCH request to the specified endpoint."""
         return await self._auth_api.perform_request(
             HTTPMethod.PATCH, endpoint, **kwargs
         )
 
     async def delete(self, endpoint: str, **kwargs: object) -> httpx.Response:
-        """Request delete method."""
+        """Send a DELETE request to the specified endpoint."""
         return await self._auth_api.perform_request(
             HTTPMethod.DELETE, endpoint, **kwargs
         )

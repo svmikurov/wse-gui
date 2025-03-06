@@ -1,1 +1,1 @@
-"""API."""
+"""Provides API-related functionality."""

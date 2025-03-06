@@ -1,10 +1,10 @@
-"""HTTP-methods."""
+"""Defines HTTP methods as an enumeration."""
 
 from enum import Enum
 
 
 class HTTPMethod(str, Enum):
-    """HTTP-methods."""
+    """Represents HTTP methods."""
 
     GET = 'GET'
     POST = 'POST'

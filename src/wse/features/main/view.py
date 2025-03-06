@@ -1,11 +1,11 @@
-"""Main model."""
+"""Defines the main screen view."""
 
 from wse.features.shared.ui.heading import Heading
 from wse.features.shared.view import BaseView
 
 
 class HomeView(BaseView):
-    """Home screen view."""
+    """Represents the home screen."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the view."""

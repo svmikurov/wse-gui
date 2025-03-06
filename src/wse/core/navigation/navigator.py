@@ -1,4 +1,4 @@
-"""Application navigation."""
+"""Handles navigation between application screens."""
 
 import toga
 
@@ -8,7 +8,7 @@ from wse.interfaces.icore import INavigator
 
 
 class Navigator(INavigator):
-    """Application navigation."""
+    """Manages navigation within the application."""
 
     def __init__(self, ui: UIConfig, main_window: toga.Window) -> None:
         """Construct the navigator."""
@@ -16,6 +16,6 @@ class Navigator(INavigator):
         self.ui = ui
 
     def navigate(self, route: Route) -> None:
-        """Navigate by route."""
+        """Navigate to the specified route."""
         screen = route.view
         self.main_window.content = screen

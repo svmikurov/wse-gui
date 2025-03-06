@@ -1,1 +1,1 @@
-"""Authentication screens."""
+"""Provides authentication-related screens and functionality."""

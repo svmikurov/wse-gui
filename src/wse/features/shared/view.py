@@ -1,4 +1,4 @@
-"""Base view."""
+"""Defines base views for the application."""
 
 import toga
 from toga.constants import COLUMN
@@ -6,7 +6,7 @@ from toga.style import Pack
 
 
 class StyleView(toga.Box):
-    """Base style view."""
+    """Provides a base style for views."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the view."""
@@ -18,7 +18,7 @@ class StyleView(toga.Box):
 
 
 class BaseView(StyleView):
-    """Base view."""
+    """Serves as the base class for all views."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the view."""

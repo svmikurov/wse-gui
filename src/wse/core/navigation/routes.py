@@ -1,4 +1,4 @@
-"""Application routes."""
+"""Defines routes for application navigation."""
 
 from dataclasses import dataclass
 
@@ -9,14 +9,14 @@ from wse.features.shared.view import BaseView
 
 @dataclass
 class Route:
-    """Route to screen."""
+    """Represents a route to a specific screen."""
 
     name: str
     view: BaseView
 
 
 class Routes:
-    """Routes to screen."""
+    """Stores predefined routes for the application."""
 
     HOME: Route = Route('Home', HomeView)
     LOGIN: Route = Route('Login', LoginView)

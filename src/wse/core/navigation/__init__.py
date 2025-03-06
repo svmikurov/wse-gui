@@ -1,1 +1,1 @@
-"""Application navigation."""
+"""Provides navigation-related functionality."""

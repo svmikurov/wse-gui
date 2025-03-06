@@ -1,13 +1,7 @@
-"""API exceptions."""
+"""Defines custom exceptions for API-related errors."""
 
 
 class AuthenticationError(Exception):
-    """Authenticate error exception."""
-
-    pass
-
-
-class APIError(Exception):
-    """Api error exception."""
+    """Represents an error during authentication."""
 
     pass

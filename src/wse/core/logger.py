@@ -1,11 +1,11 @@
-"""Logging settings."""
+"""Configures logging settings for the application."""
 
 import logging
 from typing import Optional
 
 
 def setup_logger(name: str, log_file: Optional[str] = None) -> logging.Logger:
-    """Set up the logger."""
+    """Set up a logger with the specified name and optional log file."""
     logger = logging.getLogger(name)
     logger.setLevel(logging.INFO)
 

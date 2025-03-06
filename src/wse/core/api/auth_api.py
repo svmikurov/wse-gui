@@ -1,4 +1,4 @@
-"""Handling API requests related to authentication."""
+"""Handles API requests related to authentication."""
 
 from typing import Dict, Optional
 from urllib.parse import urljoin
@@ -13,10 +13,7 @@ from wse.interfaces.icore import IAuthAPI
 
 
 class AuthAPI(IAuthAPI):
-    """Handles API requests related to authentication.
-
-    :param config: Configuration for API endpoints.
-    """
+    """Manages authentication-related API requests."""
 
     def __init__(self, config: APIConfig) -> None:
         """Construct the authentication api handler."""
@@ -55,7 +52,7 @@ class AuthAPI(IAuthAPI):
             raise
 
     async def authenticate(self, username: str, password: str) -> str:
-        """Authenticate the user and retrieve the auth token."""
+        """Authenticate the user and retrieve an auth token."""
         try:
             response = await self._request(
                 HTTPMethod.POST,
@@ -69,7 +66,7 @@ class AuthAPI(IAuthAPI):
             raise AuthenticationError('Invalid credentials') from e
 
     async def validate_token(self, token: str) -> bool:
-        """Check is the current token is valid."""
+        """Validate the provided authentication token."""
         try:
             await self._request(
                 HTTPMethod.GET,

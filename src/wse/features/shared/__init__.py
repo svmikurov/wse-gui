@@ -1,1 +1,1 @@
-"""Shared."""
+"""Provides shared functionality across features."""
