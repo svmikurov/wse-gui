@@ -1,14 +1,12 @@
 """Defines application settings and configurations."""
+
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Literal, Tuple
+from typing import Tuple
 
 from pydantic import BaseModel, Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
-# Type alias for supported languages
-SupportedLanguages = Literal['en', 'ru']
 
 # Paths
 MODULE_PATH = Path(__file__).resolve().parent
@@ -16,8 +14,8 @@ PROJECT_PATH = MODULE_PATH.parent.parent.parent
 ENV_PATH = PROJECT_PATH / '.env'
 
 
-class Language(str, Enum):
-    """Defines language aliases."""
+class Languages(str, Enum):
+    """Defines aliases of supported languages."""
 
     EN = 'en'
     RU = 'ru'
@@ -65,7 +63,7 @@ class Settings(BaseSettings):
     APP_NAME: str = 'WSE'
     FORMAL_NAME: str = 'WSE'
 
-    LANGUAGE: SupportedLanguages = Field(default=Language.RU)
+    LANGUAGE: Languages = Field(default=Languages.RU)
 
     api_config: APIConfig = Field(default_factory=APIConfig)
     storage_config: StorageConfig = Field(default_factory=StorageConfig)
