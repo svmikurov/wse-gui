@@ -1,18 +1,12 @@
 """Token storage."""
 
-import logging
 from pathlib import Path
 from typing import Optional
 
 from cryptography.fernet import Fernet, InvalidToken
 
+from wse.core.logger import root_logger as logger
 from wse.interfaces.icore import ITokenStorage
-
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO,
-)
-logger = logging.getLogger(__name__)
 
 
 class TokenStorage(ITokenStorage):

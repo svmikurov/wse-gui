@@ -1,19 +1,11 @@
 """API client."""
 
-import logging
-
 import httpx
 
 from wse.core.api.auth_api import AuthAPI
 from wse.core.api.http_methods import HTTPMethod
 from wse.core.auth.auth import AuthService
 from wse.interfaces.icore import IApiClient
-
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s -%(message)s',
-    level=logging.INFO,
-)
-logger = logging.getLogger(__name__)
 
 
 class ApiClient(IApiClient):
