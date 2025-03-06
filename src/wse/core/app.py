@@ -1,13 +1,14 @@
 """Defines the main application class."""
 
-import asyncio
-
 import toga
 
 from wse.core.auth.auth import AuthService
 from wse.core.config import Settings
+from wse.core.logger import setup_logger
 from wse.features.auth.view import LoginView
 from wse.features.main.view import HomeView
+
+logger = setup_logger('app')
 
 
 class WSE(toga.App):
@@ -29,6 +30,7 @@ class WSE(toga.App):
 
     def startup(self) -> None:
         """Initialize and display the application window."""
+        logger.info('Starting application')
         self.main_window = toga.MainWindow(
             size=toga.Size(*self.settings.ui_config.SCREEN_SIZE),
         )
@@ -36,6 +38,7 @@ class WSE(toga.App):
         if asyncio.create_task(self.auth_service.is_authenticated()):
             self.main_window.content = HomeView()
         else:
+            logger.info('User is not authenticated, showing Login screen')
             self.main_window.content = LoginView()
 
         self.main_window.show()

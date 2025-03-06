@@ -8,8 +8,10 @@ import httpx
 from wse.core.api.exceptions import AuthenticationError
 from wse.core.api.methods import HTTPMethod
 from wse.core.config import APIConfig
-from wse.core.logger import root_logger as logger
+from wse.core.logger import setup_logger
 from wse.interfaces.icore import IAuthAPI
+
+logger = setup_logger('wse')
 
 
 class AuthAPI(IAuthAPI):
@@ -41,6 +43,10 @@ class AuthAPI(IAuthAPI):
                     headers=headers,
                     **kwargs,
                 )
+            logger.info(
+                f'Request to {endpoint} completed '
+                f'with status {response.status_code}'
+            )
             return response
 
         except httpx.HTTPStatusError as e:

@@ -3,10 +3,13 @@
 from typing import Optional
 
 from wse.core.api.auth import AuthAPI
+from wse.core.api.exceptions import AuthenticationError
 from wse.core.config import Settings
-from wse.core.logger import root_logger as logger
+from wse.core.logger import setup_logger
 from wse.core.storage.token import TokenStorage
 from wse.interfaces.icore import IAuthService
+
+logger = setup_logger('auth.auth')
 
 
 class AuthService(IAuthService):
@@ -39,6 +42,10 @@ class AuthService(IAuthService):
 
     async def authenticate(self, username: str, password: str) -> None:
         """Authenticate the user with the provided credentials."""
-        self._token = await self._auth_api.authenticate(username, password)
-        self.token_storage.save_token(self._token)
-        logger.info('Authentication successful')
+        try:
+            self._token = await self._auth_api.authenticate(username, password)
+            self.token_storage.save_token(self._token)
+            logger.info('Authentication successful')
+        except AuthenticationError as e:
+            logger.error(f'Authentication failed for user {username}: {e}')
+            raise

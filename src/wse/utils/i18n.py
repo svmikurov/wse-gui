@@ -3,6 +3,10 @@
 import gettext
 import os
 
+from wse.core.logger import setup_logger
+
+logger = setup_logger('language')
+
 
 class I18N:
     """Handles translations and language settings."""
@@ -38,6 +42,7 @@ class I18N:
         """Set the application language."""
         self.current_lang = lang
         self.translations[lang].install()
+        logger.info(f'Setting application language to {lang}')
 
     def gettext(self, text: str) -> str:
         """Return the translated text."""

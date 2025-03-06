@@ -4,14 +4,18 @@ import logging
 from typing import Optional
 
 
-def setup_logger(name: str, log_file: Optional[str] = None) -> logging.Logger:
+def setup_logger(
+    name: str,
+    level: int = logging.INFO,
+    log_file: Optional[str] = None,
+) -> logging.Logger:
     """Set up a logger with the specified name and optional log file."""
     logger = logging.getLogger(name)
-    logger.setLevel(logging.INFO)
+    logger.setLevel(level)
 
     # Log format
     formatter = logging.Formatter(
-        '%(asctime)s - %(module)s - %(levelname)s - %(message)s'
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
 
     # Logs to console
@@ -26,6 +30,3 @@ def setup_logger(name: str, log_file: Optional[str] = None) -> logging.Logger:
         logger.addHandler(file_handler)
 
     return logger
-
-
-root_logger = setup_logger('wse')

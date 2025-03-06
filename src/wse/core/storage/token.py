@@ -5,8 +5,10 @@ from typing import Optional
 
 from cryptography.fernet import Fernet, InvalidToken
 
-from wse.core.logger import root_logger as logger
+from wse.core.logger import setup_logger
 from wse.interfaces.icore import ITokenStorage
+
+logger = setup_logger('storage')
 
 
 class TokenStorage(ITokenStorage):
@@ -25,7 +27,7 @@ class TokenStorage(ITokenStorage):
             logger.info('Token saved successfully')
 
         except Exception as e:
-            logger.error(f'Error saving token: {e}')
+            logger.error(f'Error saving token {self._token_path}: {e}')
             raise
 
     def load_token(self) -> Optional[str]:
