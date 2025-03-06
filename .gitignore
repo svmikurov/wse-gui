@@ -3,6 +3,7 @@
 *token.txt
 *userdata.json
 *ds/
+*.mo
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
