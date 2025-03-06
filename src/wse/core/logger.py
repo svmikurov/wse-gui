@@ -11,7 +11,7 @@ def setup_logger(name: str, log_file: Optional[str] = None) -> logging.Logger:
 
     # Log format
     formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        '%(asctime)s - %(module)s - %(levelname)s - %(message)s'
     )
 
     # Logs to console
