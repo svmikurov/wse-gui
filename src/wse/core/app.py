@@ -30,7 +30,6 @@ class WSE(toga.App):
 
     def startup(self) -> None:
         """Initialize and display the application window."""
-        logger.info('Starting application')
         self.main_window = toga.MainWindow(
             size=toga.Size(*self.settings.ui_config.SCREEN_SIZE),
         )
