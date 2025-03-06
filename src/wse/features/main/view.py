@@ -2,6 +2,7 @@
 
 from wse.features.shared.ui.heading import Heading
 from wse.features.shared.view import BaseView
+from wse.utils.i18n import _
 
 
 class HomeView(BaseView):
@@ -11,7 +12,7 @@ class HomeView(BaseView):
         """Construct the view."""
         super().__init__(*args, **kwargs)
 
-        self.heading = Heading('Home')
+        self.heading = Heading(_('Home'))
 
         # DOM
         self.add(

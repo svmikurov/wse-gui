@@ -18,6 +18,10 @@ def main() -> Optional[WSE]:
         logger.debug('Initializing DI container...')
         container = DIContainer()
 
+        logger.info(
+            f'Application language is set to: {container.settings().LANGUAGE}'
+        )
+
         logger.debug('Creating application instance...')
         app = container.app()
 

@@ -41,5 +41,5 @@ android-build:
 android-update: android-create android-build android
 
 gettext:
-	msgfmt -o src/wse/locale/ru/LC_MESSAGES/app.mo src/wse/locale/ru/LC_MESSAGES/app.po && \
-	msgfmt -o src/wse/locale/en/LC_MESSAGES/app.mo src/wse/locale/en/LC_MESSAGES/app.po
+	msgfmt -o src/wse/locales/ru/LC_MESSAGES/app.mo src/wse/locales/ru/LC_MESSAGES/app.po && \
+	msgfmt -o src/wse/locales/en/LC_MESSAGES/app.mo src/wse/locales/en/LC_MESSAGES/app.po

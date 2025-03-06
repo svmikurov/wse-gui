@@ -1,14 +1,24 @@
 """Defines application settings and configurations."""
 
+from enum import Enum
 from pathlib import Path
-from typing import Tuple
+from typing import Literal, Tuple
 
 from pydantic import BaseModel, Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+SupportedLanguages = Literal['en', 'ru']
+
 MODULE_PATH = Path(__file__).resolve().parent
 PROJECT_PATH = MODULE_PATH.parent.parent.parent
 ENV_PATH = PROJECT_PATH / '.env'
+
+
+class Language(str, Enum):
+    """Defines languages aliases."""
+
+    EN = 'en'
+    RU = 'ru'
 
 
 class UIConfig(BaseModel):
@@ -52,6 +62,8 @@ class Settings(BaseSettings):
     APP_ID: str = 'online.wselfedu'
     APP_NAME: str = 'WSE'
     FORMAL_NAME: str = 'WSE'
+
+    LANGUAGE: SupportedLanguages = Field(default=Language.RU)
 
     api_config: APIConfig = Field(default_factory=APIConfig)
     storage_config: StorageConfig = Field(default_factory=StorageConfig)
