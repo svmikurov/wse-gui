@@ -71,10 +71,10 @@ class AuthAPI(IAuthAPI):
             logger.error(f'Authentication failed: {e}')
             raise AuthenticationError('Invalid credentials') from e
 
-    async def validate_token(self, token: str) -> bool:
+    def validate_token(self, token: str) -> bool:
         """Validate the provided authentication token."""
         try:
-            await self._request(
+            self._request(
                 HTTPMethod.GET,
                 self.config.VALIDATE_TOKEN,
                 token=token,

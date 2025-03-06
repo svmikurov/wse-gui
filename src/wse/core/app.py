@@ -35,7 +35,8 @@ class WSE(toga.App):
             size=toga.Size(*self.settings.ui_config.SCREEN_SIZE),
         )
 
-        if asyncio.create_task(self.auth_service.is_authenticated()):
+        if self.auth_service.is_authenticated():
+            logger.info('User is authenticated, showing Home screen')
             self.main_window.content = HomeView()
         else:
             logger.info('User is not authenticated, showing Login screen')
