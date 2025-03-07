@@ -41,7 +41,7 @@ class I18N:
 
     def _init_translations(self, settings: Optional[Settings]) -> None:
         """Initialize translations."""
-        self.current_lang = settings.LANGUAGE if settings else Languages.EN
+        self.current_lang = settings.LANGUAGE
         self.translations[self.current_lang].install()
 
     def set_language(self, lang: str) -> None:

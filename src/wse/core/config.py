@@ -63,7 +63,7 @@ class Settings(BaseSettings):
     APP_NAME: str = 'WSE'
     FORMAL_NAME: str = 'WSE'
 
-    LANGUAGE: Languages = Field(default=Languages.RU)
+    LANGUAGE: Languages = Field(default=Languages.EN)
 
     api_config: APIConfig = Field(default_factory=APIConfig)
     storage_config: StorageConfig = Field(default_factory=StorageConfig)
