@@ -15,7 +15,7 @@ class TokenStorage(ITokenStorage):
     """Handles encryption and decryption of tokens."""
 
     def __init__(self, token_path: str | Path, encryption_key: str) -> None:
-        """Encrypt and save the token to a file."""
+        """Construct the storage."""
         self._token_path = Path(token_path)
         self._cipher = Fernet(encryption_key.encode())
 
