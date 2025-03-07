@@ -1,16 +1,16 @@
 """Defines the main screen view."""
 
+from wse.features.shared.ui.box import ColumnFlexBox
 from wse.features.shared.ui.heading import Heading
-from wse.features.shared.view import BaseView
 from wse.utils.i18n import _
 
 
-class HomeView(BaseView):
+class HomeView(ColumnFlexBox):
     """Represents the home screen."""
 
-    def __init__(self, *args: object, **kwargs: object) -> None:
+    def __init__(self) -> None:
         """Construct the view."""
-        super().__init__(*args, **kwargs)
+        super().__init__()
 
         self.heading = Heading(_('Home'))
 
