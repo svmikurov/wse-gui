@@ -12,6 +12,12 @@ msgstr "Password"
 msgid "Login"
 msgstr "Login"
 
+msgid "Login submit"
+msgstr "Login"
+
+msgid "Submit"
+msgstr "Submit"
+
 msgid "Home"
 msgstr "Home"
 

@@ -11,7 +11,13 @@ msgid "Password"
 msgstr "Пароль"
 
 msgid "Login"
+msgstr "Вход в приложение"
+
+msgid "Login submit"
 msgstr "Войти"
+
+msgid "Submit"
+msgstr "Подтвердить"
 
 msgid "Home"
 msgstr "Домашняя страница"
