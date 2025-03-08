@@ -75,3 +75,13 @@ class LoginView(ColumnFlexBox):
 
     def _on_login_click(self, _: toga.Widget) -> None:
         self.notify('handel_login')
+
+    @property
+    def username(self) -> str:
+        """Return username."""
+        return self.username_input.value
+
+    @property
+    def password(self) -> str:
+        """Return password."""
+        return self.password_input.value
