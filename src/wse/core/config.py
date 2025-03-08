@@ -61,6 +61,7 @@ class Settings(BaseSettings):
     APP_NAME: str = 'WSE'
     FORMAL_NAME: str = 'WSE'
 
+    AUTH_REQUIRED: bool = Field(default=True)
     LANGUAGE: Languages = Field(default=Languages.EN)
 
     api_config: APIConfig = Field(default_factory=APIConfig)

@@ -34,7 +34,10 @@ class WSE(toga.App):
             size=toga.Size(*self.settings.screen_config.SCREEN_SIZE),
         )
 
-        if self.auth_service.is_authenticated():
+        if (
+            not self.settings.AUTH_REQUIRED
+            or self.auth_service.is_authenticated()
+        ):
             logger.info('User is authenticated, showing Home screen')
             self.main_window.content = HomeView()
         else:
