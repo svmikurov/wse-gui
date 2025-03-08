@@ -27,16 +27,16 @@ class LoginView(ColumnFlexBox):
         self.SUBMIT_PADDING_TOP = 20
 
         self.general_style = {
-            "padding_right": 25,
-            "padding_left": 25,
-            "font_size": self.FONT_SIZE,
-            "height": 70,
+            'padding_right': 25,
+            'padding_left': 25,
+            'font_size': self.FONT_SIZE,
+            'height': 70,
         }
 
     def _create_widgets(self) -> None:
         """Create widgets for the login screen."""
         self.heading = toga.Label(
-            text=_("Login"),
+            text=_('Login'),
             style=Pack(
                 padding_top=self.HEADING_PADDING_TOP,
                 padding_bottom=self.HEADING_PADDING_BOTTOM,
@@ -45,19 +45,19 @@ class LoginView(ColumnFlexBox):
             ),
         )
         self.username_input = toga.TextInput(
-            placeholder=_("Username"),
+            placeholder=_('Username'),
             style=Pack(
                 padding_top=self.INPUT_PADDING_TOP, **self.general_style
             ),
         )
         self.password_input = toga.PasswordInput(
-            placeholder=_("Password"),
+            placeholder=_('Password'),
             style=Pack(
                 padding_top=self.INPUT_PADDING_TOP, **self.general_style
             ),
         )
         self.submit_button = toga.Button(
-            text=_("Login"),
+            text=_('Login submit'),
             style=Pack(
                 padding_top=self.SUBMIT_PADDING_TOP, **self.general_style
             ),
