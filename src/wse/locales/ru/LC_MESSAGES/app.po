@@ -24,3 +24,10 @@ msgstr "Домашняя страница"
 
 msgid "Welcome!"
 msgstr "Добро пожаловать!"
+
+msgid "Exercises"
+msgstr "Упражнения"
+
+msgid "Back"
+msgstr "Назад"
+

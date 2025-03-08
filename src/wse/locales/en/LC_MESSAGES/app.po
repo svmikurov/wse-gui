@@ -23,3 +23,9 @@ msgstr "Home"
 
 msgid "Welcome!"
 msgstr "Welcome!"
+
+msgid "Exercises"
+msgstr "Exercises"
+
+msgid "Back"
+msgstr "Back"
