@@ -61,6 +61,7 @@ class LoginView(ColumnFlexBox):
             style=Pack(
                 padding_top=self.SUBMIT_PADDING_TOP, **self.general_style
             ),
+            on_press=self._on_login_click
         )
 
     def _add_widgets_to_view(self) -> None:
@@ -71,3 +72,6 @@ class LoginView(ColumnFlexBox):
             self.password_input,
             self.submit_button,
         )
+
+    def _on_login_click(self, _: toga.Widget) -> None:
+        self.notify('handel_login')
