@@ -18,11 +18,11 @@ class HomeView(ColumnFlexBox):
     def _create_widgets(self) -> None:
         self.heading = Heading(_('Home'))
         self.flex_box = ColumnFlexBox()
-        self.back_button = ButtonStyled(_('Exercises'))
+        self.exercise_btn = ButtonStyled(_('Exercises'))
 
     def _add_widgets_to_view(self) -> None:
         self.add(
             self.heading,
             self.flex_box,
-            self.back_button,
+            self.exercise_btn,
         )
