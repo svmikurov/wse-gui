@@ -5,6 +5,7 @@ from dependency_injector import containers, providers
 from wse.core.app import WSE
 from wse.core.auth.auth import AuthService
 from wse.core.config import Settings
+from wse.core.navigation.navigator import Navigator
 
 
 class DIContainer(containers.DeclarativeContainer):
@@ -17,8 +18,13 @@ class DIContainer(containers.DeclarativeContainer):
         AuthService,
         settings=settings,
     )
+    navigator = providers.Singleton(
+        Navigator,
+    )
+
     app = providers.Singleton(
         WSE,
         settings=settings,
         auth_service=auth_service,
+        navigator=navigator,
     )

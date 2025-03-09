@@ -61,7 +61,7 @@ class LoginView(ColumnFlexBox):
             style=Pack(
                 padding_top=self.SUBMIT_PADDING_TOP, **self.general_style
             ),
-            on_press=self._on_login_click
+            on_press=self._on_login_click,
         )
 
     def _add_widgets_to_view(self) -> None:

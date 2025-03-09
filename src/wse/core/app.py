@@ -5,8 +5,8 @@ import toga
 from wse.core.auth.auth import AuthService
 from wse.core.config import Settings
 from wse.core.logger import setup_logger
-from wse.features.auth.view import LoginView
-from wse.features.main.view import HomeView
+from wse.core.navigation.navigator import Navigator
+from wse.core.navigation.routes import Routes
 
 logger = setup_logger('app')
 
@@ -18,6 +18,7 @@ class WSE(toga.App):
         self,
         settings: Settings,
         auth_service: AuthService,
+        navigator: Navigator,
     ) -> None:
         """Construct the application."""
         super().__init__(
@@ -27,21 +28,23 @@ class WSE(toga.App):
         )
         self.settings = settings
         self.auth_service = auth_service
+        self.navigator = navigator
 
     def startup(self) -> None:
         """Initialize and display the application window."""
         self.main_window = toga.MainWindow(
             size=toga.Size(*self.settings.screen_config.SCREEN_SIZE),
         )
+        self.navigator.set_main_window(self.main_window)
 
         if (
             not self.settings.AUTH_REQUIRED
             or self.auth_service.is_authenticated()
         ):
             logger.info('User is authenticated, showing Home screen')
-            self.main_window.content = HomeView()
+            self.navigator.navigate(Routes.HOME)
         else:
             logger.info('User is not authenticated, showing Login screen')
-            self.main_window.content = LoginView()
+            self.navigator.navigate(Routes.LOGIN)
 
         self.main_window.show()
