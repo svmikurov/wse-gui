@@ -16,12 +16,13 @@ class LoginController(Listener):
     def __init__(
         self,
         model: UserModel,
+        view: LoginView,
         navigator: Navigator,
     ) -> None:
         """Construct the controller."""
         self.model = model
+        self.view = view
         self.navigator = navigator
-        self.view = LoginView()
         self.view.add_listener(self)
 
     def handle_login(self) -> None:

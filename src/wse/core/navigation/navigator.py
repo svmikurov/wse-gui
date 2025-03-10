@@ -31,7 +31,8 @@ class Navigator(INavigator):
     def navigate(self, route: Route) -> None:
         """Navigates to the specified route by creating a controller."""
         # Get a controller factory from a container
-        controller_factory = getattr(self.container, route.controller_factory)
+        feature = getattr(self.container, route.feature)
+        controller_factory = getattr(feature, route.controller_factory)
 
         # Create a controller and get it View
         controller = controller_factory()

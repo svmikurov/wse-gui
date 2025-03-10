@@ -8,11 +8,12 @@ class Route:
     """Represents a route to a specific screen."""
 
     name: str
+    feature: str
     controller_factory: str
 
 
 class Routes:
     """Stores predefined routes for the application."""
 
-    HOME: Route = Route('Home', 'home_controller')
-    LOGIN: Route = Route('Login', 'login_controller')
+    HOME: Route = Route('Home', 'main', 'home_controller')
+    LOGIN: Route = Route('Login', 'auth', 'login_controller')

@@ -6,9 +6,9 @@ from wse.core.app import WSE
 from wse.core.auth.auth import AuthService
 from wse.core.config import Settings
 from wse.core.navigation.navigator import Navigator
-from wse.features.auth.controller import LoginController
+from wse.features.auth.di_container import AuthContainer
 from wse.features.auth.model import UserModel
-from wse.features.main.controller import HomeController
+from wse.features.main.di_container import MainContainer
 
 
 class DIContainer(containers.DeclarativeContainer):
@@ -16,9 +16,12 @@ class DIContainer(containers.DeclarativeContainer):
 
     container = providers.Self()
 
+    # Settings
     settings = providers.Singleton(
         Settings,
     )
+
+    # Services
     auth_service = providers.Singleton(
         AuthService,
         settings=settings,
@@ -28,6 +31,7 @@ class DIContainer(containers.DeclarativeContainer):
         container=container,
     )
 
+    # Application
     app = providers.Singleton(
         WSE,
         settings=settings,
@@ -35,23 +39,19 @@ class DIContainer(containers.DeclarativeContainer):
         navigator=navigator,
     )
 
-    ####################################################################
     # Models
-
     user_model = providers.Factory(
         UserModel,
     )
 
-    ####################################################################
-    # Controllers
-
-    home_controller = providers.Factory(
-        HomeController,
-        model=user_model,
+    # Package containers
+    auth = providers.Container(
+        AuthContainer,
+        user_model=user_model,
         navigator=navigator,
     )
-    login_controller = providers.Factory(
-        LoginController,
-        model=user_model,
+    main = providers.Container(
+        MainContainer,
+        user_model=user_model,
         navigator=navigator,
     )
