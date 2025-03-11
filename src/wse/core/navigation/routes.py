@@ -17,3 +17,4 @@ class Routes:
 
     HOME: Route = Route('Home', 'main', 'home_controller')
     LOGIN: Route = Route('Login', 'auth', 'login_controller')
+    EXERCISES: Route = Route('Exercises', 'exercise', 'exercises_controller')
