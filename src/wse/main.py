@@ -13,19 +13,12 @@ logger = setup_logger('main', level=logging.DEBUG)
 def main() -> Optional[WSE]:
     """Create and return the application instance."""
     try:
-        logger.info('Starting application')
-
-        logger.debug('Initializing DI container...')
         container = ApplicationContainer()
-
         logger.info(
             f'Application language is set to: '
             f'{container.core.settings().LANGUAGE}'
         )
-
-        logger.debug('Creating application instance...')
         app = container.app()
-
         logger.info('Application started successfully.')
         return app
 
