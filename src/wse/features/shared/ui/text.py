@@ -1,3 +1,5 @@
+"""Defines the text widgets."""
+
 import toga
 
 from wse.features.ui_config import UIStyle
