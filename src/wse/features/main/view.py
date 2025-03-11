@@ -3,10 +3,14 @@
 import toga
 from toga.sources import Source
 
+from wse.core.logger import setup_logger
+from wse.core.navigation.routes import Routes
 from wse.features.shared.ui.box import ColumnFlexBox
 from wse.features.shared.ui.button import ButtonStyled
 from wse.features.shared.ui.heading import Heading
 from wse.utils.i18n import _
+
+logger = setup_logger('HomeView')
 
 
 class HomeView(ColumnFlexBox, Source):
@@ -17,13 +21,13 @@ class HomeView(ColumnFlexBox, Source):
         super().__init__()
         Source.__init__(self)
         self._create_widgets()
+        self._assign_widget_handlers()
         self._add_widgets_to_view()
 
     def _create_widgets(self) -> None:
         self.heading = Heading(_('Home'))
         self.flex_box = ColumnFlexBox()
         self.exercise_button = ButtonStyled(_('Exercises'))
-        self.exercise_button.on_press = self._on_exercises_click
 
     def _add_widgets_to_view(self) -> None:
         self.add(
@@ -33,7 +37,10 @@ class HomeView(ColumnFlexBox, Source):
         )
 
     ####################################################################
-    # Button handlers
+    # Widget handlers
+
+    def _assign_widget_handlers(self) -> None:
+        self.exercise_button.on_press = self._on_exercises_click
 
     def _on_exercises_click(self, _: toga.Widget) -> None:
-        self.notify('handel_exercises')
+        self.notify('navigate', route=Routes.EXERCISES)
