@@ -8,6 +8,7 @@ from wse.core.config import Settings
 from wse.core.navigation.navigator import Navigator
 from wse.features.auth.di_container import AuthContainer
 from wse.features.auth.model import UserModel
+from wse.features.exercise.di_container import ExerciseContainer
 from wse.features.main.di_container import MainContainer
 
 
@@ -52,6 +53,11 @@ class DIContainer(containers.DeclarativeContainer):
     )
     main = providers.Container(
         MainContainer,
+        user_model=user_model,
+        navigator=navigator,
+    )
+    exercise = providers.Container(
+        ExerciseContainer,
         user_model=user_model,
         navigator=navigator,
     )
