@@ -11,7 +11,7 @@ from wse.core.navigation.routes import Route
 from wse.interfaces.icore import INavigator
 
 if TYPE_CHECKING:
-    from wse.core.di_container import DIContainer
+    from wse.container import ApplicationContainer
 
 logger = setup_logger('navigator')
 
@@ -19,7 +19,7 @@ logger = setup_logger('navigator')
 class Navigator(INavigator):
     """Manages navigation within the application."""
 
-    def __init__(self, container: DIContainer) -> None:
+    def __init__(self, container: ApplicationContainer) -> None:
         """Construct the navigator."""
         self.main_window = None
         self.container = container
@@ -38,3 +38,7 @@ class Navigator(INavigator):
         controller = controller_factory()
         self.main_window.content = controller.view
         logger.info(f'Navigating to {route.name}')
+
+    def back(self) -> None:
+        """Move back screen."""
+        logger.info('Call "back" button handler.')
