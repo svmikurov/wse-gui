@@ -1,6 +1,6 @@
 .env
 .venv_wse_gui/
-*token.txt
+*token.enc
 *userdata.json
 *ds/
 *.mo
