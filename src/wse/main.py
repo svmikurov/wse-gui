@@ -3,8 +3,8 @@
 import logging
 from typing import Optional
 
-from wse.core.app import WSE
 from wse.container import ApplicationContainer
+from wse.core.app import WSE
 from wse.core.logger import setup_logger
 
 logger = setup_logger('main', level=logging.DEBUG)

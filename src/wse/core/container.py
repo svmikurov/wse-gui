@@ -1,8 +1,7 @@
-"""Defines a Dependency Injection container for the application."""
+"""Defines a Dependency Injection containers."""
 
 from dependency_injector import containers, providers
 
-from wse.core.app import WSE
 from wse.core.auth.auth import AuthService
 from wse.core.config import Settings
 from wse.core.navigation.navigator import Navigator
@@ -13,6 +12,7 @@ from wse.features.main.container import MainContainer
 
 
 class CoreContainer(containers.DeclarativeContainer):
+    """Core dependencies container."""
 
     settings = providers.Singleton(
         Settings,
@@ -23,6 +23,7 @@ class CoreContainer(containers.DeclarativeContainer):
 
 
 class ServicesContainer(containers.DeclarativeContainer):
+    """Services dependencies container."""
 
     settings = providers.Dependency()
 

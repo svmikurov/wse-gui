@@ -13,7 +13,7 @@ from wse.features.exercise.view import ExercisesView
 if TYPE_CHECKING:
     from wse.core.navigation.navigator import Navigator
 
-logger = setup_logger('HomeController')
+logger = setup_logger('ExerciseController')
 
 
 class ExerciseController(Listener):

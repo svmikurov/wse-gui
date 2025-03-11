@@ -9,7 +9,7 @@ def setup_logger(
     level: int = logging.INFO,
     log_file: Optional[str] = None,
 ) -> logging.Logger:
-    """Set up a logger with the specified name and optional log file."""
+    """Set up a logger with specified name and level."""
     logger = logging.getLogger(name)
     logger.setLevel(level)
 
