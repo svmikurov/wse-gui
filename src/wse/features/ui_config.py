@@ -16,4 +16,8 @@ class UIStyle:
     # Button style settings
     BUTTON_FONT_SIZE: int = 20
     BUTTON_HEIGHT: int = 70
-    BUTTON_PADDING: Tuple[int, int, int, int] = (10, 25, 10, 25)
+    BUTTON_PADDING: Tuple[int, int, int, int] = (10, 10, 10, 10)
+
+    # Multiline info panel style settings
+    INFO_FONT_SIZE: int = 16
+    INFO_PANEL_PADDING: Tuple[int, int, int, int] = (10, 10, 10, 10)
