@@ -12,37 +12,37 @@ from wse.features.exercise.container import ExerciseContainer
 from wse.features.main.container import MainContainer
 
 
-class DIContainer(containers.DeclarativeContainer):
+class CoreContainer(containers.DeclarativeContainer):
+
+    settings = providers.Singleton(
+        Settings,
+    )
+    user_model = providers.Factory(
+        UserModel,
+    )
+
+
+class ServicesContainer(containers.DeclarativeContainer):
+
+    settings = providers.Dependency()
+
+    auth = providers.Singleton(
+        AuthService,
+        settings=settings,
+    )
+
+
+class FeaturesContainer(containers.DeclarativeContainer):
     """Provides dependencies for the application."""
 
     container = providers.Self()
 
-    # Settings
-    settings = providers.Singleton(
-        Settings,
-    )
+    auth_service = providers.Dependency()
+    user_model = providers.Dependency()
 
-    # Services
-    auth_service = providers.Singleton(
-        AuthService,
-        settings=settings,
-    )
     navigator = providers.Singleton(
         Navigator,
         container=container,
-    )
-
-    # Application
-    app = providers.Singleton(
-        WSE,
-        settings=settings,
-        auth_service=auth_service,
-        navigator=navigator,
-    )
-
-    # Models
-    user_model = providers.Factory(
-        UserModel,
     )
 
     # Package containers

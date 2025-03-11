@@ -4,7 +4,7 @@ import logging
 from typing import Optional
 
 from wse.core.app import WSE
-from wse.core.container import DIContainer
+from wse.container import ApplicationContainer
 from wse.core.logger import setup_logger
 
 logger = setup_logger('main', level=logging.DEBUG)
@@ -16,10 +16,11 @@ def main() -> Optional[WSE]:
         logger.info('Starting application')
 
         logger.debug('Initializing DI container...')
-        container = DIContainer()
+        container = ApplicationContainer()
 
         logger.info(
-            f'Application language is set to: {container.settings().LANGUAGE}'
+            f'Application language is set to: '
+            f'{container.core.settings().LANGUAGE}'
         )
 
         logger.debug('Creating application instance...')
