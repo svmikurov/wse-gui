@@ -6,10 +6,10 @@ from wse.core.app import WSE
 from wse.core.auth.auth import AuthService
 from wse.core.config import Settings
 from wse.core.navigation.navigator import Navigator
-from wse.features.auth.di_container import AuthContainer
+from wse.features.auth.container import AuthContainer
 from wse.features.auth.model import UserModel
-from wse.features.exercise.di_container import ExerciseContainer
-from wse.features.main.di_container import MainContainer
+from wse.features.exercise.container import ExerciseContainer
+from wse.features.main.container import MainContainer
 
 
 class DIContainer(containers.DeclarativeContainer):

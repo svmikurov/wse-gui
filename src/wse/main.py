@@ -4,7 +4,7 @@ import logging
 from typing import Optional
 
 from wse.core.app import WSE
-from wse.core.di_container import DIContainer
+from wse.core.container import DIContainer
 from wse.core.logger import setup_logger
 
 logger = setup_logger('main', level=logging.DEBUG)
