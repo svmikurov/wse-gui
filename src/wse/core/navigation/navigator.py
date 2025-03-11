@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+from collections import deque
 from typing import TYPE_CHECKING
 
 import toga
 
+from wse.core.config import Settings
 from wse.core.logger import setup_logger
 from wse.core.navigation.routes import Route
 from wse.interfaces.icore import INavigator
@@ -19,10 +21,18 @@ logger = setup_logger('navigator')
 class Navigator(INavigator):
     """Manages navigation within the application."""
 
-    def __init__(self, container: ApplicationContainer) -> None:
+    PREVIOUS_SCREEN_INDEX = -2
+
+    def __init__(
+        self,
+        container: ApplicationContainer,
+        settings: Settings,
+    ) -> None:
         """Construct the navigator."""
-        self.main_window = None
         self.container = container
+        self.history_len = settings.HISTORY_LEN
+        self.screen_history = deque(maxlen=self.history_len)
+        self.main_window = None
 
     def set_main_window(self, main_window: toga.Window) -> None:
         """Set main window to navigate."""
@@ -38,7 +48,9 @@ class Navigator(INavigator):
         controller = controller_factory()
         self.main_window.content = controller.view
         logger.info(f'Navigating to {route.name}')
+        self.screen_history.append(route)
 
     def back(self) -> None:
         """Move back screen."""
-        logger.info('Call "back" button handler.')
+        route = self.screen_history[self.PREVIOUS_SCREEN_INDEX]
+        self.navigate(route)

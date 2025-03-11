@@ -63,6 +63,7 @@ class Settings(BaseSettings):
 
     AUTH_REQUIRED: bool = Field(default=True)
     LANGUAGE: Languages = Field(default=Languages.EN)
+    HISTORY_LEN: int = Field(default=10)
 
     api_config: APIConfig = Field(default_factory=APIConfig)
     storage_config: StorageConfig = Field(default_factory=StorageConfig)

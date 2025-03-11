@@ -38,12 +38,14 @@ class FeaturesContainer(containers.DeclarativeContainer):
 
     container = providers.Self()
 
+    settings = providers.Dependency()
     auth_service = providers.Dependency()
     user_model = providers.Dependency()
 
     navigator = providers.Singleton(
         Navigator,
         container=container,
+        settings=settings,
     )
 
     # Package containers

@@ -22,6 +22,7 @@ class ApplicationContainer(containers.DeclarativeContainer):
     )
     features = providers.Container(
         FeaturesContainer,
+        settings=core.settings,
         auth_service=services.auth,
         user_model=core.user_model,
     )
