@@ -2,11 +2,13 @@
 
 from wse.core.auth.auth import AuthService
 from wse.core.logger import setup_logger
+from wse.core.navigation.routes import Routes
+from wse.features.shared.observer import Subject
 
 logger = setup_logger('features.auth.UserModel')
 
 
-class UserModel:
+class UserModel(Subject):
     """User model."""
 
     def __init__(self, auth_service: AuthService) -> None:
@@ -19,3 +21,6 @@ class UserModel:
     async def authenticate(self, username: str, password: str) -> None:
         """Authenticate user."""
         await self.auth_service.authenticate(username, password)
+
+        if await self.auth_service.is_authenticated():
+            self.notify('navigate', route=Routes.HOME)
