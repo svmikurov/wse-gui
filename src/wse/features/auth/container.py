@@ -10,8 +10,8 @@ from wse.features.auth.view import LoginView
 class AuthContainer(containers.DeclarativeContainer):
     """Authentication package DI container."""
 
-    navigator = providers.Dependency()
     auth_service = providers.Dependency()
+    navigator = providers.Dependency()
 
     user_model = providers.Factory(
         UserModel,
