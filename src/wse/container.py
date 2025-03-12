@@ -3,23 +3,25 @@
 from dependency_injector import containers, providers
 
 from wse.core.app import WSE
-from wse.core.container import (
-    CoreContainer,
-    FeaturesContainer,
-    ServicesContainer,
-)
+from wse.core.container import CoreContainer, ServicesContainer
+from wse.features.container import FeaturesContainer
 
 
 class ApplicationContainer(containers.DeclarativeContainer):
     """Dependency injection container for the application."""
 
+    # Core
     core = providers.Container(
         CoreContainer,
     )
+
+    # Services
     services = providers.Container(
         ServicesContainer,
         settings=core.settings,
     )
+
+    # Features
     features = providers.Container(
         FeaturesContainer,
         settings=core.settings,
