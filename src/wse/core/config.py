@@ -31,7 +31,6 @@ class ScreenConfig:
 class APIConfig(BaseModel):
     """Stores configuration for API endpoints and settings."""
 
-    base_url: str = Field(default='http://wselfedu.online')
     REQUEST_TIMEOUT: int = 10
 
     # Endpoints
@@ -60,6 +59,7 @@ class Settings(BaseSettings):
     APP_ID: str = 'online.wselfedu'
     APP_NAME: str = 'WSE'
     FORMAL_NAME: str = 'WSE'
+    base_url: str = Field(default='http://wselfedu.online')
 
     AUTH_REQUIRED: bool = Field(default=True)
     LANGUAGE: Languages = Field(default=Languages.EN)
