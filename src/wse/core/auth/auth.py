@@ -9,7 +9,7 @@ from wse.core.logger import setup_logger
 from wse.core.storage.token import TokenStorage
 from wse.interfaces.icore import IAuthService
 
-logger = setup_logger('auth.auth')
+logger = setup_logger('auth.AuthService')
 
 
 class AuthService(IAuthService):
