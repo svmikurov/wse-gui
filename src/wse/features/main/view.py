@@ -22,13 +22,14 @@ class HomeView(ColumnFlexBox, Source):
         super().__init__()
         Source.__init__(self)
         self._create_widgets()
-        self._assign_widget_handlers()
         self._add_widgets_to_view()
 
     def _create_widgets(self) -> None:
         self.heading = Heading(_('Home'))
         self.info_panel = MultilineInfoPanel()
-        self.exercise_button = ButtonStyled(_('Exercises'))
+        self.exercise_button = ButtonStyled(
+            _('Exercises'), on_press=self._on_exercises_click
+        )
 
     def _add_widgets_to_view(self) -> None:
         self.add(
@@ -39,9 +40,6 @@ class HomeView(ColumnFlexBox, Source):
 
     ####################################################################
     # Widget handlers
-
-    def _assign_widget_handlers(self) -> None:
-        self.exercise_button.on_press = self._on_exercises_click
 
     def _on_exercises_click(self, _: toga.Widget) -> None:
         self.notify('navigate', route=Routes.EXERCISES)
