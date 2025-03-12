@@ -1,6 +1,6 @@
 """Defines the data model for the authentication feature."""
 
-from wse.core.auth.auth import AuthService
+from wse.core.auth.service import AuthService
 from wse.core.logger import setup_logger
 from wse.core.navigation.routes import Routes
 from wse.features.shared.observer import Subject

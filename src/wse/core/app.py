@@ -5,7 +5,7 @@ import asyncio
 import toga
 
 from wse.config.config import Settings
-from wse.core.auth.auth import AuthService
+from wse.core.auth.service import AuthService
 from wse.core.logger import setup_logger
 from wse.core.navigation.navigator import Navigator
 from wse.core.navigation.routes import Routes
