@@ -82,19 +82,6 @@ class LoginView(ColumnFlexBox, Source, AsyncNotifyMixin):
     async def _on_login_click(self, _: toga.Widget) -> None:
         await self.notify_async(
             'handle_login',
-            username=self.username,
-            password=self.password,
+            username=self.username_input.value,
+            password=self.password_input.value,
         )
-
-    ####################################################################
-    # Utility methods
-
-    @property
-    def username(self) -> str:
-        """Return username."""
-        return self.username_input.value
-
-    @property
-    def password(self) -> str:
-        """Return password."""
-        return self.password_input.value
