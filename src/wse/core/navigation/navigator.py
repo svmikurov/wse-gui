@@ -52,5 +52,6 @@ class Navigator(INavigator):
 
     def back(self) -> None:
         """Move back screen."""
-        route = self.screen_history[self.PREVIOUS_SCREEN_INDEX]
-        self.navigate(route)
+        if len(self.screen_history) >= 2:
+            route = self.screen_history[self.PREVIOUS_SCREEN_INDEX]
+            self.navigate(route)
