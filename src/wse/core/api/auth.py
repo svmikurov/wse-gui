@@ -56,7 +56,7 @@ class AuthAPI(IAuthAPI):
             return response
 
         except httpx.HTTPStatusError as e:
-            logger.error(f'HTTP error {response.status_code}: {e}')
+            logger.error(f'HTTP error {e.response.status_code}: {e}')
             raise
 
         except httpx.RequestError as e:
