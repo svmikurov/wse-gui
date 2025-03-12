@@ -19,7 +19,9 @@ class AuthService(IAuthService):
         """Construct the service."""
         self.token_storage: TokenStorage = self._get_token_storage(settings)
         self._auth_api = AuthAPI(
-            settings.base_url, settings.REQUEST_TIMEOUT, endpoints
+            base_url=settings.base_url,
+            endpoints=endpoints,
+            request_timeout=settings.REQUEST_TIMEOUT,
         )
         # Auth token loads from storage, is None by default.
         self._token: Optional[str] = None

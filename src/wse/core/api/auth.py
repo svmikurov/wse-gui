@@ -19,8 +19,8 @@ class AuthAPI(IAuthAPI):
     def __init__(
         self,
         base_url: str,
-        request_timeout: int,
         endpoints: Dict[str, str],
+        request_timeout: int,
     ) -> None:
         """Construct the authentication api handler."""
         self.base_url = base_url
