@@ -50,3 +50,11 @@ class AuthService(IAuthService):
         except AuthenticationError as e:
             logger.error(f'Authentication failed for user {username}: {e}')
             raise
+
+    async def close(self) -> None:
+        """Close API client."""
+        try:
+            await self._auth_api.close()
+            logger.info('The authentication service has terminated.')
+        except Exception as e:
+            logger.error(f'Error closing service: {e}', exc_info=True)

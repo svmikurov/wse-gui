@@ -53,3 +53,8 @@ class WSE(toga.App):
         else:
             logger.info('User is not authenticated, showing Login screen')
             self.navigator.navigate(Routes.LOGIN)
+
+    async def on_exit(self) -> bool:
+        """Call when the application closes."""
+        await self.auth_service.close()
+        return True

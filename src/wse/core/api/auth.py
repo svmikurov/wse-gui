@@ -26,6 +26,7 @@ class AuthAPI(IAuthAPI):
         self.base_url = base_url
         self.request_timeout = request_timeout
         self.endpoints = endpoints
+        self.client = httpx.AsyncClient(timeout=request_timeout)
 
     async def _request(
         self,
@@ -42,15 +43,12 @@ class AuthAPI(IAuthAPI):
             headers['Authorization'] = f'Token {token}'
 
         try:
-            async with httpx.AsyncClient(
-                timeout=self.request_timeout
-            ) as client:
-                response = await client.request(
-                    method,
-                    url,
-                    headers=headers,
-                    **kwargs,
-                )
+            response = await self.client.request(
+                method,
+                url,
+                headers=headers,
+                **kwargs,
+            )
             logger.info(
                 f'Request to {endpoint} completed '
                 f'with status {response.status_code}'
@@ -102,3 +100,11 @@ class AuthAPI(IAuthAPI):
     ) -> httpx.Response:
         """Public method for performing HTTP request."""
         return await self._request(method, endpoint, token=token, **kwargs)
+
+    async def close(self) -> None:
+        """Close HTTP-client."""
+        try:
+            await self.client.aclose()
+            logger.debug('HTTP-client closed successfully')
+        except Exception as e:
+            logger.error(f'Error closing client: {e}', exc_info=True)
