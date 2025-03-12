@@ -2,21 +2,20 @@
 
 import toga
 from toga.constants import CENTER
-from toga.sources import Source
 from toga.style import Pack
 
-from wse.features.shared.notify_async import AsyncNotifyMixin
+from wse.features.shared.observer import Subject
 from wse.features.shared.ui.box import ColumnFlexBox
 from wse.utils.i18n import _
 
 
-class LoginView(ColumnFlexBox, Source, AsyncNotifyMixin):
+class LoginView(ColumnFlexBox, Subject):
     """Represents the login screen."""
 
     def __init__(self) -> None:
         """Initialize the view."""
         super().__init__()
-        Source.__init__(self)
+        Subject.__init__(self)
         self._setup_styles()
         self._create_widgets()
         self._add_widgets_to_view()

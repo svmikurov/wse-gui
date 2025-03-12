@@ -1,6 +1,6 @@
-"""Defines a mixin for async notification."""
+"""Observer pattern module."""
 
-from toga.sources import Listener
+from toga.sources import Listener, Source
 
 
 class AsyncNotifyMixin:
@@ -18,3 +18,10 @@ class AsyncNotifyMixin:
 
             if method:
                 await method(**kwargs)
+
+
+class Subject(AsyncNotifyMixin, Source):
+    """An observable object in the Observer pattern.
+
+    Notifies subscribed listeners (observers) when its state changes.
+    """
