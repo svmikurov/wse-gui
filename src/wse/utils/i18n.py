@@ -5,7 +5,7 @@ from typing import Any, Dict, Optional
 
 from typing_extensions import Self
 
-from wse.core.config import PROJECT_PATH, Languages, Settings
+from wse.config.config import PROJECT_PATH, Languages, Settings
 from wse.core.logger import setup_logger
 
 logger = setup_logger('language')

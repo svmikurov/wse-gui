@@ -19,6 +19,7 @@ class ApplicationContainer(containers.DeclarativeContainer):
     services = providers.Container(
         ServicesContainer,
         settings=core.settings,
+        endpoints=core.endpoints,
     )
 
     # Features

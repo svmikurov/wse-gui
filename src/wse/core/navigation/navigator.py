@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 
 import toga
 
-from wse.core.config import Settings
+from wse.config.config import Settings
 from wse.core.logger import setup_logger
 from wse.core.navigation.routes import Route
 from wse.interfaces.icore import INavigator

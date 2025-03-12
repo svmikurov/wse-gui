@@ -7,7 +7,6 @@ import httpx
 
 from wse.core.api.exceptions import AuthenticationError
 from wse.core.api.methods import HTTPMethod
-from wse.core.config import Settings
 from wse.core.logger import setup_logger
 from wse.interfaces.icore import IAuthAPI
 
@@ -17,9 +16,16 @@ logger = setup_logger('core.api.AuthAPI')
 class AuthAPI(IAuthAPI):
     """Manages authentication-related API requests."""
 
-    def __init__(self, settings: Settings) -> None:
+    def __init__(
+        self,
+        base_url: str,
+        request_timeout: int,
+        endpoints: Dict[str, str],
+    ) -> None:
         """Construct the authentication api handler."""
-        self.settings = settings
+        self.base_url = base_url
+        self.request_timeout = request_timeout
+        self.endpoints = endpoints
 
     async def _request(
         self,
@@ -29,7 +35,7 @@ class AuthAPI(IAuthAPI):
         **kwargs: Dict[str, str],
     ) -> httpx.Response:
         """Request by method."""
-        url = urljoin(self.settings.base_url, endpoint)
+        url = urljoin(self.base_url, endpoint)
 
         headers = kwargs.get('headers', {})
         if token:
@@ -37,7 +43,7 @@ class AuthAPI(IAuthAPI):
 
         try:
             async with httpx.AsyncClient(
-                timeout=self.settings.api_config.REQUEST_TIMEOUT
+                timeout=self.request_timeout
             ) as client:
                 response = await client.request(
                     method,
@@ -64,7 +70,7 @@ class AuthAPI(IAuthAPI):
         try:
             response = await self._request(
                 HTTPMethod.POST,
-                self.settings.api_config.LOGIN,
+                self.endpoints['login'],
                 json={'username': username, 'password': password},
             )
             return response.json()['auth_token']
@@ -78,7 +84,7 @@ class AuthAPI(IAuthAPI):
         try:
             await self._request(
                 HTTPMethod.GET,
-                self.settings.api_config.VALIDATE_TOKEN,
+                self.endpoints['validate_token'],
                 token=token,
             )
             return True

@@ -1,10 +1,10 @@
 """Manages user authentication and token validation."""
 
-from typing import Optional
+from typing import Dict, Optional
 
 from wse.core.api.auth import AuthAPI
 from wse.core.api.exceptions import AuthenticationError
-from wse.core.config import Settings
+from wse.config.config import Settings
 from wse.core.logger import setup_logger
 from wse.core.storage.token import TokenStorage
 from wse.interfaces.icore import IAuthService
@@ -15,11 +15,12 @@ logger = setup_logger('auth.AuthService')
 class AuthService(IAuthService):
     """Handles authentication logic and token management."""
 
-    def __init__(self, settings: Settings) -> None:
+    def __init__(self, settings: Settings, endpoints: Dict[str, str]) -> None:
         """Construct the service."""
-        self.settings = settings
         self.token_storage: TokenStorage = self._get_token_storage(settings)
-        self._auth_api = AuthAPI(settings)
+        self._auth_api = AuthAPI(
+            settings.base_url, settings.REQUEST_TIMEOUT, endpoints
+        )
         # Auth token loads from storage, is None by default.
         self._token: Optional[str] = None
         self._load_token()
