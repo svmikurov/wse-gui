@@ -42,7 +42,7 @@ class APIConfig(BaseModel):
 class StorageConfig(BaseSettings):
     """Stores configuration for storage-related settings."""
 
-    token_file: Path = PROJECT_PATH / 'token.enc'
+    token_file: Path = PROJECT_PATH / 'data' / 'secrets' / 'token.enc'
     encryption_key: SecretStr
 
     model_config = SettingsConfigDict(

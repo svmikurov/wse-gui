@@ -4,6 +4,7 @@
 *userdata.json
 *ds/
 *.mo
+*sercrets/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
