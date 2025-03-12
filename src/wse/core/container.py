@@ -2,8 +2,8 @@
 
 from dependency_injector import containers, providers
 
-from wse.core.auth.auth import AuthService
 from wse.config.config import Settings
+from wse.core.auth.auth import AuthService
 
 
 class CoreContainer(containers.DeclarativeContainer):

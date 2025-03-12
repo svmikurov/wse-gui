@@ -2,9 +2,9 @@
 
 from typing import Dict, Optional
 
+from wse.config.config import Settings
 from wse.core.api.auth import AuthAPI
 from wse.core.api.exceptions import AuthenticationError
-from wse.config.config import Settings
 from wse.core.logger import setup_logger
 from wse.core.storage.token import TokenStorage
 from wse.interfaces.icore import IAuthService
