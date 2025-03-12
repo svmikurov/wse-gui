@@ -24,7 +24,6 @@ class ApplicationContainer(containers.DeclarativeContainer):
         FeaturesContainer,
         settings=core.settings,
         auth_service=services.auth,
-        user_model=core.user_model,
     )
 
     # Application

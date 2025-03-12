@@ -34,11 +34,11 @@ class AuthService(IAuthService):
             settings.storage_config.encryption_key.get_secret_value(),
         )
 
-    def is_authenticated(self) -> bool:
+    async def is_authenticated(self) -> bool:
         """Check if the user is authenticated."""
         if not self._token:
             return False
-        return self._auth_api.validate_token(self._token)
+        return await self._auth_api.validate_token(self._token)
 
     async def authenticate(self, username: str, password: str) -> None:
         """Authenticate the user with the provided credentials."""

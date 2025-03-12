@@ -6,7 +6,6 @@ from wse.core.auth.auth import AuthService
 from wse.core.config import Settings
 from wse.core.navigation.navigator import Navigator
 from wse.features.auth.container import AuthContainer
-from wse.features.auth.model import UserModel
 from wse.features.exercise.container import ExerciseContainer
 from wse.features.main.container import MainContainer
 
@@ -16,9 +15,6 @@ class CoreContainer(containers.DeclarativeContainer):
 
     settings = providers.Singleton(
         Settings,
-    )
-    user_model = providers.Factory(
-        UserModel,
     )
 
 
@@ -37,10 +33,8 @@ class FeaturesContainer(containers.DeclarativeContainer):
     """Provides dependencies for the application."""
 
     container = providers.Self()
-
     settings = providers.Dependency()
     auth_service = providers.Dependency()
-    user_model = providers.Dependency()
 
     navigator = providers.Singleton(
         Navigator,
@@ -51,16 +45,16 @@ class FeaturesContainer(containers.DeclarativeContainer):
     # Package containers
     auth = providers.Container(
         AuthContainer,
-        user_model=user_model,
         navigator=navigator,
+        auth_service=auth_service,
     )
     main = providers.Container(
         MainContainer,
-        user_model=user_model,
+        user_model=auth.user_model,
         navigator=navigator,
     )
     exercise = providers.Container(
         ExerciseContainer,
-        user_model=user_model,
+        user_model=auth.user_model,
         navigator=navigator,
     )
