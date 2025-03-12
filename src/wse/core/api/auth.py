@@ -7,19 +7,19 @@ import httpx
 
 from wse.core.api.exceptions import AuthenticationError
 from wse.core.api.methods import HTTPMethod
-from wse.core.config import APIConfig
+from wse.core.config import Settings
 from wse.core.logger import setup_logger
 from wse.interfaces.icore import IAuthAPI
 
-logger = setup_logger('wse')
+logger = setup_logger('core.api.AuthAPI')
 
 
 class AuthAPI(IAuthAPI):
     """Manages authentication-related API requests."""
 
-    def __init__(self, config: APIConfig) -> None:
+    def __init__(self, settings: Settings) -> None:
         """Construct the authentication api handler."""
-        self.config = config
+        self.settings = settings
 
     async def _request(
         self,
@@ -29,17 +29,19 @@ class AuthAPI(IAuthAPI):
         **kwargs: Dict[str, str],
     ) -> httpx.Response:
         """Request by method."""
+        url = urljoin(self.settings.base_url, endpoint)
+
         headers = kwargs.get('headers', {})
         if token:
             headers['Authorization'] = f'Token {token}'
 
         try:
             async with httpx.AsyncClient(
-                timeout=self.config.REQUEST_TIMEOUT
+                timeout=self.settings.api_config.REQUEST_TIMEOUT
             ) as client:
                 response = await client.request(
                     method,
-                    urljoin(self.config.base_url, endpoint),
+                    url,
                     headers=headers,
                     **kwargs,
                 )
@@ -62,21 +64,21 @@ class AuthAPI(IAuthAPI):
         try:
             response = await self._request(
                 HTTPMethod.POST,
-                self.config.LOGIN,
+                self.settings.api_config.LOGIN,
                 json={'username': username, 'password': password},
             )
-            return response.json()['token']
+            return response.json()['auth_token']
 
         except httpx.HTTPError as e:
             logger.error(f'Authentication failed: {e}')
             raise AuthenticationError('Invalid credentials') from e
 
-    def validate_token(self, token: str) -> bool:
+    async def validate_token(self, token: str) -> bool:
         """Validate the provided authentication token."""
         try:
-            self._request(
+            await self._request(
                 HTTPMethod.GET,
-                self.config.VALIDATE_TOKEN,
+                self.settings.api_config.VALIDATE_TOKEN,
                 token=token,
             )
             return True
