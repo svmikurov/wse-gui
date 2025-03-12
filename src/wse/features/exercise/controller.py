@@ -29,11 +29,8 @@ class ExerciseController(Listener):
         self.model = model
         self.view = view
         self.navigator = navigator
+        self.model.add_listener(self)
         self.view.add_listener(self)
-
-    def handel_exercises(self) -> None:
-        """Handel the exercises button press event."""
-        logger.info('Call listener')
 
     def back(self) -> None:
         """Handel back button press event."""
