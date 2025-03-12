@@ -1,5 +1,7 @@
 """Defines the main application class."""
 
+import asyncio
+
 import toga
 
 from wse.core.auth.auth import AuthService
@@ -36,15 +38,18 @@ class WSE(toga.App):
             size=toga.Size(*self.settings.screen_config.SCREEN_SIZE),
         )
         self.navigator.set_main_window(self.main_window)
+        self.main_window.show()
 
+        asyncio.create_task(self._check_authentication())
+
+    async def _check_authentication(self) -> None:
+        """Check authentication status and navigate accordingly."""
         if (
             not self.settings.AUTH_REQUIRED
-            or self.auth_service.is_authenticated()
+            or await self.auth_service.is_authenticated()
         ):
             logger.info('User is authenticated, showing Home screen')
             self.navigator.navigate(Routes.HOME)
         else:
             logger.info('User is not authenticated, showing Login screen')
             self.navigator.navigate(Routes.LOGIN)
-
-        self.main_window.show()
