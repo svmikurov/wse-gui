@@ -49,9 +49,7 @@ class LoginView(ColumnFlexBox, Source, AsyncNotifyMixin):
         )
         self.username_input = toga.TextInput(
             placeholder=_('Username'),
-            style=Pack(
-                **self.general_style,
-            ),
+            style=Pack(**self.general_style),
         )
         self.password_input = toga.PasswordInput(
             placeholder=_('Password'),
