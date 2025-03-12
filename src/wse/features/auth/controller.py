@@ -7,7 +7,7 @@ from wse.core.navigation.navigator import Navigator
 from wse.features.auth.model import UserModel
 from wse.features.auth.view import LoginView
 
-logger = setup_logger('LoginController')
+logger = setup_logger('features.auth.LoginController')
 
 
 class LoginController(Listener):
@@ -25,6 +25,6 @@ class LoginController(Listener):
         self.navigator = navigator
         self.view.add_listener(self)
 
-    def handle_login(self) -> None:
+    async def handle_login(self, username: str, password: str) -> None:
         """Handel the submit login event."""
-        logger.info('Call listener')
+        await self.model.authenticate(username, password)

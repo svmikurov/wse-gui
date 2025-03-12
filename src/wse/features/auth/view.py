@@ -5,11 +5,12 @@ from toga.constants import CENTER
 from toga.sources import Source
 from toga.style import Pack
 
+from wse.features.shared.notify_async import AsyncNotifyMixin
 from wse.features.shared.ui.box import ColumnFlexBox
 from wse.utils.i18n import _
 
 
-class LoginView(ColumnFlexBox, Source):
+class LoginView(ColumnFlexBox, Source, AsyncNotifyMixin):
     """Represents the login screen."""
 
     def __init__(self) -> None:
@@ -78,8 +79,12 @@ class LoginView(ColumnFlexBox, Source):
     ####################################################################
     # Button handlers
 
-    def _on_login_click(self, _: toga.Widget) -> None:
-        self.notify('handle_login')
+    async def _on_login_click(self, _: toga.Widget) -> None:
+        await self.notify_async(
+            'handle_login',
+            username=self.username,
+            password=self.password,
+        )
 
     ####################################################################
     # Utility methods
