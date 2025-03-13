@@ -15,17 +15,19 @@ from wse.interfaces.icore import II18NService
 logger = setup_logger('features.auth.HomeView')
 
 
-class HomeView(ColumnFlexBox, Subject):
+class HomeView(ColumnFlexBox):
     """Represents the home screen."""
 
     def __init__(self, i18n_service: II18NService) -> None:
         """Construct the view."""
         super().__init__()
-        Subject.__init__(self)
         # Initializing the translation service
         self.i18n = i18n_service
         self.i18n.add_listener(self)  # Subscribe to change language
         self._ = self.i18n.gettext  # Abbreviation for translation method
+
+        # Initialize observer subject for handling UI events
+        self.subject = Subject()
 
         # Creating interface components
         self._create_ui()
@@ -56,7 +58,7 @@ class HomeView(ColumnFlexBox, Subject):
     # Widget handlers
 
     def _on_exercises_click(self, _: toga.Widget) -> None:
-        self.notify('navigate', route=Routes.EXERCISES)
+        self.subject.notify('navigate', route=Routes.EXERCISES)
 
     def _on_switch_language(self, _: toga.Widget) -> None:
         current_lang = self.i18n.get_current_language()

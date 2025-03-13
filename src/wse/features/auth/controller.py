@@ -24,8 +24,8 @@ class LoginController(Listener):
         self.model = model
         self.view = view
         self.navigator = navigator
-        self.model.add_listener(self)
-        self.view.add_listener(self)
+        self.model.subject.add_listener(self)
+        self.view.subject.add_listener(self)
 
     async def handle_login(self, username: str, password: str) -> None:
         """Handel the submit login event."""

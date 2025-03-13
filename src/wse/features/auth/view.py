@@ -9,17 +9,19 @@ from wse.features.shared.observer import Subject
 from wse.features.shared.ui.box import ColumnFlexBox
 
 
-class LoginView(ColumnFlexBox, Subject):
+class LoginView(ColumnFlexBox):
     """Represents the login screen."""
 
     def __init__(self, i18n_service: I18NService) -> None:
         """Construct the view."""
         super().__init__()
-        Subject.__init__(self)
         # Initializing the translation service
         self.i18n = i18n_service
         self.i18n.add_listener(self)  # Subscribe to change language
         self._ = self.i18n.gettext  # Abbreviation for translation method
+
+        # Initialize observer subject for handling UI events
+        self.subject = Subject()
 
         # Creating interface components
         self._setup_styles()
@@ -87,7 +89,7 @@ class LoginView(ColumnFlexBox, Subject):
     # Button handlers
 
     async def _on_login_click(self, _: toga.Widget) -> None:
-        await self.notify_async(
+        await self.subject.notify_async(
             'handle_login',
             username=self.username_input.value,
             password=self.password_input.value,

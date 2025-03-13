@@ -27,7 +27,7 @@ class HomeController(Listener):
         self.model = model
         self.view = view
         self.navigator = navigator
-        self.view.add_listener(self)
+        self.view.subject.add_listener(self)
 
     def navigate(self, route: Route) -> None:
         """Handel the exercises button press event."""

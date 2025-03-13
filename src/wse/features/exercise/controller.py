@@ -29,8 +29,7 @@ class ExerciseController(Listener):
         self.model = model
         self.view = view
         self.navigator = navigator
-        self.model.add_listener(self)
-        self.view.add_listener(self)
+        self.view.subject.add_listener(self)
 
     def back(self) -> None:
         """Handel back button press event."""

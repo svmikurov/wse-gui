@@ -10,17 +10,19 @@ from wse.features.shared.ui.text import MultilineInfoPanel
 from wse.interfaces.icore import II18NService
 
 
-class ExercisesView(ColumnFlexBox, Subject):
+class ExercisesView(ColumnFlexBox):
     """Represents the main exercises screen."""
 
     def __init__(self, i18n_service: II18NService) -> None:
         """Construct the view."""
         super().__init__()
-        Subject.__init__(self)
         # Initializing the translation service
         self.i18n = i18n_service
         self.i18n.add_listener(self)  # Subscribe to change language
         self._ = self.i18n.gettext  # Abbreviation for translation method
+
+        # Initialize observer subject for handling UI events
+        self.subject = Subject()
 
         # Creating interface components
         self._create_ui()
@@ -48,4 +50,4 @@ class ExercisesView(ColumnFlexBox, Subject):
     # Widget handlers
 
     def _on_back_click(self, _: toga.Widget) -> None:
-        self.notify('back')
+        self.subject.notify('back')

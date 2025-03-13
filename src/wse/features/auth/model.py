@@ -8,13 +8,14 @@ from wse.features.shared.observer import Subject
 logger = setup_logger('features.auth.UserModel')
 
 
-class UserModel(Subject):
+class UserModel:
     """User model."""
 
     def __init__(self, auth_service: AuthService) -> None:
         """Construct the model."""
         super().__init__()
         self.auth_service = auth_service
+        self.subject = Subject()
         self.username: str | None = None
         self.password: str | None = None
 
@@ -23,4 +24,4 @@ class UserModel(Subject):
         await self.auth_service.authenticate(username, password)
 
         if await self.auth_service.is_authenticated():
-            self.notify('navigate', route=Routes.HOME)
+            self.subject.notify('navigate', route=Routes.HOME)
