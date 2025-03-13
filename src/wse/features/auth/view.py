@@ -94,3 +94,14 @@ class LoginView(ColumnFlexBox):
             username=self.username_input.value,
             password=self.password_input.value,
         )
+
+    ####################################################################
+    # Utility methods
+
+    def display_username_error(self) -> None:
+        """Display username error message."""
+        ...
+
+    def display_password_error(self) -> None:
+        """Display username error message."""
+        ...
