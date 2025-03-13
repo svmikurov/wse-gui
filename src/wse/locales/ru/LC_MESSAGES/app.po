@@ -31,3 +31,5 @@ msgstr "Упражнения"
 msgid "Back"
 msgstr "Назад"
 
+msgid "Switch Language"
+msgstr "Переключить язык"

@@ -29,3 +29,6 @@ msgstr "Exercises"
 
 msgid "Back"
 msgstr "Back"
+
+msgid "Switch Language"
+msgstr "Switch Language"
