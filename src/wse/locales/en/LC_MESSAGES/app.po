@@ -32,3 +32,24 @@ msgstr "Back"
 
 msgid "Switch Language"
 msgstr "Switch Language"
+
+
+#. Login error messages
+
+msgid "Username length error"
+msgstr "The name must be at least 2 and no more than 50 characters"
+
+msgid "Username symbol error"
+msgstr "The name can only contain letters, numbers and symbols @/./+/-/_"
+
+msgid "Password length error"
+msgstr "Password must be at least 8 characters long"
+
+msgid "Password only numbers error"
+msgstr "The password cannot consist only of numbers"
+
+msgid "Empty field error"
+msgstr "This field cannot be empty"
+
+msgid "Credentials error"
+msgstr "Unable to log in with the provided credentials"

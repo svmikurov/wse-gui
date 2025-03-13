@@ -33,3 +33,24 @@ msgstr "Назад"
 
 msgid "Switch Language"
 msgstr "Переключить язык"
+
+
+#. Login error messages
+
+msgid "Username length error"
+msgstr "Имя должно содержать не менее 2 и не более 50 символов"
+
+msgid "Username symbol error"
+msgstr "Имя может содержать только буквы, цифры и символы @/./+/-/_"
+
+msgid "Password length error"
+msgstr "Пароль должен содержать как минимум 8 символов"
+
+msgid "Password only numbers error"
+msgstr "Пароль не может состоять только из цифр"
+
+msgid "Empty field error"
+msgstr "Это поле не может быть пустым"
+
+msgid "Credentials error"
+msgstr "Невозможно войти с предоставленными учетными данными"
