@@ -11,9 +11,11 @@ class MainContainer(containers.DeclarativeContainer):
 
     user_model = providers.Dependency()
     navigator = providers.Dependency()
+    i18n_service = providers.Dependency()
 
     home_view = providers.Factory(
         HomeView,
+        i18n_service=i18n_service,
     )
     home_controller = providers.Factory(
         HomeController,

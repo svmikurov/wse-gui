@@ -4,24 +4,31 @@ import toga
 from toga.constants import CENTER
 from toga.style import Pack
 
+from wse.core.i18n import I18NService
 from wse.features.shared.observer import Subject
 from wse.features.shared.ui.box import ColumnFlexBox
-from wse.utils.i18n import _
 
 
 class LoginView(ColumnFlexBox, Subject):
     """Represents the login screen."""
 
-    def __init__(self) -> None:
-        """Initialize the view."""
+    def __init__(self, i18n_service: I18NService) -> None:
+        """Construct the view."""
         super().__init__()
         Subject.__init__(self)
+        # Initializing the translation service
+        self.i18n = i18n_service
+        self.i18n.add_listener(self)  # Subscribe to change language
+        self._ = self.i18n.gettext  # Abbreviation for translation method
+
+        # Creating interface components
         self._setup_styles()
-        self._create_widgets()
-        self._add_widgets_to_view()
+        self._create_ui()
+        self._add_ui_to_view()
+        self.update_ui_texts()  # Initial installation of texts
 
     def _setup_styles(self) -> None:
-        """Define styles for widgets."""
+        """Define styles for UI."""
         self.FONT_SIZE = 20
         self.HEADING_PADDING_TOP = 30
         self.HEADING_PADDING_BOTTOM = 20
@@ -35,10 +42,10 @@ class LoginView(ColumnFlexBox, Subject):
             'height': 70,
         }
 
-    def _create_widgets(self) -> None:
-        """Create widgets for the login screen."""
+    def _create_ui(self) -> None:
+        """Create UI for the login screen."""
         self.heading = toga.Label(
-            text=_('Login'),
+            '',
             style=Pack(
                 padding_top=self.HEADING_PADDING_TOP,
                 padding_bottom=self.HEADING_PADDING_BOTTOM,
@@ -47,31 +54,34 @@ class LoginView(ColumnFlexBox, Subject):
             ),
         )
         self.username_input = toga.TextInput(
-            placeholder=_('Username'),
             style=Pack(**self.general_style),
         )
         self.password_input = toga.PasswordInput(
-            placeholder=_('Password'),
             style=Pack(
                 padding_top=self.INPUT_PADDING_TOP, **self.general_style
             ),
         )
         self.submit_button = toga.Button(
-            text=_('Login submit'),
             style=Pack(
                 padding_top=self.SUBMIT_PADDING_TOP, **self.general_style
             ),
             on_press=self._on_login_click,
         )
 
-    def _add_widgets_to_view(self) -> None:
-        """Add widgets to the view."""
+    def _add_ui_to_view(self) -> None:
         self.add(
             self.heading,
             self.username_input,
             self.password_input,
             self.submit_button,
         )
+
+    def update_ui_texts(self) -> None:
+        """Update all UI elements with current translations."""
+        self.heading.text = self._('Login')
+        self.username_input.placeholder = self._('Username')
+        self.password_input.placeholder = self._('Password')
+        self.submit_button.text = self._('Login submit')
 
     ####################################################################
     # Button handlers

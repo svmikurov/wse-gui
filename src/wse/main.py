@@ -14,10 +14,6 @@ def main() -> Optional[WSE]:
     """Create and return the application instance."""
     try:
         container = ApplicationContainer()
-        logger.info(
-            f'Application language is set to: '
-            f'{container.core.settings().LANGUAGE}'
-        )
         app = container.app()
         logger.info('Application started successfully.')
         return app

@@ -12,6 +12,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 MODULE_PATH = Path(__file__).resolve().parent
 PROJECT_PATH = MODULE_PATH.parents[2]
 ENV_PATH = PROJECT_PATH / '.env'
+LANGAUGE_PATH = MODULE_PATH / 'language.env'
 
 
 class Languages(str, Enum):
@@ -42,6 +43,22 @@ class StorageConfig(BaseSettings):
     )
 
 
+class LangaugeConfig(BaseSettings):
+    """Stores translation languages settings."""
+
+    LANGUAGE: Languages = Field(default=Languages.EN)
+
+    model_config = SettingsConfigDict(
+        env_prefix='APP_',
+        env_file=LANGAUGE_PATH,
+        env_file_encoding='utf-8',
+    )
+
+    def save(self) -> None:
+        """Save the default language to file."""
+        LANGAUGE_PATH.write_text(f'\nAPP_LANGUAGE={self.LANGUAGE}\n')
+
+
 class Settings(BaseSettings):
     """Stores and manages application settings."""
 
@@ -59,15 +76,13 @@ class Settings(BaseSettings):
     # Auth
     AUTH_REQUIRED: bool = Field(default=True)
 
-    # Translation
-    LANGUAGE: Languages = Field(default=Languages.EN)
-
     # Navigation
     HISTORY_LEN: int = Field(default=10)
 
     # Configs
     storage_config: StorageConfig = Field(default_factory=StorageConfig)
     screen_config: ScreenConfig = Field(default_factory=ScreenConfig)
+    langauge_config: LangaugeConfig = Field(default_factory=LangaugeConfig)
 
     model_config = SettingsConfigDict(
         env_prefix='APP_',

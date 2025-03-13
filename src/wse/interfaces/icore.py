@@ -6,6 +6,7 @@ from typing import Optional, Protocol
 
 from httpx import Response
 
+from wse.config.config import Languages
 from wse.core.navigation.routes import Route
 
 
@@ -44,3 +45,13 @@ class INavigator(Protocol):
     """Defines the interface for application navigation."""
 
     def navigate(self, route: Route) -> None: ...
+
+
+class II18NService(Protocol):
+    """Defines interface for internationalization service."""
+
+    def gettext(self, text: str) -> str: ...
+    def set_language(self, lang: Languages) -> bool: ...
+    def change_language(self, lang: Languages) -> None: ...
+    def get_current_language(self) -> str: ...
+    def add_listener(self, listener: object) -> None: ...

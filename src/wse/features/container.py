@@ -14,7 +14,9 @@ class FeaturesContainer(containers.DeclarativeContainer):
     container = providers.Self()
     settings = providers.Dependency()
     auth_service = providers.Dependency()
+    i18n_service = providers.Dependency()
 
+    # Navigate through features
     navigator = providers.Singleton(
         Navigator,
         container=container,
@@ -26,14 +28,17 @@ class FeaturesContainer(containers.DeclarativeContainer):
         AuthContainer,
         navigator=navigator,
         auth_service=auth_service,
+        i18n_service=i18n_service,
     )
     main = providers.Container(
         MainContainer,
         user_model=auth.user_model,
         navigator=navigator,
+        i18n_service=i18n_service,
     )
     exercise = providers.Container(
         ExerciseContainer,
         user_model=auth.user_model,
         navigator=navigator,
+        i18n_service=i18n_service,
     )

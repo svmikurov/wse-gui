@@ -7,32 +7,42 @@ from wse.features.shared.ui.box import ColumnFlexBox
 from wse.features.shared.ui.button import ButtonStyled
 from wse.features.shared.ui.heading import Heading
 from wse.features.shared.ui.text import MultilineInfoPanel
-from wse.utils.i18n import _
+from wse.interfaces.icore import II18NService
 
 
 class ExercisesView(ColumnFlexBox, Subject):
     """Represents the main exercises screen."""
 
-    def __init__(self) -> None:
+    def __init__(self, i18n_service: II18NService) -> None:
         """Construct the view."""
         super().__init__()
         Subject.__init__(self)
-        self._create_widgets()
-        self._add_widgets_to_view()
+        # Initializing the translation service
+        self.i18n = i18n_service
+        self.i18n.add_listener(self)  # Subscribe to change language
+        self._ = self.i18n.gettext  # Abbreviation for translation method
 
-    def _create_widgets(self) -> None:
-        self.heading = Heading(_('Exercises'))
+        # Creating interface components
+        self._create_ui()
+        self._add_ui_to_view()
+        self.update_ui_texts()
+
+    def _create_ui(self) -> None:
+        self.heading = Heading()
         self.info_panel = MultilineInfoPanel()
-        self.back_button = ButtonStyled(
-            _('Back'), on_press=self._on_back_click
-        )
+        self.back_button = ButtonStyled(on_press=self._on_back_click)
 
-    def _add_widgets_to_view(self) -> None:
+    def _add_ui_to_view(self) -> None:
         self.add(
             self.heading,
             self.info_panel,
             self.back_button,
         )
+
+    def update_ui_texts(self) -> None:
+        """Update all UI elements with current translations."""
+        self.heading.text = self._('Exercises')
+        self.back_button.text = self._('Back')
 
     ####################################################################
     # Widget handlers

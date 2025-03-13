@@ -27,6 +27,7 @@ class ApplicationContainer(containers.DeclarativeContainer):
         FeaturesContainer,
         settings=core.settings,
         auth_service=services.auth,
+        i18n_service=services.i18n,
     )
 
     # Application

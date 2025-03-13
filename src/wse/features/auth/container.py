@@ -12,6 +12,7 @@ class AuthContainer(containers.DeclarativeContainer):
 
     auth_service = providers.Dependency()
     navigator = providers.Dependency()
+    i18n_service = providers.Dependency()
 
     user_model = providers.Factory(
         UserModel,
@@ -19,6 +20,7 @@ class AuthContainer(containers.DeclarativeContainer):
     )
     login_view = providers.Factory(
         LoginView,
+        i18n_service=i18n_service,
     )
     login_controller = providers.Factory(
         LoginController,

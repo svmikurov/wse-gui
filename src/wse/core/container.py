@@ -4,6 +4,7 @@ from dependency_injector import containers, providers
 
 from wse.config.config import Settings
 from wse.core.auth.service import AuthService
+from wse.core.i18n import I18NService
 
 
 class CoreContainer(containers.DeclarativeContainer):
@@ -33,4 +34,9 @@ class ServicesContainer(containers.DeclarativeContainer):
         AuthService,
         settings=settings,
         endpoints=endpoints,
+    )
+
+    i18n = providers.Singleton(
+        I18NService,
+        settings=settings,
     )

@@ -11,6 +11,7 @@ class Heading(toga.Label):
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Initialize the heading with default styles."""
+        kwargs.setdefault('text', '')
         super().__init__(*args, **kwargs)
         self._apply_default_styles()
 
