@@ -47,11 +47,14 @@ class AuthService(IAuthService):
         """Authenticate the user with the provided credentials."""
         try:
             self._token = await self._auth_api.authenticate(username, password)
-            self.token_storage.save_token(self._token)
-            logger.info('Authentication successful')
+
         except AuthenticationError as e:
             logger.error(f'Authentication failed for user {username}: {e}')
             raise
+
+        if self._token:
+            self.token_storage.save_token(self._token)
+            logger.info('Authentication successful')
 
     async def close(self) -> None:
         """Close API client."""

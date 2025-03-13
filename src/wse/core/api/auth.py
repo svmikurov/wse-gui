@@ -1,5 +1,6 @@
 """Handles API requests related to authentication."""
 
+from http import HTTPStatus
 from typing import Dict, Optional
 from urllib.parse import urljoin
 
@@ -63,7 +64,11 @@ class AuthAPI(IAuthAPI):
             logger.error(f'Request error: {e}')
             raise
 
-    async def authenticate(self, username: str, password: str) -> str:
+    async def authenticate(
+        self,
+        username: str,
+        password: str,
+    ) -> Optional[str]:
         """Authenticate the user and retrieve an auth token."""
         try:
             response = await self._request(
@@ -71,11 +76,15 @@ class AuthAPI(IAuthAPI):
                 self.endpoints['login'],
                 json={'username': username, 'password': password},
             )
-            return response.json()['auth_token']
 
         except httpx.HTTPError as e:
             logger.error(f'Authentication failed: {e}')
             raise AuthenticationError('Invalid credentials') from e
+
+        if response.status_code == HTTPStatus.OK:
+            return response.json()['auth_token']
+        else:
+            logger.info(f'Response error: {response.json()}')
 
     async def validate_token(self, token: str) -> bool:
         """Validate the provided authentication token."""
