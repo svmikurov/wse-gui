@@ -6,7 +6,7 @@ import os
 import pathlib
 from http import HTTPStatus
 
-from wse.core.app import WSE
+from wse.app import WSE
 
 
 def run_until_complete(wse: WSE) -> object:

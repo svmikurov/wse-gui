@@ -1,4 +1,5 @@
 """Manages user authentication and token validation."""
+
 import logging
 from typing import Dict, Optional
 

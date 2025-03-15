@@ -1,4 +1,5 @@
 """Manages storage and retrieval of authentication tokens."""
+
 import logging
 from pathlib import Path
 from typing import Optional

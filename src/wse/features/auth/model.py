@@ -1,4 +1,5 @@
 """Defines the data model for the authentication feature."""
+
 import logging
 
 from wse.core.auth.service import AuthService

@@ -1,4 +1,5 @@
 """Defines the main screen view."""
+
 import logging
 
 import toga

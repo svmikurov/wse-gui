@@ -1,4 +1,5 @@
 """Manages the logic for the authentication feature."""
+
 import logging
 
 from toga.sources import Listener

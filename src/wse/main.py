@@ -3,8 +3,8 @@
 import logging
 from typing import Optional
 
+from wse.app import WSE
 from wse.container import ApplicationContainer
-from wse.core.app import WSE
 from wse.core.logger import setup_logging
 
 setup_logging()

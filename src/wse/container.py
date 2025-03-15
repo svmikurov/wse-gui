@@ -2,7 +2,7 @@
 
 from dependency_injector import containers, providers
 
-from wse.core.app import WSE
+from wse.app import WSE
 from wse.core.container import CoreContainer, ServicesContainer
 from wse.features.container import FeaturesContainer
 
