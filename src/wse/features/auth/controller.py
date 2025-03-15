@@ -1,14 +1,14 @@
 """Manages the logic for the authentication feature."""
+import logging
 
 from toga.sources import Listener
 
-from wse.core.logger import setup_logger
 from wse.core.navigation.navigator import Navigator
 from wse.core.navigation.routes import Route
 from wse.features.auth.model import UserModel
 from wse.features.auth.view import LoginView
 
-logger = setup_logger('features.auth.LoginController')
+logger = logging.getLogger(__name__)
 
 
 class LoginController(Listener):

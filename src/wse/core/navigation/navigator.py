@@ -2,20 +2,20 @@
 
 from __future__ import annotations
 
+import logging
 from collections import deque
 from typing import TYPE_CHECKING
 
 import toga
 
 from wse.config.config import Settings
-from wse.core.logger import setup_logger
 from wse.core.navigation.routes import Route
 from wse.interfaces.icore import INavigator
 
 if TYPE_CHECKING:
     from wse.container import ApplicationContainer
 
-logger = setup_logger('navigator')
+logger = logging.getLogger(__name__)
 
 
 class Navigator(INavigator):

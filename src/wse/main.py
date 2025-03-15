@@ -5,9 +5,10 @@ from typing import Optional
 
 from wse.container import ApplicationContainer
 from wse.core.app import WSE
-from wse.core.logger import setup_logger
+from wse.core.logger import setup_logging
 
-logger = setup_logger('main', level=logging.DEBUG)
+setup_logging()
+logger = logging.getLogger(__name__)
 
 
 def main() -> Optional[WSE]:

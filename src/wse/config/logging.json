@@ -1,36 +1,55 @@
 {
-  "version": 1,
-  "disable_existing_loggers": false,
-  "formatters": {
-    "default": {
-      "format": "%(ascname)s - %(name)s - %(levelname)s - %(messages)s",
-      "datefmt": "%Y-%m-%d %H:%M:%S"
-    }
-  },
-  "handlers": {
-    "console": {
-      "class": "logging.StreamHandler",
-      "level": "INFO",
-      "format": "default",
-      "stream": "ext://sys.stdout"
+    "version": 1,
+    "disable_existing_loggers": false,
+    "formatters": {
+        "default": {
+            "format": "%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+            "datefmt": "%Y-%m-%d %H:%M:%S"
+        }
     },
-    "file": {
-      "class": "logging.FileHandler",
-      "level": "DEBUG",
-      "formatter": "default",
-      "filename": "logs/wse.log",
-      "mode": "a"
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "level": "INFO",
+            "formatter": "default",
+            "stream": "ext://sys.stdout"
+        },
+        "file_all": {
+            "class": "logging.FileHandler",
+            "level": "DEBUG",
+            "formatter": "default",
+            "filename": "",
+            "mode": "a"
+        },
+        "file_wse": {
+            "class": "logging.FileHandler",
+            "level": "DEBUG",
+            "formatter": "default",
+            "filename": "wse.log",
+            "mode": "a"
+        },
+        "file_features": {
+            "class": "logging.FileHandler",
+            "level": "DEBUG",
+            "formatter": "default",
+            "filename": "",
+            "mode": "a"
+        }
+    },
+    "loggers": {
+        "wse": {
+            "level": "DEBUG",
+            "handlers": ["file_wse"],
+            "propagate": true
+        },
+        "features": {
+            "level": "DEBUG",
+            "handlers": ["file_features"],
+            "propagate": true
+        }
+    },
+    "root": {
+        "level": "DEBUG",
+        "handlers": ["console", "file_all"]
     }
-  },
-  "loggers": {
-    "features": {
-      "level": "DEBUG",
-      "handlers": ["file"],
-      "propagate": true
-    }
-  },
-  "root": {
-    "level": "DEBUG",
-    "loggers": ["console", "file"]
-  }
 }

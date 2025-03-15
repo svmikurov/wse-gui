@@ -1,7 +1,7 @@
 """Defines the data model for the authentication feature."""
+import logging
 
 from wse.core.auth.service import AuthService
-from wse.core.logger import setup_logger
 from wse.core.navigation.routes import Routes
 from wse.features.auth.login_validator import (
     validate_password,
@@ -9,7 +9,7 @@ from wse.features.auth.login_validator import (
 )
 from wse.features.shared.observer import Subject
 
-logger = setup_logger('features.auth.UserModel')
+logger = logging.getLogger(__name__)
 
 
 class UserModel:

@@ -1,14 +1,13 @@
 """Manages storage and retrieval of authentication tokens."""
-
+import logging
 from pathlib import Path
 from typing import Optional
 
 from cryptography.fernet import Fernet, InvalidToken
 
-from wse.core.logger import setup_logger
 from wse.interfaces.icore import ITokenStorage
 
-logger = setup_logger('storage')
+logger = logging.getLogger(__name__)
 
 
 class TokenStorage(ITokenStorage):

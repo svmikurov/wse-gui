@@ -1,5 +1,6 @@
 """Handles API requests related to authentication."""
 
+import logging
 from http import HTTPStatus
 from typing import Dict, Optional
 from urllib.parse import urljoin
@@ -8,10 +9,9 @@ import httpx
 
 from wse.core.api.exceptions import AuthenticationError
 from wse.core.api.methods import HTTPMethod
-from wse.core.logger import setup_logger
 from wse.interfaces.icore import IAuthAPI
 
-logger = setup_logger('core.api.AuthAPI')
+logger = logging.getLogger(__name__)
 
 
 class AuthAPI(IAuthAPI):

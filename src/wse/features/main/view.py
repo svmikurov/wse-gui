@@ -1,9 +1,9 @@
 """Defines the main screen view."""
+import logging
 
 import toga
 
 from wse.config.config import Languages
-from wse.core.logger import setup_logger
 from wse.core.navigation.routes import Routes
 from wse.features.shared.observer import Subject
 from wse.features.shared.ui.box import ColumnFlexBox
@@ -12,7 +12,7 @@ from wse.features.shared.ui.heading import Heading
 from wse.features.shared.ui.text import MultilineInfoPanel
 from wse.interfaces.icore import II18NService
 
-logger = setup_logger('features.auth.HomeView')
+logger = logging.getLogger(__name__)
 
 
 class HomeView(ColumnFlexBox):

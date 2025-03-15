@@ -1,14 +1,14 @@
 """Multilingual internationalization service."""
 
 import gettext
+import logging
 from pathlib import Path
 from typing import Dict
 
 from wse.config.config import PROJECT_PATH, Languages, Settings
-from wse.core.logger import setup_logger
 from wse.interfaces.icore import II18NService
 
-logger = setup_logger('I18NService')
+logger = logging.getLogger(__name__)
 
 DOMAIN = 'app'
 LOCALE_DIR = PROJECT_PATH / 'src' / 'wse' / 'locales'

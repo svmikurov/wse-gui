@@ -1,9 +1,10 @@
 """Start the application."""
 
-from wse.core.logger import setup_logger
+import logging
+
 from wse.main import main
 
-logger = setup_logger('__main__')
+logger = logging.getLogger(__name__)
 
 
 if __name__ == '__main__':

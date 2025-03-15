@@ -1,10 +1,25 @@
-.env
+######################
+# Application ignore #
+######################
+
+# Virtual environment
 .venv_wse_gui/
+# Application log files
+logs_src/
+# Utitlyti script
+ds/
+# Storage data
+.env
 *token.enc
 *userdata.json
-*ds/
+data/sercrets/
+# Byte-compiled locales
 *.mo
-*sercrets/
+
+
+#######################
+# Default Toga ignore #
+#######################
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

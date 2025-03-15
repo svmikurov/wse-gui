@@ -1,15 +1,14 @@
 """Manages user authentication and token validation."""
-
+import logging
 from typing import Dict, Optional
 
 from wse.config.config import Settings
 from wse.core.api.auth import AuthAPI
 from wse.core.api.exceptions import AuthenticationError
-from wse.core.logger import setup_logger
 from wse.core.storage.token import TokenStorage
 from wse.interfaces.icore import IAuthService
 
-logger = setup_logger('auth.AuthService')
+logger = logging.getLogger(__name__)
 
 
 class AuthService(IAuthService):

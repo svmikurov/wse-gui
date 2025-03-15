@@ -1,16 +1,16 @@
 """Defines the main application class."""
 
 import asyncio
+import logging
 
 import toga
 
 from wse.config.config import Settings
 from wse.core.auth.service import AuthService
-from wse.core.logger import setup_logger
 from wse.core.navigation.navigator import Navigator
 from wse.core.navigation.routes import Routes
 
-logger = setup_logger('app')
+logger = logging.getLogger(__name__)
 
 
 class WSE(toga.App):
