@@ -39,7 +39,7 @@
     "loggers": {
         "wse": {
             "level": "DEBUG",
-            "handlers": ["file_wse"],
+            "handlers": ["console", "file_wse"],
             "propagate": true
         },
         "features": {
@@ -50,6 +50,6 @@
     },
     "root": {
         "level": "DEBUG",
-        "handlers": ["console", "file_all"]
+        "handlers": ["file_all"]
     }
 }
