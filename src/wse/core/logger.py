@@ -1,85 +1,155 @@
 """Configures logging settings for the application."""
 
-import glob
 import json
 import logging.config
-import os
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
 
 from wse.config.config import PROJECT_PATH
 
-LOGGING_CONFIG_PATH = PROJECT_PATH / 'src/wse/config/logging.json'
-LOG_DIR = PROJECT_PATH / 'logs_src'
-MAX_LOG_FILES = 3
+CONFIG_PATH: Path = PROJECT_PATH / 'src' / 'wse' / 'config' / 'logging.json'
+LOG_DIR: Path = PROJECT_PATH / 'logs_src'
+
+FALLBACK_LOG_PATH: Path = LOG_DIR / 'fallback.log'
+FALLBACK_CONFIG = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'default': {
+            'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'level': 'INFO',
+            'formatter': 'default',
+        },
+        'fallback_file': {
+            'class': 'logging.FileHandler',
+            'filename': str(FALLBACK_LOG_PATH),
+            'mode': 'a',
+            'level': 'DEBUG',
+            'formatter': 'default',
+        },
+    },
+    'root': {
+        'level': 'DEBUG',
+        'handlers': ['console', 'fallback_file'],
+        'propagate': False,
+    },
+}
 
 
-def setup_logging(
-    enable_file_limit: bool = True, max_files: Optional[int] = None
-) -> None:
-    """Initialize the logging system for the application.
+class AppLogging:
+    """Application logging system.
 
     Configures log handlers, sets output paths with timestamps,
     and optionally cleans up old log files based on retention policy.
-
-    :param enable_file_limit: Enable log file rotation and deletion.
-    :param max_files: Maximum number of log files to retain. If None,
-        uses MAX_LOG_FILES value.
     """
-    log_dir = Path(LOG_DIR)
-    log_dir.mkdir(parents=True, exist_ok=True)
 
-    config = load_base_config()
-    timestamp = datetime.now().strftime('%Y_%m_%d-%H_%M_%S')
+    def __init__(self) -> None:
+        """Construct the logging."""
+        # Log directory
+        self._log_dir = Path(LOG_DIR)
+        self._make_log_dir()
 
-    # Modify log paths
-    config['handlers']['file_all']['filename'] = str(
-        log_dir / f'{timestamp}_all.log',
-    )
-    config['handlers']['file_features']['filename'] = str(
-        log_dir / f'{timestamp}_features.log',
-    )
+        # Load logging configuration
+        self._config_path = Path(CONFIG_PATH)
+        self._config = self._load_base_config_safe()
 
-    logging.config.dictConfig(config)
+        if self._config:
+            # Get logging settings
+            settings = self._config['logging_settings']
 
-    # Clean up logs only if the limit is enabled
-    if enable_file_limit:
-        cleanup_old_logs(max_files or MAX_LOG_FILES)
+            # Setting up log storage
+            self._enable_file_limit = settings['enable_file_limit']
+            self._max_files = settings['max_log_files']
 
+            # Loggers for saving to file
+            self._handlers_to_file = settings['handlers_to_file']
 
-def load_base_config() -> dict:
-    """Load the base logging configuration from the JSON file.
+            # The log file name starts with a timestamp.
+            self._timestamp = datetime.now().strftime(settings['timestamp'])
 
-    :return: Dictionary with logging configuration
-    """
-    config_path = Path(LOGGING_CONFIG_PATH)
-    config_content = config_path.read_text(encoding='utf-8')
-    return json.loads(config_content)
+            # Set up core logging
+            self._setup_core_logging()
 
+    def _load_base_config_safe(self) -> dict:
+        try:
+            config_content = self._config_path.read_text(encoding='utf-8')
+            return json.loads(config_content)
+        except Exception as e:
+            # Using a backup configuration
+            self._setup_fallback_logging(e)
+            return {}
 
-def cleanup_old_logs(max_files: int) -> None:
-    """Delete old log files to maintain the specified maximum count.
+    def _setup_core_logging(self) -> None:
+        self._load_base_config()
+        self._create_timestamp_name()
+        logging.config.dictConfig(self._config)
+        self._check_logs_limit()
 
-    Processes both 'all' and 'features' log files separately. Removes
-    oldest files first when exceeding the limit.
+    def _make_log_dir(self) -> None:
+        self._log_dir.mkdir(parents=True, exist_ok=True)
 
-    :param max_files: Maximum number of log files to retain per type
-    """
-    patterns = [f'{LOG_DIR}/*_all.log', f'{LOG_DIR}/*_features.log']
+    def _load_base_config(self) -> dict:
+        config_content = self._config_path.read_text(encoding='utf-8')
+        return json.loads(config_content)
 
-    for pattern in patterns:
-        files = sorted(glob.glob(pattern), key=os.path.getctime, reverse=True)
-        delete_count = len(files) - max_files
+    def _create_timestamp_name(self) -> None:
+        """Create timestamp log file name."""
+        for handler in self._handlers_to_file:
+            filename = self._config['handlers'][handler]['filename']
 
-        if delete_count > 0:
-            logger = logging.getLogger('logger_config')
-            logger.debug(
-                f'Cleaning logs: {pattern}, keeping {max_files} files'
+            # The log file name has a timestamp.
+            self._config['handlers'][handler]['filename'] = str(
+                self._log_dir / f'{self._timestamp}_{filename}',
             )
 
-            for old_file in files[max_files:]:
-                try:
-                    os.remove(old_file)
-                except Exception as e:
-                    logging.error(f'Failed to delete {old_file}: {str(e)}')
+    def _check_logs_limit(self) -> None:
+        if self._enable_file_limit:
+            self._cleanup_logs()
+
+    def _cleanup_logs(self) -> None:
+        logger = logging.getLogger(__name__)
+
+        for logger_name in self._handlers_to_file:
+            parts = logger_name.split('_', 1)
+            if len(parts) != 2:
+                continue  # Skipping invalid logger names.
+
+            prefix = parts[1]
+            pattern = f'*_{prefix}.log'
+            log_files = list(self._log_dir.glob(pattern))
+            log_files.sort()  # Sort ascending (oldest files first).
+
+            if len(log_files) > self._max_files:
+                num_files_to_remove = len(log_files) - self._max_files
+                files_to_remove = log_files[:num_files_to_remove]
+
+                for file_path in files_to_remove:
+                    try:
+                        file_path.unlink()
+                        logger.info(f'Deleted old log file: {file_path}')
+                    except Exception as e:
+                        logger.error(f'Failed to delete {file_path}: {e}')
+
+    @classmethod
+    def _setup_fallback_logging(cls, error: Exception) -> None:
+        """Set up fallback logging for configuration errors."""
+        logging.config.dictConfig(FALLBACK_CONFIG)
+
+        # Log the configuration error itself
+        logger = logging.getLogger(__name__)
+        logger.error(
+            'Failed to load main logging config. Using fallback. Error: %s',
+            str(error),
+            exc_info=True,
+        )
+
+
+def setup_logging() -> AppLogging:
+    """Set up logging."""
+    return AppLogging()
