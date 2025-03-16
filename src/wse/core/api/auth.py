@@ -57,11 +57,11 @@ class AuthAPI(IAuthAPI):
             return response
 
         except httpx.HTTPStatusError as e:
-            logger.error(f'HTTP error {e.response.status_code}: {e}')
+            logger.exception(f'HTTP error {e.response.status_code}: {e}')
             raise
 
         except httpx.RequestError as e:
-            logger.error(f'Request error: {e}')
+            logger.exception(f'Request error: {e}')
             raise
 
     async def authenticate(
@@ -78,7 +78,7 @@ class AuthAPI(IAuthAPI):
             )
 
         except httpx.HTTPError as e:
-            logger.error(f'Authentication failed: {e}')
+            logger.exception(f'Authentication failed: {e}')
             raise AuthenticationError('Invalid credentials') from e
 
         if response.status_code == HTTPStatus.OK:
@@ -97,7 +97,7 @@ class AuthAPI(IAuthAPI):
             return True
 
         except httpx.HTTPError as e:
-            logger.error(f'Token validation failed: {e}')
+            logger.exception(f'Token validation failed: {e}')
             return False
 
     async def perform_request(
@@ -116,4 +116,4 @@ class AuthAPI(IAuthAPI):
             await self.client.aclose()
             logger.debug('HTTP-client closed successfully')
         except Exception as e:
-            logger.error(f'Error closing client: {e}', exc_info=True)
+            logger.exception(f'Error closing client: {e}')

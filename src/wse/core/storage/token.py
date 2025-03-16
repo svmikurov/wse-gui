@@ -27,7 +27,7 @@ class TokenStorage(ITokenStorage):
             logger.info('Token saved successfully')
 
         except Exception as e:
-            logger.error(f'Error saving token {self._token_path}: {e}')
+            logger.exception(f'Error saving token {self._token_path}: {e}')
             raise
 
     def load_token(self) -> Optional[str]:
@@ -41,10 +41,10 @@ class TokenStorage(ITokenStorage):
             return self._cipher.decrypt(encrypted_data).decode()
 
         except InvalidToken:
-            logger.error('Invalid encryption key, could not decrypt token')
+            logger.exception('Invalid encryption key, could not decrypt token')
             self._token_path.unlink()
             return None
 
         except Exception as e:
-            logger.error(f'Error loading token: {e}')
+            logger.exception(f'Error loading token: {e}')
             return None

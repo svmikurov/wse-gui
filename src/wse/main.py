@@ -21,5 +21,5 @@ def main() -> Optional[WSE]:
 
     except Exception as e:
         # Logging exceptions to tracing stack.
-        logger.error(f'Failed to start application: {e}', exc_info=True)
+        logger.exception(f'Failed to start application: {e}')
         return None

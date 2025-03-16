@@ -134,7 +134,7 @@ class AppLogging:
                         file_path.unlink()
                         logger.info(f'Deleted old log file: {file_path}')
                     except Exception as e:
-                        logger.error(f'Failed to delete {file_path}: {e}')
+                        logger.exception(f'Failed to delete {file_path}: {e}')
 
     @classmethod
     def _setup_fallback_logging(cls, error: Exception) -> None:
