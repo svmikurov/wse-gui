@@ -12,4 +12,6 @@ if __name__ == '__main__':
     if app:
         app.main_loop()
     else:
-        logger.error('Failed to initialize application')
+        logger.error(
+            'Application initialization failed. Check logs for details'
+        )
