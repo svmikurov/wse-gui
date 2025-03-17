@@ -80,6 +80,11 @@ class AppLogging:
             # Set up core logging
             self._setup_core_logging()
 
+    @property
+    def log_dir(self) -> Path:
+        """Path to the log directory (class variable, reade-only)."""
+        return self.__class__._log_dir
+
     def _load_base_config_safe(self) -> dict:
         try:
             config_content = self._config_path.read_text(encoding='utf-8')
@@ -110,7 +115,7 @@ class AppLogging:
 
             # The log file name has a timestamp.
             self._config['handlers'][handler]['filename'] = str(
-                self._log_dir / f'{self._timestamp}_{filename}',
+                self.log_dir / f'{self._timestamp}_{filename}',
             )
 
     def _check_logs_limit(self) -> None:
