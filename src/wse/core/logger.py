@@ -49,12 +49,16 @@ class AppLogging:
     and optionally cleans up old log files based on retention policy.
     """
 
+    _log_dir: Path = LOG_DIR
+
+    def __new__(cls, *args, **kwargs):
+        """Ensure log directory exists and return instance."""
+        cls._create_log_dir()
+        instance = super().__new__(cls)
+        return instance
+
     def __init__(self) -> None:
         """Construct the logging."""
-        # Log directory
-        self._log_dir = Path(LOG_DIR)
-        self._make_log_dir()
-
         # Load logging configuration
         self._config_path = Path(CONFIG_PATH)
         self._config = self._load_base_config_safe()
@@ -91,8 +95,9 @@ class AppLogging:
         logging.config.dictConfig(self._config)
         self._check_logs_limit()
 
-    def _make_log_dir(self) -> None:
-        self._log_dir.mkdir(parents=True, exist_ok=True)
+    @classmethod
+    def _create_log_dir(cls) -> None:
+        cls._log_dir.mkdir(parents=True, exist_ok=True)
 
     def _load_base_config(self) -> dict:
         config_content = self._config_path.read_text(encoding='utf-8')
