@@ -1,4 +1,14 @@
 {
+    "logging_settings": {
+        "enable_file_limit": true,
+        "max_log_files": 3,
+        "timestamp": "%Y_%m_%d-%H_%M_%S",
+        "handlers_to_file": [
+            "file_all",
+            "file_wse",
+            "file_features"
+        ]
+    },
     "version": 1,
     "disable_existing_loggers": false,
     "formatters": {
@@ -51,15 +61,5 @@
     "root": {
         "level": "DEBUG",
         "handlers": ["file_all"]
-    },
-    "logging_settings": {
-        "enable_file_limit": true,
-        "max_log_files": 3,
-        "timestamp": "%Y_%m_%d-%H_%M_%S",
-        "handlers_to_file": [
-            "file_all",
-            "file_wse",
-            "file_features"
-        ]
     }
 }
