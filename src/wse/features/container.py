@@ -3,7 +3,7 @@
 from dependency_injector import containers, providers
 
 from wse.core.navigation.navigator import Navigator
-from wse.features.auth.container import AuthContainer
+from wse.features.user.container import AuthContainer
 from wse.features.exercise.container import ExerciseContainer
 from wse.features.main.container import MainContainer
 

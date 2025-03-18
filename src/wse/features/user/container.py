@@ -2,9 +2,9 @@
 
 from dependency_injector import containers, providers
 
-from wse.features.auth.controller import LoginController
-from wse.features.auth.model import UserModel
-from wse.features.auth.view import LoginView
+from wse.features.user.auth.controller import LoginController
+from wse.features.user.auth.model import UserModel
+from wse.features.user.auth.view import LoginView
 
 
 class AuthContainer(containers.DeclarativeContainer):

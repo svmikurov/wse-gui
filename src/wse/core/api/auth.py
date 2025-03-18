@@ -69,7 +69,7 @@ class AuthAPI(IAuthAPI):
         username: str,
         password: str,
     ) -> Optional[str]:
-        """Authenticate the user and retrieve an auth token."""
+        """Authenticate the user and retrieve an user token."""
         try:
             response = await self._request(
                 HTTPMethod.POST,

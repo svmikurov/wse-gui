@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 from toga.sources import Listener
 
 from wse.core.navigation.routes import Route
-from wse.features.auth.model import UserModel
+from wse.features.user.auth.model import UserModel
 from wse.features.main.view import HomeView
 
 if TYPE_CHECKING:

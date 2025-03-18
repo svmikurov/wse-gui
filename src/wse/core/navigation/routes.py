@@ -16,5 +16,5 @@ class Routes:
     """Stores predefined routes for the application."""
 
     HOME: Route = Route('Home', 'main', 'home_controller')
-    LOGIN: Route = Route('Login', 'auth', 'login_controller')
+    LOGIN: Route = Route('Login', 'user', 'login_controller')
     EXERCISES: Route = Route('Exercises', 'exercise', 'exercises_controller')
