@@ -30,8 +30,7 @@ class Navigator(INavigator):
     ) -> None:
         """Construct the navigator."""
         self.container = container
-        self.history_len = settings.HISTORY_LEN
-        self.screen_history = deque(maxlen=self.history_len)
+        self.screen_history = deque(maxlen=settings.HISTORY_LEN)
         self.main_window = None
 
     def set_main_window(self, main_window: toga.Window) -> None:
