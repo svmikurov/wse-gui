@@ -1,15 +1,18 @@
 import asyncio
+import sys
 from asyncio import AbstractEventLoop
 from unittest.mock import MagicMock, patch
 
 import pytest
 import toga
 
-from tests.utils import FixtureReader
-from wse.app import WSE
+from src.wse.config.config import PROJECT_PATH
 
-FIXTURE = 'params.json'
-PARAMS = FixtureReader(FIXTURE).json()
+import_path = str(PROJECT_PATH / 'src')
+sys.path.insert(0, import_path)
+
+from wse.app import WSE
+from wse.main import main
 
 
 @pytest.fixture(scope='session')
@@ -24,7 +27,7 @@ def event_loop(request):
 def wse(
     get: MagicMock,
     event_loop: AbstractEventLoop
-):
+) -> WSE:
     """Return the application instance, fixture."""
     # The app icon is cached; purge the app icon cache if it exists
     try:
@@ -32,31 +35,4 @@ def wse(
     except AttributeError:
         pass
 
-    return WSE(formal_name="Test App", app_id="org.beeware.toga.test-app")
-
-
-@pytest.fixture(scope='function')
-def selection_params(wse: WSE) -> None:
-    """Populate exercise params selections form fixture."""
-    wse.box_glossary_params.selection_start_date.set_items(
-        PARAMS['exercise_choices']['edge_period_items'],
-        PARAMS['lookup_conditions']['period_start_date'],
-    )
-    wse.box_glossary_params.selection_end_date.set_items(
-        PARAMS['exercise_choices']['edge_period_items'],
-        PARAMS['lookup_conditions']['period_end_date'],
-    )
-    wse.box_glossary_params._selection_category.set_items(
-        PARAMS['exercise_choices']['categories'],
-        PARAMS['lookup_conditions']['category'],
-    )
-    wse.box_glossary_params.selection_progress.set_items(
-        PARAMS['exercise_choices']['progress'],
-        PARAMS['lookup_conditions']['progress'],
-    )
-    wse.box_glossary_params._input_count_first.value = (
-        PARAMS['lookup_conditions']['count_first']
-    )
-    wse.box_glossary_params._input_count_last.value = (
-        PARAMS['lookup_conditions']['count_last']
-    )
+    return main()
