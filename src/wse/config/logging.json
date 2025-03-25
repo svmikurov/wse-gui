@@ -1,0 +1,65 @@
+{
+    "logging_settings": {
+        "enable_file_limit": true,
+        "max_log_files": 3,
+        "timestamp": "%Y_%m_%d-%H_%M_%S",
+        "handlers_to_file": [
+            "file_all",
+            "file_wse",
+            "file_features"
+        ]
+    },
+    "version": 1,
+    "disable_existing_loggers": false,
+    "formatters": {
+        "default": {
+            "format": "%(asctime)s %(levelname)s %(name)s - %(message)s",
+            "datefmt": "%Y-%m-%d %H:%M:%S"
+        }
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "level": "INFO",
+            "formatter": "default",
+            "stream": "ext://sys.stdout"
+        },
+        "file_all": {
+            "class": "logging.FileHandler",
+            "level": "DEBUG",
+            "formatter": "default",
+            "filename": "all.log",
+            "mode": "a"
+        },
+        "file_wse": {
+            "class": "logging.FileHandler",
+            "level": "DEBUG",
+            "formatter": "default",
+            "filename": "wse.log",
+            "mode": "a"
+        },
+        "file_features": {
+            "class": "logging.FileHandler",
+            "level": "DEBUG",
+            "formatter": "default",
+            "filename": "features.log",
+            "mode": "a"
+        }
+    },
+    "loggers": {
+        "wse": {
+            "level": "DEBUG",
+            "handlers": ["console", "file_wse"],
+            "propagate": true
+        },
+        "features": {
+            "level": "DEBUG",
+            "handlers": ["file_features"],
+            "propagate": true
+        }
+    },
+    "root": {
+        "level": "DEBUG",
+        "handlers": ["file_all"]
+    }
+}

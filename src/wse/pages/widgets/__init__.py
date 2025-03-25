@@ -1,1 +1,0 @@
-"""General custom application widgets."""

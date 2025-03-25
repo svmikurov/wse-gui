@@ -1,0 +1,30 @@
+"""Dependency injection authentication package container."""
+
+from dependency_injector import containers, providers
+
+from wse.features.user.auth.controller import LoginController
+from wse.features.user.auth.model import UserModel
+from wse.features.user.auth.view import LoginView
+
+
+class AuthContainer(containers.DeclarativeContainer):
+    """Authentication package DI container."""
+
+    auth_service = providers.Dependency()
+    navigator = providers.Dependency()
+    i18n_service = providers.Dependency()
+
+    user_model = providers.Factory(
+        UserModel,
+        auth_service=auth_service,
+    )
+    login_view = providers.Factory(
+        LoginView,
+        i18n_service=i18n_service,
+    )
+    login_controller = providers.Factory(
+        LoginController,
+        model=user_model,
+        view=login_view,
+        navigator=navigator,
+    )

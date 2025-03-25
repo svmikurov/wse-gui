@@ -1,1 +1,1 @@
-"""WSE application."""
+"""WSE application package."""
