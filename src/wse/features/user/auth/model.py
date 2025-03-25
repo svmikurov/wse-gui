@@ -4,11 +4,11 @@ import logging
 
 from wse.core.auth.service import AuthService
 from wse.core.navigation.routes import Routes
+from wse.features.shared.observer import Subject
 from wse.features.user.auth.login_validator import (
     validate_password,
     validate_username,
 )
-from wse.features.shared.observer import Subject
 
 logger = logging.getLogger(__name__)
 
