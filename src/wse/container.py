@@ -23,6 +23,10 @@ class ApplicationContainer(containers.DeclarativeContainer):
     )
 
     # Features
+    # FeaturesContainer contains a navigator for navigating between
+    # features.
+    # Having a navigator in FeaturesContainer simplifies dependency
+    # injection.
     features = providers.Container(
         FeaturesContainer,
         settings=core.settings,
