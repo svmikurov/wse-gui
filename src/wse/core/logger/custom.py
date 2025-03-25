@@ -57,10 +57,10 @@ class CustomLogging:
                 self.logger.warning('Skipping missing handler: %s', handler)
                 continue
 
-            self._config['handlers'][handler]['filename'] = str(
-                self._log_dir
-                / f"{timestamp}_{self._config['handlers'][handler]['filename']}"  # noqa: E501
-            )
+            handler_config = self._config['handlers'][handler]
+            original_filename = handler_config.get('filename', '')
+            new_filename = self._log_dir / f'{timestamp}_{original_filename}'
+            handler_config['filename'] = str(new_filename)
 
     def _cleanup_old_logs(self) -> None:
         """Remove old log files according to retention policy."""
