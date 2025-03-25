@@ -18,6 +18,9 @@ def setup_logging() -> None:
     """Initialize application logging system."""
     try:
         CustomLogging(config_path=CONFIG_PATH, log_dir=LOG_DIR)
-    except Exception:
+    except Exception as e:
         setup_fallback_logger(name='root', log_file=FALLBACK_LOG_PATH)
-        logger.exception('Error setup from logging config. Using backup log')
+        logger.exception(
+            'Error setup from logging config. Using backup log. Error: %s',
+            str(e),
+        )
