@@ -70,7 +70,7 @@ class CustomLogging:
         for handler in self._settings['handlers_to_file']:
             try:
                 _, prefix = handler.split('_', 1)
-            except IndexError:
+            except (IndexError, ValueError):
                 self.logger.warning('Invalid handler name format: %s', handler)
                 continue
 
