@@ -13,7 +13,7 @@ from wse.core.navigation.routes import Route
 from wse.interfaces.icore import INavigator
 
 if TYPE_CHECKING:
-    from wse.container import ApplicationContainer
+    from wse.features.container import FeaturesContainer
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +25,7 @@ class Navigator(INavigator):
 
     def __init__(
         self,
-        container: ApplicationContainer,
+        container: FeaturesContainer,
         settings: Settings,
     ) -> None:
         """Construct the navigator."""
