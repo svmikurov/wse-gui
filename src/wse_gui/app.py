@@ -1,14 +1,12 @@
-"""
-Application for educational exercises on various subjects
-"""
+"""Application for educational exercises on various subjects."""
 
 import toga
-from toga.style import Pack
-from toga.style.pack import COLUMN, ROW
 
 
 class WSEGUI(toga.App):
-    def startup(self):
+    """Application."""
+
+    def startup(self) -> None:
         """Construct and show the Toga application.
 
         Usually, you would add your application to a main content box.
@@ -22,5 +20,6 @@ class WSEGUI(toga.App):
         self.main_window.show()
 
 
-def main():
+def main() -> None:
+    """Run application."""
     return WSEGUI()

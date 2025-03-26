@@ -20,6 +20,10 @@ Install application and development requirements
 cd wse_gui
 make install
 ```  
+Test
+```commandline
+make check
+```  
 Run a Briefcase project in the development environment
 ```commandline
 briefcase dev
