@@ -7,9 +7,9 @@ from dataclasses import dataclass
 class Route:
     """Represents a route to a specific screen."""
 
-    name: str
-    feature: str
-    controller_factory: str
+    screen_name: str
+    feature_container_name: str
+    screen_controller: str
 
 
 class Routes:

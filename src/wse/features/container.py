@@ -23,7 +23,7 @@ class FeaturesContainer(containers.DeclarativeContainer):
         settings=settings,
     )
 
-    # Package containers
+    # Feature package containers
     auth = providers.Container(
         AuthContainer,
         navigator=navigator,

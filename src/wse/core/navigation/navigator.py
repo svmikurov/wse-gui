@@ -39,14 +39,15 @@ class Navigator(INavigator):
 
     def navigate(self, route: Route) -> None:
         """Navigates to the specified route by creating a controller."""
-        # Get a controller factory from a container
-        feature = getattr(self.container, route.feature)
-        controller_factory = getattr(feature, route.controller_factory)
+        # Get a feature container name
+        feature = getattr(self.container, route.feature_container_name)
+        # Get a screen controller from a container
+        controller_factory = getattr(feature, route.screen_controller)
 
-        # Create a controller and get it View
+        # Create a controller instance to get it View
         controller = controller_factory()
         self.main_window.content = controller.view
-        logger.info(f'Navigating to {route.name}')
+        logger.info(f'Navigating to {route.screen_name}')
         self.screen_history.append(route)
 
     def back(self) -> None:
