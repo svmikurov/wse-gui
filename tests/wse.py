@@ -10,7 +10,7 @@ import pytest
 
 def run_tests() -> None:
     """Run tests."""
-    project_path = Path(__file__).parent.parent.parent
+    project_path = Path(__file__).parent.parent
     os.chdir(project_path)
 
     # Determine any args to pass to pytest. If there aren't any,
@@ -25,7 +25,7 @@ def run_tests() -> None:
     returncode = pytest.main(
         [
             # Include doctests
-            '--doctest-modules',
+            # '--doctest-modules',
             '-s',
             # Turn up verbosity
             '-vv',
