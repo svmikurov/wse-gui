@@ -23,14 +23,14 @@ class WSE(toga.App):
         navigator: Navigator,
     ) -> None:
         """Construct the application."""
+        self.settings = settings
+        self.auth_service = auth_service
+        self.navigator = navigator
         super().__init__(
             app_id=settings.APP_ID,
             app_name=settings.APP_NAME,
             formal_name=settings.APP_NAME,
         )
-        self.settings = settings
-        self.auth_service = auth_service
-        self.navigator = navigator
 
     def startup(self) -> None:
         """Initialize and display the application window."""
