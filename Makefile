@@ -9,7 +9,7 @@ lint:
 	ruff format --check
 	ruff check
 
-check: test lint
+check: lint test
 
 format:
 	ruff format

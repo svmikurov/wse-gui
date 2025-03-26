@@ -44,7 +44,7 @@ exclude_patterns = []
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'furo'
-html_static_path = ['_static']
+html_static_path = []
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-add_module_names
 add_module_names = False
 # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#confval-autodoc_member_order
