@@ -24,7 +24,7 @@ requires = [
     "pygobject==3.50.0",
 ]
 test_requires = [
-    "pytest",
+    "pytest-cov",
 ]
 
 [tool.briefcase.app.wse_gui.macOS]

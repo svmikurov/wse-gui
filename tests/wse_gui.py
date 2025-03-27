@@ -28,6 +28,12 @@ def run_tests() -> None:
             # Overwrite the cache directory to somewhere writable
             '-o',
             f'cache_dir={tempfile.gettempdir()}/.pytest_cache',
+            # Specify the path to the source code
+            '--cov=src',
+            # Report to console
+            '--cov-report=term',
+            # XML report for CI
+            '--cov-report=xml:coverage.xml',
         ]
         + args
     )
