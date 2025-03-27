@@ -27,6 +27,7 @@ jobs:
             python3-venv \
             libgirepository1.0-dev \
             libcairo2-dev \
+            xvfb \
             gir1.2-gtk-3.0 \
             libcanberra-gtk3-module
 
@@ -47,7 +48,7 @@ jobs:
         run: briefcase dev --no-run
 
       - name: Run tests with coverage
-        run: briefcase dev --test -- --cov=src --cov-report=xml
+        run: xvfb-run -a briefcase dev --test -- --cov=src --cov-report=xml
 
       - uses: qltysh/qlty-action/coverage@main
         with:
