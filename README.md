@@ -11,11 +11,22 @@ Application for educational exercises on various subjects.
 ```commandline
 git clone --branch boilerplate --single-branch https://github.com/svmikurov/wse-gui.git
 ```
+Install system requirements Ubuntu / Debian
+```commandline
+sudo apt update
+sudo apt install git build-essential pkg-config python3-dev python3-venv libgirepository1.0-dev libcairo2-dev gir1.2-gtk-3.0 libcanberra-gtk3-module
+```
+see [requirements](https://docs.beeware.org/en/latest/tutorial/tutorial-0.html#install-dependencies) for other system
+
 Add and activate environment
 ```commandline
 cd wse-gui
 python3 -m venv .venv_wse_gui
 source .venv_wse_gui/bin/activate
+```
+Install [Poetry](https://python-poetry.org/docs/)
+```commandline
+curl -sSL https://install.python-poetry.org | python3 -
 ```
 Install application and development requirements
 ```commandline
