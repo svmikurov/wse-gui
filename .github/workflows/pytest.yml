@@ -48,7 +48,20 @@ jobs:
         run: briefcase dev --no-run
 
       - name: Run tests with coverage
-        run: xvfb-run -a briefcase dev --test -- --cov=src --cov-report=xml
+        run: |
+          xvfb-run -a briefcase dev --test -- \
+            --cov=src \
+            --cov-report=term \
+            --cov-report=xml:coverage.xml \
+            --cov-report=html:htmlcov
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            coverage.xml
+            htmlcov/
 
       - uses: qltysh/qlty-action/coverage@main
         with:
