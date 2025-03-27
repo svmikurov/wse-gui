@@ -1,5 +1,5 @@
-name: Code Quality
-run-name: "Linter checks by ${{ github.actor }}"
+name: Linter
+run-name: "Linter checks"
 
 on:
   push:
