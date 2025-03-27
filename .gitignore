@@ -1,3 +1,6 @@
+# Virtual environment
+.venv_wse_gui/
+
 # Secret envirion
 .env
 
