@@ -3,6 +3,7 @@ install:
 	briefcase dev --no-run
 
 test:
+	export TOGA_BACKEND=toga_dummy && \
 	briefcase dev --test
 
 lint:

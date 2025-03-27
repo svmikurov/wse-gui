@@ -5,6 +5,9 @@ import toga
 
 from wse_gui.app import WSEGUI
 
+FORMAL_NAME = 'Test App'
+APP_ID = 'org.example.test'
+
 
 @pytest.fixture(scope='session')
 def event_loop(request):
@@ -21,4 +24,6 @@ def app(event_loop):
     except AttributeError:
         pass
 
-    return WSEGUI(formal_name="Test App", app_id="org.beeware.toga.test-app")
+    app = WSEGUI(formal_name=FORMAL_NAME, app_id=APP_ID)
+
+    return app
