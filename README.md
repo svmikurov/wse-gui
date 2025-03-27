@@ -12,7 +12,7 @@ Application for educational exercises on various subjects.
 
 ### How to install an application in development mode:
 ```commandline
-git clone --branch boilerplate --single-branch https://github.com/svmikurov/wse-gui.git
+git clone --branch dev --single-branch https://github.com/svmikurov/wse-gui.git
 ```
 Install system requirements Ubuntu / Debian
 ```commandline
