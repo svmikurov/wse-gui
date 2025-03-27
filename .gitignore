@@ -1,3 +1,6 @@
+# Secret envirion
+.env
+
 # Pytest coverage
 .coverage
 coverage.xml
