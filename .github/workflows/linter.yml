@@ -1,9 +1,9 @@
-name: Linter
+name: Ruff
 run-name: "Linter checks"
 
 on:
   push:
-    paths: [ "**.py" ]
+    paths: ["**.py"]
   workflow_dispatch:
 
 jobs:
