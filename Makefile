@@ -14,3 +14,6 @@ check: lint test
 format:
 	ruff format
 	ruff check --fix
+
+start:
+	briefcase dev

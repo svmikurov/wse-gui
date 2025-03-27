@@ -20,6 +20,6 @@ class WSEGUI(toga.App):
         self.main_window.show()
 
 
-def main() -> None:
-    """Run application."""
+def main() -> WSEGUI:
+    """Return application instant."""
     return WSEGUI()

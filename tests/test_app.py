@@ -1,6 +1,9 @@
-"""Test example."""
+"""Test app."""
+
+from wse_gui.app import WSEGUI
 
 
-def test_first() -> None:
-    """An initial test for the app."""
-    assert 1 + 1 == 2
+def test_run_app(app: WSEGUI) -> None:
+    """Test app un with formal name and app id."""
+    assert app.formal_name == 'Test App'
+    assert app.app_id == 'org.beeware.toga.test-app'
