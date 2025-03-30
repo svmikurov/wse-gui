@@ -1,4 +1,15 @@
-include .env	# import TEST_JUST var
+# Include
+include .env  # TEST_JUST var
+
+# Radon code analysis
+RADON_SOURCES = src/
+RADON_EXCLUDE = "tests/*,venv/*,.venv/*"
+
+# Colors
+GREEN = \033[0;32m
+YELLOW = \033[0;33m
+RED = \033[0;31m
+NC = \033[0m  # No Color
 
 start:
 	briefcase dev
@@ -39,3 +50,11 @@ android-build:
 	briefcase build android
 
 android-update: android-create android-build android
+
+# Radon code analysis
+.PHONY: radon-check
+radon-check:
+	@echo "${YELLOW}=== Cyclomatic Complexity ===${NC}"
+	@radon cc --min B --exclude $(RADON_EXCLUDE) $(RADON_SOURCES)
+	@echo "${YELLOW}=== Maintainability Index ===${NC}"
+	@radon mi --min B --exclude $(RADON_EXCLUDE) $(RADON_SOURCES)
