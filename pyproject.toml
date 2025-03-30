@@ -183,6 +183,26 @@ requires = [
 ]
 style_framework = "Shoelace v2.3"
 
+# Poetry
+[tool.poetry]
+name = "WSE GUI"
+version = "0.1.0"
+description = "Application for educational exercises on various subjects"
+authors = ["Sergei Mikurov <454004@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10, <3.12"
+httpx = "0.27.2"
+
+[tool.poetry.group.dev.dependencies]
+briefcase = "0.3.19"
+pygobject = "3.50.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
 # Ruff linter
 [tool.ruff]
 # https://docs.astral.sh/ruff/configuration/
