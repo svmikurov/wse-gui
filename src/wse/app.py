@@ -6,8 +6,7 @@ from typing import TypeVar
 import toga
 from toga.sources import Listener, Source
 
-from wse import controllers as plc
-from wse import pages
+from wse import controllers, pages
 from wse.constants import SCREEN_SIZE
 from wse.factory import mvc_factory
 from wse.menu import MenuMixin
@@ -60,15 +59,15 @@ class WSE(MenuMixin, toga.App):
     def add_controllers(self) -> None:
         """Add controllers."""
         # fmt: off
-        self.plc_params_foreign = plc.ControllerParams()
-        self.plc_params_glossary = plc.ControllerParams()
-        self.plc_exercise_foreign = plc.ControllerExercise(self, self.plc_params_foreign)  # noqa: E501
-        self.plc_test_foreign = plc.ControllerTest()
-        self.plc_exercise_glossary = plc.ControllerExercise(self, self.plc_params_glossary)  # noqa: E501
-        self.plc_selected_foreign = plc.ControllerTable(self.plc_params_foreign)  # noqa: E501
-        self.plc_selected_glossary = plc.ControllerTable(self.plc_params_glossary)  # noqa: E501
-        self.plc_form_foreign = plc.WordFormController()
-        self.plc_form_glossary = plc.TermFormController()
+        self.plc_params_foreign = controllers.ControllerParams()
+        self.plc_params_glossary = controllers.ControllerParams()
+        self.plc_exercise_foreign = controllers.ControllerExercise(self, self.plc_params_foreign)  # noqa: E501
+        self.plc_test_foreign = controllers.ControllerTest()
+        self.plc_exercise_glossary = controllers.ControllerExercise(self, self.plc_params_glossary)  # noqa: E501
+        self.plc_selected_foreign = controllers.ControllerTable(self.plc_params_foreign)  # noqa: E501
+        self.plc_selected_glossary = controllers.ControllerTable(self.plc_params_glossary)  # noqa: E501
+        self.plc_form_foreign = controllers.WordFormController()
+        self.plc_form_glossary = controllers.TermFormController()
         # fmt: on
 
     ####################################################################
