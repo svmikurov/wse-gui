@@ -199,12 +199,17 @@ httpx = "0.27.2"
 briefcase = "0.3.19"
 pygobject = "3.50.0"
 toga = "0.4.8"
-radon = "^6.0.1"
-pylint = "^3.3.6"
-pydeps = "^3.0.1"
 toga-dummy = "0.4.8"
+travertino = "0.3.0"
 pillow = "11.0.0"
-pytest = "^8.3.5"
+
+[tool.poetry.group.dev.tests]
+pytest-asyncio = "^0.26.0"
+
+[tool.poetry.group.dev.code-qaulity]
+pylint = "^3.3.6"
+radon = "^6.0.1"
+pydeps = "^3.0.1"
 
 [build-system]
 requires = ["poetry-core"]

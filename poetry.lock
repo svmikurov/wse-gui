@@ -1153,6 +1153,24 @@ tomli = {version = ">=1", markers = "python_version < \"3.11\""}
 dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
 
 [[package]]
+name = "pytest-asyncio"
+version = "0.26.0"
+description = "Pytest support for asyncio"
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "pytest_asyncio-0.26.0-py3-none-any.whl", hash = "sha256:7b51ed894f4fbea1340262bdae5135797ebbe21d8638978e35d31c6d19f72fb0"},
+    {file = "pytest_asyncio-0.26.0.tar.gz", hash = "sha256:c4df2a697648241ff39e7f0e4a73050b03f123f760673956cf0d72a4990e312f"},
+]
+
+[package.dependencies]
+pytest = ">=8.2,<9"
+
+[package.extras]
+docs = ["sphinx (>=5.3)", "sphinx-rtd-theme (>=1)"]
+testing = ["coverage (>=6.2)", "hypothesis (>=5.7.1)"]
+
+[[package]]
 name = "python-dateutil"
 version = "2.9.0.post0"
 description = "Extensions to the standard Python datetime module"
@@ -1620,17 +1638,17 @@ files = [
 
 [[package]]
 name = "travertino"
-version = "0.5.0"
-description = "A set of constants and base classes for describing user interface layouts."
+version = "0.3.0"
+description = "Travertino is a set of constants and utilities for describing user interfaces"
 optional = false
-python-versions = ">=3.9"
+python-versions = ">=3.8"
 files = [
-    {file = "travertino-0.5.0-py3-none-any.whl", hash = "sha256:fbc2f19bd1d603cb5f8dc279b24a68bc5e5e8db548dc1db1cb96bd18387e61a1"},
-    {file = "travertino-0.5.0.tar.gz", hash = "sha256:7d3b6436e8e09ee5f7c8be26d6cb1f09030be765fca918b05b6e184b802107c1"},
+    {file = "travertino-0.3.0-py3-none-any.whl", hash = "sha256:f45d8102353f92c2894915e42f939ba4bc1a0be78b02fa54b640c0e674892167"},
+    {file = "travertino-0.3.0.tar.gz", hash = "sha256:51aa2ddf361ec42c0a70401b52ab0d26293fddb0d9de35555f7489ab8a296e19"},
 ]
 
 [package.extras]
-dev = ["coverage-conditional-plugin (==0.9.0)", "coverage[toml] (==7.6.12)", "pytest (==8.3.5)", "tox (==4.24.2)", "typing-extensions (==4.12.2)"]
+dev = ["pre-commit (==3.3.3)", "pytest (==7.4.0)", "setuptools-scm[toml] (==7.1.0)", "tox (==4.8.0)"]
 
 [[package]]
 name = "types-python-dateutil"
@@ -1707,4 +1725,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10, <3.12"
-content-hash = "ac3d6e085c165d9a65d1356c06cf688f8f90c9b568d5401c0d10368c6d80d29b"
+content-hash = "535770138bd26dd989478f838cafdd18f08f62a1e919a02d51efa7dee3cee904"
