@@ -50,9 +50,9 @@ class WSE(MenuMixin, toga.App):
             title=self.formal_name,
             size=toga.Size(*SCREEN_SIZE),
         )
-        self.main_window.content = self.page_main
+        self.main_window.content = self.page_home
         self.main_window.show()
-        asyncio.create_task(self.page_main.on_open(self))
+        asyncio.create_task(self.page_home.on_open(self))
 
     ####################################################################
     # Controllers

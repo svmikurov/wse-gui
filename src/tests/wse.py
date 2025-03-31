@@ -10,7 +10,7 @@ import pytest
 
 def run_tests() -> None:
     """Run tests."""
-    project_path = Path(__file__).parent.parent.parent
+    project_path = Path(__file__).parents[1]
     os.chdir(project_path)
 
     # Determine any args to pass to pytest. If there aren't any,
@@ -18,8 +18,7 @@ def run_tests() -> None:
     args = sys.argv[1:]
     if len(args) == 0:
         args = [
-            'src',
-            # 'src/tests/pages/test_params_widget.py',
+            # 'tests/pages/test_params_widget.py',
         ]
 
     returncode = pytest.main(
