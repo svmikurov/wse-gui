@@ -1069,6 +1069,38 @@ files = [
 ]
 
 [[package]]
+name = "toga-core"
+version = "0.4.8"
+description = "A Python native, OS native GUI toolkit."
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "toga_core-0.4.8-py3-none-any.whl", hash = "sha256:f14394094e90e44c9cb488db67f8b217f48babaf6af0adf2c2509d4cb634ef44"},
+    {file = "toga_core-0.4.8.tar.gz", hash = "sha256:78088d99a8d8b4efe2758a1db5623491cfc0ea980540f0f882e826d2cb06d7b9"},
+]
+
+[package.dependencies]
+travertino = ">=0.3.0"
+
+[package.extras]
+dev = ["Pillow (==10.4.0)", "coverage-conditional-plugin (==0.9.0)", "coverage[toml] (==7.6.2)", "pre-commit (==4.0.1)", "pytest (==8.3.3)", "pytest-asyncio (==0.24.0)", "pytest-freezer (==0.4.8)", "setuptools-scm (==8.1.0)", "tox (==4.21.2)", "typing-extensions (==4.12.2)"]
+docs = ["Pillow (==10.4.0)", "furo (==2024.8.6)", "pyenchant (==3.2.2)", "sphinx (==8.1.3)", "sphinx-autobuild (==2024.10.3)", "sphinx-copybutton (==0.5.2)", "sphinx-csv-filter (==0.4.2)", "sphinx-tabs (==3.4.5)", "sphinx-toolbox (==3.8.1)", "sphinxcontrib-spelling (==8.0.0)"]
+
+[[package]]
+name = "toga-dummy"
+version = "0.4.8"
+description = "A dummy testing backend for the Toga widget toolkit."
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "toga_dummy-0.4.8-py3-none-any.whl", hash = "sha256:f2f42390dcffc8273b14f8804857b90a6e516d6a26742ba591c5c06e3db81b0c"},
+    {file = "toga_dummy-0.4.8.tar.gz", hash = "sha256:b8d6763354f0a2a357d4c5c698fdae3b1e0525ee65d0cefbec7d92fd731ea62e"},
+]
+
+[package.dependencies]
+toga-core = "0.4.8"
+
+[[package]]
 name = "tomli"
 version = "2.2.1"
 description = "A lil' TOML parser"
@@ -1130,6 +1162,20 @@ files = [
     {file = "tomlkit-0.13.2-py3-none-any.whl", hash = "sha256:7a974427f6e119197f670fbbbeae7bef749a6c14e793db934baefc1b5f03efde"},
     {file = "tomlkit-0.13.2.tar.gz", hash = "sha256:fff5fe59a87295b278abd31bec92c15d9bc4a06885ab12bcea52c71119392e79"},
 ]
+
+[[package]]
+name = "travertino"
+version = "0.5.0"
+description = "A set of constants and base classes for describing user interface layouts."
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "travertino-0.5.0-py3-none-any.whl", hash = "sha256:fbc2f19bd1d603cb5f8dc279b24a68bc5e5e8db548dc1db1cb96bd18387e61a1"},
+    {file = "travertino-0.5.0.tar.gz", hash = "sha256:7d3b6436e8e09ee5f7c8be26d6cb1f09030be765fca918b05b6e184b802107c1"},
+]
+
+[package.extras]
+dev = ["coverage-conditional-plugin (==0.9.0)", "coverage[toml] (==7.6.12)", "pytest (==8.3.5)", "tox (==4.24.2)", "typing-extensions (==4.12.2)"]
 
 [[package]]
 name = "types-python-dateutil"
@@ -1206,4 +1252,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10, <3.12"
-content-hash = "afdfe50a35808dcde8dd3269b40fac3c7971160416215ab1a78ffd59f7d52c1c"
+content-hash = "23f0ef8a7f2d881527b6c85144c2c19429ca713955bfa988d4dd4d57210b8454"
