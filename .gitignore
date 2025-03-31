@@ -1,7 +1,13 @@
-.env
+# Virtual environment
 .venv_wse_gui/
+
+# Secret files
+.env
 *token.txt
 *userdata.json
+
+# Pydeps
+wse.svg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

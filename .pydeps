@@ -1,0 +1,24 @@
+[pydeps]
+cluster = true
+max_bacon = 2
+exclude = tests/*, migrations/*
+show_cycles = true
+verbose = 1
+
+[dot]
+rankdir = LR
+splines = ortho
+overlap = false
+node_shape = box
+fontsize = 10
+penwidth = 0.5
+bgcolor = transparent
+
+[node]
+style = filled
+fillcolor = "#f0f0f0"
+color = "#606060"
+
+[edge]
+color = "#808080"
+arrowsize = 0.8
