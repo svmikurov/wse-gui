@@ -8,19 +8,28 @@ from wse.pages.widgets import MultilineInfoPanel
 
 
 class Subject:
-    def notify(self, notification, btn_text) -> None: pass
+    """Subject class for observe notification."""
+
+    def notify(self, notification: str, btn_text: object) -> None:
+        """Notify an observers."""
+        pass
 
 
-def _(text):
+def _(text: str) -> str:
+    """Gettext plug."""
     return text
 
 
 @dataclass
 class Route:
+    """Application page route representation."""
+
     btn_text: str
 
 
 class Routes:
+    """Application page routes."""
+
     FOREIGN_HOME = Route(_('foreign_home'))
     GLOSSARY_HOME = Route(_('glossary_home'))
 
