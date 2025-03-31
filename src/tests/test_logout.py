@@ -6,6 +6,7 @@ import tempfile
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
+import toga
 from _pytest.monkeypatch import MonkeyPatch
 
 from tests.utils import run_until_complete
@@ -13,13 +14,12 @@ from wse.app import WSE
 from wse.constants import HOST
 from wse.contrib import http_requests
 from wse.models import user
-from wse.pages import MainBox
 
 USER_DATA = {'email': '', 'id': 1, 'username': 'name'}
 
 
 @pytest.fixture
-def box_main(wse: WSE) -> MainBox:
+def box_main(wse: WSE) -> toga.Box:
     """Return main box-container."""
     return wse.box_main
 
@@ -27,7 +27,7 @@ def box_main(wse: WSE) -> MainBox:
 @patch('httpx.Client.post', return_value=Mock(status_code=204))
 def test_logout(
     post: MagicMock,
-    box_main: MainBox,
+    box_main: toga.Box,
     wse: WSE,
     monkeypatch: MonkeyPatch,
 ) -> None:

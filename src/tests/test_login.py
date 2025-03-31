@@ -5,13 +5,14 @@ import tempfile
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
+import toga
 from _pytest.monkeypatch import MonkeyPatch
 
 from tests.utils import run_until_complete
 from wse.app import WSE
 from wse.contrib import http_requests
 from wse.models import user
-from wse.pages import LoginBox, MainBox
+from wse.pages import LoginBox
 from wse.pages.handlers.goto_handler import goto_login
 
 WIDGET_COUNT = 5
@@ -32,7 +33,7 @@ def box_login(wse: WSE) -> LoginBox:
 
 
 @pytest.fixture
-def box_main(wse: WSE) -> MainBox:
+def box_main(wse: WSE) -> toga.Box:
     """Return main box-container."""
     return wse.box_main
 
@@ -52,7 +53,7 @@ def test_text(box_login: LoginBox) -> None:
     assert box_login.btn_goto_main.text == 'На главную'
 
 
-def test_main_box_btns(box_main: MainBox) -> None:
+def test_main_box_btns(box_main: toga.Box) -> None:
     """Test the auth button at main box-container."""
     assert box_main._btn_goto_login.text == 'Вход в учетную запись'
     assert box_main._btn_goto_login.on_press._raw == goto_login
