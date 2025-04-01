@@ -39,6 +39,6 @@ class HomePage(BasePage):
             BtnApp(**self._nav.explorer_main),
         )
 
-    async def on_open(self, widget: toga.Widget) -> None:
+    def on_open(self, widget: toga.Widget) -> None:
         """Invoke methods on page open."""
         self._contr.on_open(widget)

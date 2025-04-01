@@ -1,6 +1,5 @@
 """WSE application."""
 
-import asyncio
 from typing import TypeVar
 
 import toga
@@ -27,7 +26,7 @@ class WSE(MenuMixin, toga.App):
 
     user: ModelT
     source_main_panel: ModelT
-    page_main: ViewT
+    page_home: ViewT
     contr_main: ContrT
 
     def startup(self) -> None:
@@ -51,7 +50,7 @@ class WSE(MenuMixin, toga.App):
         )
         self.main_window.content = self.page_home
         self.main_window.show()
-        asyncio.create_task(self.page_home.on_open(self))
+        self.page_home.on_open(self)
 
     ####################################################################
     # Controllers
