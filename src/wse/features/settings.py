@@ -1,0 +1,5 @@
+"""General UI settings."""
+
+TITLE_LABEL_FONT_SIZE = 16
+TITLE_LABEL_HEIGHT = 35
+TITLE_LABEL_PADDING = (5, 0, 10, 0)
