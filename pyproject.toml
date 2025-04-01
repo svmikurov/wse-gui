@@ -203,10 +203,10 @@ toga-dummy = "0.4.8"
 travertino = "0.3.0"
 pillow = "11.0.0"
 
-[tool.poetry.group.dev.tests]
+[tool.poetry.group.tests.dependencies]
 pytest-asyncio = "^0.26.0"
 
-[tool.poetry.group.dev.code-qaulity]
+[tool.poetry.group.code-qaulity.dependencies]
 pylint = "^3.3.6"
 radon = "^6.0.1"
 pydeps = "^3.0.1"
