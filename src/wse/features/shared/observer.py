@@ -2,6 +2,8 @@
 
 from toga.sources import Listener, Source
 
+from wse.interface.ifeatures import ISubject
+
 
 class AsyncNotifyMixin:
     """A mixin for async notification."""
@@ -20,7 +22,7 @@ class AsyncNotifyMixin:
                 await method(**kwargs)
 
 
-class Subject(AsyncNotifyMixin, Source):
+class Subject(AsyncNotifyMixin, Source, ISubject):
     """An observable object in the Observer pattern.
 
     Notifies subscribed listeners (observers) when its state changes.
