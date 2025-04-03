@@ -14,9 +14,9 @@ from wse.pages.widgets import MultilineInfoPanel
 class HomeView(IView):
     """View of Home screen."""
 
-    def __init__(self, screen: toga.Box | None = None) -> None:
+    def __init__(self, content: toga.Box) -> None:
         """Construct the view."""
-        self.content = screen or toga.Box()
+        self.content = content
         self._subject = Subject()
 
         self._create_ui()
