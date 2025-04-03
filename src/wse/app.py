@@ -8,6 +8,7 @@ from toga.sources import Listener, Source
 from wse import controllers, pages
 from wse.constants import SCREEN_SIZE
 from wse.factory import mvc_factory
+from wse.features.shared.base import BaseBox
 from wse.menu import MenuMixin
 from wse.models.user import User
 from wse.pages import ExplorerLayout
@@ -48,9 +49,17 @@ class WSE(MenuMixin, toga.App):
             title=self.formal_name,
             size=toga.Size(*SCREEN_SIZE),
         )
-        self.main_window.content = self.page_home
+        self._override_home_page()
+        self.main_window.content = self.page_home.content
         self.main_window.show()
-        self.page_home.on_open(self)
+
+    def _override_home_page(self) -> None:
+        from wse.features.home.controller import HomeController
+        from wse.features.home.view import HomeView
+
+        screen_content = BaseBox()
+        self.page_home = HomeView(screen_content)
+        self.contr_main = HomeController(self.page_home)
 
     ####################################################################
     # Controllers
