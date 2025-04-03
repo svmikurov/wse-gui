@@ -1,8 +1,11 @@
 """Home screen the view module."""
 
 import toga
+from toga import Box
 
 from wse.core.i18n import _
+from wse.features.obj_test_id import ObjectTestID
+from wse.features.shared.base import BaseContent
 from wse.features.shared.button_names import ButtonName
 from wse.features.shared.observer import Subject
 from wse.features.text import TitleLabel
@@ -14,9 +17,10 @@ from wse.pages.widgets import MultilineInfoPanel
 class HomeView(IView):
     """View of Home screen."""
 
-    def __init__(self, content: toga.Box) -> None:
+    def __init__(self, screen: BaseContent | None = None) -> None:
         """Construct the view."""
-        self.content = content
+        self.content: BaseContent = screen if screen is not None else Box()
+        self.content.test_id = ObjectTestID.HOME_VIEW
         self._subject = Subject()
 
         self._create_ui()
@@ -72,8 +76,13 @@ class HomeView(IView):
 
     @property
     def subject(self) -> Subject:
-        """Return the subject (reade-only)."""
+        """Return the subject (read-only)."""
         return self._subject
+
+    @property
+    def title(self) -> str:
+        """Page title (read-only)."""
+        return self._label_title.text
 
     # Notifications
     def _notify_navigator(self, button: toga.Button) -> None:
