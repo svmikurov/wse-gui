@@ -1,13 +1,14 @@
 """Defines unique button names."""
 
-from enum import Enum, unique
+from enum import unique
 
 from wse.core.i18n import _
+from wse.features.shared.base import BaseButtonName
 
 
 @unique
-class ButtonName(str, Enum):
-    """Application button names."""
+class ButtonName(BaseButtonName):
+    """Application button name enumeration."""
 
     # Authentication
     LOGIN = _('Login')
