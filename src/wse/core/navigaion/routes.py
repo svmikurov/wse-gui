@@ -20,4 +20,5 @@ class Routes:
 
     ...
 
+
 assert Routes.foreign_home == Routes.FOREIGN_HOME.btn_text
