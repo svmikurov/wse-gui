@@ -1,32 +1,44 @@
 """Home page testing module."""
 
 import unittest
+from typing import cast
 
 import pytest
 import toga
 
 from wse.app import WSE
-from wse.pages import HomePage
+from wse.features.home.view import HomeView
+from wse.features.obj_test_id import ObjectTestID
+from wse.features.shared.base import BaseContent
 
 
 @pytest.fixture
-def page() -> toga.Widget:
+def content() -> BaseContent:
     """Return the main window content."""
     app = WSE(formal_name='Test App', app_id='org.example.test')
-    return app.main_window.content
+    return cast(BaseContent, app.main_window.content)
 
 
-def test_assign_home_page_to_main_window_content(page: toga.Widget) -> None:
+@pytest.fixture
+def home_view() -> HomeView:
+    """Return the Home view."""
+    return HomeView()
+
+
+def test_assign_home_page_to_main_window_content(content: BaseContent) -> None:
     """Test is assigned Home page to window content."""
-    assert isinstance(page, HomePage)
+    assert content.test_id == ObjectTestID.HOME_VIEW
 
 
-def test_home_page_widgets(page: HomePage) -> None:
-    """Test that page have widgets."""
+def test_home_view_title_text(home_view: HomeView) -> None:
+    """Test a Home view content."""
     # Test page title
-    assert page.title == 'WSELFEDU'
+    assert home_view.title == 'WSELFEDU'
+
     # Test page have text panel
-    assert hasattr(page, 'info_panel')
+    assert hasattr(home_view, 'info_panel')
+
+    ...
 
 
 @unittest.skip('Add buttons to page')
@@ -38,10 +50,12 @@ def test_home_page_widgets(page: HomePage) -> None:
     ],
 )
 def test_buttons(
-    page: HomePage,
+    content: HomeView,
     btn_inst: str,
     btn_text: str,
 ) -> None:
     """Test that page have buttons."""
-    button: toga.Button = getattr(page, btn_inst)
+    button: toga.Button = getattr(content, btn_inst)
     assert button.text == btn_text
+
+    ...
