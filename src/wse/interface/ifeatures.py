@@ -7,10 +7,9 @@ the expected structure and behavior of key application components.
 # ruff: noqa: D101, D102, D204, E301, E302
 
 from abc import abstractmethod
-from typing import Protocol, runtime_checkable
+from typing import Protocol
 
 
-@runtime_checkable
 class ISubject:
     """An observable object in the Observer pattern."""
 
@@ -23,7 +22,6 @@ class ISubject:
         """Register an observer to receive notifications."""
 
 
-@runtime_checkable
 class IModel(Protocol):
     """Protocol defining the interface for model components."""
 
@@ -33,7 +31,6 @@ class IModel(Protocol):
         """Get the subject for observer pattern notifications."""
 
 
-@runtime_checkable
 class IView(Protocol):
     """Protocol defining the interface for view components."""
 
@@ -43,6 +40,5 @@ class IView(Protocol):
         """Get the subject for observer pattern notifications."""
 
 
-@runtime_checkable
 class IController(Protocol):
     """Protocol defining the interface for controller components."""
