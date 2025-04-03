@@ -2,8 +2,30 @@
 
 from abc import ABC
 from dataclasses import dataclass
+from enum import Enum
 
+import toga
+from toga.constants import COLUMN
+
+from wse.features.settings import PADDING_SM
 from wse.interface.ifeatures import IController, IModel, IView
+
+
+class BaseBox(toga.Box):
+    """Base pages box.
+
+    Defines a common style for derived box widgets.
+    """
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the box."""
+        super().__init__(*args, **kwargs)
+        self.style.direction = COLUMN
+        self.style.padding = PADDING_SM
+        self.style.flex = 1
+
+        # Test ID
+        self.test_id: str | None = None
 
 
 @dataclass
@@ -18,3 +40,17 @@ class BaseController(IController, ABC):
         self.view.subject.add_listener(self)
         if self.model:
             self.model.subject.add_listener(self)
+
+
+class BaseButtonName(str, Enum):
+    """Base class for creating button enumerations."""
+
+    def __str__(self) -> str:
+        """Return button text."""
+        return self.value
+
+
+class BaseContent(toga.Box):
+    """Base class for creating content."""
+
+    test_id: str | None
