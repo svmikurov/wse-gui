@@ -3,20 +3,21 @@
 import toga
 
 from wse.core.i18n import _
-from wse.core.navigaion.routes import Routes
+from wse.features.shared.button_names import ButtonName
 from wse.features.shared.observer import Subject
 from wse.features.text import TitleLabel
-from wse.pages.widgets import MultilineInfoPanel
+from wse.interface.ifeatures import IView
 from wse.pages.widgets import BtnApp as AppButton
+from wse.pages.widgets import MultilineInfoPanel
 
 
-class HomeView:
+class HomeView(IView):
     """View of Home screen."""
 
     def __init__(self, screen: toga.Box | None = None) -> None:
         """Construct the view."""
         self.content = screen or toga.Box()
-        self.subject = Subject()
+        self._subject = Subject()
 
         self._create_ui()
         self._assign_ui_text()
@@ -52,15 +53,15 @@ class HomeView:
         """Assign to widget text a current translation."""
         self._label_title.text = _('WSELFEDU')
         # Auth buttons
-        self._btn_login.text = Routes.LOGIN.btn_text
-        self._btn_logout.text = _('Logout')
-        self._btn_cancel.text = _('Cancel')
-        self._btn_confirm.text = _('Confirm')
+        self._btn_login.text = ButtonName.LOGIN
+        self._btn_logout.text = ButtonName.LOGOUT
+        self._btn_cancel.text = ButtonName.CANCEL
+        self._btn_confirm.text = ButtonName.CONFIRM
         # Navigate buttons
-        self._btn_foreign.text = Routes.FOREIGN_HOME.btn_text
-        self._btn_glossary.text = Routes.GLOSSARY_HOME.btn_text
-        self._btn_mathem.text = Routes.MATHEM_HOME.btn_text
-        self._btn_exercises.text = Routes.EXERCISES_HOME.btn_text
+        self._btn_foreign.text = ButtonName.FOREIGN_HOME
+        self._btn_glossary.text = ButtonName.GLOSSARY_HOME
+        self._btn_mathem.text = ButtonName.MATHEM_HOME
+        self._btn_exercises.text = ButtonName.EXERCISES_HOME
 
     # Utility methods
     def _create_nav_btn(self) -> toga.Button:
@@ -69,9 +70,14 @@ class HomeView:
     def _create_auth_btn(self) -> toga.Button:
         return AppButton(on_press=self._auth_notify)
 
-    # Notifications
-    def _notify_navigator(self, btn: toga.Button) -> None:
-        self.subject.notify('navigate', btn_text=btn.text)
+    @property
+    def subject(self) -> Subject:
+        """Return the subject (reade-only)."""
+        return self._subject
 
-    def _auth_notify(self, btn: toga.Button) -> None:
-        self.subject.notify('auth', btn_text=btn.text)
+    # Notifications
+    def _notify_navigator(self, button: toga.Button) -> None:
+        self.subject.notify('navigate', button_text=button.text)
+
+    def _auth_notify(self, button: toga.Button) -> None:
+        self.subject.notify('auth', button_text=button.text)
