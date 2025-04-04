@@ -56,9 +56,12 @@ class WSE(MenuMixin, toga.App):
         # For refactoring
         self._override_home_page()
 
-        # Navigation
+        # -= Navigation =-
+        # Application instance stories specific page as attribute.
         navigator.set_app(self)
+        # Navigator have method to assign page content to main window.
         navigator.set_main_window(self.main_window)
+        # Application start with Home page.
         navigator.navigate(ButtonText.HOME)
 
     def _override_home_page(self) -> None:
