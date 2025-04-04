@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import logging
+from collections import deque
 from typing import TYPE_CHECKING
 
 import toga
 
+from wse.core.settings import HISTORY_LEN
 from wse.features.shared.button_text import ButtonText
 
 logging.basicConfig(
@@ -23,11 +25,14 @@ if TYPE_CHECKING:
 class Navigator:
     """Application navigation service."""
 
+    PREVIOUS_PAGE_INDEX = -2
+
     app: WSE | None = None
 
     def __init__(self) -> None:
         """Construct the navigator."""
         self._main_window: toga.Window | None = None
+        self._page_history = deque(maxlen=HISTORY_LEN)
 
     def set_main_window(self, main_widow: toga.Window) -> None:
         """Set application main window."""
@@ -55,9 +60,16 @@ class Navigator:
         if content:
             try:
                 self._main_window.content = content
-                logger.debug(f'Navigated to {button_text}')
             except Exception as e:
                 raise e
+            logger.debug(f'Navigated to {button_text}')
+            self._page_history.append(button_text)
+
+    def back(self) -> None:
+        """Move back screen."""
+        if len(self._page_history) >= 2:
+            button_text = self._page_history[self.PREVIOUS_PAGE_INDEX]
+            self.navigate(button_text)
 
 
 navigator = Navigator()
