@@ -1,6 +1,6 @@
 """Start app."""
 
-from wse.app import main
+from wse.application.app import main
 
 if __name__ == '__main__':
     main().main_loop()

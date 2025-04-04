@@ -7,6 +7,7 @@ from toga.sources import Listener, Source
 
 from wse import controllers, pages
 from wse.constants import SCREEN_SIZE
+from wse.core.navigaion.navigator import navigator
 from wse.factory import mvc_factory
 from wse.features.shared.base import BaseBox
 from wse.menu import MenuMixin
@@ -52,6 +53,10 @@ class WSE(MenuMixin, toga.App):
         self._override_home_page()
         self.main_window.content = self.page_home.content
         self.main_window.show()
+
+        # Navigation
+        navigator.set_app(self)
+        navigator.set_main_window(self.main_window)
 
     def _override_home_page(self) -> None:
         from wse.features.home.controller import HomeController
