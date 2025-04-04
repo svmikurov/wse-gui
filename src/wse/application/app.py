@@ -10,6 +10,7 @@ from wse.constants import SCREEN_SIZE
 from wse.core.navigaion.navigator import navigator
 from wse.factory import mvc_factory
 from wse.features.shared.base import BaseBox
+from wse.features.shared.button_text import ButtonText
 from wse.menu import MenuMixin
 from wse.models.user import User
 from wse.pages import ExplorerLayout
@@ -50,13 +51,15 @@ class WSE(MenuMixin, toga.App):
             title=self.formal_name,
             size=toga.Size(*SCREEN_SIZE),
         )
-        self._override_home_page()
-        self.main_window.content = self.page_home.content
         self.main_window.show()
+
+        # For refactoring
+        self._override_home_page()
 
         # Navigation
         navigator.set_app(self)
         navigator.set_main_window(self.main_window)
+        navigator.navigate(ButtonText.HOME)
 
     def _override_home_page(self) -> None:
         from wse.features.home.controller import HomeController
