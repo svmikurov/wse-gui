@@ -6,7 +6,7 @@ from typing import cast
 import pytest
 import toga
 
-from wse.app import WSE
+from wse.application.app import WSE
 from wse.features.home.view import HomeView
 from wse.features.obj_test_id import ObjectTestID
 from wse.features.shared.base import BaseContent

@@ -7,7 +7,7 @@ from wse.features.shared.base import BaseButtonName
 
 
 @unique
-class ButtonName(BaseButtonName):
+class ButtonText(BaseButtonName):
     """Application button name enumeration."""
 
     # Authentication

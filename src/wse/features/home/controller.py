@@ -3,7 +3,7 @@
 import logging
 
 from wse.features.shared.base import BaseController
-from wse.features.shared.button_names import ButtonName
+from wse.features.shared.button_text import ButtonText
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -16,6 +16,6 @@ logger = logging.getLogger(__name__)
 class HomeController(BaseController):
     """Home page controller."""
 
-    def navigate(self, button_text: ButtonName) -> None:
+    def navigate(self, button_text: ButtonText) -> None:
         """Navigate to page, the button event listener."""
         logger.debug(f'Pressed {button_text} button')

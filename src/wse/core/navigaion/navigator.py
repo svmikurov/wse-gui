@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 
 import toga
 
-from wse.features.shared.button_names import ButtonText
+from wse.features.shared.button_text import ButtonText
 
 logging.basicConfig(
     level=logging.DEBUG,

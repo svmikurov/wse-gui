@@ -6,7 +6,7 @@ from toga import Box
 from wse.core.i18n import _
 from wse.features.obj_test_id import ObjectTestID
 from wse.features.shared.base import BaseContent
-from wse.features.shared.button_names import ButtonName
+from wse.features.shared.button_text import ButtonText
 from wse.features.shared.observer import Subject
 from wse.features.text import TitleLabel
 from wse.interface.ifeatures import IView
@@ -57,15 +57,15 @@ class HomeView(IView):
         """Assign to widget text a current translation."""
         self._label_title.text = _('WSELFEDU')
         # Auth buttons
-        self._btn_login.text = ButtonName.LOGIN
-        self._btn_logout.text = ButtonName.LOGOUT
-        self._btn_cancel.text = ButtonName.CANCEL
-        self._btn_confirm.text = ButtonName.CONFIRM
+        self._btn_login.text = ButtonText.LOGIN
+        self._btn_logout.text = ButtonText.LOGOUT
+        self._btn_cancel.text = ButtonText.CANCEL
+        self._btn_confirm.text = ButtonText.CONFIRM
         # Navigate buttons
-        self._btn_foreign.text = ButtonName.FOREIGN_HOME
-        self._btn_glossary.text = ButtonName.GLOSSARY_HOME
-        self._btn_mathem.text = ButtonName.MATHEM_HOME
-        self._btn_exercises.text = ButtonName.EXERCISES_HOME
+        self._btn_foreign.text = ButtonText.FOREIGN_HOME
+        self._btn_glossary.text = ButtonText.GLOSSARY_HOME
+        self._btn_mathem.text = ButtonText.MATHEM_HOME
+        self._btn_exercises.text = ButtonText.EXERCISES_HOME
 
     # Utility methods
     def _create_nav_btn(self) -> toga.Button:
