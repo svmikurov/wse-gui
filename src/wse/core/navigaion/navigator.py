@@ -13,8 +13,8 @@ from wse.features.shared.button_text import ButtonText
 
 logging.basicConfig(
     level=logging.DEBUG,
-    format=f'[%(asctime)s] [%(name)s] [%(levelname)s]: %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
+    format='[%(asctime)s] [%(name)s] [%(levelname)s]: %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
 )
 logger = logging.getLogger(__name__)
 
@@ -47,6 +47,7 @@ class Navigator:
 
     @property
     def routes(self) -> dict:
+        """Routes."""
         return {
             ButtonText.HOME: self.app.page_home.content,
             ButtonText.FOREIGN_HOME: self.app.box_foreign_main,
@@ -56,6 +57,7 @@ class Navigator:
         }
 
     def navigate(self, button_text: ButtonText) -> None:
+        """Navigate to page by button text value."""
         content = self.routes.get(button_text)
         if content:
             try:

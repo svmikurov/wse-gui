@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Protocol, TYPE_CHECKING
+from typing import TYPE_CHECKING, Protocol
 
 if TYPE_CHECKING:
     from wse.features.shared.button_text import ButtonText
@@ -13,4 +13,3 @@ class INavigator(Protocol):
 
     def navigate(self, button_text: ButtonText) -> None:
         """Navigate to page by button text."""
-

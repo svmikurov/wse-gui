@@ -14,5 +14,5 @@ class AppHub:
 
     # Listener methods
     def set_window_content(self, content: BaseContent) -> None:
-        """set main window content."""
+        """Set main window content."""
         self._app.main_window.content = content
