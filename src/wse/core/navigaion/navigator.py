@@ -43,6 +43,7 @@ class Navigator:
     @property
     def routes(self) -> dict:
         return {
+            ButtonText.HOME: self.app.page_home.content,
             ButtonText.FOREIGN_HOME: self.app.box_foreign_main,
             ButtonText.GLOSSARY_HOME: self.app.box_glossary_main,
             ButtonText.MATHEM_HOME: self.app.box_mathematics_main,
@@ -52,7 +53,11 @@ class Navigator:
     def navigate(self, button_text: ButtonText) -> None:
         content = self.routes.get(button_text)
         if content:
-            self._main_window.content = content
+            try:
+                self._main_window.content = content
+                logger.debug(f'Navigated to {button_text}')
+            except Exception as e:
+                raise e
 
 
 navigator = Navigator()
