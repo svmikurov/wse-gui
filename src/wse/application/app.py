@@ -1,5 +1,6 @@
 """WSE application."""
 
+import logging
 from typing import TypeVar
 
 import toga
@@ -22,6 +23,12 @@ from wse.sources.text_panel_main import SourceMainPanel
 ModelT = TypeVar('ModelT', bound=Source)
 ViewT = TypeVar('ViewT', bound=toga.Box)
 ContrT = TypeVar('ContrT', bound=Listener)
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='[%(asctime)s] [%(name)s] [%(levelname)s]: %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+)
 
 
 class WSE(MenuMixin, toga.App):
