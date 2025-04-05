@@ -22,6 +22,10 @@ class ISubject:
         """Register an observer to receive notifications."""
 
 
+class IContent(Protocol):
+    """Protocol defining the interface for page content components."""
+
+
 class IModel(Protocol):
     """Protocol defining the interface for model components."""
 
@@ -38,6 +42,11 @@ class IView(Protocol):
     @abstractmethod
     def subject(self) -> ISubject:
         """Get the subject for observer pattern notifications."""
+
+    @property
+    @abstractmethod
+    def content(self) -> IContent:
+        """Return the page content."""
 
 
 class IController(Protocol):
