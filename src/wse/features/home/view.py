@@ -1,7 +1,6 @@
 """Home screen the view module."""
 
 import toga
-from toga import Box
 
 from wse.core.i18n import _
 from wse.features.obj_test_id import ObjectTestID
@@ -17,18 +16,22 @@ from wse.pages.widgets import MultilineInfoPanel
 class HomeView(IView):
     """View of Home screen."""
 
-    def __init__(self, screen: BaseContent | None = None) -> None:
+    def __init__(self, content: BaseContent | None = None) -> None:
         """Construct the view."""
-        self.content: BaseContent = screen if screen is not None else Box()
-        self.content.test_id = ObjectTestID.HOME_VIEW
+        # Page content
+        self._content = content or toga.Box()
+        self._content.test_id = ObjectTestID.HOME_VIEW
+
+        # Listeners
         self._subject = Subject()
 
+        # Add UI
         self._create_ui()
         self._assign_ui_text()
         self._add_ui()
 
     def _add_ui(self) -> None:
-        self.content.add(
+        self._content.add(
             self._label_title,
             self.info_panel,
             self._btn_foreign,
@@ -40,13 +43,16 @@ class HomeView(IView):
     def _create_ui(self) -> None:
         # Title
         self._label_title = TitleLabel('')
+
         # Info panel
         self.info_panel = MultilineInfoPanel()
+
         # Auth buttons
         self._btn_login = self._create_nav_btn()
         self._btn_logout = self._create_auth_btn()
         self._btn_cancel = self._create_auth_btn()
         self._btn_confirm = self._create_auth_btn()
+
         # Navigate buttons
         self._btn_foreign = self._create_nav_btn()
         self._btn_glossary = self._create_nav_btn()
@@ -56,17 +62,18 @@ class HomeView(IView):
     def _assign_ui_text(self) -> None:
         """Assign to widget text a current translation."""
         self._label_title.text = _('WSELFEDU')
+
         # Auth buttons
         self._btn_login.text = ButtonText.LOGIN
         self._btn_logout.text = ButtonText.LOGOUT
         self._btn_cancel.text = ButtonText.CANCEL
         self._btn_confirm.text = ButtonText.CONFIRM
-        # Navigate buttons
-        self._btn_foreign.text = ButtonText.FOREIGN_HOME
-        self._btn_glossary.text = ButtonText.GLOSSARY_HOME
-        self._btn_mathem.text = ButtonText.MATHEM_HOME
-        self._btn_exercises.text = ButtonText.EXERCISES_HOME
 
+        # Navigate buttons
+        self._btn_foreign.text = ButtonText.FOREIGN
+        self._btn_glossary.text = ButtonText.GLOSSARY
+        self._btn_mathem.text = ButtonText.MATHEM
+        self._btn_exercises.text = ButtonText.EXERCISES
     # Utility methods
     def _create_nav_btn(self) -> toga.Button:
         return AppButton(on_press=self._notify_navigator)
@@ -83,6 +90,11 @@ class HomeView(IView):
     def title(self) -> str:
         """Page title (read-only)."""
         return self._label_title.text
+
+    @property
+    def content(self) -> BaseContent:
+        """Page content (read-only)."""
+        return self._content
 
     # Notifications
     def _notify_navigator(self, button: toga.Button) -> None:
