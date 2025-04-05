@@ -10,6 +10,7 @@ import toga
 
 from wse.core.settings import HISTORY_LEN
 from wse.features.shared.button_text import ButtonText
+from wse.interface.ifeatures import IContent
 
 logger = logging.getLogger(__name__)
 
@@ -32,41 +33,50 @@ class Navigator:
     def set_main_window(self, main_widow: toga.Window) -> None:
         """Set application main window."""
         self._main_window = main_widow
-        logger.debug(f'Main_window: {self._main_window}')
 
     @classmethod
     def set_app(cls, app: WSE) -> None:
         """Set application."""
-        cls.app = app
-        logger.debug(f'App: {cls.app}')
+        cls._app = app
 
     @property
     def routes(self) -> dict:
-        """Routes."""
+        """Routes to get page content to window content."""
+        # The Features container provides the MVC model.
+        features = self._app.features
+
+        # Requesting page content from a page controller initializes
+        # the MVC model components.
+        # The page controller may contain additional logic to provide
+        # page content.
         return {
-            ButtonText.HOME: self.app.page_home.content,
-            ButtonText.FOREIGN_HOME: self.app.box_foreign_main,
-            ButtonText.GLOSSARY_HOME: self.app.box_glossary_main,
-            ButtonText.MATHEM_HOME: self.app.box_mathematics_main,
-            ButtonText.EXERCISES_HOME: None,
+            ButtonText.HOME: features.home_ctrl().content,
+            ButtonText.FOREIGN: features.foreign_ctrl().content,
+            ButtonText.GLOSSARY: self._app.box_glossary_main,
+            ButtonText.MATHEM: self._app.box_mathematics_main,
+            ButtonText.EXERCISES: None,
+            ButtonText.BACK: self.previous_content,
         }
 
     def navigate(self, button_text: ButtonText) -> None:
         """Navigate to page by button text value."""
         content = self.routes.get(button_text)
         if content:
-            try:
-                self._main_window.content = content
-            except Exception as e:
-                raise e
-            logger.debug(f'Navigated to {button_text}')
-            self._page_history.append(button_text)
+            self._set_window_content(content)
+            self._page_history.append(content)
 
-    def back(self) -> None:
-        """Move back screen."""
-        if len(self._page_history) >= 2:
-            button_text = self._page_history[self.PREVIOUS_PAGE_INDEX]
-            self.navigate(button_text)
+    def _set_window_content(self, content: IContent) -> None:
+        self._main_window.content = content
+
+    @property
+    def previous_content(self) -> IContent | None:
+        """Previous page content (read-only)."""
+        try:
+            content = self._page_history[self.PREVIOUS_PAGE_INDEX]
+        except IndexError:
+            logger.debug('There is no a previous content')
+        else:
+            return content
 
 
 navigator = Navigator()
