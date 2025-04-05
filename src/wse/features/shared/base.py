@@ -1,6 +1,5 @@
 """Defines base classes of functions features."""
 
-from abc import ABC
 from dataclasses import dataclass
 from enum import Enum
 
@@ -8,7 +7,7 @@ import toga
 from toga.constants import COLUMN
 
 from wse.features.settings import PADDING_SM
-from wse.interface.ifeatures import IController, IModel, IView
+from wse.interface.ifeatures import IContent, IController, IModel, IView
 
 
 class BaseBox(toga.Box):
@@ -27,9 +26,14 @@ class BaseBox(toga.Box):
         # Test ID
         self.test_id: str | None = None
 
+    def __repr__(self) -> str:
+        """Represent a view."""
+        text = super().__repr__()
+        return f'{text[:-1]}:{self.test_id}>'
+
 
 @dataclass
-class BaseController(IController, ABC):
+class BaseController(IController):
     """Implementation of the base controller."""
 
     view: IView
@@ -40,6 +44,11 @@ class BaseController(IController, ABC):
         self.view.subject.add_listener(self)
         if self.model:
             self.model.subject.add_listener(self)
+
+    @property
+    def content(self) -> IContent:
+        """Return page content."""
+        return self.view.content
 
 
 class BaseButtonName(str, Enum):
