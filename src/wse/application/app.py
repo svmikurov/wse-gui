@@ -8,6 +8,7 @@ from toga.sources import Listener, Source
 
 from wse import controllers, pages
 from wse.constants import SCREEN_SIZE
+from wse.container import MainContainer
 from wse.core.navigaion.navigator import navigator
 from wse.factory import mvc_factory
 from wse.features.shared.base import BaseBox
@@ -60,8 +61,10 @@ class WSE(MenuMixin, toga.App):
         )
         self.main_window.show()
 
-        # For refactoring
-        self._override_home_page()
+        # -= New page representation =-
+        # Application dependencies
+        container = MainContainer()
+        self.features = container.features
 
         # -= Navigation =-
         # Application instance stories specific page as attribute.
@@ -111,7 +114,6 @@ class WSE(MenuMixin, toga.App):
         self.box_fraction = FractionPage()
 
         # Foreign language study pages boxes
-        self.box_foreign_main = pages.MainForeignPage()
         self.box_foreign_params = pages.ParamsForeignPage(self.plc_params_foreign)  # noqa: E501
         self.box_foreign_exercise = pages.ExerciseForeignPage(self.plc_exercise_foreign)  # noqa: E501
         self.box_foreign_create = pages.CreateWordPage(self.plc_form_foreign)
