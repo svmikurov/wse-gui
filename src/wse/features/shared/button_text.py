@@ -18,9 +18,18 @@ class ButtonText(BaseButtonName):
     CANCEL = _('Cancel')
     CONFIRM = _('Confirm')
 
-    # Navigation
+    # -= Navigation =-
+    # Main
     HOME = _('Home')
-    FOREIGN_HOME = _('Foreign')
-    GLOSSARY_HOME = _('Glossary')
-    MATHEM_HOME = _('Mathematics')
-    EXERCISES_HOME = _('Exercises')
+    BACK = _('Back')
+
+    # Foreign
+    FOREIGN = _('Foreign')
+    FOREIGN_TASKS = _('Foreign tasks')
+    FOREIGN_PARAMS = _('Foreign params')
+    FOREIGN_CREATE = _('Foreign create')
+
+    # Glossary
+    GLOSSARY = _('Glossary')
+    MATHEM = _('Mathematics')
+    EXERCISES = _('Exercises')
