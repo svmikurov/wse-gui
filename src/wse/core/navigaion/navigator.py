@@ -11,11 +11,6 @@ import toga
 from wse.core.settings import HISTORY_LEN
 from wse.features.shared.button_text import ButtonText
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='[%(asctime)s] [%(name)s] [%(levelname)s]: %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S',
-)
 logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
