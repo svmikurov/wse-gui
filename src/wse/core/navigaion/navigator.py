@@ -50,8 +50,8 @@ class Navigator:
         # The page controller may contain additional logic to provide
         # page content.
         return {
-            ButtonText.HOME: features.home_ctrl().content,
-            ButtonText.FOREIGN: features.foreign_ctrl().content,
+            ButtonText.HOME: features.main.home_ctrl().content,
+            ButtonText.FOREIGN: features.foreign.foreign_ctrl().content,
             ButtonText.GLOSSARY: self._app.box_glossary_main,
             ButtonText.MATHEM: self._app.box_mathematics_main,
             ButtonText.EXERCISES: None,

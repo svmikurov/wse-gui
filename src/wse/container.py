@@ -11,19 +11,38 @@ from wse.features.shared.base import BaseBox
 from wse.features.shared.button_text import ButtonText
 
 
-class FeatureContainer(containers.DeclarativeContainer):
+class MainContainer(containers.DeclarativeContainer):
+    """Main pages container."""
+
+    content_box = providers.Dependency()
+
+    home_view = providers.Factory(HomeView, content=content_box)
+    home_ctrl = providers.Factory(HomeController, view=home_view)
+
+
+class ForeignContainer(containers.DeclarativeContainer):
+    """Foreign pages container."""
+
+    content_box = providers.Dependency()
+
+    foreign_view = providers.Factory(ForeignView, content=content_box)
+    foreign_ctrl = providers.Factory(ForeignCtrl, view=foreign_view)
+
+
+class FeatureContainer(ForeignContainer):
     """Features package container."""
 
     # Styled general box for content
     content_box = providers.Factory(BaseBox)
 
-    # Main
-    home_view = providers.Factory(HomeView, content=content_box)
-    home_ctrl = providers.Factory(HomeController, view=home_view)
-
-    # Foreign
-    foreign_view = providers.Factory(ForeignView, content=content_box)
-    foreign_ctrl = providers.Factory(ForeignCtrl, view=foreign_view)
+    main = providers.Container(
+        MainContainer,
+        content_box=content_box,
+    )
+    foreign = providers.Container(
+        ForeignContainer,
+        content_box=content_box,
+    )
 
 
 class CoreContainer(containers.DeclarativeContainer):
@@ -32,13 +51,13 @@ class CoreContainer(containers.DeclarativeContainer):
     navigator = providers.Singleton(Navigator)
 
 
-class MainContainer(containers.DeclarativeContainer):
+class AppContainer(containers.DeclarativeContainer):
     """Main container."""
 
     features = providers.Container(FeatureContainer)
 
     routes = {
-        ButtonText.HOME: features.home_view().content,
+        ButtonText.HOME: features.main.home_view().content,
     }
 
     core = providers.Container(CoreContainer)

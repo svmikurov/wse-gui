@@ -74,6 +74,7 @@ class HomeView(IView):
         self._btn_glossary.text = ButtonText.GLOSSARY
         self._btn_mathem.text = ButtonText.MATHEM
         self._btn_exercises.text = ButtonText.EXERCISES
+
     # Utility methods
     def _create_nav_btn(self) -> toga.Button:
         return AppButton(on_press=self._notify_navigator)

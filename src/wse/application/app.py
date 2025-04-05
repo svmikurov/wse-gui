@@ -8,7 +8,7 @@ from toga.sources import Listener, Source
 
 from wse import controllers, pages
 from wse.constants import SCREEN_SIZE
-from wse.container import MainContainer
+from wse.container import AppContainer
 from wse.core.navigaion.navigator import navigator
 from wse.factory import mvc_factory
 from wse.features.shared.base import BaseBox
@@ -63,7 +63,7 @@ class WSE(MenuMixin, toga.App):
 
         # -= New page representation =-
         # Application dependencies
-        container = MainContainer()
+        container = AppContainer()
         self.features = container.features
 
         # -= Navigation =-
