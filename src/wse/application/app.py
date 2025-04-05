@@ -8,10 +8,9 @@ from toga.sources import Listener, Source
 
 from wse import controllers, pages
 from wse.constants import SCREEN_SIZE
-from wse.container import AppContainer
+from wse.container import AppContainer, FeatureContainer
 from wse.core.navigaion.navigator import navigator
 from wse.factory import mvc_factory
-from wse.features.shared.base import BaseBox
 from wse.features.shared.button_text import ButtonText
 from wse.menu import MenuMixin
 from wse.models.user import User
@@ -61,10 +60,8 @@ class WSE(MenuMixin, toga.App):
         )
         self.main_window.show()
 
-        # -= New page representation =-
         # Application dependencies
-        container = AppContainer()
-        self.features = container.features
+        self._container = AppContainer()
 
         # -= Navigation =-
         # Application instance stories specific page as attribute.
@@ -74,16 +71,13 @@ class WSE(MenuMixin, toga.App):
         # Application start with Home page.
         navigator.navigate(ButtonText.HOME)
 
-    def _override_home_page(self) -> None:
-        from wse.features.home.controller import HomeController
-        from wse.features.home.view import HomeView
-
-        screen_content = BaseBox()
-        self.page_home = HomeView(screen_content)
-        self.contr_main = HomeController(self.page_home)
-
     ####################################################################
     # Controllers
+
+    @property
+    def features(self) -> FeatureContainer:
+        """Feature container."""
+        return self._container.features
 
     def add_controllers(self) -> None:
         """Add controllers."""
