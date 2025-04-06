@@ -1,9 +1,16 @@
 """Defines unique button names."""
 
-from enum import unique
+from enum import Enum, unique
 
 from wse.core.i18n import _
-from wse.features.shared.base import BaseButtonName
+
+
+class BaseButtonName(str, Enum):
+    """Base class for creating button enumerations."""
+
+    def __str__(self) -> str:
+        """Return button text."""
+        return self.value
 
 
 @unique
@@ -22,12 +29,16 @@ class ButtonText(BaseButtonName):
     # Main
     HOME = _('Home')
     BACK = _('Back')
+    NOT_SET = _('Not set')
 
     # Foreign
     FOREIGN = _('Foreign')
     FOREIGN_TASKS = _('Foreign tasks')
+    FOREIGN_TESTS = _('Foreign tests')
     FOREIGN_PARAMS = _('Foreign params')
+    FOREIGN_EXERCISE = _('Foreign exercise')
     FOREIGN_CREATE = _('Foreign create')
+    FOREIGN_UPDATE = _('Foreign update')
 
     # Glossary
     GLOSSARY = _('Glossary')
