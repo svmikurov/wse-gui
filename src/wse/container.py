@@ -12,9 +12,13 @@ class AppContainer(containers.DeclarativeContainer):
 
     features = providers.Container(FeatureContainer)
 
-    routes = {
-        ButtonText.HOME: features.main.home_view().content,
-    }
+    routes = providers.Dict(
+        {
+            ButtonText.HOME: features.main.home_ctrl().content,
+            ButtonText.FOREIGN: features.foreign.home_ctrl().content,
+            ButtonText.FOREIGN_TASKS: features.foreign.tasks_ctrl().content,
+        }
+    )
 
     core = providers.Container(CoreContainer)
 
