@@ -76,8 +76,13 @@ class WSE(MenuMixin, toga.App):
 
     @property
     def features(self) -> FeatureContainer:
-        """Feature container."""
+        """Features container (read-only)."""
         return self._container.features
+
+    @property
+    def container(self) -> AppContainer:
+        """Application container (read-only)."""
+        return self._container
 
     def add_controllers(self) -> None:
         """Add controllers."""
