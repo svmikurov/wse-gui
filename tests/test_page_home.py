@@ -8,15 +8,15 @@ import toga
 
 from wse.application.app import WSE
 from wse.features.home.view import HomeView
-from wse.features.obj_test_id import ObjectTestID
-from wse.features.shared.base import BaseContent
+from wse.features.object_id import ObjectID
+from wse.interface.ifeatures import IContent
 
 
 @pytest.fixture
-def content() -> BaseContent:
+def content() -> IContent:
     """Return the main window content."""
     app = WSE(formal_name='Test App', app_id='org.example.test')
-    return cast(BaseContent, app.main_window.content)
+    return cast(IContent, app.main_window.content)
 
 
 @pytest.fixture
@@ -25,9 +25,9 @@ def home_view() -> HomeView:
     return HomeView()
 
 
-def test_assign_home_page_to_main_window_content(content: BaseContent) -> None:
+def test_assign_home_page_to_main_window_content(content: IContent) -> None:
     """Test is assigned Home page to window content."""
-    assert content.test_id == ObjectTestID.HOME_VIEW
+    assert content.id == ObjectID.HOME_VIEW
 
 
 def test_home_view_title_text(home_view: HomeView) -> None:
