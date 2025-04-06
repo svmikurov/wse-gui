@@ -2,8 +2,8 @@
 
 from dependency_injector import containers, providers
 
-from wse.features.foreign.container import ForeignContainer
-from wse.features.main.container import MainContainer
+from wse.features.foreign.di_container import ForeignContainer
+from wse.features.main.di_container import MainContainer
 from wse.features.shared.base_ui import BaseContent
 
 

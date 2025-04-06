@@ -8,8 +8,8 @@ from toga.sources import Listener, Source
 
 from wse import controllers, pages
 from wse.constants import SCREEN_SIZE
-from wse.container import AppContainer, FeatureContainer
 from wse.core.navigaion.navigator import navigator
+from wse.di_container import AppContainer, FeatureContainer
 from wse.factory import mvc_factory
 from wse.features.shared.button_text import ButtonText
 from wse.menu import MenuMixin

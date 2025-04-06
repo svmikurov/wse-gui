@@ -2,8 +2,8 @@
 
 from dependency_injector import containers, providers
 
-from wse.core.container import CoreContainer
-from wse.features.container import FeatureContainer
+from wse.core.di_container import CoreContainer
+from wse.features.di_container import FeatureContainer
 from wse.features.shared.button_text import ButtonText
 
 
