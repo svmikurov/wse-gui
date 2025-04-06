@@ -9,6 +9,8 @@ the expected structure and behavior of key application components.
 from abc import abstractmethod
 from typing import Protocol
 
+from wse.features.object_id import ObjectID
+
 
 class ISubject:
     """An observable object in the Observer pattern."""
@@ -25,6 +27,10 @@ class ISubject:
 class IContent(Protocol):
     """Protocol defining the interface for page content components."""
 
+    @property
+    def id(self) -> ObjectID | str:
+        """Get the object test ID."""
+
 
 class IModel(Protocol):
     """Protocol defining the interface for model components."""
@@ -39,14 +45,16 @@ class IView(Protocol):
     """Protocol defining the interface for view components."""
 
     @property
-    @abstractmethod
     def subject(self) -> ISubject:
         """Get the subject for observer pattern notifications."""
 
     @property
-    @abstractmethod
     def content(self) -> IContent:
-        """Return the page content."""
+        """Get the page content."""
+
+    @property
+    def title(self) -> str:
+        """Get the page title."""
 
 
 class IController(Protocol):
