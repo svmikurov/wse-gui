@@ -4,6 +4,7 @@ from dependency_injector import containers, providers
 
 from wse.features.main.home_ctrl import HomeController
 from wse.features.main.home_view import HomeView
+from wse.features.shared.button_text import ButtonText
 
 
 class MainContainer(containers.DeclarativeContainer):
@@ -11,5 +12,13 @@ class MainContainer(containers.DeclarativeContainer):
 
     content_box = providers.Dependency()
 
+    # Home page
     home_view = providers.Factory(HomeView, content_box=content_box)
     home_ctrl = providers.Factory(HomeController, view=home_view)
+
+    # Navigation routes
+    routes = providers.Dict(
+        {
+            ButtonText.HOME: home_ctrl,
+        }
+    )

@@ -51,7 +51,7 @@ class Navigator:
             return
 
         try:
-            content = self.routes[button_text]
+            content = self.routes[button_text].content
         except KeyError:
             logger.debug(f'The route for "{button_text}" button is not set')
         else:
