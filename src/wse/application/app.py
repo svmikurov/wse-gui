@@ -113,7 +113,6 @@ class WSE(MenuMixin, toga.App):
         self.box_foreign_create = pages.CreateWordPage(self.plc_form_foreign)
         self.box_foreign_update = pages.UpdateWordPage(self.plc_form_foreign)
         self.box_foreign_selected = pages.TableWordPage(self.plc_selected_foreign)  # noqa: E501
-        self.box_foreign_tasks = pages.TasksForeignPage()
 
         # Glossary study pages boxes
         self.box_glossary_main = pages.MainGlossaryWidget()
