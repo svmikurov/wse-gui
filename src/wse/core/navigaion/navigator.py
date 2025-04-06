@@ -44,6 +44,7 @@ class Navigator:
         """Routes to get page content to window content."""
         # The Features container provides the MVC model.
         features = self._app.features
+        main = features.main
         foreign = features.foreign
 
         # Requesting page content from a page controller initializes
@@ -51,9 +52,9 @@ class Navigator:
         # The page controller may contain additional logic to provide
         # page content.
         return {
-            ButtonText.HOME: features.main.home_ctrl().content,
-            ButtonText.FOREIGN: foreign.foreign_ctrl().content,
-            ButtonText.FOREIGN_TASKS: foreign.foreign_tasks_ctrl().content,
+            ButtonText.HOME: main.home_ctrl().content,
+            ButtonText.FOREIGN: foreign.home_ctrl().content,
+            ButtonText.FOREIGN_TASKS: foreign.tasks_ctrl().content,
             # To refactor
             ButtonText.FOREIGN_PARAMS: self._app.box_foreign_params,
             ButtonText.FOREIGN_EXERCISE: self._app.box_foreign_exercise,

@@ -13,10 +13,8 @@ class ForeignContainer(containers.DeclarativeContainer):
 
     content_box = providers.Dependency()
 
-    foreign_view = providers.Factory(ForeignView, content_box=content_box)
-    foreign_ctrl = providers.Factory(ForeignCtrl, view=foreign_view)
+    home_view = providers.Factory(ForeignView, content_box=content_box)
+    home_ctrl = providers.Factory(ForeignCtrl, view=home_view)
 
-    foreign_tasks_view = providers.Factory(TasksView, content_box=content_box)
-    foreign_tasks_ctrl = providers.Factory(
-        TasksController, view=foreign_tasks_view
-    )
+    tasks_view = providers.Factory(TasksView, content_box=content_box)
+    tasks_ctrl = providers.Factory(TasksController, view=tasks_view)

@@ -2,8 +2,8 @@
 
 from dependency_injector import containers, providers
 
-from wse.features.home.controller import HomeController
-from wse.features.home.view import HomeView
+from wse.features.main.home_ctrl import HomeController
+from wse.features.main.home_view import HomeView
 
 
 class MainContainer(containers.DeclarativeContainer):
