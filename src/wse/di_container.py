@@ -9,14 +9,14 @@ from wse.features.di_container import FeatureContainer
 class AppContainer(containers.DeclarativeContainer):
     """Main container."""
 
-    core = providers.Container(CoreContainer)
-    features = providers.Container(FeatureContainer)
+    _core_container = providers.Container(CoreContainer)
+    _features_container = providers.Container(FeatureContainer)
 
     # API
-    navigator = core.navigator
+    navigator = _core_container.navigator
     routes = providers.Dict(
         {
-            **features.main.routes(),
-            **features.foreign.routes(),
+            **_features_container.main.routes(),
+            **_features_container.foreign.routes(),
         }
     )
