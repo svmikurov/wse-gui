@@ -3,8 +3,8 @@
 import toga
 
 from wse.core.i18n import _
-from wse.features.obj_test_id import ObjectTestID
-from wse.features.shared.base import BaseContent
+from wse.features.object_id import ObjectID
+from wse.features.shared.base_ui import BaseContent
 from wse.features.shared.button_text import ButtonText
 from wse.features.shared.observer import Subject
 from wse.features.text import TitleLabel
@@ -16,11 +16,11 @@ from wse.pages.widgets import MultilineInfoPanel
 class HomeView(IView):
     """View of Home screen."""
 
-    def __init__(self, content: BaseContent | None = None) -> None:
+    def __init__(self, content_box: BaseContent | None = None) -> None:
         """Construct the view."""
         # Page content
-        self._content = content or toga.Box()
-        self._content.test_id = ObjectTestID.HOME_VIEW
+        self._content = content_box or toga.Box()
+        self._content._id = ObjectID.HOME_VIEW
 
         # Listeners
         self._subject = Subject()
