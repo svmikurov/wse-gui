@@ -28,7 +28,7 @@ def home_view() -> HomeView:
 
 def test_assign_home_page_to_main_window_content(content: IContent) -> None:
     """Test is assigned Home page to window content."""
-    assert content.id == ObjectID.HOME_VIEW
+    assert content.id == ObjectID.HOME
 
 
 def test_home_view_title_text(home_view: HomeView) -> None:
