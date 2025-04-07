@@ -5,13 +5,12 @@ import logging
 import toga
 
 from wse.constants import SCREEN_SIZE
+from wse.core.navigaion.navigation_id import NavigationID
 from wse.di_container import AppContainer
-from wse.features.shared.button_text import ButtonText
 from wse.interface.icore import INavigator
 from wse.menu import MenuMixin
 from wse.models.user import User
 from wse.sources.text_panel_main import SourceMainPanel
-
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -46,7 +45,7 @@ class WSE(MenuMixin, toga.App):
         self._set_navigator()
 
         # Application start with Home page.
-        self._navigator.navigate(ButtonText.HOME)
+        self._navigator.navigate(NavigationID.HOME)
 
     @property
     def container(self) -> AppContainer:

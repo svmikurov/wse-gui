@@ -61,7 +61,7 @@ class ExerciseWidgets:
         self._btn_next = AnswerBtn('Далее', on_press=self._plc.next)
         self._btn_favorites = BtnApp('Избранное', on_press=self._plc.favorites)
 
-        # Navigation buttons
+        # NavigationID buttons
         self._btn_goto_back = BtnBack()
 
         # Listeners

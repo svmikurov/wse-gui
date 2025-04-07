@@ -14,8 +14,8 @@ class BaseButtonName(str, Enum):
 
 
 @unique
-class ButtonText(BaseButtonName):
-    """Application button name enumeration."""
+class NavigationID(BaseButtonName):
+    """Application navigation ID enumeration."""
 
     # Authentication
     LOGIN = _('Login')
@@ -25,7 +25,7 @@ class ButtonText(BaseButtonName):
     CANCEL = _('Cancel')
     CONFIRM = _('Confirm')
 
-    # -= Navigation =-
+    # -= NavigationID =-
     # Main
     HOME = _('Home')
     BACK = _('Back')

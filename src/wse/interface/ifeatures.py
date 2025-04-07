@@ -9,8 +9,8 @@ the expected structure and behavior of key application components.
 from abc import abstractmethod
 from typing import Protocol
 
+from wse.core.navigaion.navigation_id import NavigationID
 from wse.features.object_id import ObjectID
-from wse.features.shared.button_text import ButtonText
 
 
 class ISubject:
@@ -69,5 +69,5 @@ class IController(Protocol):
     def content(self) -> IContent:
         """Get the page content."""
 
-    def navigate(self, button_text: ButtonText) -> None:
+    def navigate(self, button_text: NavigationID) -> None:
         """Navigate to page, the button event listener."""

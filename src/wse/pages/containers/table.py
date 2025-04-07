@@ -50,7 +50,7 @@ class TableWidgets:
         self._btn_previous.enabled = False
         self._btn_next.enabled = False
 
-        # Navigation buttons
+        # NavigationID buttons
         self._btn_goto_back = BtnApp('Назад', on_press=goto_back_handler)
         # fmt: on
 

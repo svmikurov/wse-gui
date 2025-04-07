@@ -39,7 +39,7 @@ class MathematicsMainPage(BasePage):
         """Construct the pages."""
         super().__init__()
 
-        # Navigation buttons
+        # NavigationID buttons
         _btn_goto_calculations = BtnApp(**self._nav.calculations)
         _btn_goto_fraction = BtnApp(**self._nav.fractions)
 

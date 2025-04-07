@@ -6,8 +6,8 @@ from typing import Final
 
 import toga
 
+from wse.core.navigaion.navigation_id import NavigationID
 from wse.core.settings import HISTORY_LEN
-from wse.features.shared.button_text import ButtonText
 from wse.interface.ifeatures import IContent, IController
 
 logger = logging.getLogger(__name__)
@@ -19,7 +19,7 @@ class Navigator:
     _PREVIOUS_CONTENT_INDEX: Final[int] = -2
 
     _main_window: toga.Window
-    _routes: dict[ButtonText, IController]
+    _routes: dict[NavigationID, IController]
     _content_history: deque[IContent]
 
     def __init__(self) -> None:
@@ -31,12 +31,12 @@ class Navigator:
         self._main_window = main_widow
 
     @property
-    def routes(self) -> dict[ButtonText, IController]:
+    def routes(self) -> dict[NavigationID, IController]:
         """Routes to get page content to window content."""
         return self._routes
 
     @routes.setter
-    def routes(self, value: dict[ButtonText, IController]) -> None:
+    def routes(self, value: dict[NavigationID, IController]) -> None:
         self._routes = value
         self._set_listener()
 
@@ -46,9 +46,9 @@ class Navigator:
             controller.subject.add_listener(self)
 
     # Listener methods
-    def navigate(self, button_text: ButtonText) -> None:
+    def navigate(self, button_text: NavigationID) -> None:
         """Navigate to page by button text value."""
-        if button_text == ButtonText.BACK:
+        if button_text == NavigationID.BACK:
             self._go_back()
             return
 

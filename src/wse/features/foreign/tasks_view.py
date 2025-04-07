@@ -3,9 +3,9 @@
 import toga
 
 from wse.core.i18n import _
+from wse.core.navigaion.navigation_id import NavigationID
 from wse.features.object_id import ObjectID
 from wse.features.shared.base_ui import BaseContent
-from wse.features.shared.button_text import ButtonText
 from wse.features.shared.observer import Subject
 from wse.features.text import TitleLabel
 from wse.interface.ifeatures import IView
@@ -41,7 +41,7 @@ class TasksView(IView):
         # Info panel
         self.info_panel = MultilineInfoPanel()
 
-        # Navigation buttons
+        # NavigationID buttons
         self._btn_goto_test = self._create_nav_btn()
         self._btn_goto_back = self._create_nav_btn()
 
@@ -49,9 +49,9 @@ class TasksView(IView):
         # Title
         self._label_title.text = _('Foreign tasks title')
 
-        # Navigation buttons
-        self._btn_goto_test.text = ButtonText.FOREIGN_TESTS
-        self._btn_goto_back.text = ButtonText.BACK
+        # NavigationID buttons
+        self._btn_goto_test.text = NavigationID.FOREIGN_TESTS
+        self._btn_goto_back.text = NavigationID.BACK
 
     # Utility methods
     def _create_nav_btn(self) -> toga.Button:

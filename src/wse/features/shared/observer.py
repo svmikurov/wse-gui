@@ -2,8 +2,6 @@
 
 from toga.sources import Listener, Source
 
-from wse.interface.ifeatures import ISubject
-
 
 class AsyncNotifyMixin:
     """A mixin for async notification."""

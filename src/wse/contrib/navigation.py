@@ -1,4 +1,4 @@
-"""Navigation buttons attributes."""
+"""NavigationID buttons attributes."""
 
 from typing import Callable
 
@@ -7,7 +7,7 @@ from wse.pages.handlers import goto_handler as gh
 
 # TODO: Add programmatically creation of button callbacks.
 class NavigationAttrs:
-    """Navigation buttons attributes."""
+    """NavigationID buttons attributes."""
 
     @classmethod
     def set(cls, attr_name: str, text: str, callback: Callable) -> None:

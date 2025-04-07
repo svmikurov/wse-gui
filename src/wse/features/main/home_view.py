@@ -3,9 +3,9 @@
 import toga
 
 from wse.core.i18n import _
+from wse.core.navigaion.navigation_id import NavigationID
 from wse.features.object_id import ObjectID
 from wse.features.shared.base_ui import BaseContent
-from wse.features.shared.button_text import ButtonText
 from wse.features.shared.observer import Subject
 from wse.features.text import TitleLabel
 from wse.interface.ifeatures import IView
@@ -64,16 +64,16 @@ class HomeView(IView):
         self._label_title.text = _('WSELFEDU')
 
         # Auth buttons
-        self._btn_login.text = ButtonText.LOGIN
-        self._btn_logout.text = ButtonText.LOGOUT
-        self._btn_cancel.text = ButtonText.CANCEL
-        self._btn_confirm.text = ButtonText.CONFIRM
+        self._btn_login.text = NavigationID.LOGIN
+        self._btn_logout.text = NavigationID.LOGOUT
+        self._btn_cancel.text = NavigationID.CANCEL
+        self._btn_confirm.text = NavigationID.CONFIRM
 
         # Navigate buttons
-        self._btn_foreign.text = ButtonText.FOREIGN
-        self._btn_glossary.text = ButtonText.GLOSSARY
-        self._btn_mathem.text = ButtonText.MATHEM
-        self._btn_exercises.text = ButtonText.EXERCISES
+        self._btn_foreign.text = NavigationID.FOREIGN
+        self._btn_glossary.text = NavigationID.GLOSSARY
+        self._btn_mathem.text = NavigationID.MATHEM
+        self._btn_exercises.text = NavigationID.EXERCISES
 
     # Utility methods
     def _create_nav_btn(self) -> toga.Button:

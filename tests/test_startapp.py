@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from wse.application.app import WSE
+from wse.app import WSE
 from wse.features.object_id import ObjectID
 
 

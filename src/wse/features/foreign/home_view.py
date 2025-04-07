@@ -3,12 +3,12 @@
 import toga
 
 from wse.core.i18n import _
+from wse.core.navigaion.navigation_id import NavigationID
 from wse.features.object_id import ObjectID
 from wse.features.shared.base_ui import BaseContent
-from wse.features.shared.button_text import ButtonText
 from wse.features.shared.observer import Subject
 from wse.features.text import TitleLabel
-from wse.interface.ifeatures import IView, ISubject
+from wse.interface.ifeatures import ISubject, IView
 from wse.pages.widgets import AppButton, MultilineInfoPanel
 
 
@@ -47,7 +47,7 @@ class ForeignView(IView):
         # Info panel
         self.info_panel = MultilineInfoPanel()
 
-        # Navigation buttons
+        # NavigationID buttons
         self._btn_goto_tasks = self._create_nav_btn()
         self._btn_goto_params = self._create_nav_btn()
         self._btn_goto_create = self._create_nav_btn()
@@ -57,11 +57,11 @@ class ForeignView(IView):
         # Title
         self._label_title.text = _('Foreign title')
 
-        # Navigation buttons
-        self._btn_goto_tasks.text = ButtonText.FOREIGN_TASKS
-        self._btn_goto_params.text = ButtonText.FOREIGN_PARAMS
-        self._btn_goto_create.text = ButtonText.FOREIGN_CREATE
-        self._btn_goto_back.text = ButtonText.BACK
+        # NavigationID buttons
+        self._btn_goto_tasks.text = NavigationID.FOREIGN_TASKS
+        self._btn_goto_params.text = NavigationID.FOREIGN_PARAMS
+        self._btn_goto_create.text = NavigationID.FOREIGN_CREATE
+        self._btn_goto_back.text = NavigationID.BACK
 
     # Utility methods
     def _create_nav_btn(self) -> toga.Button:

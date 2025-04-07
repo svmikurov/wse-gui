@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-from wse.features.shared.button_text import ButtonText
+from wse.core.navigaion.navigation_id import NavigationID
 from wse.features.shared.observer import Subject
 from wse.interface.ifeatures import IContent, IModel, ISubject, IView
 
@@ -27,7 +27,7 @@ class BaseController(Subject):
         return self.view.content
 
     # Notifications
-    def navigate(self, button_text: ButtonText) -> None:
+    def navigate(self, button_text: NavigationID) -> None:
         """Navigate to page, the button event listener."""
         self._subject.notify('navigate', button_text=button_text)
 

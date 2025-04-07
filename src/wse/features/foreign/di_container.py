@@ -2,11 +2,11 @@
 
 from dependency_injector import containers, providers
 
+from wse.core.navigaion.navigation_id import NavigationID
 from wse.features.foreign.home_ctrl import ForeignCtrl
 from wse.features.foreign.home_view import ForeignView
 from wse.features.foreign.tasks_ctrl import TasksController
 from wse.features.foreign.tasks_view import TasksView
-from wse.features.shared.button_text import ButtonText
 
 
 class ForeignContainer(containers.DeclarativeContainer):
@@ -22,10 +22,10 @@ class ForeignContainer(containers.DeclarativeContainer):
     tasks_view = providers.Factory(TasksView, content_box=content_box)
     tasks_ctrl = providers.Factory(TasksController, view=tasks_view)
 
-    # Navigation routes
+    # NavigationID routes
     routes = providers.Dict(
         {
-            ButtonText.FOREIGN: home_ctrl,
-            ButtonText.FOREIGN_TASKS: tasks_ctrl,
+            NavigationID.FOREIGN: home_ctrl,
+            NavigationID.FOREIGN_TASKS: tasks_ctrl,
         }
     )

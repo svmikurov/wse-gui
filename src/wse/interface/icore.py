@@ -9,22 +9,22 @@ import toga
 from wse.interface.ifeatures import IController
 
 if TYPE_CHECKING:
-    from wse.features.shared.button_text import ButtonText
+    from wse.core.navigaion.navigation_id import NavigationID
 
 
 class INavigator(Protocol):
     """Protocol defining the interface for navigator."""
 
-    def navigate(self, button_text: ButtonText) -> None:
+    def navigate(self, button_text: NavigationID) -> None:
         """Navigate to page by button text."""
 
     def set_main_window(self, main_widow: toga.Window) -> None:
         """Set the application's main window for content display."""
 
     @property
-    def routes(self) -> dict[ButtonText, IController]:
+    def routes(self) -> dict[NavigationID, IController]:
         """Routes to get page content to window content."""
 
     @routes.setter
-    def routes(self, value: dict[ButtonText, IController]) -> None:
+    def routes(self, value: dict[NavigationID, IController]) -> None:
         pass
