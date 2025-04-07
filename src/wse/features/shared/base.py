@@ -41,7 +41,7 @@ class BaseController(Subject):
 
 
 class BaseView:
-    """Implementation of the base controller."""
+    """Implementation of the base view."""
 
     _label_title: toga.Label
 
