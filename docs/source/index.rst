@@ -8,21 +8,6 @@ Welcome to WSE's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
-   install/index
-   reference/index
-   how-to-guides/index
-   glossary
-   rest-endpoint/index
-   test/index
-   about/index
-   TODO <todo>
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   features/index
+   shared/index
