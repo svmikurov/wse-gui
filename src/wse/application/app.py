@@ -8,10 +8,10 @@ from toga.sources import Listener, Source
 
 from wse import controllers, pages
 from wse.constants import SCREEN_SIZE
-from wse.core.navigaion.navigator import navigator
 from wse.di_container import AppContainer
 from wse.factory import mvc_factory
 from wse.features.shared.button_text import ButtonText
+from wse.interface.icore import INavigator
 from wse.menu import MenuMixin
 from wse.models.user import User
 from wse.pages import ExplorerLayout
@@ -38,6 +38,8 @@ class WSE(MenuMixin, toga.App):
     source_main_panel: ModelT
     page_home: ViewT
     contr_main: ContrT
+    _container: AppContainer
+    _navigator: INavigator
 
     def startup(self) -> None:
         """Construct and show the application."""
@@ -62,14 +64,10 @@ class WSE(MenuMixin, toga.App):
 
         # Application dependencies
         self._container = AppContainer()
+        self._set_navigator()
 
-        # -= Navigation =-
-        # Application instance stories specific page as attribute.
-        navigator.set_app(self)
-        # Navigator have method to assign page content to main window.
-        navigator.set_main_window(self.main_window)
         # Application start with Home page.
-        navigator.navigate(ButtonText.HOME)
+        self._navigator.navigate(ButtonText.HOME)
 
     ####################################################################
     # Controllers
@@ -78,6 +76,11 @@ class WSE(MenuMixin, toga.App):
     def container(self) -> AppContainer:
         """Application container (read-only)."""
         return self._container
+
+    def _set_navigator(self) -> None:
+        self._navigator = self.container.navigator()
+        self._navigator.set_main_window(self.main_window)
+        self._navigator.routes = self.container.routes()
 
     def add_controllers(self) -> None:
         """Add controllers."""

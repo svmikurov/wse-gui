@@ -5,7 +5,6 @@ from toga.constants import COLUMN
 
 from wse.features.object_id import ObjectID
 from wse.features.settings import PADDING_SM
-from wse.interface.ifeatures import IContent
 
 
 class BaseBox(toga.Box):
@@ -27,7 +26,7 @@ class BaseBox(toga.Box):
         return f'{text[:-1]}:{self.id}>'
 
 
-class BaseContent(IContent, BaseBox):
+class BaseContent(BaseBox):
     """Base class for creating content."""
 
     @property

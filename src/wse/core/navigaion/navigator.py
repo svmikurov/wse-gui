@@ -1,21 +1,16 @@
 """Defines a service for navigating through application pages."""
 
-from __future__ import annotations
-
 import logging
 from collections import deque
-from typing import TYPE_CHECKING, Final
+from typing import Final
 
 import toga
 
 from wse.core.settings import HISTORY_LEN
 from wse.features.shared.button_text import ButtonText
-from wse.interface.ifeatures import IContent
+from wse.interface.ifeatures import IContent, IController
 
 logger = logging.getLogger(__name__)
-
-if TYPE_CHECKING:
-    from wse.application.app import WSE
 
 
 class Navigator:
@@ -23,8 +18,8 @@ class Navigator:
 
     _PREVIOUS_CONTENT_INDEX: Final[int] = -2
 
-    _app: WSE | None = None
-    _main_window: toga.Window | None = None
+    _main_window: toga.Window
+    _routes: dict[ButtonText, IController]
     _content_history: deque[IContent]
 
     def __init__(self) -> None:
@@ -35,15 +30,22 @@ class Navigator:
         """Set the application's main window for content display."""
         self._main_window = main_widow
 
-    def set_app(self, app: WSE) -> None:
-        """Set the application reference for feature access."""
-        self._app = app
-
     @property
-    def routes(self) -> dict[ButtonText, IContent | None]:
+    def routes(self) -> dict[ButtonText, IController]:
         """Routes to get page content to window content."""
-        return self._app.container.routes()
+        return self._routes
 
+    @routes.setter
+    def routes(self, value: dict[ButtonText, IController]) -> None:
+        self._routes = value
+        self._set_listener()
+
+    def _set_listener(self) -> None:
+        """Set navigator as view controller listener."""
+        for _, controller in self.routes.items():
+            controller.subject.add_listener(self)
+
+    # Listener methods
     def navigate(self, button_text: ButtonText) -> None:
         """Navigate to page by button text value."""
         if button_text == ButtonText.BACK:
@@ -57,9 +59,10 @@ class Navigator:
         else:
             self._move_to(content)
 
+    # Utility methods
     def _move_to(self, content: IContent) -> None:
         self._set_window_content(content)
-        self._add_to_history(content)
+        self._add_content_to_history(content)
 
     def _go_back(self) -> None:
         self._set_window_content(self._previous_content)
@@ -69,7 +72,7 @@ class Navigator:
         self._main_window.content = content
         logger.debug(f'Navigated to "{content.id}" content')
 
-    def _add_to_history(self, content: IContent) -> None:
+    def _add_content_to_history(self, content: IContent) -> None:
         self._content_history.append(content)
 
     @property
@@ -80,6 +83,3 @@ class Navigator:
         except IndexError:
             logger.debug('No previous content in history')
             return None
-
-
-navigator = Navigator()

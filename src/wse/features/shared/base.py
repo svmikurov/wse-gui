@@ -2,13 +2,13 @@
 
 from dataclasses import dataclass
 
-from wse.core.navigaion.navigator import navigator
 from wse.features.shared.button_text import ButtonText
-from wse.interface.ifeatures import IContent, IController, IModel, IView
+from wse.features.shared.observer import Subject
+from wse.interface.ifeatures import IContent, IModel, ISubject, IView
 
 
 @dataclass
-class BaseController(IController):
+class BaseController(Subject):
     """Implementation of the base controller."""
 
     view: IView
@@ -16,6 +16,7 @@ class BaseController(IController):
 
     def __post_init__(self) -> None:
         """Add sources."""
+        self._subject = Subject()
         self.view.subject.add_listener(self)
         if self.model:
             self.model.subject.add_listener(self)
@@ -25,7 +26,12 @@ class BaseController(IController):
         """Return page content."""
         return self.view.content
 
-    @staticmethod
-    def navigate(button_text: ButtonText) -> None:
+    # Notifications
+    def navigate(self, button_text: ButtonText) -> None:
         """Navigate to page, the button event listener."""
-        navigator.navigate(button_text)
+        self._subject.notify('navigate', button_text=button_text)
+
+    @property
+    def subject(self) -> ISubject:
+        """Ger subject of observer."""
+        return self._subject

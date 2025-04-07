@@ -10,6 +10,7 @@ from abc import abstractmethod
 from typing import Protocol
 
 from wse.features.object_id import ObjectID
+from wse.features.shared.button_text import ButtonText
 
 
 class ISubject:
@@ -59,3 +60,14 @@ class IView(Protocol):
 
 class IController(Protocol):
     """Protocol defining the interface for controller components."""
+
+    @property
+    def subject(self) -> ISubject:
+        """Get the subject for observer pattern notifications."""
+
+    @property
+    def content(self) -> IContent:
+        """Get the page content."""
+
+    def navigate(self, button_text: ButtonText) -> None:
+        """Navigate to page, the button event listener."""

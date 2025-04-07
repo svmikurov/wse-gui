@@ -22,7 +22,7 @@ class AsyncNotifyMixin:
                 await method(**kwargs)
 
 
-class Subject(AsyncNotifyMixin, Source, ISubject):
+class Subject(AsyncNotifyMixin, Source):
     """An observable object in the Observer pattern.
 
     Notifies subscribed listeners (observers) when its state changes.

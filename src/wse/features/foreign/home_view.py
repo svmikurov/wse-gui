@@ -8,7 +8,7 @@ from wse.features.shared.base_ui import BaseContent
 from wse.features.shared.button_text import ButtonText
 from wse.features.shared.observer import Subject
 from wse.features.text import TitleLabel
-from wse.interface.ifeatures import IView
+from wse.interface.ifeatures import IView, ISubject
 from wse.pages.widgets import AppButton, MultilineInfoPanel
 
 
@@ -65,10 +65,10 @@ class ForeignView(IView):
 
     # Utility methods
     def _create_nav_btn(self) -> toga.Button:
-        return AppButton(on_press=self._notify_navigator)
+        return AppButton(on_press=self._navigate)
 
     @property
-    def subject(self) -> Subject:
+    def subject(self) -> ISubject:
         """Return the subject (read-only)."""
         return self._subject
 
@@ -83,5 +83,5 @@ class ForeignView(IView):
         return self._content
 
     # Notifications
-    def _notify_navigator(self, button: toga.Button) -> None:
+    def _navigate(self, button: toga.Button) -> None:
         self.subject.notify('navigate', button_text=button.text)
