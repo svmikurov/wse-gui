@@ -76,4 +76,4 @@ class HomeView(BaseView):
 
     # Notifications
     def _auth_notify(self, button: toga.Button) -> None:
-        self.subject.notify('auth', button_text=button.text)
+        self.subject.notify('auth', navigation_id=button.text)

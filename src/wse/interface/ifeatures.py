@@ -75,5 +75,5 @@ class IController(Protocol):
     def content(self) -> IContent:
         """Get the page content."""
 
-    def navigate(self, button_text: NavigationID) -> None:
+    def navigate(self, navigation_id: NavigationID) -> None:
         """Navigate to page, the button event listener."""

@@ -35,9 +35,9 @@ class BaseController(Subject):
         return self._subject
 
     # Notifications
-    def navigate(self, button_text: NavigationID) -> None:
+    def navigate(self, navigation_id: NavigationID) -> None:
         """Navigate to page, the button event listener."""
-        self._subject.notify('navigate', button_text=button_text)
+        self._subject.notify('navigate', navigation_id=navigation_id)
 
 
 class BaseView:
@@ -73,4 +73,4 @@ class BaseView:
 
     # Notifications
     def _navigate(self, button: toga.Button) -> None:
-        self.subject.notify('navigate', button_text=button.text)
+        self.subject.notify('navigate', navigation_id=button.text)

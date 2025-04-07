@@ -46,16 +46,16 @@ class Navigator:
             controller.subject.add_listener(self)
 
     # Listener methods
-    def navigate(self, button_text: NavigationID) -> None:
+    def navigate(self, navigation_id: NavigationID) -> None:
         """Navigate to page by button text value."""
-        if button_text == NavigationID.BACK:
+        if navigation_id == NavigationID.BACK:
             self._go_back()
             return
 
         try:
-            content = self.routes[button_text].content
+            content = self.routes[navigation_id].content
         except KeyError:
-            logger.debug(f'The route for "{button_text}" button is not set')
+            logger.debug(f'The route for "{navigation_id}" button is not set')
         else:
             self._move_to(content)
 

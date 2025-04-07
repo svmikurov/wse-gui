@@ -15,8 +15,8 @@ if TYPE_CHECKING:
 class INavigator(Protocol):
     """Protocol defining the interface for navigator."""
 
-    def navigate(self, button_text: NavigationID) -> None:
-        """Navigate to page by button text."""
+    def navigate(self, navigation_id: NavigationID) -> None:
+        """Navigate to page by navigation ID."""
 
     def set_main_window(self, main_widow: toga.Window) -> None:
         """Set the application's main window for content display."""
@@ -26,5 +26,4 @@ class INavigator(Protocol):
         """Routes to get page content to window content."""
 
     @routes.setter
-    def routes(self, value: dict[NavigationID, IController]) -> None:
-        pass
+    def routes(self, value: dict[NavigationID, IController]) -> None: ...
