@@ -3,7 +3,7 @@
 from dependency_injector import containers, providers
 
 from wse.core.navigaion.navigation_id import NavigationID
-from wse.features.main.home_ctrl import HomeController
+from wse.features.main.home_controller import HomeController
 from wse.features.main.home_view import HomeView
 
 
@@ -14,11 +14,11 @@ class MainContainer(containers.DeclarativeContainer):
 
     # Home page
     home_view = providers.Factory(HomeView, content_box=content_box)
-    home_ctrl = providers.Factory(HomeController, view=home_view)
+    home_controller = providers.Factory(HomeController, view=home_view)
 
     # NavigationID routes
     routes = providers.Dict(
         {
-            NavigationID.HOME: home_ctrl,
+            NavigationID.HOME: home_controller,
         }
     )

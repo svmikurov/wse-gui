@@ -6,5 +6,5 @@ from wse.features.shared.base import BaseController
 
 
 @dataclass
-class ForeignCtrl(BaseController):
+class ForeignController(BaseController):
     """Foreign home page controller."""
