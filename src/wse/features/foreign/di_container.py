@@ -6,6 +6,8 @@ from wse.core.navigaion.navigation_id import NavigationID
 from wse.features.foreign import (
     ForeignController,
     ForeignView,
+    ParamsController,
+    ParamsView,
     TasksController,
     TasksView,
 )
@@ -24,10 +26,15 @@ class ForeignContainer(containers.DeclarativeContainer):
     tasks_view = providers.Factory(TasksView, content_box=content_box)
     tasks_controller = providers.Factory(TasksController, view=tasks_view)
 
+    # Foreign params page
+    params_view = providers.Factory(ParamsView, content_box=content_box)
+    params_controller = providers.Factory(ParamsController, view=params_view)
+
     # NavigationID routes
     routes = providers.Dict(
         {
             NavigationID.FOREIGN: home_controller,
             NavigationID.FOREIGN_TASKS: tasks_controller,
+            NavigationID.FOREIGN_PARAMS: params_controller,
         }
     )
