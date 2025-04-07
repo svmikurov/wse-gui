@@ -1,10 +1,12 @@
 """Application object test ID enumeration."""
 
-from enum import Enum, unique
+from enum import unique
+
+from wse.core.base import BaseEnum
 
 
 @unique
-class ObjectID(str, Enum):
+class ObjectID(BaseEnum):
     """Application object ID enumeration."""
 
     HOME = 'Home view'

@@ -1,14 +1,8 @@
 """Defines unique button names."""
 
-from enum import Enum, unique
+from enum import unique
 
-
-class BaseEnum(str, Enum):
-    """Base class for enumerations."""
-
-    def __str__(self) -> str:
-        """Return button text."""
-        return self.value
+from wse.core.base import BaseEnum
 
 
 @unique
