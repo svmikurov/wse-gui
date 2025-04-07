@@ -9,6 +9,8 @@ the expected structure and behavior of key application components.
 from abc import abstractmethod
 from typing import Protocol
 
+import toga
+
 from wse.core.navigaion.navigation_id import NavigationID
 from wse.features.object_id import ObjectID
 
@@ -44,6 +46,10 @@ class IModel(Protocol):
 
 class IView(Protocol):
     """Protocol defining the interface for view components."""
+
+    def _create_nav_btn(self) -> toga.Button: ...
+
+    def _navigate(self, button: toga.Button) -> None: ...
 
     @property
     def subject(self) -> ISubject:

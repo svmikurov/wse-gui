@@ -1,29 +1,21 @@
 """Foreign home page view."""
 
-import toga
-
 from wse.core.i18n import _
 from wse.core.navigaion.navigation_id import NavigationID
 from wse.features.object_id import ObjectID
+from wse.features.shared.base import BaseView
 from wse.features.shared.base_ui import BaseContent
-from wse.features.shared.observer import Subject
 from wse.features.text import TitleLabel
-from wse.interface.ifeatures import ISubject, IView
-from wse.pages.widgets import AppButton, MultilineInfoPanel
+from wse.pages.widgets import MultilineInfoPanel
 
 
-class ForeignView(IView):
+class ForeignView(BaseView):
     """Foreign home page view."""
 
     def __init__(self, content_box: BaseContent | None = None) -> None:
         """Construct the page."""
-        super().__init__()
-        # Content
-        self._content = content_box or toga.Box()
+        super().__init__(content_box)
         self._content.id = ObjectID.FOREIGN_VIEW
-
-        # Listeners
-        self._subject = Subject()
 
         # Add UI
         self._create_ui()
@@ -62,26 +54,3 @@ class ForeignView(IView):
         self._btn_goto_params.text = NavigationID.FOREIGN_PARAMS
         self._btn_goto_create.text = NavigationID.FOREIGN_CREATE
         self._btn_goto_back.text = NavigationID.BACK
-
-    # Utility methods
-    def _create_nav_btn(self) -> toga.Button:
-        return AppButton(on_press=self._navigate)
-
-    @property
-    def subject(self) -> ISubject:
-        """Return the subject (read-only)."""
-        return self._subject
-
-    @property
-    def title(self) -> str:
-        """Page title (read-only)."""
-        return self._label_title.text
-
-    @property
-    def content(self) -> BaseContent:
-        """Page content (read-only)."""
-        return self._content
-
-    # Notifications
-    def _navigate(self, button: toga.Button) -> None:
-        self.subject.notify('navigate', button_text=button.text)
