@@ -5,7 +5,7 @@ import logging
 import toga
 
 from wse.constants import SCREEN_SIZE
-from wse.core.navigaion.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavigationID
 from wse.di_container import AppContainer
 from wse.interface.icore import INavigator
 from wse.menu import MenuMixin

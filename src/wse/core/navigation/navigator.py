@@ -6,7 +6,7 @@ from typing import Final
 
 import toga
 
-from wse.core.navigaion.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavigationID
 from wse.core.settings import HISTORY_LEN
 from wse.interface.ifeatures import IContent, IController
 

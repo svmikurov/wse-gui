@@ -4,8 +4,9 @@ from dataclasses import dataclass
 
 import toga
 
-from wse.core.navigaion.navigation_id import NavigationID
-from wse.features.shared import BaseContent, Subject
+from wse.core.navigation.navigation_id import NavigationID
+from wse.features.shared.base_ui import BaseContent
+from wse.features.shared.observer import Subject
 from wse.interface.ifeatures import IContent, IModel, IView
 from wse.pages.widgets import AppButton
 

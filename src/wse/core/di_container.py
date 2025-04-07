@@ -2,7 +2,7 @@
 
 from dependency_injector import containers, providers
 
-from wse.core.navigaion.navigator import Navigator
+from wse.core.navigation.navigator import Navigator
 
 
 class CoreContainer(containers.DeclarativeContainer):

@@ -11,7 +11,7 @@ from typing import Protocol
 
 import toga
 
-from wse.core.navigaion.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavigationID
 from wse.features.object_id import ObjectID
 
 

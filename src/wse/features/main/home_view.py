@@ -3,7 +3,7 @@
 import toga
 
 from wse.core.i18n import _
-from wse.core.navigaion.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavigationID
 from wse.features.object_id import ObjectID
 from wse.features.shared.base import BaseView
 from wse.features.shared.base_ui import BaseContent

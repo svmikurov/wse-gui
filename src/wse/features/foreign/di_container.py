@@ -2,7 +2,7 @@
 
 from dependency_injector import containers, providers
 
-from wse.core.navigaion.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavigationID
 from wse.features.foreign import (
     ForeignController,
     ForeignView,

@@ -9,7 +9,7 @@ import toga
 from wse.interface.ifeatures import IController
 
 if TYPE_CHECKING:
-    from wse.core.navigaion.navigation_id import NavigationID
+    from wse.core.navigation.navigation_id import NavigationID
 
 
 class INavigator(Protocol):
