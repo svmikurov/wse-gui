@@ -3,10 +3,12 @@
 from dependency_injector import containers, providers
 
 from wse.core.navigaion.navigation_id import NavigationID
-from wse.features.foreign.home_controller import ForeignController
-from wse.features.foreign.home_view import ForeignView
-from wse.features.foreign.tasks_controller import TasksController
-from wse.features.foreign.tasks_view import TasksView
+from wse.features.foreign import (
+    ForeignController,
+    ForeignView,
+    TasksController,
+    TasksView,
+)
 
 
 class ForeignContainer(containers.DeclarativeContainer):

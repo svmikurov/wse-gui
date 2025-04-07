@@ -15,7 +15,7 @@ class ForeignView(BaseView):
     def __init__(self, content_box: BaseContent | None = None) -> None:
         """Construct the page."""
         super().__init__(content_box)
-        self._content.id = ObjectID.FOREIGN_VIEW
+        self._content.id = ObjectID.FOREIGN
 
         # Add UI
         self._create_ui()

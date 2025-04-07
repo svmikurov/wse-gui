@@ -18,7 +18,7 @@ class HomeView(BaseView):
     def __init__(self, content_box: BaseContent | None = None) -> None:
         """Construct the view."""
         super().__init__(content_box)
-        self._content.id = ObjectID.HOME_VIEW
+        self._content.id = ObjectID.HOME
 
         # Add UI
         self._create_ui()
