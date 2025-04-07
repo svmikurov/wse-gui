@@ -1,4 +1,4 @@
-"""Defines dependency injection containers for core package."""
+"""Defines dependency injection container for core package."""
 
 from dependency_injector import containers, providers
 
@@ -6,6 +6,6 @@ from wse.core.navigation.navigator import Navigator
 
 
 class CoreContainer(containers.DeclarativeContainer):
-    """core package container."""
+    """Core package container for dependency injection."""
 
     navigator = providers.Singleton(Navigator)
