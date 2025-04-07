@@ -59,16 +59,16 @@ class HomeView(BaseView):
         self._label_title.text = _('WSELFEDU')
 
         # Auth buttons
-        self._btn_login.text = NavigationID.LOGIN
-        self._btn_logout.text = NavigationID.LOGOUT
-        self._btn_cancel.text = NavigationID.CANCEL
-        self._btn_confirm.text = NavigationID.CONFIRM
+        self._btn_login.text = _(NavigationID.LOGIN)
+        self._btn_logout.text = _(NavigationID.LOGOUT)
+        self._btn_cancel.text = _(NavigationID.CANCEL)
+        self._btn_confirm.text = _(NavigationID.CONFIRM)
 
         # Navigate buttons
-        self._btn_foreign.text = NavigationID.FOREIGN
-        self._btn_glossary.text = NavigationID.GLOSSARY
-        self._btn_mathem.text = NavigationID.MATHEM
-        self._btn_exercises.text = NavigationID.EXERCISES
+        self._btn_foreign.text = _(NavigationID.FOREIGN)
+        self._btn_glossary.text = _(NavigationID.GLOSSARY)
+        self._btn_mathem.text = _(NavigationID.MATHEM)
+        self._btn_exercises.text = _(NavigationID.EXERCISES)
 
     # Utility methods
     def _create_auth_btn(self) -> toga.Button:

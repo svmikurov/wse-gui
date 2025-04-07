@@ -50,7 +50,7 @@ class ForeignView(BaseView):
         self._label_title.text = _('Foreign title')
 
         # NavigationID buttons
-        self._btn_goto_tasks.text = NavigationID.FOREIGN_TASKS
-        self._btn_goto_params.text = NavigationID.FOREIGN_PARAMS
-        self._btn_goto_create.text = NavigationID.FOREIGN_CREATE
-        self._btn_goto_back.text = NavigationID.BACK
+        self._btn_goto_tasks.text = _(NavigationID.FOREIGN_TASKS)
+        self._btn_goto_params.text = _(NavigationID.FOREIGN_PARAMS)
+        self._btn_goto_create.text = _(NavigationID.FOREIGN_CREATE)
+        self._btn_goto_back.text = _(NavigationID.BACK)

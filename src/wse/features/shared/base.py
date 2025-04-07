@@ -7,7 +7,7 @@ import toga
 from wse.core.navigaion.navigation_id import NavigationID
 from wse.features.shared.base_ui import BaseContent
 from wse.features.shared.observer import Subject
-from wse.interface.ifeatures import IContent, IModel, ISubject, IView
+from wse.interface.ifeatures import IContent, IModel, IView
 from wse.pages.widgets import AppButton
 
 

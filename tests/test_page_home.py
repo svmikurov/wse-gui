@@ -9,6 +9,7 @@ import toga
 from wse.app import WSE
 from wse.features.main.home_view import HomeView
 from wse.features.object_id import ObjectID
+from wse.features.shared.base_ui import BaseContent
 from wse.interface.ifeatures import IContent
 
 
@@ -22,7 +23,7 @@ def content() -> IContent:
 @pytest.fixture
 def home_view() -> HomeView:
     """Return the Home view."""
-    return HomeView()
+    return HomeView(BaseContent())
 
 
 def test_assign_home_page_to_main_window_content(content: IContent) -> None:

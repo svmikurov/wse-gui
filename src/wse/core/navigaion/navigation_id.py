@@ -2,11 +2,9 @@
 
 from enum import Enum, unique
 
-from wse.core.i18n import _
 
-
-class BaseButtonName(str, Enum):
-    """Base class for creating button enumerations."""
+class BaseEnum(str, Enum):
+    """Base class for enumerations."""
 
     def __str__(self) -> str:
         """Return button text."""
@@ -14,33 +12,32 @@ class BaseButtonName(str, Enum):
 
 
 @unique
-class NavigationID(BaseButtonName):
+class NavigationID(BaseEnum):
     """Application navigation ID enumeration."""
 
     # Authentication
-    LOGIN = _('Login')
-    LOGOUT = _('Logout')
+    LOGIN = 'Login'
+    LOGOUT = 'Logout'
 
     # Actions
-    CANCEL = _('Cancel')
-    CONFIRM = _('Confirm')
+    CANCEL = 'Cancel'
+    CONFIRM = 'Confirm'
 
-    # -= NavigationID =-
     # Main
-    HOME = _('Home')
-    BACK = _('Back')
-    NOT_SET = _('Not set')
+    HOME = 'Home'
+    BACK = 'Back'
+    NOT_SET = 'Not set'
 
     # Foreign
-    FOREIGN = _('Foreign')
-    FOREIGN_TASKS = _('Foreign tasks')
-    FOREIGN_TESTS = _('Foreign tests')
-    FOREIGN_PARAMS = _('Foreign params')
-    FOREIGN_EXERCISE = _('Foreign exercise')
-    FOREIGN_CREATE = _('Foreign create')
-    FOREIGN_UPDATE = _('Foreign update')
+    FOREIGN = 'Foreign'
+    FOREIGN_TASKS = 'Foreign tasks'
+    FOREIGN_TESTS = 'Foreign tests'
+    FOREIGN_PARAMS = 'Foreign params'
+    FOREIGN_EXERCISE = 'Foreign exercise'
+    FOREIGN_CREATE = 'Foreign create'
+    FOREIGN_UPDATE = 'Foreign update'
 
     # Glossary
-    GLOSSARY = _('Glossary')
-    MATHEM = _('Mathematics')
-    EXERCISES = _('Exercises')
+    GLOSSARY = 'Glossary'
+    MATHEM = 'Mathematics'
+    EXERCISES = 'Exercises'

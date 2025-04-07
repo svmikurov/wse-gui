@@ -46,5 +46,5 @@ class TasksView(BaseView):
         self._label_title.text = _('Foreign tasks title')
 
         # NavigationID buttons
-        self._btn_goto_test.text = NavigationID.FOREIGN_TESTS
-        self._btn_goto_back.text = NavigationID.BACK
+        self._btn_goto_test.text = _(NavigationID.FOREIGN_TESTS)
+        self._btn_goto_back.text = _(NavigationID.BACK)
