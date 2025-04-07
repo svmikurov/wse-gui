@@ -5,8 +5,7 @@ from dataclasses import dataclass
 import toga
 
 from wse.core.navigaion.navigation_id import NavigationID
-from wse.features.shared.base_ui import BaseContent
-from wse.features.shared.observer import Subject
+from wse.features.shared import BaseContent, Subject
 from wse.interface.ifeatures import IContent, IModel, IView
 from wse.pages.widgets import AppButton
 
@@ -27,18 +26,18 @@ class BaseController(Subject):
 
     @property
     def content(self) -> IContent:
-        """Return page content."""
+        """Page content (read-only)."""
         return self.view.content
+
+    @property
+    def subject(self) -> Subject:
+        """Subject of observer pattern (read-only)."""
+        return self._subject
 
     # Notifications
     def navigate(self, button_text: NavigationID) -> None:
         """Navigate to page, the button event listener."""
         self._subject.notify('navigate', button_text=button_text)
-
-    @property
-    def subject(self) -> Subject:
-        """Ger subject of observer."""
-        return self._subject
 
 
 class BaseView:
@@ -59,7 +58,7 @@ class BaseView:
 
     @property
     def subject(self) -> Subject:
-        """Return the subject (read-only)."""
+        """Subject of observer pattern (read-only)."""
         return self._subject
 
     @property
