@@ -186,7 +186,7 @@ style_framework = "Shoelace v2.3"
 # Poetry
 [tool.poetry]
 name = "WSE"
-version = "0.1.0"
+version = "0.1.1"
 description = "Application for educational exercises on various subjects"
 authors = ["Sergei Mikurov <454004@mail.ru>"]
 readme = "README.rst"
