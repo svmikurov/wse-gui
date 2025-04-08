@@ -70,11 +70,11 @@ class ParamsView(BaseView):
         )
 
     def _create_params_ui(self) -> None:
-        self._category_box = SelectionBox(Subject())
-        self._source_box = SelectionBox(Subject())
-        self._order_box = SelectionBox(Subject())
-        self._start_date_box = SelectionBox(Subject())
-        self._end_date_box = SelectionBox(Subject())
+        self._category_box = SelectionBox()
+        self._source_box = SelectionBox()
+        self._order_box = SelectionBox()
+        self._start_date_box = SelectionBox()
+        self._end_date_box = SelectionBox()
 
     def _assign_params_ui_text(self) -> None:
         self._category_box.label.text = _('Category')

@@ -14,10 +14,13 @@ class SelectionBox(toga.Box):
     label: LabelParam
     _selection: toga.Selection
 
-    def __init__(self, source: Subject, label_text: str | None = None) -> None:
+    def __init__(
+        self, source: Subject | None = None,
+        label_text: str | None = None,
+    ) -> None:
         """Construct the box."""
         super().__init__()
-        self.source = source
+        self.source = source or Subject()
         self.label_text = label_text or ''
 
         # Style of the inner widget
