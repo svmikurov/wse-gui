@@ -47,20 +47,34 @@ class ColumnBox(IDWidgetMixin, toga.Box):
         self.style.direction = COLUMN
 
 
-class FlexColumnBox(ColumnBox):
-    """A flexible box layout with vertical (column) direction."""
+class RowBox(IDWidgetMixin, toga.Box):
+    """A box layout with horizontal (row) direction."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
-        """Initialize the box with flex styling and column direction."""
+        """Initialize the box with row direction."""
+        super().__init__(*args, **kwargs)
+
+
+class RowFlexBox(RowBox):
+    """A flexible box layout with horizontal (row) direction."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Initialize the box with flex styling."""
         super().__init__(*args, **kwargs)
         self.style.flex = 1
 
 
-class BaseBox(FlexColumnBox):
-    """Base box for pages with common settings.
+class ColumnFlexBox(ColumnBox):
+    """A flexible box layout with vertical (column) direction."""
 
-    Adds padding settings.
-    """
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Initialize the box with flex styling."""
+        super().__init__(*args, **kwargs)
+        self.style.flex = 1
+
+
+class BaseBox(ColumnFlexBox):
+    """Base box for pages with common settings."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Initialize the box with default padding."""
@@ -68,5 +82,5 @@ class BaseBox(FlexColumnBox):
         self.style.padding = PADDING_SM
 
 
-class BaseContent(FlexColumnBox):
+class BaseContent(ColumnFlexBox):
     """Base class for content sections with ID support and styling."""
