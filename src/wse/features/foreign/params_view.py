@@ -37,7 +37,6 @@ class ParamsView(BaseView):
             self._label_title,
             self.info_panel,
             self._params_box,
-            self._category_box,
             self._btn_goto_back,
         )
 
@@ -64,10 +63,22 @@ class ParamsView(BaseView):
         # Fill params box
         self._params_box.add(
             self._category_box,
+            self._source_box,
+            self._order_box,
+            self._start_date_box,
+            self._end_date_box,
         )
 
     def _create_params_ui(self) -> None:
         self._category_box = SelectionBox(Subject())
+        self._source_box = SelectionBox(Subject())
+        self._order_box = SelectionBox(Subject())
+        self._start_date_box = SelectionBox(Subject())
+        self._end_date_box = SelectionBox(Subject())
 
     def _assign_params_ui_text(self) -> None:
         self._category_box.label.text = _('Category')
+        self._source_box.label.text = _('Source')
+        self._order_box.label.text = _('Translate order')
+        self._start_date_box.label.text = _('Period start date')
+        self._end_date_box.label.text = _('Period end date')
