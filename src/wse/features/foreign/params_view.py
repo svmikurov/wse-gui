@@ -3,11 +3,10 @@
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.object_id import ObjectID
-from wse.features.shared.base_mvc import BaseView
-from wse.features.shared.base_ui import BaseContent, ColumnBox
-from wse.features.shared.observer import Subject
-from wse.features.shared.params import SelectionBox, SwitchNumberInputBox
-from wse.features.shared.text import TitleLabel
+from wse.features.shared.mvc import BaseView
+from wse.features.shared.ui_containers import BaseContent, ColumnBox
+from wse.features.shared.ui_params import SelectionBox, SwitchNumberInputBox
+from wse.features.shared.ui_text import TitleLabel
 from wse.pages.widgets import MultilineInfoPanel
 
 
@@ -68,7 +67,6 @@ class ParamsView(BaseView):
             self._order_box,
             self._start_date_box,
             self._end_date_box,
-
             # NumberInputs
             self._input_first_count,
             self._input_last_count,
