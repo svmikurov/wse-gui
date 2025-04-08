@@ -1,4 +1,4 @@
-"""Defines base classes of functions features."""
+"""Defines base widget classes with ID support and common styles."""
 
 import toga
 from toga.constants import COLUMN
@@ -7,33 +7,66 @@ from wse.features.object_id import ObjectID
 from wse.features.settings import PADDING_SM
 
 
-class BaseBox(toga.Box):
-    """Base pages box.
+class IDWidgetMixin:
+    """Mixin to add ID functionality to widgets.
 
-    Defines a common style for derived box widgets.
+    Provides an `id` property and enhances `repr()` to include the ID.
     """
 
-    def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the box."""
-        super().__init__(*args, **kwargs)
-        self.style.direction = COLUMN
-        self.style.padding = PADDING_SM
-        self.style.flex = 1
-
-    def __repr__(self) -> str:
-        """Represent a view."""
-        text = super().__repr__()
-        return f'{text[:-1]}:{self.id}>'
-
-
-class BaseContent(BaseBox):
-    """Base class for creating content."""
+    _id: ObjectID
 
     @property
     def id(self) -> ObjectID | None:
-        """Get the content test ID."""
+        """Get the widget's unique ID.
+
+        Adds the `ObjectID` annotation to application widgets.
+        Overrides the parent property.
+        """
         return self._id
 
     @id.setter
     def id(self, value: ObjectID) -> None:
+        # Set the widget's unique ID
         self._id = value
+
+    def __repr__(self) -> str:
+        """Return a string representation including the widget's ID.
+
+        Overrides the parent method.
+        """
+        text = super().__repr__()
+        return f'{text[:-1]}:{self.id}>'
+
+
+class ColumnBox(IDWidgetMixin, toga.Box):
+    """A box layout with vertical (column) direction."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Initialize the box with column direction."""
+        super().__init__(*args, **kwargs)
+        self.style.direction = COLUMN
+
+
+class FlexColumnBox(ColumnBox):
+    """A flexible box layout with vertical (column) direction."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Initialize the box with flex styling and column direction."""
+        super().__init__(*args, **kwargs)
+        self.style.flex = 1
+
+
+class BaseBox(FlexColumnBox):
+    """Base box for pages with common settings.
+
+    Adds padding settings.
+    """
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Initialize the box with default padding."""
+        super().__init__(*args, **kwargs)
+        self.style.padding = PADDING_SM
+
+
+class BaseContent(FlexColumnBox):
+    """Base class for content sections with ID support and styling."""
