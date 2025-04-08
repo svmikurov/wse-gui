@@ -15,3 +15,12 @@ class TitleLabel(toga.Label):
         self.style.text_align = CENTER
         self.style.font_size = TITLE_LABEL_FONT_SIZE
         self.style.padding = TITLE_LABEL_PADDING
+
+
+class LabelParam(toga.Label):
+    """Styled label of parameters."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the style of label."""
+        super().__init__(*args, **kwargs)
+        self.style.padding = (7, 0, 7, 2)
