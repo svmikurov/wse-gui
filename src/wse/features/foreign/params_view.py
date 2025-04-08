@@ -6,7 +6,7 @@ from wse.features.object_id import ObjectID
 from wse.features.shared.base_mvc import BaseView
 from wse.features.shared.base_ui import BaseContent, ColumnBox
 from wse.features.shared.observer import Subject
-from wse.features.shared.params import SelectionBox
+from wse.features.shared.params import SelectionBox, SwitchNumberInputBox
 from wse.features.shared.text import TitleLabel
 from wse.pages.widgets import MultilineInfoPanel
 
@@ -62,23 +62,41 @@ class ParamsView(BaseView):
 
         # Fill params box
         self._params_box.add(
+            # Selections
             self._category_box,
             self._source_box,
             self._order_box,
             self._start_date_box,
             self._end_date_box,
+
+            # NumberInputs
+            self._input_first_count,
+            self._input_last_count,
+            self._timeout_box,
         )
 
     def _create_params_ui(self) -> None:
+        # Selections
         self._category_box = SelectionBox()
         self._source_box = SelectionBox()
         self._order_box = SelectionBox()
         self._start_date_box = SelectionBox()
         self._end_date_box = SelectionBox()
 
+        # NumberInputs
+        self._input_first_count = SwitchNumberInputBox()
+        self._input_last_count = SwitchNumberInputBox()
+        self._timeout_box = SwitchNumberInputBox()
+
     def _assign_params_ui_text(self) -> None:
+        # Selections
         self._category_box.label.text = _('Category')
         self._source_box.label.text = _('Source')
         self._order_box.label.text = _('Translate order')
         self._start_date_box.label.text = _('Period start date')
         self._end_date_box.label.text = _('Period end date')
+
+        # NumberInputs
+        self._input_first_count.label.text = _('First number count')
+        self._input_last_count.label.text = _('Last number count')
+        self._timeout_box.label.text = _('Timeout')
