@@ -35,5 +35,5 @@ class BaseContent(BaseBox):
         return self._id
 
     @id.setter
-    def id(self, value: ObjectID | None) -> None:
+    def id(self, value: ObjectID) -> None:
         self._id = value
