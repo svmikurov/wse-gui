@@ -5,11 +5,10 @@ import toga
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.object_id import ObjectID
+from wse.features.shared.button import AppButton
 from wse.features.shared.mvc import BaseView
 from wse.features.shared.ui_containers import BaseContent
-from wse.features.shared.ui_text import TitleLabel
-from wse.pages.widgets import BtnApp as AppButton
-from wse.pages.widgets import MultilineInfoPanel
+from wse.features.shared.ui_text import MultilineInfoPanel, TitleLabel
 
 
 class HomeView(BaseView):

@@ -25,3 +25,17 @@ class Subject(AsyncNotifyMixin, Source):
 
     Notifies subscribed listeners (observers) when its state changes.
     """
+
+
+class ValueListenerMixin:
+    """Listener methods mixin."""
+
+    value: str
+
+    def change(self, value: str) -> None:
+        """Update text widget value."""
+        self.value = value
+
+    def clean(self) -> None:
+        """Clear the value of the text widget."""
+        self.value = ''

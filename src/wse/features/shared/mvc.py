@@ -5,10 +5,10 @@ from dataclasses import dataclass
 import toga
 
 from wse.core.navigation.navigation_id import NavigationID
+from wse.features.shared.button import AppButton
 from wse.features.shared.observer import Subject
 from wse.features.shared.ui_containers import BaseContent
 from wse.interface.ifeatures import IContent, IModel, IView
-from wse.pages.widgets import AppButton
 
 
 @dataclass
@@ -45,6 +45,7 @@ class BaseView:
     """Implementation of the base view."""
 
     _label_title: toga.Label
+    _subject: Subject
 
     def __init__(self, content_box: BaseContent | None) -> None:
         """Construct the view."""

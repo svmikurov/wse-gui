@@ -6,8 +6,7 @@ from wse.features.object_id import ObjectID
 from wse.features.shared.mvc import BaseView
 from wse.features.shared.ui_containers import BaseContent, ColumnBox
 from wse.features.shared.ui_params import SelectionBox, SwitchNumberInputBox
-from wse.features.shared.ui_text import TitleLabel
-from wse.pages.widgets import MultilineInfoPanel
+from wse.features.shared.ui_text import MultilineInfoPanel, TitleLabel
 
 
 class ParamsView(BaseView):
@@ -18,12 +17,12 @@ class ParamsView(BaseView):
         super().__init__(content_box)
         self._content.id = ObjectID.FOREIGN_PARAMS
 
-        # Params UI
+        # Add params UI
         self._create_params_ui()
         self._add_params_ui()
         self._assign_params_ui_text()
 
-        # Add UI
+        # Add core UI
         self._create_ui()
         self._add_ui()
         self._assign_ui_text()
@@ -61,40 +60,42 @@ class ParamsView(BaseView):
 
         # Fill params box
         self._params_box.add(
-            # Selections
+            # -= Selections =-
             self._category_box,
             self._source_box,
             self._order_box,
             self._start_date_box,
             self._end_date_box,
-            # NumberInputs
-            self._input_first_count,
-            self._input_last_count,
+            # -= NumberInputs =-
+            self._input_first_box,
+            self._input_last_box,
             self._timeout_box,
         )
 
     def _create_params_ui(self) -> None:
-        # Selections
+        # -= Selections =-
         self._category_box = SelectionBox()
         self._source_box = SelectionBox()
         self._order_box = SelectionBox()
         self._start_date_box = SelectionBox()
         self._end_date_box = SelectionBox()
 
-        # NumberInputs
-        self._input_first_count = SwitchNumberInputBox()
-        self._input_last_count = SwitchNumberInputBox()
+        # -= NumberInputs =-
+        # Count of first items
+        self._input_first_box = SwitchNumberInputBox()
+        # Count of last items
+        self._input_last_box = SwitchNumberInputBox()
         self._timeout_box = SwitchNumberInputBox()
 
     def _assign_params_ui_text(self) -> None:
-        # Selections
+        # -= Selections =-
         self._category_box.label.text = _('Category')
         self._source_box.label.text = _('Source')
         self._order_box.label.text = _('Translate order')
         self._start_date_box.label.text = _('Period start date')
         self._end_date_box.label.text = _('Period end date')
 
-        # NumberInputs
-        self._input_first_count.label.text = _('First number count')
-        self._input_last_count.label.text = _('Last number count')
+        # -= NumberInputs =-
+        self._input_first_box.label.text = _('First number count')
+        self._input_last_box.label.text = _('Last number count')
         self._timeout_box.label.text = _('Timeout')

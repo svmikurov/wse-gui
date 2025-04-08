@@ -4,6 +4,7 @@ import toga
 from toga.constants import CENTER
 
 from wse.features.settings import TITLE_LABEL_FONT_SIZE, TITLE_LABEL_PADDING
+from wse.features.shared.observer import ValueListenerMixin
 
 
 class TitleLabel(toga.Label):
@@ -24,3 +25,14 @@ class LabelParam(toga.Label):
         """Construct the style of label."""
         super().__init__(*args, **kwargs)
         self.style.padding = (7, 0, 7, 2)
+
+
+class MultilineInfoPanel(ValueListenerMixin, toga.MultilineTextInput):
+    """Text panel for info display."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the widget."""
+        kwargs.setdefault('value', '')
+        super().__init__(*args, **kwargs)
+        self.style.flex = 1
+        self.readonly = True
