@@ -10,7 +10,8 @@ from wse.features.shared.ui_containers import (
 )
 from wse.features.shared.ui_params import (
     ProgressBox,
-    SelectionBox,
+    SelectionLabelBox,
+    SwitchLabelBox,
     SwitchNumberInputBox,
 )
 from wse.features.shared.ui_text import MultilineInfoPanel, TitleLabel
@@ -82,17 +83,18 @@ class ParamsView(BaseView):
         )
 
         # -= Progress switches =-
-        self._params_box.add(
-            self._progress_box,
-        )
+        self._params_box.add(self._progress_box)
+
+        # -= Favorites switch =-
+        self._params_box.add(self._favorites_box)
 
     def _create_params_ui(self) -> None:
         # -= Selections =-
-        self._category_box = SelectionBox()
-        self._source_box = SelectionBox()
-        self._order_box = SelectionBox()
-        self._start_date_box = SelectionBox()
-        self._end_date_box = SelectionBox()
+        self._category_box = SelectionLabelBox()
+        self._source_box = SelectionLabelBox()
+        self._order_box = SelectionLabelBox()
+        self._start_date_box = SelectionLabelBox()
+        self._end_date_box = SelectionLabelBox()
 
         # -= NumberInputs =-
         self._input_first_box = SwitchNumberInputBox()  # Count of first items
@@ -101,6 +103,9 @@ class ParamsView(BaseView):
 
         # -= Progress switches =-
         self._progress_box = ProgressBox()
+
+        # -= Favorites switch =-
+        self._favorites_box = SwitchLabelBox()
 
     def _assign_params_ui_text(self) -> None:
         # -= Selections =-
@@ -120,3 +125,6 @@ class ParamsView(BaseView):
         self._progress_box.examination.text = _('Examination')
         self._progress_box.repeat.text = _('Repeat')
         self._progress_box.know.text = _('Know')
+
+        # -= Favorites switch =-
+        self._favorites_box.text = _('Favorites')
