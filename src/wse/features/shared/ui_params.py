@@ -20,10 +20,12 @@ OUTER_BOX_PADDING = (2, 6, 2, 6)
 
 
 def wrap_in_box(box_style: Pack, widget: toga.Widget) -> toga.Box:
+    """Wrap the widget to styled box."""
     return ColumnFlexBox(style=box_style, children=[widget])
 
 
 class LayoutWidgetLabel:
+    """Layout of widget with label."""
 
     _label: toga.Label
     _label_box_style: Pack
@@ -33,7 +35,7 @@ class LayoutWidgetLabel:
     # Multiply inherit methods
     add: Callable
 
-    def _layout_boxes(self):
+    def _layout_boxes(self) -> None:
         self.add(
             wrap_in_box(self._label_box_style, self._label),
             wrap_in_box(self._widget_box_style, self.widget),
@@ -41,6 +43,7 @@ class LayoutWidgetLabel:
 
 
 class WrapSwitchWidgetLabelMixin:
+    """Wrapped switch and widget with label."""
 
     _label: toga.Label
     _label_box_style: Pack
@@ -67,8 +70,7 @@ class WrapSwitchWidgetLabelMixin:
                 ]
             ),
             ColumnFlexBox(
-                style=self._widget_box_style,
-                children=[self.widget]
+                style=self._widget_box_style, children=[self.widget]
             ),
         )
 
@@ -123,6 +125,7 @@ class WidgetLabel(toga.Box):
 
 
 class SwitchWidgetLabel(WidgetLabel):
+    """Base container containing a widget and switch with a label."""
 
     # Class attributes
     _switch: toga.Switch
@@ -137,11 +140,11 @@ class SwitchWidgetLabel(WidgetLabel):
 
 
 class WidgetLabelBox(LayoutWidgetLabel, WidgetLabel):
-    pass
+    """Container containing a base widget with a label."""
 
 
 class SwitchWidgetLabelBox(WrapSwitchWidgetLabelMixin, SwitchWidgetLabel):
-    pass
+    """Container containing a switch with a label."""
 
 
 class SelectionLabelBox(WidgetLabelBox):
@@ -151,12 +154,13 @@ class SelectionLabelBox(WidgetLabelBox):
 
 
 class SwitchLabelBox(WidgetLabelBox):
-    """Container containing a switch and number input with a label."""
+    """Container containing a switch with a label."""
 
     _widget_class = toga.Switch
 
 
 class SwitchNumberInputBox(SwitchWidgetLabelBox):
+    """Container containing a switch and number input with a label."""
 
     _widget_class = toga.NumberInput
 
@@ -169,9 +173,7 @@ class ProgressBox(ColumnFlexBox):
     repeat: SwitchLabelBox
     know: SwitchLabelBox
 
-    _widget_row_style = Pack(
-        padding=(0, 0, 8, 0)
-    )
+    _widget_row_style = Pack(padding=(0, 0, 8, 0))
     _switch_box_style = Pack()
 
     def __init__(self, source: Subject | None = None) -> None:
@@ -190,14 +192,14 @@ class ProgressBox(ColumnFlexBox):
                 children=[
                     wrap_in_box(self._switch_box_style, self.study),
                     wrap_in_box(self._switch_box_style, self.repeat),
-                ]
+                ],
             ),
             RowBox(
                 style=self._widget_row_style,
                 children=[
                     wrap_in_box(self._switch_box_style, self.examination),
                     wrap_in_box(self._switch_box_style, self.know),
-                ]
+                ],
             ),
         )
 

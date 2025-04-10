@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-from wse.features.shared.mvc import BaseController
+from wse.features.base.mvc import BaseController
 
 
 @dataclass

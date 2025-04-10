@@ -2,7 +2,6 @@
 
 import toga
 from toga.constants import COLUMN
-from toga.style import Pack
 
 from wse.features.object_id import ObjectID
 from wse.features.settings import PADDING_SM

@@ -35,13 +35,29 @@ class IContent(Protocol):
         """Get the object test ID."""
 
 
+class IContext(Protocol):
+    """Protocol defining the interface for page context components."""
+
+
 class IModel(Protocol):
     """Protocol defining the interface for model components."""
 
+    def render_context(self) -> None:
+        """Render the context to view."""
+
+    def _set_context(self) -> None:
+        """Set view context for render into view."""
+
+    def _notify_render_context(self) -> None:
+        """Notify controller to fill view with context."""
+
     @property
-    @abstractmethod
     def subject(self) -> ISubject:
-        """Get the subject for observer pattern notifications."""
+        """Model subject."""
+
+    @property
+    def context(self) -> IContext:
+        """View context."""
 
 
 class IView(Protocol):
@@ -77,3 +93,8 @@ class IController(Protocol):
 
     def navigate(self, navigation_id: NavigationID) -> None:
         """Navigate to page, the button event listener."""
+
+
+class IContextController(IController):
+    def _render_context(self) -> None:
+        """Render the context to view."""
