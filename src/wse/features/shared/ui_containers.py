@@ -2,6 +2,7 @@
 
 import toga
 from toga.constants import COLUMN
+from toga.style import Pack
 
 from wse.features.object_id import ObjectID
 from wse.features.settings import PADDING_SM
@@ -58,19 +59,23 @@ class RowBox(IDWidgetMixin, toga.Box):
 class RowFlexBox(RowBox):
     """A flexible box layout with horizontal (row) direction."""
 
+    _default_flex = 1
+
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Initialize the box with flex styling."""
         super().__init__(*args, **kwargs)
-        self.style.flex = 1
+        self.style.flex = self.style.flex or self._default_flex
 
 
 class ColumnFlexBox(ColumnBox):
     """A flexible box layout with vertical (column) direction."""
 
+    _default_flex = 1
+
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Initialize the box with flex styling."""
         super().__init__(*args, **kwargs)
-        self.style.flex = 1
+        self.style.flex = self.style.flex or self._default_flex
 
 
 class BaseBox(ColumnFlexBox):
