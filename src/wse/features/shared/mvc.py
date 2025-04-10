@@ -38,7 +38,7 @@ class BaseController(Subject):
     # Notifications
     def navigate(self, navigation_id: NavigationID) -> None:
         """Navigate to page, the button event listener."""
-        self._subject.notify('navigate', navigation_id=navigation_id)
+        self._subject.notify('navigate', nav_id=navigation_id)
 
 
 class BaseView:

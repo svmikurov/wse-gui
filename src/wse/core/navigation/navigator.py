@@ -16,11 +16,11 @@ logger = logging.getLogger(__name__)
 class Navigator:
     """Application navigation service."""
 
-    _PREVIOUS_CONTENT_INDEX: Final[int] = -2
+    _PREVIOUS_NAV_Id_INDEX: Final[int] = -2
 
     _main_window: toga.Window
     _routes: dict[NavigationID, IController]
-    _content_history: deque[IContent]
+    _content_history: deque[NavigationID]
 
     def __init__(self) -> None:
         """Construct the navigator."""
@@ -46,40 +46,38 @@ class Navigator:
             controller.subject.add_listener(self)
 
     # Listener methods
-    def navigate(self, navigation_id: NavigationID) -> None:
+    def navigate(self, nav_id: NavigationID) -> None:
         """Navigate to page by button text value."""
-        if navigation_id == NavigationID.BACK:
+        if nav_id == NavigationID.BACK:
             self._go_back()
             return
 
         try:
-            content = self.routes[navigation_id].content
+            content = self._get_content(nav_id)
         except KeyError:
-            logger.debug(f'The route for "{navigation_id}" button is not set')
+            logger.debug(f'The route for "{nav_id}" button is not set')
         else:
-            self._move_to(content)
+            self._set_window_content(content)
+            self._content_history.append(nav_id)
 
     # Utility methods
-    def _move_to(self, content: IContent) -> None:
-        self._set_window_content(content)
-        self._add_content_to_history(content)
+    def _get_content(self, nav_id: NavigationID) -> IContent:
+        return self.routes[nav_id].content
 
     def _go_back(self) -> None:
-        self._set_window_content(self._previous_content)
+        content = self._get_content(self._previous_nav_id)
+        self._set_window_content(content)
         self._content_history.pop()
 
     def _set_window_content(self, content: IContent) -> None:
         self._main_window.content = content
         logger.debug(f'Navigated to "{content.id}" content')
 
-    def _add_content_to_history(self, content: IContent) -> None:
-        self._content_history.append(content)
-
     @property
-    def _previous_content(self) -> IContent | None:
-        """Previous page content (read-only)."""
+    def _previous_nav_id(self) -> NavigationID | None:
+        """Previous navigation ID (read-only)."""
         try:
-            return self._content_history[self._PREVIOUS_CONTENT_INDEX]
+            nav_id = self._content_history[self._PREVIOUS_NAV_Id_INDEX]
+            return nav_id
         except IndexError:
-            logger.debug('No previous content in history')
             return None
