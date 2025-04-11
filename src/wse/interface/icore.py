@@ -12,6 +12,26 @@ if TYPE_CHECKING:
     from wse.core.navigation.navigation_id import NavigationID
 
 
+class IAuthAPI(Protocol):
+    """Defines the interface for authentication-related API requests."""
+
+    def authenticate(self, username: str, password: str) -> None:
+        """Authenticate the user."""
+
+    def validate_token(self, token: str) -> bool:
+        """Validate the authentication token."""
+
+
+class IAuthService(Protocol):
+    """Defines the interface for authentication services."""
+
+    def authenticate(self, username: str, password: str) -> None:
+        """Authenticate the user."""
+
+    def is_authenticated(self) -> bool:
+        """Check the user authentication status."""
+
+
 class INavigator(Protocol):
     """Protocol defining the interface for navigator."""
 
