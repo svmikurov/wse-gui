@@ -7,7 +7,7 @@ import toga
 from wse.constants import SCREEN_SIZE
 from wse.core.navigation.navigation_id import NavigationID
 from wse.di_container import AppContainer
-from wse.interface.icore import INavigator
+from wse.interface.icore import IAuthService, INavigator
 from wse.menu import MenuMixin
 from wse.models.user import User
 from wse.sources.text_panel_main import SourceMainPanel
@@ -24,6 +24,7 @@ class WSE(MenuMixin, toga.App):
 
     user: User
     source_main_panel: SourceMainPanel
+    _auth_service: IAuthService
     _container: AppContainer
     _navigator: INavigator
 
@@ -41,21 +42,21 @@ class WSE(MenuMixin, toga.App):
         self.main_window.show()
 
         # Application dependencies
-        self._container = AppContainer()
-        self._set_navigator()
+        container = AppContainer()
+        auth_service = container.auth_service()
+        navigator = self._set_navigator(container)
+
+        # Set authentication status
+        auth_service.set_auth_status()
 
         # Application start with Home page.
-        self._navigator.navigate(NavigationID.HOME)
+        navigator.navigate(NavigationID.HOME)
 
-    @property
-    def container(self) -> AppContainer:
-        """Application container (read-only)."""
-        return self._container
-
-    def _set_navigator(self) -> None:
-        self._navigator = self.container.navigator()
-        self._navigator.set_main_window(self.main_window)
-        self._navigator.routes = self.container.routes()
+    def _set_navigator(self, container: AppContainer) -> INavigator:
+        navigator = container.navigator()
+        navigator.set_main_window(self.main_window)
+        navigator.routes = container.routes()
+        return navigator
 
 
 def main() -> WSE:
