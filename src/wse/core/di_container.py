@@ -1,5 +1,5 @@
 """Defines dependency injection container for core package."""
-
+import httpx
 from dependency_injector import containers, providers
 
 from wse.config.settings import Settings
@@ -31,6 +31,7 @@ class CoreContainer(containers.DeclarativeContainer):
     auth_api = providers.Singleton(
         AuthAPI,
         base_url=settings().base_url,
+        client=httpx.Client,
         endpoints=endpoints,
     )
     token_storage = providers.Singleton(
