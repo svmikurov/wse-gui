@@ -6,6 +6,7 @@ from wse.config.settings import Settings
 from wse.core.api.auth import AuthAPI
 from wse.core.auth.service import AuthService
 from wse.core.navigation.navigator import Navigator
+from wse.core.storage.token import TokenStorage
 
 
 class CoreContainer(containers.DeclarativeContainer):
@@ -20,9 +21,15 @@ class CoreContainer(containers.DeclarativeContainer):
     auth_api = providers.Factory(
         AuthAPI,
     )
+    token_storage = providers.Singleton(
+        TokenStorage,
+        token_path=settings().storage_config.token_path,
+        encryption_key=settings().storage_config.encryption_key,
+    )
     auth_service = providers.Singleton(
         AuthService,
         auth_api=auth_api,
+        token_storage=token_storage,
     )
 
     # Configuration data

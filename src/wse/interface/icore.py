@@ -35,6 +35,16 @@ class ISessionManager(Protocol):
         """Is the user authenticated."""
 
 
+class ITokenStorage(Protocol):
+    """Defines the interface for authentication services."""
+
+    def save_token(self, token: str) -> None:
+        """Encrypt and save the token to a file."""
+
+    def load_token(self) -> str | None:
+        """Load and decrypt the token from a file."""
+
+
 class IAuthService(Protocol):
     """Defines the interface for authentication services."""
 
