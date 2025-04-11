@@ -14,12 +14,24 @@ class CoreContainer(containers.DeclarativeContainer):
 
     settings = providers.Singleton(Settings)
 
+    endpoints = providers.Configuration(
+        yaml_files=[
+            settings().PROJECT_PATH
+            / 'src'
+            / 'wse'
+            / 'config'
+            / 'endpoints.yml'
+        ]
+    )
+
     # Services
     navigator = providers.Singleton(
         Navigator,
     )
     auth_api = providers.Singleton(
         AuthAPI,
+        base_url=settings().base_url,
+        endpoints=endpoints,
     )
     token_storage = providers.Singleton(
         TokenStorage,
@@ -30,15 +42,4 @@ class CoreContainer(containers.DeclarativeContainer):
         AuthService,
         auth_api=auth_api,
         token_storage=token_storage,
-    )
-
-    # Configuration data
-    endpoints = providers.Configuration(
-        yaml_files=[
-            settings().PROJECT_PATH
-            / 'src'
-            / 'wse'
-            / 'config'
-            / 'endpoints.yml'
-        ]
     )
