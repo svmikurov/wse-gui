@@ -14,6 +14,7 @@ class AppContainer(containers.DeclarativeContainer):
 
     # API
     navigator = _core_container.navigator
+    auth_service = _core_container.auth_service
     routes = providers.Dict(
         {
             **_features_container.main.routes(),
