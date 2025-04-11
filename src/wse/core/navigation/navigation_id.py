@@ -10,6 +10,7 @@ class NavigationID(BaseEnum):
     """Application navigation ID enumeration."""
 
     # Authentication
+    ACCOUNT = 'Account'
     LOGIN = 'Login'
     LOGOUT = 'Logout'
 

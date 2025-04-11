@@ -28,6 +28,7 @@ class HomeView(BaseView):
         self._content.add(
             self._label_title,
             self.info_panel,
+            self._btn_account,
             self._btn_foreign,
             self._btn_glossary,
             self._btn_mathem,
@@ -48,6 +49,7 @@ class HomeView(BaseView):
         self._btn_confirm = self._create_auth_btn()
 
         # Navigate buttons
+        self._btn_account = self._create_nav_btn()
         self._btn_foreign = self._create_nav_btn()
         self._btn_glossary = self._create_nav_btn()
         self._btn_mathem = self._create_nav_btn()
@@ -58,6 +60,7 @@ class HomeView(BaseView):
         self._label_title.text = _('WSELFEDU')
 
         # Auth buttons
+        self._btn_account.text = _(NavigationID.ACCOUNT)
         self._btn_login.text = _(NavigationID.LOGIN)
         self._btn_logout.text = _(NavigationID.LOGOUT)
         self._btn_cancel.text = _(NavigationID.CANCEL)
