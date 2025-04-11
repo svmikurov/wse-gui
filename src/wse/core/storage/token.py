@@ -4,6 +4,7 @@ import logging
 from pathlib import Path
 
 from cryptography.fernet import Fernet, InvalidToken
+from pydantic import SecretStr
 
 logger = logging.getLogger(__name__)
 
@@ -11,10 +12,10 @@ logger = logging.getLogger(__name__)
 class TokenStorage:
     """Handles encryption and decryption of tokens."""
 
-    def __init__(self, token_path: Path, encryption_key: str) -> None:
+    def __init__(self, token_path: Path, encryption_key: SecretStr) -> None:
         """Construct the storage."""
         self._token_path = token_path
-        self._cipher = Fernet(encryption_key.encode())
+        self._cipher = Fernet(encryption_key.get_secret_value())
 
     def save_token(self, token: str) -> None:
         """Encrypt and save the token to a file."""
