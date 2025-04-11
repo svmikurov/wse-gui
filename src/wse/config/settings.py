@@ -14,7 +14,7 @@ ENV_PATH = PROJECT_PATH / '.env'
 class StorageConfig(BaseSettings):
     """Stores configuration for storage-related settings."""
 
-    token_file: Path = PROJECT_PATH / 'data' / 'secrets' / 'token.enc'
+    token_path: Path = PROJECT_PATH / 'data' / 'secrets' / 'token.enc'
     encryption_key: SecretStr
 
     model_config = SettingsConfigDict(
