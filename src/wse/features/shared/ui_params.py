@@ -19,9 +19,14 @@ WIDGET_PADDING = (0, 0, 0, 0)
 OUTER_BOX_PADDING = (2, 6, 2, 6)
 
 
-def wrap_in_box(box_style: Pack, widget: toga.Widget) -> toga.Box:
+def wrap_in_box(
+    widget: toga.Widget,
+    box_style: Pack,
+    box: toga.Box | None = None,
+) -> toga.Box:
     """Wrap the widget to styled box."""
-    return ColumnFlexBox(style=box_style, children=[widget])
+    box = box or ColumnFlexBox
+    return box(style=box_style, children=[widget])
 
 
 class LayoutWidgetLabel:
@@ -37,8 +42,8 @@ class LayoutWidgetLabel:
 
     def _layout_boxes(self) -> None:
         self.add(
-            wrap_in_box(self._label_box_style, self._label),
-            wrap_in_box(self._widget_box_style, self.widget),
+            wrap_in_box(self._label, self._label_box_style),
+            wrap_in_box(self.widget, self._widget_box_style),
         )
 
 
@@ -190,15 +195,15 @@ class ProgressBox(ColumnFlexBox):
             RowBox(
                 style=self._widget_row_style,
                 children=[
-                    wrap_in_box(self._switch_box_style, self.study),
-                    wrap_in_box(self._switch_box_style, self.repeat),
+                    wrap_in_box(self.study, self._switch_box_style),
+                    wrap_in_box(self.repeat, self._switch_box_style),
                 ],
             ),
             RowBox(
                 style=self._widget_row_style,
                 children=[
-                    wrap_in_box(self._switch_box_style, self.examination),
-                    wrap_in_box(self._switch_box_style, self.know),
+                    wrap_in_box(self.examination, self._switch_box_style),
+                    wrap_in_box(self.know, self._switch_box_style),
                 ],
             ),
         )
