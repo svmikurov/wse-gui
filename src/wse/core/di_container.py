@@ -18,7 +18,7 @@ class CoreContainer(containers.DeclarativeContainer):
     navigator = providers.Singleton(
         Navigator,
     )
-    auth_api = providers.Factory(
+    auth_api = providers.Singleton(
         AuthAPI,
     )
     token_storage = providers.Singleton(
