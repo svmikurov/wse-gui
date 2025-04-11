@@ -22,6 +22,19 @@ class IAuthAPI(Protocol):
         """Validate the authentication token."""
 
 
+class ISessionManager(Protocol):
+    """Defines the interface for session manager."""
+
+    def start_session(self, user, token) -> None:
+        """Start session."""
+
+    def end_session(self) -> None:
+        """End session."""
+
+    def is_authenticated(self) -> bool:
+        """Is the user authenticated."""
+
+
 class IAuthService(Protocol):
     """Defines the interface for authentication services."""
 
