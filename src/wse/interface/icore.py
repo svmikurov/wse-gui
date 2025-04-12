@@ -12,6 +12,10 @@ if TYPE_CHECKING:
     from wse.core.navigation.navigation_id import NavigationID
 
 
+class IUser:
+    """Defines the interface for user model."""
+
+
 class IAuthAPI(Protocol):
     """Defines the interface for authentication-related API requests."""
 
