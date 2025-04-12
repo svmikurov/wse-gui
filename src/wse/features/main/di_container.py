@@ -3,6 +3,8 @@
 from dependency_injector import containers, providers
 
 from wse.core.navigation.navigation_id import NavigationID
+from wse.features.main.account_controller import AccountController
+from wse.features.main.account_view import AccountView
 from wse.features.main.home_controller import HomeController
 from wse.features.main.home_model import HomeModel
 from wse.features.main.home_view import HomeView
@@ -23,9 +25,20 @@ class MainContainer(containers.DeclarativeContainer):
         HomeController, view=home_view, model=home_model
     )
 
+    # Account page
+    account_view = providers.Factory(
+        AccountView,
+        content_box=content_box,
+    )
+    account_controller = providers.Factory(
+        AccountController,
+        view=account_view,
+    )
+
     # NavigationID routes
     routes = providers.Dict(
         {
             NavigationID.HOME: home_controller,
+            NavigationID.ACCOUNT: account_controller,
         }
     )

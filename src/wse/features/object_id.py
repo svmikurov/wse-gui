@@ -10,6 +10,7 @@ class ObjectID(BaseEnum):
     """Application object ID enumeration."""
 
     HOME = 'Home view'
+    ACCOUNT = 'Account'
     FOREIGN = 'Foreign home view'
     FOREIGN_PARAMS = 'Foreign params view'
     FOREIGN_TASKS = 'Foreign tasks view'
