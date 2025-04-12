@@ -34,6 +34,9 @@ class IContent(Protocol):
     def id(self) -> ObjectID | str:
         """Get the object test ID."""
 
+    def add(self, *children: toga.Widget) -> None:
+        """Add a widgets to page content."""
+
 
 class IContext(Protocol):
     """Protocol defining the interface for page context components."""
@@ -63,9 +66,20 @@ class IModel(Protocol):
 class IView(Protocol):
     """Protocol defining the interface for view components."""
 
-    def _create_nav_btn(self) -> toga.Button: ...
+    def _create_nav_btn(self) -> toga.Button:
+        """Create a navigation button."""
 
-    def _navigate(self, button: toga.Button) -> None: ...
+    def _navigate(self, button: toga.Button) -> None:
+        """Notify to navigate to page with page NavigationID."""
+
+    def _create_ui(self) -> None:
+        """Create a user interface."""
+
+    def _assign_ui_text(self) -> None:
+        """Assign a text for user interface widgets."""
+
+    def _add_ui(self) -> None:
+        """Add a user interface widgets into page content."""
 
     @property
     def subject(self) -> ISubject:

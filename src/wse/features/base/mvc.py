@@ -11,6 +11,7 @@ from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.context import HomeContext
 from wse.features.shared.button import AppButton
 from wse.features.shared.observer import Subject
+from wse.features.shared.ui_containers import BaseContent
 from wse.interface.ifeatures import IContent, IModel, ISubject, IView
 
 logger = logging.getLogger(__name__)
@@ -49,7 +50,7 @@ class BaseModel(ABC):
         return self._context
 
 
-class BaseView:
+class BaseView(ABC):
     """Implementation of the base view."""
 
     _label_title: toga.Label
@@ -60,8 +61,23 @@ class BaseView:
         subject: ISubject | None = None,
     ) -> None:
         """Construct the view."""
-        self._content = content_box if content_box is not None else toga.Box()
+        self._content = (
+            content_box if content_box is not None else BaseContent()
+        )
         self._subject = subject if subject is not None else Subject()
+
+        # Add UI
+        self._create_ui()
+        self._assign_ui_text()
+
+    # UI
+    @abstractmethod
+    def _create_ui(self) -> None:
+        """Create a user interface."""
+
+    @abstractmethod
+    def _assign_ui_text(self) -> None:
+        """Assign a text for user interface widgets."""
 
     # Utility methods
     def _create_nav_btn(self) -> toga.Button:

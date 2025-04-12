@@ -31,9 +31,7 @@ class ParamsView(BaseView):
         self._assign_params_ui_text()
 
         # Add core UI
-        self._create_ui()
         self._add_ui()
-        self._assign_ui_text()
 
     ####################################################################
     # Core widgets

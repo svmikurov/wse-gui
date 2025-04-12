@@ -16,8 +16,6 @@ class AccountView(BaseView):
         self._content.id = ObjectID.ACCOUNT
 
         # Add UI
-        self._create_ui()
-        self._assign_ui_text()
         self._add_ui()
 
     def _add_ui(self) -> None:
