@@ -8,7 +8,7 @@ import toga
 from typing_extensions import override
 
 from wse.core.navigation.navigation_id import NavigationID
-from wse.features.base.container import BaseNavigableContainer
+from wse.features.base.container import NavigableContainer
 from wse.features.shared.observer import Subject
 from wse.interface.ifeatures import IContent, IContext, IModel, ISubject, IView
 
@@ -48,7 +48,7 @@ class BaseModel(ABC):
         return self._context
 
 
-class BaseNavigableView(BaseNavigableContainer, ABC):
+class BaseNavigableView(NavigableContainer, ABC):
     """Implementation of the base view."""
 
     _label_title: toga.Label

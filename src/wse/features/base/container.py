@@ -54,7 +54,7 @@ class BaseContainer(ABC):
         return self.content.children
 
 
-class BaseNavigableContainer(BaseContainer, ABC):
+class NavigableContainer(BaseContainer, ABC):
     """Base navigable widget container."""
 
     BUTTON_CLASS: Type[toga.Button] = AppButton

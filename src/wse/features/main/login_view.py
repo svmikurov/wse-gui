@@ -7,7 +7,7 @@ from toga.style import Pack
 
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
-from wse.features.base.container import BaseNavigableContainer
+from wse.features.base.container import NavigableContainer
 from wse.features.base.mvc import BaseNavigableView
 from wse.features.shared.button import AppButton
 from wse.features.shared.object_id import ObjectID
@@ -17,7 +17,7 @@ from wse.features.shared.ui_text import MultilineInfoPanel, TitleLabel
 WidgetType = TypeVar('WidgetType', bound=toga.Widget)
 
 
-class LoginContainer(BaseNavigableContainer):
+class LoginContainer(NavigableContainer):
     """Login widgets container."""
 
     INPUT_HEIGHT = 60
