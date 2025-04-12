@@ -2,12 +2,12 @@
 
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
-from wse.features.base.mvc import BaseView
-from wse.features.object_id import ObjectID
+from wse.features.base.mvc import BaseNavigableView
+from wse.features.shared.object_id import ObjectID
 from wse.features.shared.ui_text import MultilineInfoPanel, TitleLabel
 
 
-class AccountView(BaseView):
+class AccountView(BaseNavigableView):
     """Account page view."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
@@ -26,7 +26,7 @@ class AccountView(BaseView):
             self._btn_back,
         )
 
-    def _create_ui(self) -> None:
+    def _build_ui(self) -> None:
         # Page title
         self._label_title = TitleLabel()
 
@@ -34,10 +34,10 @@ class AccountView(BaseView):
         self.info_panel = MultilineInfoPanel()
 
         # Navigation buttons
-        self._btn_login = self._create_nav_btn()
-        self._btn_back = self._create_nav_btn()
+        self._btn_login = self._build_nav_btn()
+        self._btn_back = self._build_nav_btn()
 
-    def _assign_ui_text(self) -> None:
+    def _localize_ui(self) -> None:
         """Assign to widget text a current translation."""
         # Page title
         self._label_title.text = _(NavigationID.ACCOUNT)
