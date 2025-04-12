@@ -8,9 +8,8 @@ import toga
 from typing_extensions import override
 
 from wse.core.navigation.navigation_id import NavigationID
-from wse.features.shared.button import AppButton
+from wse.features.base.container import BaseContainer
 from wse.features.shared.observer import Subject
-from wse.features.shared.ui_containers import BaseContent
 from wse.interface.ifeatures import IContent, IContext, IModel, ISubject, IView
 
 logger = logging.getLogger(__name__)
@@ -49,57 +48,19 @@ class BaseModel(ABC):
         return self._context
 
 
-class BaseView(ABC):
+class BaseView(BaseContainer, ABC):
     """Implementation of the base view."""
 
     _label_title: toga.Label
 
-    def __init__(
-        self,
-        content_box: IContent | None = None,
-        subject: ISubject | None = None,
-    ) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the view."""
-        self._content = (
-            content_box if content_box is not None else BaseContent()
-        )
-        self._subject = subject if subject is not None else Subject()
-
-        # Add UI
-        self._create_ui()
-        self._assign_ui_text()
-
-    # UI
-    @abstractmethod
-    def _create_ui(self) -> None:
-        """Create a user interface."""
-
-    @abstractmethod
-    def _assign_ui_text(self) -> None:
-        """Assign a text for user interface widgets."""
-
-    # Utility methods
-    def _create_nav_btn(self) -> toga.Button:
-        return AppButton(on_press=self._navigate)
-
-    @property
-    def subject(self) -> Subject:
-        """Subject of observer pattern (read-only)."""
-        return self._subject
+        super().__init__(*args, **kwargs)
 
     @property
     def title(self) -> str:
         """Page title (read-only)."""
         return self._label_title.text
-
-    @property
-    def content(self) -> IContent:
-        """Page content (read-only)."""
-        return self._content
-
-    # Notifications
-    def _navigate(self, button: toga.Button) -> None:
-        self.subject.notify('navigate', nav_id=button.text)
 
 
 @dataclass(kw_only=True)

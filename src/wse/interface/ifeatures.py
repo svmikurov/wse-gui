@@ -63,8 +63,8 @@ class IModel(Protocol):
         """View context."""
 
 
-class IView(Protocol):
-    """Protocol defining the interface for view components."""
+class IContainer(Protocol):
+    """Protocol defining the interface for widget container."""
 
     def _create_nav_btn(self) -> toga.Button:
         """Create a navigation button."""
@@ -88,6 +88,10 @@ class IView(Protocol):
     @property
     def content(self) -> IContent:
         """Get the page content."""
+
+
+class IView(IContainer, Protocol):
+    """Protocol defining the interface for view components."""
 
     @property
     def title(self) -> str:
