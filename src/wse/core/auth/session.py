@@ -1,15 +1,17 @@
 """Defines session manager."""
 
+from wse.interface.icore import IUser
+
 
 class SessionManager:
     """Session manager."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Construct the manager."""
         self._current_user = None
         self._token = None
 
-    def start_session(self, user, token) -> None:
+    def start_session(self, user: IUser, token: str) -> None:
         """Start session."""
         self._current_user = user
         self._token = token

@@ -1,6 +1,5 @@
 """Text styled widgets."""
 
-
 import toga
 from toga.constants import CENTER
 

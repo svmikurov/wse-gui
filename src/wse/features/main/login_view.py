@@ -1,4 +1,5 @@
 """Defines login page view."""
+
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.mvc import BaseView

@@ -29,7 +29,7 @@ class IAuthAPI(Protocol):
 class ISessionManager(Protocol):
     """Defines the interface for session manager."""
 
-    def start_session(self, user, token) -> None:
+    def start_session(self, user: IUser, token: str) -> None:
         """Start session."""
 
     def end_session(self) -> None:

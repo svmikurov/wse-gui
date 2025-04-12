@@ -1,4 +1,5 @@
 """Defines dependency injection container for core package."""
+
 import httpx
 from dependency_injector import containers, providers
 

@@ -5,16 +5,9 @@ import logging
 from wse.features.base.context import HomeContext
 from wse.features.base.mvc import BaseModel
 from wse.interface.ifeatures import ISubject
+from wse.models import User
 
 logger = logging.getLogger(__name__)
-
-
-class User:
-    """User model."""
-
-    def __init__(self) -> None:
-        """Construct the model."""
-        self._name = None
 
 
 class HomeModel(BaseModel):
