@@ -8,7 +8,7 @@ from toga.style import Pack
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.container import NavigableContainer
-from wse.features.base.mvc import BaseNavigableView
+from wse.features.base.mvc import NavigableView
 from wse.features.shared.button import AppButton
 from wse.features.shared.object_id import ObjectID
 from wse.features.shared.ui_containers import ColumnBox
@@ -59,7 +59,7 @@ class LoginContainer(NavigableContainer):
         )
 
 
-class LoginView(BaseNavigableView):
+class LoginView(NavigableView):
     """Login page view."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:

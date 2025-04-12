@@ -2,12 +2,12 @@
 
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
-from wse.features.base.mvc import BaseNavigableView
+from wse.features.base.mvc import NavigableView
 from wse.features.shared.object_id import ObjectID
 from wse.features.shared.ui_text import MultilineInfoPanel, TitleLabel
 
 
-class AccountView(BaseNavigableView):
+class AccountView(NavigableView):
     """Account page view."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
