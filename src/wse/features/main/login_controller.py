@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 @dataclass
-class LoginController(mvc.BaseContextController):
+class LoginController(mvc.ContextController):
     """Login page controller."""
 
     view: LoginView

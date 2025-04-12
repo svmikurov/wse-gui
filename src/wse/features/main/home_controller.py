@@ -2,9 +2,9 @@
 
 from dataclasses import dataclass
 
-from wse.features.base.mvc import BaseContextController
+from wse.features.base.mvc import ContextController
 
 
 @dataclass
-class HomeController(BaseContextController):
+class HomeController(ContextController):
     """Home page controller."""

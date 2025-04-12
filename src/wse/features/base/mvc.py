@@ -87,7 +87,7 @@ class BaseController(Subject):
 
 
 @dataclass(kw_only=True)
-class BaseContextController(BaseController):
+class ContextController(BaseController):
     """Implementation of the base controller of page with model."""
 
     model: IModel
