@@ -1,16 +1,19 @@
 """Defines base classes of functions features."""
 
+import logging
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import toga
+from typing_extensions import override
 
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.context import HomeContext
 from wse.features.shared.button import AppButton
 from wse.features.shared.observer import Subject
-from wse.features.shared.ui_containers import BaseContent
 from wse.interface.ifeatures import IContent, IModel, ISubject, IView
+
+logger = logging.getLogger(__name__)
 
 
 class BaseModel(ABC):
@@ -50,14 +53,15 @@ class BaseView:
     """Implementation of the base view."""
 
     _label_title: toga.Label
-    _subject: Subject
 
-    def __init__(self, content_box: BaseContent | None) -> None:
+    def __init__(
+        self,
+        content_box: IContent | None = None,
+        subject: ISubject | None = None,
+    ) -> None:
         """Construct the view."""
-        self._content = content_box or toga.Box()
-
-        # Listeners
-        self._subject = Subject()
+        self._content = content_box if content_box is not None else toga.Box()
+        self._subject = subject if subject is not None else Subject()
 
     # Utility methods
     def _create_nav_btn(self) -> toga.Button:
@@ -74,28 +78,25 @@ class BaseView:
         return self._label_title.text
 
     @property
-    def content(self) -> BaseContent:
+    def content(self) -> IContent:
         """Page content (read-only)."""
         return self._content
 
     # Notifications
     def _navigate(self, button: toga.Button) -> None:
-        self.subject.notify('navigate', navigation_id=button.text)
+        self.subject.notify('navigate', nav_id=button.text)
 
 
-@dataclass
+@dataclass(kw_only=True)
 class BaseController(Subject):
     """Implementation of the base controller."""
 
     view: IView
-    model: IModel | None = None
+    _subject: Subject = field(default_factory=Subject)
 
     def __post_init__(self) -> None:
         """Add sources."""
-        self._subject = Subject()
         self.view.subject.add_listener(self)
-        if self.model:
-            self.model.subject.add_listener(self)
 
     @property
     def content(self) -> IContent:
@@ -108,21 +109,30 @@ class BaseController(Subject):
         return self._subject
 
     # Notifications
-    def navigate(self, navigation_id: NavigationID) -> None:
+    def navigate(self, nav_id: NavigationID) -> None:
         """Navigate to page, the button event listener."""
-        self._subject.notify('navigate', nav_id=navigation_id)
+        self._subject.notify('navigate', nav_id=nav_id)
 
 
-@dataclass
+@dataclass(kw_only=True)
 class BaseContextController(BaseController):
     """Implementation of the base controller of page with model."""
 
-    def _render_context(self) -> None:
-        """Render the context to view."""
-        self.model.render_context()
+    model: IModel
+
+    @override
+    def __post_init__(self) -> None:
+        """Subscribe the controller to listen to the model."""
+        super().__post_init__()
+        self.model.subject.add_listener(self)
 
     @property
+    @override
     def content(self) -> IContent:
         """Page content (read-only)."""
         self._render_context()
         return super().content
+
+    def _render_context(self) -> None:
+        """Render the context to view."""
+        self.model.render_context()
