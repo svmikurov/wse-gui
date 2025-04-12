@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from wse.app import WSE
-from wse.features.object_id import ObjectID
+from wse.features.shared.object_id import ObjectID
 
 
 @pytest.mark.asyncio
