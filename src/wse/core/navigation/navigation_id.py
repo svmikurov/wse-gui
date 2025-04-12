@@ -14,10 +14,6 @@ class NavigationID(BaseEnum):
     LOGIN = 'Login'
     LOGOUT = 'Logout'
 
-    # Actions
-    CANCEL = 'Cancel'
-    CONFIRM = 'Confirm'
-
     # Main
     HOME = 'Home'
     BACK = 'Back'
