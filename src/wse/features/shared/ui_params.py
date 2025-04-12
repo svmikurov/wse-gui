@@ -16,7 +16,7 @@ from wse.features.shared.ui_containers import (
 LABEL_PADDING = (0, 0, 0, 0)
 SWITCH_PADDING = (0, 6, 0, 0)
 WIDGET_PADDING = (0, 0, 0, 0)
-OUTER_BOX_PADDING = (2, 6, 2, 6)
+WRAP_PADDING = (2, 6, 2, 6)
 
 
 def wrap_in_box(
@@ -96,7 +96,7 @@ class WidgetLabel(toga.Box):
         padding=WIDGET_PADDING,
     )
     _box_style = Pack(
-        padding=OUTER_BOX_PADDING,
+        padding=WRAP_PADDING,
     )
 
     # Multiply inherit methods
