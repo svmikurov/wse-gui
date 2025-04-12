@@ -37,7 +37,7 @@ class AccountView(BaseNavigableView):
         self._btn_login = self._build_nav_btn()
         self._btn_back = self._build_nav_btn()
 
-    def _localize_ui(self) -> None:
+    def localize_ui(self) -> None:
         """Assign to widget text a current translation."""
         # Page title
         self._label_title.text = _(NavigationID.ACCOUNT)

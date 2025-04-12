@@ -27,7 +27,7 @@ class BaseContainer(ABC):
 
         # Add UI
         self._build_ui()
-        self._localize_ui()
+        self.localize_ui()
 
     # UI create methods
     @abstractmethod
@@ -35,7 +35,7 @@ class BaseContainer(ABC):
         """Build a user interface."""
 
     @abstractmethod
-    def _localize_ui(self) -> None:
+    def localize_ui(self) -> None:
         """Localize a text for user interface widgets."""
 
     # Utility methods

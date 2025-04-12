@@ -53,7 +53,7 @@ class HomeView(BaseNavigableView):
         self._btn_mathem = self._build_nav_btn()
         self._btn_exercises = self._build_nav_btn()
 
-    def _localize_ui(self) -> None:
+    def localize_ui(self) -> None:
         """Assign to widget text a current translation."""
         self._label_title.text = _('WSELFEDU')
 

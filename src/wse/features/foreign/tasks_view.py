@@ -38,7 +38,7 @@ class TasksView(BaseNavigableView):
         self._btn_goto_test = self._build_nav_btn()
         self._btn_goto_back = self._build_nav_btn()
 
-    def _localize_ui(self) -> None:
+    def localize_ui(self) -> None:
         # Title
         self._label_title.text = _('Foreign tasks title')
 

@@ -54,7 +54,7 @@ class ParamsView(BaseNavigableView):
         # NavigationID buttons
         self._btn_goto_back = self._build_nav_btn()
 
-    def _localize_ui(self) -> None:
+    def localize_ui(self) -> None:
         self._label_title.text = _('Foreign params title')
         self._btn_goto_back.text = _(NavigationID.BACK)
 

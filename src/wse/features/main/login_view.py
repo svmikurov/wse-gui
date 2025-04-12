@@ -41,7 +41,7 @@ class LoginContainer(BaseNavigableContainer):
         self._password_input = self._build_input(toga.PasswordInput)
         self._btn_submit = AppButton(on_press=self._handel_submit)
 
-    def _localize_ui(self) -> None:
+    def localize_ui(self) -> None:
         self._username_input.placeholder = _('Username')
         self._password_input.placeholder = _('Password')
         self._btn_submit.text = _('Submit')
@@ -92,7 +92,7 @@ class LoginView(BaseNavigableView):
         # Navigation buttons
         self._btn_back = self._build_nav_btn()
 
-    def _localize_ui(self) -> None:
+    def localize_ui(self) -> None:
         """Assign a text for UI widgets."""
         # Page title
         self._label_title.text = _(NavigationID.LOGIN)

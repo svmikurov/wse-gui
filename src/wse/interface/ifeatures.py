@@ -73,6 +73,9 @@ class IContainer(Protocol):
     def get_content_widgets(self) -> list[toga.Widget]:
         """Return content widgets."""
 
+    def localize_ui(self) -> None:
+        """Localize a text for user interface widgets."""
+
 
 class IView(IContainer, Protocol):
     """Protocol defining the interface for view components."""
