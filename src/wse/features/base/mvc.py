@@ -8,11 +8,10 @@ import toga
 from typing_extensions import override
 
 from wse.core.navigation.navigation_id import NavigationID
-from wse.features.base.context import HomeContext
 from wse.features.shared.button import AppButton
 from wse.features.shared.observer import Subject
 from wse.features.shared.ui_containers import BaseContent
-from wse.interface.ifeatures import IContent, IModel, ISubject, IView
+from wse.interface.ifeatures import IContent, IContext, IModel, ISubject, IView
 
 logger = logging.getLogger(__name__)
 
@@ -20,11 +19,11 @@ logger = logging.getLogger(__name__)
 class BaseModel(ABC):
     """Base page model."""
 
-    def __init__(self, subject: ISubject) -> None:
+    _context: IContext
+
+    def __init__(self, subject: ISubject | None = None) -> None:
         """Construct the model."""
-        super().__init__()
-        self._subject = subject
-        self._context = HomeContext()
+        self._subject = subject if subject is not None else Subject()
 
     def render_context(self) -> None:
         """Render the context to view."""
@@ -45,7 +44,7 @@ class BaseModel(ABC):
         return self._subject
 
     @property
-    def context(self) -> HomeContext:
+    def context(self) -> IContext:
         """View context."""
         return self._context
 
