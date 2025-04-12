@@ -1,6 +1,7 @@
 """Defines base widget container."""
 
 from abc import ABC, abstractmethod
+from typing import Type
 
 import toga
 
@@ -25,22 +26,19 @@ class BaseContainer(ABC):
         self._subject = subject if subject is not None else Subject()
 
         # Add UI
-        self._create_ui()
-        self._assign_ui_text()
+        self._build_ui()
+        self._localize_ui()
 
     # UI create methods
     @abstractmethod
-    def _create_ui(self) -> None:
-        """Create a user interface."""
+    def _build_ui(self) -> None:
+        """Build a user interface."""
 
     @abstractmethod
-    def _assign_ui_text(self) -> None:
-        """Assign a text for user interface widgets."""
+    def _localize_ui(self) -> None:
+        """Localize a text for user interface widgets."""
 
     # Utility methods
-    def _create_nav_btn(self) -> toga.Button:
-        return AppButton(on_press=self._navigate)
-
     @property
     def subject(self) -> Subject:
         """Subject of observer pattern (read-only)."""
@@ -51,6 +49,23 @@ class BaseContainer(ABC):
         """Page content (read-only)."""
         return self._content
 
-    # Notifications
-    def _navigate(self, button: toga.Button) -> None:
+    def get_content_widgets(self) -> list[toga.Widget]:
+        """Return content widgets."""
+        return self.content.children
+
+
+class BaseNavigableContainer(BaseContainer, ABC):
+    """Base navigable widget container."""
+
+    BUTTON_CLASS: Type[toga.Button] = AppButton
+
+    def _build_nav_btn(
+        self,
+        button_class: Type[toga.Button] | None = None,
+        **kwargs: object,
+    ) -> toga.Button:
+        _cls = button_class or self.BUTTON_CLASS
+        return _cls(on_press=self._handle_navigation, **kwargs)
+
+    def _handle_navigation(self, button: toga.Button) -> None:
         self.subject.notify('navigate', nav_id=button.text)

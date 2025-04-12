@@ -187,7 +187,7 @@ class ProgressBox(ColumnFlexBox):
         self._source = source or Subject()
 
         # Box layout
-        self._create_widgets()
+        self._build_widgets()
         self._layout_boxes()
 
     def _layout_boxes(self) -> None:
@@ -208,7 +208,7 @@ class ProgressBox(ColumnFlexBox):
             ),
         )
 
-    def _create_widgets(self) -> None:
+    def _build_widgets(self) -> None:
         self.study = SwitchLabelBox()
         self.examination = SwitchLabelBox()
         self.repeat = SwitchLabelBox()

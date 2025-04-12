@@ -3,8 +3,8 @@
 import toga
 from toga.constants import COLUMN
 
-from wse.features.object_id import ObjectID
 from wse.features.settings import PADDING_SM
+from wse.features.shared.object_id import ObjectID
 
 
 class IDWidgetMixin:

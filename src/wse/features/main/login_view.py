@@ -9,7 +9,7 @@ from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.container import BaseNavigableContainer
 from wse.features.base.mvc import BaseNavigableView
-from wse.features.shared.action_id import ActionID
+from wse.features.shared.button import AppButton
 from wse.features.shared.object_id import ObjectID
 from wse.features.shared.ui_containers import ColumnBox
 from wse.features.shared.ui_text import MultilineInfoPanel, TitleLabel
@@ -39,12 +39,16 @@ class LoginContainer(BaseNavigableContainer):
     def _build_ui(self) -> None:
         self._username_input = self._build_input(toga.TextInput)
         self._password_input = self._build_input(toga.PasswordInput)
-        self._btn_submit = self._build_nav_btn()
+        self._btn_submit = AppButton(on_press=self._handel_submit)
 
     def _localize_ui(self) -> None:
         self._username_input.placeholder = _('Username')
         self._password_input.placeholder = _('Password')
-        self._btn_submit.text = ActionID.SUBMIT
+        self._btn_submit.text = _('Submit')
+
+    # Button callback functions
+    def _handel_submit(self, _: toga.Button) -> None:
+        self.subject.notify('submit_login')
 
     # Utility methods
     def _build_input(self, class_input: Type[WidgetType]) -> WidgetType:
