@@ -37,7 +37,7 @@ class HomeView(BaseView):
 
     def _create_ui(self) -> None:
         # Title
-        self._label_title = TitleLabel('')
+        self._label_title = TitleLabel()
 
         # Info panel
         self.info_panel = MultilineInfoPanel()
@@ -78,4 +78,4 @@ class HomeView(BaseView):
 
     # Notifications
     def _auth_notify(self, button: toga.Button) -> None:
-        self.subject.notify('auth', navigation_id=button.text)
+        self.subject.notify('auth', nav_id=button.text)
