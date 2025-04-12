@@ -11,6 +11,7 @@ class ObjectID(BaseEnum):
 
     HOME = 'Home view'
     ACCOUNT = 'Account'
+    LOGIN = 'Login'
     FOREIGN = 'Foreign home view'
     FOREIGN_PARAMS = 'Foreign params view'
     FOREIGN_TASKS = 'Foreign tasks view'
