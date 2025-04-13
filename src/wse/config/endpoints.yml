@@ -1,2 +1,2 @@
-login: "user/token/login"
+login: "/auth/token/login/"
 validate_token: "/api/v1/user/users/me"
