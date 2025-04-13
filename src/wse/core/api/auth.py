@@ -1,10 +1,12 @@
 """Handles API requests related to authentication."""
 
 import logging
+from http import HTTPStatus
 from urllib.parse import urljoin
 
 import httpx
 
+from wse.core.api.exceptions import AuthenticationError
 from wse.core.api.methods import HTTPMethod
 
 logger = logging.getLogger(__name__)
@@ -28,7 +30,7 @@ class AuthAPI:
         self,
         method: HTTPMethod,
         endpoint: str,
-        token: str,
+        token: str | None = None,
         **kwargs: dict[str, str],
     ) -> httpx.Response:
         """Request by method."""
@@ -73,3 +75,22 @@ class AuthAPI:
         except httpx.HTTPError as e:
             logger.exception(f'Token validation failed: {e}')
             return False
+
+    def authenticate(self, username: str, password: str) -> str | None:
+        """Authenticate the user and retrieve a user token."""
+        try:
+            response = self._request(
+                HTTPMethod.POST,
+                self._endpoints['login'],
+                json={'username': username, 'password': password},
+            )
+
+        except httpx.HTTPError as e:
+            logger.exception(f'Authentication failed: {e}')
+            raise AuthenticationError('Invalid credentials') from e
+
+        # Get token from response, return token
+        if response.status_code == HTTPStatus.OK:
+            return response.json()['auth_token']
+        else:
+            logger.info(f'Response error: {response.json()}')
