@@ -30,9 +30,9 @@ class LoginView(NavigableView):
     def _add_ui(self) -> None:
         self.content.add(
             self._label_title,
-            self.info_panel,
             *self.login_container.get_content_widgets(),
             self._btn_back,
+            self.info_panel,
         )
 
     def _build_ui(self) -> None:
