@@ -2,6 +2,7 @@
 
 import logging
 
+from wse.core.api.exceptions import AuthenticationError
 from wse.interface.icore import IAuthAPI, ITokenStorage
 
 logger = logging.getLogger(__name__)
@@ -20,9 +21,18 @@ class AuthService:
         self._token_storage = token_storage
         self._token: str | None = None
 
-    def authenticate(self, credentials: dict[str, str]) -> None:
+    def authenticate(self, username: str, password: str) -> None:
         """Authenticate the user."""
-        logger.debug('Called `authenticate` method')
+        try:
+            self._token = self._auth_api.authenticate(username, password)
+
+        except AuthenticationError as e:
+            logger.exception(f'Authentication failed for user {username}: {e}')
+            raise
+
+        if self._token:
+            self._token_storage.save_token(self._token)
+            logger.info('Authentication successful')
 
     def check_auth(self) -> bool:
         """Check if the user is authenticated."""
