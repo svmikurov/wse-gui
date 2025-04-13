@@ -10,12 +10,17 @@ from wse.features.shared.ui_containers import BaseContent
 class FeatureContainer(containers.DeclarativeContainer):
     """Features package container."""
 
+    auth_service = providers.Dependency()
+
     # Styled general box for content
-    content_box = providers.Factory(BaseContent)
+    content_box = providers.Factory(
+        BaseContent,
+    )
 
     main = providers.Container(
         MainContainer,
         content_box=content_box,
+        auth_service=auth_service,
     )
     foreign = providers.Container(
         ForeignContainer,

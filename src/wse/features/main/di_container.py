@@ -10,9 +10,12 @@ from wse.features.shared.observer import Subject
 class MainContainer(containers.DeclarativeContainer):
     """Main pages container."""
 
+    auth_service = providers.Dependency()
     content_box = providers.Dependency()
 
-    subject = providers.Factory(Subject)
+    subject = providers.Factory(
+        Subject,
+    )
 
     # Home page
     home_model = providers.Factory(
@@ -43,6 +46,7 @@ class MainContainer(containers.DeclarativeContainer):
     login_model = providers.Factory(
         main.LoginModel,
         subject=subject,
+        auth_service=auth_service,
     )
     login_view = providers.Factory(
         main.LoginView,
