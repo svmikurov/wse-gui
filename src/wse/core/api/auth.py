@@ -16,13 +16,13 @@ class AuthAPI:
     def __init__(
         self,
         base_url: str,
-        client: httpx.Client,
+        api_client: httpx.Client,
         endpoints: dict[str, str],
     ) -> None:
         """Construct the service."""
-        self.base_url = base_url
-        self.endpoints = endpoints
-        self.client = client
+        self._base_url = base_url
+        self._endpoints = endpoints
+        self._api_client = api_client
 
     def _request(
         self,
@@ -32,7 +32,7 @@ class AuthAPI:
         **kwargs: dict[str, str],
     ) -> httpx.Response:
         """Request by method."""
-        url = urljoin(self.base_url, endpoint)
+        url = urljoin(self._base_url, endpoint)
 
         # Add token to request headers
         headers = kwargs.get('headers', {})
@@ -40,7 +40,7 @@ class AuthAPI:
             headers['Authorization'] = f'Token {token}'
 
         try:
-            response = self.client.request(
+            response = self._api_client.request(
                 method,
                 url,
                 headers=headers,
@@ -65,7 +65,7 @@ class AuthAPI:
         try:
             self._request(
                 HTTPMethod.GET,
-                self.endpoints['validate_token'],
+                self._endpoints['validate_token'],
                 token=token,
             )
             return True
