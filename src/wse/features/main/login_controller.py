@@ -9,9 +9,10 @@ from typing import TYPE_CHECKING
 from typing_extensions import override
 
 from wse.features.base import mvc
+from wse.interface.imain import ILoginModel, ILoginView
 
 if TYPE_CHECKING:
-    from wse.features.main import LoginView
+    pass
 
 logger = logging.getLogger(__name__)
 
@@ -20,15 +21,17 @@ logger = logging.getLogger(__name__)
 class LoginController(mvc.ContextController):
     """Login page controller."""
 
-    view: LoginView
+    view: ILoginView
+    model: ILoginModel
 
     @override
     def __post_init__(self) -> None:
-        """Subscribe the controller to listen to login container."""
+        """Subscribe the controller to listen to log in container."""
         super().__post_init__()
         self.view.login_container.subject.add_listener(self)
 
     # Listener methods
-    def submit_login(self) -> None:
+    def submit_login(self, credentials: dict[str, str]) -> None:
         """Submit the login, button handler."""
-        logger.debug('The "Submit" button has been pressed to login')
+        logger.debug('Called `submit_login` method')
+        self.model.login(credentials)
