@@ -11,3 +11,4 @@ Welcome to WSE's documentation!
 
    features/index
    shared/index
+   git/index
