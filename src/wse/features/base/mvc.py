@@ -48,7 +48,7 @@ class BaseModel(ABC):
         return self._context
 
 
-class NavigableView(NavigableContainer, ABC):
+class BaseView(NavigableContainer, ABC):
     """Implementation of the base view."""
 
     _label_title: toga.Label

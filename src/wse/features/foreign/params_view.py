@@ -2,7 +2,7 @@
 
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
-from wse.features.base.mvc import NavigableView
+from wse.features.base.mvc import BaseView
 from wse.features.shared.object_id import ObjectID
 from wse.features.shared.ui_containers import (
     BaseContent,
@@ -17,7 +17,7 @@ from wse.features.shared.ui_params import (
 from wse.features.shared.ui_text import MultilineInfoPanel, TitleLabel
 
 
-class ParamsView(NavigableView):
+class ParamsView(BaseView):
     """Foreign params view."""
 
     def __init__(self, content_box: BaseContent | None = None) -> None:

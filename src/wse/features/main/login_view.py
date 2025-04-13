@@ -4,7 +4,7 @@ import logging
 
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
-from wse.features.base.mvc import NavigableView
+from wse.features.base.mvc import BaseView
 from wse.features.main.containers.login import LoginContainer
 from wse.features.shared.object_id import ObjectID
 from wse.features.shared.ui_containers import ColumnBox
@@ -13,7 +13,7 @@ from wse.features.shared.ui_text import MultilineInfoPanel, TitleLabel
 logger = logging.getLogger(__name__)
 
 
-class LoginView(NavigableView):
+class LoginView(BaseView):
     """Login page view."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
