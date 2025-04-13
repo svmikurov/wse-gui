@@ -34,8 +34,18 @@ class Settings(BaseSettings):
         PROJECT_PATH / 'src' / 'wse' / 'config' / 'endpoints.yml'
     )
 
+    # Navigation
+    HISTORY_LEN: int = 10
+
     # URL
     base_url: str = Field(default='http://wselfedu.online')
 
     # Configs
     storage_config: StorageConfig = Field(default_factory=StorageConfig)
+
+    model_config = SettingsConfigDict(
+        env_prefix='APP_',
+        env_file=ENV_PATH,
+        env_file_encoding='utf-8',
+        extra='ignore',
+    )
