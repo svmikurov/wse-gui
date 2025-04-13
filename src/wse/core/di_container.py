@@ -13,32 +13,28 @@ from wse.core.storage.token import TokenStorage
 class CoreContainer(containers.DeclarativeContainer):
     """Core package container for dependency injection."""
 
-    settings = providers.Singleton(Settings)
+    settings_provider = providers.Configuration(pydantic_settings=[Settings()])
+    settings = settings_provider.get_pydantic_settings()[0]
 
-    endpoints = providers.Configuration(
-        yaml_files=[
-            settings().PROJECT_PATH
-            / 'src'
-            / 'wse'
-            / 'config'
-            / 'endpoints.yml'
-        ]
-    )
+    endpoints = providers.Configuration(yaml_files=[settings.ENDPOINTS_PATH])
 
     # Services
     navigator = providers.Singleton(
         Navigator,
     )
+    api_client = providers.Singleton(
+        httpx.Client,
+    )
     auth_api = providers.Singleton(
         AuthAPI,
-        base_url=settings().base_url,
-        client=httpx.Client,
+        base_url=settings.base_url,
+        api_client=api_client,
         endpoints=endpoints,
     )
     token_storage = providers.Singleton(
         TokenStorage,
-        token_path=settings().storage_config.token_path,
-        encryption_key=settings().storage_config.encryption_key,
+        token_path=settings.storage_config.token_path,
+        encryption_key=settings.storage_config.encryption_key,
     )
     auth_service = providers.Singleton(
         AuthService,
