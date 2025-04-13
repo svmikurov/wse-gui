@@ -39,6 +39,7 @@ class TasksView(NavigableView):
         self._btn_goto_back = self._build_nav_btn()
 
     def localize_ui(self) -> None:
+        """Update all UI elements with current translations."""
         # Title
         self._label_title.text = _('Foreign tasks title')
 

@@ -74,7 +74,7 @@ class IContainer(Protocol):
         """Return content widgets."""
 
     def localize_ui(self) -> None:
-        """Localize a text for user interface widgets."""
+        """Update all UI elements with current translations."""
 
 
 class IView(IContainer, Protocol):
