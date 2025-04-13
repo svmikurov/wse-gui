@@ -30,6 +30,9 @@ class Settings(BaseSettings):
 
     # Paths
     PROJECT_PATH: Path = PROJECT_PATH
+    ENDPOINTS_PATH: Path = (
+        PROJECT_PATH / 'src' / 'wse' / 'config' / 'endpoints.yml'
+    )
 
     # URL
     base_url: str = Field(default='http://wselfedu.online')
