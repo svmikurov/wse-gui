@@ -52,7 +52,7 @@ class ITokenStorage(Protocol):
 class IAuthService(Protocol):
     """Defines the interface for authentication services."""
 
-    def authenticate(self, username: str, password: str) -> None:
+    def authenticate(self, credentials: dict[str, str]) -> None:
         """Authenticate the user."""
 
     def is_authenticated(self) -> bool:
