@@ -9,8 +9,13 @@ from wse.features.di_container import FeatureContainer
 class AppContainer(containers.DeclarativeContainer):
     """Main container."""
 
-    _core_container = providers.Container(CoreContainer)
-    _features_container = providers.Container(FeatureContainer)
+    _core_container = providers.Container(
+        CoreContainer,
+    )
+    _features_container = providers.Container(
+        FeatureContainer,
+        auth_service=_core_container.auth_service,
+    )
 
     # API
     navigator = _core_container.navigator
