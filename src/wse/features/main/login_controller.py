@@ -31,7 +31,6 @@ class LoginController(mvc.ContextController):
         self.view.login_container.subject.add_listener(self)
 
     # Listener methods
-    def submit_login(self, credentials: dict[str, str]) -> None:
+    def submit_login(self, username: str, password: str) -> None:
         """Submit the login, button handler."""
-        logger.debug('Called `submit_login` method')
-        self.model.login(credentials)
+        self.model.login(username, password)

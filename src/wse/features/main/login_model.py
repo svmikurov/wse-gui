@@ -21,10 +21,9 @@ class LoginModel(BaseModel):
         super().__init__(*args, **kwargs)
         self._auth_service = auth_service
 
-    def login(self, credentials: dict[str, str]) -> None:
+    def login(self, username: str, password: str) -> None:
         """Authenticate the user."""
-        logger.debug('Called `login` method')
-        self._auth_service.authenticate(credentials)
+        self._auth_service.authenticate(username, password)
 
     def _set_context(self) -> None:
         """Set view context for render into view."""

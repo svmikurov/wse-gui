@@ -44,11 +44,11 @@ class LoginContainer(BaseContainer):
 
     # Button callback functions
     def _handel_submit(self, _: toga.Button) -> None:
-        credentials = {
-            'username': self._username_input.value,
-            'password': self._password_input.value,
-        }
-        self.subject.notify('submit_login', credentials=credentials)
+        username = self._username_input.value
+        password = self._password_input.value
+        self.subject.notify(
+            'submit_login', username=username, password=password
+        )
 
     # Utility methods
     def _build_input(

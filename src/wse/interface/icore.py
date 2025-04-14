@@ -23,8 +23,8 @@ class IToken(Protocol):
 class IAuthAPI(Protocol):
     """Defines the interface for authentication-related API requests."""
 
-    def authenticate(self, username: str, password: str) -> None:
-        """Authenticate the user."""
+    def authenticate(self, username: str, password: str) -> str | None:
+        """Authenticate the user, return token."""
 
     def validate_token(self, token: str) -> bool:
         """Validate the authentication token."""
@@ -56,7 +56,7 @@ class ITokenStorage(Protocol):
 class IAuthService(Protocol):
     """Defines the interface for authentication services."""
 
-    def authenticate(self, credentials: dict[str, str]) -> None:
+    def authenticate(self, username: str, password: str) -> None:
         """Authenticate the user."""
 
     def is_authenticated(self) -> bool:

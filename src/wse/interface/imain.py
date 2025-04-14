@@ -12,7 +12,7 @@ class IloginContainer(IContainer, Protocol):
 class ILoginModel(IModel, Protocol):
     """Protocol defining the interface for login page model."""
 
-    def login(self, credentials: dict[str, str]) -> None:
+    def login(self, username: str, password: str) -> None:
         """Authenticate the user."""
 
 
