@@ -24,9 +24,29 @@ Type commits (required)
 Scoop (optional)
 ================
 
+The scoop can be used in combination (scoop/under scoop).
+
+For example:
+
+``(app/di)`` - Make changes to the ``di`` scoop of the ``app`` scoop
+
+``(core/di)`` - Make changes to the ``di`` scoop of the ``core`` scoop
+
+``(features/di)`` - Make changes to the ``di`` scoop of the ``features`` scoop
+                    affecting all under scoop (``features/main``, ``features/foreign``, ...)
+
+``(main/di)`` - Make changes to the ``di`` scoop of the ``features/main`` scoop
+
+Feature scoop (optional)
+========================
+
 1. git
 
+For example:
+
 ``docs(git)``: Adding, changing documentation on using git
+
+``chore(git)``: Add token.enc to ignored files
 
 
 Package/module scoop (optional)
@@ -36,30 +56,31 @@ Package/module scoop (optional)
 
 ::
 
-    wse/
-    ├── app.py              # app
-    ├── __main__.py         # app
-    └── di_container.py     # app/di
+    wse/                    # Scoop:
+    ├── app.py              # (app)
+    ├── __main__.py         # (app)
+    └── di_container.py     # (app/di)
 
 2. config/
 
 ::
 
-    config/
-    ├── endpoints.yml       # config
-    └── settings.py         # config
+    config/                 # Scoop:
+    ├── endpoints.yml       # (config)
+    └── settings.py         # (config)
 
 3. core/
 
 ::
 
-    core/
-    ├── api/                # api
-    ├── auth/               # auth
-    ├── navigation/         # navigation
-    ├── storage/            # storage
-    ├── i18n.py             # i18n
-    └── di_container.py     # core/di
+    core/                   # Scoop:
+    ├── api/                # (api)
+    |   └── auth.py         # (api/auth)
+    ├── auth/               # (auth)
+    ├── navigation/         # (navigation)
+    ├── storage/            # (storage)
+    ├── i18n.py             # (i18n)
+    └── di_container.py     # (core/di), (navigation/di)
 
 
 
@@ -67,18 +88,18 @@ Package/module scoop (optional)
 
 ::
 
-    features/
-    ├── base/               # base
-    ├── shared/             # shared
-    ├── main/               # main
-    ├── foreign/            # foreign
-    └── di_container.py     # features/di
+    features/               # Scoop:
+    ├── base/               # (base)
+    ├── shared/             # (shared)
+    ├── main/               # (main), (main/auth)
+    ├── foreign/            # (foreign)
+    └── di_container.py     # (features/di)
 
 5. interface/
 
 ::
 
-    interface/
-    ├── icore.py            # icore
-    ├── ifeatures.py        # ifeatures
-    └── imain.py            # ifeatures
+    interface/              # Scoop:
+    ├── icore.py            # (icore)
+    ├── ifeatures.py        # (ifeatures)
+    └── imain.py            # (ifeatures/main)
