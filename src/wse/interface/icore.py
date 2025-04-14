@@ -16,6 +16,10 @@ class IUser:
     """Defines the interface for user model."""
 
 
+class IToken(Protocol):
+    """Defines the interface for authentication token."""
+
+
 class IAuthAPI(Protocol):
     """Defines the interface for authentication-related API requests."""
 
