@@ -21,6 +21,7 @@ class CoreContainer(containers.DeclarativeContainer):
     # Services
     navigator = providers.Singleton(
         Navigator,
+        history_len=settings.HISTORY_LEN,
     )
     api_client = providers.Singleton(
         httpx.Client,

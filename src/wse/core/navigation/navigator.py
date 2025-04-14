@@ -7,7 +7,6 @@ from typing import Final
 import toga
 
 from wse.core.navigation.navigation_id import NavigationID
-from wse.core.settings import HISTORY_LEN
 from wse.interface.ifeatures import IContent, IController
 
 logger = logging.getLogger(__name__)
@@ -22,9 +21,9 @@ class Navigator:
     _routes: dict[NavigationID, IController]
     _content_history: deque[NavigationID]
 
-    def __init__(self) -> None:
+    def __init__(self, history_len: int) -> None:
         """Construct the navigator."""
-        self._content_history = deque(maxlen=HISTORY_LEN)
+        self._content_history = deque(maxlen=history_len)
 
     def set_main_window(self, main_widow: toga.Window) -> None:
         """Set the application's main window for content display."""
