@@ -3,7 +3,7 @@
 
 # Secret files
 .env
-*token.txt
+*token.enc
 *userdata.json
 
 # Pydeps
