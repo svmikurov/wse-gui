@@ -20,9 +20,14 @@ class BaseModel(ABC):
 
     _context: IContext
 
-    def __init__(self, subject: ISubject | None = None) -> None:
+    def __init__(
+        self,
+        context: IContext | None = None,
+        subject: ISubject | None = None,
+    ) -> None:
         """Construct the model."""
-        self._subject = subject if subject is not None else Subject()
+        self._context = context or {}
+        self._subject = subject or Subject()
 
     def render_context(self) -> None:
         """Render the context to view."""
