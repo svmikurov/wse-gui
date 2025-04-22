@@ -5,6 +5,7 @@ the expected structure and behavior of key application components.
 """
 
 from abc import abstractmethod
+from dataclasses import dataclass
 from typing import Protocol
 
 import toga
@@ -98,3 +99,11 @@ class IController(Protocol):
 
     def navigate(self, navigation_id: NavigationID) -> None:
         """Navigate to page, the button event listener."""
+
+
+class IContextController(IController, Protocol):
+
+    model: IModel
+
+    def request_context(self) -> None:
+        """Request context from the model."""
