@@ -5,10 +5,10 @@ from typing import Type
 
 import toga
 
+from wse.features.shared.button import AppButton
 from wse.features.shared.observer import Subject
 from wse.features.shared.ui_containers import BaseContent
 from wse.interface.ifeatures import IContent, ISubject
-from wse.pages.widgets import AppButton
 
 
 class BaseContainer(ABC):
