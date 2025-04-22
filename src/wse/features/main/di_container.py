@@ -17,6 +17,22 @@ class MainContainer(containers.DeclarativeContainer):
         Subject,
     )
 
+    # Account page
+    account_model = providers.Factory(
+        main.AccountModel,
+        subject=subject,
+        auth_service=auth_service,
+    )
+    account_view = providers.Factory(
+        main.AccountView,
+        content_box=content_box,
+    )
+    account_controller = providers.Factory(
+        main.AccountController,
+        model=account_model,
+        view=account_view,
+    )
+
     # Home page
     home_model = providers.Factory(
         main.HomeModel,
@@ -30,16 +46,6 @@ class MainContainer(containers.DeclarativeContainer):
         main.HomeController,
         view=home_view,
         model=home_model,
-    )
-
-    # Account page
-    account_view = providers.Factory(
-        main.AccountView,
-        content_box=content_box,
-    )
-    account_controller = providers.Factory(
-        main.AccountController,
-        view=account_view,
     )
 
     # Login page
@@ -61,8 +67,8 @@ class MainContainer(containers.DeclarativeContainer):
     # NavigationID routes
     routes = providers.Dict(
         {
-            NavigationID.HOME: home_controller,
             NavigationID.ACCOUNT: account_controller,
+            NavigationID.HOME: home_controller,
             NavigationID.LOGIN: login_controller,
         }
     )

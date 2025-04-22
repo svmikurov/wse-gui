@@ -22,7 +22,7 @@ class AccountView(BaseView):
         self._content.add(
             self._label_title,
             self.info_panel,
-            self._btn_login,
+            self._btn_auth,
             self._btn_back,
         )
 
@@ -34,7 +34,7 @@ class AccountView(BaseView):
         self.info_panel = MultilineInfoPanel()
 
         # Navigation buttons
-        self._btn_login = self._build_nav_btn()
+        self._btn_auth = self._build_nav_btn()
         self._btn_back = self._build_nav_btn()
 
     def localize_ui(self) -> None:
@@ -43,5 +43,11 @@ class AccountView(BaseView):
         self._label_title.text = _(NavigationID.ACCOUNT)
 
         # Navigate buttons
-        self._btn_login.text = _(NavigationID.LOGIN)
         self._btn_back.text = _(NavigationID.BACK)
+        # The navigation button has a "Logout ID" by default,
+        # since the user is often logged in.
+        self._btn_auth.text = _(NavigationID.LOGOUT)
+
+    def update_auth_button(self, nav_id: NavigationID) -> None:
+        """Assign to auth button a value by status and translation."""
+        self._btn_auth.text = _(nav_id)

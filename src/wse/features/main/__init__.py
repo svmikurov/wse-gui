@@ -1,6 +1,7 @@
 """Main pages package."""
 
 from wse.features.main.account_controller import AccountController
+from wse.features.main.account_model import AccountModel
 from wse.features.main.account_view import AccountView
 from wse.features.main.home_controller import HomeController
 from wse.features.main.home_model import HomeModel
@@ -11,6 +12,7 @@ from wse.features.main.login_view import LoginView
 
 __all__ = [
     'AccountController',
+    'AccountModel',
     'AccountView',
     'HomeController',
     'HomeModel',

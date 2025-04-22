@@ -29,6 +29,6 @@ class LoginModel(BaseModel):
         """Set view context for render into view."""
         ...
 
-    def _notify_render_context(self) -> None:
+    def _notify_context_render(self) -> None:
         """Notify controller to fill view with context."""
         ...
