@@ -7,7 +7,7 @@ from typing import Final
 import toga
 
 from wse.core.navigation.navigation_id import NavigationID
-from wse.interface.ifeatures import IContent, IController
+from wse.interface.ifeatures import IContent, IContextController, IController
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +18,7 @@ class Navigator:
     _PREVIOUS_NAV_Id_INDEX: Final[int] = -2
 
     _main_window: toga.Window
-    _routes: dict[NavigationID, IController]
+    _routes: dict[NavigationID, IController | IContextController]
     _content_history: deque[NavigationID]
 
     def __init__(self, history_len: int) -> None:
@@ -30,12 +30,14 @@ class Navigator:
         self._main_window = main_widow
 
     @property
-    def routes(self) -> dict[NavigationID, IController]:
+    def routes(self) -> dict[NavigationID, IController | IContextController]:
         """Routes to get page content to window content."""
         return self._routes
 
     @routes.setter
-    def routes(self, value: dict[NavigationID, IController]) -> None:
+    def routes(
+        self, value: dict[NavigationID, IController | IContextController]
+    ) -> None:
         self._routes = value
         self._set_listener()
 
@@ -52,25 +54,30 @@ class Navigator:
             return
 
         try:
-            content = self._get_content(nav_id)
+            context = self._request_context(nav_id)
         except KeyError:
             logger.debug(f'The route for "{nav_id}" button is not set')
         else:
-            self._set_window_content(content)
+            self._set_window_content(context)
             self._content_history.append(nav_id)
 
     # Utility methods
-    def _get_content(self, nav_id: NavigationID) -> IContent:
-        return self.routes[nav_id].content
+    def _request_context(self, nav_id: NavigationID) -> IContent | None:
+        controller = self.routes[nav_id]
+        try:
+            controller.request_context()
+        except AttributeError as e:
+            logger.debug(f'Page has not `render_context` method: {e}')
+        return controller.content
 
     def _go_back(self) -> None:
-        content = self._get_content(self._previous_nav_id)
+        content = self._request_context(self._previous_nav_id)
         self._set_window_content(content)
         self._content_history.pop()
 
     def _set_window_content(self, content: IContent) -> None:
         self._main_window.content = content
-        logger.debug(f'Navigated to "{content.id}" content')
+        logger.debug(f'Navigated to "{content.id}" page')
 
     @property
     def _previous_nav_id(self) -> NavigationID | None:
