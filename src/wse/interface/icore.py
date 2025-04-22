@@ -59,8 +59,12 @@ class IAuthService(Protocol):
     def authenticate(self, username: str, password: str) -> None:
         """Authenticate the user."""
 
+    # TODO: Check is it necessary?
     def is_authenticated(self) -> bool:
         """Check the user authentication status."""
+
+    def check_auth(self) -> bool:
+        """Check if the user is authenticated."""
 
 
 class INavigator(Protocol):
