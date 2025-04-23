@@ -1,10 +1,9 @@
-
 """Validators."""
 
 CYRILLIC_LOWER = ''.join(chr(i) for i in range(1072, 1104))
 CYRILLIC_UPPER = ''.join(chr(i) for i in range(1040, 1072))
-LATIN_LOWER = ''.join(chr(i) for i in range(65, 90))
-LATIN_UPPER = ''.join(chr(i) for i in range(97, 122))
+LATIN_LOWER = ''.join(chr(i) for i in range(65, 91))
+LATIN_UPPER = ''.join(chr(i) for i in range(97, 123))
 NUMBERS = '0123456789'
 SYMBOLS = '@.+-_'
 
