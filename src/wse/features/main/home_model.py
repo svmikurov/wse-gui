@@ -5,7 +5,6 @@ import logging
 from wse.features.base.context import HomeContext
 from wse.features.base.mvc import BaseModel
 from wse.interface.ifeatures import ISubject
-from wse.models import User
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +17,6 @@ class HomeModel(BaseModel):
     def __init__(self, subject: ISubject) -> None:
         """Construct the model."""
         super().__init__(subject)
-        self._user = User()
         self._context = HomeContext()
 
     def _set_context(self) -> None:
@@ -33,3 +31,6 @@ class HomeModel(BaseModel):
     def context(self) -> HomeContext:
         """View context."""
         return self._context
+
+    def _notify_render_context(self) -> None:
+        """Temporary unused."""
