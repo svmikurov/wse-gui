@@ -18,6 +18,8 @@ MIN_USER_LENGTH = 3
 MIN_PASSWORD_LENGTH = 8
 MAX_PASSWORD_LENGTH = 150
 
+BLANK = ''
+
 logger = logging.getLogger(__name__)
 
 
@@ -72,6 +74,11 @@ class LoginContainer(BaseContainer):
         self._username_input.placeholder = _('Username')
         self._password_input.placeholder = _('Password')
         self._btn_submit.text = _('Submit')
+
+    def clear_input_fields(self) -> None:
+        """Clear a username and password fields."""
+        self._username_input.value = BLANK
+        self._password_input.value = BLANK
 
     # Button callback functions
     def _handel_submit(self, _: toga.Button) -> None:

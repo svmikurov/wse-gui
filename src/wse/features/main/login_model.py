@@ -2,9 +2,9 @@
 
 import logging
 
+from wse.core.auth.service import AuthService
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.mvc import BaseModel
-from wse.interface.icore import IAuthService
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +15,7 @@ class LoginModel(BaseModel):
     def __init__(
         self,
         *args: object,
-        auth_service: IAuthService,
+        auth_service: AuthService,
         **kwargs: object,
     ) -> None:
         """Construct the model."""
@@ -24,10 +24,16 @@ class LoginModel(BaseModel):
 
     def login(self, username: str, password: str) -> None:
         """Authenticate the user."""
-        result = self._auth_service.authenticate(username, password)
+        if self._auth_service.authenticate(username, password):
+            self._handel_success_login()
 
-        if result:
-            self._subject.notify('navigate', nav_id=NavigationID.ACCOUNT)
+    def _handel_success_login(self) -> None:
+        self._subject.notify('navigate', nav_id=NavigationID.ACCOUNT)
+        self._subject.notify('clear_input_fields')
+
+    def is_authenticated(self) -> bool:
+        """Check user is authenticated."""
+        return self._auth_service.is_authenticated()
 
     def _set_context(self) -> None:
         """Set view context for render into view."""

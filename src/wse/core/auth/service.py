@@ -2,10 +2,11 @@
 
 import logging
 
+import httpx
+
 from wse.core.api.auth import AuthAPI
 from wse.core.api.exceptions import AuthenticationError
 from wse.core.storage.token import TokenStorage
-from wse.interface.icore import IAuthAPI, ITokenStorage
 
 logger = logging.getLogger(__name__)
 
@@ -58,3 +59,15 @@ class AuthService:
             logger.info('The authentication service has terminated.')
         except Exception as e:
             logger.exception(f'Error closing service: {e}')
+
+    def logout(self) -> bool:
+        """Logout from account."""
+        try:
+            self._auth_api.logout(self._token)
+        except httpx.HTTPError as e:
+            logger.warning(f'Logout failed: {e}')
+            return False
+        else:
+            self._token_storage.delete_token()
+            logger.info('Success logout')
+            return True

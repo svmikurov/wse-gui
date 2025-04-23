@@ -1,6 +1,5 @@
 """Handles API requests related to authentication."""
 
-
 import logging
 from http import HTTPStatus
 from urllib.parse import urljoin
@@ -114,3 +113,16 @@ class AuthAPI:
             logger.debug('HTTP-client closed successfully')
         except Exception as e:
             logger.exception(f'Error closing client: {e}')
+
+    def logout(self, token: str) -> None:
+        """Logout from account."""
+        try:
+            response = self._request(
+                HTTPMethod.POST,
+                token=token,
+                endpoint=self._endpoints['logout'],
+            )
+            response.raise_for_status()
+
+        except httpx.HTTPError as e:
+            logger.exception(f'Logout failed: {e}')

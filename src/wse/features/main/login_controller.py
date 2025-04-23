@@ -9,10 +9,9 @@ from typing import TYPE_CHECKING
 from typing_extensions import override
 
 from wse.features.base import mvc
-from wse.interface.imain import ILoginModel, ILoginView
 
 if TYPE_CHECKING:
-    pass
+    from wse.features.main import LoginModel, LoginView
 
 logger = logging.getLogger(__name__)
 
@@ -21,8 +20,8 @@ logger = logging.getLogger(__name__)
 class LoginController(mvc.ContextController):
     """Login page controller."""
 
-    view: ILoginView
-    model: ILoginModel
+    view: LoginView
+    model: LoginModel
 
     @override
     def __post_init__(self) -> None:
@@ -34,3 +33,7 @@ class LoginController(mvc.ContextController):
     def submit_login(self, username: str, password: str) -> None:
         """Submit the login, button handler."""
         self.model.login(username, password)
+
+    def clear_input_fields(self) -> None:
+        """Clear a username and password fields."""
+        self.view.login_container.clear_input_fields()

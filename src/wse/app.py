@@ -34,7 +34,7 @@ class WSE(toga.App):
         self._set_dependencies()
         self._navigator.navigate(NavigationID.HOME)
 
-    def _set_dependencies(self):
+    def _set_dependencies(self) -> None:
         self._container = AppContainer()
         self._set_navigator()
         self._set_authentication_status()

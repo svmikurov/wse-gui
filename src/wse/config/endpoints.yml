@@ -1,2 +1,3 @@
 login: "/auth/token/login/"
+logout: "/auth/token/logout/"
 retrieve_user_data: "/api/v1/auth/users/me/"

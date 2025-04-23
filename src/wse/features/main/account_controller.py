@@ -33,3 +33,20 @@ class AccountController(ContextController):
     def render_not_auth_context(self) -> None:
         """Render context for non-authenticated user."""
         self.view.update_auth_button(NavigationID.LOGOUT)
+
+    def logout(self) -> None:
+        """Logout from account."""
+        self.model.logout()
+
+    # Listener methods
+    def handel_success_logout(self) -> None:
+        """Update account widgets on success logout."""
+        self.render_auth_context()
+
+    # Notifications
+    def navigate(self, nav_id: NavigationID) -> None:
+        """Navigate to page, the button event listener."""
+        if nav_id == NavigationID.LOGOUT:
+            return self.logout()
+
+        self._subject.notify('navigate', nav_id=nav_id)

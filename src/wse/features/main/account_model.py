@@ -41,6 +41,12 @@ class AccountModel(BaseModel):
         else:
             self._notify_render_not_auth_context()
 
+    def logout(self) -> None:
+        """Logout from account."""
+        if self._auth_service.logout():
+            # Update UI
+            self._notify_success_logout()
+
     # Notifications
     def _notify_render_auth_context(self) -> None:
         """Notify controller to fill view with auth context."""
@@ -49,3 +55,6 @@ class AccountModel(BaseModel):
     def _notify_render_not_auth_context(self) -> None:
         """Notify controller to fill view with auth context."""
         self.subject.notify('render_not_auth_context')
+
+    def _notify_success_logout(self) -> None:
+        self.subject.notify('handel_success_logout')
