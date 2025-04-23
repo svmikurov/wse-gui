@@ -2,6 +2,7 @@
 
 import logging
 
+from wse.core.auth.service import AuthService
 from wse.features.base.context import Context
 from wse.features.base.mvc import BaseModel
 from wse.interface.icore import IAuthService
@@ -17,7 +18,7 @@ class AccountModel(BaseModel):
     def __init__(
         self,
         *args: object,
-        auth_service: IAuthService,
+        auth_service: AuthService,
         **kwargs: object,
     ) -> None:
         """Construct the model."""
@@ -30,8 +31,7 @@ class AccountModel(BaseModel):
         self._notify_render_context()
 
     def _set_context(self) -> None:
-        self._context['is_authenticated'] = self._auth_service.check_auth()
-        logger.debug(f'{self._context["is_authenticated"] = }')
+        self._context['is_authenticated'] = self._auth_service.is_authenticated()
 
     def _notify_render_context(self) -> None:
         """Notify controller to fill view with auth context."""

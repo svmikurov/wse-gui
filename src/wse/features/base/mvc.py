@@ -107,9 +107,9 @@ class ContextController(BaseController):
     @override
     def content(self) -> IContent:
         """Page content (read-only)."""
-        self._render_context()
+        self.request_context()
         return super().content
 
-    def _render_context(self) -> None:
+    def request_context(self) -> None:
         """Render the context to view."""
         self.model.render_context()

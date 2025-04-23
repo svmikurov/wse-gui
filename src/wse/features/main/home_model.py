@@ -20,11 +20,9 @@ class HomeModel(BaseModel):
         self._context = HomeContext()
 
     def _set_context(self) -> None:
-        logger.debug('Called `_set_context` method of `HomeModel`')
+        pass
 
     def _notify_context_render(self) -> None:
-        logger.debug('Called `_render_context` method of `HomeModel`')
-
         self.subject.notify('fill_info_panel', value=self.context.info_panel)
 
     @property
