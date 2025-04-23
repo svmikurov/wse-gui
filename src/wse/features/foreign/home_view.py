@@ -29,7 +29,7 @@ class ForeignView(BaseView):
             self._btn_goto_back,
         )
 
-    def _build_ui(self) -> None:
+    def _create_ui(self) -> None:
         # Title
         self._label_title = TitleLabel('')
 

@@ -35,7 +35,7 @@ class LoginView(BaseView):
             self.info_panel,
         )
 
-    def _build_ui(self) -> None:
+    def _create_ui(self) -> None:
         """Create a user interface."""
         # Page title
         self._label_title = TitleLabel()

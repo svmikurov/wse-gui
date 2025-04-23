@@ -42,7 +42,7 @@ class LoginContainer(BaseContainer):
             self._btn_submit,
         )
 
-    def _build_ui(self) -> None:
+    def _create_ui(self) -> None:
         self._username_input = self._build_input(
             toga.TextInput,
             validators=[

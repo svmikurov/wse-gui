@@ -26,7 +26,7 @@ class AccountView(BaseView):
             self._btn_back,
         )
 
-    def _build_ui(self) -> None:
+    def _create_ui(self) -> None:
         self._label_title = TitleLabel()
         self.info_panel = MultilineInfoPanel()
         self._btn_auth = self._build_nav_btn()

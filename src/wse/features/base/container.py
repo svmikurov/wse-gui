@@ -26,12 +26,12 @@ class BaseContainer(ABC):
         self._subject = subject if subject is not None else Subject()
 
         # Add UI
-        self._build_ui()
+        self._create_ui()
         self.localize_ui()
 
     # UI create methods
     @abstractmethod
-    def _build_ui(self) -> None:
+    def _create_ui(self) -> None:
         """Build a user interface."""
 
     @abstractmethod

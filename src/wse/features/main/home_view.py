@@ -33,7 +33,7 @@ class HomeView(BaseView):
             self._btn_exercises,
         )
 
-    def _build_ui(self) -> None:
+    def _create_ui(self) -> None:
         # Title
         self._label_title = TitleLabel()
 
