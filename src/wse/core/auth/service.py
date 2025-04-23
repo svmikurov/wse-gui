@@ -52,6 +52,10 @@ class AuthService:
     def _retrieve_token(self) -> None:
         self._token = self._token_storage.load_token()
 
+    def get_token(self) -> str:
+        """Get auth token."""
+        return self._token
+
     def close(self) -> None:
         """Close API client."""
         try:
