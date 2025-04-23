@@ -103,3 +103,10 @@ Package/module scoop (optional)
     ├── icore.py            # (icore)
     ├── ifeatures.py        # (ifeatures)
     └── imain.py            # (ifeatures/main)
+
+6. other/
+
+::
+
+                            # Scoop
+                            # (logging)

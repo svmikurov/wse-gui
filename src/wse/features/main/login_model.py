@@ -2,6 +2,7 @@
 
 import logging
 
+from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.mvc import BaseModel
 from wse.interface.icore import IAuthService
 
@@ -23,7 +24,10 @@ class LoginModel(BaseModel):
 
     def login(self, username: str, password: str) -> None:
         """Authenticate the user."""
-        self._auth_service.authenticate(username, password)
+        result = self._auth_service.authenticate(username, password)
+
+        if result:
+            self._subject.notify('navigate', nav_id=NavigationID.ACCOUNT)
 
     def _set_context(self) -> None:
         """Set view context for render into view."""

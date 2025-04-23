@@ -27,25 +27,15 @@ class AccountView(BaseView):
         )
 
     def _build_ui(self) -> None:
-        # Page title
         self._label_title = TitleLabel()
-
-        # Info panel
         self.info_panel = MultilineInfoPanel()
-
-        # Navigation buttons
         self._btn_auth = self._build_nav_btn()
         self._btn_back = self._build_nav_btn()
 
     def localize_ui(self) -> None:
         """Assign to widget text a current translation."""
-        # Page title
         self._label_title.text = _(NavigationID.ACCOUNT)
-
-        # Navigate buttons
         self._btn_back.text = _(NavigationID.BACK)
-        # The navigation button has a "Logout ID" by default,
-        # since the user is often logged in.
         self._btn_auth.text = _(NavigationID.LOGOUT)
 
     def update_auth_button(self, nav_id: NavigationID) -> None:

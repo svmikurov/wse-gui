@@ -21,7 +21,7 @@ class AuthService:
         self._token_storage = token_storage
         self._token: str | None = None
 
-    def authenticate(self, username: str, password: str) -> None:
+    def authenticate(self, username: str, password: str) -> bool | None:
         """Authenticate the user."""
         try:
             self._token = self._auth_api.authenticate(username, password)
@@ -33,6 +33,9 @@ class AuthService:
         if self._token:
             self._token_storage.save_token(self._token)
             logger.info('Authentication successful')
+
+        return self.check_auth()
+
 
     def check_auth(self) -> bool:
         """Check if the user is authenticated."""

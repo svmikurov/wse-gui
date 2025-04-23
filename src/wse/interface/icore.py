@@ -56,7 +56,7 @@ class ITokenStorage(Protocol):
 class IAuthService(Protocol):
     """Defines the interface for authentication services."""
 
-    def authenticate(self, username: str, password: str) -> None:
+    def authenticate(self, username: str, password: str) -> bool | None:
         """Authenticate the user."""
 
     # TODO: Check is it necessary?
