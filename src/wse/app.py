@@ -30,22 +30,24 @@ class WSE(toga.App):
         )
         self.main_window.show()
 
-        # Set application dependencies
-        container = AppContainer()
-        self._auth_service = container.auth_service()
-        navigator = self._set_navigator(container)
-
-        # Set authentication status
-        self._auth_service.is_authenticated()
-
         # Application start with Home page.
-        navigator.navigate(NavigationID.HOME)
+        self._set_dependencies()
+        self._navigator.navigate(NavigationID.HOME)
 
-    def _set_navigator(self, container: AppContainer) -> INavigator:
-        navigator = container.navigator()
-        navigator.set_main_window(self.main_window)
-        navigator.routes = container.routes()
-        return navigator
+    def _set_dependencies(self):
+        self._container = AppContainer()
+        self._set_navigator()
+        self._set_authentication_status()
+
+    def _set_navigator(self) -> None:
+        self._navigator = self._container.navigator()
+        self._navigator.set_main_window(self.main_window)
+        self._navigator.routes = self._container.routes()
+
+    def _set_authentication_status(self) -> None:
+        self._auth_service = self._container.auth_service()
+        if not self._auth_service.is_authenticated():
+            logger.info('User is not authenticated')
 
     def on_exit(self) -> bool:
         """Call when the application closes."""
