@@ -28,10 +28,8 @@ class AccountController(ContextController):
 
     def render_auth_context(self) -> None:
         """Render the auth context into view."""
-        logger.debug('Render the context for auth')
         self.view.update_auth_button(NavigationID.LOGIN)
 
     def render_not_auth_context(self) -> None:
         """Render context for non-authenticated user."""
-        logger.debug('Render the context for nor auth')
         self.view.update_auth_button(NavigationID.LOGOUT)
