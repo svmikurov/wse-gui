@@ -1,59 +1,56 @@
 """Provides a client for making API requests."""
 
-from typing import Type
+from urllib.parse import urljoin
 
 import httpx
 
-from wse.core.api.auth import AuthAPI
 from wse.core.api.methods import HTTPMethod
 from wse.core.auth.service import AuthService
 
 
 class ApiClient:
-    """Handles HTTP requests to the API."""
+    """Manages authentication-related API requests by method."""
 
-    def __init__(self, auth_service: AuthService, auth_api: AuthAPI) -> None:
+    def __init__(self, auth_service: AuthService, base_url: str) -> None:
         """Construct the client."""
         self._auth_service = auth_service
-        self._auth_api = auth_api
+        self._base_url = base_url
+        self._client = httpx.Client()
 
     def request(
         self,
-        method: str,
+        method: HTTPMethod,
         endpoint: str,
-        **kwargs: object,
+        **kwargs: dict[str|str],
     ) -> httpx.Response:
-        """HTTP request."""
-        return self._auth_api.perform_request(
-            Type[HTTPMethod], endpoint, **kwargs
-        )
+        """Request by method."""
+        # Request method of httpx.Client
+        request_method = getattr(self._client, method)
+        # Url
+        url = urljoin(self._base_url, endpoint)
+        # Token
+        token = self._auth_service.get_token()
+        headers = kwargs.get('headers', {})
+        headers['Authorization'] = f'Token {token}'
+        # Request
+        return request_method(url, headers=headers, **kwargs)
 
-    def get(self, endpoint: str, **kwargs: object) -> httpx.Response:
+    def get(self, endpoint: str, **kwargs: dict[str|str]) -> httpx.Response:
         """Send a GET request to the specified endpoint."""
-        return self._auth_api.perform_request(
-            HTTPMethod.GET, endpoint, **kwargs
-        )
+        return self.request(HTTPMethod.GET, endpoint, **kwargs)
 
-    def post(self, endpoint: str, **kwargs: object) -> httpx.Response:
+    def post(self, endpoint: str, **kwargs: dict[str|str]) -> httpx.Response:
         """Send a POST request to the specified endpoint."""
-        return self._auth_api.perform_request(
-            HTTPMethod.POST, endpoint, **kwargs
-        )
+        return self.request(HTTPMethod.POST, endpoint, **kwargs)
 
-    def put(self, endpoint: str, **kwargs: object) -> httpx.Response:
+    def put(self, endpoint: str, **kwargs: dict[str|str]) -> httpx.Response:
         """Send a PUT request to the specified endpoint."""
-        return self._auth_api.perform_request(
-            HTTPMethod.PUT, endpoint, **kwargs
-        )
+        return self.request(HTTPMethod.PUT, endpoint, **kwargs)
 
-    def patch(self, endpoint: str, **kwargs: object) -> httpx.Response:
+    def patch(self, endpoint: str, **kwargs: dict[str|str]) -> httpx.Response:
         """Send a PATCH request to the specified endpoint."""
-        return self._auth_api.perform_request(
-            HTTPMethod.PATCH, endpoint, **kwargs
-        )
+        return self.request(HTTPMethod.PATCH, endpoint, **kwargs)
 
-    def delete(self, endpoint: str, **kwargs: object) -> httpx.Response:
+    def delete(self, endpoint: str, **kwargs: dict[str|str]) -> httpx.Response:
         """Send a DELETE request to the specified endpoint."""
-        return self._auth_api.perform_request(
-            HTTPMethod.DELETE, endpoint, **kwargs
-        )
+        return self.request(HTTPMethod.DELETE, endpoint, **kwargs)
