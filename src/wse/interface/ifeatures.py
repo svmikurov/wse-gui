@@ -5,7 +5,6 @@ the expected structure and behavior of key application components.
 """
 
 from abc import abstractmethod
-from dataclasses import dataclass
 from typing import Protocol
 
 import toga
@@ -102,6 +101,7 @@ class IController(Protocol):
 
 
 class IContextController(IController, Protocol):
+    """Protocol defining the interface for controller with context."""
 
     model: IModel
 
