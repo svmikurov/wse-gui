@@ -1,10 +1,10 @@
 """Defines dependency injection container for core package."""
 
-import httpx
 from dependency_injector import containers, providers
 
 from wse.config.settings import Settings
 from wse.core.api.auth import AuthAPI
+from wse.core.api.client import ApiClient
 from wse.core.auth.service import AuthService
 from wse.core.navigation.navigator import Navigator
 from wse.core.storage.token import TokenStorage
@@ -23,9 +23,6 @@ class CoreContainer(containers.DeclarativeContainer):
         Navigator,
         history_len=settings.HISTORY_LEN,
     )
-    api_client = providers.Singleton(
-        httpx.Client,
-    )
     auth_api = providers.Singleton(
         AuthAPI,
         base_url=settings.base_url,
@@ -41,4 +38,9 @@ class CoreContainer(containers.DeclarativeContainer):
         AuthService,
         auth_api=auth_api,
         token_storage=token_storage,
+    )
+    api_client = providers.Singleton(
+        ApiClient,
+        auth_service=auth_service,
+        base_url=settings.base_url,
     )

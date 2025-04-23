@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 import toga
 from typing_extensions import override
 
+from wse.core.api.client import ApiClient
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.container import NavigableContainer
 from wse.features.shared.observer import Subject
@@ -24,10 +25,12 @@ class BaseModel(ABC):
         self,
         context: IContext | None = None,
         subject: ISubject | None = None,
+        api_client: ApiClient | None = None,
     ) -> None:
         """Construct the model."""
         self._context = context or {}
         self._subject = subject or Subject()
+        self._api_client = api_client
 
     def render_context(self) -> None:
         """Render the context to view."""

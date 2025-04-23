@@ -11,6 +11,7 @@ class FeatureContainer(containers.DeclarativeContainer):
     """Features package container."""
 
     auth_service = providers.Dependency()
+    api_client = providers.Dependency()
 
     # Styled general box for content
     content_box = providers.Factory(
@@ -21,6 +22,7 @@ class FeatureContainer(containers.DeclarativeContainer):
         MainContainer,
         content_box=content_box,
         auth_service=auth_service,
+        api_client=api_client,
     )
     foreign = providers.Container(
         ForeignContainer,

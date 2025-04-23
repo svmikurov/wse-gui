@@ -15,6 +15,7 @@ class AppContainer(containers.DeclarativeContainer):
     _features_container = providers.Container(
         FeatureContainer,
         auth_service=_core_container.auth_service,
+        api_client=_core_container.api_client,
     )
 
     # API

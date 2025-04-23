@@ -11,6 +11,7 @@ class MainContainer(containers.DeclarativeContainer):
     """Main pages container."""
 
     auth_service = providers.Dependency()
+    api_client = providers.Dependency()
     content_box = providers.Dependency()
 
     subject = providers.Factory(
@@ -37,6 +38,7 @@ class MainContainer(containers.DeclarativeContainer):
     home_model = providers.Factory(
         main.HomeModel,
         subject=subject,
+        api_client=api_client,
     )
     home_view = providers.Factory(
         main.HomeView,
