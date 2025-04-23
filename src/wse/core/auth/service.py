@@ -2,7 +2,9 @@
 
 import logging
 
+from wse.core.api.auth import AuthAPI
 from wse.core.api.exceptions import AuthenticationError
+from wse.core.storage.token import TokenStorage
 from wse.interface.icore import IAuthAPI, ITokenStorage
 
 logger = logging.getLogger(__name__)
@@ -11,11 +13,7 @@ logger = logging.getLogger(__name__)
 class AuthService:
     """Handles authentication logic and token management."""
 
-    def __init__(
-        self,
-        auth_api: IAuthAPI,
-        token_storage: ITokenStorage,
-    ) -> None:
+    def __init__(self, auth_api: AuthAPI, token_storage: TokenStorage) -> None:
         """Construct the service."""
         self._auth_api = auth_api
         self._token_storage = token_storage
@@ -34,16 +32,24 @@ class AuthService:
             self._token_storage.save_token(self._token)
             logger.info('Authentication successful')
 
+        # Checking the received token
         return self.is_authenticated()
 
     def is_authenticated(self) -> bool:
         """Check if the user is authenticated."""
+        self._retrieve_token()
+        if not self._token:
+            return False
+
         if self._auth_api.validate_token(self._token):
             logger.info('User is authenticated')
             return True
         else:
             logger.info('User is not authenticated')
             return False
+
+    def _retrieve_token(self) -> None:
+        self._token = self._token_storage.load_token()
 
     def close(self) -> None:
         """Close API client."""

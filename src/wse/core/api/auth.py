@@ -49,10 +49,7 @@ class AuthAPI:
                 headers=headers,
                 **kwargs,
             )
-            logger.debug(
-                f'Request to {endpoint} completed '
-                f'with status {response.status_code}'
-            )
+            logger.debug(f'Endpoint {endpoint} return: {response.status_code}')
             return response
 
         except httpx.HTTPStatusError as e:
@@ -66,16 +63,20 @@ class AuthAPI:
     def validate_token(self, token: str) -> bool:
         """Validate the provided authentication token."""
         try:
-            self._request(
+            response = self._request(
                 HTTPMethod.GET,
-                self._endpoints['validate_token'],
+                self._endpoints['retrieve_user_data'],
                 token=token,
             )
-            return True
+            response.raise_for_status()
 
         except httpx.HTTPError as e:
             logger.exception(f'Token validation failed: {e}')
             return False
+
+        else:
+            logger.info('Token validated successful')
+            return True
 
     def authenticate(self, username: str, password: str) -> str | None:
         """Authenticate the user and retrieve a user token."""
