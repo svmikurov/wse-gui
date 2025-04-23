@@ -94,3 +94,21 @@ class AuthAPI:
             return response.json()['auth_token']
         else:
             logger.info(f'Response error: {response.json()}')
+
+    def perform_request(
+        self,
+        method: HTTPMethod,
+        endpoint: str,
+        token: str | None = None,
+        **kwargs: object,
+    ) -> httpx.Response:
+        """Public method for performing HTTP request."""
+        return self._request(method, endpoint, token=token, **kwargs)
+
+    def close(self) -> None:
+        """Close HTTP-client."""
+        try:
+            self._client.close()
+            logger.debug('HTTP-client closed successfully')
+        except Exception as e:
+            logger.exception(f'Error closing client: {e}')

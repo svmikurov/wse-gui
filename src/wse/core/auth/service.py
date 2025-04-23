@@ -34,16 +34,21 @@ class AuthService:
             self._token_storage.save_token(self._token)
             logger.info('Authentication successful')
 
-        return self.check_auth()
+        return self.is_authenticated()
 
-
-    def check_auth(self) -> bool:
+    def is_authenticated(self) -> bool:
         """Check if the user is authenticated."""
-        if not self._token:
-            logger.debug('User is not authenticated')
+        if self._auth_api.validate_token(self._token):
+            logger.info('User is authenticated')
+            return True
+        else:
+            logger.info('User is not authenticated')
             return False
-        return self._auth_api.validate_token(self._token)
 
-    def set_auth_status(self) -> None:
-        """Set user authentication status."""
-        logger.debug('Called `set_auth_status` method')
+    def close(self) -> None:
+        """Close API client."""
+        try:
+            self._auth_api.close()
+            logger.info('The authentication service has terminated.')
+        except Exception as e:
+            logger.exception(f'Error closing service: {e}')
