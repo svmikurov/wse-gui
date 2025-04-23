@@ -1,2 +1,2 @@
 login: "/auth/token/login/"
-validate_token: "/api/v1/auth/users/me"
+retrieve_user_data: "/api/v1/auth/users/me/"
