@@ -40,14 +40,15 @@ For example:
 Feature scoop (optional)
 ========================
 
-1. git
+1. ``(git)``: Adding, changing on using git
 
-For example:
+    ``docs(git)``: Adding, changing documentation on using git
 
-``docs(git)``: Adding, changing documentation on using git
+    ``chore(git)``: Add token.enc to ignored files
 
-``chore(git)``: Add token.enc to ignored files
+2. ``(logging)``: Adding, changing logs
 
+3. ``(deps)``: Adding, changing dependency-injection containers
 
 Package/module scoop (optional)
 ===============================
@@ -56,7 +57,7 @@ Package/module scoop (optional)
 
 ::
 
-    wse/                    # Scoop:
+    wse/              coop: #
     ├── app.py              # (app)
     ├── __main__.py         # (app)
     └── di_container.py     # (app/di)
@@ -65,7 +66,7 @@ Package/module scoop (optional)
 
 ::
 
-    config/                 # Scoop:
+    config/          Scoop: #
     ├── endpoints.yml       # (config)
     └── settings.py         # (config)
 
@@ -73,7 +74,7 @@ Package/module scoop (optional)
 
 ::
 
-    core/                   # Scoop:
+    core/            Scoop: # (core)
     ├── api/                # (api)
     |   └── auth.py         # (api/auth)
     ├── auth/               # (auth)
@@ -88,7 +89,7 @@ Package/module scoop (optional)
 
 ::
 
-    features/               # Scoop:
+    features/        Scoop: # (features)
     ├── base/               # (base)
     ├── shared/             # (shared)
     ├── main/               # (main), (main/auth)
@@ -99,14 +100,7 @@ Package/module scoop (optional)
 
 ::
 
-    interface/              # Scoop:
+    interface/       Scoop: # (interface)
     ├── icore.py            # (icore)
     ├── ifeatures.py        # (ifeatures)
     └── imain.py            # (ifeatures/main)
-
-6. other/
-
-::
-
-                            # Scoop
-                            # (logging)
