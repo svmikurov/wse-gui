@@ -3,7 +3,6 @@
 
 import logging
 from http import HTTPStatus
-
 from urllib.parse import urljoin
 
 import httpx

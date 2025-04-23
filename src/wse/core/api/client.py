@@ -23,6 +23,7 @@ class ApiClient:
         endpoint: str,
         **kwargs: object,
     ) -> httpx.Response:
+        """HTTP request."""
         return self._auth_api.perform_request(
             Type[HTTPMethod], endpoint, **kwargs
         )
