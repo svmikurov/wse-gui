@@ -39,6 +39,7 @@ class Settings(BaseSettings):
 
     # URL
     base_url: str = Field(default='http://wselfedu.online')
+    request_timeout: int = Field(default=10)
 
     # Configs
     storage_config: StorageConfig = Field(default_factory=StorageConfig)

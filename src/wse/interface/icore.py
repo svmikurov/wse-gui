@@ -1,10 +1,13 @@
 """Defines protocol interfaces for application components."""
 
+# ruff: noqa: D101, D102
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Protocol
 
 import toga
+from httpx import Response
 
 from wse.interface.ifeatures import IController
 
@@ -82,3 +85,13 @@ class INavigator(Protocol):
 
     @routes.setter
     def routes(self, value: dict[NavigationID, IController]) -> None: ...
+
+
+class IApiClient(Protocol):
+    """Defines the interface for making API requests."""
+
+    def get(self, endpoint: str, **kwargs: object) -> Response: ...
+    def post(self, endpoint: str, **kwargs: object) -> Response: ...
+    def put(self, endpoint: str, **kwargs: object) -> Response: ...
+    def patch(self, endpoint: str, **kwargs: object) -> Response: ...
+    def delete(self, endpoint: str, **kwargs: object) -> Response: ...

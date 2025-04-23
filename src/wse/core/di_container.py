@@ -29,8 +29,8 @@ class CoreContainer(containers.DeclarativeContainer):
     auth_api = providers.Singleton(
         AuthAPI,
         base_url=settings.base_url,
-        api_client=api_client,
         endpoints=endpoints,
+        request_timeout=settings.request_timeout,
     )
     token_storage = providers.Singleton(
         TokenStorage,

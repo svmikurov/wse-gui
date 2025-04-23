@@ -1,7 +1,9 @@
 """Handles API requests related to authentication."""
 
+
 import logging
 from http import HTTPStatus
+
 from urllib.parse import urljoin
 
 import httpx
@@ -18,13 +20,13 @@ class AuthAPI:
     def __init__(
         self,
         base_url: str,
-        api_client: httpx.Client,
         endpoints: dict[str, str],
+        request_timeout: int,
     ) -> None:
-        """Construct the service."""
+        """Construct the authentication api handler."""
         self._base_url = base_url
         self._endpoints = endpoints
-        self._api_client = api_client
+        self._client = httpx.Client(timeout=request_timeout)
 
     def _request(
         self,
@@ -42,7 +44,7 @@ class AuthAPI:
             headers['Authorization'] = f'Token {token}'
 
         try:
-            response = self._api_client.request(
+            response = self._client.request(
                 method,
                 url,
                 headers=headers,
