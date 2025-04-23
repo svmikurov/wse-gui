@@ -1,8 +1,10 @@
 """Defines login widgets container."""
 
+import logging
 from typing import Type, TypeVar
 
 import toga
+from toga import validators
 from toga.style import Pack
 
 from wse.core.i18n import _
@@ -10,6 +12,13 @@ from wse.features.base.container import BaseContainer
 from wse.features.shared.button import AppButton
 
 WidgetType = TypeVar('WidgetType', bound=toga.Widget)
+
+MAX_USER_LENGTH = 150
+MIN_USER_LENGTH = 3
+MIN_PASSWORD_LENGTH = 8
+MAX_PASSWORD_LENGTH = 150
+
+logger = logging.getLogger(__name__)
 
 
 class LoginContainer(BaseContainer):
@@ -32,8 +41,30 @@ class LoginContainer(BaseContainer):
         )
 
     def _build_ui(self) -> None:
-        self._username_input = self._build_input(toga.TextInput)
-        self._password_input = self._build_input(toga.PasswordInput)
+        self._username_input = self._build_input(
+            toga.TextInput,
+            validators=[
+                validators.LengthBetween(
+                    MIN_USER_LENGTH,
+                    MAX_USER_LENGTH,
+                    error_message=f'Please enter from {MIN_USER_LENGTH}'
+                    f' to {MAX_USER_LENGTH} characters',
+                    allow_empty=False,
+                ),
+            ],
+        )
+        self._password_input = self._build_input(
+            toga.PasswordInput,
+            validators=[
+                validators.LengthBetween(
+                    MIN_PASSWORD_LENGTH,
+                    MAX_PASSWORD_LENGTH,
+                    error_message=f'Please enter from {MIN_PASSWORD_LENGTH}'
+                    f' to {MAX_PASSWORD_LENGTH} characters',
+                    allow_empty=False,
+                ),
+            ],
+        )
         self._btn_submit = AppButton(on_press=self._handel_submit)
 
     def localize_ui(self) -> None:
@@ -46,11 +77,14 @@ class LoginContainer(BaseContainer):
     def _handel_submit(self, _: toga.Button) -> None:
         username = self._username_input.value
         password = self._password_input.value
-        self.subject.notify(
-            'submit_login', username=username, password=password
-        )
 
-    # Utility methods
+        # Check that all fields are filled
+        if username and password:
+            self._notify_submit(username, password)
+        else:
+            logger.info('Fill all the fields of forms')
+
+    # Build methods
     def _build_input(
         self,
         class_input: Type[WidgetType],
@@ -61,4 +95,10 @@ class LoginContainer(BaseContainer):
                 height=self.INPUT_HEIGHT,
             ),
             **kwargs,
+        )
+
+    # Notifications
+    def _notify_submit(self, username: str, password: str) -> None:
+        self.subject.notify(
+            'submit_login', username=username, password=password
         )
