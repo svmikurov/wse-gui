@@ -1,15 +1,9 @@
 """Start app."""
 
-import logging
-
 from wse.app import main
+from wse.core.logger.setup import setup_logging
 
-
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='[%(asctime)s] [%(name)s] [%(levelname)s]: %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S',
-)
+setup_logging()
 
 
 if __name__ == '__main__':

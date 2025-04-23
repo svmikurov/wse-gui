@@ -1,3 +1,6 @@
+# WSE log files
+logs_wse/
+
 # Virtual environment
 .venv_wse_gui/
 
