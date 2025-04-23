@@ -64,8 +64,12 @@ class BaseView(NavigableContainer, ABC):
         return self._label_title.text
 
 
+########################################################################
+# Controllers
+
+
 @dataclass(kw_only=True)
-class BaseController(Subject):
+class BaseController:
     """Implementation of the base controller."""
 
     view: IView
