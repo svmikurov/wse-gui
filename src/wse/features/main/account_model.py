@@ -34,12 +34,8 @@ class AccountModel(BaseModel):
             self._auth_service.is_authenticated()
         )
 
-    def _notify_render_context(self) -> None:
-        """Notify controller to fill view with auth context."""
-        if self._context['is_authenticated'] is False:
-            self._notify_render_auth_context()
-        else:
-            self._notify_render_not_auth_context()
+    ####################################################################
+    # Button requests
 
     def logout(self) -> None:
         """Logout from account."""
@@ -47,7 +43,16 @@ class AccountModel(BaseModel):
             # Update UI
             self._notify_success_logout()
 
+    ####################################################################
     # Notifications
+
+    def _notify_render_context(self) -> None:
+        """Notify controller to fill view with auth context."""
+        if self._context['is_authenticated'] is False:
+            self._notify_render_auth_context()
+        else:
+            self._notify_render_not_auth_context()
+
     def _notify_render_auth_context(self) -> None:
         """Notify controller to fill view with auth context."""
         self.subject.notify('render_auth_context')

@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 class HomeModel(BaseModel):
     """Home page model."""
 
-    _api_client: ApiClient
+    api_client: ApiClient
     _context: HomeContext
     _subject: ISubject
 

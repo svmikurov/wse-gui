@@ -27,7 +27,7 @@ class BaseModel(ABC):
         context: IContext | None = None,
     ) -> None:
         """Construct the model."""
-        self._api_client = api_client
+        self.api_client = api_client
         self._subject = subject if subject is not None else Subject()
         self._context = context if context is not None else Context()
 

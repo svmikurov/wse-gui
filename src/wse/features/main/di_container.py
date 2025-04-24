@@ -20,8 +20,9 @@ class MainContainer(containers.DeclarativeContainer):
     # Account page
     account_model = providers.Factory(
         main.AccountModel,
-        subject=subject,
         auth_service=auth_service,
+        api_client=api_client,
+        subject=subject,
     )
     account_view = providers.Factory(
         main.AccountView,

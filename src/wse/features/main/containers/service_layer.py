@@ -34,10 +34,12 @@ class ServiceLayer:
 
     # Info retrieve
     def request_http(self) -> httpx.Response:
+        """Perform http request."""
         return self._api_client.get(self.user_data_path)
 
     # Prepare data
     def prepare_response(self) -> None:
+        """Prepare response to render."""
         response = self.request_http()
         self._notify_display_panel(response.json())
 
@@ -47,5 +49,5 @@ class ServiceLayer:
         self.prepare_response()
 
     # Notifications
-    def _notify_display_panel(self, text) -> None:
+    def _notify_display_panel(self, text: str) -> None:
         self._subject.notify('display_on_panel', text=text)

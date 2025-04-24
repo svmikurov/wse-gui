@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
+from http import HTTPStatus
 from typing import TYPE_CHECKING
 
 from wse.core.navigation.navigation_id import NavigationID
@@ -46,7 +47,23 @@ class AccountController(ContextController):
     # Notifications
     def navigate(self, nav_id: NavigationID) -> None:
         """Navigate to page, the button event listener."""
+        # Logout button now has no navigation.
         if nav_id == NavigationID.LOGOUT:
             return self.logout()
 
         self._subject.notify('navigate', nav_id=nav_id)
+
+    ####################################################################
+    # View listener methods
+
+    def check_token(self) -> None:
+        """Check auth token."""
+        response = self.model.api_client.get('/api/v1/auth/users/me/')
+        answer = 'authentication token is not valid'
+        if response.status_code == HTTPStatus.OK:
+            answer = 'authentication token is valid'
+        self.view.info_panel.change(answer)
+
+    def clean_panel(self) -> None:
+        """Clean text panel."""
+        self.view.info_panel.clean()

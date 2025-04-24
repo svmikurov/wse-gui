@@ -17,7 +17,8 @@ class ApiClient:
         self._base_url = base_url
         self._client = httpx.Client()
 
-    def request(self,
+    def request(
+        self,
         method: str,
         endpoint: str,
         **kwargs: dict[str | str],

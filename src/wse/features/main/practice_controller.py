@@ -23,7 +23,7 @@ class PracticeController(ContextController, Listener):
     model: PracticeModel
     view: PracticeView
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Subscribe to service layer."""
         super().__post_init__()
         self.model.service_layer.subject.add_listener(self)
@@ -31,7 +31,7 @@ class PracticeController(ContextController, Listener):
     ####################################################################
     # Model listener methods
 
-    def display_on_panel(self, text) -> None:
+    def display_on_panel(self, text: str) -> None:
         """Display model data in a text panel."""
         self.view.text_panel.change(text)
         logger.debug(f'Text to display: {text}')
