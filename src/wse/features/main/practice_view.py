@@ -24,7 +24,7 @@ class PracticeView(BaseView):
     def _add_ui(self) -> None:
         self.content.add(
             self._label_title,
-            self.info_panel,
+            self.text_panel,
             self._btn_request,
             self._btn_clear,
             self._btn_back,
@@ -35,7 +35,7 @@ class PracticeView(BaseView):
         self._label_title = TitleLabel()
 
         # Info panel
-        self.info_panel = AppTextPanel()
+        self.text_panel = AppTextPanel()
 
         # Buttons
         self._btn_request = AppButton(on_press=self._handel_request)
@@ -56,4 +56,4 @@ class PracticeView(BaseView):
         self.subject.notify('request_data')
 
     def _handel_clear(self, _: toga.Widget) -> None:
-        self.info_panel.clean()
+        self.text_panel.clean()
