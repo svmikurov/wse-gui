@@ -117,5 +117,5 @@ class ContextController(BaseController):
         return super().content
 
     def request_context(self) -> None:
-        """Render the context to view."""
+        """Call model to render context."""
         self.model.render_context()
