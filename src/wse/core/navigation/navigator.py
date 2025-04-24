@@ -15,7 +15,12 @@ logger = logging.getLogger(__name__)
 class Navigator:
     """Application navigation service."""
 
-    _PREVIOUS_NAV_Id_INDEX: Final[int] = -2
+    _CURRENT_NAV_ID_INDEX: Final[int] = -1
+    _PREVIOUS_NAV_ID_INDEX: Final[int] = -2
+    _NAV_IDS_NOT_FOR_HISTORY: set[NavigationID] = {
+        NavigationID.LOGIN,
+        NavigationID.LOGOUT,
+    }
 
     _main_window: toga.Window
     _routes: dict[NavigationID, IController | IContextController]
@@ -54,15 +59,19 @@ class Navigator:
             return
 
         try:
-            context = self._request_context(nav_id)
+            content = self._get_content(nav_id)
         except KeyError:
             logger.error(f'The route for "{nav_id}" button is not set')
         else:
-            self._set_window_content(context)
+            self._set_window_content(content)
+            self._add_to_history(nav_id)
+
+    def _add_to_history(self, nav_id: NavigationID) -> None:
+        if nav_id not in self._NAV_IDS_NOT_FOR_HISTORY:
             self._content_history.append(nav_id)
 
     # Utility methods
-    def _request_context(self, nav_id: NavigationID) -> IContent | None:
+    def _get_content(self, nav_id: NavigationID) -> IContent | None:
         controller = self.routes[nav_id]
         try:
             controller.request_context()
@@ -71,7 +80,7 @@ class Navigator:
         return controller.content
 
     def _go_back(self) -> None:
-        content = self._request_context(self._previous_nav_id)
+        content = self._get_content(self._previous_nav_id)
         self._set_window_content(content)
         self._content_history.pop()
 
@@ -82,8 +91,16 @@ class Navigator:
     @property
     def _previous_nav_id(self) -> NavigationID | None:
         """Previous navigation ID (read-only)."""
+        current_nav_id = self._retrieve_nav_id(self._CURRENT_NAV_ID_INDEX)
+        previous_nav_id = self._retrieve_nav_id(self._PREVIOUS_NAV_ID_INDEX)
+
+        if previous_nav_id == current_nav_id:
+            self._PREVIOUS_NAV_ID_INDEX += self._CURRENT_NAV_ID_INDEX
+
         try:
-            nav_id = self._content_history[self._PREVIOUS_NAV_Id_INDEX]
-            return nav_id
+            return self._retrieve_nav_id(self._PREVIOUS_NAV_ID_INDEX)
         except IndexError:
-            return None
+            logger.info('There are no visited pages in the stack')
+
+    def _retrieve_nav_id(self, nav_index: int) -> NavigationID:
+        return self._content_history[nav_index]
