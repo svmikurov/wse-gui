@@ -21,7 +21,7 @@ class ApiClient:
         self,
         method: HTTPMethod,
         endpoint: str,
-        **kwargs: dict[str|str],
+        **kwargs: dict[str | str],
     ) -> httpx.Response:
         """Request by method."""
         # Request method of httpx.Client
@@ -35,22 +35,26 @@ class ApiClient:
         # Request
         return request_method(url, headers=headers, **kwargs)
 
-    def get(self, endpoint: str, **kwargs: dict[str|str]) -> httpx.Response:
+    def get(self, endpoint: str, **kwargs: dict[str | str]) -> httpx.Response:
         """Send a GET request to the specified endpoint."""
         return self.request(HTTPMethod.GET, endpoint, **kwargs)
 
-    def post(self, endpoint: str, **kwargs: dict[str|str]) -> httpx.Response:
+    def post(self, endpoint: str, **kwargs: dict[str | str]) -> httpx.Response:
         """Send a POST request to the specified endpoint."""
         return self.request(HTTPMethod.POST, endpoint, **kwargs)
 
-    def put(self, endpoint: str, **kwargs: dict[str|str]) -> httpx.Response:
+    def put(self, endpoint: str, **kwargs: dict[str | str]) -> httpx.Response:
         """Send a PUT request to the specified endpoint."""
         return self.request(HTTPMethod.PUT, endpoint, **kwargs)
 
-    def patch(self, endpoint: str, **kwargs: dict[str|str]) -> httpx.Response:
+    def patch(
+        self, endpoint: str, **kwargs: dict[str | str]
+    ) -> httpx.Response:
         """Send a PATCH request to the specified endpoint."""
         return self.request(HTTPMethod.PATCH, endpoint, **kwargs)
 
-    def delete(self, endpoint: str, **kwargs: dict[str|str]) -> httpx.Response:
+    def delete(
+        self, endpoint: str, **kwargs: dict[str | str]
+    ) -> httpx.Response:
         """Send a DELETE request to the specified endpoint."""
         return self.request(HTTPMethod.DELETE, endpoint, **kwargs)
