@@ -7,7 +7,7 @@ from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.mvc import BaseView
 from wse.features.shared.button import AppButton
 from wse.features.shared.object_id import ObjectID
-from wse.features.shared.ui_text import MultilineInfoPanel, TitleLabel
+from wse.features.shared.ui_text import AppTextPanel, TitleLabel
 
 
 class PracticeView(BaseView):
@@ -35,7 +35,7 @@ class PracticeView(BaseView):
         self._label_title = TitleLabel()
 
         # Info panel
-        self.info_panel = MultilineInfoPanel()
+        self.info_panel = AppTextPanel()
 
         # Buttons
         self._btn_request = AppButton(on_press=self._handel_request)

@@ -8,7 +8,7 @@ from wse.features.base.mvc import BaseView
 from wse.features.shared.action_id import ActionID
 from wse.features.shared.button import AppButton
 from wse.features.shared.object_id import ObjectID
-from wse.features.shared.ui_text import MultilineInfoPanel, TitleLabel
+from wse.features.shared.ui_text import AppTextPanel, TitleLabel
 
 
 class HomeView(BaseView):
@@ -39,7 +39,7 @@ class HomeView(BaseView):
         self._label_title = TitleLabel()
 
         # Info panel
-        self.info_panel = MultilineInfoPanel()
+        self.info_panel = AppTextPanel()
 
         # Auth buttons
         self._btn_login = self._build_nav_btn()

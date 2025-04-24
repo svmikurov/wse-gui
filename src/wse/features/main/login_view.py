@@ -7,7 +7,7 @@ from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.container import BaseContainer
 from wse.features.base.mvc import BaseView
 from wse.features.shared.object_id import ObjectID
-from wse.features.shared.ui_text import MultilineInfoPanel, TitleLabel
+from wse.features.shared.ui_text import AppTextPanel, TitleLabel
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +43,7 @@ class LoginView(BaseView):
         self._label_title = TitleLabel()
 
         # Info panel
-        self.info_panel = MultilineInfoPanel()
+        self.info_panel = AppTextPanel()
 
         # Navigation buttons
         self._btn_back = self._build_nav_btn()
