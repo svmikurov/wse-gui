@@ -17,3 +17,5 @@ class ObjectID(BaseEnum):
     FOREIGN_TASKS = 'Foreign tasks view'
     FOREIGN_TEST = 'Foreign test view'
     PRACTICE = 'Practice view'
+    SWARM = 'Swarm view'
+    FIGARO = 'Figaro view'

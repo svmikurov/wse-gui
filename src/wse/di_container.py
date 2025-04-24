@@ -25,5 +25,6 @@ class AppContainer(containers.DeclarativeContainer):
         {
             **_features_container.main.routes(),
             **_features_container.foreign.routes(),
+            **_features_container.figaro.routes(),
         }
     )

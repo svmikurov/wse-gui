@@ -33,5 +33,7 @@ class NavigationID(BaseEnum):
     MATHEM = 'Mathematics'
     EXERCISES = 'Exercises'
 
-    # Other
+    # Figaro
+    FIGARO = 'Figaro'
+    SWARM = 'Swarm'
     PRACTICE = 'Practice'

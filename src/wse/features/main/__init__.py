@@ -9,9 +9,6 @@ from wse.features.main.home_view import HomeView
 from wse.features.main.login_controller import LoginController
 from wse.features.main.login_model import LoginModel
 from wse.features.main.login_view import LoginView
-from wse.features.main.practice_controller import PracticeController
-from wse.features.main.practice_model import PracticeModel
-from wse.features.main.practice_view import PracticeView
 
 __all__ = [
     'AccountController',
@@ -23,7 +20,4 @@ __all__ = [
     'LoginController',
     'LoginModel',
     'LoginView',
-    'PracticeController',
-    'PracticeModel',
-    'PracticeView',
 ]

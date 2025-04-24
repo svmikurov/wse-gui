@@ -3,6 +3,7 @@
 from dependency_injector import containers, providers
 
 from wse.features.base.context import Context
+from wse.features.figaro.di_container import FigaroContainer
 from wse.features.foreign.di_container import ForeignContainer
 from wse.features.main.containers.di_container import LayerContainer
 from wse.features.main.di_container import MainContainer
@@ -24,7 +25,7 @@ class FeatureContainer(containers.DeclarativeContainer):
     # Context
     context = providers.Factory(Context)
 
-    # Layer container
+    # Layer container (experimental)
     layer_container = providers.Container(
         LayerContainer,
         api_client=api_client,
@@ -46,4 +47,14 @@ class FeatureContainer(containers.DeclarativeContainer):
         ForeignContainer,
         content_box=content_box,
         subject=subject,
+    )
+
+    # Additional containers
+    figaro = providers.Container(
+        FigaroContainer,
+        api_client=api_client,
+        subject=subject,
+        content_box=content_box,
+        # Containers
+        layer_container=layer_container,
     )
