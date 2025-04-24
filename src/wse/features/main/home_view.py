@@ -31,6 +31,7 @@ class HomeView(BaseView):
             self._btn_glossary,
             self._btn_mathem,
             self._btn_exercises,
+            self._btn_practice,
         )
 
     def _create_ui(self) -> None:
@@ -52,6 +53,7 @@ class HomeView(BaseView):
         self._btn_glossary = self._build_nav_btn()
         self._btn_mathem = self._build_nav_btn()
         self._btn_exercises = self._build_nav_btn()
+        self._btn_practice = self._build_nav_btn()
 
     def localize_ui(self) -> None:
         """Assign to widget text a current translation."""
@@ -69,6 +71,7 @@ class HomeView(BaseView):
         self._btn_glossary.text = _(NavigationID.GLOSSARY)
         self._btn_mathem.text = _(NavigationID.MATHEM)
         self._btn_exercises.text = _(NavigationID.EXERCISES)
+        self._btn_practice.text = _(NavigationID.PRACTICE)
 
     # Utility methods
     def _build_auth_btn(self) -> toga.Button:

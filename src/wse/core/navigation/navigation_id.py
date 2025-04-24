@@ -32,3 +32,6 @@ class NavigationID(BaseEnum):
     GLOSSARY = 'Glossary'
     MATHEM = 'Mathematics'
     EXERCISES = 'Exercises'
+
+    # Other
+    PRACTICE = 'Practice'

@@ -4,6 +4,7 @@ from dependency_injector import containers, providers
 
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features import main
+from wse.features.main import PracticeController, PracticeModel, PracticeView
 from wse.features.shared.observer import Subject
 
 
@@ -66,11 +67,26 @@ class MainContainer(containers.DeclarativeContainer):
         view=login_view,
     )
 
+    # Practice page
+
+    practice_model = providers.Factory(
+        PracticeModel,
+    )
+    practice_view = providers.Factory(
+        PracticeView,
+    )
+    practice_controller = providers.Factory(
+        PracticeController,
+        model=practice_model,
+        view=practice_view,
+    )
+
     # NavigationID routes
     routes = providers.Dict(
         {
             NavigationID.ACCOUNT: account_controller,
             NavigationID.HOME: home_controller,
             NavigationID.LOGIN: login_controller,
+            NavigationID.PRACTICE: practice_controller,
         }
     )

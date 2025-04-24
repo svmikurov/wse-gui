@@ -16,3 +16,4 @@ class ObjectID(BaseEnum):
     FOREIGN_PARAMS = 'Foreign params view'
     FOREIGN_TASKS = 'Foreign tasks view'
     FOREIGN_TEST = 'Foreign test view'
+    PRACTICE = 'Practice view'
