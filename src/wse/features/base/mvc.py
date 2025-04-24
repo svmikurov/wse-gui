@@ -10,6 +10,7 @@ from typing_extensions import override
 from wse.core.api.client import ApiClient
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.container import NavigableContainer
+from wse.features.base.context import Context
 from wse.features.shared.observer import Subject
 from wse.interface.ifeatures import IContent, IContext, IModel, ISubject, IView
 
@@ -19,18 +20,16 @@ logger = logging.getLogger(__name__)
 class BaseModel(ABC):
     """Base page model."""
 
-    _context: IContext
-
     def __init__(
         self,
-        context: IContext | None = None,
-        subject: ISubject | None = None,
         api_client: ApiClient | None = None,
+        subject: ISubject | None = None,
+        context: IContext | None = None,
     ) -> None:
         """Construct the model."""
-        self._context = context or {}
-        self._subject = subject or Subject()
         self._api_client = api_client
+        self._subject = subject if subject is not None else Subject()
+        self._context = context if context is not None else Context()
 
     def render_context(self) -> None:
         """Render the context to view."""

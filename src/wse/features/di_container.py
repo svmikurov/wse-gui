@@ -2,8 +2,9 @@
 
 from dependency_injector import containers, providers
 
+from wse.features.base.context import Context
 from wse.features.foreign.di_container import ForeignContainer
-from wse.features.main.containers.di_container import LayoutContainer
+from wse.features.main.containers.di_container import LayerContainer
 from wse.features.main.di_container import MainContainer
 from wse.features.shared.observer import Subject
 from wse.features.shared.ui_containers import BaseContent
@@ -12,6 +13,7 @@ from wse.features.shared.ui_containers import BaseContent
 class FeatureContainer(containers.DeclarativeContainer):
     """Features package container."""
 
+    # Services
     auth_service = providers.Dependency()
     api_client = providers.Dependency()
 
@@ -19,12 +21,16 @@ class FeatureContainer(containers.DeclarativeContainer):
     content_box = providers.Factory(BaseContent)
     # The subject of observation in the Observer pattern
     subject = providers.Factory(Subject)
+    # Context
+    context = providers.Factory(Context)
 
-    # Layout general containers
-    layout_container = providers.Container(
-        LayoutContainer,
-        content_box=content_box,
+    # Layer container
+    layer_container = providers.Container(
+        LayerContainer,
+        api_client=api_client,
         subject=subject,
+        context=context,
+        content_box=content_box,
     )
 
     # Basic containers
@@ -34,7 +40,7 @@ class FeatureContainer(containers.DeclarativeContainer):
         api_client=api_client,
         content_box=content_box,
         subject=subject,
-        layout_container=layout_container,
+        layer_container=layer_container,
     )
     foreign = providers.Container(
         ForeignContainer,

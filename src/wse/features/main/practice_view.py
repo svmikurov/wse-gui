@@ -25,7 +25,7 @@ class PracticeView(BaseView):
         self.content.add(
             self._label_title,
             self.info_panel,
-            self._btn_display,
+            self._btn_request,
             self._btn_clear,
             self._btn_back,
         )
@@ -38,18 +38,22 @@ class PracticeView(BaseView):
         self.info_panel = MultilineInfoPanel()
 
         # Buttons
+        self._btn_request = AppButton(on_press=self._handel_request)
         self._btn_clear = AppButton(on_press=self._handel_clear)
-        self._btn_display = AppButton(on_press=self._handel_display)
         self._btn_back = self._build_nav_btn()
 
     def localize_ui(self) -> None:
         """Localize a text for user interface widgets."""
         self._label_title.text = _(NavigationID.PRACTICE)
-        self._btn_display.text = _('Request text')
+
+        # Buttons
+        self._btn_request.text = _('Request text')
         self._btn_clear.text = _('Clear text')
         self._btn_back.text = _(NavigationID.BACK)
 
     # Callback handlers
-    def _handel_display(self, _: toga.Widget) -> None: ...
+    def _handel_request(self, _: toga.Widget) -> None:
+        self.subject.notify('request_data')
 
-    def _handel_clear(self, _: toga.Widget) -> None: ...
+    def _handel_clear(self, _: toga.Widget) -> None:
+        self.info_panel.clean()

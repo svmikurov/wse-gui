@@ -15,7 +15,7 @@ class MainContainer(containers.DeclarativeContainer):
     content_box = providers.Dependency()
     subject = providers.Dependency()
     # Containers
-    layout_container = providers.DependenciesContainer()
+    layer_container = providers.DependenciesContainer()
 
     # Account page
     account_model = providers.Factory(
@@ -61,7 +61,7 @@ class MainContainer(containers.DeclarativeContainer):
         main.LoginView,
         content_box=content_box,
         subject=subject,
-        login_container=layout_container.login_container,
+        login_container=layer_container.login_container,
     )
     login_controller = providers.Factory(
         main.LoginController,
@@ -72,6 +72,7 @@ class MainContainer(containers.DeclarativeContainer):
     # Practice page
     practice_model = providers.Factory(
         PracticeModel,
+        service_layer=layer_container.service_layer,
     )
     practice_view = providers.Factory(
         PracticeView,
