@@ -48,7 +48,21 @@ class BaseContainer(ABC):
         return self._content
 
     def get_content_widgets(self) -> list[toga.Widget]:
-        """Return content widgets."""
+        """Return content widgets.
+
+        For example:
+        ------------
+
+            class LoginView(...):
+                ...
+                def _add_ui(self):
+                    self._content.add(
+                        self._title,
+                        *login_container.get_content_widgets()
+                        ...
+                    )
+
+        """
         return self.content.children
 
 
