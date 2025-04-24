@@ -56,7 +56,7 @@ class Navigator:
         try:
             context = self._request_context(nav_id)
         except KeyError:
-            logger.debug(f'The route for "{nav_id}" button is not set')
+            logger.error(f'The route for "{nav_id}" button is not set')
         else:
             self._set_window_content(context)
             self._content_history.append(nav_id)
