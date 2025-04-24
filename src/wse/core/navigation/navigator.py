@@ -95,16 +95,23 @@ class Navigator:
     @property
     def _previous_nav_id(self) -> NavigationID | None:
         """Previous navigation ID (read-only)."""
+        previous_nav_id_index = self._PREVIOUS_NAV_ID_INDEX
         current_nav_id = self._retrieve_nav_id(self._CURRENT_NAV_ID_INDEX)
         previous_nav_id = self._retrieve_nav_id(self._PREVIOUS_NAV_ID_INDEX)
 
         if previous_nav_id == current_nav_id:
-            self._PREVIOUS_NAV_ID_INDEX += self._CURRENT_NAV_ID_INDEX
+            previous_nav_id_index += self._CURRENT_NAV_ID_INDEX
 
         try:
-            return self._retrieve_nav_id(self._PREVIOUS_NAV_ID_INDEX)
+            return self._retrieve_nav_id(previous_nav_id_index)
         except IndexError:
-            logger.info('There are no visited pages in the stack')
+            logger.info(
+                'There are no visited pages in the stack, navigated to `HOME`'
+            )
+            self.navigate(NavigationID.HOME)
 
     def _retrieve_nav_id(self, nav_index: int) -> NavigationID:
-        return self._content_history[nav_index]
+        try:
+            return self._content_history[nav_index]
+        except IndexError:
+            return NavigationID.HOME
