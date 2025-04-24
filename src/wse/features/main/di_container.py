@@ -5,7 +5,6 @@ from dependency_injector import containers, providers
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features import main
 from wse.features.main import PracticeController, PracticeModel, PracticeView
-from wse.features.shared.observer import Subject
 
 
 class MainContainer(containers.DeclarativeContainer):
@@ -14,10 +13,7 @@ class MainContainer(containers.DeclarativeContainer):
     auth_service = providers.Dependency()
     api_client = providers.Dependency()
     content_box = providers.Dependency()
-
-    subject = providers.Factory(
-        Subject,
-    )
+    subject = providers.Dependency()
 
     # Account page
     account_model = providers.Factory(
@@ -28,6 +24,7 @@ class MainContainer(containers.DeclarativeContainer):
     account_view = providers.Factory(
         main.AccountView,
         content_box=content_box,
+        subject=subject,
     )
     account_controller = providers.Factory(
         main.AccountController,
@@ -44,6 +41,7 @@ class MainContainer(containers.DeclarativeContainer):
     home_view = providers.Factory(
         main.HomeView,
         content_box=content_box,
+        subject=subject,
     )
     home_controller = providers.Factory(
         main.HomeController,
@@ -60,6 +58,7 @@ class MainContainer(containers.DeclarativeContainer):
     login_view = providers.Factory(
         main.LoginView,
         content_box=content_box,
+        subject=subject,
     )
     login_controller = providers.Factory(
         main.LoginController,
@@ -68,12 +67,13 @@ class MainContainer(containers.DeclarativeContainer):
     )
 
     # Practice page
-
     practice_model = providers.Factory(
         PracticeModel,
     )
     practice_view = providers.Factory(
         PracticeView,
+        content_box=content_box,
+        subject=subject,
     )
     practice_controller = providers.Factory(
         PracticeController,

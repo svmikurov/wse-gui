@@ -16,7 +16,9 @@ from wse.features.foreign import (
 class ForeignContainer(containers.DeclarativeContainer):
     """Foreign pages container."""
 
+    api_client = providers.Dependency()
     content_box = providers.Dependency()
+    subject = providers.Dependency()
 
     # Foreign home page
     home_view = providers.Factory(ForeignView, content_box=content_box)
