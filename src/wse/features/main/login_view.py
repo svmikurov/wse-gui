@@ -24,10 +24,7 @@ class LoginView(BaseView):
         """Construct the view."""
         super().__init__(*args, **kwargs)
         self.login_container = login_container
-        # self.login_container = LoginContainer(content_box=ColumnBox())
         self._content.id = ObjectID.LOGIN
-
-        # Login container
 
         # Add UI
         self._add_ui()
