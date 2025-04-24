@@ -4,10 +4,9 @@ import logging
 
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
+from wse.features.base.container import BaseContainer
 from wse.features.base.mvc import BaseView
-from wse.features.main.containers.login import LoginContainer
 from wse.features.shared.object_id import ObjectID
-from wse.features.shared.ui_containers import ColumnBox
 from wse.features.shared.ui_text import MultilineInfoPanel, TitleLabel
 
 logger = logging.getLogger(__name__)
@@ -16,13 +15,19 @@ logger = logging.getLogger(__name__)
 class LoginView(BaseView):
     """Login page view."""
 
-    def __init__(self, *args: object, **kwargs: object) -> None:
+    def __init__(
+        self,
+        *args: object,
+        login_container: BaseContainer | None = None,
+        **kwargs: object,
+    ) -> None:
         """Construct the view."""
         super().__init__(*args, **kwargs)
+        self.login_container = login_container
+        # self.login_container = LoginContainer(content_box=ColumnBox())
         self._content.id = ObjectID.LOGIN
 
         # Login container
-        self.login_container = LoginContainer(content_box=ColumnBox())
 
         # Add UI
         self._add_ui()

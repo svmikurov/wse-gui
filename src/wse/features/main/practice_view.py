@@ -19,9 +19,7 @@ class PracticeView(BaseView):
         self._content.id = ObjectID.PRACTICE
 
         # Construct UI
-        self._create_ui()
         self._add_ui()
-        self.localize_ui()
 
     def _add_ui(self) -> None:
         self.content.add(

@@ -20,10 +20,8 @@ class BaseContainer(ABC):
         subject: ISubject | None = None,
     ) -> None:
         """Construct the view."""
-        self._content = (
-            content_box if content_box is not None else BaseContent()
-        )
-        self._subject = subject if subject is not None else Subject()
+        self._content = content_box or BaseContent()
+        self._subject = subject or Subject()
 
         # Add UI
         self._create_ui()
