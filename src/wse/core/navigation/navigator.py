@@ -73,10 +73,14 @@ class Navigator:
     # Utility methods
     def _get_content(self, nav_id: NavigationID) -> IContent | None:
         controller = self.routes[nav_id]
-        try:
-            controller.request_context()
-        except AttributeError as e:
-            logger.debug(f'Page has not `render_context` method: {e}')
+        # TODO: Remove next:
+        # try:
+        #     controller.request_context()
+        # except AttributeError as e:
+        #     logger.debug(f'Page has not `render_context` method: {e}')
+        # TODO: Add next:
+        # if hasattr(controller, 'request_context'):
+        #     controller.request_context()
         return controller.content
 
     def _go_back(self) -> None:
