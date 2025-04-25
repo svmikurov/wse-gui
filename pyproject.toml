@@ -202,6 +202,7 @@ dependency-injector = "^4.46.0"
 pydantic = "^2.11.3"
 pydantic-settings = "^2.8.1"
 cryptography = "^44.0.2"
+pyyaml = "^6.0.2"
 
 [tool.poetry.group.dev.dependencies]
 briefcase = "0.3.19"
