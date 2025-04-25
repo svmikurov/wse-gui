@@ -1,4 +1,4 @@
-"""Defines home page controller."""
+"""Defines Practice page controller."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from toga.sources import Listener
 from wse.features.base.mvc import ContextController
 
 if TYPE_CHECKING:
-    from wse.features.main import PracticeModel, PracticeView
+    from wse.features.examples import PracticeModel, PracticeView
 
 logger = logging.getLogger(__name__)
 

@@ -14,12 +14,12 @@ TEXT_PATH: Path = PROJECT_PATH / 'temp' / 'api-response.txt'
 
 
 class PracticeModel(BaseModel):
-    """Practice base model."""
+    """Practice page model."""
 
     def __init__(
         self,
         *args: object,
-        service_layer: ServiceLayer | None = None,
+        service_layer: ServiceLayer,
         **kwargs: object,
     ) -> None:
         """Construct the model."""
@@ -39,9 +39,3 @@ class PracticeModel(BaseModel):
     def get_text(self) -> str:
         """Get text."""
         return self.format_json(self.text)
-
-    def _set_context(self) -> None:
-        """Set view context for render into view."""
-
-    def _notify_render_context(self) -> None:
-        """Notify controller to fill view with context."""

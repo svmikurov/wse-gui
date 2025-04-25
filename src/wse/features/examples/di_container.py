@@ -9,10 +9,7 @@ from wse.features import examples
 class ExamplesContainer(containers.DeclarativeContainer):
     """Toga widget build examples."""
 
-    auth_service = providers.Dependency()
     api_client = providers.Dependency()
-    content_box = providers.Dependency()
-    subject = providers.Dependency()
     # Containers
     layer_container = providers.DependenciesContainer()
 

@@ -1,4 +1,4 @@
-"""Defines practice page view."""
+"""Defines Practice page view."""
 
 import toga
 from toga.style import Pack
