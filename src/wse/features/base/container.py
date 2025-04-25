@@ -29,6 +29,10 @@ class BaseContainer(ABC):
         self._create_ui()
         self.localize_ui()
 
+    def _add_ui(self) -> None:
+        """Add ui into content."""
+        self.content.add(...)
+
     # UI create methods
     @abstractmethod
     def _create_ui(self) -> None:

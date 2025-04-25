@@ -53,6 +53,6 @@ class EducationView(BaseView):
         self._btn_account.text = _(NavigationID.ACCOUNT)
         self._btn_foreign.text = _(NavigationID.FOREIGN)
         self._btn_glossary.text = _(NavigationID.GLOSSARY)
-        self._btn_mathem.text = _(NavigationID.MATHEM)
+        self._btn_mathem.text = _(NavigationID.MATHEMATICAL)
         self._btn_exercises.text = _(NavigationID.EXERCISES)
         self._btn_home.text = _(NavigationID.HOME)

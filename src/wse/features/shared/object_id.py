@@ -20,3 +20,5 @@ class ObjectID(BaseEnum):
     SWARM = 'Swarm view'
     FIGARO = 'Figaro view'
     EDUCATION = 'Education view'
+    MATHEMATICAL = 'Mathematical view'
+    MULTIPLICATION = 'Multiplication view'

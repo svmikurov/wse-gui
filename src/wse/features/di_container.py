@@ -8,6 +8,7 @@ from wse.features.figaro.di_container import FigaroContainer
 from wse.features.foreign.di_container import ForeignContainer
 from wse.features.main.containers.di_container import LayerContainer
 from wse.features.main.di_container import MainContainer
+from wse.features.mathem.di_container import MathematicalContainer
 from wse.features.shared.observer import Subject
 from wse.features.shared.ui_containers import BaseContent
 
@@ -48,6 +49,9 @@ class FeatureContainer(containers.DeclarativeContainer):
         ForeignContainer,
         content_box=content_box,
         subject=subject,
+    )
+    mathematical = providers.Container(
+        MathematicalContainer,
     )
 
     # Additional containers
