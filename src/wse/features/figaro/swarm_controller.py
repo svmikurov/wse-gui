@@ -6,8 +6,6 @@ import logging
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from toga.sources import Listener
-
 from wse.features.base.mvc import ContextController
 
 if TYPE_CHECKING:
@@ -17,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 @dataclass
-class SwarmController(ContextController, Listener):
+class SwarmController(ContextController):
     """Swarm page controller."""
 
     model: SwarmModel
