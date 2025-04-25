@@ -52,8 +52,10 @@ class AuthService:
     def _retrieve_token(self) -> None:
         self._token = self._token_storage.load_token()
 
-    def get_token(self) -> str:
+    def get_token(self) -> str | None:
         """Get auth token."""
+        if self._token is None:
+            self._retrieve_token()
         return self._token
 
     def close(self) -> None:
