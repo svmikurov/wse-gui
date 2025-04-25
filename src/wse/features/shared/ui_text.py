@@ -35,7 +35,7 @@ class LabelParam(toga.Label):
         self.style.padding = (7, 0, 7, 2)
 
 
-class AppTextPanel(ValueListenerMixin, toga.MultilineTextInput):
+class TextPanel(ValueListenerMixin, toga.MultilineTextInput):
     """Text panel for info display."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:

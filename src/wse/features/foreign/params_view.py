@@ -14,7 +14,7 @@ from wse.features.shared.ui_params import (
     SwitchLabelBox,
     SwitchNumberInputBox,
 )
-from wse.features.shared.ui_text import AppTextPanel, TitleLabel
+from wse.features.shared.ui_text import TextPanel, TitleLabel
 
 
 class ParamsView(BaseView):
@@ -49,7 +49,7 @@ class ParamsView(BaseView):
         self._label_title = TitleLabel('')
 
         # Info panel
-        self.info_panel = AppTextPanel()
+        self.info_panel = TextPanel()
 
         # NavigationID buttons
         self._btn_goto_back = self._build_nav_btn()

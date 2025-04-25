@@ -5,7 +5,7 @@ from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.mvc import BaseView
 from wse.features.shared.object_id import ObjectID
 from wse.features.shared.ui_containers import BaseContent
-from wse.features.shared.ui_text import AppTextPanel, TitleLabel
+from wse.features.shared.ui_text import TextPanel, TitleLabel
 
 
 class TasksView(BaseView):
@@ -32,7 +32,7 @@ class TasksView(BaseView):
         self._label_title = TitleLabel('')
 
         # Info panel
-        self.info_panel = AppTextPanel()
+        self.info_panel = TextPanel()
 
         # NavigationID buttons
         self._btn_goto_test = self._build_nav_btn()

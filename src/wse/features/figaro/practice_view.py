@@ -8,7 +8,7 @@ from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.mvc import BaseView
 from wse.features.shared.button import AppButton
 from wse.features.shared.object_id import ObjectID
-from wse.features.shared.ui_text import AppTextPanel, TitleLabel
+from wse.features.shared.ui_text import TextPanel, TitleLabel
 
 
 class PracticeView(BaseView):
@@ -37,7 +37,7 @@ class PracticeView(BaseView):
         self._label_title = TitleLabel()
 
         # Info panel
-        self.text_panel = AppTextPanel()
+        self.text_panel = TextPanel()
         self._label = toga.Label(
             'Experiments with dictionary representation',
             style=Pack(flex=1, padding=(0, 0, 10, 10))

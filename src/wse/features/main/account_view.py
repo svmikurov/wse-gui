@@ -7,7 +7,7 @@ from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.mvc import BaseView
 from wse.features.shared.button import AppButton
 from wse.features.shared.object_id import ObjectID
-from wse.features.shared.ui_text import AppTextPanel, TitleLabel
+from wse.features.shared.ui_text import TextPanel, TitleLabel
 
 
 class AccountView(BaseView):
@@ -33,7 +33,7 @@ class AccountView(BaseView):
 
     def _create_ui(self) -> None:
         self._label_title = TitleLabel()
-        self.info_panel = AppTextPanel()
+        self.info_panel = TextPanel()
         self._btn_auth = self._build_nav_btn()
         self._btn_check_token = AppButton(on_press=self._check_token)
         self._btn_clean_panel = AppButton(on_press=self._clean_panel)
