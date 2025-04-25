@@ -29,7 +29,7 @@ class TasksView(BaseView):
 
     def _create_ui(self) -> None:
         # Title
-        self._label_title = TitleLabel('')
+        self._label_title = TitleLabel()
 
         # Info panel
         self.info_panel = TextPanel()

@@ -5,7 +5,6 @@ from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.mvc import BaseView
 from wse.features.shared.object_id import ObjectID
 from wse.features.shared.ui_containers import (
-    BaseContent,
     ColumnBox,
 )
 from wse.features.shared.ui_params import (
@@ -20,9 +19,9 @@ from wse.features.shared.ui_text import TextPanel, TitleLabel
 class ParamsView(BaseView):
     """Foreign params view."""
 
-    def __init__(self, content_box: BaseContent | None = None) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the view."""
-        super().__init__(content_box)
+        super().__init__(*args, **kwargs)
         self._content.id = ObjectID.FOREIGN_PARAMS
 
         # Add params UI
@@ -59,6 +58,7 @@ class ParamsView(BaseView):
         self._label_title.text = _('Foreign params title')
         self._btn_goto_back.text = _(NavigationID.BACK)
 
+    # TODO: Inject params container
     ####################################################################
     # Params widgets
 
