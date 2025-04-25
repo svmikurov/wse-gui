@@ -35,7 +35,7 @@ class SwarmView(BaseView):
     def _add_ui(self) -> None:
         self.content.add(
             self._label_title,
-            *self._swarm_panel.get_content_widgets(),
+            *self._swarm_panel.ui,
             self.text_panel,
             self._btn_request,
             self._btn_clear,

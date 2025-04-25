@@ -6,6 +6,7 @@ import logging
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
+from toga.sources import Listener
 from typing_extensions import override
 
 from wse.features.base import mvc
@@ -17,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 @dataclass
-class LoginController(mvc.ContextController):
+class LoginController(mvc.ContextController, Listener):
     """Login page controller."""
 
     view: LoginView

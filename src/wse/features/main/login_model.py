@@ -27,18 +27,11 @@ class LoginModel(BaseModel):
         if self._auth_service.authenticate(username, password):
             self._handel_success_login()
 
-    def _handel_success_login(self) -> None:
-        self._subject.notify('navigate', nav_id=NavigationID.ACCOUNT)
-        self._subject.notify('clear_input_fields')
-
     def is_authenticated(self) -> bool:
         """Check user is authenticated."""
         return self._auth_service.is_authenticated()
 
-    def _set_context(self) -> None:
-        """Set view context for render into view."""
-        ...
-
-    def _notify_render_context(self) -> None:
-        """Notify controller to fill view with context."""
-        ...
+    # Notification
+    def _handel_success_login(self) -> None:
+        self._subject.notify('navigate', nav_id=NavigationID.ACCOUNT)
+        self._subject.notify('clear_input_fields')

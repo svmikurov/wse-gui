@@ -4,8 +4,8 @@ import logging
 
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
-from wse.features.base.container import BaseContainer
 from wse.features.base.mvc import BaseView
+from wse.features.main.containers.login import LoginContainer
 from wse.features.shared.object_id import ObjectID
 from wse.features.shared.ui_text import TextPanel, TitleLabel
 
@@ -18,7 +18,7 @@ class LoginView(BaseView):
     def __init__(
         self,
         *args: object,
-        login_container: BaseContainer | None = None,
+        login_container: LoginContainer,
         **kwargs: object,
     ) -> None:
         """Construct the view."""
@@ -32,7 +32,7 @@ class LoginView(BaseView):
     def _add_ui(self) -> None:
         self.content.add(
             self._label_title,
-            *self.login_container.get_content_widgets(),
+            *self.login_container.ui,
             self._btn_back,
             self.info_panel,
         )

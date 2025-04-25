@@ -1,4 +1,4 @@
-"""Defines account page controller."""
+"""Defines Account page controller."""
 
 from __future__ import annotations
 
@@ -19,6 +19,8 @@ if TYPE_CHECKING:
 @dataclass(kw_only=True)
 class AccountController(ContextController):
     """Account page controller."""
+
+    _CHECK_TOKEN_PATH = '/api/v1/auth/users/me/'
 
     model: AccountModel
     view: AccountView
@@ -58,7 +60,7 @@ class AccountController(ContextController):
 
     def check_token(self) -> None:
         """Check auth token."""
-        response = self.model.api_client.get('/api/v1/auth/users/me/')
+        response = self.model.api_client.get(self._CHECK_TOKEN_PATH)
         answer = 'authentication token is not valid'
         if response.status_code == HTTPStatus.OK:
             answer = 'authentication token is valid'

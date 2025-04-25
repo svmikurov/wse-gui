@@ -1,4 +1,4 @@
-"""Defines account page view."""
+"""Defines Account page view."""
 
 import toga
 

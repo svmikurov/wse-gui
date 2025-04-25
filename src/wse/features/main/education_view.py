@@ -1,11 +1,8 @@
 """Defines Education page view."""
 
-import toga
-
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.mvc import BaseView
-from wse.features.shared.button import AppButton
 from wse.features.shared.object_id import ObjectID
 from wse.features.shared.ui_text import TextPanel, TitleLabel
 
@@ -16,7 +13,7 @@ class EducationView(BaseView):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the view."""
         super().__init__(*args, **kwargs)
-        self._content.id = ObjectID.HOME
+        self._content.id = ObjectID.EDUCATION
 
         # Add UI
         self._add_ui()
@@ -40,12 +37,6 @@ class EducationView(BaseView):
         # Info panel
         self.info_panel = TextPanel()
 
-        # Auth buttons
-        self._btn_login = self._build_nav_btn()
-        self._btn_logout = self._build_auth_btn()
-        self._btn_cancel = self._build_auth_btn()
-        self._btn_confirm = self._build_auth_btn()
-
         # Navigate buttons
         self._btn_account = self._build_nav_btn()
         self._btn_foreign = self._build_nav_btn()
@@ -65,11 +56,3 @@ class EducationView(BaseView):
         self._btn_mathem.text = _(NavigationID.MATHEM)
         self._btn_exercises.text = _(NavigationID.EXERCISES)
         self._btn_home.text = _(NavigationID.HOME)
-
-    # Utility methods
-    def _build_auth_btn(self) -> toga.Button:
-        return AppButton(on_press=self._auth_notify)
-
-    # Notifications
-    def _auth_notify(self, button: toga.Button) -> None:
-        self.subject.notify('auth', nav_id=button.text)

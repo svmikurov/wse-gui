@@ -49,8 +49,9 @@ class BaseContainer(ABC):
         """Page content (read-only)."""
         return self._content
 
-    def get_content_widgets(self) -> list[toga.Widget]:
-        """Return content widgets.
+    @property
+    def ui(self) -> list[toga.Widget]:
+        """Return UI content widgets.
 
         For example:
         ------------
@@ -60,7 +61,7 @@ class BaseContainer(ABC):
                 def _add_ui(self):
                     self._content.add(
                         self._title,
-                        *login_container.get_content_widgets()
+                        *login_container.ui,
                         ...
                     )
 
