@@ -1,6 +1,7 @@
 """Defines practice page view."""
 
 import toga
+from toga.style import Pack
 
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
@@ -24,6 +25,7 @@ class PracticeView(BaseView):
     def _add_ui(self) -> None:
         self.content.add(
             self._label_title,
+            self._label,
             self.text_panel,
             self._btn_request,
             self._btn_clear,
@@ -36,6 +38,10 @@ class PracticeView(BaseView):
 
         # Info panel
         self.text_panel = AppTextPanel()
+        self._label = toga.Label(
+            'Experiments with dictionary representation',
+            style=Pack(flex=1, padding=(0, 0, 10, 10))
+        )
 
         # Buttons
         self._btn_request = AppButton(on_press=self._handel_request)

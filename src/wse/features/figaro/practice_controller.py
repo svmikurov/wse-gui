@@ -33,8 +33,8 @@ class PracticeController(ContextController, Listener):
 
     def display_on_panel(self, text: str) -> None:
         """Display model data in a text panel."""
+        text = self.model.get_text()
         self.view.text_panel.change(text)
-        logger.debug(f'Text to display: {text}')
 
     ####################################################################
     # View listener methods

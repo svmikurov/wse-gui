@@ -1,5 +1,7 @@
 """Defines Swarm page view."""
 
+import logging
+
 import toga
 
 from wse.core.i18n import _
@@ -9,6 +11,8 @@ from wse.features.figaro.containers.swarm_panel import SwarmControlPanel
 from wse.features.shared.button import AppButton
 from wse.features.shared.object_id import ObjectID
 from wse.features.shared.ui_text import AppTextPanel, TitleLabel
+
+logger = logging.getLogger(__name__)
 
 
 class SwarmView(BaseView):
@@ -61,7 +65,11 @@ class SwarmView(BaseView):
 
     # Callback handlers
     def _handel_request(self, _: toga.Widget) -> None:
-        self.subject.notify('request_data')
+        self.subject.notify('handel_request', endpoint=self._get_url())
 
     def _handel_clear(self, _: toga.Widget) -> None:
         self.text_panel.clean()
+
+    def _get_url(self) -> str:
+        endpoint = self._swarm_panel.data['endpoint']
+        return endpoint

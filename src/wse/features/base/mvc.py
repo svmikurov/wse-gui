@@ -17,7 +17,7 @@ from wse.interface.ifeatures import IContent, IContext, IModel, ISubject, IView
 logger = logging.getLogger(__name__)
 
 
-class BaseModel(ABC):
+class BaseModel:
     """Base page model."""
 
     def __init__(
@@ -36,11 +36,9 @@ class BaseModel(ABC):
         self._set_context()
         self._notify_render_context()
 
-    @abstractmethod
     def _set_context(self) -> None:
         """Set view context for render into view."""
 
-    @abstractmethod
     def _notify_render_context(self) -> None:
         """Notify controller to fill view with context."""
 

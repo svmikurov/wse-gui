@@ -9,6 +9,9 @@ from wse.features.base.container import BaseContainer
 class SwarmControlPanel(BaseContainer):
     """Swarm control panel."""
 
+    BASE_URL = 'http://127.0.0.1'
+    ENDPOINT = '/api/v1/foreign/'
+
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the panel."""
         super().__init__(*args, **kwargs)
@@ -25,10 +28,20 @@ class SwarmControlPanel(BaseContainer):
 
     def _create_ui(self) -> None:
         self.base_url_input = toga.TextInput()
-        self.endpoint_input = toga.TextInput()
+        self.endpoint_input = toga.TextInput(value=self.ENDPOINT)
         self.method = toga.Selection()
 
     def localize_ui(self) -> None:
         """Localize a text for user interface widgets."""
         self.base_url_input.placeholder = _('base url')
         self.endpoint_input.placeholder = _('endpoint')
+
+    @property
+    def data(self) -> dict:
+        """Date for http request."""
+        request_params = {
+            'method': 'get',
+            'base_url': self.base_url_input.value,
+            'endpoint': self.endpoint_input.value,
+        }
+        return request_params
