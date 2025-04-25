@@ -2,6 +2,7 @@
 
 import toga
 from toga.constants import CENTER
+from toga.style import Pack
 
 from wse.features.settings import TITLE_LABEL_FONT_SIZE, TITLE_LABEL_PADDING
 from wse.features.shared.observer import ValueListenerMixin
@@ -43,3 +44,29 @@ class AppTextPanel(ValueListenerMixin, toga.MultilineTextInput):
         super().__init__(*args, **kwargs)
         self.style.flex = 1
         self.readonly = True
+
+
+class TextPanelScroll(toga.ScrollContainer):
+    """Text panel with horizontal scroll."""
+
+    _PANEL_WIDTH = 1000
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the panel."""
+        super().__init__(*args, **kwargs)
+        self.style.flex=1
+        self.content = toga.MultilineTextInput(
+            style=Pack(
+                flex=1,
+                width=self._PANEL_WIDTH,
+            ),
+            readonly=True,
+        )
+
+    def change(self, value: str) -> None:
+        """Update text widget value."""
+        self.content.value = value
+
+    def clean(self) -> None:
+        """Clear the value of the text widget."""
+        self.content.value = ''

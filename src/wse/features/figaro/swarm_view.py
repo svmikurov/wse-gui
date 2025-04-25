@@ -10,7 +10,8 @@ from wse.features.base.mvc import BaseView
 from wse.features.figaro.containers.swarm_panel import SwarmControlPanel
 from wse.features.shared.button import AppButton
 from wse.features.shared.object_id import ObjectID
-from wse.features.shared.ui_text import AppTextPanel, TitleLabel
+from wse.features.shared.ui_text import AppTextPanel, TitleLabel, \
+    TextPanelScroll
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +48,7 @@ class SwarmView(BaseView):
         self._label_title = TitleLabel()
 
         # Info panel
-        self.text_panel = AppTextPanel()
+        self.text_panel = TextPanelScroll()
 
         # Buttons
         self._btn_request = AppButton(on_press=self._handel_request)
