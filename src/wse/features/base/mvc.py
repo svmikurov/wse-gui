@@ -1,7 +1,7 @@
 """Defines base classes of functions features."""
 
 import logging
-from abc import ABC, abstractmethod
+from abc import ABC
 from dataclasses import dataclass, field
 
 import toga

@@ -2,13 +2,10 @@
 
 from __future__ import annotations
 
-import json
 import logging
 from dataclasses import dataclass
-from pprint import pprint
 from typing import TYPE_CHECKING
 
-import httpx
 from toga.sources import Listener
 
 from wse.features.base.mvc import ContextController
@@ -36,4 +33,5 @@ class SwarmController(ContextController, Listener):
     # View listener methods
 
     def display_data(self, text: str) -> None:
+        """Display data into text panel."""
         self.view.text_panel.change(text)

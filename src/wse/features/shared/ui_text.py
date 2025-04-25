@@ -54,7 +54,7 @@ class TextPanelScroll(toga.ScrollContainer):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the panel."""
         super().__init__(*args, **kwargs)
-        self.style.flex=1
+        self.style.flex = 1
         self.content = toga.MultilineTextInput(
             style=Pack(
                 flex=1,

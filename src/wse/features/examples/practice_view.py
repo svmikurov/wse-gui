@@ -40,7 +40,7 @@ class PracticeView(BaseView):
         self.text_panel = TextPanel()
         self._label = toga.Label(
             'Experiments with dictionary representation',
-            style=Pack(flex=1, padding=(0, 0, 10, 10))
+            style=Pack(flex=1, padding=(0, 0, 10, 10)),
         )
 
         # Buttons

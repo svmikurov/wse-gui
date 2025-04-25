@@ -57,27 +57,10 @@ class FigaroContainer(containers.DeclarativeContainer):
         view=swarm_view,
     )
 
-    # Practice page
-    practice_model = providers.Factory(
-        figaro.PracticeModel,
-        service_layer=layer_container.service_layer,
-    )
-    practice_view = providers.Factory(
-        figaro.PracticeView,
-        content_box=content_box,
-        subject=subject,
-    )
-    practice_controller = providers.Factory(
-        figaro.PracticeController,
-        model=practice_model,
-        view=practice_view,
-    )
-
     # NavigationID routes
     routes = providers.Dict(
         {
             NavigationID.FIGARO: figaro_controller,
             NavigationID.SWARM: swarm_controller,
-            NavigationID.PRACTICE: practice_controller,
         }
     )

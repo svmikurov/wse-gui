@@ -1,10 +1,9 @@
 """Defines Swarm page model."""
 
 import json
+import logging
 
 import httpx
-
-import logging
 
 from wse.features.base.mvc import BaseModel
 
@@ -27,6 +26,7 @@ class SwarmModel(BaseModel):
     # Utility methods
     @staticmethod
     def format_pretty_json(response: httpx.Response) -> str:
+        """Format to pretty json out."""
         json_text = response.json()
         pretty_json = json.dumps(json_text, indent=4, ensure_ascii=False)
         return pretty_json

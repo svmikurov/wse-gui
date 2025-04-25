@@ -1,4 +1,5 @@
 """Defines Practice page model."""
+
 import json
 import logging
 from pathlib import Path
@@ -31,10 +32,12 @@ class PracticeModel(BaseModel):
         return TEXT_PATH.read_text()
 
     @staticmethod
-    def format_json(text):
+    def format_json(text: str) -> json:
+        """Format to json."""
         return json.dumps(text, indent=4, ensure_ascii=False)
 
     def get_text(self) -> str:
+        """Get text."""
         return self.format_json(self.text)
 
     def _set_context(self) -> None:
