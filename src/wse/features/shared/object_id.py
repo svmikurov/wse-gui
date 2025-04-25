@@ -19,3 +19,4 @@ class ObjectID(BaseEnum):
     PRACTICE = 'Practice view'
     SWARM = 'Swarm view'
     FIGARO = 'Figaro view'
+    EDUCATION = 'Education view'

@@ -1,18 +1,14 @@
-"""Home screen the view module."""
-
-import toga
+"""Defines Home page view."""
 
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.mvc import BaseView
-from wse.features.shared.action_id import ActionID
-from wse.features.shared.button import AppButton
 from wse.features.shared.object_id import ObjectID
 from wse.features.shared.ui_text import TextPanel, TitleLabel
 
 
 class HomeView(BaseView):
-    """View of Home screen."""
+    """Home page view."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the view."""
@@ -27,10 +23,8 @@ class HomeView(BaseView):
             self._label_title,
             self.info_panel,
             self._btn_account,
-            self._btn_foreign,
-            self._btn_glossary,
-            self._btn_mathem,
-            self._btn_exercises,
+            self._btn_education,
+            self._btn_examples,
             self._btn_figaro,
         )
 
@@ -41,42 +35,18 @@ class HomeView(BaseView):
         # Info panel
         self.info_panel = TextPanel()
 
-        # Auth buttons
-        self._btn_login = self._build_nav_btn()
-        self._btn_logout = self._build_auth_btn()
-        self._btn_cancel = self._build_auth_btn()
-        self._btn_confirm = self._build_auth_btn()
-
         # Navigate buttons
         self._btn_account = self._build_nav_btn()
-        self._btn_foreign = self._build_nav_btn()
-        self._btn_glossary = self._build_nav_btn()
-        self._btn_mathem = self._build_nav_btn()
-        self._btn_exercises = self._build_nav_btn()
+        self._btn_education = self._build_nav_btn()
+        self._btn_examples = self._build_nav_btn()
         self._btn_figaro = self._build_nav_btn()
 
     def localize_ui(self) -> None:
         """Assign to widget text a current translation."""
         self._label_title.text = _('WSELFEDU')
 
-        # Auth buttons
-        self._btn_account.text = _(NavigationID.ACCOUNT)
-        self._btn_login.text = _(NavigationID.LOGIN)
-        self._btn_logout.text = _(NavigationID.LOGOUT)
-        self._btn_cancel.text = _(ActionID.CANCEL)
-        self._btn_confirm.text = _(ActionID.CONFIRM)
-
         # Navigate buttons
-        self._btn_foreign.text = _(NavigationID.FOREIGN)
-        self._btn_glossary.text = _(NavigationID.GLOSSARY)
-        self._btn_mathem.text = _(NavigationID.MATHEM)
-        self._btn_exercises.text = _(NavigationID.EXERCISES)
+        self._btn_account.text = _(NavigationID.ACCOUNT)
+        self._btn_education.text = _(NavigationID.EDUCATION)
+        self._btn_examples.text = _(NavigationID.EXAMPLES)
         self._btn_figaro.text = _(NavigationID.FIGARO)
-
-    # Utility methods
-    def _build_auth_btn(self) -> toga.Button:
-        return AppButton(on_press=self._auth_notify)
-
-    # Notifications
-    def _auth_notify(self, button: toga.Button) -> None:
-        self.subject.notify('auth', nav_id=button.text)

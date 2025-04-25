@@ -27,6 +27,7 @@ class NavigationID(BaseEnum):
     FOREIGN_EXERCISE = 'Foreign exercise'
     FOREIGN_CREATE = 'Foreign create'
     FOREIGN_UPDATE = 'Foreign update'
+    EDUCATION = 'Education'
 
     # Glossary
     GLOSSARY = 'Glossary'
@@ -37,3 +38,4 @@ class NavigationID(BaseEnum):
     FIGARO = 'Figaro'
     SWARM = 'Swarm'
     PRACTICE = 'Practice'
+    EXAMPLES = 'Examples'

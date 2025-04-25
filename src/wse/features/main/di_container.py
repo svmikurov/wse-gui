@@ -69,11 +69,28 @@ class MainContainer(containers.DeclarativeContainer):
         view=login_view,
     )
 
+    # Education page
+    education_model = providers.Factory(
+        main.EducationModel,
+        subject=subject,
+    )
+    education_view = providers.Factory(
+        main.EducationView,
+        content_box=content_box,
+        subject=subject,
+    )
+    education_controller = providers.Factory(
+        main.EducationController,
+        model=education_model,
+        view=education_view,
+    )
+
     # NavigationID routes
     routes = providers.Dict(
         {
             NavigationID.ACCOUNT: account_controller,
             NavigationID.HOME: home_controller,
             NavigationID.LOGIN: login_controller,
+            NavigationID.EDUCATION: education_controller,
         }
     )
