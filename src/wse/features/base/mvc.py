@@ -117,3 +117,7 @@ class ContextController(BaseController):
     def request_context(self) -> None:
         """Call model to render context."""
         self.model.render_context()
+
+    def on_open(self) -> None:
+        """Perform events on page open."""
+        pass

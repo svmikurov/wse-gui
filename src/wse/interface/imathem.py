@@ -13,14 +13,6 @@ class INumericScreen(Protocol):
         """Widgets to unpack into general container."""
 
 
-class INumericKeypad(Protocol):
-    """Protocol defining the interface for numeric keypad."""
-
-    @property
-    def keypad_v1(self) -> [toga.Widget]:
-        """Widgets of numeric keypad."""
-
-
 class IButtonBox(Protocol):
     """Protocol defining the interface for buttons box."""
 

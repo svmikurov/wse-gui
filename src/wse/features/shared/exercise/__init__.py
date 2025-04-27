@@ -1,0 +1,1 @@
+"""Shared exercise for pakages."""

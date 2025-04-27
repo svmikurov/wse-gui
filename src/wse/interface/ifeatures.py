@@ -4,25 +4,27 @@ This module contains abstract interfaces (protocols) that define
 the expected structure and behavior of key application components.
 """
 
-from abc import abstractmethod
 from typing import Protocol
 
 import toga
+from toga.sources import Listener
 
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.shared.object_id import ObjectID
 
 
-class ISubject:
+class ISubject(Protocol):
     """An observable object in the Observer pattern."""
 
-    @abstractmethod
     def add_listener(self, listener: object) -> None:
         """Register an observer to receive notifications."""
 
-    @abstractmethod
     def notify(self, notification: str, **kwargs: object) -> None:
         """Register an observer to receive notifications."""
+
+
+class IListener(Listener, Protocol):
+    """Protocol defining the interface for subject listener."""
 
 
 class IContent(Protocol):
@@ -100,7 +102,14 @@ class IController(Protocol):
         """Navigate to page, the button event listener."""
 
 
-class IContextController(IController, Protocol):
+class IEventRunner(Protocol):
+    """Protocol defining the interface for start event on page open."""
+
+    def on_open(self, *args: object, **kwargs: object) -> None:
+        """Perform events on page open."""
+
+
+class IContextController(IController, IEventRunner, Protocol):
     """Protocol defining the interface for controller with context."""
 
     model: IModel

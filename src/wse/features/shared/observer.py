@@ -39,3 +39,17 @@ class ValueListenerMixin:
     def clean(self) -> None:
         """Clear the value of the text widget."""
         self.value = ''
+
+
+class TextListenerMixin:
+    """Listener methods mixin."""
+
+    text: str
+
+    def change(self, value: str) -> None:
+        """Update text widget value."""
+        self.text = value
+
+    def clean(self) -> None:
+        """Clear the value of the text widget."""
+        self.text = ''

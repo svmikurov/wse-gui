@@ -5,7 +5,7 @@ from toga.constants import CENTER
 from toga.style import Pack
 
 from wse.features.settings import TITLE_LABEL_FONT_SIZE, TITLE_LABEL_PADDING
-from wse.features.shared.observer import ValueListenerMixin
+from wse.features.shared.observer import TextListenerMixin, ValueListenerMixin
 
 
 class TitleLabel(toga.Label):
@@ -44,6 +44,15 @@ class TextPanel(ValueListenerMixin, toga.MultilineTextInput):
         super().__init__(*args, **kwargs)
         self.style.flex = 1
         self.readonly = True
+
+
+class TextInLinePanel(TextListenerMixin, toga.Label):
+    """In-line text panel for text display with changes."""
+
+    def __init__(self, text: str = '', **kwargs: object) -> None:
+        """Construct the text line panel."""
+        super().__init__(text, **kwargs)
+        self.style.flex = 1
 
 
 class TextPanelScroll(toga.ScrollContainer):
