@@ -1,9 +1,10 @@
 """Defines Mathematical page view."""
+
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.mvc import BaseView
 from wse.features.shared.object_id import ObjectID
-from wse.features.shared.ui_text import TitleLabel, TextPanel
+from wse.features.shared.ui.ui_text import TextPanel, TitleLabel
 
 
 class MathematicalView(BaseView):
@@ -36,4 +37,3 @@ class MathematicalView(BaseView):
         self._label_title.text = _('Mathematical title')
         self._btn_multiplication.text = _(NavigationID.MULTIPLICATION)
         self._btn_back.text = _(NavigationID.BACK)
-
