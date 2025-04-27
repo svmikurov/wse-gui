@@ -9,7 +9,7 @@ from toga.style import Pack
 
 from wse.core.i18n import _
 from wse.features.base.container import BaseContainer
-from wse.features.shared.button import AppButton
+from wse.features.shared.ui.button import AppButton
 
 WidgetType = TypeVar('WidgetType', bound=toga.Widget)
 

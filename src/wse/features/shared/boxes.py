@@ -84,7 +84,3 @@ class BaseBox(ColumnFlexBox):
         """Initialize the box with default padding."""
         super().__init__(*args, **kwargs)
         self.style.padding = PADDING_SM
-
-
-class BaseContent(ColumnFlexBox):
-    """Base class for content sections with ID support and styling."""

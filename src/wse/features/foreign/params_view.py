@@ -3,17 +3,17 @@
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.mvc import BaseView
-from wse.features.shared.object_id import ObjectID
-from wse.features.shared.ui_containers import (
+from wse.features.shared.boxes import (
     ColumnBox,
 )
-from wse.features.shared.ui_params import (
+from wse.features.shared.containers.params import (
     ProgressBox,
     SelectionLabelBox,
     SwitchLabelBox,
     SwitchNumberInputBox,
 )
-from wse.features.shared.ui_text import TextPanel, TitleLabel
+from wse.features.shared.object_id import ObjectID
+from wse.features.shared.ui.ui_text import TextPanel, TitleLabel
 
 
 class ParamsView(BaseView):

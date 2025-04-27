@@ -6,7 +6,7 @@ from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.mvc import BaseView
 from wse.features.shared.object_id import ObjectID
-from wse.features.shared.ui_text import TextPanel, TitleLabel
+from wse.features.shared.ui.ui_text import TextPanel, TitleLabel
 
 
 class FigaroView(BaseView):

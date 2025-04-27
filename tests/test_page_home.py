@@ -8,8 +8,8 @@ import toga
 
 from wse.app import WSE
 from wse.features.main.home_view import HomeView
+from wse.features.shared.content import BaseContent
 from wse.features.shared.object_id import ObjectID
-from wse.features.shared.ui_containers import BaseContent
 from wse.interface.ifeatures import IContent
 
 

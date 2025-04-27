@@ -5,12 +5,12 @@ from typing import Callable
 import toga
 from toga.style import Pack
 
-from wse.features.shared.observer import Subject
-from wse.features.shared.ui_containers import (
+from wse.features.shared.boxes import (
     ColumnFlexBox,
     RowBox,
     RowFlexBox,
 )
+from wse.features.shared.observer import Subject
 
 # Labeled widget padding style
 LABEL_PADDING = (0, 0, 0, 0)
