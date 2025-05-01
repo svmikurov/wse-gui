@@ -7,7 +7,7 @@ Title:
   padding_top: 7
   padding_bottom: 7
 
-Label default:
+Default label:
   <<: *default_font_size
 
 Single line display:
@@ -24,3 +24,8 @@ Keypad button:
   padding_right: 1
   padding_bottom: 1
   padding_left: 1
+
+Default button:
+  flex: 1
+  height: 60
+  font_size: 11

@@ -37,10 +37,8 @@ class ShareContainer(containers.DeclarativeContainer):
     )
 
     # Buttons helpers
-    keypad_button_factory = providers.Factory(
+    button_factory = providers.Factory(
         ButtonFactory,
-        style_config=style_config,
-        style_id=StyleID.KEYPAD_BUTTON,
     )
     button_handler = providers.Factory(
         ButtonHandler,
@@ -58,6 +56,7 @@ class ShareContainer(containers.DeclarativeContainer):
     digit_keypad = providers.Factory(
         DigitKeypad,
         content=simple_content,
-        handler=button_handler,
-        button_factory=keypad_button_factory,
+        button_factory=button_factory,
+        button_handler=button_handler,
+        style_config=style_config,
     )

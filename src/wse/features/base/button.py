@@ -3,7 +3,9 @@
 from abc import ABC, abstractmethod
 
 import toga
+from toga.style import Pack
 
+from wse.features.shared.style_id import StyleID
 from wse.interface.ifeatures import IContent
 from wse.interface.iui.ibutton import IButtonFactory, IButtonHandler
 
@@ -29,14 +31,16 @@ class BaseKeypadBuilder(ABC):
 
     def __init__(
         self,
-        handler: IButtonHandler,
         content: IContent,
         button_factory: IButtonFactory,
+        button_handler: IButtonHandler,
+        style_config: dict,
     ) -> None:
         """Construct the box."""
-        self._handler = handler
         self._content = content
         self._button_factory = button_factory
+        self._button_handler = button_handler
+        self._style_config = style_config
 
         # Build box
         self._build_button_line()
@@ -70,12 +74,13 @@ class BaseKeypadBuilder(ABC):
         **kwargs: object
     ) -> toga.Button:
         """Create a button."""
-        return self._button_factory.create_button(
+        return self._button_factory.create(
             symbol,
-            on_press=self._handler.handle_button_press,
+            style=Pack(**self._style_config.get(StyleID.KEYPAD_BUTTON)),
+            on_press=self._button_handler.button_press,
             **kwargs,
         )
 
     def subscribe(self, listener: object) -> None:
         """Register an observer to receive notifications."""
-        self._handler.subject.add_listener(listener=listener)
+        self._button_handler.subject.add_listener(listener=listener)

@@ -33,11 +33,12 @@ class MathematicalContainer(containers.DeclarativeContainer):
     multiplication_view = providers.Factory(
         mathem.MultiplicationView,
         content=share_container.simple_content,
-        subject=share_container.subject,
         model_display=share_container.single_line_display,
         input_display=share_container.single_line_display,
         keypad=share_container.digit_keypad,
         style_config=share_container.style_config,
+        button_factory=share_container.button_factory,
+        button_handler=share_container.button_handler,
     )
     multiplication_controller = providers.Factory(
         mathem.MultiplicationController,

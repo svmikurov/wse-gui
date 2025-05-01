@@ -53,10 +53,3 @@ class DigitKeypad(BaseKeypadBuilder):
 
     def _style_button(self) -> None:
         self._btn_5.style.color = 'green'
-
-    @override
-    def _create_button(
-        self, symbol: int | str, **kwargs: object
-    ) -> toga.Button:
-        """Create a button with additional style."""
-        return super()._create_button(symbol)

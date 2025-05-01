@@ -20,3 +20,6 @@ class MultiplicationController(ContextController):
 
     model: MultiplicationModel
     view: MultiplicationView
+
+    def __post_init__(self):
+        self.view.button_handler.subject.add_listener(self)

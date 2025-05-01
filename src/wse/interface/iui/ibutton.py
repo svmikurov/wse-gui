@@ -3,6 +3,7 @@
 from typing import Callable, Protocol
 
 import toga
+from toga.style import Pack
 
 from wse.interface.ifeatures import ISubject
 
@@ -12,18 +13,23 @@ from wse.interface.ifeatures import ISubject
 
 class IButtonHandler(Protocol):
     """Protocol defining the interface for button handler."""
-    def handle_button_press(self, button: toga.Button) -> None:
-        """Handle button press and notify Subject."""
     @property
     def subject(self) -> ISubject:
         """Get the subject for observer pattern notifications."""
+    def button_press(self, button: toga.Button) -> None:
+        """Handle button press and notify Subject."""
+    def navigate(self, button: toga.Button) -> None:
+        """Navigate by button text, button handler."""
 
 class IButtonFactory(Protocol):
     """Protocol defining the interface for button factory."""
-    def create_button(
-        self,
-        text: str | int,
+    @classmethod
+    def create(
+        cls,
+        text: str | int = '',
+        *,
         on_press: Callable[[toga.Button], None],
+        style: Pack | None = None,
         **kwargs: object,
     ) -> toga.Button:
         """Create a button with default settings."""
