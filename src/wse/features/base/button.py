@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 import toga
 
 from wse.interface.ifeatures import IContent
-from wse.interface.ibutton import IButtonFactory, IButtonHandler
+from wse.interface.iui.ibutton import IButtonFactory, IButtonHandler
 
 
 class ButtonLine(toga.Box):

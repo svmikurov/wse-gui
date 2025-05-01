@@ -8,6 +8,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 # Paths
 MODULE_PATH = Path(__file__).resolve().parent
 PROJECT_PATH = MODULE_PATH.parents[2]
+RESOURCES_PATH = PROJECT_PATH / 'src' / 'wse' / 'resources'
+STYLES = RESOURCES_PATH / 'styles'
 ENV_PATH = PROJECT_PATH / '.env'
 
 

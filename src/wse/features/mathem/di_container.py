@@ -9,7 +9,7 @@ from wse.features import mathem
 class MathematicalContainer(containers.DeclarativeContainer):
     """Mathematical page container."""
 
-    # Containers
+    # Container dependencies
     share_container = providers.DependenciesContainer()
 
     # Mathematical page
@@ -32,7 +32,12 @@ class MathematicalContainer(containers.DeclarativeContainer):
     )
     multiplication_view = providers.Factory(
         mathem.MultiplicationView,
+        content=share_container.simple_content,
+        subject=share_container.subject,
+        model_display=share_container.single_line_display,
+        input_display=share_container.single_line_display,
         keypad=share_container.digit_keypad,
+        style_config=share_container.style_config,
     )
     multiplication_controller = providers.Factory(
         mathem.MultiplicationController,

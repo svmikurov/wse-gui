@@ -1,0 +1,17 @@
+default_font_size: &default_font_size
+  font_size: 14
+
+Title:
+  font_size: 24
+  text_align: "center"
+  padding_top: 7
+  padding_bottom: 7
+
+Label default:
+  <<: *default_font_size
+
+Single line display:
+  font_size: 32
+  text_align: "center"
+  padding_top: 12
+  padding_bottom: 12

@@ -7,24 +7,10 @@ the expected structure and behavior of key application components.
 from typing import Protocol
 
 import toga
-from toga.sources import Listener
 
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.shared.object_id import ObjectID
-
-
-class ISubject(Protocol):
-    """An observable object in the Observer pattern."""
-
-    def add_listener(self, listener: object) -> None:
-        """Register an observer to receive notifications."""
-
-    def notify(self, notification: str, **kwargs: object) -> None:
-        """Register an observer to receive notifications."""
-
-
-class IListener(Listener, Protocol):
-    """Protocol defining the interface for subject listener."""
+from wse.interface.iobserver import ISubject
 
 
 class IContent(Protocol):
@@ -32,6 +18,10 @@ class IContent(Protocol):
 
     @property
     def id(self) -> ObjectID | str:
+        """Get the object test ID."""
+
+    @id.setter
+    def id(self, value: ObjectID) -> None:
         """Get the object test ID."""
 
     def add(self, *children: toga.Widget) -> None:
@@ -44,6 +34,9 @@ class IContent(Protocol):
 
 class IContext(Protocol):
     """Protocol defining the interface for page context components."""
+
+
+# Model
 
 
 class IModel(Protocol):
@@ -61,30 +54,14 @@ class IModel(Protocol):
         """View context."""
 
 
-class IContainer(Protocol):
-    """Protocol defining the interface for widget container."""
-
-    @property
-    def subject(self) -> ISubject:
-        """Get the subject for observer pattern notifications."""
-
-    @property
-    def content(self) -> IContent:
-        """Get the page content."""
-
-    def get_content_widgets(self) -> list[toga.Widget]:
-        """Return content widgets."""
-
-    def localize_ui(self) -> None:
-        """Update all UI elements with current translations."""
+# Controller
 
 
-class IView(IContainer, Protocol):
-    """Protocol defining the interface for view components."""
+class IEventRunner(Protocol):
+    """Protocol defining the interface for start event on page open."""
 
-    @property
-    def title(self) -> str:
-        """Get the page title."""
+    def on_open(self, *args: object, **kwargs: object) -> None:
+        """Perform events on page open."""
 
 
 class IController(Protocol):
@@ -102,13 +79,6 @@ class IController(Protocol):
         """Navigate to page, the button event listener."""
 
 
-class IEventRunner(Protocol):
-    """Protocol defining the interface for start event on page open."""
-
-    def on_open(self, *args: object, **kwargs: object) -> None:
-        """Perform events on page open."""
-
-
 class IContextController(IController, IEventRunner, Protocol):
     """Protocol defining the interface for controller with context."""
 
@@ -116,3 +86,29 @@ class IContextController(IController, IEventRunner, Protocol):
 
     def request_context(self) -> None:
         """Request context from the model."""
+
+
+# View
+
+
+class IContainer(Protocol):
+    """Protocol defining the interface for widget container."""
+
+    @property
+    def subject(self) -> ISubject:
+        """Get the subject for observer pattern notifications."""
+
+    @property
+    def content(self) -> IContent:
+        """Get the page content."""
+
+    def localize_ui(self) -> None:
+        """Update all UI elements with current translations."""
+
+
+class IView(IContainer, Protocol):
+    """Protocol defining the interface for view components."""
+
+    @property
+    def title(self) -> str:
+        """Get the page title."""

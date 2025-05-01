@@ -6,6 +6,7 @@ from toga.style import Pack
 
 from wse.features.settings import TITLE_LABEL_FONT_SIZE, TITLE_LABEL_PADDING
 from wse.features.shared.observer import TextListenerMixin, ValueListenerMixin
+from wse.interface.ifeatures import IContent
 
 
 class TitleLabel(toga.Label):
@@ -79,3 +80,36 @@ class TextPanelScroll(toga.ScrollContainer):
     def clean(self) -> None:
         """Clear the value of the text widget."""
         self.content.value = ''
+
+
+class SingleLineDisplay:
+    """Provides a single line display."""
+
+    def __init__(
+        self,
+        content: IContent,
+        style_config: dict,
+    ) -> None:
+        """Construct the display."""
+        self._content = content
+        self._style_config = style_config
+
+        self._create_ui()
+        self._populate_content()
+
+    def _create_ui(self):
+        self._display = toga.Label('Display')
+
+    def _populate_content(self) -> None:
+        self._content.add(
+            self._display,
+        )
+
+    def update_style(self, value: dict) -> None:
+        """Update UI style."""
+        self._display.style.update(**value)
+
+    @property
+    def content(self) -> IContent:
+        """Page content (read-only)."""
+        return self._content
