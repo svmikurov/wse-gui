@@ -1,9 +1,5 @@
 """Defines symbol boxes fo numeric keyboard."""
 
-import toga
-from toga.style import Pack
-from typing_extensions import override
-
 from wse.features.base.button import (
     BaseKeypadBuilder,
     ButtonLine,

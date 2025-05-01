@@ -1,6 +1,5 @@
 """Defines general application button."""
 
-from functools import cached_property
 from typing import Callable
 
 import toga
@@ -33,6 +32,7 @@ class ButtonHandler:
         self.subject.notify('handle_button', value=button.text)
 
     def navigate(self, button: toga.Button) -> None:
+        """Navigate to page, the button event listener."""
         self.subject.notify('navigate', nav_id=button.text)
 
     @property
@@ -52,7 +52,7 @@ class ButtonFactory:
         on_press: Callable[[toga.Button], None],
         style: Pack | None = None,
         **kwargs: object,
-    ):
+    ) -> toga.Button:
         """Create a button with default settings."""
         button = toga.Button(
             text=str(text),

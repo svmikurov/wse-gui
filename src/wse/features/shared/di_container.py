@@ -6,7 +6,6 @@ from wse.config.settings import STYLES
 from wse.features.base.context import Context
 from wse.features.shared.content import BaseContent, SimpleContent
 from wse.features.shared.observer import Subject
-from wse.features.shared.style_id import StyleID
 from wse.features.shared.ui.button import ButtonFactory, ButtonHandler
 from wse.features.shared.ui.keypad import DigitKeypad
 from wse.features.shared.ui.ui_text import SingleLineDisplay

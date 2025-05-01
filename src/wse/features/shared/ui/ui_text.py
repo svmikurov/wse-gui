@@ -97,7 +97,7 @@ class SingleLineDisplay:
         self._create_ui()
         self._populate_content()
 
-    def _create_ui(self):
+    def _create_ui(self) -> None:
         self._display = toga.Label('Display')
 
     def _populate_content(self) -> None:

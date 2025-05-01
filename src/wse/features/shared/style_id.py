@@ -14,4 +14,3 @@ class StyleID(BaseEnum):
     DEFAULT_BUTTON = 'Default button'
     KEYPAD_BUTTON = 'Keypad button'
     LINE_DISPLAY = 'Single line display'
-

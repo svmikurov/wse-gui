@@ -1,7 +1,8 @@
 """Defines Multiplication page view."""
 
-import toga
+import dataclasses
 
+import toga
 from toga.style import Pack
 
 from wse.core.i18n import _
@@ -14,35 +15,27 @@ from wse.interface.iui.ikeypad import IKeypad
 from wse.interface.iui.itext import IDisplay
 
 
+@dataclasses.dataclass
 class MultiplicationView:
     """Multiplication page view."""
 
-    def __init__(
-        self,
-        content: IContent,
-        model_display: IDisplay,
-        input_display: IDisplay,
-        keypad: IKeypad,
-        style_config: dict,
-        button_factory: IButtonFactory,
-        button_handler: IButtonHandler,
-    ) -> None:
-        """Construct the view."""
-        self._content = content
-        self._model_display = model_display
-        self._input_display = input_display
-        self._keypad = keypad
-        self._style_config = style_config
-        self._button_factory = button_factory
-        self.button_handler = button_handler
+    _content: IContent
+    _model_display: IDisplay
+    _input_display: IDisplay
+    keypad: IKeypad
+    _style_config: dict
+    _button_factory: IButtonFactory
+    button_handler: IButtonHandler
 
+    def __post_init__(self) -> None:
+        """Post init."""
         self._content.id = ObjectID.MULTIPLICATION
         self._layout_view()
 
     def _layout_view(self) -> None:
         self._create_ui()
         self._populate_content()
-        self.update_widget_style(self._style_config)
+        self.update_ui_style()
         self.localize_ui()
 
     def _populate_content(self) -> None:
@@ -53,21 +46,19 @@ class MultiplicationView:
             self._answer_label,
             self._input_display.content,
             toga.Box(style=Pack(flex=1)),  # Flex stub
-            self._keypad.content,
+            self.keypad.content,
             self._answer_button,
             self._back_button,
         )
 
     def _create_ui(self) -> None:
-        self._title_label = toga.Label(text='')
-        self._question_label = toga.Label(text='')
-        self._answer_label = toga.Label(text='')
-        self._answer_button = self._button_factory.create(
-            on_press=self.button_handler.button_press
-        )
-        self._back_button = self._button_factory.create(
-            on_press=self.button_handler.navigate
-        )
+        self._title_label = self._create_label()
+        self._question_label = self._create_label()
+        self._answer_label = self._create_label()
+        self._answer_button = self._create_button()
+        self._back_button = self._create_navigation_button()
+
+    # Localize widget text
 
     def localize_ui(self) -> None:
         """Localize a text for user interface widgets."""
@@ -77,16 +68,21 @@ class MultiplicationView:
         self._answer_button.text = _('Check answer')
         self._back_button.text = _(NavigationID.BACK)
 
-    def update_widget_style(self, style: dict) -> None:
+    # Widget style
+
+    def update_ui_style(self) -> None:
         """Update widgets style."""
-        for widget, style_id in self._widget_styles.items():
+        style = self._style_config
+
+        for widget, style_id in self._ui_styles.items():
             widget.style.update(**style.get(style_id))
 
+        # UI with content has `update_style` method.
         self._model_display.update_style(style.get(StyleID.LINE_DISPLAY))
         self._input_display.update_style(style.get(StyleID.LINE_DISPLAY))
 
     @property
-    def _widget_styles(self) -> dict[toga.Widget, StyleID]:
+    def _ui_styles(self) -> dict[toga.Widget, StyleID]:
         return {
             self._title_label: StyleID.TITLE,
             self._question_label: StyleID.DEFAULT_LABEL,
@@ -95,7 +91,23 @@ class MultiplicationView:
             self._back_button: StyleID.DEFAULT_BUTTON,
         }
 
+    # Utility methods
+
     @property
     def content(self) -> IContent:
         """Page content (read-only)."""
         return self._content
+
+    @staticmethod
+    def _create_label() -> toga.Label:
+        return toga.Label(text='')
+
+    def _create_button(self) -> toga.Button:
+        return self._button_factory.create(
+            on_press=self.button_handler.button_press
+        )
+
+    def _create_navigation_button(self) -> toga.Button:
+        return self._button_factory.create(
+            on_press=self.button_handler.navigate
+        )

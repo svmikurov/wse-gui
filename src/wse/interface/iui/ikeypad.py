@@ -13,3 +13,5 @@ class IKeypad(Protocol):
     @property
     def content(self) -> [toga.Widget]:
         """Widgets of keypad."""
+    def subscribe(self, listener: object) -> None:
+        """Register an observer to receive notifications."""
