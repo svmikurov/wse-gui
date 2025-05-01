@@ -65,7 +65,9 @@ class BaseKeypadBuilder(ABC):
     # Button creation
 
     def _create_button(
-        self, symbol: int | str, **kwargs: object
+        self,
+        symbol: int | str,
+        **kwargs: object
     ) -> toga.Button:
         """Create a button."""
         return self._button_factory.create_button(

@@ -13,8 +13,6 @@ from wse.features.base.button import (
 class DigitKeypad(BaseKeypadBuilder):
     """Digit keypad."""
 
-    _KWARGS = {'style': Pack(font_weight='bold')}
-
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the box."""
         super().__init__(*args, **kwargs)
@@ -61,4 +59,4 @@ class DigitKeypad(BaseKeypadBuilder):
         self, symbol: int | str, **kwargs: object
     ) -> toga.Button:
         """Create a button with additional style."""
-        return super()._create_button(symbol, **self._KWARGS)
+        return super()._create_button(symbol)

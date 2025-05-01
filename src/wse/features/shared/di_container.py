@@ -6,6 +6,7 @@ from wse.config.settings import STYLES
 from wse.features.base.context import Context
 from wse.features.shared.content import BaseContent, SimpleContent
 from wse.features.shared.observer import Subject
+from wse.features.shared.style_id import StyleID
 from wse.features.shared.ui.button import ButtonFactory, ButtonHandler
 from wse.features.shared.ui.keypad import DigitKeypad
 from wse.features.shared.ui.ui_text import SingleLineDisplay
@@ -13,6 +14,13 @@ from wse.features.shared.ui.ui_text import SingleLineDisplay
 
 class ShareContainer(containers.DeclarativeContainer):
     """Share providers container."""
+
+    # Configurations
+    style_config = providers.Configuration(
+        yaml_files=[
+            STYLES / 'styles.yaml',
+        ]
+    )
 
     # Injections
     content_box = providers.Factory(
@@ -27,30 +35,29 @@ class ShareContainer(containers.DeclarativeContainer):
     simple_content = providers.Factory(
         SimpleContent,
     )
-    button_factory = providers.Factory(
+
+    # Buttons helpers
+    keypad_button_factory = providers.Factory(
         ButtonFactory,
+        style_config=style_config,
+        style_id=StyleID.KEYPAD_BUTTON,
     )
     button_handler = providers.Factory(
         ButtonHandler,
         subject=subject,
     )
 
-    # UI
-    style_config = providers.Configuration(
-        yaml_files=[
-            STYLES / 'styles.yaml',
-        ]
-    )
-
+    # Text / digit display panel
     single_line_display = providers.Factory(
         SingleLineDisplay,
         content=simple_content,
         style_config=style_config,
     )
 
+    # Digit keypad
     digit_keypad = providers.Factory(
         DigitKeypad,
-        handler=button_handler,
         content=simple_content,
-        button_factory=button_factory,
+        handler=button_handler,
+        button_factory=keypad_button_factory,
     )

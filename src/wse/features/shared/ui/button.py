@@ -1,8 +1,10 @@
 """Defines general application button."""
 
+from functools import cached_property
 from typing import Callable
 
 import toga
+from toga.style import Pack
 
 from wse.features.settings import BUTTON_HEIGHT, FONT_SIZE_APP
 from wse.interface.ifeatures import ISubject
@@ -17,32 +19,6 @@ class AppButton(toga.Button):
         self.style.flex = 1
         self.style.height = BUTTON_HEIGHT
         self.style.font_size = FONT_SIZE_APP
-
-
-class KeypadButton(toga.Button):
-    """Button of keypad."""
-
-    _FONT_SIZE = 18
-    _BUTTON_HEIGHT = 80
-    _BUTTON_PADDING = (0, 0, 0, 0)
-
-    def __init__(
-        self,
-        text: str | int,
-        *,
-        font_size: int = _FONT_SIZE,
-        button_height: int = _BUTTON_HEIGHT,
-        padding: tuple = _BUTTON_PADDING,
-        on_press: Callable[[toga.Button], None],
-        **kwargs: object,
-    ) -> None:
-        """Construct the button."""
-        super().__init__(text=str(text), **kwargs)
-        self.style.font_size = font_size
-        self.style.flex = 1
-        self.style.height = button_height
-        self.on_press = on_press
-        self.style.padding = padding
 
 
 class ButtonHandler:
@@ -65,23 +41,32 @@ class ButtonHandler:
 class ButtonFactory:
     """Factory for creating buttons with a single style."""
 
-    _DEFAULT_FONT_SIZE = 18
-    _DEFAULT_HEIGHT = 80
-    _DEFAULT_PADDING = (0, 0, 0, 0)
+    def __init__(
+        self,
+        style_config: dict,
+        style_id: str,
+    ) -> None:
+        """Construct the button."""
+        self._style_config = style_config
+        self._style_id = style_id
 
     def create_button(
         self,
         text: str | int,
         on_press: Callable[[toga.Button], None],
+        style: Pack | None = None,
         **kwargs: object,
-    ) -> toga.Button:
+    ):
         """Create a button with default settings."""
-        button = KeypadButton(
+        button = toga.Button(
             text=str(text),
             on_press=on_press,
-            font_size=self._DEFAULT_FONT_SIZE,
-            button_height=self._DEFAULT_HEIGHT,
-            padding=self._DEFAULT_PADDING,
+            style=style if style is not None else self._button_style,
             **kwargs,
         )
         return button
+
+    @cached_property
+    def _button_style(self) -> Pack:
+        """Get button style."""
+        return Pack(**self._style_config.get(self._style_id))

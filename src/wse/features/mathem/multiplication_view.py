@@ -6,6 +6,7 @@ from toga.style import Pack
 
 from wse.core.i18n import _
 from wse.features.shared.object_id import ObjectID
+from wse.features.shared.style_id import StyleID
 from wse.interface.ifeatures import IContent
 from wse.interface.iobserver import ISubject
 from wse.interface.iui.ikeypad import IKeypad
@@ -30,7 +31,7 @@ class MultiplicationView:
         self._model_display = model_display
         self._input_display = input_display
         self._keypad = keypad
-        self._style = style_config
+        self._style_config = style_config
 
         self._content.id = ObjectID.MULTIPLICATION
         self._layout_view()
@@ -53,18 +54,9 @@ class MultiplicationView:
             self._model_display.content,
             self._answer_label,
             self._input_display.content,
-            toga.Box(style=Pack(flex=1)),
+            toga.Box(style=Pack(flex=1)),  # Flex stub
             self._keypad.content,
         )
-
-    def update_style(self, to_style: dict | None = None) -> None:
-        style = to_style if to_style is not None else self._style
-
-        self._title_label.style.update(**style.get('Title'))
-        self._question_label.style.update(**style.get('Label default'))
-        self._answer_label.style.update(**style.get('Label default'))
-        self._model_display.update_style(style.get('Single line display'))
-        self._input_display.update_style(style.get('Single line display'))
 
     def localize_ui(self) -> None:
         """Localize a text for user interface widgets."""
@@ -72,6 +64,14 @@ class MultiplicationView:
         self._question_label.text = _('Question')
         self._answer_label.text = _('Answer input')
 
+    def update_style(self, style: dict | None = None) -> None:
+        _style = style if style is not None else self._style_config
+
+        self._title_label.style.update(**_style.get('Title'))
+        self._question_label.style.update(**_style.get('Label default'))
+        self._answer_label.style.update(**_style.get('Label default'))
+        self._model_display.update_style(_style.get('Single line display'))
+        self._input_display.update_style(_style.get('Single line display'))
 
     @property
     def subject(self) -> ISubject:

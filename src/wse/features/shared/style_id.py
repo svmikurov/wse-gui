@@ -1,15 +1,15 @@
 """Defines widget stile ID enumeration."""
 
-from enum import Enum, unique
+from enum import unique
+
+from wse.core.base import BaseEnum
 
 
 @unique
-class StyleID(Enum):
+class StyleID(BaseEnum):
     """Widget stile ID enumeration."""
 
-    def __init__(self, style_config: dict):
-        super().__init__()
-        self.style_config = style_config
+    KEYPAD_BUTTON = 'Keypad button'
 
     LABEL = 'Label'
     LABEL_RED = 'Label model'

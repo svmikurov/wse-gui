@@ -15,3 +15,12 @@ Single line display:
   text_align: "center"
   padding_top: 12
   padding_bottom: 12
+
+Keypad button:
+  font_size: 18
+  flex: 1
+  height: 60
+  padding_top: 1
+  padding_right: 1
+  padding_bottom: 1
+  padding_left: 1
