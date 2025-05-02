@@ -8,7 +8,7 @@ from wse.features.shared.content import BaseContent, SimpleContent
 from wse.features.shared.observer import Subject
 from wse.features.shared.ui.button import ButtonFactory, ButtonHandler
 from wse.features.shared.ui.keypad import DigitKeypad
-from wse.features.shared.ui.ui_text import SingleLineDisplay
+from wse.features.shared.ui.ui_text import LineDisplay
 
 
 class ShareContainer(containers.DeclarativeContainer):
@@ -45,8 +45,8 @@ class ShareContainer(containers.DeclarativeContainer):
     )
 
     # Text / digit display panel
-    single_line_display = providers.Factory(
-        SingleLineDisplay,
+    line_display = providers.Factory(
+        LineDisplay,
         content=simple_content,
         style_config=style_config,
     )

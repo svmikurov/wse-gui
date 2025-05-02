@@ -82,7 +82,7 @@ class TextPanelScroll(toga.ScrollContainer):
         self.content.value = ''
 
 
-class SingleLineDisplay:
+class LineDisplay:
     """Provides a single line display."""
 
     def __init__(
