@@ -20,6 +20,8 @@ class DisplayModel:
             self._text = self._text[:-1]
         elif value == '.' and value in self._text:
             return
+        elif value == '0' and self._text == '0':
+            self._text += '.0'
         else:
             self._text += value
         self._change_display_text()
