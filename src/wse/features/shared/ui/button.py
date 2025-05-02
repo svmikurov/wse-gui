@@ -31,6 +31,10 @@ class ButtonHandler:
         """Handle button press and notify Subject."""
         self.subject.notify('handle_button', value=button.text)
 
+    def keypad_press(self, button: toga.Button) -> None:
+        """Handle keypad button press and notify Subject."""
+        self.subject.notify('handel_keypad_press', value=button.text)
+
     def navigate(self, button: toga.Button) -> None:
         """Navigate to page, the button event listener."""
         self.subject.notify('navigate', nav_id=button.text)

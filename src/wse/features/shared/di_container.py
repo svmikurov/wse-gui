@@ -2,27 +2,15 @@
 
 from dependency_injector import containers, providers
 
-from wse.config.settings import STYLES
 from wse.features.base.context import Context
 from wse.features.shared.content import BaseContent, SimpleContent
 from wse.features.shared.observer import Subject
-from wse.features.shared.ui.button import ButtonFactory, ButtonHandler
-from wse.features.shared.ui.keypad import DigitKeypad
-from wse.features.shared.ui.ui_text import LineDisplay
-from wse.features.shared.ui.ui_text_model import DisplayModel
+from wse.features.shared.ui.di_conatiner import UIContainer
 
 
 class ShareContainer(containers.DeclarativeContainer):
     """Share providers container."""
 
-    # Configurations
-    style_config = providers.Configuration(
-        yaml_files=[
-            STYLES / 'styles.yaml',
-        ]
-    )
-
-    # Injections
     content_box = providers.Factory(
         BaseContent,
     )
@@ -36,31 +24,16 @@ class ShareContainer(containers.DeclarativeContainer):
         SimpleContent,
     )
 
-    # Buttons helpers
-    button_factory = providers.Factory(
-        ButtonFactory,
-    )
-    button_handler = providers.Factory(
-        ButtonHandler,
+    ui_container = providers.Container(
+        UIContainer,
         subject=subject,
+        simple_content=simple_content,
     )
 
-    # Text / digit display
-    display_model = providers.Factory(
-        DisplayModel,
-        _subject=subject,
-    )
-    line_display = providers.Factory(
-        LineDisplay,
-        content=simple_content,
-        style_config=style_config,
-    )
-
-    # Digit keypad
-    digit_keypad = providers.Factory(
-        DigitKeypad,
-        content=simple_content,
-        button_factory=button_factory,
-        button_handler=button_handler,
-        style_config=style_config,
-    )
+    # API
+    display_model = ui_container.display_model
+    line_display = ui_container.line_display
+    digit_keypad = ui_container.digit_keypad
+    style_config = ui_container.style_config
+    button_factory = ui_container.button_factory
+    button_handler = ui_container.button_handler

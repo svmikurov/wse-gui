@@ -53,6 +53,10 @@ class MultiplicationController(ContextController):
 
     # Listening to view notification
 
-    def handle_button(self, value: str) -> None:
-        """Handel press keypad button."""
+    def handel_keypad_press(self, value: str) -> None:
+        """Handle keypad button press and notify Subject."""
         self.model.display_input.change(value)
+
+    def handle_button(self, value: str) -> None:
+        """Handle button press and notify Subject."""
+        logger.debug(f'Pressed "{value}" button')

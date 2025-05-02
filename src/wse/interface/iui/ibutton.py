@@ -18,6 +18,8 @@ class IButtonHandler(Protocol):
         """Get the subject for observer pattern notifications."""
     def button_press(self, button: toga.Button) -> None:
         """Handle button press and notify Subject."""
+    def keypad_press(self, button: toga.Button) -> None:
+        """Handle keypad button press and notify Subject."""
     def navigate(self, button: toga.Button) -> None:
         """Navigate by button text, button handler."""
 

@@ -1,17 +1,29 @@
 """Defines symbol boxes fo numeric keyboard."""
 
-from wse.features.base.button import (
-    BaseKeypadBuilder,
-    ButtonLine,
-)
+import dataclasses
+
+import toga
+from toga.style import Pack
+
+from wse.features.shared.style_id import StyleID
+from wse.interface.ifeatures import IContent
+from wse.interface.iui.ibutton import IButtonFactory, IButtonHandler
 
 
-class DigitKeypad(BaseKeypadBuilder):
+@dataclasses.dataclass
+class DigitKeypad:
     """Digit keypad."""
 
-    def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the box."""
-        super().__init__(*args, **kwargs)
+    _content: IContent
+    _button_factory: IButtonFactory
+    _button_handler: IButtonHandler
+    _style_config: dict
+
+    def __post_init__(self) -> None:
+        """Construct the keypad."""
+        self._build_button_line()
+        self._build_buttons()
+        self._build_keypad()
         self._style_button()
 
     def _build_keypad(self) -> None:
@@ -28,10 +40,10 @@ class DigitKeypad(BaseKeypadBuilder):
         self._buttons_line_4.add(self._btn_d, self._btn_0, self._btn_b)
 
     def _build_button_line(self) -> None:
-        self._buttons_line_1 = ButtonLine()
-        self._buttons_line_2 = ButtonLine()
-        self._buttons_line_3 = ButtonLine()
-        self._buttons_line_4 = ButtonLine()
+        self._buttons_line_1 = toga.Box()
+        self._buttons_line_2 = toga.Box()
+        self._buttons_line_3 = toga.Box()
+        self._buttons_line_4 = toga.Box()
 
     def _build_buttons(self) -> None:
         self._btn_1 = self._create_button(1)
@@ -49,3 +61,25 @@ class DigitKeypad(BaseKeypadBuilder):
 
     def _style_button(self) -> None:
         self._btn_5.style.color = 'green'
+
+    # Utility methods
+
+    def _create_button(
+        self, symbol: int | str, **kwargs: object
+    ) -> toga.Button:
+        """Create a button."""
+        return self._button_factory.create(
+            symbol,
+            style=Pack(**self._style_config.get(StyleID.KEYPAD_BUTTON)),
+            on_press=self._button_handler.keypad_press,
+            **kwargs,
+        )
+
+    def subscribe(self, listener: object) -> None:
+        """Register an observer to receive notifications."""
+        self._button_handler.subject.add_listener(listener=listener)
+
+    @property
+    def content(self) -> IContent:
+        """Return UI content."""
+        return self._content

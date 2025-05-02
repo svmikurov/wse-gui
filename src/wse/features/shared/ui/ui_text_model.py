@@ -18,6 +18,8 @@ class DisplayModel:
         """Change a text to display."""
         if value == '⌫':
             self._text = self._text[:-1]
+        elif value == '.' and value in self._text:
+            return
         else:
             self._text += value
         self._change_display_text()
