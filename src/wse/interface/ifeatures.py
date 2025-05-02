@@ -9,7 +9,7 @@ from typing import Protocol
 import toga
 
 from wse.core.navigation.navigation_id import NavigationID
-from wse.features.shared.object_id import ObjectID
+from wse.features.shared.enums.object_id import ObjectID
 from wse.interface.iobserver import ISubject
 
 # ruff: noqa: D101, D102, D204, E301, E302

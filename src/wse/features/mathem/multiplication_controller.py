@@ -7,8 +7,8 @@ import logging
 from typing import TYPE_CHECKING
 
 from wse.features.base.mvc import ContextController
-from wse.features.shared.action_id import ActionID
-from wse.features.shared.ui_names import UIName
+from wse.features.shared.enums.action_id import ActionID
+from wse.features.shared.enums.ui_names import UIName
 from wse.interface.iobserver import IStateSubject
 
 if TYPE_CHECKING:

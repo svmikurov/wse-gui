@@ -12,7 +12,7 @@ from wse.features.shared.containers.params import (
     SwitchLabelBox,
     SwitchNumberInputBox,
 )
-from wse.features.shared.object_id import ObjectID
+from wse.features.shared.enums.object_id import ObjectID
 from wse.features.shared.ui.ui_text import TextPanel, TitleLabel
 
 

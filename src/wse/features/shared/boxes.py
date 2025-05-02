@@ -4,7 +4,7 @@ import toga
 from toga.constants import COLUMN
 
 from wse.features.settings import PADDING_SM
-from wse.features.shared.object_id import ObjectID
+from wse.features.shared.enums.object_id import ObjectID
 
 
 class IDWidgetMixin:

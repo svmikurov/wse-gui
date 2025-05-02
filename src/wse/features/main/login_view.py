@@ -6,7 +6,7 @@ from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.base.mvc import BaseView
 from wse.features.main.containers.login import LoginContainer
-from wse.features.shared.object_id import ObjectID
+from wse.features.shared.enums.object_id import ObjectID
 from wse.features.shared.ui.ui_text import TextPanel, TitleLabel
 
 logger = logging.getLogger(__name__)
