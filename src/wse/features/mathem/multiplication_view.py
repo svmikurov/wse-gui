@@ -7,6 +7,7 @@ from toga.style import Pack
 
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
+from wse.features.shared.action_id import ActionID
 from wse.features.shared.object_id import ObjectID
 from wse.features.shared.style_id import StyleID
 from wse.interface.ifeatures import IContent
@@ -20,8 +21,8 @@ class MultiplicationView:
     """Multiplication page view."""
 
     _content: IContent
-    display_model: IDisplayPanel
-    display_input: IDisplayPanel
+    display_question: IDisplayPanel
+    display_answer: IDisplayPanel
     keypad: IKeypad
     _style_config: dict
     _button_factory: IButtonFactory
@@ -42,9 +43,9 @@ class MultiplicationView:
         self._content.add(
             self._title_label,
             self._question_label,
-            self.display_model.content,
+            self.display_question.content,
             self._answer_label,
-            self.display_input.content,
+            self.display_answer.content,
             toga.Box(style=Pack(flex=1)),  # Flex stub
             self.keypad.content,
             self._answer_button,
@@ -65,7 +66,7 @@ class MultiplicationView:
         self._title_label.text = _('Multiplication title')
         self._question_label.text = _('Question')
         self._answer_label.text = _('Answer input')
-        self._answer_button.text = _('Check answer')
+        self._answer_button.text = _(ActionID.CHECK_ANSWER)
         self._back_button.text = _(NavigationID.BACK)
 
     # Widget style
@@ -88,8 +89,8 @@ class MultiplicationView:
             widget.style.update(**style.get(style_id))
 
         # UI with content has `update_style` method.
-        self.display_model.update_style(style.get(StyleID.LINE_DISPLAY))
-        self.display_input.update_style(style.get(StyleID.LINE_DISPLAY))
+        self.display_question.update_style(style.get(StyleID.LINE_DISPLAY))
+        self.display_answer.update_style(style.get(StyleID.LINE_DISPLAY))
 
     # Utility methods
 

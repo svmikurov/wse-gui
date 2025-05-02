@@ -5,7 +5,7 @@ from typing import Protocol
 import toga
 from toga.style import Pack
 
-from wse.features import UIName
+from wse.features.shared.ui_names import UIName
 from wse.interface.iobserver import ISubject
 
 # ruff: noqa: D101, D102, D204, E301, E302
@@ -37,3 +37,6 @@ class IDisplayModel(Protocol):
     @property
     def subject(self) -> ISubject:
         """Model subject."""
+    @property
+    def text(self) -> str:
+        """Display model text."""

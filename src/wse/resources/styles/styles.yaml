@@ -9,6 +9,7 @@ Title:
 
 Default label:
   <<: *default_font_size
+  padding_left: 7
 
 Single line display:
   font_size: 32

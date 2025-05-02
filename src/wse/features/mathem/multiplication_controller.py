@@ -6,8 +6,9 @@ import dataclasses
 import logging
 from typing import TYPE_CHECKING
 
-from wse.features import UIName
 from wse.features.base.mvc import ContextController
+from wse.features.shared.action_id import ActionID
+from wse.features.shared.ui_names import UIName
 from wse.interface.iobserver import IStateSubject
 
 if TYPE_CHECKING:
@@ -37,8 +38,8 @@ class MultiplicationController(ContextController):
     def named_ui(self) -> dict[UIName, IStateSubject]:
         """Get a UI by name to manage its state."""
         return {
-            'display_model': self.view.display_model,
-            'display_input': self.view.display_input,
+            UIName.QUESTION_DISPLAY: self.view.display_question,
+            UIName.ANSWER_DISPLAY: self.view.display_answer,
         }
 
     def change_ui_value(self, ui_name: UIName, value: str) -> None:
@@ -55,8 +56,11 @@ class MultiplicationController(ContextController):
 
     def handel_keypad_press(self, value: str) -> None:
         """Handle keypad button press and notify Subject."""
-        self.model.display_input.change(value)
+        self.model.display_answer.change(value)
 
     def handle_button(self, value: str) -> None:
         """Handle button press and notify Subject."""
-        logger.debug(f'Pressed "{value}" button')
+        match value:
+            case ActionID.CHECK_ANSWER:
+                result = self.model.check_answer()
+                logger.debug(f'Checking result: {result}')

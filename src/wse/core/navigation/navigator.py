@@ -73,15 +73,7 @@ class Navigator:
     # Utility methods
     def _get_content(self, nav_id: NavigationID) -> IContent | None:
         controller = self.routes[nav_id]
-        # TODO: Remove next:
-        # try:
-        #     controller.request_context()
-        # except AttributeError as e:
-        #     logger.debug(f'Page has not `render_context` method: {e}')
-        # TODO: Add next:
-        # if hasattr(controller, 'request_context'):
-        #     controller.request_context()
-        self._run_page_on_open_event(controller)
+        controller.on_open()
         return controller.content
 
     def _go_back(self) -> None:
@@ -92,10 +84,6 @@ class Navigator:
     def _set_window_content(self, content: IContent) -> None:
         self._main_window.content = content
         logger.debug(f'Navigated to "{content.id}" page')
-
-    @staticmethod
-    def _run_page_on_open_event(controller: IContextController) -> None:
-        controller.on_open()
 
     @property
     def _previous_nav_id(self) -> NavigationID | None:

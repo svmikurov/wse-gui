@@ -2,7 +2,8 @@
 
 from typing import Protocol
 
-from wse.interface.ifeatures import IListener, ISubject
+from wse.interface.ifeatures import ISubject
+from wse.interface.iobserver import IListener
 
 # ruff: noqa: D101, D102, E302
 # fmt: off
@@ -64,4 +65,8 @@ class ILesson(
 ):
     """Comprehensive interface for exercise lifecycle management."""
 
-# fmt: on
+class IAnswerChecker(Protocol):
+    """Defines interface for answer checker."""
+
+    def check(self, user_answer: str, correct_answer: str) -> bool:
+        """Check the answer to the task."""

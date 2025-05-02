@@ -1,6 +1,6 @@
 """Defines base implementation for exercise lesson flow."""
 
-from wse.features.mathem.lesson.interfaces import IExercise
+from wse.features.mathem.exercises.interfaces import IExercise
 from wse.features.shared.observer import Subject
 from wse.interface.ifeatures import IListener, ISubject
 

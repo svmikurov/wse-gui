@@ -3,8 +3,9 @@
 import dataclasses
 import logging
 
-from wse.features import UIName
-from wse.interface.ifeatures import IModel
+from wse.features.mathem.exercises.interfaces import IAnswerChecker, IExercise
+from wse.features.mathem.multiplication_controller import UIName
+from wse.interface.ifeatures import IContext, IModel
 from wse.interface.iobserver import ISubject
 from wse.interface.iui.itext import IDisplayModel
 
@@ -15,20 +16,23 @@ logger = logging.getLogger(__name__)
 class MultiplicationModel(IModel):
     """Multiplication page model."""
 
+    exercise: IExercise
+    _answer_checker: IAnswerChecker
+
     _subject: ISubject
-    display_model: IDisplayModel
-    display_input: IDisplayModel
+    display_question: IDisplayModel
+    display_answer: IDisplayModel
+    _context: IContext
 
     def __post_init__(self) -> None:
         """Subscribe to notifications."""
-        self.display_model.set_ui_name('display_model')
-        self.display_model.subject.add_listener(self)
-        self.display_input.set_ui_name('display_input')
-        self.display_input.subject.add_listener(self)
+        self.display_question.set_ui_name(UIName.QUESTION_DISPLAY)
+        self.display_question.subject.add_listener(self)
+        self.display_answer.set_ui_name(UIName.ANSWER_DISPLAY)
+        self.display_answer.subject.add_listener(self)
 
     # Context
 
-    # TODO: remove from class?
     def render_context(self) -> None:
         """Render the context to view."""
         self._set_context()
@@ -36,9 +40,21 @@ class MultiplicationModel(IModel):
 
     def _set_context(self) -> None:
         """Set view context for render into view."""
+        self.display_answer.clean()
+        self.exercise.create_task()
+        self.context['question'] = self.exercise.task
 
     def _notify_render_context(self) -> None:
         """Notify controller to fill view with context."""
+        self.change_ui_value(UIName.QUESTION_DISPLAY, self.context['question'])
+        self.clean_ui_value(UIName.ANSWER_DISPLAY)
+
+    # Exercise methods
+
+    def check_answer(self) -> bool:
+        """Check user answer."""
+        user_answer = self.display_answer.text
+        return self._answer_checker.check(user_answer, self.exercise.answer)
 
     # Notifications
 
@@ -56,3 +72,8 @@ class MultiplicationModel(IModel):
     def subject(self) -> ISubject:
         """Model subject."""
         return self._subject
+
+    @property
+    def context(self) -> IContext:
+        """Model subject."""
+        return self._context

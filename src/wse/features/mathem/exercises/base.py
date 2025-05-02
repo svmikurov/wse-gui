@@ -7,7 +7,7 @@ from random import randint
 logger = logging.getLogger(__name__)
 
 
-class BaseCalcExercise(ABC):
+class CalculationExercise(ABC):
     """Abstract base class for numerical calculation exercises."""
 
     def __init__(

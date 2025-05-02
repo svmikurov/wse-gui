@@ -98,7 +98,7 @@ class LineDisplay:
         self._populate_content()
 
     def _create_ui(self) -> None:
-        self._display = toga.Label('Display')
+        self._display = toga.Label('')
 
     def _populate_content(self) -> None:
         self._content.add(
