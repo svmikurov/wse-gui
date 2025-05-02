@@ -13,9 +13,9 @@ from wse.core.storage.token import TokenStorage
 class CoreContainer(containers.DeclarativeContainer):
     """Core package container for dependency injection."""
 
+    # Configuration
     settings_provider = providers.Configuration(pydantic_settings=[Settings()])
     settings = settings_provider.get_pydantic_settings()[0]
-
     endpoints = providers.Configuration(yaml_files=[settings.ENDPOINTS_PATH])
 
     # Services
