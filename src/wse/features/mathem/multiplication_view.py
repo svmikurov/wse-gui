@@ -12,7 +12,7 @@ from wse.features.shared.style_id import StyleID
 from wse.interface.ifeatures import IContent
 from wse.interface.iui.ibutton import IButtonFactory, IButtonHandler
 from wse.interface.iui.ikeypad import IKeypad
-from wse.interface.iui.itext import IDisplay
+from wse.interface.iui.itext import IDisplayPanel
 
 
 @dataclasses.dataclass
@@ -20,8 +20,8 @@ class MultiplicationView:
     """Multiplication page view."""
 
     _content: IContent
-    _model_display: IDisplay
-    _input_display: IDisplay
+    _model_display: IDisplayPanel
+    _input_display: IDisplayPanel
     keypad: IKeypad
     _style_config: dict
     _button_factory: IButtonFactory

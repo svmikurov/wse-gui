@@ -9,7 +9,7 @@ from toga.style import Pack
 # fmt: off
 
 
-class IDisplay(Protocol):
+class IDisplayPanel(Protocol):
     """Protocol defining the interface for button handler."""
     @property
     def content(self) -> [toga.Widget]:
