@@ -49,6 +49,7 @@ class IModel(Protocol):
     def subject(self) -> ISubject:
         """Model subject."""
 
+    # TODO: remove from interface?
     @property
     def context(self) -> IContext:
         """View context."""

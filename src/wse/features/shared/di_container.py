@@ -9,6 +9,7 @@ from wse.features.shared.observer import Subject
 from wse.features.shared.ui.button import ButtonFactory, ButtonHandler
 from wse.features.shared.ui.keypad import DigitKeypad
 from wse.features.shared.ui.ui_text import LineDisplay
+from wse.features.shared.ui.ui_text_model import DisplayModel
 
 
 class ShareContainer(containers.DeclarativeContainer):
@@ -44,7 +45,11 @@ class ShareContainer(containers.DeclarativeContainer):
         subject=subject,
     )
 
-    # Text / digit display panel
+    # Text / digit display
+    display_model = providers.Factory(
+        DisplayModel,
+        _subject=subject,
+    )
     line_display = providers.Factory(
         LineDisplay,
         content=simple_content,

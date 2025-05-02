@@ -109,6 +109,18 @@ class LineDisplay:
         """Update UI style."""
         self._display.style.update(**value)
 
+    # Listening to notifications
+
+    def change(self, value: str) -> None:
+        """Update text widget value."""
+        self._display.text = value
+
+    def clean(self) -> None:
+        """Clear the value of the text widget."""
+        self._display.text = ''
+
+    # Utility methods
+
     @property
     def content(self) -> IContent:
         """Page content (read-only)."""

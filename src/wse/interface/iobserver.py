@@ -17,3 +17,11 @@ class ISubject(Protocol):
 
 class IListener(Listener, Protocol):
     """Protocol defining the interface for subject listener."""
+
+
+class IStateSubject(Protocol):
+    """Protocol defining the interface for a state change subject."""
+    def change(self, value: str) -> None:
+        """Change a text to display."""
+    def clean(self) -> None:
+        """Clean a text in display panel."""

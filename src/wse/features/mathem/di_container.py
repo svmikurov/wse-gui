@@ -29,12 +29,15 @@ class MathematicalContainer(containers.DeclarativeContainer):
     # Multiplication page
     multiplication_model = providers.Factory(
         mathem.MultiplicationModel,
+        _subject=share_container.subject,
+        display_model=share_container.display_model,
+        display_input=share_container.display_model,
     )
     multiplication_view = providers.Factory(
         mathem.MultiplicationView,
         _content=share_container.simple_content,
-        _model_display=share_container.line_display,
-        _input_display=share_container.line_display,
+        display_model=share_container.line_display,
+        display_input=share_container.line_display,
         keypad=share_container.digit_keypad,
         _style_config=share_container.style_config,
         _button_factory=share_container.button_factory,

@@ -20,8 +20,8 @@ class MultiplicationView:
     """Multiplication page view."""
 
     _content: IContent
-    _model_display: IDisplayPanel
-    _input_display: IDisplayPanel
+    display_model: IDisplayPanel
+    display_input: IDisplayPanel
     keypad: IKeypad
     _style_config: dict
     _button_factory: IButtonFactory
@@ -42,9 +42,9 @@ class MultiplicationView:
         self._content.add(
             self._title_label,
             self._question_label,
-            self._model_display.content,
+            self.display_model.content,
             self._answer_label,
-            self._input_display.content,
+            self.display_input.content,
             toga.Box(style=Pack(flex=1)),  # Flex stub
             self.keypad.content,
             self._answer_button,
@@ -70,17 +70,6 @@ class MultiplicationView:
 
     # Widget style
 
-    def update_ui_style(self) -> None:
-        """Update widgets style."""
-        style = self._style_config
-
-        for widget, style_id in self._ui_styles.items():
-            widget.style.update(**style.get(style_id))
-
-        # UI with content has `update_style` method.
-        self._model_display.update_style(style.get(StyleID.LINE_DISPLAY))
-        self._input_display.update_style(style.get(StyleID.LINE_DISPLAY))
-
     @property
     def _ui_styles(self) -> dict[toga.Widget, StyleID]:
         return {
@@ -90,6 +79,17 @@ class MultiplicationView:
             self._answer_button: StyleID.DEFAULT_BUTTON,
             self._back_button: StyleID.DEFAULT_BUTTON,
         }
+
+    def update_ui_style(self) -> None:
+        """Update widgets style."""
+        style = self._style_config
+
+        for widget, style_id in self._ui_styles.items():
+            widget.style.update(**style.get(style_id))
+
+        # UI with content has `update_style` method.
+        self.display_model.update_style(style.get(StyleID.LINE_DISPLAY))
+        self.display_input.update_style(style.get(StyleID.LINE_DISPLAY))
 
     # Utility methods
 
