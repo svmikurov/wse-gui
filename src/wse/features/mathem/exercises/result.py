@@ -28,5 +28,5 @@ class CheckResult:
         self._is_correct = value
 
     def __str__(self) -> str:
-        """The string representation of check result."""
+        """Return the string representation of check result."""
         return str(self.is_correct)

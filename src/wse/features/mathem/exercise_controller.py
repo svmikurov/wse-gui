@@ -30,6 +30,7 @@ class ExerciseController:
         """Post init."""
         # Subscribe to model notifications
         self.model.subject.add_listener(self)
+
         # Subscribe to view notifications
         self.view.button_handler.subject.add_listener(self)
         self.view.keypad.subscribe(listener=self)
@@ -58,21 +59,21 @@ class ExerciseController:
         ui = self.state_ui.get(ui_name)
         ui.clean()
 
-    # -=== Listening to view notification ===-
+    # -=== Listening to View notification ===-
+
+    def navigate(self, nav_id: NavigationID) -> None:
+        """Navigate to page, the button event listener."""
+        self._subject.notify('navigate', nav_id=nav_id)
 
     def handel_keypad_press(self, value: str) -> None:
         """Handle keypad button press and notify Subject."""
         self.model.display_answer.change(value)
 
-    def handle_button(self, value: str) -> None:
+    def handle_button_press(self, value: str) -> None:
         """Handle button press and notify Subject."""
         match value:
             case ActionID.CHECK_ANSWER:
                 self.model.handel_answer()
-
-    def navigate(self, nav_id: NavigationID) -> None:
-        """Navigate to page, the button event listener."""
-        self._subject.notify('navigate', nav_id=nav_id)
 
     # -=== Utility methods ===-
 

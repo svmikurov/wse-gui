@@ -13,6 +13,8 @@ class ITaskConditions(Protocol):
     @property
     def task(self) -> ITask:
         """Return the current task instance."""
+    @task.setter
+    def task(self, value: ITask) -> None: ...
 
 class IAnswer(Protocol):
     """Interface protocol representing a user's answer to a task."""

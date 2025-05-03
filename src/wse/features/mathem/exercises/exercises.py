@@ -4,12 +4,16 @@ import dataclasses
 import logging
 from random import randint
 
+from wse.interface.iexercise import ITaskConditions
+
 logger = logging.getLogger(__name__)
 
 
 @dataclasses.dataclass
 class MultiplicationExercise:
     """Exercise on multiplication."""
+
+    _task_conditions: ITaskConditions
 
     _min_value: int = 1
     _max_value: int = 9
@@ -27,6 +31,12 @@ class MultiplicationExercise:
         self._task = f'{self._operand_1} x {self._operand_2}'
         self._answer = str(self._operand_1 * self._operand_2)
         logger.debug(f'Created multiplication task: {self._task}')
+
+    @property
+    def task_conditions(self) -> ITaskConditions:
+        """Exercise task conditions."""
+        self._task_conditions.task = self.task
+        return self._task_conditions
 
     @property
     def task(self) -> str:

@@ -44,7 +44,8 @@ class ExerciseModel(IExerciseModel):
 
     def start_exercise(self) -> None:
         """Start exercise."""
-        task_conditions = self.exercise.create_task()
+        self.exercise.create_task()
+        task_conditions = self.exercise.task_conditions
         self.storage.save_task_conditions(task_conditions)
         task = task_conditions.task
         self.render.render_task(task)

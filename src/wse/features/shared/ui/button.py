@@ -29,7 +29,7 @@ class ButtonHandler:
 
     def button_press(self, button: toga.Button) -> None:
         """Handle button press and notify Subject."""
-        self.subject.notify('handle_button', value=button.text)
+        self.subject.notify('handle_button_press', value=button.text)
 
     def keypad_press(self, button: toga.Button) -> None:
         """Handle keypad button press and notify Subject."""
