@@ -35,7 +35,7 @@ class MultiplicationController(ContextController):
     # Listening to model notification
 
     @property
-    def named_ui(self) -> dict[UIName, IStateSubject]:
+    def state_ui(self) -> dict[UIName, IStateSubject]:
         """Get a UI by name to manage its state."""
         return {
             UIName.QUESTION_DISPLAY: self.view.display_question,
@@ -44,12 +44,12 @@ class MultiplicationController(ContextController):
 
     def change_ui_value(self, ui_name: UIName, value: str) -> None:
         """Change the text value for UI."""
-        ui = self.named_ui.get(ui_name)
+        ui = self.state_ui.get(ui_name)
         ui.change(value)
 
     def clean_ui_value(self, ui_name: UIName) -> None:
         """Clear the text value in UI."""
-        ui = self.named_ui.get(ui_name)
+        ui = self.state_ui.get(ui_name)
         ui.clean()
 
     # Listening to view notification
@@ -61,6 +61,6 @@ class MultiplicationController(ContextController):
     def handle_button(self, value: str) -> None:
         """Handle button press and notify Subject."""
         match value:
+
             case ActionID.CHECK_ANSWER:
-                result = self.model.check_answer()
-                logger.debug(f'Checking result: {result}')
+                self.model.check_answer()
