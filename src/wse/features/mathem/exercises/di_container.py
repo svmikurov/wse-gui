@@ -6,12 +6,15 @@ from wse.features.mathem.exercises.answer_checkers import StrictAnswerChecker
 from wse.features.mathem.exercises.calculations import MultiplicationExercise
 
 
-class MathematicalExercisesContainer(containers.DeclarativeContainer):
-    """Mathematical exercise container."""
+class ExercisesContainer(containers.DeclarativeContainer):
+    """Exercise container."""
 
     multiplication = providers.Factory(
         MultiplicationExercise,
     )
     strict_checker = providers.Factory(
         StrictAnswerChecker,
+    )
+    task_creator = providers.Factory(
+
     )

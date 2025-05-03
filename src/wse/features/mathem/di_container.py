@@ -5,7 +5,7 @@ from dependency_injector import containers, providers
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features import mathem
 from wse.features.mathem.exercises.di_container import (
-    MathematicalExercisesContainer,
+    ExercisesContainer,
 )
 
 
@@ -14,7 +14,7 @@ class MathematicalContainer(containers.DeclarativeContainer):
 
     # Container dependencies
     exercise_container = providers.Container(
-        MathematicalExercisesContainer,
+        ExercisesContainer,
     )
     share_container = providers.DependenciesContainer()
 
@@ -42,6 +42,13 @@ class MathematicalContainer(containers.DeclarativeContainer):
         display_answer=share_container.display_model,
         _context=share_container.context,
     )
+    exercise_model = providers.Factory(
+        mathem.ExerciseModel,
+        _subject=share_container.subject,
+        exercise=exercise_container.universal_exercise,
+        display_question=share_container.display_model,
+        display_answer=share_container.display_model,
+    )
     multiplication_view = providers.Factory(
         mathem.MultiplicationView,
         _content=share_container.simple_content,
@@ -54,7 +61,7 @@ class MathematicalContainer(containers.DeclarativeContainer):
     )
     multiplication_controller = providers.Factory(
         mathem.MultiplicationController,
-        model=multiplication_model,
+        model=exercise_model,
         view=multiplication_view,
     )
 

@@ -94,3 +94,15 @@ class IView(IContainer, Protocol):
     @property
     def title(self) -> str:
         """Get the page title."""
+
+
+# Specific components
+
+
+class IExerciseModel(Protocol):
+    def on_open(self) -> None:
+        """Call methods on page open event."""
+    @property
+    def subject(self) -> ISubject:
+        """Model subject."""
+
