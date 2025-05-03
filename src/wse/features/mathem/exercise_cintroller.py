@@ -6,6 +6,7 @@ import dataclasses
 import logging
 from typing import TYPE_CHECKING
 
+from wse.core.navigation.navigation_id import NavigationID
 from wse.features.shared.enums.action_id import ActionID
 from wse.features.shared.enums.ui_names import UIName
 from wse.interface.ifeatures import IContent
@@ -67,6 +68,10 @@ class ExerciseController:
         match value:
             case ActionID.CHECK_ANSWER:
                 self.model.handel_answer()
+
+    def navigate(self, nav_id: NavigationID) -> None:
+        """Navigate to page, the button event listener."""
+        self._subject.notify('navigate', nav_id=nav_id)
 
     # -=== Utility methods ===-
 
