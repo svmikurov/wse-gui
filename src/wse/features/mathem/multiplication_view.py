@@ -7,9 +7,7 @@ from toga.style import Pack
 
 from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavigationID
-from wse.features.shared.enums.action_id import ActionID
-from wse.features.shared.enums.object_id import ObjectID
-from wse.features.shared.enums.style_id import StyleID
+from wse.features.shared.enums import ActionID, ObjectID, StyleID
 from wse.interface.ifeatures import IContent
 from wse.interface.iui.ibutton import IButtonFactory, IButtonHandler
 from wse.interface.iui.ikeypad import IKeypad

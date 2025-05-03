@@ -5,7 +5,7 @@ import dataclasses
 import toga
 from toga.style import Pack
 
-from wse.features.shared.enums.style_id import StyleID
+from wse.features.shared.enums import StyleID
 from wse.interface.ifeatures import IContent
 from wse.interface.iui.ibutton import IButtonFactory, IButtonHandler
 

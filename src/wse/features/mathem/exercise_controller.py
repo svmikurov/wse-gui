@@ -7,8 +7,7 @@ import logging
 from typing import TYPE_CHECKING
 
 from wse.core.navigation.navigation_id import NavigationID
-from wse.features.shared.enums.action_id import ActionID
-from wse.features.shared.enums.ui_names import UIName
+from wse.features.shared.enums import ActionID, UIName
 from wse.interface.ifeatures import IContent
 from wse.interface.iobserver import IStateSubject, ISubject
 

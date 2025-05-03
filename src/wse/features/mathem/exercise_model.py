@@ -3,7 +3,7 @@
 import dataclasses
 import logging
 
-from wse.features.shared.enums.ui_names import UIName
+from wse.features.shared.enums import UIName
 from wse.interface.iexercise import (
     IAnswer,
     IAnswerChecker,
