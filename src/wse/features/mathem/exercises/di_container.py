@@ -2,8 +2,13 @@
 
 from dependency_injector import containers, providers
 
-from wse.features.mathem.exercises.answer_checkers import StrictAnswerChecker
-from wse.features.mathem.exercises.calculations import MultiplicationExercise
+from wse.features.mathem.exercises import (
+    AnswerChecker,
+    CheckResult,
+    ExerciseRenderer,
+    MultiplicationExercise,
+    TaskConditionsStorage,
+)
 
 
 class ExercisesContainer(containers.DeclarativeContainer):
@@ -12,9 +17,16 @@ class ExercisesContainer(containers.DeclarativeContainer):
     multiplication = providers.Factory(
         MultiplicationExercise,
     )
-    strict_checker = providers.Factory(
-        StrictAnswerChecker,
+    task_conditions_storage = providers.Factory(
+        TaskConditionsStorage,
     )
-    task_creator = providers.Factory(
-
+    exercise_render = providers.Factory(
+        ExerciseRenderer,
+    )
+    check_result = providers.Factory(
+        CheckResult,
+    )
+    answer_checker = providers.Factory(
+        AnswerChecker,
+        check_result=check_result,
     )

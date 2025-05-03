@@ -3,8 +3,8 @@
 import dataclasses
 import logging
 
-from wse.features.mathem.exercises.interfaces import IAnswerChecker, IExercise
 from wse.features.mathem.multiplication_controller import UIName
+from wse.interface.iexercise import IAnswerChecker, IExercise
 from wse.interface.ifeatures import IContext, IModel
 from wse.interface.iobserver import ISubject
 from wse.interface.iui.itext import IDisplayModel
@@ -56,7 +56,7 @@ class MultiplicationModel(IModel):
         user_answer = self.display_answer.text
         return self._answer_checker.check(user_answer, self.exercise.answer)
 
-    # Notifications
+    # -=== Notifications by UI name ===-
 
     def change_ui_value(self, ui_name: UIName, value: str) -> None:
         """Change UI text value according UI name."""

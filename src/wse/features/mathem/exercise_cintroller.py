@@ -1,4 +1,4 @@
-"""Defines Multiplication page controller."""
+"""Defines Exercise page controller."""
 
 from __future__ import annotations
 
@@ -6,23 +6,24 @@ import dataclasses
 import logging
 from typing import TYPE_CHECKING
 
-from wse.features.base.mvc import ContextController
 from wse.features.shared.enums.action_id import ActionID
 from wse.features.shared.enums.ui_names import UIName
-from wse.interface.iobserver import IStateSubject
+from wse.interface.ifeatures import IContent
+from wse.interface.iobserver import IStateSubject, ISubject
 
 if TYPE_CHECKING:
-    from wse.features.mathem import MultiplicationModel, MultiplicationView
+    from wse.features.mathem import ExerciseModel, MultiplicationView
 
 logger = logging.getLogger(__name__)
 
 
 @dataclasses.dataclass
-class MultiplicationController(ContextController):
-    """Multiplication page controller."""
+class ExerciseController:
+    """Exercise page controller."""
 
-    model: MultiplicationModel
+    model: ExerciseModel
     view: MultiplicationView
+    _subject: ISubject
 
     def __post_init__(self) -> None:
         """Post init."""
@@ -32,7 +33,10 @@ class MultiplicationController(ContextController):
         self.view.button_handler.subject.add_listener(self)
         self.view.keypad.subscribe(listener=self)
 
-    # Listening to model notification
+    def on_open(self) -> None:
+        """Call methods on page open event."""
+
+    # -=== Listening to model notification by for UI name ===-
 
     @property
     def state_ui(self) -> dict[UIName, IStateSubject]:
@@ -52,7 +56,7 @@ class MultiplicationController(ContextController):
         ui = self.state_ui.get(ui_name)
         ui.clean()
 
-    # Listening to view notification
+    # -=== Listening to view notification ===-
 
     def handel_keypad_press(self, value: str) -> None:
         """Handle keypad button press and notify Subject."""
@@ -62,4 +66,16 @@ class MultiplicationController(ContextController):
         """Handle button press and notify Subject."""
         match value:
             case ActionID.CHECK_ANSWER:
-                self.model.check_answer()
+                self.model.handel_answer()
+
+    # -=== Utility methods ===-
+
+    @property
+    def subject(self) -> ISubject:
+        """Subject of observer pattern (read-only)."""
+        return self._subject
+
+    @property
+    def content(self) -> IContent:
+        """Page content (read-only)."""
+        return self.view.content

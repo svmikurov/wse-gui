@@ -105,9 +105,10 @@ class IExerciseModel(Protocol):
         """Call methods on page open event."""
     def start_exercise(self) -> None:
         """Start exercise."""
-    def handel_answer(self, user_answer: IAnswer) -> None:
+    def get_user_answer(self) -> IAnswer:
+        """Get user answer."""
+    def handel_answer(self) -> None:
         """Handel user answer."""
     @property
     def subject(self) -> ISubject:
         """Model subject."""
-

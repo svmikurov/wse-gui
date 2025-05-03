@@ -2,9 +2,6 @@
 
 from typing import Protocol
 
-from wse.interface.ifeatures import ISubject
-from wse.interface.iobserver import IListener
-
 # ruff: noqa: D101, D102, D204, E301, E302
 # fmt: off
 
@@ -25,6 +22,8 @@ class ICheckResult(Protocol):
     @property
     def is_correct(self) -> bool:
         """Is user answer is correct."""
+    @is_correct.setter
+    def is_correct(self, value: bool) -> None: ...
 
 class IOperandGenerator(Protocol):
     """Defines interface for numerical operand generation."""
@@ -36,7 +35,7 @@ class ITaskConditionStorage(Protocol):
     def save_task_conditions(self, task_conditions: ITaskConditions) -> None:
         """Save a exercise task conditions."""
 
-class ITaskRenderer(Protocol):
+class IExerciseRenderer(Protocol):
     """Defines interface for task presentation functionality."""
     def render_task(self, task: ITask) -> None:
         """Render the current task for user interaction."""
@@ -45,7 +44,7 @@ class ITaskRenderer(Protocol):
 
 class IAnswerChecker(Protocol):
     """Defines interface for answer validation functionality."""
-    def check_answer(
+    def check(
         self,
         answer: IAnswer,
         storage: ITaskConditionStorage,

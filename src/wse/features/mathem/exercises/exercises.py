@@ -28,13 +28,25 @@ class MultiplicationExercise:
         self._answer = str(self._operand_1 * self._operand_2)
         logger.debug(f'Created multiplication task: {self._task}')
 
+    @property
+    def task(self) -> str:
+        """Get formatted task for display."""
+        return self._task
+
+    @property
+    def answer(self) -> str:
+        """Get verified correct answer for current task."""
+        return self._answer
+
     # Utility methods
+
+    def on_open(self) -> None:
+        """Call methods on page open."""
+        pass
 
     def _generate_operand(self) -> int:
         """Generate random integer within configured range."""
         return randint(self._min_value, self._max_value)
-
-    # Properties
 
     @property
     def min_value(self) -> int:
@@ -53,13 +65,3 @@ class MultiplicationExercise:
     @max_value.setter
     def max_value(self, value: int | str) -> None:
         self._max_value = int(value)
-
-    @property
-    def task(self) -> str:
-        """Get formatted task for display."""
-        return self._task
-
-    @property
-    def answer(self) -> str:
-        """Get verified correct answer for current task."""
-        return self._answer
