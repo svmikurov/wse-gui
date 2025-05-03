@@ -1,6 +1,7 @@
 """Defines exercise page model."""
 
 import dataclasses
+import logging
 
 from wse.features.shared.enums.ui_names import UIName
 from wse.interface.iexercise import (
@@ -13,6 +14,8 @@ from wse.interface.iexercise import (
 from wse.interface.ifeatures import IExerciseModel
 from wse.interface.iobserver import ISubject
 from wse.interface.iui.itext import IDisplayModel
+
+logger = logging.getLogger(__name__)
 
 
 @dataclasses.dataclass
@@ -61,6 +64,8 @@ class ExerciseModel(IExerciseModel):
 
     def on_open(self) -> None:
         """Call methods on page open event."""
+        logger.debug('On open called')
+        self.start_exercise()
 
     @property
     def subject(self) -> ISubject:

@@ -36,7 +36,7 @@ class MathematicalContainer(containers.DeclarativeContainer):
     exercise_model = providers.Factory(
         mathem.ExerciseModel,
         # Exercise dependencies
-        exercise=exercise_container.multiplication,
+        exercise=exercise_container.multiplication_exercise,
         storage=exercise_container.task_conditions_storage,
         render=exercise_container.exercise_render,
         checker=exercise_container.answer_checker,

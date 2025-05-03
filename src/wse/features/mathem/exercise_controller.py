@@ -36,8 +36,9 @@ class ExerciseController:
 
     def on_open(self) -> None:
         """Call methods on page open event."""
+        self.model.on_open()
 
-    # -=== Listening to model notification by for UI name ===-
+    # -=== Listening for Model notifications by UI Name ===-
 
     @property
     def state_ui(self) -> dict[UIName, IStateSubject]:

@@ -14,7 +14,7 @@ from wse.features.mathem.exercises import (
 class ExercisesContainer(containers.DeclarativeContainer):
     """Exercise container."""
 
-    multiplication = providers.Factory(
+    multiplication_exercise = providers.Factory(
         MultiplicationExercise,
     )
     task_conditions_storage = providers.Factory(
