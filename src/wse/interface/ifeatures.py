@@ -10,6 +10,7 @@ import toga
 
 from wse.core.navigation.navigation_id import NavigationID
 from wse.features.shared.enums.object_id import ObjectID
+from wse.interface.iexercise import IAnswer
 from wse.interface.iobserver import ISubject
 
 # ruff: noqa: D101, D102, D204, E301, E302
@@ -102,6 +103,10 @@ class IView(IContainer, Protocol):
 class IExerciseModel(Protocol):
     def on_open(self) -> None:
         """Call methods on page open event."""
+    def start_exercise(self) -> None:
+        """Start exercise."""
+    def handel_answer(self, user_answer: IAnswer) -> None:
+        """Handel user answer."""
     @property
     def subject(self) -> ISubject:
         """Model subject."""
