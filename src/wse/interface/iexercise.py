@@ -6,58 +6,58 @@ from typing import Protocol
 # fmt: off
 
 class ITask(Protocol):
-    """Interface protocol for exercise task."""
+    """Interface protocol defining the structure of an exercise task."""
 
 class ITaskConditions(Protocol):
-    """Interface protocol for task conditions."""
+    """Interface protocol for managing task conditions."""
     @property
     def task(self) -> ITask:
-        """Get text representation of the current task."""
+        """Return the current task instance."""
 
 class IAnswer(Protocol):
-    """Interface protocol for answer."""
+    """Interface protocol representing a user's answer to a task."""
 
 class ICheckResult(Protocol):
-    """Defines interface for result of answer validation."""
+    """Defines interface for answer validation results."""
     @property
     def is_correct(self) -> bool:
-        """Is user answer is correct."""
+        """Whether the user's answer matches the correct solution."""
     @is_correct.setter
     def is_correct(self, value: bool) -> None: ...
 
 class IOperandGenerator(Protocol):
-    """Defines interface for numerical operand generation."""
+    """Defines interface for generating numerical operands."""
     def generate_operand(self) -> int:
-        """Generate a numerical value for use in calculations."""
+        """Generate an integer for use in exercise calculations."""
 
 class ITaskConditionStorage(Protocol):
-    """Defines interface for task condition storage."""
+    """Defines interface for storage of task conditions."""
     def save_task_conditions(self, task_conditions: ITaskConditions) -> None:
-        """Save a exercise task conditions."""
+        """Save the conditions of an exercise task to storage."""
 
 class IExerciseRenderer(Protocol):
-    """Defines interface for task presentation functionality."""
+    """Defines interface for presentation of exercise components."""
     def render_task(self, task: ITask) -> None:
-        """Render the current task for user interaction."""
+        """Display the current task to the user."""
     def render_result(self, result: ICheckResult) -> None:
-        """Render the report of task result validation."""
+        """Present the outcome of answer validation to the user."""
 
 class IAnswerChecker(Protocol):
-    """Defines interface for answer validation functionality."""
+    """Defines interface for validating user answers solutions."""
     def check(
         self,
         answer: IAnswer,
         storage: ITaskConditionStorage,
     ) -> ICheckResult:
-        """Verify user's answer against correct solution."""
+        """Verify user's answer against stored correct solution."""
 
 class IExercise(Protocol):
-    """Interface protocol for complete exercise management."""
+    """Interface protocol for complete exercise lifecycle management."""
     def create_task(self) -> ITaskConditions:
-        """Create task."""
+        """Create and return a new task with its conditions."""
     @property
     def task(self) -> ITask:
-        """Get text representation of the current task."""
+        """Retrieve the current task instance."""
     @property
     def answer(self) -> IAnswer:
-        """Get correct answer for the current task."""
+        """Get the verified correct answer for the current task."""
