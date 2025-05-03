@@ -55,8 +55,11 @@ class IAnswerChecker(Protocol):
 
 class IExercise(Protocol):
     """Interface protocol for complete exercise lifecycle management."""
-    def create_task(self) -> ITaskConditions:
+    def create_task(self) -> None:
         """Create and return a new task with its conditions."""
+    @property
+    def task_conditions(self) -> ITaskConditions:
+        """Return the current task conditions instance."""
     @property
     def task(self) -> ITask:
         """Retrieve the current task instance."""
