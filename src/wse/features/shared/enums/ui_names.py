@@ -9,5 +9,6 @@ from wse.core.base import BaseEnum
 class UIName(BaseEnum):
     """UI name enumeration."""
 
-    QUESTION_DISPLAY = 'question_display'
     ANSWER_DISPLAY = 'answer_display'
+    INFO_DISPLAY = 'info_display'
+    QUESTION_DISPLAY = 'question_display'

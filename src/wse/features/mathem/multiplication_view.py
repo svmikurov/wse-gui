@@ -21,6 +21,7 @@ class MultiplicationView:
     _content: IContent
     display_question: IDisplayPanel
     display_answer: IDisplayPanel
+    display_info: IDisplayPanel
     keypad: IKeypad
     _style_config: dict
     _button_factory: IButtonFactory
@@ -44,6 +45,8 @@ class MultiplicationView:
             self.display_question.content,
             self._answer_label,
             self.display_answer.content,
+            self._info_label,
+            self.display_info.content,
             toga.Box(style=Pack(flex=1)),  # Flex stub
             self.keypad.content,
             self._answer_button,
@@ -54,6 +57,7 @@ class MultiplicationView:
         self._title_label = self._create_label()
         self._question_label = self._create_label()
         self._answer_label = self._create_label()
+        self._info_label = self._create_label()
         self._answer_button = self._create_button()
         self._back_button = self._create_navigation_button()
 
@@ -64,6 +68,7 @@ class MultiplicationView:
         self._title_label.text = _('Multiplication title')
         self._question_label.text = _('Question')
         self._answer_label.text = _('Answer input')
+        self._info_label.text = _('Result info')
         self._answer_button.text = _(ActionID.CHECK_ANSWER)
         self._back_button.text = _(NavigationID.BACK)
 
@@ -75,6 +80,7 @@ class MultiplicationView:
             self._title_label: StyleID.TITLE,
             self._question_label: StyleID.DEFAULT_LABEL,
             self._answer_label: StyleID.DEFAULT_LABEL,
+            self._info_label: StyleID.DEFAULT_LABEL,
             self._answer_button: StyleID.DEFAULT_BUTTON,
             self._back_button: StyleID.DEFAULT_BUTTON,
         }
@@ -89,6 +95,7 @@ class MultiplicationView:
         # UI with content has `update_style` method.
         self.display_question.update_style(style.get(StyleID.LINE_DISPLAY))
         self.display_answer.update_style(style.get(StyleID.LINE_DISPLAY))
+        self.display_info.update_style(style.get(StyleID.RESULT_INFO_PANEL))
 
     # Utility methods
 

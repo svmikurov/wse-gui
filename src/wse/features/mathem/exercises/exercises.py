@@ -1,77 +1,91 @@
 """Defines mathematical exercises."""
 
 import dataclasses
-import logging
+from abc import ABC, abstractmethod
 from random import randint
 
-from wse.interface.iexercise import ITaskConditions
+from typing_extensions import Self
 
-logger = logging.getLogger(__name__)
+from wse.features.mathem.exercises.calculations import (
+    AddAnswer,
+    AddQuestion,
+    MulAnswer,
+    MulQuestion,
+)
+from wse.interface.iexercise import IAnswer, IQuestion
 
 
 @dataclasses.dataclass
-class MultiplicationExercise:
+class CalculationExercise(ABC):
     """Exercise on multiplication."""
-
-    _task_conditions: ITaskConditions
 
     _min_value: int = 1
     _max_value: int = 9
     _operand_1: int | None = None
     _operand_2: int | None = None
-    _task: str | None = None
-    _answer: str | None = None
+    _question: IQuestion | None = None
+    _answer: IAnswer | None = None
+
+    @abstractmethod
+    def _get_question(self) -> IQuestion:
+        pass
+
+    @abstractmethod
+    def _get_answer(self) -> IAnswer:
+        pass
 
     # Business logic
 
-    def create_task(self) -> None:
+    def create_task(self) -> Self:
         """Generate new multiplication task and calculate answer."""
         self._operand_1 = self._generate_operand()
         self._operand_2 = self._generate_operand()
-        self._task = f'{self._operand_1} x {self._operand_2}'
-        self._answer = str(self._operand_1 * self._operand_2)
-        logger.debug(f'Created multiplication task: {self._task}')
-
-    @property
-    def task_conditions(self) -> ITaskConditions:
-        """Exercise task conditions."""
-        self._task_conditions.task = self.task
-        return self._task_conditions
-
-    @property
-    def task(self) -> str:
-        """Get formatted task for display."""
-        return self._task
-
-    @property
-    def answer(self) -> str:
-        """Get verified correct answer for current task."""
-        return self._answer
+        self._question = self._get_question()
+        self._answer = self._get_answer()
+        return self
 
     # Utility methods
-
-    def on_open(self) -> None:
-        """Call methods on page open."""
-        pass
 
     def _generate_operand(self) -> int:
         """Generate random integer within configured range."""
         return randint(self._min_value, self._max_value)
 
     @property
+    def question(self) -> IQuestion:
+        """Get formatted task for display."""
+        return self._question
+
+    @property
+    def answer(self) -> IAnswer:
+        """Get verified correct answer for current task."""
+        return self._answer
+
+    @property
     def min_value(self) -> int:
         """Min operand value."""
         return self._min_value
-
-    @min_value.setter
-    def min_value(self, value: int | str) -> None:
-        self._min_value = int(value)
 
     @property
     def max_value(self) -> int:
         """Max operand value."""
         return self._max_value
 
-    @max_value.setter
-    def max_value(self, value: int | str) -> None:
-        self._max_value = int(value)
+
+class MultiplicationExercise(CalculationExercise):
+    """Exercise on multiplication."""
+
+    def _get_question(self) -> IQuestion:
+        return MulQuestion(self._operand_1, self._operand_2)
+
+    def _get_answer(self) -> IAnswer:
+        return MulAnswer(self._operand_1, self._operand_2)
+
+
+class AddingExercise(CalculationExercise):
+    """Exercise on adding."""
+
+    def _get_question(self) -> IQuestion:
+        return AddQuestion(self._operand_1, self._operand_2)
+
+    def _get_answer(self) -> IAnswer:
+        return AddAnswer(self._operand_1, self._operand_2)

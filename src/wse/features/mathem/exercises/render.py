@@ -1,21 +1,13 @@
 """Defines exercise render."""
 
-import logging
-
-from wse.interface.iexercise import ICheckResult, IExerciseRenderer, ITask
-
-logger = logging.getLogger(__name__)
+from wse.interface.iui.itext import IDisplayModel
 
 
-class ExerciseRenderer(IExerciseRenderer):
+class TextDisplayRenderer:
     """Exercise render."""
 
     @classmethod
-    def render_task(cls, task: ITask) -> None:
+    def render(cls, text: str, display: IDisplayModel) -> None:
         """Render the task."""
-        logger.debug(f'Render task: "{task}"')
-
-    @classmethod
-    def render_result(cls, result: ICheckResult) -> None:
-        """Render the checking result."""
-        logger.debug(f'Render result: "{result}"')
+        display.clean()
+        display.change(text)

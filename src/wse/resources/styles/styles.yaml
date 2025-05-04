@@ -11,11 +11,14 @@ Default label:
   <<: *default_font_size
   padding_left: 7
 
-Single line display:
+Line display:
   font_size: 32
   text_align: "center"
   padding_top: 12
   padding_bottom: 12
+
+Result info display:
+  text_align: "center"
 
 Keypad button:
   font_size: 18

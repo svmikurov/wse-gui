@@ -1,21 +1,20 @@
 """Defines model for widgets."""
 
 import dataclasses
+from typing import Callable
 
 from wse.features.shared.enums import UIName
 from wse.interface.iobserver import ISubject
 
 
-@dataclasses.dataclass
-class DisplayModel:
-    """Model providing processing of text panel."""
+class KeypadModelMixin:
+    """Mixin providing keypad input processing logic."""
 
-    _subject: ISubject
-    _text: str = ''
-    _ui_name: UIName = ''
+    _text: str
+    _notify_change: Callable[[], None]
 
     def change(self, value: str) -> None:
-        """Change a text to display."""
+        """Process input value and update displayed text."""
         if value == '⌫' and self._text == '0.':
             self._text = ''
         elif value == '⌫':
@@ -28,15 +27,26 @@ class DisplayModel:
             self._text += '0.'
         else:
             self._text += value
-        self._change_display_text()
+        self._notify_change()
+
+
+@dataclasses.dataclass
+class DisplayModel:
+    """Model for managing display text and notifying subscribers."""
+
+    _subject: ISubject
+    _text: str = ''
+    _ui_name: UIName = ''
+
+    def change(self, value: str) -> None:
+        """Update the displayed text and notify subscribers."""
+        self._text = value
+        self._notify_change()
 
     def clean(self) -> None:
-        """Clean a text in display panel."""
+        """Reset text to empty string and notify subscribers."""
         self._text = ''
         self._notify_clean()
-
-    def _change_display_text(self) -> None:
-        self._notify_change()
 
     # Notifications
 
@@ -60,6 +70,11 @@ class DisplayModel:
         """Display model text."""
         return self._text
 
-    def set_ui_name(self, ui_name: UIName) -> None:
-        """Set ui name for notifications."""
+    def subscribe(self, ui_name: UIName, listener: object) -> None:
+        """Subscribe a listener to model changes with UI name."""
         self._ui_name = ui_name
+        self.subject.add_listener(listener=listener)
+
+
+class KeypadModel(KeypadModelMixin, DisplayModel):
+    """Combines keypad input processing with display management."""

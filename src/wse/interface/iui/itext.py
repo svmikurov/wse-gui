@@ -27,16 +27,17 @@ class IDisplayPanel(Protocol):
 class IDisplayModel(Protocol):
     """Protocol defining the interface for text display model."""
     _ui_name: UIName
-    def set_ui_name(self, ui_name: UIName) -> None:
-        """Set UI display name."""
     def change(self, value: str) -> None:
         """Change a text to display."""
     def clean(self) -> None:
         """Clean a text in display panel."""
     def _notify_change(self) -> None: ...
+    def _notify_clean(self) -> None: ...
     @property
     def subject(self) -> ISubject:
         """Model subject."""
     @property
     def text(self) -> str:
         """Display model text."""
+    def subscribe(self, ui_name: UIName, listener: object) -> None:
+        """Set UI display name with model listener."""

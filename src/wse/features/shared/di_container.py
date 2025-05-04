@@ -32,6 +32,7 @@ class ShareContainer(containers.DeclarativeContainer):
 
     # API
     display_model = ui_container.display_model
+    keypad_model = ui_container.keypad_model
     line_display = ui_container.line_display
     digit_keypad = ui_container.digit_keypad
     style_config = ui_container.style_config

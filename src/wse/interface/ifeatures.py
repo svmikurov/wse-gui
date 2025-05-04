@@ -9,8 +9,8 @@ from typing import Protocol
 import toga
 
 from wse.core.navigation.navigation_id import NavigationID
+from wse.features.shared.enums import UIName
 from wse.features.shared.enums.object_id import ObjectID
-from wse.interface.iexercise import IAnswer
 from wse.interface.iobserver import ISubject
 
 # ruff: noqa: D101, D102, D204, E301, E302
@@ -96,19 +96,19 @@ class IView(IContainer, Protocol):
     def title(self) -> str:
         """Get the page title."""
 
-
-# Specific components
-
+# Model components
 
 class IExerciseModel(Protocol):
-    def on_open(self) -> None:
-        """Call methods on page open event."""
     def start_exercise(self) -> None:
         """Start exercise."""
-    def get_user_answer(self) -> IAnswer:
-        """Get user answer."""
-    def handel_answer(self) -> None:
+    def handle_answer(self) -> None:
         """Handel user answer."""
+    def on_open(self) -> None:
+        """Call methods on page open event."""
     @property
     def subject(self) -> ISubject:
         """Model subject."""
+    def change_ui_value(self, ui_name: UIName, value: str) -> None:
+        """Change UI text value according UI name."""
+    def clean_ui_value(self, ui_name: UIName) -> None:
+        """Change UI text value according UI name."""

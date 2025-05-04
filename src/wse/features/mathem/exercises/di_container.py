@@ -4,34 +4,28 @@ from dependency_injector import containers, providers
 
 from wse.features.mathem.exercises import (
     AnswerChecker,
-    CheckResult,
-    ExerciseRenderer,
     MultiplicationExercise,
-    TaskConditions,
-    TaskConditionsStorage,
+    TaskStorage,
+    TextDisplayRenderer,
 )
+from wse.features.mathem.exercises.exercises import AddingExercise
 
 
 class ExercisesContainer(containers.DeclarativeContainer):
     """Exercise container."""
 
-    task_conditions = providers.Factory(
-        TaskConditions,
-    )
     multiplication_exercise = providers.Factory(
         MultiplicationExercise,
-        _task_conditions=task_conditions,
+    )
+    adding_exercise = providers.Factory(
+        AddingExercise,
     )
     task_conditions_storage = providers.Factory(
-        TaskConditionsStorage,
+        TaskStorage,
     )
     exercise_render = providers.Factory(
-        ExerciseRenderer,
-    )
-    check_result = providers.Factory(
-        CheckResult,
+        TextDisplayRenderer,
     )
     answer_checker = providers.Factory(
         AnswerChecker,
-        check_result=check_result,
     )

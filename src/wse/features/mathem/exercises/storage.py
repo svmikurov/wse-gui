@@ -2,19 +2,27 @@
 
 import logging
 
-from wse.interface.iexercise import ITaskConditions
+from wse.interface.iexercise import IAnswer, IExercise
 
 logger = logging.getLogger(__name__)
 
 
-class TaskConditionsStorage:
+class TaskStorage:
     """Task conditions storage."""
 
     def __init__(self) -> None:
         """Construct the storage."""
-        self._task_conditions = None
+        self._task = None
 
-    def save_task_conditions(self, task_conditions: ITaskConditions) -> None:
-        """Save the task conditions."""
-        self._task_conditions = task_conditions
-        logger.info(f'Saved task conditions: {task_conditions}')
+    def save_task(self, task: IExercise) -> None:
+        """Save the conditions of an exercise task to storage."""
+        self._task = task
+
+    def retrieve_task(self) -> IExercise:
+        """Retrieve the conditions of an exercise task from storage."""
+        return self._task
+
+    @property
+    def answer(self) -> IAnswer:
+        """Retrieve from storage the correct answer."""
+        return self.retrieve_task().answer

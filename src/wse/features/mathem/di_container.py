@@ -33,8 +33,8 @@ class MathematicalContainer(containers.DeclarativeContainer):
     )
 
     # Multiplication page
-    exercise_model = providers.Factory(
-        mathem.ExerciseModel,
+    multiplication_model = providers.Factory(
+        mathem.MultiplicationModel,
         # Exercise dependencies
         exercise=exercise_container.multiplication_exercise,
         storage=exercise_container.task_conditions_storage,
@@ -43,28 +43,30 @@ class MathematicalContainer(containers.DeclarativeContainer):
         # MVC model dependencies
         _subject=share_container.subject,
         display_question=share_container.display_model,
-        display_answer=share_container.display_model,
+        display_answer=share_container.keypad_model,
+        display_info=share_container.display_model,
     )
     multiplication_view = providers.Factory(
         mathem.MultiplicationView,
         _content=share_container.simple_content,
         display_question=share_container.line_display,
         display_answer=share_container.line_display,
+        display_info=share_container.line_display,
         keypad=share_container.digit_keypad,
         _style_config=share_container.style_config,
         _button_factory=share_container.button_factory,
         button_handler=share_container.button_handler,
     )
-    exercise_controller = providers.Factory(
-        mathem.ExerciseController,
+    multiplication_controller = providers.Factory(
+        mathem.MultiplicationController,
         _subject=share_container.subject,
-        model=exercise_model,
+        model=multiplication_model,
         view=multiplication_view,
     )
 
     routes = providers.Dict(
         {
             NavigationID.MATHEMATICAL: mathematical_controller,
-            NavigationID.MULTIPLICATION: exercise_controller,
+            NavigationID.MULTIPLICATION: multiplication_controller,
         }
     )

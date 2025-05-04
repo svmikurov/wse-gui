@@ -6,7 +6,7 @@ from wse.config.settings import STYLES
 from wse.features.shared.ui.button import ButtonFactory, ButtonHandler
 from wse.features.shared.ui.keypad import DigitKeypad
 from wse.features.shared.ui.ui_text import LineDisplay
-from wse.features.shared.ui.ui_text_model import DisplayModel
+from wse.features.shared.ui.ui_text_model import DisplayModel, KeypadModel
 
 
 class UIContainer(containers.DeclarativeContainer):
@@ -35,6 +35,10 @@ class UIContainer(containers.DeclarativeContainer):
     # Text / digit display
     display_model = providers.Factory(
         DisplayModel,
+        _subject=subject,
+    )
+    keypad_model = providers.Factory(
+        KeypadModel,
         _subject=subject,
     )
     line_display = providers.Factory(
