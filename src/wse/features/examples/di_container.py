@@ -2,7 +2,7 @@
 
 from dependency_injector import containers, providers
 
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features import examples
 
 
@@ -48,7 +48,7 @@ class ExamplesContainer(containers.DeclarativeContainer):
     # NavigationID routes
     routes = providers.Dict(
         {
-            NavigationID.EXAMPLES: examples_controller,
-            NavigationID.EXAMPLES_SELECTION: selection_controller,
+            NavID.EXAMPLES: examples_controller,
+            NavID.EXAMPLES_SELECTION: selection_controller,
         }
     )

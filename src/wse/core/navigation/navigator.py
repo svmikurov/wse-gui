@@ -6,7 +6,7 @@ from typing import Final
 
 import toga
 
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.interface.ifeatures import IContent, IContextController, IController
 
 logger = logging.getLogger(__name__)
@@ -17,14 +17,14 @@ class Navigator:
 
     _CURRENT_NAV_ID_INDEX: Final[int] = -1
     _PREVIOUS_NAV_ID_INDEX: Final[int] = -2
-    _NAV_IDS_NOT_FOR_HISTORY: set[NavigationID] = {
-        NavigationID.LOGIN,
-        NavigationID.LOGOUT,
+    _NAV_IDS_NOT_FOR_HISTORY: set[NavID] = {
+        NavID.LOGIN,
+        NavID.LOGOUT,
     }
 
     _main_window: toga.Window
-    _routes: dict[NavigationID, IController | IContextController]
-    _content_history: deque[NavigationID]
+    _routes: dict[NavID, IController | IContextController]
+    _content_history: deque[NavID]
 
     def __init__(self, history_len: int) -> None:
         """Construct the navigator."""
@@ -35,13 +35,13 @@ class Navigator:
         self._main_window = main_widow
 
     @property
-    def routes(self) -> dict[NavigationID, IController | IContextController]:
+    def routes(self) -> dict[NavID, IController | IContextController]:
         """Routes to get page content to window content."""
         return self._routes
 
     @routes.setter
     def routes(
-        self, value: dict[NavigationID, IController | IContextController]
+        self, value: dict[NavID, IController | IContextController]
     ) -> None:
         self._routes = value
         self._set_listener()
@@ -52,9 +52,9 @@ class Navigator:
             controller.subject.add_listener(self)
 
     # Listener methods
-    def navigate(self, nav_id: NavigationID) -> None:
+    def navigate(self, nav_id: NavID) -> None:
         """Navigate to page by button text value."""
-        if nav_id == NavigationID.BACK:
+        if nav_id == NavID.BACK:
             self._go_back()
             return
 
@@ -66,12 +66,12 @@ class Navigator:
             self._set_window_content(content)
             self._add_to_history(nav_id)
 
-    def _add_to_history(self, nav_id: NavigationID) -> None:
+    def _add_to_history(self, nav_id: NavID) -> None:
         if nav_id not in self._NAV_IDS_NOT_FOR_HISTORY:
             self._content_history.append(nav_id)
 
     # Utility methods
-    def _get_content(self, nav_id: NavigationID) -> IContent | None:
+    def _get_content(self, nav_id: NavID) -> IContent | None:
         controller = self.routes[nav_id]
         controller.on_open()
         return controller.content
@@ -86,7 +86,7 @@ class Navigator:
         logger.debug(f'Navigated to "{content.id}" page')
 
     @property
-    def _previous_nav_id(self) -> NavigationID | None:
+    def _previous_nav_id(self) -> NavID | None:
         """Previous navigation ID (read-only)."""
         previous_nav_id_index = self._PREVIOUS_NAV_ID_INDEX
         current_nav_id = self._retrieve_nav_id(self._CURRENT_NAV_ID_INDEX)
@@ -101,10 +101,10 @@ class Navigator:
             logger.info(
                 'There are no visited pages in the stack, navigated to `HOME`'
             )
-            self.navigate(NavigationID.HOME)
+            self.navigate(NavID.HOME)
 
-    def _retrieve_nav_id(self, nav_index: int) -> NavigationID:
+    def _retrieve_nav_id(self, nav_index: int) -> NavID:
         try:
             return self._content_history[nav_index]
         except IndexError:
-            return NavigationID.HOME
+            return NavID.HOME

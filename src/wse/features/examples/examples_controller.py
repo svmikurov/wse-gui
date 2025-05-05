@@ -6,7 +6,7 @@ import logging
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.interface.ifeatures import IContent
 from wse.interface.iobserver import ISubject
 
@@ -34,7 +34,7 @@ class ExamplesController:
 
     # -=== Listening to View notification ===-
 
-    def navigate(self, nav_id: NavigationID) -> None:
+    def navigate(self, nav_id: NavID) -> None:
         """Navigate to page, the button event listener."""
         self._subject.notify('navigate', nav_id=nav_id)
 

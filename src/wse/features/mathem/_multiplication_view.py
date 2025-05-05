@@ -4,7 +4,7 @@ import toga
 from toga.style import Pack
 
 from wse.core.i18n import _
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.base.mvc import BaseView
 from wse.features.shared.boxes import ColumnFlexBox
 from wse.features.shared.enums.object_id import ObjectID
@@ -79,7 +79,7 @@ class _MultiplicationView(BaseView):
         self._label_question.text = _('Question')
         self._label_answer.text = _('Answer input')
         self._btn_check_answer.text = _('Check answer')
-        self._btn_back.text = _(NavigationID.BACK)
+        self._btn_back.text = _(NavID.BACK)
 
     def _handel_answer(self, _: toga.Button) -> None:
         """Handel task answer."""

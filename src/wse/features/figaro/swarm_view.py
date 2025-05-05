@@ -5,7 +5,7 @@ import logging
 import toga
 
 from wse.core.i18n import _
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.base.mvc import BaseView
 from wse.features.figaro.containers.swarm_panel import SwarmControlPanel
 from wse.features.shared.enums.object_id import ObjectID
@@ -56,12 +56,12 @@ class SwarmView(BaseView):
 
     def localize_ui(self) -> None:
         """Localize a text for user interface widgets."""
-        self._label_title.text = _(NavigationID.SWARM)
+        self._label_title.text = _(NavID.SWARM)
 
         # Buttons
         self._btn_request.text = _('Request')
         self._btn_clear.text = _('Clear')
-        self._btn_back.text = _(NavigationID.BACK)
+        self._btn_back.text = _(NavID.BACK)
 
     # Callback handlers
     def _handel_request(self, _: toga.Widget) -> None:

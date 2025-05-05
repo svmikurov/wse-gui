@@ -6,7 +6,7 @@ import logging
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.base.mvc import ContextController
 
 if TYPE_CHECKING:
@@ -23,11 +23,11 @@ class MathematicalController(ContextController):
     view: MathematicalView
 
     # Listening to the view
-    def handle_button_press(self, nav_id: NavigationID) -> None:
+    def handle_button_press(self, nav_id: NavID) -> None:
         """Handel button press."""
         match nav_id:
-            case NavigationID.MULTIPLICATION:
-                self.navigate(NavigationID.MULTIPLICATION)
+            case NavID.MULTIPLICATION:
+                self.navigate(NavID.MULTIPLICATION)
 
     # Listening to the model
     @staticmethod

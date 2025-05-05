@@ -8,7 +8,7 @@ import toga
 from typing_extensions import override
 
 from wse.core.api.client import ApiClient
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.base.container import NavigableContainer
 from wse.features.base.context import Context
 from wse.features.shared.observer import Subject
@@ -90,7 +90,7 @@ class BaseController:
         return self._subject
 
     # Notifications
-    def navigate(self, nav_id: NavigationID) -> None:
+    def navigate(self, nav_id: NavID) -> None:
         """Navigate to page, the button event listener."""
         self._subject.notify('navigate', nav_id=nav_id)
 

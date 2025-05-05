@@ -5,7 +5,7 @@ import logging
 import toga
 
 from wse.core.auth.service import AuthService
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.di_container import AppContainer
 from wse.interface.icore import INavigator
 
@@ -32,7 +32,7 @@ class WSE(toga.App):
 
         # Application start with Home page.
         self._set_dependencies()
-        self._navigator.navigate(NavigationID.HOME)
+        self._navigator.navigate(NavID.HOME)
 
     def _set_dependencies(self) -> None:
         self._container = AppContainer()

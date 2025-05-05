@@ -3,7 +3,7 @@
 import logging
 
 from wse.core.i18n import _
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.base.mvc import BaseView
 from wse.features.main.containers.login import LoginContainer
 from wse.features.shared.enums.object_id import ObjectID
@@ -51,7 +51,7 @@ class LoginView(BaseView):
     def localize_ui(self) -> None:
         """Assign a text for UI widgets."""
         # Page title
-        self._label_title.text = _(NavigationID.LOGIN)
+        self._label_title.text = _(NavID.LOGIN)
 
         # Navigate buttons
-        self._btn_back.text = _(NavigationID.BACK)
+        self._btn_back.text = _(NavID.BACK)

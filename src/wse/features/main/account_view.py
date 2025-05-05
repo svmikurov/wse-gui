@@ -3,7 +3,7 @@
 import toga
 
 from wse.core.i18n import _
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.base.mvc import BaseView
 from wse.features.shared.enums.object_id import ObjectID
 from wse.features.shared.ui.button import AppButton
@@ -41,13 +41,13 @@ class AccountView(BaseView):
 
     def localize_ui(self) -> None:
         """Assign to widget text a current translation."""
-        self._label_title.text = _(NavigationID.ACCOUNT)
-        self._btn_auth.text = _(NavigationID.LOGOUT)
+        self._label_title.text = _(NavID.ACCOUNT)
+        self._btn_auth.text = _(NavID.LOGOUT)
         self._btn_check_token.text = _('Check token')
         self._btn_clean_panel.text = _('Clean panel')
-        self._btn_back.text = _(NavigationID.BACK)
+        self._btn_back.text = _(NavID.BACK)
 
-    def update_auth_button(self, nav_id: NavigationID) -> None:
+    def update_auth_button(self, nav_id: NavID) -> None:
         """Assign to auth button a value by status and translation."""
         self._btn_auth.text = _(nav_id)
 

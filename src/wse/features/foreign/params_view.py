@@ -1,7 +1,7 @@
 """Defines Foreign params page view."""
 
 from wse.core.i18n import _
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.base.mvc import BaseView
 from wse.features.shared.boxes import (
     ColumnBox,
@@ -56,7 +56,7 @@ class ParamsView(BaseView):
     def localize_ui(self) -> None:
         """Update all UI elements with current translations."""
         self._label_title.text = _('Foreign params title')
-        self._btn_goto_back.text = _(NavigationID.BACK)
+        self._btn_goto_back.text = _(NavID.BACK)
 
     # TODO: Inject params container
     ####################################################################

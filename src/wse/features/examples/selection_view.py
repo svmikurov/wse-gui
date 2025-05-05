@@ -4,7 +4,7 @@ import toga
 from toga.constants import COLUMN, ROW
 from toga.style import Pack
 
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.shared.enums import StyleID
 from wse.interface.ifeatures import IContent
 from wse.interface.iui.ibutton import IButtonHandler
@@ -38,7 +38,7 @@ class SelectionView:
 
         # Layout
         self._title_label = toga.Label(
-            NavigationID.EXAMPLES_SELECTION,
+            NavID.EXAMPLES_SELECTION,
             style=Pack(**self._style_config.get(StyleID.TITLE)),
         )
         self._back_button = toga.Button(

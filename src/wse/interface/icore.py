@@ -12,7 +12,7 @@ from httpx import Response
 from wse.interface.ifeatures import IController
 
 if TYPE_CHECKING:
-    from wse.core.navigation.navigation_id import NavigationID
+    from wse.core.navigation.navigation_id import NavID
 
 
 class IUser:
@@ -73,18 +73,18 @@ class IAuthService(Protocol):
 class INavigator(Protocol):
     """Protocol defining the interface for navigator."""
 
-    def navigate(self, navigation_id: NavigationID) -> None:
+    def navigate(self, navigation_id: NavID) -> None:
         """Navigate to page by navigation ID."""
 
     def set_main_window(self, main_widow: toga.Window) -> None:
         """Set the application's main window for content display."""
 
     @property
-    def routes(self) -> dict[NavigationID, IController]:
+    def routes(self) -> dict[NavID, IController]:
         """Routes to get page content to window content."""
 
     @routes.setter
-    def routes(self, value: dict[NavigationID, IController]) -> None: ...
+    def routes(self, value: dict[NavID, IController]) -> None: ...
 
 
 class IApiClient(Protocol):

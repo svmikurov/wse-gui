@@ -1,7 +1,7 @@
 """Foreign tasks page view."""
 
 from wse.core.i18n import _
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.base.mvc import BaseView
 from wse.features.shared.content import BaseContent
 from wse.features.shared.enums.object_id import ObjectID
@@ -44,5 +44,5 @@ class TasksView(BaseView):
         self._label_title.text = _('Foreign tasks title')
 
         # NavigationID buttons
-        self._btn_goto_test.text = _(NavigationID.FOREIGN_TESTS)
-        self._btn_goto_back.text = _(NavigationID.BACK)
+        self._btn_goto_test.text = _(NavID.FOREIGN_TESTS)
+        self._btn_goto_back.text = _(NavID.BACK)

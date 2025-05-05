@@ -1,7 +1,7 @@
 """Defines Education page view."""
 
 from wse.core.i18n import _
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.base.mvc import BaseView
 from wse.features.shared.enums.object_id import ObjectID
 from wse.features.shared.ui.ui_text import TextPanel, TitleLabel
@@ -50,9 +50,9 @@ class EducationView(BaseView):
         self._label_title.text = _('WSELFEDU')
 
         # Navigate buttons
-        self._btn_account.text = _(NavigationID.ACCOUNT)
-        self._btn_foreign.text = _(NavigationID.FOREIGN)
-        self._btn_glossary.text = _(NavigationID.GLOSSARY)
-        self._btn_mathem.text = _(NavigationID.MATHEMATICAL)
-        self._btn_exercises.text = _(NavigationID.EXERCISES)
-        self._btn_home.text = _(NavigationID.HOME)
+        self._btn_account.text = _(NavID.ACCOUNT)
+        self._btn_foreign.text = _(NavID.FOREIGN)
+        self._btn_glossary.text = _(NavID.GLOSSARY)
+        self._btn_mathem.text = _(NavID.MATHEMATICAL)
+        self._btn_exercises.text = _(NavID.EXERCISES)
+        self._btn_home.text = _(NavID.HOME)

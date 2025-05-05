@@ -2,7 +2,7 @@
 
 from dependency_injector import containers, providers
 
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features import figaro
 from wse.features.figaro.containers.swarm_panel import SwarmControlPanel
 
@@ -60,7 +60,7 @@ class FigaroContainer(containers.DeclarativeContainer):
     # NavigationID routes
     routes = providers.Dict(
         {
-            NavigationID.FIGARO: figaro_controller,
-            NavigationID.SWARM: swarm_controller,
+            NavID.FIGARO: figaro_controller,
+            NavID.SWARM: swarm_controller,
         }
     )

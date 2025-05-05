@@ -1,7 +1,7 @@
 """Foreign page view."""
 
 from wse.core.i18n import _
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.base.mvc import BaseView
 from wse.features.shared.enums.object_id import ObjectID
 from wse.features.shared.ui.ui_text import TextPanel, TitleLabel
@@ -47,7 +47,7 @@ class ForeignView(BaseView):
         self._label_title.text = _('Foreign title')
 
         # NavigationID buttons
-        self._btn_goto_tasks.text = _(NavigationID.FOREIGN_TASKS)
-        self._btn_goto_params.text = _(NavigationID.FOREIGN_PARAMS)
-        self._btn_goto_create.text = _(NavigationID.FOREIGN_CREATE)
-        self._btn_goto_back.text = _(NavigationID.BACK)
+        self._btn_goto_tasks.text = _(NavID.FOREIGN_TASKS)
+        self._btn_goto_params.text = _(NavID.FOREIGN_PARAMS)
+        self._btn_goto_create.text = _(NavID.FOREIGN_CREATE)
+        self._btn_goto_back.text = _(NavID.BACK)

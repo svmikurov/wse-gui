@@ -6,7 +6,7 @@ from wse.core.base import BaseEnum
 
 
 @unique
-class NavigationID(BaseEnum):
+class NavID(BaseEnum):
     """Application navigation ID enumeration."""
 
     # Authentication

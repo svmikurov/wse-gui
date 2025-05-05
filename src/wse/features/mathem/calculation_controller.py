@@ -6,7 +6,7 @@ import dataclasses
 import logging
 from typing import TYPE_CHECKING
 
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.shared.enums import ActionID, UIName
 from wse.interface.ifeatures import IContent
 from wse.interface.iobserver import IStateSubject, ISubject
@@ -61,7 +61,7 @@ class CalculationController:
 
     # -=== Listening to View notification ===-
 
-    def navigate(self, nav_id: NavigationID) -> None:
+    def navigate(self, nav_id: NavID) -> None:
         """Navigate to page, the button event listener."""
         self._subject.notify('navigate', nav_id=nav_id)
 

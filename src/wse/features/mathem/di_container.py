@@ -2,7 +2,7 @@
 
 from dependency_injector import containers, providers
 
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features import mathem
 from wse.features.mathem.exercises.di_container import (
     ExercisesContainer,
@@ -91,7 +91,7 @@ class MathematicalContainer(containers.DeclarativeContainer):
 
     routes = providers.Dict(
         {
-            NavigationID.MATHEMATICAL: mathematical_controller,
-            NavigationID.MATH_CALCULATION: calculation_controller,
+            NavID.MATHEMATICAL: mathematical_controller,
+            NavID.MATH_CALCULATION: calculation_controller,
         }
     )

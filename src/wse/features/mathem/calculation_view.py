@@ -6,7 +6,7 @@ import toga
 from toga.style import Pack
 
 from wse.core.i18n import _
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.shared.enums import ActionID, ObjectID, StyleID
 from wse.interface.ifeatures import IContent
 from wse.interface.iui.ibutton import IButtonFactory, IButtonHandler
@@ -70,7 +70,7 @@ class CalculationView:
         self._answer_label.text = _('Answer input')
         self._info_label.text = _('Result info')
         self._answer_button.text = _(ActionID.CHECK_ANSWER)
-        self._back_button.text = _(NavigationID.BACK)
+        self._back_button.text = _(NavID.BACK)
 
     # Widget style
 

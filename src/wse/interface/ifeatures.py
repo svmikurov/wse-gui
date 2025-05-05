@@ -8,7 +8,7 @@ from typing import Protocol
 
 import toga
 
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.shared.enums import UIName
 from wse.features.shared.enums.object_id import ObjectID
 from wse.interface.iobserver import ISubject
@@ -68,7 +68,7 @@ class IController(IOnPageOpen, Protocol):
     @property
     def content(self) -> IContent:
         """Get the page content."""
-    def navigate(self, navigation_id: NavigationID) -> None:
+    def navigate(self, navigation_id: NavID) -> None:
         """Navigate to page, the button event listener."""
 
 class IContextController(IController, Protocol):

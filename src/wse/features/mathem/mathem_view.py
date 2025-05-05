@@ -1,7 +1,7 @@
 """Defines Mathematical page view."""
 
 from wse.core.i18n import _
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.base.mvc import BaseView
 from wse.features.shared.enums.object_id import ObjectID
 from wse.features.shared.ui.ui_text import TextPanel, TitleLabel
@@ -35,5 +35,5 @@ class MathematicalView(BaseView):
     def localize_ui(self) -> None:
         """Localize a text for user interface widgets."""
         self._label_title.text = _('Mathematical title')
-        self._calculation_button.text = _(NavigationID.MATH_CALCULATION)
-        self._btn_back.text = _(NavigationID.BACK)
+        self._calculation_button.text = _(NavID.MATH_CALCULATION)
+        self._btn_back.text = _(NavID.BACK)

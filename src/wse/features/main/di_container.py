@@ -2,7 +2,7 @@
 
 from dependency_injector import containers, providers
 
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features import main
 
 
@@ -88,9 +88,9 @@ class MainContainer(containers.DeclarativeContainer):
     # NavigationID routes
     routes = providers.Dict(
         {
-            NavigationID.ACCOUNT: account_controller,
-            NavigationID.HOME: home_controller,
-            NavigationID.LOGIN: login_controller,
-            NavigationID.EDUCATION: education_controller,
+            NavID.ACCOUNT: account_controller,
+            NavID.HOME: home_controller,
+            NavID.LOGIN: login_controller,
+            NavID.EDUCATION: education_controller,
         }
     )

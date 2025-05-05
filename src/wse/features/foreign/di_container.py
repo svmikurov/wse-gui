@@ -2,7 +2,7 @@
 
 from dependency_injector import containers, providers
 
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.foreign import (
     ForeignController,
     ForeignView,
@@ -52,8 +52,8 @@ class ForeignContainer(containers.DeclarativeContainer):
     # NavigationID routes
     routes = providers.Dict(
         {
-            NavigationID.FOREIGN: foreign_controller,
-            NavigationID.FOREIGN_TASKS: tasks_controller,
-            NavigationID.FOREIGN_PARAMS: params_controller,
+            NavID.FOREIGN: foreign_controller,
+            NavID.FOREIGN_TASKS: tasks_controller,
+            NavID.FOREIGN_PARAMS: params_controller,
         }
     )

@@ -3,7 +3,7 @@
 import logging
 
 from wse.core.auth.service import AuthService
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.base.mvc import BaseModel
 
 logger = logging.getLogger(__name__)
@@ -33,5 +33,5 @@ class LoginModel(BaseModel):
 
     # Notification
     def _handel_success_login(self) -> None:
-        self._subject.notify('navigate', nav_id=NavigationID.ACCOUNT)
+        self._subject.notify('navigate', nav_id=NavID.ACCOUNT)
         self._subject.notify('clear_input_fields')

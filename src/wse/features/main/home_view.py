@@ -1,7 +1,7 @@
 """Defines Home page view."""
 
 from wse.core.i18n import _
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.base.mvc import BaseView
 from wse.features.shared.enums.object_id import ObjectID
 from wse.features.shared.ui.ui_text import TextPanel, TitleLabel
@@ -46,7 +46,7 @@ class HomeView(BaseView):
         self._label_title.text = _('WSELFEDU')
 
         # Navigate buttons
-        self._btn_account.text = _(NavigationID.ACCOUNT)
-        self._btn_education.text = _(NavigationID.EDUCATION)
-        self._btn_examples.text = _(NavigationID.EXAMPLES)
-        self._btn_figaro.text = _(NavigationID.FIGARO)
+        self._btn_account.text = _(NavID.ACCOUNT)
+        self._btn_education.text = _(NavID.EDUCATION)
+        self._btn_examples.text = _(NavID.EXAMPLES)
+        self._btn_figaro.text = _(NavID.FIGARO)

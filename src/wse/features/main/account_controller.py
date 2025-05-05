@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from http import HTTPStatus
 from typing import TYPE_CHECKING
 
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.base.mvc import ContextController
 
 logger = logging.getLogger(__name__)
@@ -31,11 +31,11 @@ class AccountController(ContextController):
 
     def render_auth_context(self) -> None:
         """Render the auth context into view."""
-        self.view.update_auth_button(NavigationID.LOGIN)
+        self.view.update_auth_button(NavID.LOGIN)
 
     def render_not_auth_context(self) -> None:
         """Render context for non-authenticated user."""
-        self.view.update_auth_button(NavigationID.LOGOUT)
+        self.view.update_auth_button(NavID.LOGOUT)
 
     def logout(self) -> None:
         """Logout from account."""
@@ -47,10 +47,10 @@ class AccountController(ContextController):
         self.render_auth_context()
 
     # Notifications
-    def navigate(self, nav_id: NavigationID) -> None:
+    def navigate(self, nav_id: NavID) -> None:
         """Navigate to page, the button event listener."""
         # Logout button now has no navigation.
-        if nav_id == NavigationID.LOGOUT:
+        if nav_id == NavID.LOGOUT:
             return self.logout()
 
         self._subject.notify('navigate', nav_id=nav_id)

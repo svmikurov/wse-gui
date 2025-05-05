@@ -6,7 +6,7 @@ import toga
 from toga.style import Pack
 
 from wse.core.i18n import _
-from wse.core.navigation.navigation_id import NavigationID
+from wse.core.navigation.navigation_id import NavID
 from wse.features.shared.enums import StyleID
 from wse.features.shared.enums.object_id import ObjectID
 from wse.features.shared.ui.ui_text import TitleLabel
@@ -51,11 +51,11 @@ class ExamplesView:
 
     def localize_ui(self) -> None:
         """Localize a text for user interface widgets."""
-        self._title_label.text = _(NavigationID.EXAMPLES)
+        self._title_label.text = _(NavID.EXAMPLES)
 
         # Buttons
-        self._selections_button.text = _(NavigationID.EXAMPLES_SELECTION)
-        self._back_button.text = _(NavigationID.BACK)
+        self._selections_button.text = _(NavID.EXAMPLES_SELECTION)
+        self._back_button.text = _(NavID.BACK)
 
     # Widget style
 
