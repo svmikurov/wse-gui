@@ -79,8 +79,11 @@ class MultiplicationView:
         return {
             self._title_label: StyleID.TITLE,
             self._question_label: StyleID.DEFAULT_LABEL,
+            self.display_question: StyleID.LINE_DISPLAY,
             self._answer_label: StyleID.DEFAULT_LABEL,
+            self.display_answer: StyleID.LINE_DISPLAY,
             self._info_label: StyleID.DEFAULT_LABEL,
+            self.display_info: StyleID.RESULT_INFO_DISPLAY,
             self._answer_button: StyleID.DEFAULT_BUTTON,
             self._back_button: StyleID.DEFAULT_BUTTON,
         }
@@ -91,11 +94,6 @@ class MultiplicationView:
 
         for widget, style_id in self._ui_styles.items():
             widget.style.update(**style.get(style_id))
-
-        # UI with content has `update_style` method.
-        self.display_question.update_style(style.get(StyleID.LINE_DISPLAY))
-        self.display_answer.update_style(style.get(StyleID.LINE_DISPLAY))
-        self.display_info.update_style(style.get(StyleID.RESULT_INFO_PANEL))
 
     # Utility methods
 

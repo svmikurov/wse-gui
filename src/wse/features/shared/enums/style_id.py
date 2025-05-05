@@ -14,4 +14,4 @@ class StyleID(BaseEnum):
     DEFAULT_BUTTON = 'Default button'
     KEYPAD_BUTTON = 'Keypad button'
     LINE_DISPLAY = 'Line display'
-    RESULT_INFO_PANEL = 'Result info display'
+    RESULT_INFO_DISPLAY = 'Result info display'

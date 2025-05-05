@@ -125,3 +125,8 @@ class LineDisplay:
     def content(self) -> IContent:
         """Page content (read-only)."""
         return self._content
+
+    @property
+    def style(self) -> Pack:
+        """Display style."""
+        return self._display.style
