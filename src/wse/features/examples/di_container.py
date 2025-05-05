@@ -32,9 +32,23 @@ class ExamplesContainer(containers.DeclarativeContainer):
         _subject=subject,
     )
 
+    # Selection
+    selection_view = providers.Factory(
+        examples.SelectionView,
+        content=content,
+        style_config=style_config,
+        button_handler=button_handler,
+    )
+    selection_controller = providers.Factory(
+        examples.SelectionController,
+        view=selection_view,
+        _subject=subject,
+    )
+
     # NavigationID routes
     routes = providers.Dict(
         {
             NavigationID.EXAMPLES: examples_controller,
+            NavigationID.EXAMPLES_SELECTION: selection_controller,
         }
     )

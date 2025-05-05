@@ -1,4 +1,5 @@
 """Defines Practice page view."""
+
 import dataclasses
 
 import toga
@@ -36,6 +37,7 @@ class ExamplesView:
         self.content.add(
             self._title_label,
             toga.Box(style=Pack(flex=1)),  # Flex stub
+            self._selections_button,
             self._back_button,
         )
 
@@ -44,6 +46,7 @@ class ExamplesView:
         self._title_label = TitleLabel()
 
         # Buttons
+        self._selections_button = self._create_navigation_button()
         self._back_button = self._create_navigation_button()
 
     def localize_ui(self) -> None:
@@ -51,6 +54,7 @@ class ExamplesView:
         self._title_label.text = _(NavigationID.EXAMPLES)
 
         # Buttons
+        self._selections_button.text = _(NavigationID.EXAMPLES_SELECTION)
         self._back_button.text = _(NavigationID.BACK)
 
     # Widget style
@@ -59,6 +63,7 @@ class ExamplesView:
     def _ui_styles(self) -> dict[toga.Widget, StyleID]:
         return {
             self._title_label: StyleID.TITLE,
+            self._selections_button: StyleID.DEFAULT_BUTTON,
             self._back_button: StyleID.DEFAULT_BUTTON,
         }
 

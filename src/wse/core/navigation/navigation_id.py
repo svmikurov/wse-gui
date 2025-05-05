@@ -47,3 +47,4 @@ class NavigationID(BaseEnum):
 
     # -=== Examples ===-
     EXAMPLES = 'Examples'
+    EXAMPLES_SELECTION = 'Examples selection'
