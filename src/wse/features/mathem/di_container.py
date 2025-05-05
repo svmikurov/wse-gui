@@ -9,6 +9,24 @@ from wse.features.mathem.exercises.di_container import (
 )
 
 
+class ExerciseSwitcher:
+    def __init__(self, exercise_container):
+        self._exercise_container = exercise_container
+        self._current_type = 'multiplication'
+
+    def set_exercise_type(self, exercise_type: str):
+        """Set exercise type."""
+        self._current_type = exercise_type
+
+    def get_exercise(self):
+        """Return current exercise."""
+        exercises = {
+            'multiplication': self._exercise_container.multiplication_exercise,
+            'adding': self._exercise_container.adding_exercise,
+        }
+        return exercises[self._current_type]()
+
+
 class MathematicalContainer(containers.DeclarativeContainer):
     """Mathematical page container."""
 
@@ -18,9 +36,16 @@ class MathematicalContainer(containers.DeclarativeContainer):
     )
     share_container = providers.DependenciesContainer()
 
+    # External ExerciseSwitcher as a provider
+    exercise_switcher = providers.Singleton(
+        ExerciseSwitcher,
+        exercise_container=exercise_container
+    )
+
     # Mathematical page
     mathematical_model = providers.Factory(
         mathem.MathematicalModel,
+        exercise_switcher=exercise_switcher,
     )
     mathematical_view = providers.Factory(
         mathem.MathematicalView,
