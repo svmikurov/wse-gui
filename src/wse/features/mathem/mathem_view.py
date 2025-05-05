@@ -21,7 +21,7 @@ class MathematicalView(BaseView):
         self.content.add(
             self._label_title,
             self.text_panel,
-            self._btn_multiplication,
+            self._calculation_button,
             self._btn_back,
         )
 
@@ -29,11 +29,11 @@ class MathematicalView(BaseView):
         """Build a user interface."""
         self._label_title = TitleLabel()
         self.text_panel = TextPanel()
-        self._btn_multiplication = self._build_nav_btn()
+        self._calculation_button = self._build_nav_btn()
         self._btn_back = self._build_nav_btn()
 
     def localize_ui(self) -> None:
         """Localize a text for user interface widgets."""
         self._label_title.text = _('Mathematical title')
-        self._btn_multiplication.text = _(NavigationID.MULTIPLICATION)
+        self._calculation_button.text = _(NavigationID.MATH_CALCULATION)
         self._btn_back.text = _(NavigationID.BACK)

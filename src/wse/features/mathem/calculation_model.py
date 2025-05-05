@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 @dataclasses.dataclass
-class MultiplicationModel(IExerciseModel):
+class CalculationModel(IExerciseModel):
     """Multiplication exercise page model."""
 
     # Exercise dependencies

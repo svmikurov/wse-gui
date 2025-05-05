@@ -37,6 +37,7 @@ class NavigationID(BaseEnum):
     # Mathematical
     MATHEMATICAL = 'Mathematical'
     MULTIPLICATION = 'Multiplication'
+    MATH_CALCULATION = 'Mathematical calculation'
 
     # Exercises
     EXERCISES = 'Exercises'

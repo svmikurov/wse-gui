@@ -12,17 +12,17 @@ from wse.interface.ifeatures import IContent
 from wse.interface.iobserver import IStateSubject, ISubject
 
 if TYPE_CHECKING:
-    from wse.features.mathem import MultiplicationModel, MultiplicationView
+    from wse.features.mathem import CalculationModel, CalculationView
 
 logger = logging.getLogger(__name__)
 
 
 @dataclasses.dataclass
-class MultiplicationController:
+class CalculationController:
     """Multiplication exercise page controller."""
 
-    model: MultiplicationModel
-    view: MultiplicationView
+    model: CalculationModel
+    view: CalculationView
     _subject: ISubject
 
     def __post_init__(self) -> None:

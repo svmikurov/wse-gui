@@ -15,7 +15,7 @@ from wse.interface.iui.itext import IDisplayPanel
 
 
 @dataclasses.dataclass
-class MultiplicationView:
+class CalculationView:
     """Multiplication page view."""
 
     _content: IContent
