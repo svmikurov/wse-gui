@@ -19,6 +19,7 @@ class NavigationID(BaseEnum):
     BACK = 'Back'
     NOT_SET = 'Not set'
 
+    # -=== Education ===-
     EDUCATION = 'Education'
 
     # Foreign
@@ -40,8 +41,9 @@ class NavigationID(BaseEnum):
     # Exercises
     EXERCISES = 'Exercises'
 
-    # Figaro
+    # -=== Figaro ===-
     FIGARO = 'Figaro'
     SWARM = 'Swarm'
-    PRACTICE = 'Practice'
+
+    # -=== Examples ===-
     EXAMPLES = 'Examples'

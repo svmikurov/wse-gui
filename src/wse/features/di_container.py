@@ -62,5 +62,8 @@ class FeatureContainer(containers.DeclarativeContainer):
     )
     examples = providers.Container(
         ExamplesContainer,
-        layer_container=layer_container,
+        content=share_container.simple_content,
+        style_config=share_container.style_config,
+        button_handler=share_container.button_handler,
+        subject=share_container.subject,
     )

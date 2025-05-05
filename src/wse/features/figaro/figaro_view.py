@@ -47,7 +47,7 @@ class FigaroView(BaseView):
 
         # Buttons
         self._btn_swarm.text = _(NavigationID.SWARM)
-        self._btn_practice.text = _(NavigationID.PRACTICE)
+        self._btn_practice.text = _(NavigationID.EXAMPLES)
         self._btn_home.text = _(NavigationID.HOME)
 
     # Callback handlers

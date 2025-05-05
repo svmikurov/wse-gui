@@ -1,11 +1,9 @@
 """Examples pages package."""
 
-from wse.features.examples.practice_controller import PracticeController
-from wse.features.examples.practice_model import PracticeModel
-from wse.features.examples.practice_view import PracticeView
+from wse.features.examples.examples_controller import ExamplesController
+from wse.features.examples.examples_view import ExamplesView
 
 __all__ = [
-    'PracticeController',
-    'PracticeModel',
-    'PracticeView',
+    'ExamplesController',
+    'ExamplesView',
 ]

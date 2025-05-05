@@ -9,26 +9,32 @@ from wse.features import examples
 class ExamplesContainer(containers.DeclarativeContainer):
     """Toga widget build examples."""
 
-    api_client = providers.Dependency()
-    # Containers
-    layer_container = providers.DependenciesContainer()
+    # Dependencies
+    content = providers.Dependency()
+    subject = providers.Dependency()
+    style_config = providers.Dependency()
+    button_handler = providers.Dependency()
 
-    examples_model = providers.Factory(
-        examples.PracticeModel,
-        service_layer=layer_container.service_layer,
-    )
+    # Container dependencies
+    share_container = providers.DependenciesContainer()
+
+    # -=== Pages ===-
+    # Home page
     examples_view = providers.Factory(
-        examples.PracticeView,
+        examples.ExamplesView,
+        _content=content,
+        _style_config=style_config,
+        button_handler=button_handler,
     )
     examples_controller = providers.Factory(
-        examples.PracticeController,
-        model=examples_model,
+        examples.ExamplesController,
         view=examples_view,
+        _subject=subject,
     )
 
     # NavigationID routes
     routes = providers.Dict(
         {
-            NavigationID.PRACTICE: examples_controller,
+            NavigationID.EXAMPLES: examples_controller,
         }
     )
