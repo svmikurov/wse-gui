@@ -1,91 +1,48 @@
 """Defines mathematical exercises."""
 
-import dataclasses
-from abc import ABC, abstractmethod
-from random import randint
-
-from typing_extensions import Self
-
-from wse.features.mathem.exercises.calculations import (
+from wse.features.mathem.exercises.base.exercise import (
+    SimpleCalculationExercise,
+)
+from wse.features.mathem.exercises.exercise_calculations import (
     AddAnswer,
     AddQuestion,
+    DivAnswer,
+    DivQuestion,
     MulAnswer,
     MulQuestion,
+    SubAnswer,
+    SubQuestion,
 )
-from wse.interface.iexercise import IAnswer, IQuestion
+from wse.features.shared.enums.exercises import Exercises
 
 
-@dataclasses.dataclass
-class CalculationExercise(ABC):
-    """Exercise on multiplication."""
+class AddingExercise(SimpleCalculationExercise):
+    """Adding exercise."""
 
-    _min_value: int = 1
-    _max_value: int = 9
-    _operand_1: int | None = None
-    _operand_2: int | None = None
-    _question: IQuestion | None = None
-    _answer: IAnswer | None = None
-
-    @abstractmethod
-    def _get_question(self) -> IQuestion:
-        pass
-
-    @abstractmethod
-    def _get_answer(self) -> IAnswer:
-        pass
-
-    # Business logic
-
-    def create_task(self) -> Self:
-        """Generate new multiplication task and calculate answer."""
-        self._operand_1 = self._generate_operand()
-        self._operand_2 = self._generate_operand()
-        self._question = self._get_question()
-        self._answer = self._get_answer()
-        return self
-
-    # Utility methods
-
-    def _generate_operand(self) -> int:
-        """Generate random integer within configured range."""
-        return randint(self._min_value, self._max_value)
-
-    @property
-    def question(self) -> IQuestion:
-        """Get formatted task for display."""
-        return self._question
-
-    @property
-    def answer(self) -> IAnswer:
-        """Get verified correct answer for current task."""
-        return self._answer
-
-    @property
-    def min_value(self) -> int:
-        """Min operand value."""
-        return self._min_value
-
-    @property
-    def max_value(self) -> int:
-        """Max operand value."""
-        return self._max_value
+    _exercise_type = Exercises.ADDING
+    _question_class = AddQuestion
+    _answer_class = AddAnswer
 
 
-class MultiplicationExercise(CalculationExercise):
-    """Exercise on multiplication."""
+class DivisionExercise(SimpleCalculationExercise):
+    """Division exercise."""
 
-    def _get_question(self) -> IQuestion:
-        return MulQuestion(self._operand_1, self._operand_2)
-
-    def _get_answer(self) -> IAnswer:
-        return MulAnswer(self._operand_1, self._operand_2)
+    _exercise_type = Exercises.DIVISION
+    _question_class = DivQuestion
+    _answer_class = DivAnswer
 
 
-class AddingExercise(CalculationExercise):
-    """Exercise on adding."""
+class MultiplicationExercise(SimpleCalculationExercise):
+    """Multiplication exercise."""
 
-    def _get_question(self) -> IQuestion:
-        return AddQuestion(self._operand_1, self._operand_2)
+    _exercise_type = Exercises.MULTIPLICATION
+    _question_class = MulQuestion
+    _answer_class = MulAnswer
 
-    def _get_answer(self) -> IAnswer:
-        return AddAnswer(self._operand_1, self._operand_2)
+
+class SubtractionExercise(SimpleCalculationExercise):
+    """Subtraction exercise."""
+
+    _exercise_type = Exercises.SUBTRACTION
+    _question_class = SubQuestion
+    _answer_class = SubAnswer
