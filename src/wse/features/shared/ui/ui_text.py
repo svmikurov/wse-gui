@@ -6,7 +6,7 @@ from toga.style import Pack
 
 from wse.features.settings import TITLE_LABEL_FONT_SIZE, TITLE_LABEL_PADDING
 from wse.features.shared.observer import TextListenerMixin, ValueListenerMixin
-from wse.interface.ifeatures import IContent
+from wse.interface.ifeatures.icontent import IContent
 
 
 class TitleLabel(toga.Label):
@@ -120,6 +120,11 @@ class LineDisplay:
         self._display.text = ''
 
     # Utility methods
+
+    @property
+    def text(self) -> str:
+        """Text on display (read-only)."""
+        return self._display.text
 
     @property
     def content(self) -> IContent:

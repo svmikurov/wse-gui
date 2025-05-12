@@ -6,8 +6,8 @@ import toga
 from toga.style import Pack
 
 from wse.features.shared.enums import StyleID
-from wse.interface.ifeatures import IContent
-from wse.interface.iui.ibutton import IButtonFactory, IButtonHandler
+from wse.interface.ifeatures.icontent import IContent
+from wse.interface.iui.ibutton import IButtonHandler
 
 
 @dataclasses.dataclass
@@ -15,7 +15,6 @@ class DigitKeypad:
     """Digit keypad."""
 
     _content: IContent
-    _button_factory: IButtonFactory
     _button_handler: IButtonHandler
     _style_config: dict
 
@@ -68,7 +67,7 @@ class DigitKeypad:
         self, symbol: int | str, **kwargs: object
     ) -> toga.Button:
         """Create a button."""
-        return self._button_factory.create(
+        return toga.Button(
             symbol,
             style=Pack(**self._style_config.get(StyleID.KEYPAD_BUTTON)),
             on_press=self._button_handler.keypad_press,
@@ -77,7 +76,7 @@ class DigitKeypad:
 
     def subscribe(self, listener: object) -> None:
         """Register an observer to receive notifications."""
-        self._button_handler.subject.add_listener(listener=listener)
+        self._button_handler.add_listener(listener=listener)
 
     @property
     def content(self) -> IContent:

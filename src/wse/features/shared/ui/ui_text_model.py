@@ -1,67 +1,89 @@
-"""Defines model for widgets."""
+"""Model layer implementation for widget components."""
 
 import dataclasses
+import logging
 from typing import Callable
 
-from wse.features.shared.enums import UIName
-from wse.interface.iobserver import ISubject
+from toga.sources import Listener
+
+from wse.features.shared.enums import FieldID
+from wse.features.shared.enums.notify_id import NotifyID
+from wse.features.shared.observer import IDSubject
+
+logger = logging.getLogger(__name__)
+
+NO_TEXT = ''
 
 
-class KeypadModelMixin:
-    """Mixin providing keypad input processing logic."""
+class KeypadChangeMixin:
+    """Handles keypad input processing logic."""
 
     _text: str
     _notify_change: Callable[[], None]
 
     def change(self, value: str) -> None:
-        """Process input value and update displayed text."""
+        """Update text based on keypad input."""
         if value == '⌫' and self._text == '0.':
-            self._text = ''
+            self._text = NO_TEXT
         elif value == '⌫':
             self._text = self._text[:-1]
         elif value == '.' and value in self._text:
             return
-        elif value == '.' and self._text == '':
+        elif value == '.' and self._text == NO_TEXT:
             self._text += '0.'
-        elif value == '0' and self._text == '':
-            self._text += '0.'
+        elif self._text == '0':
+            self._text += '.' + value
         else:
             self._text += value
         self._notify_change()
 
 
-@dataclasses.dataclass
-class DisplayModel:
-    """Model for managing display text and notifying subscribers."""
+class ChangeMixin:
+    """Basic text change handling."""
 
-    _subject: ISubject
-    _text: str = ''
-    _ui_name: UIName = ''
+    _text: str
+    _notify_change: Callable[[], None]
 
     def change(self, value: str) -> None:
-        """Update the displayed text and notify subscribers."""
+        """Update the text value and notify subscribers."""
         self._text = value
         self._notify_change()
 
+
+@dataclasses.dataclass
+class BaseDisplayModel:
+    """Base model for display components with notification support."""
+
+    _subject: IDSubject
+    _text: str = NO_TEXT
+    _field: FieldID = NO_TEXT
+
     def clean(self) -> None:
-        """Reset text to empty string and notify subscribers."""
-        self._text = ''
+        """Clear text and notify subscribers."""
+        self._text = NO_TEXT
         self._notify_clean()
 
     # Notifications
 
     def _notify_change(self) -> None:
-        self.subject.notify(
-            'change_ui_value', ui_name=self._ui_name, value=self._text
+        """Notify about text changes."""
+        self.subject.notify_with_id(
+            notify_id=NotifyID.UI_FIELD_VALUE_UPDATED,
+            field_id=self._field,
+            value=self._text,
         )
 
     def _notify_clean(self) -> None:
-        self.subject.notify('clean_ui_value', ui_name=self._ui_name)
+        """Notify about text clearance."""
+        self.subject.notify_with_id(
+            notify_id=NotifyID.UI_FIELD_CLEARED,
+            field_id=self._field,
+        )
 
     # Utility methods
 
     @property
-    def subject(self) -> ISubject:
+    def subject(self) -> IDSubject:
         """Model subject."""
         return self._subject
 
@@ -70,11 +92,17 @@ class DisplayModel:
         """Display model text."""
         return self._text
 
-    def subscribe(self, ui_name: UIName, listener: object) -> None:
+    def subscribe(self, field: FieldID, listener: Listener) -> None:
         """Subscribe a listener to model changes with UI name."""
-        self._ui_name = ui_name
+        self._field = field
         self.subject.add_listener(listener=listener)
 
 
-class KeypadModel(KeypadModelMixin, DisplayModel):
+class DisplayModel(ChangeMixin, BaseDisplayModel):
+    """Model for managing display text and notifying subscribers."""
+
+
+class KeypadModel(KeypadChangeMixin, BaseDisplayModel):
     """Combines keypad input processing with display management."""
+
+    _subject: IDSubject

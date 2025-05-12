@@ -1,12 +1,9 @@
 """Defines general application button."""
 
-from typing import Callable
-
 import toga
-from toga.style import Pack
 
 from wse.features.settings import BUTTON_HEIGHT, FONT_SIZE_APP
-from wse.interface.ifeatures import ISubject
+from wse.interface.iobserver import ISubject
 
 
 class AppButton(toga.Button):
@@ -29,39 +26,16 @@ class ButtonHandler:
 
     def button_press(self, button: toga.Button) -> None:
         """Handle button press and notify Subject."""
-        self.subject.notify('handle_button_press', value=button.text)
+        self._subject.notify('handle_button_press', value=button.text)
 
     def keypad_press(self, button: toga.Button) -> None:
         """Handle keypad button press and notify Subject."""
-        self.subject.notify('handel_keypad_press', value=button.text)
+        self._subject.notify('handle_keypad_press', value=button.text)
 
     def navigate(self, button: toga.Button) -> None:
         """Navigate to page, the button event listener."""
-        self.subject.notify('navigate', nav_id=button.text)
+        self._subject.notify('navigate', nav_id=button.text)
 
-    @property
-    def subject(self) -> ISubject:
-        """Subject of Observer pattern."""
-        return self._subject
-
-
-class ButtonFactory:
-    """Factory for creating buttons with a single style."""
-
-    @classmethod
-    def create(
-        cls,
-        text: str | int = '',
-        *,
-        on_press: Callable[[toga.Button], None],
-        style: Pack | None = None,
-        **kwargs: object,
-    ) -> toga.Button:
-        """Create a button with default settings."""
-        button = toga.Button(
-            text=str(text),
-            style=style if style is not None else Pack(),
-            on_press=on_press,
-            **kwargs,
-        )
-        return button
+    def add_listener(self, listener: object) -> None:
+        """Add listener."""
+        return self._subject.add_listener(listener)

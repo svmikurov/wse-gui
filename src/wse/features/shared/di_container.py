@@ -4,7 +4,7 @@ from dependency_injector import containers, providers
 
 from wse.features.base.context import Context
 from wse.features.shared.content import BaseContent, SimpleContent
-from wse.features.shared.observer import Subject
+from wse.features.shared.observer import IDSubject, Subject
 from wse.features.shared.ui.di_conatiner import UIContainer
 
 
@@ -20,6 +20,9 @@ class ShareContainer(containers.DeclarativeContainer):
     subject = providers.Factory(
         Subject,
     )
+    id_subject = providers.Factory(
+        IDSubject,
+    )
     simple_content = providers.Factory(
         SimpleContent,
     )
@@ -27,6 +30,7 @@ class ShareContainer(containers.DeclarativeContainer):
     ui_container = providers.Container(
         UIContainer,
         subject=subject,
+        id_subject=id_subject,
         simple_content=simple_content,
     )
 
@@ -36,5 +40,4 @@ class ShareContainer(containers.DeclarativeContainer):
     line_display = ui_container.line_display
     digit_keypad = ui_container.digit_keypad
     style_config = ui_container.style_config
-    button_factory = ui_container.button_factory
     button_handler = ui_container.button_handler

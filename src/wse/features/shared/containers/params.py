@@ -1,6 +1,7 @@
-"""Defines a params selection (choice) widgets."""
+"""Toga-based parameter selection widgets with label support."""
 
-from typing import Callable
+from functools import cached_property
+from typing import Callable, Iterable
 
 import toga
 from toga.style import Pack
@@ -11,6 +12,7 @@ from wse.features.shared.boxes import (
     RowFlexBox,
 )
 from wse.features.shared.observer import Subject
+from wse.interface.iui.iwidget import IItemsWidget, IValueWidget
 
 # Labeled widget padding style
 LABEL_PADDING = (0, 0, 0, 0)
@@ -24,13 +26,43 @@ def wrap_in_box(
     box_style: Pack,
     box: toga.Box | None = None,
 ) -> toga.Box:
-    """Wrap the widget to styled box."""
+    """Wrap widget in a styled container box."""
     box = box or ColumnFlexBox
     return box(style=box_style, children=[widget])
 
 
+class WidgetValueMixin:
+    """Mixin for widgets with value property."""
+
+    widget: IValueWidget
+
+    @property
+    def value(self) -> str:
+        """Get the current value from the widget."""
+        return self.widget.value
+
+    @value.setter
+    def value(self, value: str) -> None:
+        self.widget.value = value
+
+
+class WidgetItemsMixin:
+    """Mixin for widgets with items collection."""
+
+    widget: IItemsWidget
+
+    @property
+    def items(self) -> Iterable | None:
+        """Get the current items collection from the widget."""
+        return self.widget.items
+
+    @items.setter
+    def items(self, value: Iterable) -> None:
+        self.widget.items = value
+
+
 class LayoutWidgetLabel:
-    """Layout of widget with label."""
+    """Base layout for labeled widgets using box containers."""
 
     _label: toga.Label
     _label_box_style: Pack
@@ -102,22 +134,27 @@ class WidgetLabel(toga.Box):
     # Multiply inherit methods
     _layout_boxes: Callable
 
-    def __init__(self, source: Subject | None = None) -> None:
+    def __init__(
+        self,
+        source: Subject | None = None,
+        on_change: toga.widgets.selection.OnChangeHandler | None = None,
+    ) -> None:
         """Construct the box."""
         super().__init__()
         self._source = source or Subject()
+        self._on_change = on_change
         self._label = toga.Label(text='')
 
         # Box layout
         self.style = self._box_style
         self._layout_boxes()
 
-    @property
+    @cached_property
     def widget(self) -> toga.Widget:
         """Create widget class instance (read-only)."""
         if hasattr(self._widget_class, 'text'):
-            return self._widget_class(text='')
-        return self._widget_class()
+            return self._widget_class(text='', on_change=self._on_change)
+        return self._widget_class(on_change=self._on_change)
 
     @property
     def text(self) -> str:
@@ -152,9 +189,14 @@ class SwitchWidgetLabelBox(WrapSwitchWidgetLabelMixin, SwitchWidgetLabel):
     """Container containing a switch with a label."""
 
 
-class SelectionLabelBox(WidgetLabelBox):
+class SelectionLabelBox(
+    WidgetItemsMixin,
+    WidgetValueMixin,
+    WidgetLabelBox,
+):
     """Container containing a selection with a label."""
 
+    widget: toga.Selection
     _widget_class = toga.Selection
 
 

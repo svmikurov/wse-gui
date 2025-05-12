@@ -1,6 +1,11 @@
 """Observer pattern module."""
 
+from typing import Callable, Iterable
+
 from toga.sources import Listener, Source
+
+from wse.features.shared.enums import FieldID
+from wse.features.shared.enums.notify_id import NotifyID
 
 
 class AsyncNotifyMixin:
@@ -20,11 +25,34 @@ class AsyncNotifyMixin:
                 await method(**kwargs)
 
 
-class Subject(AsyncNotifyMixin, Source):
-    """An observable object in the Observer pattern.
+class NotifyByIDMixin:
+    """Mixin for standardized notification by IDs."""
 
-    Notifies subscribed listeners (observers) when its state changes.
-    """
+    notify: Callable
+
+    def notify_with_id(
+        self,
+        notify_id: NotifyID,
+        field_id: FieldID | None = None,
+        items: Iterable | None = None,
+        value: str = '',
+    ) -> None:
+        """Send structured notification with IDs and optional data."""
+        self.notify(
+            'match_notify',
+            notify_id=notify_id,
+            field_id=field_id,
+            items=items,
+            value=value,
+        )
+
+
+class Subject(AsyncNotifyMixin, Source):
+    """An observable object in the Observer pattern."""
+
+
+class IDSubject(NotifyByIDMixin, Subject):
+    """Subject with notification by ID."""
 
 
 class ValueListenerMixin:
