@@ -1,0 +1,15 @@
+adding:
+  min_value: 2
+  max_value: 99
+
+division:
+  min_value: 2
+  max_value: 9
+
+multiplication:
+  min_value: 2
+  max_value: 9
+
+subtraction:
+  min_value: 2
+  max_value: 99
