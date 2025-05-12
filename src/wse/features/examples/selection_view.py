@@ -2,28 +2,56 @@
 
 import toga
 from toga.constants import COLUMN, ROW
+from toga.sources import Source
 from toga.style import Pack
 
 from wse.core.navigation.navigation_id import NavID
 from wse.features.shared.enums import StyleID
-from wse.interface.ifeatures import IContent
+from wse.interface.ifeatures.icontent import IContent
 from wse.interface.iui.ibutton import IButtonHandler
 
 # ruff: noqa: ANN001, ANN201, ANN202, D102, D415, E501
 
 
+CARBON = 'Carbon'
+YTTERBIUM = 'Ytterbium'
+THULIUM = 'Thulium'
+OPTIONS = [CARBON, YTTERBIUM, THULIUM]
+DATA_OPTIONS = [
+    {'name': CARBON, 'number': 6, 'weight': 12.011},
+    {'name': YTTERBIUM, 'number': 70, 'weight': 173.04},
+    {'name': THULIUM, 'number': 69, 'weight': 168.93},
+]
+
+
+class Color:
+    def __init__(self, name: str, number: int, weight: float) -> None:
+        self.name = name
+        self.number = number
+        self.weight = weight
+
+
+class ColorSource(Source):
+    def __init__(self) -> None:
+        super().__init__()
+        self._colors = []
+
+    def __getitem__(self, index):
+        return self._colors[index]
+
+    def add(self, entry: dict[str, str | int | float]) -> None:
+        """Add coloros."""
+        color = Color(**entry)
+        self._colors.append(color)
+        self.notify('insert', index=self._colors.index(color), item=color)
+
+    def clear(self):
+        self._colors = []
+        self.notify('clear')
+
+
 class SelectionView:
     """Selection exemple page view."""
-
-    CARBON = 'Carbon'
-    YTTERBIUM = 'Ytterbium'
-    THULIUM = 'Thulium'
-    OPTIONS = [CARBON, YTTERBIUM, THULIUM]
-    DATA_OPTIONS = [
-        {'name': CARBON, 'number': 6, 'weight': 12.011},
-        {'name': YTTERBIUM, 'number': 70, 'weight': 173.04},
-        {'name': THULIUM, 'number': 69, 'weight': 168.93},
-    ]
 
     def __init__(
         self,
@@ -35,6 +63,7 @@ class SelectionView:
         self._content = content
         self._style_config = style_config
         self.button_handler = button_handler
+        self._content.id = 'Selection examples view'
 
         # Layout
         self._title_label = toga.Label(
@@ -66,11 +95,16 @@ class SelectionView:
         box_style = Pack(direction=ROW, padding=10)
 
         # Add the content on the main window
-        self.selection = toga.Selection(items=self.OPTIONS)
+        self.selection = toga.Selection(items=OPTIONS)
         self.empty_selection = toga.Selection()
         self.source_selection = toga.Selection(
             accessor='name',
-            items=self.DATA_OPTIONS,
+            items=DATA_OPTIONS,
+        )
+        self.custom_source_selection = toga.Selection(
+            accessor='number',
+            items=ColorSource(),
+            on_change=self.on_change_notify,
         )
 
         self.ui = toga.Box(
@@ -94,6 +128,19 @@ class SelectionView:
                     children=[
                         toga.Label('Selection from source', style=label_style),
                         self.source_selection,
+                    ],
+                ),
+                toga.Box(
+                    style=box_style,
+                    children=[
+                        toga.Label(
+                            'Selection from Source',
+                            style=label_style,
+                        ),
+                        toga.Button(
+                            'Populate', on_press=self.populate_selection
+                        ),
+                        self.custom_source_selection,
                     ],
                 ),
                 toga.Box(
@@ -167,13 +214,13 @@ class SelectionView:
         )
 
     def set_carbon(self, widget):
-        self.selection.value = self.CARBON
+        self.selection.value = CARBON
 
     def set_ytterbium(self, widget):
-        self.selection.value = self.YTTERBIUM
+        self.selection.value = YTTERBIUM
 
     def set_thulium(self, widget):
-        self.selection.value = self.THULIUM
+        self.selection.value = THULIUM
 
     def my_on_change(self, selection):
         # get the current value of the slider with `selection.value`
@@ -188,7 +235,26 @@ class SelectionView:
             f'has weight {self.source_selection.value.weight}'
         )
 
-    # -=== Utility methods ===-
+    # === Custom ===
+
+    def populate_selection(self, _: toga.Widget) -> None:
+        # Updating `items` calls the `on_change` method.
+        # Disable the method for the duration of the population.
+        self.custom_source_selection.on_change = None
+        self.custom_source_selection.items.clear()
+
+        for item in DATA_OPTIONS:
+            self.custom_source_selection.items.add(item)
+
+        # Enable the method after population.
+        self.custom_source_selection.on_change = self.on_change_notify
+
+    def on_change_notify(self, widget: toga.Widget, *args: object) -> None:
+        print('Populated')
+        print(f'{widget.value = }')
+        print(f'{args = }')
+
+    # === Utility methods ===
 
     @property
     def content(self) -> IContent:

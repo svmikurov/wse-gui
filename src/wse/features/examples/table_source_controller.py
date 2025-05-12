@@ -1,23 +1,16 @@
-"""Defines Selection example page controller."""
-
-from __future__ import annotations
-
-import dataclasses
-from typing import TYPE_CHECKING
+from dataclasses import dataclass
 
 from wse.core.navigation.navigation_id import NavID
 from wse.interface.ifeatures.icontent import IContent
+from wse.interface.ifeatures.imvc import IView
 from wse.interface.iobserver import ISubject
 
-if TYPE_CHECKING:
-    from wse.features.examples import SelectionView
 
-
-@dataclasses.dataclass
-class SelectionController:
+@dataclass
+class TableSourceContainer:
     """Selection example page controller."""
 
-    view: SelectionView
+    view: IView
     _subject: ISubject
 
     def __post_init__(self) -> None:
