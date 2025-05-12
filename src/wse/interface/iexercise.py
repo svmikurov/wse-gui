@@ -2,86 +2,68 @@
 
 from typing import Protocol
 
-from typing_extensions import Self
-
+from wse.features.shared.enums.exercises import Exercises
 from wse.interface.iui.itext import IDisplayModel
 
 # ruff: noqa: D101, D102, D204, E301, E302
 # fmt: off
 
-class ITask(Protocol):
-    """Interface protocol defining the structure of an exercise task."""
-    @property
-    def text(self) -> str:
-        """Return a string representation of the task."""
-
 class IQuestion(Protocol):
-    """Interface protocol representing a user's question to a task."""
+    """Interface protocol representing a task question."""
     @property
-    def text(self) -> str:
-        """Return a string representation of the task question."""
+    def text(self) -> str: ...
 
 class IAnswer(Protocol):
-    """Interface protocol representing a user's answer to a task."""
+    """Interface protocol representing a task answer."""
     @property
-    def text(self) -> str:
-        """Return a string representation of the task answer."""
+    def text(self) -> str: ...
+
+class ITask(Protocol):
+    """Base protocol for all exercise tasks."""
+    exercise_type: Exercises
+    timestamp: float
+
+class IExercise(Protocol):
+    """Protocol for exercises with task creation logic."""
+    def create_task(self) -> ITask:
+        """Create a new task instance with generated conditions."""
 
 class IResult(Protocol):
     """Defines interface for answer validation results."""
     @property
-    def is_correct(self) -> bool:
-        """Whether the user's answer matches the correct solution."""
+    def is_correct(self) -> bool: ...
     @property
     def text(self) -> str:
         """Return a string representation of the check result."""
+    def __str__(self) -> str:
+        """Return the string representation of check result."""
 
-class IOperandGenerator(Protocol):
-    """Defines interface for generating numerical operands."""
-    def generate_operand(self) -> int:
-        """Generate an integer for use in exercise calculations."""
+# ----------------------------------------------------------------------
+# Exercise services
+# ----------------------------------------------------------------------
+
 
 class IRender(Protocol):
     """Interface for rendering components."""
-    def render_task(self, task: ITask) -> None:
-        """Render task components."""
-    def render_result(self, result: IResult) -> None:
-        """Render result components."""
+    def render_task(self, task: ITask) -> None: ...
+    def render_result(self, result: IResult) -> None: ...
 
 class ITextDisplayRenderer(Protocol):
-    """Defines interface for presentation of exercise components."""
-    @classmethod
-    def render(cls, task: str, display: IDisplayModel) -> None:
-        """Display the current task to the user."""
-
-class IExercise(Protocol):
-    """Interface protocol for complete exercise lifecycle management."""
-    def create_task(self) -> Self:
-        """Create and return a new task with its conditions."""
-    @property
-    def question(self) -> IQuestion:
-        """Retrieve the current question instance."""
-    @property
-    def answer(self) -> IAnswer:
-        """Get the verified correct answer for the current task."""
+    """Protocol for presentation of exercise components."""
+    def render(self, task: str, display: IDisplayModel) -> None: ...
 
 class ITaskStorage(Protocol):
     """Defines interface for storage of task conditions."""
-    def save_task(self, task: IExercise) -> None:
-        """Save the conditions of an exercise task to storage."""
-    def retrieve_task(self) -> IExercise:
-        """Retrieve the conditions of an exercise task from storage."""
+    def save_task(self, task: ITask) -> None: ...
+    def retrieve_task(self) -> ITask: ...
     @property
-    def answer(self) -> IAnswer:
-        """Retrieve from storage the correct answer."""
+    def answer(self) -> IAnswer: ...
 
 class IAnswerChecker(Protocol):
     """Defines interface for validating user answers solutions."""
     def check(self, user_answer: IAnswer, storage: ITaskStorage) -> None:
         """Verify user's answer against stored correct solution."""
-    @staticmethod
-    def get_correct_answer(storage: ITaskStorage) -> IAnswer:
-        """Retrieve from storage the correct answer."""
+    def get_correct_answer(self, storage: ITaskStorage) -> IAnswer: ...
     @property
     def result(self) -> IResult:
-        """The representation of user answer check."""
+        """Return the representation of user answer check."""

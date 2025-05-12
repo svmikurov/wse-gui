@@ -10,9 +10,14 @@ from typing_extensions import override
 from wse.core.api.client import ApiClient
 from wse.core.navigation.navigation_id import NavID
 from wse.features.base.container import NavigableContainer
-from wse.features.base.context import Context
 from wse.features.shared.observer import Subject
-from wse.interface.ifeatures import IContent, IContext, IModel, ISubject, IView
+from wse.interface.icontroller import IController
+from wse.interface.ifeatures.imvc import (
+    IContent,
+    IModel,
+    ISubject,
+    IView,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -24,12 +29,10 @@ class BaseModel:
         self,
         api_client: ApiClient | None = None,
         subject: ISubject | None = None,
-        context: IContext | None = None,
     ) -> None:
         """Construct the model."""
         self.api_client = api_client
         self._subject = subject if subject is not None else Subject()
-        self._context = context if context is not None else Context()
 
     def render_context(self) -> None:
         """Render the context to view."""
@@ -47,11 +50,6 @@ class BaseModel:
         """Model subject."""
         return self._subject
 
-    @property
-    def context(self) -> IContext:
-        """View context."""
-        return self._context
-
 
 class BaseView(NavigableContainer, ABC):
     """Implementation of the base view."""
@@ -66,6 +64,37 @@ class BaseView(NavigableContainer, ABC):
 
 ########################################################################
 # Controllers
+
+
+@dataclass(kw_only=True)
+class Controller(IController):
+    """Base controller."""
+
+    view: IView
+    _subject: ISubject
+
+    def __post_init__(self) -> None:
+        """Subscribe to service layer."""
+        # Subscribe to view notifications
+        self.view.button_handler.add_listener(self)
+
+    # -=== Listening to View notification ===-
+
+    def navigate(self, nav_id: NavID) -> None:
+        """Navigate to page, the button event listener."""
+        self._subject.notify('navigate', nav_id=nav_id)
+
+    # -=== Utility methods ===-
+
+    @property
+    def subject(self) -> ISubject:
+        """Subject of observer pattern (read-only)."""
+        return self._subject
+
+    @property
+    def content(self) -> IContent:
+        """Page content (read-only)."""
+        return self.view.content
 
 
 @dataclass(kw_only=True)

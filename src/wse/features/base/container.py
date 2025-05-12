@@ -8,7 +8,8 @@ import toga
 from wse.features.shared.content import BaseContent
 from wse.features.shared.observer import Subject
 from wse.features.shared.ui.button import AppButton
-from wse.interface.ifeatures import IContent, ISubject
+from wse.interface.ifeatures.icontent import IContent
+from wse.interface.iobserver import ISubject
 
 
 class BaseContainer(ABC):

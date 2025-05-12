@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Protocol
 import toga
 from httpx import Response
 
-from wse.interface.ifeatures import IController
+from wse.interface.ifeatures.imvc import IVController
 
 if TYPE_CHECKING:
     from wse.core.navigation.navigation_id import NavID
@@ -80,11 +80,11 @@ class INavigator(Protocol):
         """Set the application's main window for content display."""
 
     @property
-    def routes(self) -> dict[NavID, IController]:
+    def routes(self) -> dict[NavID, IVController]:
         """Routes to get page content to window content."""
 
     @routes.setter
-    def routes(self, value: dict[NavID, IController]) -> None: ...
+    def routes(self, value: dict[NavID, IVController]) -> None: ...
 
 
 class IApiClient(Protocol):

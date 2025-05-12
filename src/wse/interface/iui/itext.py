@@ -5,7 +5,7 @@ from typing import Protocol
 import toga
 from toga.style import Pack
 
-from wse.features.shared.enums import UIName
+from wse.features.shared.enums import FieldID
 from wse.interface.iobserver import ISubject
 
 # ruff: noqa: D101, D102, D204, E301, E302
@@ -17,6 +17,9 @@ class IDisplayPanel(Protocol):
     @property
     def content(self) -> [toga.Widget]:
         """Widgets of content."""
+    @property
+    def text(self) -> str:
+        """Text on display."""
     def update_style(self, value: Pack) -> None:
         """Update display style."""
     def change(self, value: str) -> None:
@@ -26,7 +29,7 @@ class IDisplayPanel(Protocol):
 
 class IDisplayModel(Protocol):
     """Protocol defining the interface for text display model."""
-    _ui_name: UIName
+    _event: FieldID
     def change(self, value: str) -> None:
         """Change a text to display."""
     def clean(self) -> None:
@@ -39,5 +42,5 @@ class IDisplayModel(Protocol):
     @property
     def text(self) -> str:
         """Display model text."""
-    def subscribe(self, ui_name: UIName, listener: object) -> None:
+    def subscribe(self, field: FieldID, listener: object) -> None:
         """Set UI display name with model listener."""

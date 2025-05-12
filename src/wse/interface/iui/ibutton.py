@@ -5,17 +5,14 @@ from typing import Callable, Protocol
 import toga
 from toga.style import Pack
 
-from wse.interface.ifeatures import ISubject
-
 # ruff: noqa: D101, D102, D204, E301, E302
 # fmt: off
 
 
 class IButtonHandler(Protocol):
     """Protocol defining the interface for button handler."""
-    @property
-    def subject(self) -> ISubject:
-        """Get the subject for observer pattern notifications."""
+    def add_listener(self, listener: object) -> None:
+        """Add listener."""
     def button_press(self, button: toga.Button) -> None:
         """Handle button press and notify Subject."""
     def keypad_press(self, button: toga.Button) -> None:
