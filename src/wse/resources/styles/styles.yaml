@@ -1,6 +1,9 @@
 default_font_size: &default_font_size
   font_size: 14
 
+No style:
+  {}
+
 Title:
   font_size: 24
   text_align: "center"
