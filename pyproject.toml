@@ -203,12 +203,12 @@ pydantic = "^2.11.3"
 pydantic-settings = "^2.8.1"
 cryptography = "^44.0.2"
 pyyaml = "^6.0.2"
+toga-dummy = "0.4.9"
+toga = "0.4.9"
 
 [tool.poetry.group.dev.dependencies]
 briefcase = "0.3.19"
 pygobject = "3.50.0"
-toga = "0.4.8"
-toga-dummy = "0.4.8"
 travertino = "0.3.0"
 pillow = "11.0.0"
 
@@ -219,6 +219,7 @@ pytest-asyncio = "^0.26.0"
 pylint = "^3.3.6"
 radon = "^6.0.1"
 pydeps = "^3.0.1"
+mypy = "^1.15.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -238,6 +239,14 @@ exclude = [
     "*/conftest.py",
 ]
 line-length = 79
+
+[tool.ruff.lint.per-file-ignores]
+"src/wse/features/examples/*.py" = [
+    "ANN001", "ANN003", "ANN201", "ANN202", "ANN204",
+    "D100", "D101", "D102", "D107", "D105",
+    "E501",
+    "W505",
+]
 
 [tool.ruff.lint]
 preview = true  # checks will include unstable rules and fixes
