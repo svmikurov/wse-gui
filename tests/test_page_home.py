@@ -10,7 +10,7 @@ from wse.app import WSE
 from wse.features.main.home_view import HomeView
 from wse.features.shared.content import BaseContent
 from wse.features.shared.enums.object_id import ObjectID
-from wse.interface.ifeatures import IContent
+from wse.interfaces.ifeatures.icontent import IContent
 
 
 @pytest.fixture
