@@ -60,8 +60,8 @@ class BaseDisplayModel:
     """Base model for display components with notification support."""
 
     _subject: IDSubject
+    _field: FieldID
     _text: str = NO_TEXT
-    _field: FieldID = NO_TEXT
 
     def clean(self) -> None:
         """Clear text and notify subscribers."""
