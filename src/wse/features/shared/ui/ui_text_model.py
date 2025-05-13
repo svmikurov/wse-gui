@@ -18,6 +18,8 @@ NO_TEXT = ''
 class KeypadChangeMixin:
     """Handles keypad input processing logic."""
 
+    MAX_NUMBER_LENGTH = 3
+
     _text: str
     _notify_change: Callable[[], None]
 
@@ -27,6 +29,8 @@ class KeypadChangeMixin:
             self._text = NO_TEXT
         elif value == '⌫':
             self._text = self._text[:-1]
+        elif len(self._text) >= self.MAX_NUMBER_LENGTH:
+            return
         elif value == '.' and value in self._text:
             return
         elif value == '.' and self._text == NO_TEXT:
@@ -35,6 +39,7 @@ class KeypadChangeMixin:
             self._text += '.' + value
         else:
             self._text += value
+
         self._notify_change()
 
 
