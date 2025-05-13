@@ -25,7 +25,6 @@ class FigaroView(BaseView):
             self._label_title,
             self.text_panel,
             self._btn_swarm,
-            self._btn_practice,
             self._btn_home,
         )
 
@@ -38,7 +37,6 @@ class FigaroView(BaseView):
 
         # Buttons
         self._btn_swarm = self._build_nav_btn()
-        self._btn_practice = self._build_nav_btn()
         self._btn_home = self._build_nav_btn()
 
     def localize_ui(self) -> None:
@@ -47,7 +45,6 @@ class FigaroView(BaseView):
 
         # Buttons
         self._btn_swarm.text = _(NavID.SWARM)
-        self._btn_practice.text = _(NavID.EXAMPLES)
         self._btn_home.text = _(NavID.HOME)
 
     # Callback handlers
