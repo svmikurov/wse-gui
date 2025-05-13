@@ -3,6 +3,7 @@
 import logging
 
 from wse.features.shared.enums.exercises import Exercises
+from wse.interfaces.iexercise import IExercise
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +15,7 @@ class ExerciseSwitcher:
 
     def __init__(
         self,
-        _exercises: dict[Exercises, object],
+        _exercises: dict[Exercises, IExercise],
     ) -> None:
         """Construct the switcher."""
         self._exercises = _exercises
@@ -36,7 +37,7 @@ class ExerciseSwitcher:
         )
 
     @property
-    def current_exercise(self) -> object:
+    def current_exercise(self) -> IExercise:
         """Get current exercise dependency."""
         return self._exercises[self._current_exercise_name]
 
@@ -46,6 +47,6 @@ class ExerciseSwitcher:
         return self._current_exercise_name
 
     @property
-    def exercises(self) -> dict[Exercises, object]:
+    def exercises(self) -> dict[Exercises, IExercise]:
         """Get available exercises mapping."""
         return self._exercises

@@ -28,7 +28,11 @@ class ISimpleMathTask(ITask, Protocol):
     question: ISimpleMathQuestion
     answer: ISimpleMathAnswer
 
-class ISimpleMathExercise(Protocol):
+class IExercise(Protocol):
+    """Defines a protocol for exercise."""
+    def create_task(self) -> ISimpleMathTask: ...
+
+class ISimpleMathExercise(IExercise, Protocol):
     """Defines a task creation logic of simple calculation exercise."""
     _exercise_type: Exercises
     _question_class: Type[ISimpleMathQuestion]
@@ -36,7 +40,6 @@ class ISimpleMathExercise(Protocol):
     def _create_question(self) -> ISimpleMathQuestion: ...
     def _create_answer(self) -> ISimpleMathAnswer: ...
     def _generate_operand(self) -> int: ...
-    def create_task(self) -> ISimpleMathTask: ...
 
 
 class IExerciseSwitcher(Protocol):
