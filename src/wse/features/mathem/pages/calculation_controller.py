@@ -11,9 +11,9 @@ from wse.features.mathem.interfaces.ipages import (
 )
 from wse.features.shared.enums import FieldID, TaskState
 from wse.features.shared.enums.notify_id import NotifyID
-from wse.interface.ifeatures.icontent import IContent
-from wse.interface.iobserver import IStateSubject, ISubject
-from wse.interface.iui.ikeypad import IKeypadModel
+from wse.interfaces.ifeatures.icontent import IContent
+from wse.interfaces.iobserver import IStateSubject, ISubject
+from wse.interfaces.iui.ikeypad import IKeypadModel
 
 
 @dataclass

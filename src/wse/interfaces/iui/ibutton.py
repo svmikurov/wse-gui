@@ -5,7 +5,6 @@ from typing import Callable, Protocol
 import toga
 from toga.style import Pack
 
-# ruff: noqa: D101, D102, D204, E301, E302
 # fmt: off
 
 

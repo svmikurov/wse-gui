@@ -5,9 +5,8 @@ from typing import Protocol
 import toga
 
 from wse.features.shared.enums import FieldID
-from wse.interface.ifeatures.isubjects import IModelSubject
+from wse.interfaces.ifeatures.isubjects import IModelSubject
 
-# ruff: noqa: D101, D102, D204, E301, E302
 # fmt: off
 
 

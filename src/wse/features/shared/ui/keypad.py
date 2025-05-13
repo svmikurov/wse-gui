@@ -6,8 +6,8 @@ import toga
 from toga.style import Pack
 
 from wse.features.shared.enums import StyleID
-from wse.interface.ifeatures.icontent import IContent
-from wse.interface.iui.ibutton import IButtonHandler
+from wse.interfaces.ifeatures.icontent import IContent
+from wse.interfaces.iui.ibutton import IButtonHandler
 
 
 @dataclasses.dataclass

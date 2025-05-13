@@ -6,8 +6,8 @@ import dataclasses
 from typing import TYPE_CHECKING
 
 from wse.core.navigation.navigation_id import NavID
-from wse.interface.ifeatures.icontent import IContent
-from wse.interface.iobserver import ISubject
+from wse.interfaces.ifeatures.icontent import IContent
+from wse.interfaces.iobserver import ISubject
 
 if TYPE_CHECKING:
     from wse.features.examples import SelectionView

@@ -4,7 +4,7 @@ from contextlib import contextmanager
 from typing import Iterator
 
 from wse.features.shared.enums import FieldID
-from wse.interface.iobserver import ISubject, ISubjectWithID
+from wse.interfaces.iobserver import ISubject, ISubjectWithID
 
 
 @contextmanager

@@ -6,11 +6,10 @@ import toga
 
 from wse.core.navigation.navigation_id import NavID
 from wse.features.shared.enums import FieldID, StyleID
-from wse.interface.ifeatures.icontent import IContent
-from wse.interface.iobserver import IStateSubject, ISubject
-from wse.interface.iui.ibutton import IButtonHandler
+from wse.interfaces.ifeatures.icontent import IContent
+from wse.interfaces.iobserver import IStateSubject, ISubject
+from wse.interfaces.iui.ibutton import IButtonHandler
 
-# ruff: noqa: D101, D102, D204, E301, E302
 # fmt: off
 
 

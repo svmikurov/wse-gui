@@ -1,6 +1,6 @@
 """Defines session manager."""
 
-from wse.interface.icore import IUser
+from wse.interfaces.icore import IUser
 
 
 class SessionManager:

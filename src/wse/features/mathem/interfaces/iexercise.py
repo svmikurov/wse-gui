@@ -3,9 +3,8 @@
 from typing import Callable, Protocol, Type
 
 from wse.features.shared.enums.exercises import Exercises
-from wse.interface.iexercise import IAnswer, IQuestion, ITask
+from wse.interfaces.iexercise import IAnswer, IQuestion, ITask
 
-# ruff: noqa: D101, D102, D204, E301, E302
 # fmt: off
 
 class ISimpleMathQuestion(IQuestion, Protocol):

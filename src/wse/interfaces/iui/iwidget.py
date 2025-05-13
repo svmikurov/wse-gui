@@ -2,7 +2,6 @@
 
 from typing import Iterable, Protocol
 
-# ruff: noqa: D101, D102, D204, E301, E302
 # fmt: off
 
 

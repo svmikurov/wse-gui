@@ -10,7 +10,7 @@ from wse.features.mathem.interfaces.ipages import (
 )
 from wse.features.mathem.interfaces.isubjects import ICalculationSubject
 from wse.features.shared.enums.task import TaskState
-from wse.interface.iexercise import (
+from wse.interfaces.iexercise import (
     IAnswerChecker,
     ITaskStorage,
     ITextDisplayRenderer,

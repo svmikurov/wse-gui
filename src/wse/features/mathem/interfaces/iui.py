@@ -5,7 +5,6 @@ from typing import Protocol
 from toga.sources import Source
 from toga.widgets.selection import OnChangeHandler
 
-# ruff: noqa: D101, D102, D204, E301, E302
 # fmt: off
 
 

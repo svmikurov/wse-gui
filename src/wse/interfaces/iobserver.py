@@ -9,7 +9,6 @@ from toga.widgets.selection import OnChangeHandler
 from wse.features.shared.enums import FieldID
 from wse.features.shared.enums.notify_id import NotifyID
 
-# ruff: noqa: D101, D102, D204, E301, E302
 # fmt: off
 
 SourceT = TypeVar('SourceT', bound=Source)
@@ -34,10 +33,8 @@ class ISubjectWithID(ISubject, Protocol):
     ) -> None:
         """Notify observers about selection changes."""
 
-
 class IListener(Listener, Protocol):
     """Protocol defining the interface for subject listener."""
-
 
 class IStateSubject(Protocol):
     """Protocol defining the interface for a state change subject."""

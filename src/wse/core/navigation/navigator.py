@@ -7,8 +7,8 @@ from typing import Final
 import toga
 
 from wse.core.navigation.navigation_id import NavID
-from wse.interface.ifeatures.icontent import IContent
-from wse.interface.ifeatures.imvc import IMVController, IVController
+from wse.interfaces.ifeatures.icontent import IContent
+from wse.interfaces.ifeatures.imvc import IMVController, IVController
 
 logger = logging.getLogger(__name__)
 

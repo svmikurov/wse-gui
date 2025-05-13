@@ -247,6 +247,10 @@ line-length = 79
     "E501",
     "W505",
 ]
+"*/interfaces/*.py" = [
+    "D101", "D102", 'D204',
+    "E301", "E302"
+]
 
 [tool.ruff.lint]
 preview = true  # checks will include unstable rules and fixes

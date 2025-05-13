@@ -7,7 +7,7 @@ import toga
 from wse.core.auth.service import AuthService
 from wse.core.navigation.navigation_id import NavID
 from wse.di_container import AppContainer
-from wse.interface.icore import INavigator
+from wse.interfaces.icore import INavigator
 
 logger = logging.getLogger(__name__)
 

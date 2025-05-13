@@ -3,9 +3,8 @@
 from typing import Protocol
 
 from wse.features.shared.enums.exercises import Exercises
-from wse.interface.iui.itext import IDisplayModel
+from wse.interfaces.iui.itext import IDisplayModel
 
-# ruff: noqa: D101, D102, D204, E301, E302
 # fmt: off
 
 class IQuestion(Protocol):
@@ -41,7 +40,6 @@ class IResult(Protocol):
 # ----------------------------------------------------------------------
 # Exercise services
 # ----------------------------------------------------------------------
-
 
 class IRender(Protocol):
     """Interface for rendering components."""

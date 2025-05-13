@@ -11,8 +11,8 @@ from wse.features.mathem.interfaces.ipages import (
 )
 from wse.features.shared.enums import FieldID
 from wse.features.shared.enums.exercises import Exercises
-from wse.interface.ifeatures.icontent import IContent
-from wse.interface.iobserver import IStateSubject, ISubject
+from wse.interfaces.ifeatures.icontent import IContent
+from wse.interfaces.iobserver import IStateSubject, ISubject
 
 logger = logging.getLogger(__name__)
 

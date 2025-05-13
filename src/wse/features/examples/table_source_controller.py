@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 
 from wse.core.navigation.navigation_id import NavID
-from wse.interface.ifeatures.icontent import IContent
-from wse.interface.ifeatures.imvc import IView
-from wse.interface.iobserver import ISubject
+from wse.interfaces.ifeatures.icontent import IContent
+from wse.interfaces.ifeatures.imvc import IView
+from wse.interfaces.iobserver import ISubject
 
 
 @dataclass

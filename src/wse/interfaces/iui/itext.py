@@ -6,9 +6,8 @@ import toga
 from toga.style import Pack
 
 from wse.features.shared.enums import FieldID
-from wse.interface.iobserver import ISubject
+from wse.interfaces.iobserver import ISubject
 
-# ruff: noqa: D101, D102, D204, E301, E302
 # fmt: off
 
 

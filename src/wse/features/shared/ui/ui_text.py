@@ -6,7 +6,7 @@ from toga.style import Pack
 
 from wse.features.settings import TITLE_LABEL_FONT_SIZE, TITLE_LABEL_PADDING
 from wse.features.shared.observer import TextListenerMixin, ValueListenerMixin
-from wse.interface.ifeatures.icontent import IContent
+from wse.interfaces.ifeatures.icontent import IContent
 
 
 class TitleLabel(toga.Label):

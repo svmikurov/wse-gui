@@ -6,7 +6,6 @@ import toga
 
 from wse.features.shared.enums import ObjectID
 
-# ruff: noqa: D101, D102, D204, E301, E302
 # fmt: off
 
 

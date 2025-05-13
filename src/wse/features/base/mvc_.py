@@ -8,10 +8,10 @@ import toga
 from wse.core.navigation.navigation_id import NavID
 from wse.features.shared.enums import FieldID, StyleID
 from wse.features.shared.enums.notify_id import NotifyID
-from wse.interface.ifeatures.icontent import IContent
-from wse.interface.ifeatures.imvc import IModel, IView
-from wse.interface.iobserver import IStateSubject, ISubject, ISubjectWithID
-from wse.interface.iui.ibutton import IButtonHandler
+from wse.interfaces.ifeatures.icontent import IContent
+from wse.interfaces.ifeatures.imvc import IModel, IView
+from wse.interfaces.iobserver import IStateSubject, ISubject, ISubjectWithID
+from wse.interfaces.iui.ibutton import IButtonHandler
 
 
 @dataclass

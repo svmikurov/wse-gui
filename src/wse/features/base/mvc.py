@@ -11,8 +11,8 @@ from wse.core.api.client import ApiClient
 from wse.core.navigation.navigation_id import NavID
 from wse.features.base.container import NavigableContainer
 from wse.features.shared.observer import Subject
-from wse.interface.icontroller import IController
-from wse.interface.ifeatures.imvc import (
+from wse.interfaces.icontroller import IController
+from wse.interfaces.ifeatures.imvc import (
     IContent,
     IModel,
     ISubject,

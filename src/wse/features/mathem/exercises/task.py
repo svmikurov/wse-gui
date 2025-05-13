@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from typing import Callable
 
-from wse.interface.iexercise import ITask, ITaskStorage
+from wse.interfaces.iexercise import ITask, ITaskStorage
 
 
 class UserAnswer:

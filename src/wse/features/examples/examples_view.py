@@ -9,8 +9,8 @@ from wse.core.i18n import _
 from wse.core.navigation.navigation_id import NavID
 from wse.features.shared.enums import StyleID
 from wse.features.shared.enums.object_id import ObjectID
-from wse.interface.ifeatures.icontent import IContent
-from wse.interface.iui.ibutton import IButtonHandler
+from wse.interfaces.ifeatures.icontent import IContent
+from wse.interfaces.iui.ibutton import IButtonHandler
 
 
 @dataclasses.dataclass

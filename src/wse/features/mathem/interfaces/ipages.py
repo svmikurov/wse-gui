@@ -14,17 +14,16 @@ from wse.features.mathem.sources import ExerciseSource
 from wse.features.shared.enums import FieldID, StyleID
 from wse.features.shared.enums.exercises import Exercises
 from wse.features.shared.enums.notify_id import NotifyID
-from wse.interface.iexercise import (
+from wse.interfaces.iexercise import (
     IAnswerChecker,
     ITaskStorage,
     ITextDisplayRenderer,
 )
-from wse.interface.ifeatures.icontent import IContent
-from wse.interface.iobserver import IStateSubject, ISubject
-from wse.interface.iui.ibutton import IButtonHandler
-from wse.interface.iui.ikeypad import IKeypad, IKeypadModel
+from wse.interfaces.ifeatures.icontent import IContent
+from wse.interfaces.iobserver import IStateSubject, ISubject
+from wse.interfaces.iui.ibutton import IButtonHandler
+from wse.interfaces.iui.ikeypad import IKeypad, IKeypadModel
 
-# ruff: noqa: D101, D102, D204, E301, E302
 # fmt: off
 
 # Mathematical page

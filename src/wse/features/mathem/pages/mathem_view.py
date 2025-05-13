@@ -13,7 +13,7 @@ from wse.features.mathem.sources import SourceHub
 from wse.features.shared.enums import StyleID
 from wse.features.shared.enums.object_id import ObjectID
 from wse.features.shared.ui.ui_text import TextPanel
-from wse.interface.iobserver import ISubject
+from wse.interfaces.iobserver import ISubject
 
 logger = logging.getLogger(__name__)
 

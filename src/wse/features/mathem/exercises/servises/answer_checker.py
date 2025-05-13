@@ -3,7 +3,7 @@
 import logging
 
 from wse.core.i18n import _
-from wse.interface.iexercise import IAnswer, ITaskStorage
+from wse.interfaces.iexercise import IAnswer, ITaskStorage
 
 logger = logging.getLogger(__name__)
 

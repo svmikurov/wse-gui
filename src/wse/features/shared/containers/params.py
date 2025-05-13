@@ -12,7 +12,7 @@ from wse.features.shared.boxes import (
     RowFlexBox,
 )
 from wse.features.shared.observer import Subject
-from wse.interface.iui.iwidget import IItemsWidget, IValueWidget
+from wse.interfaces.iui.iwidget import IItemsWidget, IValueWidget
 
 # Labeled widget padding style
 LABEL_PADDING = (0, 0, 0, 0)

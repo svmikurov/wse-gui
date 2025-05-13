@@ -3,7 +3,7 @@
 import toga
 
 from wse.features.settings import BUTTON_HEIGHT, FONT_SIZE_APP
-from wse.interface.iobserver import ISubject
+from wse.interfaces.iobserver import ISubject
 
 
 class AppButton(toga.Button):

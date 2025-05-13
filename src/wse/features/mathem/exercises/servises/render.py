@@ -1,6 +1,6 @@
 """Defines exercise render."""
 
-from wse.interface.iui.itext import IDisplayModel
+from wse.interfaces.iui.itext import IDisplayModel
 
 
 class TextDisplayRenderer:

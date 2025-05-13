@@ -11,8 +11,8 @@ from wse.core.navigation.navigation_id import NavID
 from wse.features.base.mvc_ import BaseView
 from wse.features.mathem.interfaces.ipages import ICalculationView
 from wse.features.shared.enums import ObjectID, StyleID, TaskState
-from wse.interface.iobserver import IStateSubject
-from wse.interface.iui.ikeypad import IKeypad
+from wse.interfaces.iobserver import IStateSubject
+from wse.interfaces.iui.ikeypad import IKeypad
 
 
 @dataclass

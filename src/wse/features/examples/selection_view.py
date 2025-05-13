@@ -7,8 +7,8 @@ from toga.style import Pack
 
 from wse.core.navigation.navigation_id import NavID
 from wse.features.shared.enums import StyleID
-from wse.interface.ifeatures.icontent import IContent
-from wse.interface.iui.ibutton import IButtonHandler
+from wse.interfaces.ifeatures.icontent import IContent
+from wse.interfaces.iui.ibutton import IButtonHandler
 
 # ruff: noqa: ANN001, ANN201, ANN202, D102, D415, E501
 
