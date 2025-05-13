@@ -48,4 +48,5 @@ class NavID(BaseEnum):
 
     # -=== Examples ===-
     EXAMPLES = 'Examples'
-    EXAMPLES_SELECTION = 'Examples selection'
+    EXAMPLES_SELECTION = 'Selection examples'
+    EXAMPLES_TABLE_SOURCE = 'Table source examples'

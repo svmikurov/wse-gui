@@ -7,7 +7,8 @@ from typing import Final
 import toga
 
 from wse.core.navigation.navigation_id import NavID
-from wse.interface.ifeatures import IContent, IContextController, IController
+from wse.interface.ifeatures.icontent import IContent
+from wse.interface.ifeatures.imvc import IMVController, IVController
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +24,7 @@ class Navigator:
     }
 
     _main_window: toga.Window
-    _routes: dict[NavID, IController | IContextController]
+    _routes: dict[NavID, IVController | IMVController]
     _content_history: deque[NavID]
 
     def __init__(self, history_len: int) -> None:
@@ -35,14 +36,12 @@ class Navigator:
         self._main_window = main_widow
 
     @property
-    def routes(self) -> dict[NavID, IController | IContextController]:
+    def routes(self) -> dict[NavID, IVController | IMVController]:
         """Routes to get page content to window content."""
         return self._routes
 
     @routes.setter
-    def routes(
-        self, value: dict[NavID, IController | IContextController]
-    ) -> None:
+    def routes(self, value: dict[NavID, IVController | IMVController]) -> None:
         self._routes = value
         self._set_listener()
 
@@ -73,7 +72,14 @@ class Navigator:
     # Utility methods
     def _get_content(self, nav_id: NavID) -> IContent | None:
         controller = self.routes[nav_id]
-        controller.on_open()
+
+        try:
+            controller.on_open()
+        except AttributeError:
+            logger.exception(
+                f'Controller "{controller}" have not `on_open()` method'
+            )
+
         return controller.content
 
     def _go_back(self) -> None:
