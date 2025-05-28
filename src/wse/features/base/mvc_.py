@@ -120,7 +120,7 @@ class BaseView(ABC):
 
 
 @dataclass
-class VController(ABC):
+class ViewController(ABC):
     """Abstract base view controller."""
 
     view: IView
@@ -157,7 +157,7 @@ class VController(ABC):
 
 
 @dataclass
-class MVController(VController, ABC):
+class ModelViewController(ViewController, ABC):
     """Extended base controller with model integration."""
 
     model: IModel
