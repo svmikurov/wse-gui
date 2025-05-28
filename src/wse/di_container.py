@@ -12,7 +12,7 @@ class AppContainer(containers.DeclarativeContainer):
     _core_container = providers.Container(
         CoreContainer,
     )
-    _features_container = providers.Container(
+    _features_container: FeatureContainer = providers.Container(
         FeatureContainer,
         auth_service=_core_container.auth_service,
         api_client=_core_container.api_client,

@@ -27,7 +27,7 @@ class ShareContainer(containers.DeclarativeContainer):
         SimpleContent,
     )
 
-    ui_container = providers.Container(
+    ui_container: UIContainer = providers.Container(
         UIContainer,
         subject=subject,
         id_subject=id_subject,

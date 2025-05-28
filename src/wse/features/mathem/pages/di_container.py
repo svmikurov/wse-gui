@@ -4,6 +4,7 @@ from dependency_injector import containers, providers
 
 from wse.core.navigation.navigation_id import NavID
 from wse.features import mathem
+from wse.features.shared.di_container import ShareContainer
 
 
 class MathematicalPagesContainer(containers.DeclarativeContainer):
@@ -11,7 +12,7 @@ class MathematicalPagesContainer(containers.DeclarativeContainer):
 
     # Container dependencies
 
-    share_container = providers.DependenciesContainer()
+    share_container: ShareContainer = providers.DependenciesContainer()  # type: ignore
     exercises_container = providers.DependenciesContainer()
     subject_container = providers.DependenciesContainer()
 
