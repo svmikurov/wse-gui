@@ -64,11 +64,14 @@ class SwarmView(BaseView):
         self._btn_back.text = _(NavID.BACK)
 
     # Callback handlers
+
     def _handel_request(self, _: toga.Widget) -> None:
         self.subject.notify('handel_request', endpoint=self._get_url())
 
     def _handel_clear(self, _: toga.Widget) -> None:
         self.text_panel.clean()
+
+    # Utility methods
 
     def _get_url(self) -> str:
         endpoint = self._swarm_panel.data['endpoint']
