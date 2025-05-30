@@ -42,10 +42,6 @@ class NavID(BaseEnum):
     # Exercises
     EXERCISES = 'Exercises'
 
-    # -=== Figaro ===-
-    FIGARO = 'Figaro'
-    SWARM = 'Swarm'
-
     # -=== Examples ===-
     EXAMPLES = 'Examples'
     EXAMPLES_SELECTION = 'Selection examples'
