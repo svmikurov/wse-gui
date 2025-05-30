@@ -13,8 +13,8 @@ class MainContainer(containers.DeclarativeContainer):
     api_client = providers.Dependency()
     content_box = providers.Dependency()
     subject = providers.Dependency()
-    # Containers
-    layer_container = providers.DependenciesContainer()
+
+    login_container = providers.Dependency()
 
     # Account page
     account_model = providers.Factory(
@@ -61,7 +61,7 @@ class MainContainer(containers.DeclarativeContainer):
         main.LoginView,
         content_box=content_box,
         subject=subject,
-        login_container=layer_container.login_container,
+        login_container=login_container,
     )
     login_controller = providers.Factory(
         main.LoginController,
