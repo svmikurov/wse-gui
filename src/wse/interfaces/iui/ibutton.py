@@ -1,33 +1,26 @@
 """Defines protocol interfaces for user interfaces."""
 
-from typing import Callable, Protocol
+from typing import Protocol
 
 import toga
-from toga.style import Pack
 
 # fmt: off
 
 
-class IButtonHandler(Protocol):
-    """Protocol defining the interface for button handler."""
+class _IButtonHandler(Protocol):
+    """Base protocol for button handlers with listener support."""
     def add_listener(self, listener: object) -> None:
-        """Add listener."""
-    def button_press(self, button: toga.Button) -> None:
-        """Handle button press and notify Subject."""
-    def keypad_press(self, button: toga.Button) -> None:
-        """Handle keypad button press and notify Subject."""
-    def navigate(self, button: toga.Button) -> None:
-        """Navigate by button text, button handler."""
+        """Register an event listener."""
 
-class IButtonFactory(Protocol):
-    """Protocol defining the interface for button factory."""
-    @classmethod
-    def create(
-        cls,
-        text: str | int = '',
-        *,
-        on_press: Callable[[toga.Button], None],
-        style: Pack | None = None,
-        **kwargs: object,
-    ) -> toga.Button:
-        """Create a button with default settings."""
+class IPressButtonHandler(_IButtonHandler):
+    """Protocol for handlers processing button press events."""
+    def handle_button_press(self, button: toga.Button) -> None:
+        """Handle button press and notify observers."""
+
+class INavigateButtonHandler(_IButtonHandler):
+    """Protocol for handlers processing navigation events."""
+    def navigate(self, button: toga.Button) -> None:
+        """Handle navigation event and notify observers."""
+
+class IComboButtonHandler(IPressButtonHandler, INavigateButtonHandler):
+    """Combined protocol handling both press and navigation events."""

@@ -8,7 +8,7 @@ from wse.core.navigation.navigation_id import NavID
 from wse.features.shared.enums import FieldID, StyleID
 from wse.interfaces.ifeatures.icontent import IContent
 from wse.interfaces.iobserver import IStateSubject, ISubject
-from wse.interfaces.iui.ibutton import IButtonHandler
+from wse.interfaces.iui.ibutton import IComboButtonHandler
 
 # fmt: off
 
@@ -32,7 +32,7 @@ class IView(Protocol):
     """Protocol defining the interface for View components."""
     _content: IContent
     _style_config: dict[StyleID, dict]
-    button_handler: IButtonHandler
+    button_handler: IComboButtonHandler
     def __post_init__(self) -> None:
         """Initialize view components after instance creation."""
     def _layout_view(self) -> None:
