@@ -41,7 +41,7 @@ ruff:
 format:
 	ruff check --fix && ruff format
 
-check: ruff test
+check: format ruff test
 
 # Briefcase for android
 android:
