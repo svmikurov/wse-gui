@@ -1,7 +1,6 @@
 """Defines the controller for the Multiplication Exercise page."""
 
 from dataclasses import dataclass
-from typing import Iterable
 
 from wse.core.navigation.navigation_id import NavID
 from wse.features.mathem.interfaces.ipages import (
@@ -10,7 +9,6 @@ from wse.features.mathem.interfaces.ipages import (
     ICalculationView,
 )
 from wse.features.shared.enums import FieldID, TaskState
-from wse.features.shared.enums.notify_id import NotifyID
 from wse.interfaces.ifeatures.icontent import IContent
 from wse.interfaces.iobserver import IStateSubject, ISubject
 from wse.interfaces.iui.ikeypad import IKeypadModel
@@ -31,8 +29,8 @@ class CalculationController(ICalculationController):
         self.model.subject.add_listener(self)
 
         # Subscribe to keypad notifications
-        self.keypad_model.subscribe(FieldID.USER_INPUT, listener=self)
-        self.view.keypad.subscribe(listener=self)
+        self.keypad_model.add_listener(listener=self)
+        self.view.keypad.add_listener(listener=self)
 
         # Subscribe to view notifications
         self.view.button_handler.add_listener(self)
@@ -79,36 +77,12 @@ class CalculationController(ICalculationController):
     def clear_page(self) -> None:
         """Clear page fields."""
         # Clear view fields
-        for field in self.fields.keys():
-            self.clear_field(field)
+        self.view.display_question.clean()
+        self.view.display_answer.clean()
+        self.view.display_info.clean()
 
         # Clear keypad model input data
-        self.keypad_model.clean()
-
-    def match_notify(
-        self,
-        notify_id: NotifyID,
-        field_id: FieldID,
-        items: Iterable,
-        value: str,
-    ) -> None:
-        """Handle notification events and update view accordingly."""
-        match notify_id:
-            case NotifyID.UI_FIELD_VALUE_UPDATED:
-                self.change_field(field_id, value)
-
-            case NotifyID.UI_PAGE_CLEARED:
-                self.clear_page()
-
-    def change_field(self, field: FieldID, value: str) -> None:
-        """Change the text value for specified UI element."""
-        if ui := self.fields.get(field):
-            ui.change(value)
-
-    def clear_field(self, field: FieldID) -> None:
-        """Clear the text value in specified UI element."""
-        if ui := self.fields.get(field):
-            ui.clean()
+        self.keypad_model.clear()
 
     def navigate(self, nav_id: NavID) -> None:
         """Handle navigation request from view."""

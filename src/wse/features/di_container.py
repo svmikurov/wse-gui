@@ -46,6 +46,6 @@ class FeatureContainer(containers.DeclarativeContainer):
         ExamplesContainer,
         simple_content=share_container.simple_content,
         style_config=share_container.style_config,
-        button_handler=share_container.button_handler,
+        button_handler=share_container.navigate_button_handler,
         subject=share_container.subject,
     )

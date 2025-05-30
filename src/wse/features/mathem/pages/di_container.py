@@ -25,7 +25,7 @@ class MathematicalPagesContainer(containers.DeclarativeContainer):
     )
     mathematical_view = providers.Factory(
         mathem.MathematicalView,
-        _button_handler=share_container.button_handler,
+        _button_handler=share_container.navigate_button_handler,
         _content=share_container.simple_content,
         _style_config=share_container.style_config,
         _subject=share_container.subject,
@@ -57,7 +57,7 @@ class MathematicalPagesContainer(containers.DeclarativeContainer):
         keypad=share_container.digit_keypad,
         _content=share_container.simple_content,
         _style_config=share_container.style_config,
-        _button_handler=share_container.button_handler,
+        _button_handler=share_container.navigate_button_handler,
     )
     calculation_controller = providers.Factory(
         mathem.CalculationController,

@@ -3,7 +3,7 @@
 from dependency_injector import containers, providers
 
 from wse.config.settings import STYLES_PATH
-from wse.features.shared.ui.button import ButtonHandler
+from wse.features.shared.ui.button import ButtonHandler, NavigateButtonHandler
 from wse.features.shared.ui.keypad import DigitKeypad
 from wse.features.shared.ui.ui_text import LineDisplay
 from wse.features.shared.ui.ui_text_model import DisplayModel, KeypadModel
@@ -30,6 +30,11 @@ class UIContainer(containers.DeclarativeContainer):
         subject=subject,
     )
 
+    navigate_button_handler = providers.Factory(
+        NavigateButtonHandler,
+        subject=subject,
+    )
+
     # Text / digit display
     display_model = providers.Factory(
         DisplayModel,
@@ -46,8 +51,10 @@ class UIContainer(containers.DeclarativeContainer):
     )
 
     # Digit keypad
+
     digit_keypad = providers.Factory(
         DigitKeypad,
+        _subject=subject,
         _content=simple_content,
         _button_handler=button_handler,
         _style_config=style_config,

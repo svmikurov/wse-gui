@@ -64,7 +64,7 @@ class ValueListenerMixin:
         """Update text widget value."""
         self.value = value
 
-    def clean(self) -> None:
+    def clear(self) -> None:
         """Clear the value of the text widget."""
         self.value = ''
 
@@ -78,6 +78,6 @@ class TextListenerMixin:
         """Update text widget value."""
         self.text = value
 
-    def clean(self) -> None:
+    def clear(self) -> None:
         """Clear the value of the text widget."""
         self.text = ''

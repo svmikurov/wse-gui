@@ -1,27 +1,59 @@
 """Model layer implementation for widget components."""
 
 import dataclasses
-import logging
-from typing import Callable
 
 from toga.sources import Listener
 
-from wse.features.shared.enums import FieldID
-from wse.features.shared.enums.notify_id import NotifyID
-from wse.features.shared.observer import IDSubject
-
-logger = logging.getLogger(__name__)
+from wse.interfaces.iobserver import ISubject
 
 NO_TEXT = ''
 
 
-class KeypadChangeMixin:
-    """Handles keypad input processing logic."""
+@dataclasses.dataclass
+class BaseDisplayModel:
+    """Base model for display components with notification support."""
 
-    MAX_NUMBER_LENGTH = 3
+    _subject: ISubject
+    _text: str = NO_TEXT
 
-    _text: str
-    _notify_change: Callable[[], None]
+    # Observer management
+
+    def add_listener(self, listener: Listener) -> None:
+        """Subscribe a listener to model."""
+        self.subject.add_listener(listener=listener)
+
+    # Notifications
+
+    def clear(self) -> None:
+        """Clear the widget value."""
+        self.subject.notify('clear')
+
+    # Utility methods
+
+    @property
+    def subject(self) -> ISubject:
+        """Model subject."""
+        return self._subject
+
+    @property
+    def text(self) -> str:
+        """Display model text."""
+        return self._text
+
+
+class DisplayModel(BaseDisplayModel):
+    """Model for managing display text and notifying subscribers."""
+
+    def change(self, value: str) -> None:
+        """Update the text value and notify subscribers."""
+        self._text = value
+        self.subject.notify('change', value=value)
+
+
+class KeypadModel(BaseDisplayModel):
+    """Combines keypad input processing with display management."""
+
+    MAX_NUMBER_LENGTH = 9
 
     def change(self, value: str) -> None:
         """Update text based on keypad input."""
@@ -40,74 +72,4 @@ class KeypadChangeMixin:
         else:
             self._text += value
 
-        self._notify_change()
-
-
-class ChangeMixin:
-    """Basic text change handling."""
-
-    _text: str
-    _notify_change: Callable[[], None]
-
-    def change(self, value: str) -> None:
-        """Update the text value and notify subscribers."""
-        self._text = value
-        self._notify_change()
-
-
-@dataclasses.dataclass
-class BaseDisplayModel:
-    """Base model for display components with notification support."""
-
-    _subject: IDSubject
-    _field: FieldID
-    _text: str = NO_TEXT
-
-    def clean(self) -> None:
-        """Clear text and notify subscribers."""
-        self._text = NO_TEXT
-        self._notify_clean()
-
-    # Notifications
-
-    def _notify_change(self) -> None:
-        """Notify about text changes."""
-        self.subject.notify_with_id(
-            notify_id=NotifyID.UI_FIELD_VALUE_UPDATED,
-            field_id=self._field,
-            value=self._text,
-        )
-
-    def _notify_clean(self) -> None:
-        """Notify about text clearance."""
-        self.subject.notify_with_id(
-            notify_id=NotifyID.UI_FIELD_CLEARED,
-            field_id=self._field,
-        )
-
-    # Utility methods
-
-    @property
-    def subject(self) -> IDSubject:
-        """Model subject."""
-        return self._subject
-
-    @property
-    def text(self) -> str:
-        """Display model text."""
-        return self._text
-
-    def subscribe(self, field: FieldID, listener: Listener) -> None:
-        """Subscribe a listener to model changes with UI name."""
-        self._field = field
-        self.subject.add_listener(listener=listener)
-
-
-class DisplayModel(ChangeMixin, BaseDisplayModel):
-    """Model for managing display text and notifying subscribers."""
-
-
-class KeypadModel(KeypadChangeMixin, BaseDisplayModel):
-    """Combines keypad input processing with display management."""
-
-    _subject: IDSubject
+        self.subject.notify('change', value=self._text)

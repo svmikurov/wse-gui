@@ -41,3 +41,4 @@ class ShareContainer(containers.DeclarativeContainer):
     digit_keypad = ui_container.digit_keypad
     style_config = ui_container.style_config
     button_handler = ui_container.button_handler
+    navigate_button_handler = ui_container.navigate_button_handler
