@@ -11,3 +11,8 @@ toga==0.5.1
 mypy==1.16.1
 pytest==8.4.1
 ruff==0.12.0
+
+# Docs
+sphinx==8.2.3
+furo==2024.8.6
+sphinx_copybutton==0.5.2
