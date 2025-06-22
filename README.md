@@ -1,0 +1,18 @@
+WSE GUI
+=======
+
+# Install development mode
+
+## Create environment
+```
+python3.11 -m venv .venv_wsegui
+source .venv_wsegui/bin/activate
+python3 -m pip install --upgrade pip
+pip install -r requirements-dev.txt
+```
+
+## Fix errors
+```
+sudo apt update
+sudo apt install -y python3.11-dev pkg-config
+```
