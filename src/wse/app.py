@@ -1,58 +1,56 @@
-"""WSE application."""
-
-import logging
+"""WSE GUI application."""
 
 import toga
+from injector import Injector
 
-from wse.core.auth.service import AuthService
-from wse.core.navigation.navigation_id import NavID
-from wse.di_container import AppContainer
-from wse.interfaces.icore import INavigator
-
-logger = logging.getLogger(__name__)
+from .config.layout import LayoutConfig
+from .core.interfaces import INavigator, IRoutes
+from .di import create_injector
+from .features.apps.nav_id import NavID
 
 
-class WSE(toga.App):
-    """WSE application."""
+class WSE(toga.App):  # type: ignore[misc]
+    """WSE GUI application."""
 
-    _auth_service: AuthService
-    _container: AppContainer
+    _injector: Injector
+    _layout_config: LayoutConfig
     _navigator: INavigator
+    _start_page_id = NavID.HOME
 
     def startup(self) -> None:
-        """Construct and show the application."""
-        # Models
+        """Construct and show the Toga application."""
+        self._set_injector()
+        self._set_config()
+        self._set_main_window()
+        self._set_navigator()
+        self._navigate_to_start_page()
 
-        # Application start with Main pages box content.
+    def _set_main_window(self) -> None:
         self.main_window = toga.MainWindow(
             title=self.formal_name,
-            size=toga.Size(440, 700),
+            size=self._layout_config.window_size,
         )
         self.main_window.show()
 
-        # Application start with Home page.
-        self._set_dependencies()
-        self._navigator.navigate(NavID.HOME)
+    def _set_injector(self) -> None:
+        """Set the `Injector` instance."""
+        self._injector = create_injector()
 
-    def _set_dependencies(self) -> None:
-        self._container = AppContainer()
-        self._set_navigator()
-        self._set_authentication_status()
+    def _set_config(self) -> None:
+        """Set application configuration."""
+        self._layout_config = self._injector.get(LayoutConfig)
 
     def _set_navigator(self) -> None:
-        self._navigator = self._container.navigator()
+        """Set the page navigator."""
+        self._navigator = self._injector.get(INavigator)  # type: ignore[type-abstract]
+        routes = self._injector.get(IRoutes).routes  # type: ignore[type-abstract]
+
+        # Configure navigator
         self._navigator.set_main_window(self.main_window)
-        self._navigator.routes = self._container.routes()
+        self._navigator.set_routes(routes)
 
-    def _set_authentication_status(self) -> None:
-        self._auth_service = self._container.auth_service()
-        if not self._auth_service.is_authenticated():
-            logger.info('User is not authenticated')
-
-    def on_exit(self) -> bool:
-        """Call when the application closes."""
-        self._auth_service.close()
-        return True
+    def _navigate_to_start_page(self) -> None:
+        self._navigator.navigate(self._start_page_id)
 
 
 def main() -> WSE:

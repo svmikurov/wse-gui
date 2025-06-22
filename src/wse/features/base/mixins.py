@@ -1,29 +1,33 @@
-"""Provides mixins for MVC."""
+"""Defines mixins for features base classes."""
 
-from typing import Type
+import logging
 
 import toga
 
-from wse.features.shared.observer import Subject
+from wse.features.interfaces import ISubject
+
+logger = logging.getLogger('wse')
 
 
-class CreateButtonMixin:
-    """Mixin providing create button method."""
+class CreateNavButtonMixin:
+    """Mixin that provides navigation button creation functionality."""
 
-    subject: Subject
-    BUTTON_CLASS: toga.Button
+    _subject: ISubject
 
-    # Utility methods
-    def _create_button(
-        self,
-        button_cls: Type[toga.Button] | None = None,
-        **kwargs: object,
-    ) -> toga.Button:
-        """Create a button to perform the model methods."""
-        _cls = button_cls if button_cls is not None else self.BUTTON_CLASS
-        return _cls(on_press=self._handle_button_press, **kwargs)
+    def _create_nav_btn(self) -> toga.Button:
+        """Create navigation button."""
+        return toga.Button(on_press=self._handle_navigate)
 
-    # Notifications
-    def _handle_button_press(self, button: toga.Button) -> None:
-        """Handel button press."""
-        self.subject.notify('handle_button_press', action=button.text)
+    def _handle_navigate(self, button: toga.Button) -> None:
+        """Handle navigation button press."""
+        self._subject.notify('navigate', nav_id=button.text)
+
+
+class SubscribeObserverMixin:
+    """Mixin that enables observer subscription capability."""
+
+    _subject: ISubject
+
+    def add_observer(self, observer: object) -> None:
+        """Subscribe observer an event has occurred."""
+        self._subject.add_observer(observer)

@@ -1,11 +1,10 @@
 """Start app."""
 
-from wse.core.logger.setup import setup_logging
+from wse.core.logger import setup_logger
 
-setup_logging()
+setup_logger()
 
-# ruff: noqa: E402
-from wse.app import main
+from wse.app import main  # noqa: E402
 
 if __name__ == '__main__':
     main().main_loop()

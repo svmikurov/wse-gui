@@ -1,1 +1,1 @@
-"""WSE application."""
+"""WSE GUI application."""

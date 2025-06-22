@@ -1,1 +1,0 @@
-"""Defines loger settings."""

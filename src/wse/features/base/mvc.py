@@ -1,152 +1,73 @@
-"""Defines base classes of functions features."""
+"""Defines base class for MVC model components."""
 
-import logging
-from abc import ABC
-from dataclasses import dataclass, field
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
 
-import toga
-from typing_extensions import override
+from wse.config.layout import LayoutConfig
+from wse.core.interfaces import INavigator
 
-from wse.core.api.client import ApiClient
-from wse.core.navigation.navigation_id import NavID
-from wse.features.base.container import NavigableContainer
-from wse.features.shared.observer import Subject
-from wse.interfaces.icontroller import IController
-from wse.interfaces.ifeatures.imvc import (
-    IContent,
-    IModel,
-    ISubject,
-    IView,
-)
-
-logger = logging.getLogger(__name__)
+from ..apps.nav_id import NavID
+from ..interfaces import IContent, ISubject, IView
+from .mixins import CreateNavButtonMixin, SubscribeObserverMixin
 
 
-class BaseModel:
-    """Base page model."""
+@dataclass
+class BaseView(
+    CreateNavButtonMixin,
+    SubscribeObserverMixin,
+    ABC,
+):
+    """Abstract base class for page view."""
 
-    def __init__(
-        self,
-        api_client: ApiClient | None = None,
-        subject: ISubject | None = None,
-    ) -> None:
-        """Construct the model."""
-        self.api_client = api_client
-        self._subject = subject if subject is not None else Subject()
-
-    def render_context(self) -> None:
-        """Render the context to view."""
-        self._set_context()
-        self._notify_render_context()
-
-    def _set_context(self) -> None:
-        """Set view context for render into view."""
-
-    def _notify_render_context(self) -> None:
-        """Notify controller to fill view with context."""
-
-    @property
-    def subject(self) -> ISubject:
-        """Model subject."""
-        return self._subject
-
-
-class BaseView(NavigableContainer, ABC):
-    """Implementation of the base view."""
-
-    _label_title: toga.Label
-
-    @property
-    def title(self) -> str:
-        """Page title (read-only)."""
-        return self._label_title.text
-
-
-########################################################################
-# Controllers
-
-
-@dataclass(kw_only=True)
-class Controller(IController):
-    """Base controller."""
-
-    view: IView
+    _content: IContent
     _subject: ISubject
+    _config: LayoutConfig
 
     def __post_init__(self) -> None:
-        """Subscribe to service layer."""
-        # Subscribe to view notifications
-        self.view.button_handler.add_listener(self)
+        """Construct the view."""
+        self._create_ui()
+        self.localize_ui()
+        self.update_style()
+        self._populate_content()
 
-    # -=== Listening to View notification ===-
+    @abstractmethod
+    def _create_ui(self) -> None:
+        """Create UI."""
 
-    def navigate(self, nav_id: NavID) -> None:
-        """Navigate to page, the button event listener."""
-        self._subject.notify('navigate', nav_id=nav_id)
+    @abstractmethod
+    def localize_ui(self) -> None:
+        """Localize the UI text."""
 
-    # -=== Utility methods ===-
+    @abstractmethod
+    def update_style(self) -> None:
+        """Update widgets style."""
 
-    @property
-    def subject(self) -> ISubject:
-        """Subject of observer pattern (read-only)."""
-        return self._subject
+    @abstractmethod
+    def _populate_content(self) -> None:
+        """Populate view content with UI."""
 
     @property
     def content(self) -> IContent:
-        """Page content (read-only)."""
-        return self.view.content
+        """Get page content."""
+        return self._content
 
 
-@dataclass(kw_only=True)
+@dataclass
 class BaseController:
-    """Implementation of the base controller."""
+    """Base class for page controller."""
 
-    view: IView
-    _subject: Subject = field(default_factory=Subject)
+    _view: IView
+    _navigator: INavigator
 
     def __post_init__(self) -> None:
-        """Add sources."""
-        self.view.subject.add_listener(self)
+        """Construct the controller."""
+        self._view.add_observer(self)
 
-    @property
-    def content(self) -> IContent:
-        """Page content (read-only)."""
-        return self.view.content
-
-    @property
-    def subject(self) -> Subject:
-        """Subject of observer pattern (read-only)."""
-        return self._subject
-
-    # Notifications
     def navigate(self, nav_id: NavID) -> None:
-        """Navigate to page, the button event listener."""
-        self._subject.notify('navigate', nav_id=nav_id)
-
-
-@dataclass(kw_only=True)
-class ContextController(BaseController):
-    """Implementation of the base controller of page with model."""
-
-    model: IModel
-
-    @override
-    def __post_init__(self) -> None:
-        """Subscribe the controller to listen to the model."""
-        super().__post_init__()
-        self.model.subject.add_listener(self)
+        """Navigate to page."""
+        self._navigator.navigate(nav_id)
 
     @property
-    @override
     def content(self) -> IContent:
-        """Page content (read-only)."""
-        self.request_context()
-        return super().content
-
-    def request_context(self) -> None:
-        """Call model to render context."""
-        self.model.render_context()
-
-    def on_open(self) -> None:
-        """Perform events on page open."""
-        pass
+        """Get page content."""
+        return self._view.content

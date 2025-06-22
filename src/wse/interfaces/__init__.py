@@ -1,1 +1,0 @@
-"""Package of application interfaces."""

@@ -1,1 +1,0 @@
-"""Defines mathematical package pages."""

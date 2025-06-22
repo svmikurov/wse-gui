@@ -1,64 +1,23 @@
-# Include
-include .env  # TEST_JUST var
-
-# Radon code analysis
-RADON_SOURCES = src/
-RADON_EXCLUDE = "tests/*,venv/*,.venv/*"
-
-# Colors
-GREEN = \033[0;32m
-YELLOW = \033[0;33m
-RED = \033[0;31m
-NC = \033[0m  # No Color
-
-install:
-	poetry install
-	briefcase dev --no-run
-
+# Run the application in development mode
 start:
 	briefcase dev
 
-# Test
-test:
-	export TOGA_BACKEND=toga_dummy && \
-	pytest
-
-test-just:
-	export TOGA_BACKEND=toga_dummy && \
-	pytest $(TEST_JUST) -sv
-
-test-briefcase:
-	export TOGA_BACKEND=toga_dummy && \
-	briefcase dev --test
-
-test-r:
-	export TOGA_BACKEND=toga_dummy && \
-	briefcase dev --test -r
-
+# Code style checking
 ruff:
 	ruff check && ruff format --diff
 
 format:
 	ruff check --fix && ruff format
 
-check: format ruff test
+# Static type checking
+mypy:
+	mypy --strict .
 
-# Briefcase for android
-android:
-	briefcase run android
+# Code checking
+check: format mypy
 
-android-create:
-	briefcase create android
-
-android-build:
+# Update and build android `app-debug.apk` fail
+# to create `.apk` fail: briefcase create android
+update-android:
+	briefcase update android
 	briefcase build android
-
-android-update: android-create android-build android
-
-# Radon code analysis
-.PHONY: radon-check
-radon-check:
-	@echo "${YELLOW}=== Cyclomatic Complexity ===${NC}"
-	@radon cc --min B --exclude $(RADON_EXCLUDE) $(RADON_SOURCES)
-	@echo "${YELLOW}=== Maintainability Index ===${NC}"
-	@radon mi --min B --exclude $(RADON_EXCLUDE) $(RADON_SOURCES)

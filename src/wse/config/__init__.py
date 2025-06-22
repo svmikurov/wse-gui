@@ -1,1 +1,1 @@
-"""Contains application configurations."""
+"""Defines application configuration."""

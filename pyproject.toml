@@ -1,16 +1,16 @@
-# This project was generated with 0.3.19 using template: https://github.com/beeware/briefcase-template@v0.3.19
+# This project was generated with 0.3.23 using template: https://github.com/beeware/briefcase-template @ v0.3.23
 [tool.briefcase]
 project_name = "WSE GUI"
-bundle = "online.wselfedu"
-version = "0.1.1"
-url = "http://wselfedu.online"
+bundle = "com.example"
+version = "0.0.1"
+url = "https://example.com/wse"
 license.file = "LICENSE"
 author = "Sergei Mikurov"
 author_email = "454004@mail.ru"
 
 [tool.briefcase.app.wse]
 formal_name = "WSE GUI"
-description = "WSE GUI Toga app"
+description = "My first application"
 long_description = """More details about the app should go here.
 """
 sources = [
@@ -21,11 +21,8 @@ test_sources = [
 ]
 
 requires = [
-    "httpx==0.27.2",
-    "dependency-injector~=4.46.0",
-    "pydantic~=2.11.3",
-    "pydantic-settings~=2.8.1",
-    "cryptography~=44.0.2"
+    "httpx==0.28.1",
+    "injector==0.22.0",
 ]
 test_requires = [
     "pytest",
@@ -34,31 +31,42 @@ test_requires = [
 [tool.briefcase.app.wse.macOS]
 universal_build = true
 requires = [
-    "toga-cocoa~=0.4.5",
-    "std-nslog~=1.0.0",
+    "toga-cocoa~=0.5.0",
+    "std-nslog~=1.0.3",
 ]
 
 [tool.briefcase.app.wse.linux]
 requires = [
-    "toga-gtk~=0.4.5",
+    "toga-gtk~=0.5.0",
+    # PyGObject 3.52.1 enforces a requirement on libgirepository-2.0-dev. This library
+    # isn't available on Debian 12/Ubuntu 22.04. If you don't need to support those (or
+    # older) releases, you can remove this version pin. See beeware/toga#3143.
+    "pygobject < 3.52.1",
 ]
 
 [tool.briefcase.app.wse.linux.system.debian]
 system_requires = [
     # Needed to compile pycairo wheel
     "libcairo2-dev",
-    # Needed to compile PyGObject wheel
+    # One of the following two packages are needed to compile PyGObject wheel. If you
+    # remove the pygobject pin in the requires list, you should also change to the
+    # version 2.0 of the girepository library. See beeware/toga#3143.
     "libgirepository1.0-dev",
+    # "libgirepository-2.0-dev",
 ]
 
 system_runtime_requires = [
     # Needed to provide GTK and its GI bindings
     "gir1.2-gtk-3.0",
+    # One of the following two packages are needed to use PyGObject at runtime. If you
+    # remove the pygobject pin in the requires list, you should also change to the
+    # version 2.0 of the girepository library. See beeware/toga#3143.
     "libgirepository-1.0-1",
+    # "libgirepository-2.0-0",
     # Dependencies that GTK looks for at runtime
     "libcanberra-gtk3-module",
     # Needed to provide WebKit2 at runtime
-    # Note: Debian 11 and Ubuntu 20.04 require gir1.2-webkit2-4.0 instead
+    # Note: Debian 11 requires gir1.2-webkit2-4.0 instead
     # "gir1.2-webkit2-4.1",
 ]
 
@@ -150,107 +158,55 @@ linuxdeploy_plugins = [
 
 [tool.briefcase.app.wse.linux.flatpak]
 flatpak_runtime = "org.gnome.Platform"
-flatpak_runtime_version = "45"
+flatpak_runtime_version = "48"
 flatpak_sdk = "org.gnome.Sdk"
 
 [tool.briefcase.app.wse.windows]
 requires = [
-    "toga-winforms~=0.4.5",
+    "toga-winforms~=0.5.0",
 ]
 
 # Mobile deployments
 [tool.briefcase.app.wse.iOS]
 requires = [
-    "toga-iOS~=0.4.5",
-    "std-nslog~=1.0.0",
+    "toga-iOS~=0.5.0",
+    "std-nslog~=1.0.3",
 ]
 
 [tool.briefcase.app.wse.android]
 requires = [
-    "toga-android~=0.4.5",
+    "toga-android~=0.5.0",
 ]
 
 base_theme = "Theme.MaterialComponents.Light.DarkActionBar"
 
 build_gradle_dependencies = [
-    "com.google.android.material:material:1.11.0",
+    "com.google.android.material:material:1.12.0",
     # Needed for DetailedList
     # "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0",
     # Needed for MapView
-    # "org.osmdroid:osmdroid-android:6.1.0",
+    # "org.osmdroid:osmdroid-android:6.1.20",
 ]
 
 # Web deployments
 [tool.briefcase.app.wse.web]
 requires = [
-    "toga-web~=0.4.5",
+    "toga-web~=0.5.0",
 ]
 style_framework = "Shoelace v2.3"
 
-# Poetry
-[tool.poetry]
-name = "WSE"
-version = "0.1.1"
-description = "Application for educational exercises on various subjects"
-authors = ["Sergei Mikurov <454004@mail.ru>"]
-readme = "README.rst"
-
-[tool.poetry.dependencies]
-python = ">=3.10, <3.12"
-httpx = "0.27.2"
-dependency-injector = "^4.46.0"
-pydantic = "^2.11.3"
-pydantic-settings = "^2.8.1"
-cryptography = "^44.0.2"
-pyyaml = "^6.0.2"
-toga-dummy = "0.4.9"
-toga = "0.4.9"
-
-[tool.poetry.group.dev.dependencies]
-briefcase = "0.3.19"
-pygobject = "3.50.0"
-travertino = "0.3.0"
-pillow = "11.0.0"
-
-[tool.poetry.group.tests.dependencies]
-pytest-asyncio = "^0.26.0"
-
-[tool.poetry.group.code-qaulity.dependencies]
-pylint = "^3.3.6"
-radon = "^6.0.1"
-pydeps = "^3.0.1"
-mypy = "^1.15.0"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.setuptools.packages]
-find = {where = ["src"]}
 
 # Ruff linter
 [tool.ruff]
-# https://docs.astral.sh/ruff/configuration/
 exclude = [
-    ".github/*",
-    ".idea/*",
+    ".github/",
+    ".idea/",
     ".venv*",
-    "docs",
+    "docs/",
+    "build/",
     "*/conftest.py",
 ]
 line-length = 79
-
-[tool.ruff.lint.per-file-ignores]
-"src/wse/features/examples/*.py" = [
-    "ANN001", "ANN003", "ANN201", "ANN202", "ANN204",
-    "D100", "D101", "D102", "D107", "D105",
-    "E501",
-    "W505",
-]
-"*/interfaces/*.py" = [
-    "D101", "D102", 'D204',
-    "E301", "E302"
-]
 
 [tool.ruff.lint]
 preview = true  # checks will include unstable rules and fixes
@@ -281,3 +237,14 @@ quote-style = "single"
 
 [tool.ruff.lint.pycodestyle]
 max-doc-length = 72
+
+
+# Static type checking
+[tool.mypy]
+exclude = [
+    ".github/",
+    ".idea/",
+    ".venv*",
+    "docs/",
+    "build/",
+]

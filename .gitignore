@@ -1,16 +1,5 @@
-# WSE log files
-logs_wse/
-
 # Virtual environment
-.venv_wse_gui/
-
-# Secret files
-.env
-*token.enc
-*userdata.json
-
-# Pydeps
-wse.svg
+.venv_wsegui/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -57,7 +46,6 @@ lib/
 lib64/
 parts/
 sdist/
-temp/
 var/
 *.dist-info/
 *.egg-info/
@@ -66,7 +54,6 @@ var/
 
 # IntelliJ Idea family of suites
 .idea
-.vscode
 *.iml
 ## File-based project format:
 *.ipr

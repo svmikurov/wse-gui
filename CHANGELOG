@@ -1,7 +1,7 @@
-# WSE Release Notes
+# WSE GUI Release Notes
 
-## 0.1.1 (11 Nov 2024)
+## 0.4.0 (19 Jun 2025)
 
-## 0.1.0 (06 Nov 2024)
-
-* Initial release
+* Initial release of the restarted development
+* The restart of development is due to the introduction of the "injector"
+  library into the application.

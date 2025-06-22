@@ -1,1 +1,1 @@
-"""Application navigation package."""
+"""Navigation service."""

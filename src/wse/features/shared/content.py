@@ -1,18 +1,31 @@
-"""Defines shared content boxes."""
+"""Defines view content implementation."""
 
 import toga
+from injector import inject
 
-from wse.features.shared.boxes import ColumnFlexBox, IDWidgetMixin
-
-
-class BaseContent(ColumnFlexBox):
-    """Base class for content sections with ID support and styling."""
+from wse.config.layout import LayoutConfig
+from wse.features.apps.nav_id import NavID
 
 
-class SimpleContent(IDWidgetMixin, toga.Box):
-    """Simple content sections with ID support."""
+@inject
+class Content(toga.Box):  # type: ignore[misc]
+    """Page content."""
 
-    def __init__(self, *args: object, **kwargs: object) -> None:
+    def __init__(
+        self,
+        config: LayoutConfig,
+    ) -> None:
         """Construct the content."""
-        super().__init__(*args, **kwargs)
-        self.style.direction = 'column'
+        style = config.content_style
+        style['direction'] = 'column'
+        super().__init__(**style)
+        self._test_id: NavID | None = None
+
+    @property
+    def test_id(self) -> NavID | None:
+        """Get test ID."""
+        return self._test_id
+
+    @test_id.setter
+    def test_id(self, value: NavID | None) -> None:
+        self._test_id = value

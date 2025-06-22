@@ -1,116 +1,62 @@
-"""Defines a service for navigating through application pages."""
+"""Defines page navigation service."""
 
 import logging
-from collections import deque
-from typing import Final
 
 import toga
 
-from wse.core.navigation.navigation_id import NavID
-from wse.interfaces.ifeatures.icontent import IContent
-from wse.interfaces.ifeatures.imvc import IMVController, IVController
+from wse.features.apps.nav_id import NavID
+from wse.features.exeptions import ContentError, NavigateError
+from wse.features.interfaces import IController
+from wse.features.interfaces.icontent import IContent
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('wse')
 
 
 class Navigator:
-    """Application navigation service."""
+    """Page navigation service."""
 
-    _CURRENT_NAV_ID_INDEX: Final[int] = -1
-    _PREVIOUS_NAV_ID_INDEX: Final[int] = -2
-    _NAV_IDS_NOT_FOR_HISTORY: set[NavID] = {
-        NavID.LOGIN,
-        NavID.LOGOUT,
-    }
+    _fallback_page_id = NavID.HOME
 
-    _main_window: toga.Window
-    _routes: dict[NavID, IVController | IMVController]
-    _content_history: deque[NavID]
-
-    def __init__(self, history_len: int) -> None:
+    def __init__(
+        self,
+        window: toga.Window | None = None,
+        routes: dict[NavID, IController] | None = None,
+    ) -> None:
         """Construct the navigator."""
-        self._content_history = deque(maxlen=history_len)
+        self._window = window
+        self._routes = routes
 
-    def set_main_window(self, main_widow: toga.Window) -> None:
-        """Set the application's main window for content display."""
-        self._main_window = main_widow
-
-    @property
-    def routes(self) -> dict[NavID, IVController | IMVController]:
-        """Routes to get page content to window content."""
-        return self._routes
-
-    @routes.setter
-    def routes(self, value: dict[NavID, IVController | IMVController]) -> None:
-        self._routes = value
-        self._set_listener()
-
-    def _set_listener(self) -> None:
-        """Set navigator as view controller listener."""
-        for _, controller in self.routes.items():
-            controller.subject.add_listener(self)
-
-    # Listener methods
     def navigate(self, nav_id: NavID) -> None:
-        """Navigate to page by button text value."""
-        if nav_id == NavID.BACK:
-            self._go_back()
-            return
-
+        """Navigate to page."""
         try:
             content = self._get_content(nav_id)
-        except KeyError:
-            logger.error(f'The route for "{nav_id}" button is not set')
-        else:
-            self._set_window_content(content)
-            self._add_to_history(nav_id)
 
-    def _add_to_history(self, nav_id: NavID) -> None:
-        if nav_id not in self._NAV_IDS_NOT_FOR_HISTORY:
-            self._content_history.append(nav_id)
+        except ContentError:
+            try:
+                content = self._get_content(self._fallback_page_id)
 
-    # Utility methods
-    def _get_content(self, nav_id: NavID) -> IContent | None:
-        controller = self.routes[nav_id]
+            except ContentError as err:
+                raise NavigateError('Failed to navigate to fallback') from err
 
-        try:
-            controller.on_open()
-        except AttributeError:
-            logger.exception(
-                f'Controller "{controller}" have not `on_open()` method'
-            )
+        if self._window is None:
+            raise NavigateError('Window is not initialized')
 
-        return controller.content
+        self._window.content = content
+        logger.debug(f'Window content updated for ID: "{nav_id}"')
 
-    def _go_back(self) -> None:
-        content = self._get_content(self._previous_nav_id)
-        self._set_window_content(content)
-        self._content_history.pop()
+    def set_main_window(self, window: toga.Window) -> None:
+        """Set main window."""
+        self._window = window
 
-    def _set_window_content(self, content: IContent) -> None:
-        self._main_window.content = content
-        logger.debug(f'Navigated to "{content.id}" page')
+    def set_routes(self, routes: dict[NavID, IController]) -> None:
+        """Set page route mapping."""
+        self._routes = routes
 
-    @property
-    def _previous_nav_id(self) -> NavID | None:
-        """Previous navigation ID (read-only)."""
-        previous_nav_id_index = self._PREVIOUS_NAV_ID_INDEX
-        current_nav_id = self._retrieve_nav_id(self._CURRENT_NAV_ID_INDEX)
-        previous_nav_id = self._retrieve_nav_id(self._PREVIOUS_NAV_ID_INDEX)
-
-        if previous_nav_id == current_nav_id:
-            previous_nav_id_index += self._CURRENT_NAV_ID_INDEX
+    def _get_content(self, nav_id: NavID) -> IContent:
+        if self._routes is None:
+            raise NavigateError('Route mapping is not initialized')
 
         try:
-            return self._retrieve_nav_id(previous_nav_id_index)
-        except IndexError:
-            logger.info(
-                'There are no visited pages in the stack, navigated to `HOME`'
-            )
-            self.navigate(NavID.HOME)
-
-    def _retrieve_nav_id(self, nav_index: int) -> NavID:
-        try:
-            return self._content_history[nav_index]
-        except IndexError:
-            return NavID.HOME
+            return self._routes[nav_id].content
+        except KeyError as err:
+            raise ContentError(f'Failed to navigate: "{nav_id}"') from err
