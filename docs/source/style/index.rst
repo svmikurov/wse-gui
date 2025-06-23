@@ -6,7 +6,8 @@ Application style control includes configs for:
     * Widgets size
     * Widgets color theme
 
-Configuration name enumeration is used to manage and load the configuration.
+Configuration name enumeration is used to manage and load the configuration
+---------------------------------------------------------------------------
 
 .. code-block:: python
    :caption: config/settings.py
@@ -33,10 +34,13 @@ Configuration name enumeration is used to manage and load the configuration.
 
         DEFAULT = 'style_default.json'
 
-The `injector` library is used to load and inject the configuration.
+The `injector` library is used to load and inject the configuration
+-------------------------------------------------------------------
 
 .. code-block:: python
    :caption: config/di_module.py
+
+   from injector import Module, provider, singleton
 
    LAYOUT_STYLE_PATH = STYLE_PATH / LAYOUT_STYLE
    LAYOUT_THEME_PATH = STYLE_PATH / LAYOUT_THEME
@@ -69,7 +73,59 @@ The `injector` library is used to load and inject the configuration.
 
            return ThemeConfig(**data)
 
-The configuration implementation is defined in the `BaseView` class.
+The loaded configuration is wrapped in a class
+----------------------------------------------
+
+.. code-block:: python
+   :caption: config/layout.py
+
+   @dataclass
+   class ThemeConfig:
+       """Application layout theme configuration.
+
+       For example, load from json config:
+
+           {
+             "content": {
+               "background_color": "blue"
+             },
+             "title": {
+               "background_color": "green",
+               "color": "yellow"
+             },
+             ...
+           }
+       """
+
+       content: dict[str, Any] = field(default_factory=dict)
+       title: dict[str, str] = field(default_factory=dict)
+       btn_nav: dict[str, str] = field(default_factory=dict)
+       ...
+
+   @dataclass
+   class StyleConfig:
+       """Application layout style configuration.
+
+       For example, load from json config:
+
+           {
+             "window_size": [440, 700],
+             "title": {
+               "font_size": 20,
+               "text_align": "center",
+               ...
+             },
+             ...
+           }
+       """
+
+       window_size: tuple[int, int] = field(default=(440, 700))
+       title: dict[str, str | int] = field(default_factory=dict)
+       btn_nav: dict[str, str | int] = field(default_factory=dict)
+       ...
+
+The configuration implementation is defined in the `BaseView` class
+-------------------------------------------------------------------
 
 .. code-block:: python
    :caption: features/base/mvc.py
@@ -87,3 +143,22 @@ The configuration implementation is defined in the `BaseView` class.
            ...
            self.update_style(self._style_config)
            self.update_style(self._theme_config)
+
+Decorate the created page view class with `@inject` and `@dataclass` and inherit from the base class
+----------------------------------------------------------------------------------------------------
+
+.. code-block:: python
+   :caption: features/subapps/main/pages/home/view.py
+
+   from injector import inject
+
+   @inject
+   @dataclass
+   class HomeView(BaseView):
+       """Home page view of main feature."""
+
+       def __post_init__(self) -> None:
+           """Construct the page."""
+           super().__post_init__()
+
+       ...
