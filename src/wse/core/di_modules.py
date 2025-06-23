@@ -4,8 +4,8 @@ from typing import no_type_check
 
 from injector import Binder, Module, singleton
 
-from wse.core.interfaces import INavigator
-from wse.core.navigation.navigator import Navigator
+from .interfaces import INavigator
+from .navigation.navigator import Navigator
 
 
 class CoreModule(Module):
