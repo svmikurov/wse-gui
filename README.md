@@ -11,13 +11,13 @@ python3 -m pip install --upgrade pip
 pip install -r requirements-dev.txt
 ```
 
-## Fix errors
+## Fix install errors
 ```commandline
 sudo apt update
 sudo apt install -y python3.11-dev pkg-config
 ```
 
-## Localise project
+## Localize the project
 ```commandline
-make gettext
+make localize
 ```
