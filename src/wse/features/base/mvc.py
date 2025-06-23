@@ -8,13 +8,18 @@ from wse.core.interfaces import INavigator
 
 from ..interfaces import IContent, ISubject, IView
 from ..subapps.nav_id import NavID
-from .mixins import AddObserverMixin, CreateNavButtonMixin
+from .mixins import (
+    AddObserverMixin,
+    CreateNavButtonMixin,
+    GetContentMixin,
+)
 
 
 @dataclass
 class BaseView(
-    CreateNavButtonMixin,
+    GetContentMixin,
     AddObserverMixin,
+    CreateNavButtonMixin,
     ABC,
 ):
     """Abstract base class for page view."""
@@ -75,11 +80,6 @@ class BaseView(
                     ...
                 )
         """
-
-    @property
-    def content(self) -> IContent:
-        """Get page content."""
-        return self._content
 
 
 @dataclass

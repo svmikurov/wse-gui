@@ -2,11 +2,11 @@
 
 from typing import Protocol, runtime_checkable
 
-from .icontent import IContentDependency
+from .icontent import IGetContent
 
 
 class IView(
-    IContentDependency,
+    IGetContent,
     Protocol,
 ):
     """Protocol for page view interface."""
@@ -17,7 +17,7 @@ class IView(
 
 @runtime_checkable
 class IController(
-    IContentDependency,
+    IGetContent,
     Protocol,
 ):
     """Protocol for page controller interface."""

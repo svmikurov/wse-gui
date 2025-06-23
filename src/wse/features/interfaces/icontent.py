@@ -8,7 +8,7 @@ from wse.features.subapps.nav_id import NavID
 
 
 class IContent(Protocol):
-    """Protocol for page content interface."""
+    """Protocol for content interface."""
 
     def add(self, *ui: toga.Widget) -> None:
         """Add user interface to page content."""
@@ -21,8 +21,8 @@ class IContent(Protocol):
     def test_id(self, value: NavID | None) -> None: ...
 
 
-class IContentDependency(Protocol):
-    """Protocol for page content dependency interface."""
+class IGetContent(Protocol):
+    """Protocol for get content interface."""
 
     @property
     def content(self) -> IContent:
