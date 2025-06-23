@@ -21,3 +21,10 @@ check: format mypy
 update-android:
 	briefcase update android
 	briefcase build android
+
+# Localisation
+gettext:
+	msgfmt -o src/wse/resources/locale/ru/LC_MESSAGES/nav.mo \
+              src/wse/resources/locale/ru/LC_MESSAGES/nav.po && \
+	msgfmt -o src/wse/resources/locale/en/LC_MESSAGES/nav.mo \
+	          src/wse/resources/locale/en/LC_MESSAGES/nav.po

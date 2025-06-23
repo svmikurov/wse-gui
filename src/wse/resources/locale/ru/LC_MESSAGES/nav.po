@@ -1,0 +1,12 @@
+# Navigation ID `NavID` enumerate localisation
+
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Home page"
+msgstr "Главная страница"
+
+msgid "Main math page"
+msgstr "Математика"

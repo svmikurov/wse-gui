@@ -2,11 +2,18 @@
 
 from pathlib import Path
 
-from wse.config.styles import LayoutStyles
+from wse.config.enums import (
+    ColorStyles,
+    Languages,
+    LayoutStyles,
+)
 
 # General paths
 PROJECT_PATH = Path(__file__).parents[1]
-CONFIGS_PATH = PROJECT_PATH / 'resources' / 'config'
+RESOURCES_PATH = PROJECT_PATH / 'resources'
+CONFIGS_PATH = RESOURCES_PATH / 'config'
 
 # Layout style configuration
-LAYOUT_STYLE = LayoutStyles.GREEN
+LANGUAGE = Languages.RU
+COLOR_STYLE = ColorStyles.DEFAULT
+LAYOUT_STYLE = LayoutStyles.DEFAULT

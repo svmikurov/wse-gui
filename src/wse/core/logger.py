@@ -24,8 +24,8 @@ def setup_logger() -> None:
         logging_config['handlers']['file']['filename'] = str(LOG_FILE_PATH)
 
         # Success configurate message
-        logger.info('The logger has been successfully configured.')
+        logger.info('The logger has been successfully configured')
 
     except Exception as e:
         logging.basicConfig(level=logging.INFO)
-        logging.getLogger().error('Error loading logger configuration: %s', e)
+        logging.getLogger().error('Error loading logger configuration:\n%s', e)
