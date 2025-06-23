@@ -4,9 +4,9 @@ from typing import no_type_check
 
 from injector import inject
 
-from wse.features.apps.nav_id import NavID
 from wse.features.base import BaseRoutes
 from wse.features.interfaces import IController
+from wse.features.subapps.nav_id import NavID
 
 from .pages.index.interfaces import IIndexMathController
 

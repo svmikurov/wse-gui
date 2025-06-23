@@ -3,17 +3,25 @@
 from pathlib import Path
 
 from wse.config.enums import (
-    ColorStyles,
-    Languages,
-    LayoutStyles,
+    Language,
+    LayoutStyle,
+    LayoutTheme,
+    LocaleDomain,
 )
 
 # General paths
 PROJECT_PATH = Path(__file__).parents[1]
 RESOURCES_PATH = PROJECT_PATH / 'resources'
+STYLE_PATH = RESOURCES_PATH / 'style'
 CONFIGS_PATH = RESOURCES_PATH / 'config'
 
-# Layout style configuration
-LANGUAGE = Languages.RU
-COLOR_STYLE = ColorStyles.DEFAULT
-LAYOUT_STYLE = LayoutStyles.DEFAULT
+# Language
+LANGUAGE = Language.RU  # Default language
+LOCALE_DOMAINS = [  # Localization domains
+    LocaleDomain.NAV,
+    LocaleDomain.LABEL,
+]
+
+# Layout style
+LAYOUT_THEME = LayoutTheme.DEFAULT
+LAYOUT_STYLE = LayoutStyle.DEFAULT

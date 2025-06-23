@@ -1,0 +1,9 @@
+{
+  "content": {
+    "background_color": "blue"
+  },
+  "title": {
+    "background_color": "green",
+    "color": "yellow"
+  }
+}

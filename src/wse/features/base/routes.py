@@ -4,8 +4,8 @@ from abc import ABC, abstractmethod
 
 from injector import Injector
 
-from wse.features.apps.nav_id import NavID
 from wse.features.interfaces import IController
+from wse.features.subapps.nav_id import NavID
 
 
 class BaseRoutes(ABC):

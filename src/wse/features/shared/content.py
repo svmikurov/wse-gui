@@ -3,8 +3,8 @@
 import toga
 from injector import inject
 
-from wse.config.layout import LayoutConfig
-from wse.features.apps.nav_id import NavID
+from wse.config.layout import ThemeConfig
+from wse.features.subapps.nav_id import NavID
 
 
 @inject
@@ -13,11 +13,13 @@ class Content(toga.Box):  # type: ignore[misc]
 
     def __init__(
         self,
-        config: LayoutConfig,
+        theme_config: ThemeConfig,
     ) -> None:
         """Construct the content."""
-        style = config.content_style
-        style['direction'] = 'column'
+        style = {
+            **theme_config.content,
+            'direction': 'column',
+        }
         super().__init__(**style)
         self._test_id: NavID | None = None
 

@@ -4,10 +4,10 @@ import logging
 
 import toga
 
-from wse.features.apps.nav_id import NavID
 from wse.features.exeptions import ContentError, NavigateError
 from wse.features.interfaces import IController
 from wse.features.interfaces.icontent import IContent
+from wse.features.subapps.nav_id import NavID
 
 logger = logging.getLogger('wse')
 

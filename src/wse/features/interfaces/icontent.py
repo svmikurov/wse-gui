@@ -4,7 +4,7 @@ from typing import Protocol
 
 import toga
 
-from wse.features.apps.nav_id import NavID
+from wse.features.subapps.nav_id import NavID
 
 
 class IContent(Protocol):

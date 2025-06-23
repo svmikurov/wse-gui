@@ -11,6 +11,7 @@ Welcome to WSE GUI's documentation!
    :caption: Contents:
 
    typing/index.rst
+   style/index.rst
 
 
 

@@ -23,8 +23,12 @@ update-android:
 	briefcase build android
 
 # Localisation
-gettext:
-	msgfmt -o src/wse/resources/locale/ru/LC_MESSAGES/nav.mo \
-              src/wse/resources/locale/ru/LC_MESSAGES/nav.po && \
-	msgfmt -o src/wse/resources/locale/en/LC_MESSAGES/nav.mo \
-	          src/wse/resources/locale/en/LC_MESSAGES/nav.po
+DOMAINS = nav label
+LANGUAGES = en ru
+LOCALE_DIR = src/wse/resources/locale
+MO_FILES = $(foreach lang,$(LANGUAGES), \
+            $(foreach domain,$(DOMAINS), \
+                $(LOCALE_DIR)/$(lang)/LC_MESSAGES/$(domain).mo))
+localize: $(MO_FILES)
+$(LOCALE_DIR)/%.mo: $(LOCALE_DIR)/%.po
+	msgfmt -o $@ $<

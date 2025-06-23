@@ -3,17 +3,17 @@
 import toga
 from injector import Injector
 
-from .config.layout import LayoutConfig
+from .config.layout import StyleConfig
 from .core.interfaces import INavigator, IRoutes
 from .di import create_injector
-from .features.apps.nav_id import NavID
+from .features.subapps.nav_id import NavID
 
 
 class WSE(toga.App):  # type: ignore[misc]
     """WSE GUI application."""
 
     _injector: Injector
-    _layout_config: LayoutConfig
+    _layout_config: StyleConfig
     _navigator: INavigator
     _start_page_id = NavID.HOME
 
@@ -38,7 +38,7 @@ class WSE(toga.App):  # type: ignore[misc]
 
     def _set_config(self) -> None:
         """Set application configuration."""
-        self._layout_config = self._injector.get(LayoutConfig)
+        self._layout_config = self._injector.get(StyleConfig)
 
     def _set_navigator(self) -> None:
         """Set the page navigator."""
