@@ -44,6 +44,6 @@ class StyleConfig:
         }
     """
 
-    window_size: tuple[int, int] = field(default=(400, 400))
+    window_size: tuple[int, int] = field(default=(440, 700))
     title: dict[str, str | int] = field(default_factory=dict)
     btn_nav: dict[str, str | int] = field(default_factory=dict)
