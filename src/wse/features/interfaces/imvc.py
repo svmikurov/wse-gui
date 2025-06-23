@@ -3,16 +3,15 @@
 from typing import Protocol, runtime_checkable
 
 from .icontent import IGetContent
+from .iobserver import IAddObserver
 
 
 class IView(
     IGetContent,
+    IAddObserver,
     Protocol,
 ):
     """Protocol for page view interface."""
-
-    def add_observer(self, observer: object) -> None:
-        """Subscribe observer an event has occurred."""
 
 
 @runtime_checkable
