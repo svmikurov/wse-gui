@@ -5,7 +5,6 @@ from dataclasses import dataclass
 
 import toga
 
-from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base.mixins import AddObserverMixin, GetContentMixin
 from wse.features.interfaces import IContent, ISubject
 
@@ -20,15 +19,11 @@ class BaseContainer(
 
     _content: IContent
     _subject: ISubject
-    _style_config: StyleConfig
-    _theme_config: ThemeConfig
 
     def __post_init__(self) -> None:
         """Construct the container."""
         self._create_ui()
         self.localize_ui()
-        self.update_style(self._style_config)
-        self.update_style(self._theme_config)
         self._populate_content()
         self._setup()
 
@@ -67,18 +62,6 @@ class BaseContainer(
         """
 
     @abstractmethod
-    def update_style(self, config: StyleConfig | ThemeConfig) -> None:
-        """Update widgets style.
-
-        For example:
-            def update_style(
-                self, config: StyleConfig | ThemeConfig
-            ) -> None:
-                self._label_title.style.update(**config.title)
-                ...
-        """
-
-    @abstractmethod
     def _populate_content(self) -> None:
         """Populate widget container content with UI.
 
@@ -92,7 +75,10 @@ class BaseContainer(
 
 
 @dataclass
-class IOTextContainer(BaseContainer, ABC):
+class BaseTextIOContainer(
+    BaseContainer,
+    ABC,
+):
     """Abstract base class for I/O one line text container."""
 
     def _populate_content(self) -> None:
