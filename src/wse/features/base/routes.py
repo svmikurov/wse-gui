@@ -21,4 +21,16 @@ class BaseRoutes(ABC):
     @property
     @abstractmethod
     def routes(self) -> dict[NavID, IController]:
-        """Get page routes."""
+        """Get page routes.
+
+        For example:
+            @property
+            @no_type_check
+            def routes(self) -> dict[NavID, IController]:
+                return {
+                    NavID.INDEX_MATH: self._injector.get(
+                        IIndexMathController
+                    ),
+                    ...,
+                }
+        """
