@@ -10,3 +10,6 @@ msgstr "Главная страница"
 
 msgid "Main math page"
 msgstr "Математика"
+
+msgid "Simple math calculation page"
+msgstr "Простые вычисления"

@@ -10,5 +10,8 @@ msgstr ""
 msgid "Home page title"
 msgstr "Home page"
 
-msgid "Mathematical page title"
+msgid "Main math page title"
 msgstr "Mathematics"
+
+msgid "Simple calculation title"
+msgstr "Simple calculations"
