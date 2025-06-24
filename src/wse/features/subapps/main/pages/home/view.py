@@ -16,9 +16,7 @@ from wse.utils.i18n import label_, nav_
 class HomeView(BaseView):
     """Home page view of main feature."""
 
-    def __post_init__(self) -> None:
-        """Construct the page."""
-        super().__post_init__()
+    def _setup(self) -> None:
         self._content.test_id = NavID.HOME
 
     def _populate_content(self) -> None:

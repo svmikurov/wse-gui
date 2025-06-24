@@ -30,6 +30,21 @@ class BaseContainer(
         self.update_style(self._style_config)
         self.update_style(self._theme_config)
         self._populate_content()
+        self._setup()
+
+    def _setup(self) -> None:
+        """Set up container features.
+
+        Add features:
+            - Content test ID
+            - ...
+
+        For example:
+            def setup(self) -> None:
+                self._content.test_id = NavID.HOME
+                ...
+        """
+        pass
 
     @abstractmethod
     def _create_ui(self) -> None:

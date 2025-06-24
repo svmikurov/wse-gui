@@ -16,9 +16,7 @@ from wse.utils.i18n import label_, nav_
 class IndexMathView(BaseView):
     """Main Math page view."""
 
-    def __post_init__(self) -> None:
-        """Construct the page."""
-        super().__post_init__()
+    def _setup(self) -> None:
         self._content.test_id = NavID.INDEX_MATH
 
     def _populate_content(self) -> None:
