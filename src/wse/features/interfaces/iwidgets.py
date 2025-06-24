@@ -1,13 +1,12 @@
 """Defines protocol for widget interfaces."""
 
-from typing import Protocol, TypeVar
+from typing import Protocol
 
+from wse.features.interfaces.istyle import IStyle
 from wse.features.subapps.nav_id import NavID
 
-StyleT = TypeVar('StyleT')
 
-
-class INavButton(Protocol[StyleT]):
+class INavButton(Protocol):
     """Protocol for navigate button interface."""
 
     @property
@@ -22,8 +21,8 @@ class INavButton(Protocol[StyleT]):
     def text(self, value: str | None) -> None: ...
 
     @property
-    def style(self) -> StyleT:
+    def style(self) -> IStyle:
         """The button's style."""
 
     @style.setter
-    def style(self, style: StyleT) -> None: ...
+    def style(self, style: IStyle) -> None: ...

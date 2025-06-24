@@ -1,13 +1,12 @@
 """Defines buttons with an additional features."""
 
 import toga
-from toga.style import Pack
 
 from wse.features.interfaces.iwidgets import INavButton
 from wse.features.subapps.nav_id import NavID
 
 
-class NavButton(toga.Button, INavButton[Pack]):  # type: ignore[misc]
+class NavButton(toga.Button, INavButton):  # type: ignore[misc]
     """Navigation button.
 
     Added `nav_id` attribute to implement navigation.

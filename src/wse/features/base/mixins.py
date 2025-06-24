@@ -2,8 +2,6 @@
 
 import logging
 
-from toga.style import Pack
-
 from wse.features.interfaces import IContent, ISubject
 from wse.features.interfaces.iwidgets import INavButton
 from wse.features.shared.buttons import NavButton
@@ -38,10 +36,10 @@ class CreateNavButtonMixin:
 
     _subject: ISubject
 
-    def _create_nav_btn(self, nav_id: NavID) -> INavButton[Pack]:
+    def _create_nav_btn(self, nav_id: NavID) -> INavButton:
         """Create navigation button."""
         return NavButton(nav_id=nav_id, on_press=self._handle_navigate)
 
-    def _handle_navigate(self, button: INavButton[Pack]) -> None:
+    def _handle_navigate(self, button: INavButton) -> None:
         """Handle navigation button press."""
         self._subject.notify('navigate', nav_id=button.nav_id)
