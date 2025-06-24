@@ -2,7 +2,7 @@
 
 from wse.core.base.enums import BaseEnum
 
-# langauge localization
+# Langauge localization
 
 
 class Language(BaseEnum):
@@ -26,6 +26,7 @@ class LayoutTheme(BaseEnum):
     """Layout color theme enumerations."""
 
     DEFAULT = 'theme_default.json'
+    DEVELOP = 'theme_develop.json'
     GREEN = 'theme_green.json'
 
 
@@ -33,3 +34,4 @@ class LayoutStyle(BaseEnum):
     """Layout style enumerations."""
 
     DEFAULT = 'style_default.json'
+    DEVELOP = 'style_develop.json'

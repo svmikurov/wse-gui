@@ -5,7 +5,12 @@ from typing import Any
 
 
 @dataclass
-class ThemeConfig:
+class BaseConfig:
+    """Base class for config."""
+
+
+@dataclass
+class ThemeConfig(BaseConfig):
     """Application layout theme configuration.
 
     For example, load from json config:
@@ -28,7 +33,7 @@ class ThemeConfig:
 
 
 @dataclass
-class StyleConfig:
+class StyleConfig(BaseConfig):
     """Application layout style configuration.
 
     For example, load from json config:
@@ -47,3 +52,21 @@ class StyleConfig:
     window_size: tuple[int, int] = field(default=(440, 700))
     title: dict[str, str | int] = field(default_factory=dict)
     btn_nav: dict[str, str | int] = field(default_factory=dict)
+
+
+@dataclass
+class TextExerciseStyleConfig(BaseConfig):
+    """Style config for exercise task I/O text container."""
+
+    label: dict[str, str | int] = field(default_factory=dict)
+    output_text: dict[str, str | int] = field(default_factory=dict)
+    input_text: dict[str, str | int] = field(default_factory=dict)
+
+
+@dataclass
+class TextExerciseThemeConfig(BaseConfig):
+    """Style config for exercise task I/O text container."""
+
+    label: dict[str, str] = field(default_factory=dict)
+    output_text: dict[str, str] = field(default_factory=dict)
+    input_text: dict[str, str] = field(default_factory=dict)

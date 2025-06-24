@@ -23,5 +23,5 @@ LOCALE_DOMAINS = [  # Localization domains
 ]
 
 # Layout style
-LAYOUT_THEME = LayoutTheme.DEFAULT
-LAYOUT_STYLE = LayoutStyle.DEFAULT
+LAYOUT_THEME = LayoutTheme.DEVELOP
+LAYOUT_STYLE = LayoutStyle.DEVELOP
