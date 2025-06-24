@@ -1,4 +1,4 @@
-"""Defines Main Mathematical application page view."""
+"""Defines Main Math page view."""
 
 from dataclasses import dataclass
 
@@ -14,7 +14,7 @@ from wse.utils.i18n import label_, nav_
 @inject
 @dataclass
 class IndexMathView(BaseView):
-    """Main Mathematical application page view."""
+    """Main Math page view."""
 
     def __post_init__(self) -> None:
         """Construct the page."""

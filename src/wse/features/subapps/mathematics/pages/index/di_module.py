@@ -1,4 +1,4 @@
-"""Defines Main Mathematical module container."""
+"""Defines Main Math page module container."""
 
 from typing import no_type_check
 
@@ -10,7 +10,7 @@ from .view import IndexMathView
 
 
 class IndexMathPageModule(Module):
-    """Main Mathematical application page module container."""
+    """Main Math page module container."""
 
     @no_type_check
     def configure(self, binder: Binder) -> None:

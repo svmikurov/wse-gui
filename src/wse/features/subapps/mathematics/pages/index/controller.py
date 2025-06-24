@@ -1,4 +1,4 @@
-"""Defines Math index page controller."""
+"""Defines Main Math page controller."""
 
 from dataclasses import dataclass
 
@@ -12,6 +12,6 @@ from .interfaces import IIndexMathView
 @inject
 @dataclass
 class IndexMathController(BaseController):
-    """Main index page controller."""
+    """Main Math page controller."""
 
     _view: IIndexMathView
