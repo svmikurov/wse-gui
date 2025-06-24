@@ -9,6 +9,7 @@ from wse.features.interfaces import IController
 from wse.features.subapps.nav_id import NavID
 
 from .pages.index.interfaces import IIndexMathController
+from .pages.simple_calculation.interfaces import ISimpleCalcController
 
 
 @inject
@@ -21,4 +22,5 @@ class MathRoutes(BaseRoutes):
         """Get page routes."""
         return {
             NavID.INDEX_MATH: self._injector.get(IIndexMathController),
+            NavID.SIMPLE_CALC: self._injector.get(ISimpleCalcController),
         }

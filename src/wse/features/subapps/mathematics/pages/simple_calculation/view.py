@@ -1,4 +1,4 @@
-"""Defines Main Math page view."""
+"""Defines Simple math calculation page view."""
 
 from dataclasses import dataclass
 
@@ -13,34 +13,31 @@ from wse.utils.i18n import label_, nav_
 
 @inject
 @dataclass
-class IndexMathView(BaseView):
-    """Main Math page view."""
+class SimpleCalcView(BaseView):
+    """Simple math calculation page view."""
 
     def __post_init__(self) -> None:
         """Construct the page."""
         super().__post_init__()
-        self._content.test_id = NavID.INDEX_MATH
+        self._content.test_id = NavID.SIMPLE_CALC
 
     def _populate_content(self) -> None:
         self.content.add(
             self._label_title,
-            self._btn_nav_home,
-            self._btn_nav_simple,
+            self._btn_back,
         )
 
     def _create_ui(self) -> None:
         self._label_title = toga.Label('')
-        self._btn_nav_home = self._create_nav_btn(nav_id=NavID.HOME)
-        self._btn_nav_simple = self._create_nav_btn(nav_id=NavID.SIMPLE_CALC)
+        self._btn_back = self._create_nav_btn(nav_id=NavID.BACK)
 
+    # TODO: Implement a style update
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
         self._label_title.style.update(**config.title)
-        self._btn_nav_home.style.update(**config.btn_nav)
-        self._btn_nav_simple.style.update(**config.btn_nav)
+        self._btn_back.style.update(**config.btn_nav)
 
     def localize_ui(self) -> None:
         """Localize the UI text."""
-        self._label_title.text = label_('Main math page title')
-        self._btn_nav_home.text = nav_(NavID.HOME)
-        self._btn_nav_simple.text = nav_(NavID.SIMPLE_CALC)
+        self._label_title.text = label_('Simple calculation title')
+        self._btn_back.text = nav_(NavID.BACK)
