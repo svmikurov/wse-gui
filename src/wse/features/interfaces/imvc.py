@@ -2,13 +2,12 @@
 
 from typing import Protocol, runtime_checkable
 
+from .icontainers import IContainer
 from .icontent import IGetContent
-from .iobserver import IAddObserver
 
 
 class IView(
-    IGetContent,
-    IAddObserver,
+    IContainer,
     Protocol,
 ):
     """Protocol for page view interface."""
