@@ -10,11 +10,15 @@ from wse.features.base import BaseView
 from wse.features.subapps.nav_id import NavID
 from wse.utils.i18n import label_, nav_
 
+from .interfaces import ISimpleMathCalcContainer
+
 
 @inject
 @dataclass
 class SimpleCalcView(BaseView):
     """Simple math calculation page view."""
+
+    _calc_container: ISimpleMathCalcContainer
 
     def _setup(self) -> None:
         self._content.test_id = NavID.SIMPLE_CALC
@@ -22,6 +26,7 @@ class SimpleCalcView(BaseView):
     def _populate_content(self) -> None:
         self.content.add(
             self._label_title,
+            self._calc_container.content,
             self._btn_back,
         )
 
@@ -29,7 +34,6 @@ class SimpleCalcView(BaseView):
         self._label_title = toga.Label('')
         self._btn_back = self._create_nav_btn(nav_id=NavID.BACK)
 
-    # TODO: Implement a style update
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
         self._label_title.style.update(**config.title)
