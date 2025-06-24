@@ -15,8 +15,6 @@ logger = logging.getLogger('wse')
 class Navigator:
     """Page navigation service."""
 
-    _fallback_page_id = NavID.HOME
-
     def __init__(
         self,
         window: toga.Window | None = None,
@@ -28,21 +26,16 @@ class Navigator:
 
     def navigate(self, nav_id: NavID) -> None:
         """Navigate to page."""
-        try:
-            content = self._get_content(nav_id)
-
-        except ContentError:
-            try:
-                content = self._get_content(self._fallback_page_id)
-
-            except ContentError as err:
-                raise NavigateError('Failed to navigate to fallback') from err
-
         if self._window is None:
             raise NavigateError('Window is not initialized')
 
-        self._window.content = content
-        logger.debug(f'Window content updated for ID: "{nav_id}"')
+        try:
+            content = self._get_content(nav_id)
+        except ContentError:
+            logger.exception(f'Failed to navigate to "{nav_id}"')
+        else:
+            self._window.content = content
+            logger.debug(f'Window content updated for ID: "{nav_id}"')
 
     def set_main_window(self, window: toga.Window) -> None:
         """Set main window."""
