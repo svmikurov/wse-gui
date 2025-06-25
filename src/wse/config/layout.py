@@ -65,8 +65,22 @@ class TextExerciseStyleConfig(BaseConfig):
 
 @dataclass
 class TextExerciseThemeConfig(BaseConfig):
-    """Style config for exercise task I/O text container."""
+    """Theme config for exercise task I/O text container."""
 
     label: dict[str, str] = field(default_factory=dict)
     output_text: dict[str, str] = field(default_factory=dict)
     input_text: dict[str, str] = field(default_factory=dict)
+
+
+@dataclass
+class NumPadStyleConfig(BaseConfig):
+    """Style config for NumPad container."""
+
+    button: dict[str, str | int] = field(default_factory=dict)
+
+
+@dataclass
+class NumPadThemeConfig(BaseConfig):
+    """Theme config for NumPad container."""
+
+    button: dict[str, str | int] = field(default_factory=dict)

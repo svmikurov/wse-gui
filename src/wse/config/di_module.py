@@ -8,6 +8,8 @@ from typing import Any, Type, TypeVar
 from injector import Module, provider, singleton
 
 from wse.config.layout import (
+    NumPadStyleConfig,
+    NumPadThemeConfig,
     StyleConfig,
     TextExerciseStyleConfig,
     TextExerciseThemeConfig,
@@ -60,7 +62,7 @@ class ConfigModule(Module):
     @provider
     @singleton
     def provide_text_exercise_style_config(self) -> TextExerciseStyleConfig:
-        """Load and provide layout color theme configuration."""
+        """Load and provide layout style configuration."""
         return load_data(
             LAYOUT_STYLE_PATH,
             TextExerciseStyleConfig,
@@ -75,4 +77,24 @@ class ConfigModule(Module):
             LAYOUT_THEME_PATH,
             TextExerciseThemeConfig,
             'text_exercise',
+        )
+
+    @provider
+    @singleton
+    def provide_numpad_style_config(self) -> NumPadStyleConfig:
+        """Load and provide layout style configuration."""
+        return load_data(
+            LAYOUT_STYLE_PATH,
+            NumPadStyleConfig,
+            'numpad',
+        )
+
+    @provider
+    @singleton
+    def provide_numpad_theme_config(self) -> NumPadThemeConfig:
+        """Load and provide layout color theme configuration."""
+        return load_data(
+            LAYOUT_THEME_PATH,
+            NumPadThemeConfig,
+            'numpad',
         )
