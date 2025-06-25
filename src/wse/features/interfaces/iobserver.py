@@ -24,3 +24,7 @@ class ISubject(
 
     def notify(self, notification: str, **kwargs: object) -> None:
         """Notify all observers an event has occurred."""
+
+    @property
+    def observers(self) -> list[IObserver]:
+        """Get observers."""

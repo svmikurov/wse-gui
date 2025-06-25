@@ -4,10 +4,14 @@ from typing import Protocol
 
 import toga
 
+from wse.features.interfaces.istyle import IStyleMixin
 from wse.features.subapps.nav_id import NavID
 
 
-class IContent(Protocol):
+class IContent(
+    IStyleMixin,
+    Protocol,
+):
     """Protocol for content interface."""
 
     def add(self, *ui: toga.Widget) -> None:

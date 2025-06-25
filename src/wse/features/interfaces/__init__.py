@@ -1,13 +1,18 @@
 """Features interfaces."""
 
 __all__ = [
+    'IAddObserver',
+    'IContainer',
     'IContent',
     'IController',
+    'IGetContent',
+    'IModel',
     'IObserver',
     'ISubject',
     'IView',
 ]
 
-from .icontent import IContent
-from .imvc import IController, IView
-from .iobserver import IObserver, ISubject
+from .icontainer import IContainer
+from .icontent import IContent, IGetContent
+from .imvc import IController, IModel, IView
+from .iobserver import IAddObserver, IObserver, ISubject

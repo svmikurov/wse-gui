@@ -2,11 +2,14 @@
 
 from typing import Protocol
 
-from wse.features.interfaces.istyle import IStyle
+from wse.features.interfaces.istyle import IStyleMixin
 from wse.features.subapps.nav_id import NavID
 
 
-class INavButton(Protocol):
+class INavButton(
+    IStyleMixin,
+    Protocol,
+):
     """Protocol for navigate button interface."""
 
     @property
@@ -19,10 +22,3 @@ class INavButton(Protocol):
 
     @text.setter
     def text(self, value: str | None) -> None: ...
-
-    @property
-    def style(self) -> IStyle:
-        """The button's style."""
-
-    @style.setter
-    def style(self, style: IStyle) -> None: ...
