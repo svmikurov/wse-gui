@@ -9,7 +9,7 @@ from .interfaces import IHomeController, IHomeView
 from .view import HomeView
 
 
-class HomePageModule(Module):
+class HomeModule(Module):
     """Home page module container."""
 
     @no_type_check
