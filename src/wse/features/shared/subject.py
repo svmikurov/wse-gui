@@ -10,6 +10,11 @@ class Subject:
         """Construct the subject."""
         self._observers: list[IObserver] = []
 
+    @property
+    def observers(self) -> list[IObserver]:
+        """Get observers."""
+        return self._observers
+
     def add_observer(self, observer: IObserver) -> None:
         """Add a new observer to this subject."""
         self._observers.append(observer)
