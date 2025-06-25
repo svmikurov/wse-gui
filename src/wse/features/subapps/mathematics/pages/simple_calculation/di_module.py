@@ -7,19 +7,24 @@ from injector import Binder, Module
 from .containers import SimpleMathCalcContainer
 from .contorller import SimpleCalcController
 from .interfaces import (
+    ISimpleCalcContainer,
     ISimpleCalcController,
+    ISimpleCalcModel,
     ISimpleCalcView,
-    ISimpleMathCalcContainer,
 )
+from .model import SimpleCalcModel
 from .view import SimpleCalcView
 
 
-class SimpleCalculationPageModule(Module):
+class SimpleCalculationModule(Module):
     """Simple Math calculation page."""
 
     @no_type_check
     def configure(self, binder: Binder) -> None:
         """Configure the bindings."""
+        # MVC model
+        binder.bind(ISimpleCalcModel, to=SimpleCalcModel)
         binder.bind(ISimpleCalcView, to=SimpleCalcView)
         binder.bind(ISimpleCalcController, to=SimpleCalcController)
-        binder.bind(ISimpleMathCalcContainer, to=SimpleMathCalcContainer)
+        # Page elements
+        binder.bind(ISimpleCalcContainer, to=SimpleMathCalcContainer)

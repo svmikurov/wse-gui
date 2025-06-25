@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from injector import inject
 
 from wse.config.layout import TextExerciseStyleConfig, TextExerciseThemeConfig
-from wse.features.base.containers import BaseTextIOContainer
+from wse.features.shared.containers.base import BaseTextIOContainer
 from wse.utils.i18n import label_
 
 

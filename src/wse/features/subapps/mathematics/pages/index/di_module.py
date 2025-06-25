@@ -9,7 +9,7 @@ from .interfaces import IIndexMathController, IIndexMathView
 from .view import IndexMathView
 
 
-class IndexMathPageModule(Module):
+class IndexMathModule(Module):
     """Main Math page module container."""
 
     @no_type_check
