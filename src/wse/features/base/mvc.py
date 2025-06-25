@@ -6,10 +6,26 @@ from dataclasses import dataclass
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.interfaces import INavigator
 
-from ..interfaces import IContent, IView
+from ..interfaces import IContent, ISubject, IView
 from ..subapps.nav_id import NavID
-from .containers import BaseContainer
-from .mixins import CreateNavButtonMixin
+from .container import BaseContainer
+from .mixins import AddObserverMixin, CreateNavButtonMixin
+
+
+@dataclass
+class BaseModel(
+    AddObserverMixin,
+):
+    """Base class for page view."""
+
+    _subject: ISubject
+
+    def __post_init__(self) -> None:
+        """Construct the model."""
+        self._setup()
+
+    def _setup(self) -> None:
+        """Set up the model features."""
 
 
 @dataclass
@@ -52,6 +68,11 @@ class BaseController:
     def __post_init__(self) -> None:
         """Construct the controller."""
         self._view.add_observer(self)
+        self._setup()
+
+    def _setup(self) -> None:
+        """Set up the controller features."""
+        pass
 
     def navigate(self, nav_id: NavID) -> None:
         """Navigate to page."""
