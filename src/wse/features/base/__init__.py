@@ -1,10 +1,11 @@
-"""Defines abstract base classes for features."""
+"""Defines base and abstract base classes for features."""
 
 __all__ = [
+    'BaseController',
+    'BaseModel',
     'BaseRoutes',
     'BaseView',
-    'BaseController',
 ]
 
-from wse.features.base.mvc import BaseController, BaseView
+from wse.features.base.mvc import BaseController, BaseModel, BaseView
 from wse.features.base.routes import BaseRoutes
