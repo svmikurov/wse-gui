@@ -2,7 +2,7 @@
 
 from typing import Protocol
 
-from ...interfaces.icontainers import IContainer
+from ...interfaces.icontainer import IContainer
 
 
 class IIOTextContainer(IContainer, Protocol):
