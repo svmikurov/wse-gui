@@ -9,7 +9,7 @@ from wse.config.enums import Language, LocaleDomain
 from wse.config.settings import LANGUAGE, LOCALE_DOMAINS, RESOURCES_PATH
 from wse.utils.interfaces import II18NService
 
-logger = logging.getLogger('wse')
+logger = logging.getLogger(__name__)
 
 LOCALEDIR = RESOURCES_PATH / 'locale'
 
@@ -47,7 +47,7 @@ class I18NService(II18NService):
                     languages=[language],
                 )
                 new_translators[f'{domain}_'] = trans.gettext
-                logger.info(
+                logger.debug(
                     f'Loaded "{language}" language for "{domain}" domain'
                 )
             except Exception as e:

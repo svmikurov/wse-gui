@@ -7,7 +7,7 @@ from wse.features.interfaces.iwidgets import INavButton
 from wse.features.shared.buttons import NavButton
 from wse.features.subapps.nav_id import NavID
 
-logger = logging.getLogger('wse')
+logger = logging.getLogger('__name__')
 
 
 class GetContentMixin:

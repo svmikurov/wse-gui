@@ -9,7 +9,7 @@ from wse.features.interfaces import IController
 from wse.features.interfaces.icontent import IContent
 from wse.features.subapps.nav_id import NavID
 
-logger = logging.getLogger('wse')
+logger = logging.getLogger('__name__')
 
 
 class Navigator:
