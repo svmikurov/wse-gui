@@ -4,8 +4,11 @@ from typing import no_type_check
 
 from injector import Binder, Module
 
-from wse.features.interfaces import IContent, ISubject
-from wse.features.shared import Content, Subject
+from ..interfaces import (
+    IContent,
+    ISubject,
+)
+from . import Content, Subject
 
 
 class FeatureSharedModule(Module):
