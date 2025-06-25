@@ -2,7 +2,7 @@
 
 import logging
 
-from wse.features.interfaces import IContent, ISubject
+from wse.features.interfaces import IContent, IObserver, ISubject
 from wse.features.interfaces.iwidgets import INavButton
 from wse.features.shared.buttons import NavButton
 from wse.features.subapps.nav_id import NavID
@@ -26,7 +26,7 @@ class AddObserverMixin:
 
     _subject: ISubject
 
-    def add_observer(self, observer: object) -> None:
+    def add_observer(self, observer: IObserver) -> None:
         """Subscribe observer an event has occurred."""
         self._subject.add_observer(observer)
 
