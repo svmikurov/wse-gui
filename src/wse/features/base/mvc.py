@@ -58,6 +58,9 @@ class BaseView(
         """
 
 
+# TODO: Refactor base controller without navigate feature
+#  to avoid SOLID error,
+#  this base class contains navigation and adds observer for view.
 @dataclass
 class BaseController:
     """Base class for page controller."""
