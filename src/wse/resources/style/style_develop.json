@@ -9,35 +9,38 @@
   "btn_nav": {
     "font_size": 15,
     "height": 60,
-    "margin_top": 5,
+    "margin_top": 2,
     "margin_right": 5,
-    "margin_bottom": 5,
+    "margin_bottom": 2,
     "margin_left": 5
   },
   "text_exercise": {
     "label": {
-      "font_size": 15,
-      "height": 60,
-      "margin_top": 5,
-      "margin_right": 5,
-      "margin_bottom": 5,
-      "margin_left": 5
+      "font_size": 12,
+      "height": 18,
+      "vertical_align_items": "center",
+      "margin_top": 20,
+      "margin_right": 2,
+      "margin_bottom": 2,
+      "margin_left": 20
     },
     "output_text": {
-      "font_size": 45,
-      "height": 120,
-      "margin_top": 5,
-      "margin_right": 5,
-      "margin_bottom": 5,
-      "margin_left": 5
+      "font_size": 40,
+      "height": 60,
+      "text_align": "center",
+      "margin_top": 30,
+      "margin_right": 10,
+      "margin_bottom": 30,
+      "margin_left": 10
     },
     "input_text": {
-      "font_size": 15,
-      "height": 60,
-      "margin_top": 5,
-      "margin_right": 5,
-      "margin_bottom": 5,
-      "margin_left": 5
+      "font_size": 30,
+      "height": 45,
+      "text_align": "center",
+      "margin_top": 30,
+      "margin_right": 10,
+      "margin_bottom": 30,
+      "margin_left": 10
     }
   },
   "numpad": {
@@ -46,8 +49,8 @@
       "margin_left": 5
     },
     "button": {
-      "height": 60,
-      "font_size": 15
+      "height": 80,
+      "font_size": 25
     }
   }
 }
