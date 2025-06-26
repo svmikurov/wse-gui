@@ -7,10 +7,10 @@ from wse.config.layout import (
     TextTaskPanelTheme,
 )
 from wse.features.interfaces import (
-    IController,
     IGetContent,
     IModel,
     IObserver,
+    IPageController,
     IView,
 )
 
@@ -52,7 +52,7 @@ class ISimpleCalcView(IView):
         """Clear the answer text."""
 
 
-class ISimpleCalcController(IController, Protocol):
+class ISimpleCalcController(IPageController, Protocol):
     """The controller of Simple Math calculation page."""
 
     # Model event notifications
