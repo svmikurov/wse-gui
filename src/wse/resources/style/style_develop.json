@@ -41,6 +41,10 @@
     }
   },
   "numpad": {
+    "outer_box": {
+      "margin_right": 5,
+      "margin_left": 5
+    },
     "button": {
       "height": 60,
       "font_size": 15
