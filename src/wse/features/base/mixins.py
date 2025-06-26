@@ -4,7 +4,7 @@ import logging
 
 from wse.features.interfaces import IContent, IObserver, ISubject
 from wse.features.interfaces.iwidgets import INavButton
-from wse.features.shared.buttons import NavButton
+from wse.features.shared.widgets.buttons import NavButton
 from wse.features.subapps.nav_id import NavID
 
 logger = logging.getLogger('__name__')
