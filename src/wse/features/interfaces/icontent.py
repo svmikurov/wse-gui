@@ -24,6 +24,10 @@ class IContent(
     @test_id.setter
     def test_id(self, value: NavID | None) -> None: ...
 
+    @property
+    def children(self) -> list[toga.Widget]:
+        """The children of content."""
+
 
 class IGetContent(Protocol):
     """Protocol for get content interface."""
