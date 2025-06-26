@@ -22,23 +22,23 @@ class IndexMathView(BaseView):
     def _populate_content(self) -> None:
         self.content.add(
             self._label_title,
-            self._btn_nav_home,
             self._btn_nav_simple,
+            self._btn_back,
         )
 
     def _create_ui(self) -> None:
         self._label_title = toga.Label('')
-        self._btn_nav_home = self._create_nav_btn(nav_id=NavID.HOME)
         self._btn_nav_simple = self._create_nav_btn(nav_id=NavID.SIMPLE_CALC)
+        self._btn_back = self._create_nav_btn(nav_id=NavID.BACK)
 
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
         self._label_title.style.update(**config.label_title)
-        self._btn_nav_home.style.update(**config.btn_nav)
+        self._btn_back.style.update(**config.btn_nav)
         self._btn_nav_simple.style.update(**config.btn_nav)
 
     def localize_ui(self) -> None:
         """Localize the UI text."""
         self._label_title.text = label_('Main math page title')
-        self._btn_nav_home.text = nav_(NavID.HOME)
         self._btn_nav_simple.text = nav_(NavID.SIMPLE_CALC)
+        self._btn_back.text = nav_(NavID.BACK)

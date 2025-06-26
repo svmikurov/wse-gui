@@ -5,6 +5,9 @@ msgstr ""
 "Project-Id-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
+msgid "move to previous page"
+msgstr "Назад"
+
 msgid "Home page"
 msgstr "Главная страница"
 
