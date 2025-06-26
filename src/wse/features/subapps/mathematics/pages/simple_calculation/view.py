@@ -1,6 +1,7 @@
 """Defines Simple math calculation page view."""
 
 from dataclasses import dataclass
+from typing import Callable
 
 import toga
 from injector import inject
@@ -9,10 +10,10 @@ from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseView
 from wse.features.interfaces import IObserver
 from wse.features.shared.components.interfaces import INumPadController
+from wse.features.shared.containers.interfaces import ITextTaskPanel
+from wse.features.shared.widgets.interfaces import IDivider, IFlexColumnStub
 from wse.features.subapps.nav_id import NavID
 from wse.utils.i18n import label_, nav_
-
-from .interfaces import ISimpleCalcContainer
 
 
 @inject
@@ -20,8 +21,12 @@ from .interfaces import ISimpleCalcContainer
 class SimpleCalcView(BaseView):
     """Simple math calculation page view."""
 
-    _calc_container: ISimpleCalcContainer
+    _task_panel: ITextTaskPanel
     _numpad: INumPadController
+
+    # Widgets
+    _divider: Callable[[], IDivider]
+    _flex_stub: Callable[[], IFlexColumnStub]
 
     def _setup(self) -> None:
         self._content.test_id = NavID.SIMPLE_CALC
@@ -31,8 +36,12 @@ class SimpleCalcView(BaseView):
     def _populate_content(self) -> None:
         self.content.add(
             self._label_title,
-            self._calc_container.content,
+            self._divider(),
+            self._task_panel.content,
+            self._flex_stub(),
+            self._divider(),
             self._numpad.content,
+            self._divider(),
             self._btn_back,
         )
 
@@ -42,7 +51,7 @@ class SimpleCalcView(BaseView):
 
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
-        self._label_title.style.update(**config.title)
+        self._label_title.style.update(**config.label_title)
         self._btn_back.style.update(**config.btn_nav)
 
     def localize_ui(self) -> None:
@@ -60,16 +69,16 @@ class SimpleCalcView(BaseView):
 
     def display_question(self, value: str) -> None:
         """Display the question."""
-        self._calc_container.display_output(value)
+        self._task_panel.display_question(value)
 
     def clear_question(self) -> None:
         """Clear the question text."""
-        self._calc_container.clear_output()
+        self._task_panel.clear_question()
 
     def display_answer(self, value: str) -> None:
         """Display the user answer."""
-        self._calc_container.display_input(value)
+        self._task_panel.display_answer(value)
 
     def clear_answer(self) -> None:
         """Clear the question text."""
-        self._calc_container.clear_input()
+        self._task_panel.clear_answer()

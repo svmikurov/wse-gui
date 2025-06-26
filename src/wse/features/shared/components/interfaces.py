@@ -13,6 +13,7 @@ class INumPadModel(
 
 
 class INumPadContainer(
+    IAddObserver,
     IContainer,
 ):
     """Protocol for NumPad container interface."""

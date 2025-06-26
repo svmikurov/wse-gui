@@ -27,5 +27,5 @@ class SimpleCalcModel(BaseModel):
     # API for controller
 
     def handle_input_updated(self, value: str) -> None:
-        """Handel the user input symbol."""
+        """Handle the user input symbol."""
         self._exercise.update_answer(value)

@@ -1,16 +1,14 @@
 {
   "content": {
   },
-  "title": {
+  "label_title": {
   },
   "btn_nav": {
   },
-    "text_exercise": {
-      "label": {
-      },
-      "output_text": {
-      },
-      "input_text": {
+  "text_task_panel": {
+    "output_text": {
+    },
+    "input_text": {
     }
   },
   "numpad": {

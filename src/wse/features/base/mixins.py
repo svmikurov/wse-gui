@@ -1,13 +1,28 @@
 """Defines mixins for features base classes."""
 
 import logging
+from abc import ABC, abstractmethod
 
 from wse.features.interfaces import IContent, IObserver, ISubject
 from wse.features.interfaces.iwidgets import INavButton
 from wse.features.shared.widgets.buttons import NavButton
 from wse.features.subapps.nav_id import NavID
 
-logger = logging.getLogger('__name__')
+logger = logging.getLogger(__name__)
+
+
+class BaseLocalizeMixin(ABC):
+    """Mixin with provided `localize()` abstract method."""
+
+    @abstractmethod
+    def localize_ui(self) -> None:
+        """Localize the UI text.
+
+        For example:
+            def localize_ui(self) -> None:
+                self._label_title.text = label_('Home page title')
+                ...
+        """
 
 
 class GetContentMixin:

@@ -5,9 +5,9 @@ from typing import no_type_check
 from injector import inject
 
 from wse.features.base import BaseRoutes
-from wse.features.interfaces import IController
 from wse.features.subapps.nav_id import NavID
 
+from ...interfaces import IPageController
 from .pages.index.interfaces import IIndexMathController
 from .pages.simple_calculation.interfaces import ISimpleCalcController
 
@@ -18,7 +18,7 @@ class MathRoutes(BaseRoutes):
 
     @property
     @no_type_check
-    def routes(self) -> dict[NavID, IController]:
+    def routes(self) -> dict[NavID, IPageController]:
         """Get page routes."""
         return {
             NavID.INDEX_MATH: self._injector.get(IIndexMathController),

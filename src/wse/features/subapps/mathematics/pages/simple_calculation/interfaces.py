@@ -3,8 +3,8 @@
 from typing import Protocol
 
 from wse.config.layout import (
-    TextExerciseStyleConfig,
-    TextExerciseThemeConfig,
+    TextTaskPanelStyle,
+    TextTaskPanelTheme,
 )
 from wse.features.interfaces import (
     IController,
@@ -49,7 +49,7 @@ class ISimpleCalcView(IView):
         """Display the user answer."""
 
     def clear_answer(self) -> None:
-        """Clear the question text."""
+        """Clear the answer text."""
 
 
 class ISimpleCalcController(IController, Protocol):
@@ -84,7 +84,7 @@ class ISimpleCalcContainer(IGetContent, Protocol):
         """Localize the UI text."""
 
     def update_style(
-        self, config: TextExerciseStyleConfig | TextExerciseThemeConfig
+        self, config: TextTaskPanelStyle | TextTaskPanelTheme
     ) -> None:
         """Update widgets style."""
 

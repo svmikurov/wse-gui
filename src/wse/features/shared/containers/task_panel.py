@@ -1,0 +1,66 @@
+"""Defines base  and base abstract class for common view containers."""
+
+from dataclasses import dataclass
+from typing import Callable
+
+import toga
+from injector import inject
+
+from wse.config.layout import TextTaskPanelStyle, TextTaskPanelTheme
+from wse.features.base.container import BaseContainer
+from wse.features.shared.widgets.interfaces import IDivider
+
+
+@inject
+@dataclass
+class TextTaskPanel(
+    BaseContainer,
+):
+    """Abstract base class for I/O one line text container."""
+
+    _divider: Callable[[], IDivider]
+    _style_config: TextTaskPanelStyle
+    _theme_config: TextTaskPanelTheme
+
+    def _setup(self) -> None:
+        self.update_style(self._style_config)
+        self.update_style(self._theme_config)
+
+    def _populate_content(self) -> None:
+        self.content.add(
+            self._label_question,
+            self._divider(),
+            self._label_answer,
+        )
+
+    def _create_ui(self) -> None:
+        self._label_question = toga.Label('')
+        self._label_answer = toga.Label('')
+
+    # Fields control methods
+
+    def display_question(self, value: str) -> None:
+        """Update the output text field."""
+        self._label_question.text = value
+
+    def clear_question(self) -> None:
+        """Clear the output text field."""
+        self._label_question.text = ''
+
+    def display_answer(self, value: str) -> None:
+        """Update the input text field."""
+        self._label_answer.text = value
+
+    def clear_answer(self) -> None:
+        """Clear the input text field."""
+        self._label_answer.text = ''
+
+    def localize_ui(self) -> None:
+        """Localize the UI text."""
+
+    def update_style(
+        self, config: TextTaskPanelStyle | TextTaskPanelTheme
+    ) -> None:
+        """Update widgets style."""
+        self._label_question.style.update(**config.label_question)
+        self._label_answer.style.update(**config.label_answer)

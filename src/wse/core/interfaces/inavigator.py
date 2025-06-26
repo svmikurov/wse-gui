@@ -4,7 +4,7 @@ from typing import Protocol
 
 import toga
 
-from wse.features.interfaces import IController
+from wse.features.interfaces.imvc import IPageController
 from wse.features.subapps.nav_id import NavID
 
 
@@ -17,5 +17,5 @@ class INavigator(Protocol):
     def set_main_window(self, window: toga.Window) -> None:
         """Set main window."""
 
-    def set_routes(self, routes: dict[NavID, IController]) -> None:
+    def set_routes(self, routes: dict[NavID, IPageController]) -> None:
         """Set page route mapping."""

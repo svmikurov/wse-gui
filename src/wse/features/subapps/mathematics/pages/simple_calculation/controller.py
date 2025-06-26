@@ -1,17 +1,17 @@
-"""Defines the controller of Simple Math calculation page."""
+"""Defines the controller of Simple Math Calculation page."""
 
 from dataclasses import dataclass
 
 from injector import inject
 
-from wse.features.base import BaseController
+from wse.features.base.mvc import BasePageController
 
 from .interfaces import ISimpleCalcModel, ISimpleCalcView
 
 
 @inject
 @dataclass
-class SimpleCalcController(BaseController):
+class SimpleCalcController(BasePageController):
     """The controller of Simple Math calculation page."""
 
     _model: ISimpleCalcModel

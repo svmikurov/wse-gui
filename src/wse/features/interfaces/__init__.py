@@ -8,11 +8,12 @@ __all__ = [
     'IGetContent',
     'IModel',
     'IObserver',
+    'IPageController',
     'ISubject',
     'IView',
 ]
 
 from .icontainer import IContainer
 from .icontent import IContent, IGetContent
-from .imvc import IController, IModel, IView
+from .imvc import IController, IModel, IPageController, IView
 from .iobserver import IAddObserver, IObserver, ISubject

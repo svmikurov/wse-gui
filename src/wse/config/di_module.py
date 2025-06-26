@@ -8,11 +8,11 @@ from typing import Any, Type, TypeVar
 from injector import Module, provider, singleton
 
 from wse.config.layout import (
-    NumPadStyleConfig,
-    NumPadThemeConfig,
+    NumPadStyle,
+    NumPadTheme,
     StyleConfig,
-    TextExerciseStyleConfig,
-    TextExerciseThemeConfig,
+    TextTaskPanelStyle,
+    TextTaskPanelTheme,
     ThemeConfig,
 )
 from wse.config.settings import LAYOUT_STYLE, LAYOUT_THEME, STYLE_PATH
@@ -61,40 +61,40 @@ class ConfigModule(Module):
 
     @provider
     @singleton
-    def provide_text_exercise_style_config(self) -> TextExerciseStyleConfig:
+    def provide_text_exercise_style(self) -> TextTaskPanelStyle:
         """Load and provide layout style configuration."""
         return load_data(
             LAYOUT_STYLE_PATH,
-            TextExerciseStyleConfig,
-            'text_exercise',
+            TextTaskPanelStyle,
+            'text_task_panel',
         )
 
     @provider
     @singleton
-    def provide_text_exercise_theme_config(self) -> TextExerciseThemeConfig:
+    def provide_text_exercise_theme(self) -> TextTaskPanelTheme:
         """Load and provide layout color theme configuration."""
         return load_data(
             LAYOUT_THEME_PATH,
-            TextExerciseThemeConfig,
-            'text_exercise',
+            TextTaskPanelTheme,
+            'text_task_panel',
         )
 
     @provider
     @singleton
-    def provide_numpad_style_config(self) -> NumPadStyleConfig:
+    def provide_numpad_style_config(self) -> NumPadStyle:
         """Load and provide layout style configuration."""
         return load_data(
             LAYOUT_STYLE_PATH,
-            NumPadStyleConfig,
+            NumPadStyle,
             'numpad',
         )
 
     @provider
     @singleton
-    def provide_numpad_theme_config(self) -> NumPadThemeConfig:
+    def provide_numpad_theme_config(self) -> NumPadTheme:
         """Load and provide layout color theme configuration."""
         return load_data(
             LAYOUT_THEME_PATH,
-            NumPadThemeConfig,
+            NumPadTheme,
             'numpad',
         )

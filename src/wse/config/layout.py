@@ -10,6 +10,28 @@ class BaseConfig:
 
 
 @dataclass
+class StyleConfig(BaseConfig):
+    """Application layout style configuration.
+
+    For example, load from json config:
+
+        {
+          "window_size": [440, 700],
+          "title": {
+            "font_size": 20,
+            "text_align": "center",
+            ...
+          },
+          ...
+        }
+    """
+
+    window_size: tuple[int, int] = field(default=(440, 700))
+    label_title: dict[str, str | int] = field(default_factory=dict)
+    btn_nav: dict[str, str | int] = field(default_factory=dict)
+
+
+@dataclass
 class ThemeConfig(BaseConfig):
     """Application layout theme configuration.
 
@@ -28,52 +50,28 @@ class ThemeConfig(BaseConfig):
     """
 
     content: dict[str, Any] = field(default_factory=dict)
-    title: dict[str, str] = field(default_factory=dict)
+    label_title: dict[str, str] = field(default_factory=dict)
     btn_nav: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
-class StyleConfig(BaseConfig):
-    """Application layout style configuration.
-
-    For example, load from json config:
-
-        {
-          "window_size": [440, 700],
-          "title": {
-            "font_size": 20,
-            "text_align": "center",
-            ...
-          },
-          ...
-        }
-    """
-
-    window_size: tuple[int, int] = field(default=(440, 700))
-    title: dict[str, str | int] = field(default_factory=dict)
-    btn_nav: dict[str, str | int] = field(default_factory=dict)
-
-
-@dataclass
-class TextExerciseStyleConfig(BaseConfig):
+class TextTaskPanelStyle(BaseConfig):
     """Style config for exercise task I/O text container."""
 
-    label: dict[str, str | int] = field(default_factory=dict)
-    output_text: dict[str, str | int] = field(default_factory=dict)
-    input_text: dict[str, str | int] = field(default_factory=dict)
+    label_question: dict[str, str | int] = field(default_factory=dict)
+    label_answer: dict[str, str | int] = field(default_factory=dict)
 
 
 @dataclass
-class TextExerciseThemeConfig(BaseConfig):
+class TextTaskPanelTheme(BaseConfig):
     """Theme config for exercise task I/O text container."""
 
-    label: dict[str, str] = field(default_factory=dict)
-    output_text: dict[str, str] = field(default_factory=dict)
-    input_text: dict[str, str] = field(default_factory=dict)
+    label_question: dict[str, str] = field(default_factory=dict)
+    label_answer: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
-class NumPadStyleConfig(BaseConfig):
+class NumPadStyle(BaseConfig):
     """Style config for NumPad container."""
 
     button: dict[str, str | int] = field(default_factory=dict)
@@ -81,7 +79,7 @@ class NumPadStyleConfig(BaseConfig):
 
 
 @dataclass
-class NumPadThemeConfig(BaseConfig):
+class NumPadTheme(BaseConfig):
     """Theme config for NumPad container."""
 
     button: dict[str, str | int] = field(default_factory=dict)

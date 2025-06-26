@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 from injector import Injector
 
-from wse.features.interfaces import IController
+from wse.features.interfaces.imvc import IPageController
 from wse.features.subapps.nav_id import NavID
 
 
@@ -20,13 +20,13 @@ class BaseRoutes(ABC):
 
     @property
     @abstractmethod
-    def routes(self) -> dict[NavID, IController]:
+    def routes(self) -> dict[NavID, IPageController]:
         """Get page routes.
 
         For example:
             @property
             @no_type_check
-            def routes(self) -> dict[NavID, IController]:
+            def routes(self) -> dict[NavID, IPageController]:
                 return {
                     NavID.INDEX_MATH: self._injector.get(
                         IIndexMathController

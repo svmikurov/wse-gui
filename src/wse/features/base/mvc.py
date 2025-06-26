@@ -9,7 +9,7 @@ from wse.core.interfaces import INavigator
 from ..interfaces import IContent, ISubject, IView
 from ..subapps.nav_id import NavID
 from .container import BaseContainer
-from .mixins import AddObserverMixin, CreateNavButtonMixin
+from .mixins import AddObserverMixin, BaseLocalizeMixin, CreateNavButtonMixin
 
 
 @dataclass
@@ -30,18 +30,22 @@ class BaseModel(
 
 @dataclass
 class BaseView(
-    BaseContainer,
+    AddObserverMixin,
+    BaseLocalizeMixin,
     CreateNavButtonMixin,
+    BaseContainer,
     ABC,
 ):
-    """Abstract base class for page view."""
+    """Base implementation for page view."""
 
+    _subject: ISubject
     _style_config: StyleConfig
     _theme_config: ThemeConfig
 
     def __post_init__(self) -> None:
         """Construct the view."""
         super().__post_init__()
+        self.localize_ui()
         self.update_style(self._style_config)
         self.update_style(self._theme_config)
 
@@ -58,11 +62,26 @@ class BaseView(
         """
 
 
-# TODO: Refactor base controller without navigate feature
-#  to avoid SOLID error,
-#  this base class contains navigation and adds observer for view.
 @dataclass
-class BaseController:
+class BaseController(ABC):
+    """Base class for controller."""
+
+    def __post_init__(self) -> None:
+        """Construct the controller."""
+        self._setup()
+
+    def _setup(self) -> None:  # noqa: B027
+        """Set up the controller features."""
+        pass
+
+    @property
+    @abstractmethod
+    def content(self) -> IContent:
+        """Get page content."""
+
+
+@dataclass
+class BasePageController(BaseController):
     """Base class for page controller."""
 
     _view: IView
@@ -70,12 +89,8 @@ class BaseController:
 
     def __post_init__(self) -> None:
         """Construct the controller."""
+        super().__post_init__()
         self._view.add_observer(self)
-        self._setup()
-
-    def _setup(self) -> None:
-        """Set up the controller features."""
-        pass
 
     def navigate(self, nav_id: NavID) -> None:
         """Navigate to page."""

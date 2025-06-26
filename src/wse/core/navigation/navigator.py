@@ -4,9 +4,9 @@ import logging
 
 import toga
 
-from wse.features.exeptions import ContentError, NavigateError
-from wse.features.interfaces import IController
+from wse.features.exceptions import ContentError, NavigateError
 from wse.features.interfaces.icontent import IContent
+from wse.features.interfaces.imvc import IPageController
 from wse.features.subapps.nav_id import NavID
 
 logger = logging.getLogger('__name__')
@@ -18,7 +18,7 @@ class Navigator:
     def __init__(
         self,
         window: toga.Window | None = None,
-        routes: dict[NavID, IController] | None = None,
+        routes: dict[NavID, IPageController] | None = None,
     ) -> None:
         """Construct the navigator."""
         self._window = window
@@ -41,7 +41,7 @@ class Navigator:
         """Set main window."""
         self._window = window
 
-    def set_routes(self, routes: dict[NavID, IController]) -> None:
+    def set_routes(self, routes: dict[NavID, IPageController]) -> None:
         """Set page route mapping."""
         self._routes = routes
 

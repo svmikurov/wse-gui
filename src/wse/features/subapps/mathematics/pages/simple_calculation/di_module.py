@@ -4,10 +4,8 @@ from typing import no_type_check
 
 from injector import Binder, Module
 
-from .containers import SimpleMathCalcContainer
-from .contorller import SimpleCalcController
+from .controller import SimpleCalcController
 from .interfaces import (
-    ISimpleCalcContainer,
     ISimpleCalcController,
     ISimpleCalcModel,
     ISimpleCalcView,
@@ -26,5 +24,3 @@ class SimpleCalculationModule(Module):
         binder.bind(ISimpleCalcModel, to=SimpleCalcModel)
         binder.bind(ISimpleCalcView, to=SimpleCalcView)
         binder.bind(ISimpleCalcController, to=SimpleCalcController)
-        # Page elements
-        binder.bind(ISimpleCalcContainer, to=SimpleMathCalcContainer)

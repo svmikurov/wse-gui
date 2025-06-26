@@ -31,7 +31,7 @@ class HomeView(BaseView):
 
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
-        self._label_title.style.update(**config.title)
+        self._label_title.style.update(**config.label_title)
         self._btn_math.style.update(**config.btn_nav)
 
     def localize_ui(self) -> None:

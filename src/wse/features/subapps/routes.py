@@ -5,8 +5,7 @@ from typing import no_type_check
 
 from injector import inject
 
-from wse.features.interfaces import IController
-
+from ..interfaces.imvc import IPageController
 from .main.interfaces import IMainRoutes
 from .mathematics.interfaces import IMathRoutes
 from .nav_id import NavID
@@ -22,7 +21,7 @@ class Routes:
 
     @property
     @no_type_check
-    def routes(self) -> dict[NavID, IController]:
+    def routes(self) -> dict[NavID, IPageController]:
         """Get page routes."""
         return {
             **self._main_routes.routes,

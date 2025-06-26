@@ -33,7 +33,7 @@ class IndexMathView(BaseView):
 
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
-        self._label_title.style.update(**config.title)
+        self._label_title.style.update(**config.label_title)
         self._btn_nav_home.style.update(**config.btn_nav)
         self._btn_nav_simple.style.update(**config.btn_nav)
 

@@ -6,8 +6,9 @@ from dataclasses import dataclass
 import toga
 from injector import inject
 
-from wse.config.layout import NumPadStyleConfig, NumPadThemeConfig
+from wse.config.layout import NumPadStyle, NumPadTheme
 
+from ...base import BaseController
 from ...base.boxes import FlexColumn
 from ...base.container import BaseContainer
 from ...base.mixins import AddObserverMixin
@@ -21,8 +22,8 @@ NO_TEXT = ''
 
 # Numpad signs
 BACKSPACE = '\u232b'
-DOTE = '\u002e'
-MINUS = '\u2014'
+DOT = '\u002e'
+MINUS = '\u002d'
 
 
 @inject
@@ -47,12 +48,12 @@ class NumPadModel(
             self._input = self._input[:-1]
         elif len(self._input) >= MAX_SYMBOL_COUNT:
             return
-        elif symbol == DOTE and symbol in self._input:
+        elif symbol == DOT and symbol in self._input:
             return
-        elif symbol == DOTE and self._input == NO_TEXT:
+        elif symbol == DOT and self._input == NO_TEXT:
             self._input += '0.'
         elif self._input == '0':
-            self._input += DOTE + symbol
+            self._input += DOT + symbol
         else:
             self._input += symbol
 
@@ -62,14 +63,15 @@ class NumPadModel(
 @inject
 @dataclass
 class NumPadContainer(
-    BaseContainer,
     AddObserverMixin,
+    BaseContainer,
 ):
     """Number keyword container."""
 
+    _subject: ISubject
     _model: INumPadModel
-    _style_config: NumPadStyleConfig
-    _theme_config: NumPadThemeConfig
+    _style_config: NumPadStyle
+    _theme_config: NumPadTheme
 
     def _setup(self) -> None:
         self._subject.add_observer(self._model)
@@ -93,7 +95,7 @@ class NumPadContainer(
         self._btn_9 = self._create_button(9)
         self._btn_0 = self._create_button(0)
         self._btn_backspace = self._create_button(BACKSPACE)
-        self._btn_dote = self._create_button(DOTE)
+        self._btn_dote = self._create_button(DOT)
         self._btn_minus = self._create_button(MINUS)
 
     def _build_boxes(self) -> None:
@@ -101,14 +103,7 @@ class NumPadContainer(
         self._build_sign_box()
         self._build_outer_box()
 
-    # TODO: Remove `localize_ui()` method dependency (SOLID error)
-    def localize_ui(self) -> None:
-        """Localize the UI text."""
-        pass
-
-    def update_style(
-        self, config: NumPadStyleConfig | NumPadThemeConfig
-    ) -> None:
+    def update_style(self, config: NumPadStyle | NumPadTheme) -> None:
         """Update widgets style."""
         # Update buttons style
         for row in self._num_box.children:
@@ -154,12 +149,11 @@ class NumPadContainer(
         )
 
 
-# TODO: Add base controller without navigate feature
-#  (to avoid SOLID error)
 @inject
 @dataclass
 class NumPadController(
     AddObserverMixin,
+    BaseController,
 ):
     """Number keyword controller."""
 
@@ -169,6 +163,7 @@ class NumPadController(
 
     def __post_init__(self) -> None:
         """Set up the controller."""
+        super().__post_init__()
         self._model.add_observer(self)
         self._container.add_observer(self)
 
