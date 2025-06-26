@@ -7,7 +7,11 @@ class NavID(BaseEnum):
     """Navigation route enums."""
 
     # Utility ID
-    BACK = 'Move to previous page'
+    BACK = 'move to previous page'
+
+    # Auth
+    LOGIN = 'Login page'
+    LOGOUT = 'logout'
 
     # Main app
     HOME = 'Home page'
