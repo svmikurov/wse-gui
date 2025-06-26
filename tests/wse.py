@@ -22,7 +22,7 @@ def run_tests() -> None:
     returncode = pytest.main(
         [
             # Turn up verbosity
-            '-vv',
+            # '-vv',
             # Disable color
             '--color=no',
             # Overwrite the cache directory to somewhere writable
