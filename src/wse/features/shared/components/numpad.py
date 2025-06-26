@@ -1,6 +1,7 @@
 """Defines Number keyword container."""
 
 import logging
+import sys
 from dataclasses import dataclass
 
 import toga
@@ -17,13 +18,15 @@ from ...shared.components.interfaces import INumPadContainer, INumPadModel
 
 logger = logging.getLogger(__name__)
 
-MAX_SYMBOL_COUNT = 8
+MAX_CHAR_COUNT = 8
 NO_TEXT = ''
 
-# Numpad signs
+# Numpad characters
 BACKSPACE = '\u232b'
 DOT = '\u002e'
 MINUS = '\u002d'
+ALLOWED_CHARACTERS = '1234567890'
+SPECIAL_CHARACTERS = [BACKSPACE, DOT, MINUS]
 
 
 @inject
@@ -40,23 +43,78 @@ class NumPadModel(
         self._subject = subject
         self._input: str = ''
 
-    def update_input(self, symbol: str) -> None:
+    def update_input(self, char: str) -> None:
         """Update the user input."""
-        if symbol == BACKSPACE and self._input == '0.':
-            self._input = NO_TEXT
-        elif symbol == BACKSPACE:
-            self._input = self._input[:-1]
-        elif len(self._input) >= MAX_SYMBOL_COUNT:
+        if self._validate_char(char) is False:
             return
-        elif symbol == DOT and symbol in self._input:
+        elif len(self._input) >= MAX_CHAR_COUNT and char != BACKSPACE:
             return
-        elif symbol == DOT and self._input == NO_TEXT:
-            self._input += '0.'
-        elif self._input == '0':
-            self._input += DOT + symbol
-        else:
-            self._input += symbol
 
+        module = sys.modules[__name__]
+        to_notify = True
+
+        match char:
+            case module.BACKSPACE:
+                to_notify = self._handle_backspace_char()
+            case module.DOT:
+                to_notify = self._handle_dot_char()
+            case module.MINUS:
+                self._handle_minus_char()
+            case _:
+                self._handle_allowed_char(char)
+
+        if to_notify:
+            self._notify_input_updated()
+
+    def _handle_backspace_char(self) -> bool:
+        if self._input == '0.':
+            self._input = NO_TEXT
+        elif self._input == NO_TEXT:
+            return False
+        else:
+            self._input = self._input[:-1]
+        return True
+
+    def _handle_dot_char(self) -> bool:
+        if DOT in self._input:
+            return False
+        elif self._input == NO_TEXT:
+            self._input = '0.'
+        else:
+            self._input += '.'
+        return True
+
+    def _handle_minus_char(self) -> None:
+        if self._input.startswith(MINUS):
+            self._input = self._input[1:]
+        else:
+            self._input = MINUS + self._input
+
+    def _handle_allowed_char(self, char: str) -> None:
+        if self._input == '0':
+            self._input += DOT + char
+        else:
+            self._input += char
+
+    def _validate_char(self, char: str) -> bool:
+        if not isinstance(char, str) or len(char) != 1:
+            logger.error(f'Expected single character as str, got {repr(char)}')
+            return False
+
+        if char in ALLOWED_CHARACTERS:
+            return True
+
+        if char in SPECIAL_CHARACTERS:
+            return True
+
+        logger.error(
+            f'Invalid character. Allowed: digits 0-9 or '
+            f'{" ".join(repr(c) for c in SPECIAL_CHARACTERS)}, '
+            f'got {repr(char)}'
+        )
+        return False
+
+    def _notify_input_updated(self) -> None:
         self._subject.notify('numpad_input_updated', value=self._input)
 
 
@@ -69,12 +127,10 @@ class NumPadContainer(
     """Number keyword container."""
 
     _subject: ISubject
-    _model: INumPadModel
     _style_config: NumPadStyle
     _theme_config: NumPadTheme
 
     def _setup(self) -> None:
-        self._subject.add_observer(self._model)
         self._build_boxes()
         self.update_style(self._style_config)
         self.update_style(self._theme_config)
@@ -175,7 +231,7 @@ class NumPadController(
     # Event notifications
 
     def button_pressed(self, value: str) -> None:
-        """Handel the button press event."""
+        """Handle the button press event."""
         self._model.update_input(value)
 
     def numpad_input_updated(self, value: str) -> None:
