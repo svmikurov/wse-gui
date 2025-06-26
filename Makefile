@@ -14,7 +14,11 @@ mypy:
 	mypy --strict .
 
 # Code checking
-check: format mypy
+check: format mypy test
+
+# Test
+test:
+	briefcase dev --test
 
 # Update and build android `app-debug.apk` fail
 # to create `.apk` fail: briefcase create android
