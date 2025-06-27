@@ -1,4 +1,4 @@
-"""Defines core injector module container."""
+"""Defines core injector module."""
 
 from typing import no_type_check
 
@@ -9,7 +9,7 @@ from wse.features.subapps.routes import Routes
 
 
 class FeaturesAppsModule(Module):
-    """Core injector module container."""
+    """Core injector module."""
 
     @no_type_check
     def configure(self, binder: Binder) -> None:

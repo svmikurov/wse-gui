@@ -1,4 +1,4 @@
-"""Defines Mathematics application module container."""
+"""Defines Mathematics application module."""
 
 from typing import no_type_check
 
@@ -9,7 +9,7 @@ from .routes import MathRoutes
 
 
 class MathRoutesModule(Module):
-    """Mathematics application page route module container."""
+    """Mathematics application page route module."""
 
     @no_type_check
     def configure(self, binder: Binder) -> None:

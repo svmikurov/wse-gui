@@ -1,4 +1,4 @@
-"""Defines injection binds module container."""
+"""Defines Simple Math calculation page module."""
 
 from typing import no_type_check
 
@@ -15,7 +15,7 @@ from .view import SimpleCalcView
 
 
 class SimpleCalculationModule(Module):
-    """Simple Math calculation page."""
+    """Simple Math calculation page module."""
 
     @no_type_check
     def configure(self, binder: Binder) -> None:

@@ -1,4 +1,4 @@
-"""Defines Home page module container."""
+"""Defines Home page module."""
 
 from typing import no_type_check
 
@@ -10,7 +10,7 @@ from .view import HomeView
 
 
 class HomeModule(Module):
-    """Home page module container."""
+    """Home page module."""
 
     @no_type_check
     def configure(self, binder: Binder) -> None:

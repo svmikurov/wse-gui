@@ -1,4 +1,4 @@
-"""Defines core injector module container."""
+"""Defines Core injector module."""
 
 from typing import no_type_check
 
@@ -11,7 +11,7 @@ from .navigation.navigator import Navigator
 
 
 class CoreModule(Module):
-    """Core injector module container."""
+    """Core injector module."""
 
     @no_type_check
     def configure(self, binder: Binder) -> None:

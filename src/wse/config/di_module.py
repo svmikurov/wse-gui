@@ -1,4 +1,4 @@
-"""Defines config injector modules container."""
+"""Defines Configuration injection module."""
 
 import json
 import logging
@@ -56,7 +56,7 @@ def load_data(path: Path, klass: Type[T], component: str | None = None) -> T:
 
 
 class ConfigModule(Module):
-    """Configuration injection modules container."""
+    """Configuration injection module."""
 
     @provider
     @singleton

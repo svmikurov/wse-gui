@@ -1,4 +1,4 @@
-"""Defines shared features injection container."""
+"""Defines Feature features injection module."""
 
 from typing import no_type_check
 
@@ -10,7 +10,7 @@ from .interfaces import IExerciseService
 
 
 class FeatureServicesModule(Module):
-    """Feature services injection container."""
+    """Feature services injection module."""
 
     @no_type_check
     def configure(self, binder: Binder) -> None:

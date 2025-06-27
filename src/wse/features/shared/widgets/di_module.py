@@ -1,4 +1,4 @@
-"""Defines widget injection container."""
+"""Defines widget injection module."""
 
 from typing import Callable
 
@@ -10,7 +10,7 @@ from .interfaces import IDivider, IFlexColumnStub
 
 
 class WidgetsModule(Module):
-    """Widgets injection container."""
+    """Widgets injection module."""
 
     @singleton
     @provider

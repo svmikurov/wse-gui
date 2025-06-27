@@ -1,4 +1,4 @@
-"""Defines Main application module container."""
+"""Defines Main application module."""
 
 from typing import no_type_check
 
@@ -9,7 +9,7 @@ from .routes import MainRoutes
 
 
 class MainRoutesModule(Module):
-    """Main application page route module container."""
+    """Main application page route module."""
 
     @no_type_check
     def configure(self, binder: Binder) -> None:
