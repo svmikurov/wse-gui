@@ -17,15 +17,16 @@ from wse.utils.i18n import label_, nav_
 class AuthView(BaseView):
     """Authentication page view."""
 
-    _login_component: ILoginController
+    _login_container: ILoginController
 
     def _setup(self) -> None:
         self.content.test_id = NavID.LOGIN
+        self._login_container.add_observer(self)
 
     def _populate_content(self) -> None:
         self.content.add(
             self._label_title,
-            self._login_component.content,
+            self._login_container.content,
             self._btn_back,
         )
 
@@ -42,3 +43,9 @@ class AuthView(BaseView):
         """Localize the UI text."""
         self._label_title.text = label_('Login page title')
         self._btn_back.text = nav_(NavID.BACK)
+
+    # Notifications
+
+    def success_authentication(self) -> None:
+        """Notify about successful authentication."""
+        self._subject.notify('success_authentication')

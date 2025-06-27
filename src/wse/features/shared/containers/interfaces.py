@@ -75,8 +75,8 @@ class ILoginModel(
 ):
     """Protocol for Login container model interface."""
 
-    def confirm_login(self, username: str, password: str) -> None:
-        """Confirm the user login."""
+    def authenticate(self, username: str, password: str) -> None:
+        """Authenticate the user."""
 
 
 class ILoginContainer(

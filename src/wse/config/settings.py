@@ -8,6 +8,7 @@ from wse.config.enums import (
     LayoutTheme,
     LocaleDomain,
 )
+from wse.features.subapps.nav_id import NavID
 
 # General paths
 PROJECT_PATH = Path(__file__).parents[1]
@@ -22,6 +23,9 @@ LOCALE_DOMAINS = [  # Localization domains
     LocaleDomain.NAV,
     LocaleDomain.LABEL,
 ]
+
+# Authentication
+SUCCESS_REDIRECT = NavID.HOME
 
 # Layout style
 LAYOUT_THEME = LayoutTheme.DEVELOP

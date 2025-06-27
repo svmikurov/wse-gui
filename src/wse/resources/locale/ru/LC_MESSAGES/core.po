@@ -12,3 +12,6 @@ msgstr "Имя пользователя"
 
 msgid "Password"
 msgstr "Пароль"
+
+msgid "Login"
+msgstr "Войти"

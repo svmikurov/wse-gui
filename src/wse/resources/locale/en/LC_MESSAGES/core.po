@@ -12,3 +12,6 @@ msgstr "Username"
 
 msgid "Password"
 msgstr "Password"
+
+msgid "Login"
+msgstr "Login"

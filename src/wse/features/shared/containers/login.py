@@ -1,5 +1,6 @@
 """Defines Login container."""
 
+import logging
 from dataclasses import dataclass
 
 import toga
@@ -17,6 +18,8 @@ from wse.features.shared.containers.interfaces import (
 )
 from wse.features.subapps.nav_id import NavID
 from wse.utils.i18n import _
+
+logger = logging.getLogger(__name__)
 
 
 @inject
@@ -43,9 +46,15 @@ class LoginModel(
         else:
             self._handle_error_authentication()
 
-    def _handle_success_authentication(self) -> None: ...
+    def _handle_success_authentication(self) -> None:
+        self._notify_success_authentication()
 
     def _handle_error_authentication(self) -> None: ...
+
+    # Notifications
+
+    def _notify_success_authentication(self) -> None:
+        self._subject.notify('success_authentication')
 
 
 @inject
@@ -70,6 +79,7 @@ class LoginContainer(
         self.content.add(
             self._input_username,
             self._input_password,
+            self._btn_confirm,
         )
 
     def _create_ui(self) -> None:
@@ -81,11 +91,13 @@ class LoginContainer(
         """Localize the UI text."""
         self._input_username.placeholder = _('Username')
         self._input_password.placeholder = _('Password')
+        self._btn_confirm.text = _('Login')
 
     def update_style(self, config: LoginStyle | LoginTheme) -> None:
         """Update UI style."""
         self._input_username.style.update(**config.input)
         self._input_password.style.update(**config.input)
+        self._btn_confirm.style.update(**config.button)
 
     # Button callback functions
 
@@ -93,8 +105,8 @@ class LoginContainer(
         """Notify about login confirmation."""
         self._subject.notify(
             'login_confirmation',
-            username=self._input_username.text,
-            password=self._input_password.text,
+            username=self._input_username.value,
+            password=self._input_password.value,
         )
 
 
@@ -123,4 +135,8 @@ class LoginController(
 
     def login_confirmation(self, username: str, password: str) -> None:
         """Handle the login confirmation."""
-        self._model.confirm_login(username, password)
+        self._model.authenticate(username, password)
+
+    def success_authentication(self) -> None:
+        """Notify about successful authentication."""
+        self._subject.notify('success_authentication')
