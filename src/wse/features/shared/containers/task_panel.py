@@ -6,7 +6,7 @@ from typing import Callable
 import toga
 from injector import inject
 
-from wse.config.layout import TextTaskPanelStyle, TextTaskPanelTheme
+from wse.config.layout import TextTaskStyle, TextTaskTheme
 from wse.features.base.container import BaseContainer
 from wse.features.shared.widgets.interfaces import IDivider
 
@@ -19,8 +19,8 @@ class TextTaskPanel(
     """Abstract base class for I/O one line text container."""
 
     _divider: Callable[[], IDivider]
-    _style_config: TextTaskPanelStyle
-    _theme_config: TextTaskPanelTheme
+    _style_config: TextTaskStyle
+    _theme_config: TextTaskTheme
 
     def _setup(self) -> None:
         self.update_style(self._style_config)
@@ -58,9 +58,7 @@ class TextTaskPanel(
     def localize_ui(self) -> None:
         """Localize the UI text."""
 
-    def update_style(
-        self, config: TextTaskPanelStyle | TextTaskPanelTheme
-    ) -> None:
+    def update_style(self, config: TextTaskStyle | TextTaskTheme) -> None:
         """Update widgets style."""
         self._label_question.style.update(**config.label_question)
         self._label_answer.style.update(**config.label_answer)

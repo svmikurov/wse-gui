@@ -5,7 +5,7 @@ from unittest.mock import Mock
 import pytest
 
 from wse.features.interfaces import ISubject
-from wse.features.shared.components.numpad import NumPadModel
+from wse.features.shared.containers.numpad import NumPadModel
 
 MAX_CHAR_COUNT = 8
 NO_TEXT = ''

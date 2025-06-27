@@ -14,8 +14,8 @@ from wse.config.layout import (
     NumPadStyle,
     NumPadTheme,
     StyleConfig,
-    TextTaskPanelStyle,
-    TextTaskPanelTheme,
+    TextTaskStyle,
+    TextTaskTheme,
     ThemeConfig,
 )
 from wse.config.settings import LAYOUT_STYLE, LAYOUT_THEME, STYLE_PATH
@@ -72,21 +72,21 @@ class ConfigModule(Module):
 
     @provider
     @singleton
-    def provide_text_exercise_style(self) -> TextTaskPanelStyle:
+    def provide_text_exercise_style(self) -> TextTaskStyle:
         """Load and provide layout style configuration."""
         return load_data(
             LAYOUT_STYLE_PATH,
-            TextTaskPanelStyle,
+            TextTaskStyle,
             'text_task_panel',
         )
 
     @provider
     @singleton
-    def provide_text_exercise_theme(self) -> TextTaskPanelTheme:
+    def provide_text_exercise_theme(self) -> TextTaskTheme:
         """Load and provide layout color theme configuration."""
         return load_data(
             LAYOUT_THEME_PATH,
-            TextTaskPanelTheme,
+            TextTaskTheme,
             'text_task_panel',
         )
 

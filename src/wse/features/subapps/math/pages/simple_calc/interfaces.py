@@ -3,8 +3,8 @@
 from typing import Protocol
 
 from wse.config.layout import (
-    TextTaskPanelStyle,
-    TextTaskPanelTheme,
+    TextTaskStyle,
+    TextTaskTheme,
 )
 from wse.features.interfaces import (
     IGetContent,
@@ -83,9 +83,7 @@ class ISimpleCalcContainer(IGetContent, Protocol):
     def localize_ui(self) -> None:
         """Localize the UI text."""
 
-    def update_style(
-        self, config: TextTaskPanelStyle | TextTaskPanelTheme
-    ) -> None:
+    def update_style(self, config: TextTaskStyle | TextTaskTheme) -> None:
         """Update widgets style."""
 
     # API for view

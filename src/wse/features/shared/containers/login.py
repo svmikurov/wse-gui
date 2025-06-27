@@ -11,13 +11,12 @@ from wse.features.base import BaseController
 from wse.features.base.container import BaseContainer
 from wse.features.base.mixins import AddObserverMixin
 from wse.features.interfaces import IContent, ISubject
-from wse.features.subapps.nav_id import NavID
-from wse.utils.i18n import _
-
-from .interfaces import (
+from wse.features.shared.containers.interfaces import (
     ILoginContainer,
     ILoginModel,
 )
+from wse.features.subapps.nav_id import NavID
+from wse.utils.i18n import _
 
 
 @inject

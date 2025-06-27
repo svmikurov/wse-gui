@@ -7,7 +7,7 @@ from injector import inject
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseView
-from wse.features.shared.components.interfaces import ILoginController
+from wse.features.shared.containers.interfaces import ILoginController
 from wse.features.subapps.nav_id import NavID
 from wse.utils.i18n import label_, nav_
 

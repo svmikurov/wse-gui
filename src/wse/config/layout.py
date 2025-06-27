@@ -55,7 +55,7 @@ class ThemeConfig(BaseConfig):
 
 
 @dataclass
-class TextTaskPanelStyle(BaseConfig):
+class TextTaskStyle(BaseConfig):
     """Style config for exercise task I/O text container."""
 
     label_question: dict[str, str | int] = field(default_factory=dict)
@@ -63,7 +63,7 @@ class TextTaskPanelStyle(BaseConfig):
 
 
 @dataclass
-class TextTaskPanelTheme(BaseConfig):
+class TextTaskTheme(BaseConfig):
     """Theme config for exercise task I/O text container."""
 
     label_question: dict[str, str] = field(default_factory=dict)

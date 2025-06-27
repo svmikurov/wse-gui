@@ -9,8 +9,10 @@ from injector import inject
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseView
 from wse.features.interfaces import IObserver
-from wse.features.shared.components.interfaces import INumPadController
-from wse.features.shared.containers.interfaces import ITextTaskPanel
+from wse.features.shared.containers.interfaces import (
+    INumPadController,
+    ITextTaskContainer,
+)
 from wse.features.shared.widgets.interfaces import IDivider, IFlexColumnStub
 from wse.features.subapps.nav_id import NavID
 from wse.utils.i18n import label_, nav_
@@ -21,7 +23,7 @@ from wse.utils.i18n import label_, nav_
 class SimpleCalcView(BaseView):
     """Simple math calculation page view."""
 
-    _task_panel: ITextTaskPanel
+    _task_panel: ITextTaskContainer
     _numpad: INumPadController
 
     # Widgets
