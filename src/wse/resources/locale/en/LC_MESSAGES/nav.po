@@ -1,3 +1,5 @@
+# Navigation buttons localisation
+# English language
 # Navigation ID `NavID` enumerate localisation
 
 msgid ""

@@ -1,4 +1,6 @@
-# Label localisation
+# Label widget localisation
+# English language
+# Navigation ID `NavID.CORE` enumerate localisation
 
 msgid ""
 msgstr ""
