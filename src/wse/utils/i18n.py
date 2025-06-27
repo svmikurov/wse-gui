@@ -77,6 +77,11 @@ i18n = I18NService(
 )
 
 
+def _(text: str) -> str:
+    """Get translated core text."""
+    return i18n.get_translator(LocaleDomain.CORE)(text)
+
+
 def nav_(text: str) -> str:
     """Get translated text for navigation button."""
     return i18n.get_translator(LocaleDomain.NAV)(text)

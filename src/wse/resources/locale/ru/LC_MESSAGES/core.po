@@ -1,0 +1,11 @@
+# Core text localization
+# Russian language
+# Navigation ID `NavID.CORE` enumerate localisation
+
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Username"
+msgstr "Имя пользователя"

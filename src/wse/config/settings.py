@@ -18,6 +18,7 @@ CONFIGS_PATH = RESOURCES_PATH / 'config'
 # Language
 LANGUAGE = Language.RU  # Default language
 LOCALE_DOMAINS = [  # Localization domains
+    LocaleDomain.CORE,
     LocaleDomain.NAV,
     LocaleDomain.LABEL,
 ]

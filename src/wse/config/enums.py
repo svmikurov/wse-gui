@@ -15,6 +15,7 @@ class Language(BaseEnum):
 class LocaleDomain(BaseEnum):
     """Localization domain enumeration."""
 
+    CORE = 'core'
     NAV = 'nav'
     LABEL = 'label'
 
