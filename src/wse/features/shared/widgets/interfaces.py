@@ -1,9 +1,8 @@
 """Defines protocols for overridden widgets."""
 
-from typing import Protocol, runtime_checkable
+from typing import Protocol
 
 
-@runtime_checkable
 class IDivider(Protocol):
     """Protocol for overridden divider interface."""
 

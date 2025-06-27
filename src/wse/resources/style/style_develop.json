@@ -43,5 +43,15 @@
       "height": 80,
       "font_size": 25
     }
+  },
+  "login": {
+    "input": {
+      "font_size": 15,
+      "height": 60,
+      "margin_top": 2,
+      "margin_right": 5,
+      "margin_bottom": 2,
+      "margin_left": 5
+    }
   }
 }

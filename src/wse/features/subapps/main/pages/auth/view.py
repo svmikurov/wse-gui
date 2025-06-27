@@ -1,4 +1,4 @@
-"""Defines Login page view."""
+"""Defines Authentication page view."""
 
 from dataclasses import dataclass
 
@@ -7,14 +7,17 @@ from injector import inject
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseView
+from wse.features.shared.components.interfaces import ILoginController
 from wse.features.subapps.nav_id import NavID
 from wse.utils.i18n import label_, nav_
 
 
 @inject
 @dataclass
-class LoginView(BaseView):
-    """Login page view."""
+class AuthView(BaseView):
+    """Authentication page view."""
+
+    _login_component: ILoginController
 
     def _setup(self) -> None:
         self.content.test_id = NavID.LOGIN
@@ -22,6 +25,7 @@ class LoginView(BaseView):
     def _populate_content(self) -> None:
         self.content.add(
             self._label_title,
+            self._login_component.content,
             self._btn_back,
         )
 

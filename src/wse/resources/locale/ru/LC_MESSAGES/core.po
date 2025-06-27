@@ -9,3 +9,6 @@ msgstr ""
 
 msgid "Username"
 msgstr "Имя пользователя"
+
+msgid "Password"
+msgstr "Пароль"

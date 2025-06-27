@@ -1,6 +1,7 @@
 """Defines config injector modules container."""
 
 import json
+import logging
 from dataclasses import fields
 from pathlib import Path
 from typing import Any, Type, TypeVar
@@ -8,6 +9,8 @@ from typing import Any, Type, TypeVar
 from injector import Module, provider, singleton
 
 from wse.config.layout import (
+    LoginStyle,
+    LoginTheme,
     NumPadStyle,
     NumPadTheme,
     StyleConfig,
@@ -40,13 +43,12 @@ def load_data(path: Path, klass: Type[T], component: str | None = None) -> T:
         with open(path, 'r') as f:
             json_data = json.load(f)
             data = json_data if component is None else json_data[component]
-    except FileNotFoundError as e:
-        logger.exception(f'Config by path "{path}" not found. Error:\n%s', e)
-    except KeyError as e:
-        logger.exception(
-            f'Config "{path}" have no configuration for "{component}" '
-            f'container. Error:\n%s',
-            str(e),
+    except FileNotFoundError:
+        logger.error(f"Config '{path.name}' not found")
+    except KeyError:
+        logger.error(
+            f"Config '{path.name}' have no configuration "
+            f"for '{component}' container"
         )
 
     filtered_data = filter_data(klass, data)
@@ -106,4 +108,26 @@ class ConfigModule(Module):
             LAYOUT_THEME_PATH,
             NumPadTheme,
             'numpad',
+        )
+
+    # Login
+
+    @provider
+    @singleton
+    def provide_login_style(self) -> LoginStyle:
+        """Load and provide layout style for Login container."""
+        return load_data(
+            LAYOUT_STYLE_PATH,
+            LoginStyle,
+            'login',
+        )
+
+    @provider
+    @singleton
+    def provide_numpad_theme(self) -> LoginTheme:
+        """Load and provide layout color theme for Login container."""
+        return load_data(
+            LAYOUT_THEME_PATH,
+            LoginTheme,
+            'login',
         )

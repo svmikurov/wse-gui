@@ -9,3 +9,6 @@ msgstr ""
 
 msgid "Username"
 msgstr "Username"
+
+msgid "Password"
+msgstr "Password"

@@ -4,9 +4,9 @@ from typing import no_type_check
 
 from injector import Binder, Module
 
-from .controller import LoginController
-from .interfaces import ILoginController, ILoginView
-from .view import LoginView
+from .controller import AuthController
+from .interfaces import IAuthController, IAuthView
+from .view import AuthView
 
 
 class LoginModule(Module):
@@ -15,5 +15,5 @@ class LoginModule(Module):
     @no_type_check
     def configure(self, binder: Binder) -> None:
         """Configure the bindings."""
-        binder.bind(ILoginView, to=LoginView)
-        binder.bind(ILoginController, to=LoginController)
+        binder.bind(IAuthView, to=AuthView)
+        binder.bind(IAuthController, to=AuthController)

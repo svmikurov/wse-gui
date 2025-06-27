@@ -1,6 +1,6 @@
 """Defines protocols for MVC model components interface."""
 
-from typing import Protocol, runtime_checkable
+from typing import Protocol
 
 from wse.config.layout import StyleConfig, ThemeConfig
 
@@ -36,7 +36,6 @@ class IView(
         """Update widgets style."""
 
 
-@runtime_checkable
 class IController(
     IGetContent,
     Protocol,

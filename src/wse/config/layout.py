@@ -84,3 +84,17 @@ class NumPadTheme(BaseConfig):
 
     button: dict[str, str] = field(default_factory=dict)
     outer_box: dict[str, str] = field(default_factory=dict)
+
+
+@dataclass
+class LoginStyle(BaseConfig):
+    """Style config for login container."""
+
+    input: dict[str, str | int] = field(default_factory=dict)
+
+
+@dataclass
+class LoginTheme(BaseConfig):
+    """Theme config for login container."""
+
+    input: dict[str, str] = field(default_factory=dict)
