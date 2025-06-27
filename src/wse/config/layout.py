@@ -82,5 +82,5 @@ class NumPadStyle(BaseConfig):
 class NumPadTheme(BaseConfig):
     """Theme config for NumPad container."""
 
-    button: dict[str, str | int] = field(default_factory=dict)
-    outer_box: dict[str, str | int] = field(default_factory=dict)
+    button: dict[str, str] = field(default_factory=dict)
+    outer_box: dict[str, str] = field(default_factory=dict)
