@@ -7,9 +7,13 @@ from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.interfaces import INavigator
 
 from ..interfaces import IContent, ISubject, IView
-from ..subapps.nav_id import NavID
 from .container import BaseContainer
-from .mixins import AddObserverMixin, BaseLocalizeMixin, CreateNavButtonMixin
+from .mixins import (
+    AddObserverMixin,
+    BaseLocalizeMixin,
+    CreateNavButtonMixin,
+    NavigateMixin,
+)
 
 
 @dataclass
@@ -81,7 +85,10 @@ class BaseController(ABC):
 
 
 @dataclass
-class BasePageController(BaseController):
+class BasePageController(
+    NavigateMixin,
+    BaseController,
+):
     """Base class for page controller."""
 
     _view: IView
@@ -91,10 +98,6 @@ class BasePageController(BaseController):
         """Construct the controller."""
         super().__post_init__()
         self._view.add_observer(self)
-
-    def navigate(self, nav_id: NavID) -> None:
-        """Navigate to page."""
-        self._navigator.navigate(nav_id)
 
     @property
     def content(self) -> IContent:

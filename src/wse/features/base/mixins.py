@@ -3,6 +3,7 @@
 import logging
 from abc import ABC, abstractmethod
 
+from wse.core.interfaces import INavigator
 from wse.features.interfaces import IContent, IObserver, ISubject
 from wse.features.interfaces.iwidgets import INavButton
 from wse.features.shared.widgets.buttons import NavButton
@@ -23,6 +24,16 @@ class BaseLocalizeMixin(ABC):
                 self._label_title.text = label_('Home page title')
                 ...
         """
+
+
+class NavigateMixin:
+    """Mixin to provide navigation functionality."""
+
+    _navigator: INavigator
+
+    def navigate(self, nav_id: NavID) -> None:
+        """Navigate to page."""
+        self._navigator.navigate(nav_id)
 
 
 class GetContentMixin:
