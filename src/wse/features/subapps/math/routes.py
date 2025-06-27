@@ -9,7 +9,7 @@ from wse.features.subapps.nav_id import NavID
 
 from ...interfaces import IPageController
 from .pages.index.interfaces import IIndexMathController
-from .pages.simple_calculation.interfaces import ISimpleCalcController
+from .pages.simple_calc.interfaces import ISimpleCalcController
 
 
 @inject

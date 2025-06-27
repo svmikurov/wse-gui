@@ -9,10 +9,10 @@ import toga
 from wse.core.navigation.navigator import Navigator
 from wse.features.interfaces import IContent
 from wse.features.subapps.main.pages.home.interfaces import IHomeController
-from wse.features.subapps.mathematics.pages.index.interfaces import (
+from wse.features.subapps.math.pages.index.interfaces import (
     IIndexMathController,
 )
-from wse.features.subapps.mathematics.pages.simple_calculation.interfaces import (
+from wse.features.subapps.math.pages.simple_calc.interfaces import (
     ISimpleCalcController,
 )
 from wse.features.subapps.nav_id import NavID
@@ -80,7 +80,7 @@ class TestNavigator(unittest.TestCase):
 
     def test_content_history(self) -> None:
         """Test content history."""
-        expected_history = deque(maxlen=10)
+        expected_history: deque[NavID] = deque(maxlen=10)
         walk = [
             NavID.HOME,
             NavID.INDEX_MATH,

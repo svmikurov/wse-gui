@@ -7,7 +7,7 @@ from injector import inject
 
 from ..interfaces.imvc import IPageController
 from .main.interfaces import IMainRoutes
-from .mathematics.interfaces import IMathRoutes
+from .math.interfaces import IMathRoutes
 from .nav_id import NavID
 
 
