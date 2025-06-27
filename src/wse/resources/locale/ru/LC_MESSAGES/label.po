@@ -12,6 +12,9 @@ msgstr ""
 msgid "Home page title"
 msgstr "Домашняя страницы"
 
+msgid "Login page title"
+msgstr "Вход в приложение"
+
 msgid "Main math page title"
 msgstr "Математика"
 

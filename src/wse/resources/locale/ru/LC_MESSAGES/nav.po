@@ -13,6 +13,9 @@ msgstr "Назад"
 msgid "Home page"
 msgstr "Главная страница"
 
+msgid "Login page"
+msgstr "Войти в приложение"
+
 msgid "Main math page"
 msgstr "Математика"
 

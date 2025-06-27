@@ -13,6 +13,9 @@ msgstr "Back"
 msgid "Home page"
 msgstr "Home page"
 
+msgid "Login page"
+msgstr "Login page"
+
 msgid "Main math page"
 msgstr "Mathematics"
 

@@ -21,7 +21,6 @@ class Navigator:
     _routes: dict[NavID, IPageController]
 
     _NAV_IDS_NOT_FOR_HISTORY: set[NavID] = {
-        NavID.LOGIN,
         NavID.LOGOUT,
     }
 
