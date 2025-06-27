@@ -22,6 +22,8 @@ LAYOUT_THEME_PATH = STYLE_PATH / LAYOUT_THEME
 
 T = TypeVar('T')
 
+logger = logging.getLogger(__name__)
+
 
 def filter_data(
     klass: Type[T],
@@ -33,12 +35,19 @@ def filter_data(
 
 def load_data(path: Path, klass: Type[T], component: str | None = None) -> T:
     """Load config data from file."""
+    data = {}
     try:
         with open(path, 'r') as f:
             json_data = json.load(f)
             data = json_data if component is None else json_data[component]
-    except FileNotFoundError:
-        data = {}
+    except FileNotFoundError as e:
+        logger.exception(f'Config by path "{path}" not found. Error:\n%s', e)
+    except KeyError as e:
+        logger.exception(
+            f'Config "{path}" have no configuration for "{component}" '
+            f'container. Error:\n%s',
+            str(e),
+        )
 
     filtered_data = filter_data(klass, data)
     return klass(**filtered_data)
