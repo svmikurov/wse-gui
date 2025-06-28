@@ -3,8 +3,10 @@
 from dataclasses import dataclass
 
 from injector import inject
+from typing_extensions import override
 
 from wse.features.base.mvc import BasePageController
+from wse.features.interfaces import IContent
 
 from .interfaces import ISimpleCalcModel, ISimpleCalcView
 
@@ -20,9 +22,12 @@ class SimpleCalcController(BasePageController):
     def _setup(self) -> None:
         """Set up the controller features."""
         self._model.add_observer(self)
-        self._view.subscribe_to_numpad(self)
 
-    # Model event notifications
+    def _on_open(self) -> None:
+        """Call controller methods when page opens."""
+        self._model.on_open()
+
+    # Notifications from Model
 
     def question_updated(self, value: str) -> None:
         """Display the question."""
@@ -40,8 +45,21 @@ class SimpleCalcController(BasePageController):
         """Clear the question text."""
         self._view.clear_answer()
 
-    # NumPad event notifications
+    # Notifications from View
 
     def numpad_input_updated(self, value: str) -> None:
         """Update user input for model."""
-        self._model.handle_input_updated(value)
+        self._model.handle_answer_input(value)
+
+    def answer_confirmed(self) -> None:
+        """Handle the user's confirmation of the entered answer."""
+        self._model.check_answer()
+
+    # Properties
+
+    @override
+    @property
+    def content(self) -> IContent:
+        """Add haling of page open event."""
+        self._on_open()
+        return super().content

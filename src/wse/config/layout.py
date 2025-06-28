@@ -28,6 +28,7 @@ class StyleConfig(BaseConfig):
 
     window_size: tuple[int, int] = field(default=(440, 700))
     label_title: dict[str, str | int] = field(default_factory=dict)
+    button: dict[str, str | int] = field(default_factory=dict)
     btn_nav: dict[str, str | int] = field(default_factory=dict)
 
 
@@ -51,6 +52,7 @@ class ThemeConfig(BaseConfig):
 
     content: dict[str, Any] = field(default_factory=dict)
     label_title: dict[str, str] = field(default_factory=dict)
+    button: dict[str, str] = field(default_factory=dict)
     btn_nav: dict[str, str] = field(default_factory=dict)
 
 

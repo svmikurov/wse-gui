@@ -5,17 +5,17 @@ from typing import Callable
 
 import toga
 from injector import inject
+from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseView
-from wse.features.interfaces import IObserver
 from wse.features.shared.containers.interfaces import (
     INumPadController,
     ITextTaskContainer,
 )
 from wse.features.shared.widgets.interfaces import IDivider, IFlexColumnStub
 from wse.features.subapps.nav_id import NavID
-from wse.utils.i18n import label_, nav_
+from wse.utils.i18n import _, label_, nav_
 
 
 @inject
@@ -30,11 +30,14 @@ class SimpleCalcView(BaseView):
     _divider: Callable[[], IDivider]
     _flex_stub: Callable[[], IFlexColumnStub]
 
+    @override
     def _setup(self) -> None:
         self._content.test_id = NavID.SIMPLE_CALC
+        self._numpad.add_observer(self)
 
     # Layout methods
 
+    @override
     def _populate_content(self) -> None:
         self.content.add(
             self._label_title,
@@ -44,28 +47,41 @@ class SimpleCalcView(BaseView):
             self._divider(),
             self._numpad.content,
             self._divider(),
+            self._btn_submit,
             self._btn_back,
         )
 
+    @override
     def _create_ui(self) -> None:
         self._label_title = toga.Label('')
         self._btn_back = self._create_nav_btn(nav_id=NavID.BACK)
+        self._btn_submit = toga.Button('', on_press=self._send_answer)
 
+    @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
         self._label_title.style.update(**config.label_title)
         self._btn_back.style.update(**config.btn_nav)
+        self._btn_submit.style.update(**config.button)
 
+    @override
     def localize_ui(self) -> None:
         """Localize the UI text."""
         self._label_title.text = label_('Simple calculation title')
         self._btn_back.text = nav_(NavID.BACK)
+        self._btn_submit.text = _('Send answer')
 
-    # Observer methods
+    # Callback button functions
 
-    def subscribe_to_numpad(self, observer: IObserver) -> None:
-        """Subscribe observers to NumPad events."""
-        self._numpad.add_observer(observer)
+    def _send_answer(self, _: toga.Button) -> None:
+        """Handle the send answer event."""
+        self._notify('answer_confirmed')
+
+    # Notifications from NumPad
+
+    def numpad_input_updated(self, value: str) -> None:
+        """Update user input for model."""
+        self._notify('numpad_input_updated', value=value)
 
     # API for controller
 
@@ -84,3 +100,8 @@ class SimpleCalcView(BaseView):
     def clear_answer(self) -> None:
         """Clear the question text."""
         self._task_panel.clear_answer()
+
+    # Utility methods
+
+    def _notify(self, notification: str, **kwargs: object) -> None:
+        self._subject.notify(notification, **kwargs)

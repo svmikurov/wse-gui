@@ -9,13 +9,15 @@ from wse.config.layout import (
 from wse.features.interfaces import (
     IGetContent,
     IModel,
-    IObserver,
     IPageController,
     IView,
 )
 
 
-class ISimpleCalcModel(IModel):
+class ISimpleCalcModel(
+    IModel,
+    Protocol,
+):
     """Simple math calculation page view."""
 
     # Event notification
@@ -25,17 +27,26 @@ class ISimpleCalcModel(IModel):
 
     # API for controller
 
-    def handle_input_updated(self, value: str) -> None:
-        """Handel the user input symbol."""
+    def on_open(self) -> None:
+        """Call model methods when page opens."""
+
+    def handle_answer_input(self, value: str) -> None:
+        """Handel the user answer input."""
+
+    def check_answer(self) -> None:
+        """Check the user's confirmed answer."""
 
 
-class ISimpleCalcView(IView):
+class ISimpleCalcView(
+    IView,
+    Protocol,
+):
     """Simple math calculation page view."""
 
-    # Observer pattern methods
+    # Notifications from NumPad
 
-    def subscribe_to_numpad(self, observer: IObserver) -> None:
-        """Subscribe observers to NumPad events."""
+    def numpad_input_updated(self, value: str) -> None:
+        """Update user input for model."""
 
     # API for controller
 
@@ -52,7 +63,10 @@ class ISimpleCalcView(IView):
         """Clear the answer text."""
 
 
-class ISimpleCalcController(IPageController, Protocol):
+class ISimpleCalcController(
+    IPageController,
+    Protocol,
+):
     """The controller of Simple Math calculation page."""
 
     # Model event notifications
@@ -75,7 +89,10 @@ class ISimpleCalcController(IPageController, Protocol):
         """Update user input for model."""
 
 
-class ISimpleCalcContainer(IGetContent, Protocol):
+class ISimpleCalcContainer(
+    IGetContent,
+    Protocol,
+):
     """Protocol fot Simple Math calculation container interface."""
 
     # Layout methods
