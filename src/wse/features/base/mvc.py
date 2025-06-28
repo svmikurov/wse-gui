@@ -1,5 +1,6 @@
 """Defines base class for MVC model components."""
 
+import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
@@ -14,6 +15,8 @@ from .mixins import (
     CreateNavButtonMixin,
     NavigateMixin,
 )
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -102,4 +105,5 @@ class BasePageController(
     @property
     def content(self) -> IContent:
         """Get page content."""
+        logger.debug(f"The '{self._view.content.test_id}' page is open")
         return self._view.content
