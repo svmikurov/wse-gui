@@ -7,3 +7,7 @@ class ContentError(Exception):
 
 class NavigateError(Exception):
     """Raised when navigation between pages fails."""
+
+
+class ExerciseError(Exception):
+    """Raised when an error occurs in performing an exercise."""
