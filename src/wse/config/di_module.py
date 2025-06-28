@@ -8,7 +8,7 @@ from typing import Any, Type, TypeVar
 
 from injector import Module, provider, singleton
 
-from wse.config.layout import (
+from .layout import (
     LoginStyle,
     LoginTheme,
     NumPadStyle,
@@ -18,7 +18,7 @@ from wse.config.layout import (
     TextTaskTheme,
     ThemeConfig,
 )
-from wse.config.settings import LAYOUT_STYLE, LAYOUT_THEME, STYLE_PATH
+from .settings import LAYOUT_STYLE, LAYOUT_THEME, STYLE_PATH
 
 LAYOUT_STYLE_PATH = STYLE_PATH / LAYOUT_STYLE
 LAYOUT_THEME_PATH = STYLE_PATH / LAYOUT_THEME

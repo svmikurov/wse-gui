@@ -7,8 +7,9 @@ import toga
 from injector import inject
 
 from wse.config.layout import TextTaskStyle, TextTaskTheme
-from wse.features.base.container import BaseContainer
-from wse.features.shared.widgets.interfaces import IDivider
+
+from ...base.container import BaseContainer
+from ...shared.widgets.interfaces import IDivider
 
 
 @inject

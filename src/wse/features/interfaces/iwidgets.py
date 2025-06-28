@@ -2,8 +2,8 @@
 
 from typing import Protocol
 
-from wse.features.interfaces.istyle import IStyleMixin
-from wse.features.subapps.nav_id import NavID
+from ..interfaces.istyle import IStyleMixin
+from ..subapps.nav_id import NavID
 
 
 class INavButton(

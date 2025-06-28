@@ -8,12 +8,13 @@ import toga
 from injector import inject
 
 from wse.config.layout import NumPadStyle, NumPadTheme
-from wse.features.base import BaseController
-from wse.features.base.boxes import FlexColumn
-from wse.features.base.container import BaseContainer
-from wse.features.base.mixins import AddObserverMixin
-from wse.features.interfaces import IContent, ISubject
-from wse.features.shared.containers.interfaces import (
+
+from ...base import BaseController
+from ...base.boxes import FlexColumn
+from ...base.container import BaseContainer
+from ...base.mixins import AddObserverMixin
+from ...interfaces import IContent, ISubject
+from ...shared.containers.interfaces import (
     INumPadContainer,
     INumPadModel,
 )

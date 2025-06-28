@@ -4,7 +4,8 @@ import toga
 from injector import inject
 
 from wse.config.layout import ThemeConfig
-from wse.features.subapps.nav_id import NavID
+
+from ..subapps.nav_id import NavID
 
 
 @inject

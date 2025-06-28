@@ -2,13 +2,14 @@
 
 from pathlib import Path
 
-from wse.config.enums import (
+from wse.features.subapps.nav_id import NavID
+
+from .enums import (
     Language,
     LayoutStyle,
     LayoutTheme,
     LocaleDomain,
 )
-from wse.features.subapps.nav_id import NavID
 
 # General paths
 PROJECT_PATH = Path(__file__).parents[1]

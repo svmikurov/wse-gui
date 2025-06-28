@@ -4,10 +4,11 @@ import logging
 from abc import ABC, abstractmethod
 
 from wse.core.interfaces import INavigator
-from wse.features.interfaces import IContent, IObserver, ISubject
-from wse.features.interfaces.iwidgets import INavButton
-from wse.features.shared.widgets.buttons import NavButton
-from wse.features.subapps.nav_id import NavID
+
+from ..interfaces import IContent, IObserver, ISubject
+from ..interfaces.iwidgets import INavButton
+from ..shared.widgets.buttons import NavButton
+from ..subapps.nav_id import NavID
 
 logger = logging.getLogger(__name__)
 

@@ -4,8 +4,8 @@ import logging
 
 from injector import inject
 
-from wse.features.base.mixins import AddObserverMixin
-from wse.features.interfaces import ISubject
+from ..base.mixins import AddObserverMixin
+from ..interfaces import ISubject
 
 logger = logging.getLogger(__name__)
 

@@ -1,6 +1,6 @@
 """Defines the protocols for services interface."""
 
-from wse.features.interfaces import IAddObserver
+from ..interfaces import IAddObserver
 
 
 class IExerciseService(

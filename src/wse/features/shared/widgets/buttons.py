@@ -2,8 +2,8 @@
 
 import toga
 
-from wse.features.interfaces.iwidgets import INavButton
-from wse.features.subapps.nav_id import NavID
+from ...interfaces.iwidgets import INavButton
+from ...subapps.nav_id import NavID
 
 
 class NavButton(toga.Button, INavButton):  # type: ignore[misc]

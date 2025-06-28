@@ -8,7 +8,8 @@ from wse.config.layout import (
     TextTaskStyle,
     TextTaskTheme,
 )
-from wse.features.interfaces import (
+
+from ...interfaces import (
     IAddObserver,
     IContainer,
     IContent,

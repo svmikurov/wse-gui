@@ -3,8 +3,8 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from wse.features.base.mixins import GetContentMixin
-from wse.features.interfaces import IContent
+from ..base.mixins import GetContentMixin
+from ..interfaces import IContent
 
 
 @dataclass

@@ -4,8 +4,7 @@ from typing import no_type_check
 
 from injector import Binder, Module
 
-from wse.features.services.exercise import ExerciseService
-
+from ..services.exercise import ExerciseService
 from .interfaces import IExerciseService
 
 
