@@ -1,43 +1,37 @@
 """Defines exercise service."""
 
 import logging
-from dataclasses import dataclass
 
 from injector import inject
+from wse_exercises.core.mathem.interfaces import (
+    ISimpleCalcTask,
+)
+from wse_exercises.core.mathem.task import SimpleMathTask
 
+from ...core.api.interfaces import IExerciseApi
+from ...core.interfaces.iauth import IAuthService
 from ..base.mixins import AddObserverMixin
-from ..interfaces import ISubject
-from .interfaces import ITask
 
 logger = logging.getLogger(__name__)
 
 
-@dataclass
-class Task:
-    """Exercise task."""
-
-    question: str
-    answer: str
-
-
 @inject
-class ExerciseService(
+class SimpleCalcService(
     AddObserverMixin,
 ):
-    """Exercise service."""
+    """Simple math calculation exercise service."""
 
     def __init__(
         self,
-        subject: ISubject,
+        auth_service: IAuthService,
+        exercise_api: IExerciseApi,
     ) -> None:
         """Construct the exercise."""
-        self._subject = subject
-        self._user_answer: str | None = None
+        self._auth_service = auth_service
+        self._exercise_api = exercise_api
 
-    @staticmethod
-    def get_task() -> ITask:
+    def get_task(self) -> ISimpleCalcTask:
         """Get task."""
-        return Task(
-            question='1 + 3',
-            answer='4',
-        )
+        task_data = self._exercise_api.request_task()
+        task_dto = SimpleMathTask.from_dict(task_data)
+        return task_dto
