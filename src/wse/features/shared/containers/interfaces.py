@@ -50,6 +50,9 @@ class INumPadModel(
     def update_input(self, value: str) -> None:
         """Update the user input."""
 
+    def clear_input(self) -> None:
+        """Clear the entered data."""
+
 
 class INumPadContainer(
     IAddObserver,
@@ -65,6 +68,9 @@ class INumPadController(
     Protocol,
 ):
     """Protocol for NumPad controller interface."""
+
+    def clear_input(self) -> None:
+        """Clear the entered data."""
 
 
 # Login container

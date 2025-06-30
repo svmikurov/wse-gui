@@ -46,6 +46,8 @@ class NumPadModel(
         self._subject = subject
         self._input: str = ''
 
+    # API for controller
+
     def update_input(self, char: str) -> None:
         """Update the user input."""
         if self._validate_char(char) is False:
@@ -69,6 +71,12 @@ class NumPadModel(
         if to_notify:
             self._notify_input_updated()
 
+    def clear_input(self) -> None:
+        """Clear the entered data."""
+        self._input = NO_TEXT
+
+    # Logic
+
     def _handle_backspace_char(self) -> bool:
         if self._input == '0.':
             self._input = NO_TEXT
@@ -84,7 +92,7 @@ class NumPadModel(
         elif self._input == NO_TEXT:
             self._input = '0.'
         else:
-            self._input += '.'
+            self._input += DOT
         return True
 
     def _handle_minus_char(self) -> None:
@@ -94,8 +102,8 @@ class NumPadModel(
             self._input = MINUS + self._input
 
     def _handle_allowed_char(self, char: str) -> None:
-        if self._input == '0':
-            self._input += DOT + char
+        if self._input == NO_TEXT and char == '0':
+            self._input += char + DOT
         else:
             self._input += char
 
@@ -191,9 +199,29 @@ class NumPadContainer(
     def _build_num_box(self) -> None:
         self._num_box = toga.Row(
             children=[
-                FlexColumn(children=[self._btn_1, self._btn_4, self._btn_7]),
-                FlexColumn(children=[self._btn_2, self._btn_5, self._btn_8]),
-                FlexColumn(children=[self._btn_3, self._btn_6, self._btn_9]),
+                FlexColumn(
+                    children=[
+                        self._btn_1,
+                        self._btn_4,
+                        self._btn_7,
+                    ]
+                ),
+                FlexColumn(
+                    children=[
+                        self._btn_2,
+                        self._btn_5,
+                        self._btn_8,
+                        self._btn_0,
+                    ]
+                ),
+                FlexColumn(
+                    children=[
+                        self._btn_3,
+                        self._btn_6,
+                        self._btn_9,
+                        self._btn_dote,
+                    ]
+                ),
             ]
         )
         self._num_box.style.update(flex=3)
@@ -203,7 +231,6 @@ class NumPadContainer(
             children=[
                 self._btn_backspace,
                 self._btn_minus,
-                self._btn_dote,
             ]
         )
 
@@ -240,3 +267,9 @@ class NumPadController(
     def numpad_input_updated(self, value: str) -> None:
         """Handle the input update event."""
         self._subject.notify('numpad_input_updated', value=value)
+
+    # API for outer component
+
+    def clear_input(self) -> None:
+        """Clear the entered data."""
+        self._model.clear_input()
