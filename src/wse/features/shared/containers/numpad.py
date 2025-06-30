@@ -50,7 +50,7 @@ class NumPadModel(
 
     def update_input(self, char: str) -> None:
         """Update the user input."""
-        if self._validate_char(char) is False:
+        if not self._validate_char(char):
             return
         elif len(self._input) >= MAX_CHAR_COUNT and char != BACKSPACE:
             return
@@ -204,6 +204,7 @@ class NumPadContainer(
                         self._btn_1,
                         self._btn_4,
                         self._btn_7,
+                        self._btn_dote,
                     ]
                 ),
                 FlexColumn(
@@ -219,7 +220,6 @@ class NumPadContainer(
                         self._btn_3,
                         self._btn_6,
                         self._btn_9,
-                        self._btn_dote,
                     ]
                 ),
             ]
