@@ -3,11 +3,12 @@
 import logging
 
 from injector import inject
+from wse_exercises.core.mathem.interfaces import ISimpleCalcTask
 
 from wse.features.base.mixins import AddObserverMixin
 from wse.features.exceptions import ExerciseError
 from wse.features.interfaces import ISubject
-from wse.features.services.interfaces import IExerciseService, ITask
+from wse.features.services.interfaces import ISimpleCalcService
 
 logger = logging.getLogger(__name__)
 
@@ -21,30 +22,30 @@ class SimpleCalcModel(
     def __init__(
         self,
         subject: ISubject,
-        exercise: IExerciseService,
+        exercise_service: ISimpleCalcService,
     ) -> None:
         """Construct the model."""
         self._subject = subject
-        self._exercise = exercise
-        self._task: ITask | None = None
+        self._exercise_service = exercise_service
+        self._task: ISimpleCalcTask | None = None
 
     # Exercise methods
 
     def _start_exercise(self) -> None:
-        self._get_task()
+        self._task = self._get_task()
         try:
             self._display_question()
         except ExerciseError:
             logger.exception('Question display error')
 
-    def _get_task(self) -> None:
-        self._task = self._exercise.get_task()
+    def _get_task(self) -> ISimpleCalcTask:
+        return self._exercise_service.get_task()
 
     # Notifications about Model events
 
     def _display_question(self) -> None:
         if self._task is not None:
-            self._notify('question_updated', value=self._task.question)
+            self._notify('question_updated', value=self._task.question.text)
         else:
             raise ExerciseError('Task is not defined')
 
