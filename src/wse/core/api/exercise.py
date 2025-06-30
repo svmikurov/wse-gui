@@ -5,6 +5,7 @@ from typing import Any
 import httpx
 from httpx import URL, Response
 from injector import inject
+from wse_exercises.core.mathem.enums import Exercises
 
 
 @inject
@@ -23,7 +24,7 @@ class ExerciseApi:
     def request_task(self) -> dict[str, Any]:
         """Request the task."""
         data = {
-            'name': 'adding',
+            'name': Exercises.SUBTRACTION,
             'config': {'min_value': '1', 'max_value': '9'},
         }
         response: Response = self._http_client.post(

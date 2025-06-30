@@ -12,3 +12,10 @@ class ISimpleCalcService(
 
     def get_task(self) -> ISimpleCalcTask:
         """Get task."""
+
+    def check_answer(
+        self,
+        user_answer: str,
+        task: ISimpleCalcTask,
+    ) -> bool:
+        """Check the user answer."""

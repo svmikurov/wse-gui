@@ -52,8 +52,8 @@ class SimpleCalcController(BasePageController):
         self._model.handle_answer_input(value)
 
     def answer_confirmed(self) -> None:
-        """Handle the user's confirmation of the entered answer."""
-        self._model.check_answer()
+        """Handle the task submit event."""
+        self._model.handle_submit()
 
     # Properties
 

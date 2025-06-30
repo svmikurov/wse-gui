@@ -35,3 +35,12 @@ class SimpleCalcService(
         task_data = self._exercise_api.request_task()
         task_dto = SimpleMathTask.from_dict(task_data)
         return task_dto
+
+    @classmethod
+    def check_answer(
+        cls,
+        user_answer: str,
+        task: ISimpleCalcTask,
+    ) -> bool:
+        """Check the user answer."""
+        return bool(user_answer == task.answer.text)

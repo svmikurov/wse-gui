@@ -55,7 +55,7 @@ class SimpleCalcView(BaseView):
     def _create_ui(self) -> None:
         self._label_title = toga.Label('')
         self._btn_back = self._create_nav_btn(nav_id=NavID.BACK)
-        self._btn_submit = toga.Button('', on_press=self._send_answer)
+        self._btn_submit = toga.Button('', on_press=self._confirm_answer)
 
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
@@ -73,8 +73,8 @@ class SimpleCalcView(BaseView):
 
     # Callback button functions
 
-    def _send_answer(self, _: toga.Button) -> None:
-        """Handle the send answer event."""
+    def _confirm_answer(self, _: toga.Button) -> None:
+        """Handle the confirm answer event."""
         self._notify('answer_confirmed')
 
     # Notifications from NumPad
@@ -100,6 +100,7 @@ class SimpleCalcView(BaseView):
     def clear_answer(self) -> None:
         """Clear the question text."""
         self._task_panel.clear_answer()
+        self._numpad.clear_input()
 
     # Utility methods
 

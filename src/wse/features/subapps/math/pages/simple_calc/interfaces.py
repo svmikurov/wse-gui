@@ -33,8 +33,8 @@ class ISimpleCalcModel(
     def handle_answer_input(self, value: str) -> None:
         """Handel the user answer input."""
 
-    def check_answer(self) -> None:
-        """Check the user's confirmed answer."""
+    def handle_submit(self) -> None:
+        """Handle the task submit event."""
 
 
 class ISimpleCalcView(
