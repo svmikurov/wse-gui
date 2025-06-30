@@ -47,7 +47,7 @@ class TestNumPadModel:
             ('', '7', '7'),
             ('', '8', '8'),
             ('', '9', '9'),
-            ('', '0', '0'),
+            ('', '0', '0.'),
             # Test with backspace
             ('', BACKSPACE, ''),
             ('1', BACKSPACE, ''),
