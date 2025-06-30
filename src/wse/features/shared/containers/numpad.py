@@ -46,36 +46,7 @@ class NumPadModel(
         self._subject = subject
         self._input: str = ''
 
-    # API for controller
-
-    def update_input(self, char: str) -> None:
-        """Update the user input."""
-        if not self._validate_char(char):
-            return
-        elif len(self._input) >= MAX_CHAR_COUNT and char != BACKSPACE:
-            return
-
-        module = sys.modules[__name__]
-        to_notify = True
-
-        match char:
-            case module.BACKSPACE:
-                to_notify = self._handle_backspace_char()
-            case module.DOT:
-                to_notify = self._handle_dot_char()
-            case module.MINUS:
-                self._handle_minus_char()
-            case _:
-                self._handle_allowed_char(char)
-
-        if to_notify:
-            self._notify_input_updated()
-
-    def clear_input(self) -> None:
-        """Clear the entered data."""
-        self._input = NO_TEXT
-
-    # Logic
+    # Business logic
 
     def _handle_backspace_char(self) -> bool:
         if self._input == '0.':
@@ -107,7 +78,8 @@ class NumPadModel(
         else:
             self._input += char
 
-    def _validate_char(self, char: str) -> bool:
+    @staticmethod
+    def _validate_char(char: str) -> bool:
         if not isinstance(char, str) or len(char) != 1:
             logger.error(f'Expected single character as str, got {repr(char)}')
             return False
@@ -127,6 +99,38 @@ class NumPadModel(
 
     def _notify_input_updated(self) -> None:
         self._subject.notify('numpad_input_updated', value=self._input)
+
+    # API for controller
+
+    def update_input(self, char: str) -> None:
+        """Update the user input."""
+        if not self._validate_char(char):
+            return
+        elif len(self._input) >= MAX_CHAR_COUNT and char != BACKSPACE:
+            return
+
+        module = sys.modules[__name__]
+        to_notify = True
+
+        match char:
+            case module.BACKSPACE:
+                to_notify = self._handle_backspace_char()
+            case module.DOT:
+                to_notify = self._handle_dot_char()
+            case module.MINUS:
+                self._handle_minus_char()
+            case _:
+                self._handle_allowed_char(char)
+
+        if to_notify:
+            self._notify_input_updated()
+        else:
+            # Ignore event
+            pass
+
+    def clear_input(self) -> None:
+        """Clear the entered data."""
+        self._input = NO_TEXT
 
 
 @inject
@@ -183,7 +187,7 @@ class NumPadContainer(
         # Update outer NumPad box style
         self._outer_box.style.update(**config.outer_box)
 
-    # Utility methods
+    # Utility layout methods
 
     def _create_button(self, text: str | int) -> toga.Button:
         return toga.Button(text=str(text), on_press=self._handle_button_press)
@@ -247,22 +251,17 @@ class NumPadController(
     _model: INumPadModel
     _container: INumPadContainer
 
-    def __post_init__(self) -> None:
-        """Set up the controller."""
-        super().__post_init__()
+    def _setup(self) -> None:
         self._model.add_observer(self)
         self._container.add_observer(self)
 
-    @property
-    def content(self) -> IContent:
-        """Get page content."""
-        return self._container.content
-
-    # Event notifications
+    # Notification from View
 
     def button_pressed(self, value: str) -> None:
         """Handle the button press event."""
         self._model.update_input(value)
+
+    # Notification for outer component
 
     def numpad_input_updated(self, value: str) -> None:
         """Handle the input update event."""
@@ -273,3 +272,10 @@ class NumPadController(
     def clear_input(self) -> None:
         """Clear the entered data."""
         self._model.clear_input()
+
+    # Property
+
+    @property
+    def content(self) -> IContent:
+        """Get page content."""
+        return self._container.content
