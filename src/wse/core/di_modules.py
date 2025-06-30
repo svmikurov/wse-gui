@@ -2,8 +2,13 @@
 
 from typing import no_type_check
 
-from injector import Binder, Module, singleton
+import httpx
+from injector import Binder, Module, provider, singleton
 
+from ..features.services.exercise import ExerciseService
+from ..features.services.interfaces import IExerciseService
+from .api.exercise import ExerciseApi
+from .api.interfaces import IExerciseApi
 from .auth.service import AuthService
 from .interfaces import INavigator
 from .interfaces.iauth import IAuthService
@@ -18,3 +23,14 @@ class CoreModule(Module):
         """Configure dependencies."""
         binder.bind(INavigator, to=Navigator, scope=singleton)
         binder.bind(IAuthService, to=AuthService)
+        binder.bind(IExerciseService, to=ExerciseService)
+
+        # Api
+        binder.bind(IExerciseApi, to=ExerciseApi)
+
+    # Api
+    @provider
+    @singleton
+    def provide_http_client(self) -> httpx.Client:
+        """Provide the http client."""
+        return httpx.Client()
