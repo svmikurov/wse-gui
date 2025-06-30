@@ -1,12 +1,14 @@
 """Defines Main Math page view."""
 
 from dataclasses import dataclass
+from typing import Callable
 
 import toga
 from injector import inject
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseView
+from wse.features.shared.widgets.interfaces import IFlexColumnStub
 from wse.features.subapps.nav_id import NavID
 from wse.utils.i18n import label_, nav_
 
@@ -16,6 +18,9 @@ from wse.utils.i18n import label_, nav_
 class IndexMathView(BaseView):
     """Main Math page view."""
 
+    # Widget injection
+    _flex_stub: Callable[[], IFlexColumnStub]
+
     def _setup(self) -> None:
         self._content.test_id = NavID.INDEX_MATH
 
@@ -23,6 +28,7 @@ class IndexMathView(BaseView):
         self.content.add(
             self._label_title,
             self._btn_nav_simple,
+            self._flex_stub(),
             self._btn_back,
         )
 
