@@ -5,8 +5,6 @@ from typing import no_type_check
 import httpx
 from injector import Binder, Module, provider, singleton
 
-from ..features.services.exercise import ExerciseService
-from ..features.services.interfaces import IExerciseService
 from .api.exercise import ExerciseApi
 from .api.interfaces import IExerciseApi
 from .auth.service import AuthService
@@ -23,7 +21,6 @@ class CoreModule(Module):
         """Configure dependencies."""
         binder.bind(INavigator, to=Navigator, scope=singleton)
         binder.bind(IAuthService, to=AuthService)
-        binder.bind(IExerciseService, to=ExerciseService)
 
         # Api
         binder.bind(IExerciseApi, to=ExerciseApi)
