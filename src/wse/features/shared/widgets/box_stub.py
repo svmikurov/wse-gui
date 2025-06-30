@@ -5,7 +5,22 @@ from toga.style import Pack
 
 
 class FlexColumnStub(toga.Box):  # type: ignore[misc]
-    """Flexible column direction box."""
+    """Flexible column direction box.
+
+    For example:
+
+        class SomeView(...):
+
+            _flex_stub: Callable[[], IFlexColumnStub]
+
+            def _populate_content(self) -> None:
+                self.content.add(
+                    ...,
+                    self._flex_stub(),
+                    ...,
+                )
+
+    """
 
     def __init__(self) -> None:
         """Construct the box."""
