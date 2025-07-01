@@ -277,5 +277,5 @@ class NumPadController(
 
     @property
     def content(self) -> IContent:
-        """Get page content."""
+        """Get container content."""
         return self._container.content
