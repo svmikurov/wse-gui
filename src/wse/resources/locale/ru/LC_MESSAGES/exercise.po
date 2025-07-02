@@ -1,0 +1,19 @@
+# Exercise type localisation
+# Russian language
+
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "adding"
+msgstr "Сложение"
+
+msgid "subtraction"
+msgstr "Вычитание"
+
+msgid "multiplication"
+msgstr "Умножение"
+
+msgid "division"
+msgstr "Деление"

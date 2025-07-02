@@ -27,7 +27,7 @@ update-android:
 	briefcase build android
 
 # Localisation
-DOMAINS = nav label core
+DOMAINS = nav label core exercise
 LANGUAGES = en ru
 LOCALE_DIR = src/wse/resources/locale
 MO_FILES = $(foreach lang,$(LANGUAGES), \

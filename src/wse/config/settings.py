@@ -23,6 +23,7 @@ LOCALE_DOMAINS = [  # Localization domains
     LocaleDomain.CORE,
     LocaleDomain.NAV,
     LocaleDomain.LABEL,
+    LocaleDomain.EXERCISE,
 ]
 
 # Authentication

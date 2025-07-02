@@ -90,3 +90,8 @@ def nav_(text: str) -> str:
 def label_(text: str) -> str:
     """Get translated text for label widget."""
     return i18n.get_translator(LocaleDomain.LABEL)(text)
+
+
+def exercise_(text: str) -> str:
+    """Get translated text for label widget."""
+    return i18n.get_translator(LocaleDomain.EXERCISE)(text)

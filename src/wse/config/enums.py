@@ -18,6 +18,7 @@ class LocaleDomain(BaseEnum):
     CORE = 'core'
     NAV = 'nav'
     LABEL = 'label'
+    EXERCISE = 'exercise'
 
 
 # UI styles
