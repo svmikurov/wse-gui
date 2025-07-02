@@ -2,6 +2,8 @@
 
 from typing import Protocol
 
+from wse_exercises.core.mathem.enums import Exercises
+
 from wse.config.layout import (
     TextTaskStyle,
     TextTaskTheme,
@@ -20,21 +22,25 @@ class ISimpleCalcModel(
 ):
     """Simple math calculation page view."""
 
-    # Event notification
-
-    def answer_updated(self, value: str) -> None:
-        """Handle the user answer update."""
-
     # API for controller
 
-    def on_open(self) -> None:
+    def on_open(self, exercise: Exercises) -> None:
         """Call model methods when page opens."""
 
     def handle_answer_input(self, value: str) -> None:
         """Handel the user answer input."""
 
     def handle_submit(self) -> None:
-        """Handle the task submit event."""
+        """Check the user's confirmed answer."""
+
+    # Properties
+
+    @property
+    def current_exercise(self) -> Exercises | None:
+        """Current exercise to do."""
+
+    @current_exercise.setter
+    def current_exercise(self, value: Exercises) -> None: ...
 
 
 class ISimpleCalcView(
@@ -46,7 +52,7 @@ class ISimpleCalcView(
     # Notifications from NumPad
 
     def numpad_input_updated(self, value: str) -> None:
-        """Update user input for model."""
+        """Update user input."""
 
     # API for controller
 
@@ -69,13 +75,18 @@ class ISimpleCalcController(
 ):
     """The controller of Simple Math calculation page."""
 
-    # Model event notifications
+    _model: ISimpleCalcModel
+    _view: ISimpleCalcView
+
+    # Notifications from Model
 
     def question_updated(self, value: str) -> None:
         """Display the question."""
+        self._view.display_question(value)
 
     def question_cleared(self) -> None:
         """Clear the question text."""
+        self._view.clear_question()
 
     def answer_updated(self, value: str) -> None:
         """Display the user answer."""
@@ -83,10 +94,14 @@ class ISimpleCalcController(
     def answer_cleared(self) -> None:
         """Clear the question text."""
 
-    # NumPad event notifications
+    # Notifications from View
 
     def numpad_input_updated(self, value: str) -> None:
         """Update user input for model."""
+        self._model.handle_answer_input(value)
+
+    def answer_confirmed(self) -> None:
+        """Handle the task submit event."""
 
 
 class ISimpleCalcContainer(

@@ -1,7 +1,7 @@
 """Defines Simple math calculation page view."""
 
 from dataclasses import dataclass
-from typing import Callable
+from typing import Type
 
 import toga
 from injector import inject
@@ -13,22 +13,31 @@ from wse.features.shared.containers.interfaces import (
     INumPadController,
     ITextTaskContainer,
 )
-from wse.features.shared.widgets.interfaces import IDivider, IFlexColumnStub
+from wse.features.shared.widgets.interfaces import (
+    IDivider,
+    IFlexColumnStub,
+)
 from wse.features.subapps.nav_id import NavID
 from wse.utils.i18n import _, label_, nav_
+
+from .interfaces import ISimpleCalcView
 
 
 @inject
 @dataclass
-class SimpleCalcView(BaseView):
+class SimpleCalcView(
+    BaseView,
+    ISimpleCalcView,
+):
     """Simple math calculation page view."""
 
+    # Containers injection
     _task_panel: ITextTaskContainer
     _numpad: INumPadController
 
-    # Widgets
-    _divider: Callable[[], IDivider]
-    _flex_stub: Callable[[], IFlexColumnStub]
+    # Widgets injections
+    _divider: Type[IDivider]
+    _flex_stub: Type[IFlexColumnStub]
 
     @override
     def _setup(self) -> None:
@@ -79,30 +88,30 @@ class SimpleCalcView(BaseView):
 
     # Notifications from NumPad
 
+    @override
     def numpad_input_updated(self, value: str) -> None:
-        """Update user input for model."""
+        """Update user input."""
         self._notify('numpad_input_updated', value=value)
 
     # API for controller
 
+    @override
     def display_question(self, value: str) -> None:
         """Display the question."""
         self._task_panel.display_question(value)
 
+    @override
     def clear_question(self) -> None:
         """Clear the question text."""
         self._task_panel.clear_question()
 
+    @override
     def display_answer(self, value: str) -> None:
         """Display the user answer."""
         self._task_panel.display_answer(value)
 
+    @override
     def clear_answer(self) -> None:
         """Clear the question text."""
         self._task_panel.clear_answer()
         self._numpad.clear_input()
-
-    # Utility methods
-
-    def _notify(self, notification: str, **kwargs: object) -> None:
-        self._subject.notify(notification, **kwargs)

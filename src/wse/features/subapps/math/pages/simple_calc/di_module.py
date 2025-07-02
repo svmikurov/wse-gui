@@ -4,6 +4,8 @@ from typing import no_type_check
 
 from injector import Binder, Module
 
+from ...sources.interfaces import IExerciseSelectionSource
+from ...sources.selection import ExerciseSelectionSource
 from .controller import SimpleCalcController
 from .interfaces import (
     ISimpleCalcController,
@@ -24,3 +26,6 @@ class SimpleCalculationModule(Module):
         binder.bind(ISimpleCalcModel, to=SimpleCalcModel)
         binder.bind(ISimpleCalcView, to=SimpleCalcView)
         binder.bind(ISimpleCalcController, to=SimpleCalcController)
+
+        # Sources
+        binder.bind(IExerciseSelectionSource, to=ExerciseSelectionSource)
