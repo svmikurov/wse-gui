@@ -21,10 +21,10 @@ class ExerciseApi:
         self._base_url = URL('http://127.0.0.1:8000')
         self._exercise_endpoint = URL('/api/v1/math/calculation/simple/')
 
-    def request_task(self) -> dict[str, Any]:
+    def request_task(self, exercise: Exercises) -> dict[str, Any]:
         """Request the task."""
         data = {
-            'name': Exercises.SUBTRACTION,
+            'name': exercise,
             'config': {'min_value': '1', 'max_value': '9'},
         }
         response: Response = self._http_client.post(

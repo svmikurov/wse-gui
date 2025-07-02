@@ -36,19 +36,27 @@ def filter_data(
     return {f.name: data[f.name] for f in fields(klass) if f.name in data}  # type: ignore[arg-type]
 
 
-def load_data(path: Path, klass: Type[T], component: str | None = None) -> T:
+def load_data(
+    path: Path,
+    klass: Type[T],
+    container_alice: str | None = None,
+) -> T:
     """Load config data from file."""
     data = {}
     try:
         with open(path, 'r') as f:
             json_data = json.load(f)
-            data = json_data if component is None else json_data[component]
+            data = (
+                json_data
+                if container_alice is None
+                else json_data[container_alice]
+            )
     except FileNotFoundError:
         logger.error(f"Config '{path.name}' not found")
     except KeyError:
         logger.error(
             f"Config '{path.name}' have no configuration "
-            f"for '{component}' container"
+            f"for '{container_alice}' container"
         )
 
     filtered_data = filter_data(klass, data)
@@ -77,7 +85,7 @@ class ConfigModule(Module):
         return load_data(
             LAYOUT_STYLE_PATH,
             TextTaskStyle,
-            'text_task_panel',
+            container_alice='text_task_panel',
         )
 
     @provider
@@ -87,7 +95,7 @@ class ConfigModule(Module):
         return load_data(
             LAYOUT_THEME_PATH,
             TextTaskTheme,
-            'text_task_panel',
+            container_alice='text_task_panel',
         )
 
     @provider
@@ -97,7 +105,7 @@ class ConfigModule(Module):
         return load_data(
             LAYOUT_STYLE_PATH,
             NumPadStyle,
-            'numpad',
+            container_alice='numpad',
         )
 
     @provider
@@ -107,7 +115,7 @@ class ConfigModule(Module):
         return load_data(
             LAYOUT_THEME_PATH,
             NumPadTheme,
-            'numpad',
+            container_alice='numpad',
         )
 
     # Login
@@ -119,7 +127,7 @@ class ConfigModule(Module):
         return load_data(
             LAYOUT_STYLE_PATH,
             LoginStyle,
-            'login',
+            container_alice='login',
         )
 
     @provider
@@ -129,5 +137,5 @@ class ConfigModule(Module):
         return load_data(
             LAYOUT_THEME_PATH,
             LoginTheme,
-            'login',
+            container_alice='login',
         )

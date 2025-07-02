@@ -3,6 +3,7 @@
 from typing import Any, Protocol
 
 from httpx import Response
+from wse_exercises.core.mathem.enums import Exercises
 
 
 class IApiClient(
@@ -15,3 +16,12 @@ class IApiClient(
 
     def post(self, endpoint: str, data: dict[str, Any]) -> Response:
         """Request with POST method."""
+
+
+class IExerciseApi(
+    Protocol,
+):
+    """Defines protocol for exercise API."""
+
+    def request_task(self, exercise: Exercises) -> dict[str, Any]:
+        """Request the task."""

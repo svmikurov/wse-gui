@@ -6,9 +6,9 @@ import httpx
 from injector import Binder, Module, provider, singleton
 
 from .api.exercise import ExerciseApi
-from .api.interfaces import IExerciseApi
 from .auth.service import AuthService
 from .interfaces import INavigator
+from .interfaces.iapi import IExerciseApi
 from .interfaces.iauth import IAuthService
 from .navigation.navigator import Navigator
 

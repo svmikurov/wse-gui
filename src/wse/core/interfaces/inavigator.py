@@ -11,7 +11,7 @@ from wse.features.subapps.nav_id import NavID
 class INavigator(Protocol):
     """Page navigation service interface."""
 
-    def navigate(self, nav_id: NavID) -> None:
+    def navigate(self, nav_id: NavID, **kwargs: object) -> None:
         """Navigate to page."""
 
     def set_main_window(self, window: toga.Window) -> None:
