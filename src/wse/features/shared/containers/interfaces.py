@@ -1,5 +1,7 @@
 """Defines protocols for containers interfaces."""
 
+from typing import Any, Iterable
+
 from typing_extensions import Protocol
 
 from wse.config.layout import (
@@ -12,7 +14,6 @@ from wse.config.layout import (
 from ...interfaces import (
     IAddObserver,
     IContainer,
-    IContent,
     IGetContent,
 )
 
@@ -107,6 +108,27 @@ class ILoginController(
 ):
     """Protocol for Login container controller interface."""
 
-    @property
-    def content(self) -> IContent:
-        """Get page content."""
+
+# Selection container
+
+
+class ISelectionContainer(
+    IAddObserver,
+    IContainer,
+    Protocol,
+):
+    """Protocol for Select container interface."""
+
+    def update_items(self, items: Iterable[Any]) -> None:
+        """Update selection items."""
+
+
+class ISelectionController(
+    IAddObserver,
+    IGetContent,
+    Protocol,
+):
+    """Protocol for Select container controller interface."""
+
+    def update_items(self, items: Iterable[Any]) -> None:
+        """Update selection items."""

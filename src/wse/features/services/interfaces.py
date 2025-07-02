@@ -2,6 +2,7 @@
 
 from typing import Protocol
 
+from wse_exercises.core.mathem.enums import Exercises
 from wse_exercises.core.mathem.interfaces import ISimpleCalcTask
 
 
@@ -10,7 +11,7 @@ class ISimpleCalcService(
 ):
     """Protocols for Exercise Service interface."""
 
-    def get_task(self) -> ISimpleCalcTask:
+    def get_task(self, exercise: Exercises) -> ISimpleCalcTask:
         """Get task."""
 
     def check_answer(

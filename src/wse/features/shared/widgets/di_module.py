@@ -1,6 +1,6 @@
 """Defines widget injection module."""
 
-from typing import Callable
+from typing import Type
 
 from injector import Module, provider, singleton
 
@@ -14,12 +14,12 @@ class WidgetsModule(Module):
 
     @singleton
     @provider
-    def provide_divider(self) -> Callable[[], IDivider]:
+    def provide_divider(self) -> Type[IDivider]:
         """Provide divider."""
         return Divider
 
     @singleton
     @provider
-    def provide_flex_column_stub(self) -> Callable[[], IFlexColumnStub]:
+    def provide_flex_column_stub(self) -> Type[IFlexColumnStub]:
         """Provide divider."""
         return FlexColumnStub

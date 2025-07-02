@@ -1,6 +1,8 @@
 """Defines protocol for widget interfaces."""
 
-from typing import Protocol
+from typing import Any, Iterable, Protocol
+
+from toga.sources import Source
 
 from ..interfaces.istyle import IStyleMixin
 from ..subapps.nav_id import NavID
@@ -22,3 +24,14 @@ class INavButton(
 
     @text.setter
     def text(self, value: str | None) -> None: ...
+
+
+class ISelection(Protocol):
+    """Protocol for Selection widget."""
+
+    @property
+    def items(self) -> Source:
+        """The items to display in the selection."""
+
+    @items.setter
+    def items(self, items: Source | Iterable[Any] | None) -> None: ...

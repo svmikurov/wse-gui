@@ -1,7 +1,7 @@
 """Defines base  and base abstract class for common view containers."""
 
 from dataclasses import dataclass
-from typing import Callable
+from typing import Type
 
 import toga
 from injector import inject
@@ -19,7 +19,7 @@ class TextTaskPanel(
 ):
     """Abstract base class for I/O one line text container."""
 
-    _divider: Callable[[], IDivider]
+    _divider: Type[IDivider]
     _style_config: TextTaskStyle
     _theme_config: TextTaskTheme
 

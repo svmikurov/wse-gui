@@ -57,6 +57,9 @@ class AddObserverMixin:
         """Subscribe observer an event has occurred."""
         self._subject.add_observer(observer)
 
+    def _notify(self, notification: str, **kwargs: object) -> None:
+        self._subject.notify(notification, **kwargs)
+
 
 class CreateNavButtonMixin:
     """Mixin that provides navigation button creation functionality."""

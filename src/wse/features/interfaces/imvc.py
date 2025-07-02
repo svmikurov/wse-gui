@@ -49,5 +49,8 @@ class IPageController(
 ):
     """Protocol for page controller interface."""
 
+    def on_open(self, **kwargs: object) -> None:
+        """Call methods when page opens."""
+
     def navigate(self, nav_id: NavID) -> None:
         """Navigate to page."""

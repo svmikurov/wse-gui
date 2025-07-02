@@ -4,6 +4,8 @@ import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
+from typing_extensions import override
+
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.interfaces import INavigator
 
@@ -49,6 +51,7 @@ class BaseView(
     _style_config: StyleConfig
     _theme_config: ThemeConfig
 
+    @override
     def __post_init__(self) -> None:
         """Construct the view."""
         super().__post_init__()
@@ -97,13 +100,18 @@ class BasePageController(
     _view: IView
     _navigator: INavigator
 
+    @override
     def __post_init__(self) -> None:
         """Construct the controller."""
         super().__post_init__()
         self._view.add_observer(self)
 
+    @override
     @property
     def content(self) -> IContent:
         """Get page content."""
-        logger.debug(f"The '{self._view.content.test_id}' page is open")
         return self._view.content
+
+    def on_open(self, **kwargs: object) -> None:
+        """Call methods when page opens."""
+        pass
