@@ -30,6 +30,7 @@ class StyleConfig(BaseConfig):
     label_title: dict[str, str | int] = field(default_factory=dict)
     button: dict[str, str | int] = field(default_factory=dict)
     btn_nav: dict[str, str | int] = field(default_factory=dict)
+    selection: dict[str, str | int] = field(default_factory=dict)
 
 
 @dataclass
@@ -54,6 +55,7 @@ class ThemeConfig(BaseConfig):
     label_title: dict[str, str] = field(default_factory=dict)
     button: dict[str, str] = field(default_factory=dict)
     btn_nav: dict[str, str] = field(default_factory=dict)
+    selection: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass

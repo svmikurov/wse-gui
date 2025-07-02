@@ -22,6 +22,14 @@
     "margin_bottom": 2,
     "margin_left": 5
   },
+  "selection": {
+    "font_size": 15,
+    "height": 60,
+    "margin_top": 2,
+    "margin_right": 5,
+    "margin_bottom": 2,
+    "margin_left": 5
+  },
   "text_task_panel": {
     "label_question": {
       "font_size": 40,
