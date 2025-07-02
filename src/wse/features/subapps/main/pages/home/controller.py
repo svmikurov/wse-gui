@@ -6,12 +6,15 @@ from injector import inject
 
 from wse.features.base.mvc import BasePageController
 
-from .interfaces import IHomeView
+from .interfaces import IHomeController, IHomeView
 
 
 @inject
 @dataclass
-class HomeController(BasePageController):
+class HomeController(
+    BasePageController,
+    IHomeController,
+):
     """Home page controller."""
 
     _view: IHomeView

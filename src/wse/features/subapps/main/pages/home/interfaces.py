@@ -6,9 +6,15 @@ from wse.features.interfaces import IView
 from wse.features.interfaces.imvc import IPageController
 
 
-class IHomeView(IView, Protocol):
+class IHomeView(
+    IView,
+    Protocol,
+):
     """Protocol for Home page view interface."""
 
 
-class IHomeController(IPageController, Protocol):
+class IHomeController(
+    IPageController,
+    Protocol,
+):
     """Protocol for Home page controller interface."""
