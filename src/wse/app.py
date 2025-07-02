@@ -1,5 +1,6 @@
 """WSE GUI application."""
 
+import httpx
 import toga
 from injector import Injector
 
@@ -51,6 +52,11 @@ class WSE(toga.App):  # type: ignore[misc]
 
     def _navigate_to_start_page(self) -> None:
         self._navigator.navigate(self._start_page_id)
+
+    def on_exit(self) -> bool:
+        """Call when the application closes."""
+        self._injector.get(httpx.Client).close()
+        return True
 
 
 def main() -> WSE:
