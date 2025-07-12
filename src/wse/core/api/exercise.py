@@ -1,35 +1,75 @@
-"""Defines exercise api."""
+"""Defines exercise API."""
 
-from typing import Any
+import logging
+from typing import Any, cast
 
 import httpx
-from httpx import URL, Response
+from httpx import Response
 from injector import inject
-from wse_exercises.core.mathem.enums import Exercises
+from typing_extensions import override
+from wse_exercises.base.enums import ExerciseEnum
+from wse_exercises.core.math.rest import SimpleCalcAnswer
+
+from wse.config.settings import APIConfigV1
+from wse.core.exceptions import ExerciseError
+from wse.core.interfaces.iapi import IAuthScheme, IExerciseAPI, IHttpClient
+
+logger = logging.getLogger(__name__)
 
 
 @inject
-class ExerciseApi:
-    """Defines protocol for exercise API."""
+class ExerciseAPI(IExerciseAPI):
+    """Exercise API."""
 
     def __init__(
         self,
-        http_client: httpx.Client,
+        auth_scheme: IAuthScheme,
+        http_client: IHttpClient,
+        api_config: APIConfigV1,
     ) -> None:
         """Construct the API."""
+        self._auth_scheme = auth_scheme
         self._http_client = http_client
-        self._base_url = URL('http://127.0.0.1:8000')
-        self._exercise_endpoint = URL('/api/v1/math/calculation/simple/')
+        self._get_task_endpoint = api_config.task['get_task']
+        self._validate_answer_endpoint = api_config.task['validate_answer']
 
-    def request_task(self, exercise: Exercises) -> dict[str, Any]:
+    @override
+    def request_task(self, exercise: ExerciseEnum) -> dict[str, Any]:
         """Request the task."""
         data = {
             'name': exercise,
             'config': {'min_value': '1', 'max_value': '9'},
         }
-        response: Response = self._http_client.post(
-            self._base_url.join(self._exercise_endpoint),
-            json=data,
-        )
-        task_data: dict[str, Any] = response.json()
-        return task_data
+        try:
+            response: Response = self._http_client.post(
+                self._get_task_endpoint,
+                json=data,
+                auth=cast(httpx.Auth, self._auth_scheme),
+            )
+        except Exception as e:
+            logger.error('Request task error: %s', str(e))
+            raise ExerciseError from e
+
+        response_data: dict[str, Any] = response.json()
+        return response_data
+
+    @override
+    def check_answer(self, answer: SimpleCalcAnswer) -> bool:
+        """Check the user entered answer."""
+        try:
+            response: Response = self._http_client.post(
+                self._validate_answer_endpoint,
+                json=answer.to_dict(),
+                auth=cast(httpx.Auth, self._auth_scheme),
+            )
+
+        except httpx.HTTPStatusError:
+            logger.error('Http client error')
+            raise
+
+        else:
+            try:
+                is_correct: bool = response.json().get('is_correct')
+            except AttributeError as e:
+                raise ExerciseError from e
+            return is_correct
