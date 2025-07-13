@@ -2,7 +2,7 @@
 [tool.briefcase]
 project_name = "WSE GUI"
 bundle = "com.example"
-version = "0.0.1"
+version = "0.4.0"
 url = "https://example.com/wse"
 license.file = "LICENSE"
 author = "Sergei Mikurov"
@@ -23,7 +23,7 @@ test_sources = [
 requires = [
     "httpx==0.28.1",
     "injector==0.22.0",
-    "wse-exercises>0.3.0,<0.4.0",
+    "wse-exercises<1.0.0",
     "pydantic==1.10.22",
 ]
 test_requires = [
