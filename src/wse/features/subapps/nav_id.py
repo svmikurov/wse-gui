@@ -11,7 +11,7 @@ class NavID(BaseEnum):
 
     # Auth
     LOGIN = 'Login page'
-    LOGOUT = 'logout'
+    LOGOUT = 'Logout page'
 
     # Main app
     HOME = 'Home page'
