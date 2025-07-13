@@ -30,6 +30,7 @@ class ExerciseAPI(IExerciseAPI):
         """Construct the API."""
         self._auth_scheme = auth_scheme
         self._http_client = http_client
+        # Endpoints
         self._get_task_endpoint = api_config.task['get_task']
         self._validate_answer_endpoint = api_config.task['validate_answer']
 
@@ -42,7 +43,7 @@ class ExerciseAPI(IExerciseAPI):
         }
         try:
             response: Response = self._http_client.post(
-                self._get_task_endpoint,
+                url=self._get_task_endpoint,
                 json=data,
                 auth=cast(httpx.Auth, self._auth_scheme),
             )
@@ -58,7 +59,7 @@ class ExerciseAPI(IExerciseAPI):
         """Check the user entered answer."""
         try:
             response: Response = self._http_client.post(
-                self._validate_answer_endpoint,
+                url=self._validate_answer_endpoint,
                 json=answer.to_dict(),
                 auth=cast(httpx.Auth, self._auth_scheme),
             )
