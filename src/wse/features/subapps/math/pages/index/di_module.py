@@ -3,7 +3,8 @@
 from typing import no_type_check
 
 from injector import Binder, Module, multiprovider
-from wse_exercises.core.mathem.enums import Exercises
+from wse_exercises.base.enums import ExerciseEnum
+from wse_exercises.core import MathExercise
 
 from .controller import IndexMathController
 from .interfaces import IIndexMathController, IIndexMathModel, IIndexMathView
@@ -25,11 +26,11 @@ class IndexMathModule(Module):
     # Model dependencies
 
     @multiprovider
-    def provide_exercises(self) -> list[Exercises]:
+    def provide_exercises(self) -> list[ExerciseEnum]:
         """Provide the exercise list."""
         return [
-            Exercises.ADDING,
-            Exercises.SUBTRACTION,
-            Exercises.MULTIPLICATION,
-            Exercises.DIVISION,
+            MathExercise.ADDING,
+            MathExercise.SUBTRACTION,
+            MathExercise.MULTIPLICATION,
+            MathExercise.DIVISION,
         ]

@@ -2,12 +2,9 @@
 
 from typing import Protocol
 
-from wse_exercises.core.mathem.enums import Exercises
+from wse_exercises.base.enums import ExerciseEnum
 
-from wse.config.layout import (
-    TextTaskStyle,
-    TextTaskTheme,
-)
+from wse.config.layout import TextTaskStyle, TextTaskTheme
 from wse.features.interfaces import (
     IGetContent,
     IModel,
@@ -24,7 +21,7 @@ class ISimpleCalcModel(
 
     # API for controller
 
-    def on_open(self, exercise: Exercises) -> None:
+    def on_open(self, exercise: ExerciseEnum) -> None:
         """Call model methods when page opens."""
 
     def handle_answer_input(self, value: str) -> None:
@@ -36,11 +33,11 @@ class ISimpleCalcModel(
     # Properties
 
     @property
-    def current_exercise(self) -> Exercises | None:
+    def current_exercise(self) -> ExerciseEnum | None:
         """Current exercise to do."""
 
     @current_exercise.setter
-    def current_exercise(self, value: Exercises) -> None: ...
+    def current_exercise(self, value: ExerciseEnum) -> None: ...
 
 
 class ISimpleCalcView(

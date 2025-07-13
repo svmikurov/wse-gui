@@ -4,10 +4,12 @@ from dataclasses import dataclass
 
 from injector import inject
 from typing_extensions import override
-from wse_exercises.core.mathem.enums import Exercises
+from wse_exercises.base.enums import ExerciseEnum
+from wse_exercises.core import MathExercise
 
 from wse.features.base import BaseModel
-from wse.features.subapps.math.pages.index.interfaces import IIndexMathModel
+
+from .interfaces import IIndexMathModel
 
 
 @inject
@@ -18,21 +20,21 @@ class IndexMathModel(
 ):
     """Index Math page model."""
 
-    _exercises: list[Exercises]
+    _exercises: list[ExerciseEnum]
 
     @override
     def __post_init__(self) -> None:
         """Construct the model."""
         super().__post_init__()
-        self._default_exercise: Exercises = Exercises.ADDING
-        self._current_exercise: Exercises = self._default_exercise
+        self._default_exercise: ExerciseEnum = MathExercise.ADDING
+        self._current_exercise: ExerciseEnum = self._default_exercise
 
     # Notifications about Self events
 
     def _notify_exercises_updated(self) -> None:
         self._notify('exercises_updated', values=self._exercises)
 
-    def _notify_start_exercise(self, value: Exercises) -> None:
+    def _notify_start_exercise(self, value: ExerciseEnum) -> None:
         self._notify('exercise_started', value=value)
 
     # Api for controller
@@ -43,7 +45,7 @@ class IndexMathModel(
         self._notify_exercises_updated()
 
     @override
-    def change_exersice(self, value: Exercises) -> None:
+    def change_exersice(self, value: ExerciseEnum) -> None:
         """Change the exercise to perform."""
         self._current_exercise = value
 

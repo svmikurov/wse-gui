@@ -6,7 +6,7 @@ from typing import Type
 import toga
 from injector import inject
 from typing_extensions import override
-from wse_exercises.core.mathem.enums import Exercises
+from wse_exercises.base.enums import ExerciseEnum
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseView
@@ -82,7 +82,7 @@ class IndexMathView(
     # API for controller
 
     @override
-    def update_exercise_selection(self, exercises: list[Exercises]) -> None:
+    def update_exercise_selection(self, exercises: list[ExerciseEnum]) -> None:
         """Update the Exercise selection data source."""
         with EventDisabler(self._exercise_selection):
             self._exercise_selection.items.update(exercises)

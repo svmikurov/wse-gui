@@ -3,17 +3,17 @@
 import logging
 from dataclasses import dataclass
 
+import httpx
 from injector import inject
 from typing_extensions import override
-from wse_exercises.core.mathem.enums import Exercises
-from wse_exercises.core.mathem.interfaces import ISimpleCalcTask
+from wse_exercises.base.enums import ExerciseEnum
+from wse_exercises.core.math.task import SimpleCalcTask
 
+from wse.core.exceptions import ExerciseError
 from wse.features.base import BaseModel
-from wse.features.exceptions import ExerciseError
 from wse.features.services.interfaces import ISimpleCalcService
-from wse.features.subapps.math.pages.simple_calc.interfaces import (
-    ISimpleCalcModel,
-)
+
+from .interfaces import ISimpleCalcModel
 
 logger = logging.getLogger(__name__)
 
@@ -35,17 +35,19 @@ class SimpleCalcModel(
         """Construct the model."""
         super().__post_init__()
         self._user_answer: str = NO_TEXT
-        self._task: ISimpleCalcTask | None = None
-        self._current_exercise: Exercises | None = None
+        self._task: SimpleCalcTask | None = None
+        self._current_exercise: ExerciseEnum | None = None
 
     # Business logic
 
     def _start_new_task(self) -> None:
+        self._clear()
+
         try:
             self._get_task()
             self._notify_display_question()
         except ExerciseError as e:
-            logger.error('Create task error:\n%s', str(e))
+            logger.error(f'Create task error: {str(e)}')
 
     def _get_task(self) -> None:
         if self.current_exercise is None:
@@ -54,25 +56,32 @@ class SimpleCalcModel(
         self._task = self._exercise_service.get_task(self.current_exercise)
 
     def _check_answer(self) -> None:
-        if self._task is not None:
-            is_correct = self._exercise_service.check_answer(
-                self._user_answer,
-                self._task,
-            )
+        if self._task is None:
+            logger.error('Task is undefined')
+            raise ExerciseError('Task is undefined')
 
+        try:
+            is_correct = self._exercise_service.check_answer(self._user_answer)
+        except httpx.HTTPStatusError as e:
+            logger.exception(f'Exercise service error:\n{e}')
+            # TODO: Add event handling
+            # raise Exception from e
+        else:
             if is_correct:
                 self._handle_correct_user_answer()
             else:
                 # TODO: Add event handling
                 pass
 
-        else:
-            # Ignore event
-            pass
-
     def _handle_correct_user_answer(self) -> None:
-        self._clear_answer()
         self._start_new_task()
+
+    def _clear(self) -> None:
+        self._clear_question()
+        self._clear_answer()
+
+    def _clear_question(self) -> None:
+        self._notify_clear_answer()
 
     def _clear_answer(self) -> None:
         self._user_answer = NO_TEXT
@@ -98,7 +107,7 @@ class SimpleCalcModel(
     # API for controller
 
     @override
-    def on_open(self, exercise: Exercises) -> None:
+    def on_open(self, exercise: ExerciseEnum) -> None:
         """Call model methods when page opens."""
         self._current_exercise = exercise
         self._start_new_task()
@@ -121,10 +130,11 @@ class SimpleCalcModel(
     # Properties
 
     @property
-    def current_exercise(self) -> Exercises | None:
+    @override
+    def current_exercise(self) -> ExerciseEnum | None:
         """Current exercise to do."""
         return self._current_exercise
 
     @current_exercise.setter
-    def current_exercise(self, value: Exercises) -> None:
+    def current_exercise(self, value: ExerciseEnum) -> None:
         self._current_exercise = value

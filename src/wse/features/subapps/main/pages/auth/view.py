@@ -9,6 +9,7 @@ from typing_extensions import override
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseView
 from wse.features.shared.containers.interfaces import ILoginController
+from wse.features.shared.widgets.buttons import NavButton
 from wse.features.subapps.main.pages.auth.interfaces import IAuthView
 from wse.features.subapps.nav_id import NavID
 from wse.utils.i18n import label_, nav_
@@ -40,7 +41,10 @@ class AuthView(
     @override
     def _create_ui(self) -> None:
         self._label_title = toga.Label('')
-        self._btn_back = self._create_nav_btn(NavID.BACK)
+        self._btn_back = NavButton(
+            nav_id=NavID.BACK,
+            on_press=self._handle_nav_back,
+        )
 
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
@@ -53,3 +57,24 @@ class AuthView(
         """Localize the UI text."""
         self._label_title.text = label_('Login page title')
         self._btn_back.text = nav_(NavID.BACK)
+
+    # API for controller
+
+    @override
+    def clear_credential(self) -> None:
+        """Clear the entered credential."""
+        self._login_container.clear_credential()
+
+    # Notifications from Login container
+
+    @override
+    def success_authentication(self) -> None:
+        """Notify subjects about success authentication event."""
+        self._notify('success_authentication')
+
+    # Button callback functions
+
+    def _handle_nav_back(self, button: NavButton) -> None:
+        """Handle navigation back button press."""
+        self.clear_credential()
+        self._handle_navigate(button)
