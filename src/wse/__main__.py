@@ -1,6 +1,6 @@
 """Start app."""
 
-from wse.core.logger import setup_logger
+from wse.utils.logger import setup_logger
 
 setup_logger()
 
