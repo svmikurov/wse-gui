@@ -20,7 +20,10 @@ from ...interfaces import (
 # Text task container
 
 
-class ITextTaskContainer(IContainer, Protocol):
+class ITextTaskContainer(
+    IContainer,
+    Protocol,
+):
     """Protocol for Texet task container interface."""
 
     def display_question(self, value: str) -> None:
@@ -100,6 +103,9 @@ class ILoginContainer(
     def update_style(self, config: LoginStyle | LoginTheme) -> None:
         """Update UI style."""
 
+    def clear_credential(self) -> None:
+        """Clear the entered credential."""
+
 
 class ILoginController(
     IAddObserver,
@@ -107,6 +113,17 @@ class ILoginController(
     Protocol,
 ):
     """Protocol for Login container controller interface."""
+
+    # Notifications from Container
+
+    def login_confirm(self, username: str, password: str) -> None:
+        """Handle the login confirmation."""
+
+    def clear_credential(self) -> None:
+        """Clear the entered credential."""
+
+    def success_authentication(self) -> None:
+        """Notify about successful authentication."""
 
 
 # Selection container
