@@ -1,0 +1,53 @@
+"""Defines Core injector module."""
+
+from typing import no_type_check
+
+import httpx
+from injector import Binder, Module, provider, singleton
+
+from wse.core.http.auth import AuthSchema
+from wse.core.http.client import HttpClient
+
+from .api.auth_jwt import AuthAPIjwt
+from .api.exercise import ExerciseAPI
+from .auth.service import AuthService
+from .interfaces import INavigator
+from .interfaces.iapi import (
+    IAuthAPIjwt,
+    IAuthScheme,
+    IExerciseAPI,
+    IHttpClient,
+)
+from .interfaces.iauth import IAuthService
+from .interfaces.istorage import IJWTJsonStorage
+from .navigation.navigator import Navigator
+from .storage import JWTJsonStorage
+
+
+class CoreModule(Module):
+    """Core injector module."""
+
+    # TODO: Check the singleton scopes
+    @no_type_check
+    def configure(self, binder: Binder) -> None:
+        """Configure dependencies."""
+        # Navigation service
+        binder.bind(INavigator, to=Navigator, scope=singleton)
+
+        # Authentication service
+        binder.bind(IAuthService, to=AuthService, scope=singleton)
+
+        # API services
+        binder.bind(IHttpClient, to=HttpClient)
+        binder.bind(IAuthScheme, to=AuthSchema, scope=singleton)
+        binder.bind(IAuthAPIjwt, to=AuthAPIjwt)
+        binder.bind(IExerciseAPI, to=ExerciseAPI)
+
+        # Storage service
+        binder.bind(IJWTJsonStorage, JWTJsonStorage)
+
+    @provider
+    @singleton
+    def provide_http_client(self) -> httpx.Client:
+        """Provide the http client."""
+        return httpx.Client()
