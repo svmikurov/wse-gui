@@ -3,7 +3,7 @@
 from injector import Injector
 
 from wse.config.di_module import ConfigModule
-from wse.core.di_modules import CoreModule
+from wse.core.di_module import CoreModule
 from wse.features.services.di_module import FeatureServicesModule
 from wse.features.shared.containers.di_module import ContainerModule
 from wse.features.shared.di_module import FeatureSharedModule
@@ -17,14 +17,18 @@ def create_injector() -> Injector:
     """Combine all injector modules to injector instance."""
     return Injector(
         [
+            # config/
             ConfigModule(),
+            # core/
             CoreModule(),
+            # features/
             FeaturesAppsModule(),
             FeatureServicesModule(),
             FeatureSharedModule(),
             WidgetsModule(),
             ContainerModule(),
         ]
+        # features/subapps/
         + MAIN_APP_MODULES
         + MATH_APP_MODULES
     )
