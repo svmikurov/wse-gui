@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+from pydantic import BaseModel
+
 from wse.features.subapps.nav_id import NavID
 
 from .enums import (
@@ -32,3 +34,11 @@ SUCCESS_REDIRECT = NavID.HOME
 # Layout style
 LAYOUT_THEME = LayoutTheme.DEVELOP
 LAYOUT_STYLE = LayoutStyle.DEVELOP
+
+
+class APIConfigV1(BaseModel):
+    """API configuration for v1 version."""
+
+    base_url: str
+    jwt: dict[str, str]
+    task: dict[str, str]

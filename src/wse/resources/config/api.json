@@ -1,0 +1,12 @@
+{
+  "base_url": "http://127.0.0.1:8000/",
+  "jwt": {
+    "obtain_token": "/api/auth/jwt/obtain/",
+    "refresh_token": "/api/auth/jwt/refresh/",
+    "check_token": "/api/auth/jwt/verify/"
+  },
+  "task": {
+    "get_task": "api/v1/math/exercise/simple-calc/",
+    "validate_answer": "api/v1/math/exercise/simple-calc/validate/"
+  }
+}
