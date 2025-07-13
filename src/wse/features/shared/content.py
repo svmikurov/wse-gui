@@ -2,16 +2,18 @@
 
 import toga
 from injector import inject
+from typing_extensions import override
 
 from wse.config.layout import ThemeConfig
 
+from ..interfaces import IContent
 from ..subapps.nav_id import NavID
 
 
-@inject
-class Content(toga.Box):  # type: ignore[misc]
+class Content(toga.Box, IContent):  # type: ignore[misc]
     """Page content."""
 
+    @inject
     def __init__(
         self,
         theme_config: ThemeConfig,
@@ -24,6 +26,7 @@ class Content(toga.Box):  # type: ignore[misc]
         super().__init__(**style)
         self._test_id: NavID | None = None
 
+    @override
     @property
     def test_id(self) -> NavID | None:
         """Get test ID."""
