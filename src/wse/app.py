@@ -1,13 +1,18 @@
 """WSE GUI application."""
 
+import logging
+
 import httpx
 import toga
 from injector import Injector
 
 from .config.layout import StyleConfig
 from .core.interfaces import INavigator, IRoutes
+from .core.interfaces.iauth import IAuthService
 from .di import create_injector
 from .features.subapps.nav_id import NavID
+
+logger = logging.getLogger(__name__)
 
 
 class WSE(toga.App):  # type: ignore[misc]
@@ -22,11 +27,12 @@ class WSE(toga.App):  # type: ignore[misc]
         """Construct and show the Toga application."""
         self._set_injector()
         self._set_config()
-        self._set_main_window()
+        self._initialize_main_window()
+        self._set_auth_status()
         self._set_navigator()
         self._navigate_to_start_page()
 
-    def _set_main_window(self) -> None:
+    def _initialize_main_window(self) -> None:
         self.main_window = toga.MainWindow(
             title=self.formal_name,
             size=self._layout_config.window_size,
@@ -40,6 +46,12 @@ class WSE(toga.App):  # type: ignore[misc]
     def _set_config(self) -> None:
         """Set application configuration."""
         self._layout_config = self._injector.get(StyleConfig)
+
+    def _set_auth_status(self) -> None:
+        """Set user authenticated status."""
+        auth_service = self._injector.get(IAuthService)  # type: ignore[type-abstract]
+        auth_service.set_auth_status()
+        logger.info(f'User authenticated: {auth_service.is_auth}')
 
     def _set_navigator(self) -> None:
         """Set the page navigator."""
