@@ -1,6 +1,9 @@
 # Virtual environment
 .venv_wsegui/
 
+# Secret storage
+.storage/
+
 # Localisation
 *.mo
 

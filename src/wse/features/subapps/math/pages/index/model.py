@@ -8,7 +8,8 @@ from wse_exercises.base.enums import ExerciseEnum
 from wse_exercises.core import MathExercise
 
 from wse.features.base import BaseModel
-from wse.features.subapps.math.pages.index.interfaces import IIndexMathModel
+
+from .interfaces import IIndexMathModel
 
 
 @inject

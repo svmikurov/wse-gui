@@ -1,6 +1,7 @@
 """Defines exercise service."""
 
 import logging
+import uuid
 
 from injector import inject
 from typing_extensions import override
@@ -30,7 +31,7 @@ class SimpleCalcService(AddObserverMixin, ISimpleCalcService):
         self._exercise_api = exercise_api
         # The service uses the task UID in requests to
         # check the answer to a specific task by its UID.
-        self._task_uid: str | None = None
+        self._task_uid: uuid.UUID | None = None
 
     @override
     def get_task(self, exercise: ExerciseEnum) -> SimpleCalcTask:

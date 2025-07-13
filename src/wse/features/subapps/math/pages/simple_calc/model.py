@@ -22,7 +22,10 @@ NO_TEXT = ''
 
 @inject
 @dataclass
-class SimpleCalcModel(BaseModel, ISimpleCalcModel):
+class SimpleCalcModel(
+    BaseModel,
+    ISimpleCalcModel,
+):
     """Simple Math calculation page model."""
 
     _exercise_service: ISimpleCalcService

@@ -17,7 +17,10 @@ from .interfaces import (
 
 @inject
 @dataclass
-class SimpleCalcController(BasePageController, ISimpleCalcController):
+class SimpleCalcController(
+    BasePageController,
+    ISimpleCalcController,
+):
     """The controller of Simple Math calculation page."""
 
     _model: ISimpleCalcModel

@@ -48,22 +48,26 @@ class TestNumPadModel:
             ('', '8', '8'),
             ('', '9', '9'),
             ('', '0', '0.'),
+            ('1', '0', '10'),
             # Test with backspace
             ('', BACKSPACE, ''),
             ('1', BACKSPACE, ''),
             ('465', BACKSPACE, '46'),
             ('0', BACKSPACE, ''),
             ('0.', BACKSPACE, ''),
+            (MINUS + '0.', BACKSPACE, MINUS),
             # Test with dot
             ('', DOT, '0.'),
             ('5', DOT, '5.'),
             ('5.', DOT, '5.'),
             ('5.6', DOT, '5.6'),
+            (MINUS, DOT, MINUS + '0.'),
             # Test with minus
             ('', MINUS, '-'),
             ('-', MINUS, ''),
             ('0.1', MINUS, '-0.1'),
             ('-9', MINUS, '9'),
+            (MINUS, '0', MINUS + '0.'),
             # Test with Wrong
             ('', '11', ''),
             ('', 'a', ''),

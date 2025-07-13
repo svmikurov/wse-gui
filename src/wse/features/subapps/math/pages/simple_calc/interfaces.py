@@ -13,7 +13,10 @@ from wse.features.interfaces import (
 )
 
 
-class ISimpleCalcModel(IModel, Protocol):
+class ISimpleCalcModel(
+    IModel,
+    Protocol,
+):
     """Simple math calculation page view."""
 
     # API for controller
@@ -37,7 +40,10 @@ class ISimpleCalcModel(IModel, Protocol):
     def current_exercise(self, value: ExerciseEnum) -> None: ...
 
 
-class ISimpleCalcView(IView, Protocol):
+class ISimpleCalcView(
+    IView,
+    Protocol,
+):
     """Simple math calculation page view."""
 
     # Notifications from NumPad
@@ -60,7 +66,10 @@ class ISimpleCalcView(IView, Protocol):
         """Clear the answer text."""
 
 
-class ISimpleCalcController(IPageController, Protocol):
+class ISimpleCalcController(
+    IPageController,
+    Protocol,
+):
     """The controller of Simple Math calculation page."""
 
     _model: ISimpleCalcModel
@@ -92,7 +101,10 @@ class ISimpleCalcController(IPageController, Protocol):
         """Handle the task submit event."""
 
 
-class ISimpleCalcContainer(IGetContent, Protocol):
+class ISimpleCalcContainer(
+    IGetContent,
+    Protocol,
+):
     """Protocol fot Simple Math calculation container interface."""
 
     # Layout methods

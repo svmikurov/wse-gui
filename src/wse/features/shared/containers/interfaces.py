@@ -20,7 +20,10 @@ from ...interfaces import (
 # Text task container
 
 
-class ITextTaskContainer(IContainer, Protocol):
+class ITextTaskContainer(
+    IContainer,
+    Protocol,
+):
     """Protocol for Texet task container interface."""
 
     def display_question(self, value: str) -> None:
