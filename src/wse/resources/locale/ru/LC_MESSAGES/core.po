@@ -18,6 +18,9 @@ msgstr "Пароль"
 msgid "Login"
 msgstr "Войти"
 
+msgid "Logout"
+msgstr "Выйти из учетной записи"
+
 # Exercise
 
 msgid "Send answer"

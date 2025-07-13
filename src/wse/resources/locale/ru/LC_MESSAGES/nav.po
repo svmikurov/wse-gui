@@ -14,7 +14,7 @@ msgid "Home page"
 msgstr "Главная страница"
 
 msgid "Login page"
-msgstr "Войти в приложение"
+msgstr "Авторизоваться"
 
 msgid "Main math page"
 msgstr "Математика"
