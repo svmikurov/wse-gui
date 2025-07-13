@@ -2,12 +2,9 @@
 
 from typing import Protocol
 
-from wse_exercises.core.mathem.enums import Exercises
+from wse_exercises.base.enums import ExerciseEnum
 
-from wse.config.layout import (
-    TextTaskStyle,
-    TextTaskTheme,
-)
+from wse.config.layout import TextTaskStyle, TextTaskTheme
 from wse.features.interfaces import (
     IGetContent,
     IModel,
@@ -16,15 +13,12 @@ from wse.features.interfaces import (
 )
 
 
-class ISimpleCalcModel(
-    IModel,
-    Protocol,
-):
+class ISimpleCalcModel(IModel, Protocol):
     """Simple math calculation page view."""
 
     # API for controller
 
-    def on_open(self, exercise: Exercises) -> None:
+    def on_open(self, exercise: ExerciseEnum) -> None:
         """Call model methods when page opens."""
 
     def handle_answer_input(self, value: str) -> None:
@@ -36,17 +30,14 @@ class ISimpleCalcModel(
     # Properties
 
     @property
-    def current_exercise(self) -> Exercises | None:
+    def current_exercise(self) -> ExerciseEnum | None:
         """Current exercise to do."""
 
     @current_exercise.setter
-    def current_exercise(self, value: Exercises) -> None: ...
+    def current_exercise(self, value: ExerciseEnum) -> None: ...
 
 
-class ISimpleCalcView(
-    IView,
-    Protocol,
-):
+class ISimpleCalcView(IView, Protocol):
     """Simple math calculation page view."""
 
     # Notifications from NumPad
@@ -69,10 +60,7 @@ class ISimpleCalcView(
         """Clear the answer text."""
 
 
-class ISimpleCalcController(
-    IPageController,
-    Protocol,
-):
+class ISimpleCalcController(IPageController, Protocol):
     """The controller of Simple Math calculation page."""
 
     _model: ISimpleCalcModel
@@ -104,10 +92,7 @@ class ISimpleCalcController(
         """Handle the task submit event."""
 
 
-class ISimpleCalcContainer(
-    IGetContent,
-    Protocol,
-):
+class ISimpleCalcContainer(IGetContent, Protocol):
     """Protocol fot Simple Math calculation container interface."""
 
     # Layout methods

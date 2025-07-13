@@ -2,14 +2,14 @@
 
 from typing import Protocol, Type
 
-from wse_exercises.core.mathem.enums import Exercises
+from wse_exercises.base.enums import ExerciseEnum
 
 from wse.features.sources.interfaces import ISelectionSource
 from wse.features.subapps.math.sources.selection import ExerciseEntry
 
 
 class IExerciseSelectionSource(
-    ISelectionSource[Exercises],
+    ISelectionSource[ExerciseEnum],
     Protocol,
 ):
     """Protocol for Exercise selection data source."""

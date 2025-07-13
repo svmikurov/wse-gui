@@ -4,7 +4,16 @@ import toga
 
 
 class EventDisabler:
-    """Temporary disabled windget `on_change` method."""
+    """Temporary disabled Selection windget `on_change` method.
+
+    For exemple:
+
+        def update_exercise_selection(
+            self, exercises: list[Exercise],
+        ) -> None:
+            with EventDisabler(self._exercise_selection):
+                self._exercise_selection.items.update(exercises)
+    """
 
     def __init__(self, widget: toga.Selection) -> None:
         """Construct the context manage."""

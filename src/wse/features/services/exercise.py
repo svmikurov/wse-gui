@@ -3,45 +3,62 @@
 import logging
 
 from injector import inject
-from wse_exercises.core.mathem.enums import Exercises
-from wse_exercises.core.mathem.interfaces import (
-    ISimpleCalcTask,
-)
-from wse_exercises.core.mathem.task import SimpleMathTask
+from typing_extensions import override
+from wse_exercises.base.components import TextAnswer
+from wse_exercises.base.enums import ExerciseEnum
+from wse_exercises.core.math.rest import SimpleCalcAnswer, SimpleCalcResponse
+from wse_exercises.core.math.task import SimpleCalcTask
 
-from ...core.interfaces.iapi import IExerciseApi
-from ...core.interfaces.iauth import IAuthService
+from wse.core.exceptions import ExerciseError
+from wse.core.interfaces.iapi import IExerciseAPI
+
 from ..base.mixins import AddObserverMixin
+from .interfaces import ISimpleCalcService
 
 logger = logging.getLogger(__name__)
 
 
-class SimpleCalcService(
-    AddObserverMixin,
-):
+class SimpleCalcService(AddObserverMixin, ISimpleCalcService):
     """Simple math calculation exercise service."""
 
     @inject
     def __init__(
         self,
-        auth_service: IAuthService,
-        exercise_api: IExerciseApi,
+        exercise_api: IExerciseAPI,
     ) -> None:
         """Construct the exercise."""
-        self._auth_service = auth_service
         self._exercise_api = exercise_api
+        # The service uses the task UID in requests to
+        # check the answer to a specific task by its UID.
+        self._task_uid: str | None = None
 
-    def get_task(self, exercise: Exercises) -> ISimpleCalcTask:
+    @override
+    def get_task(self, exercise: ExerciseEnum) -> SimpleCalcTask:
         """Get task."""
-        task_data = self._exercise_api.request_task(exercise)
-        task_dto = SimpleMathTask.from_dict(task_data)
-        return task_dto
+        request_dto = self._exercise_api.request_task(exercise)
+        response_dto = SimpleCalcResponse.from_dict(request_dto)
+        self._task_uid = response_dto.uid
+        return response_dto.task
 
-    @classmethod
-    def check_answer(
-        cls,
-        user_answer: str,
-        task: ISimpleCalcTask,
-    ) -> bool:
+    @override
+    def check_answer(self, user_answer: str) -> bool:
         """Check the user answer."""
-        return bool(user_answer == task.answer.text)
+        if self._task_uid is None:
+            raise ExerciseError('Unique task identifier is not defined')
+
+        answer_dto = SimpleCalcAnswer(
+            uid=self._task_uid,
+            answer=TextAnswer(text=user_answer),
+        )
+
+        try:
+            is_correct = self._exercise_api.check_answer(answer_dto)
+
+        except ExerciseError as e:
+            logger.exception(f'Answer check error: {e}')
+            raise
+
+        else:
+            if is_correct:
+                self._task_uid = None
+            return is_correct

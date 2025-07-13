@@ -1,27 +1,68 @@
 """Defines protocol for API client interface."""
 
-from typing import Any, Protocol
+from typing import Any, Generator, Protocol
 
-from httpx import Response
-from wse_exercises.core.mathem.enums import Exercises
-
-
-class IApiClient(
-    Protocol,
-):
-    """Protocol for API client interface."""
-
-    def get(self, endpoint: str) -> Response:
-        """Request with GET method."""
-
-    def post(self, endpoint: str, data: dict[str, Any]) -> Response:
-        """Request with POST method."""
+import httpx
+from wse_exercises.base.enums import ExerciseEnum
+from wse_exercises.core.math.rest import SimpleCalcAnswer
 
 
-class IExerciseApi(
-    Protocol,
-):
-    """Defines protocol for exercise API."""
+class IHttpClient(Protocol):
+    """Protocol for http client."""
 
-    def request_task(self, exercise: Exercises) -> dict[str, Any]:
+    def get(
+        self,
+        url: httpx.URL | str,
+        auth: httpx.Auth | None = None,
+    ) -> httpx.Response:
+        """Send a `GET` request."""
+
+    def post(
+        self,
+        url: httpx.URL | str,
+        json: dict[str, Any] | None = None,
+        auth: httpx.Auth | None = None,
+        headers: dict[str, str] | None = None,
+    ) -> httpx.Response:
+        """Send a `POST` request."""
+
+    def patch(
+        self,
+        url: httpx.URL | str,
+        json: dict[str, Any],
+        auth: httpx.Auth | None = None,
+    ) -> httpx.Response:
+        """Send a `PATCH` request."""
+
+
+class IAuthAPIjwt(Protocol):
+    """Protocol for authentication API interface."""
+
+    def obtain_tokens(self, username: str, password: str) -> dict[str, str]:
+        """Obtain 'refresh' and 'access' tokens."""
+
+    def check_access_token(self, access_token: str) -> bool:
+        """Check the access token."""
+
+    def refresh_access_token(self, refresh_token: str) -> str:
+        """Refresh the 'access' token."""
+
+
+class IExerciseAPI(Protocol):
+    """Defines protocol for exercise API interface."""
+
+    def request_task(self, exercise: ExerciseEnum) -> dict[str, Any]:
         """Request the task."""
+
+    def check_answer(self, answer: SimpleCalcAnswer) -> bool:
+        """Check the user entered answer."""
+
+
+class IAuthScheme(Protocol):
+    """Protocol for authentication schema interface."""
+
+    def auth_flow(
+        self,
+        request: httpx.Request,
+    ) -> Generator[httpx.Request, httpx.Response, None]:
+        """Execute the authentication flow."""

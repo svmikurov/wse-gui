@@ -51,6 +51,8 @@ class NumPadModel(
     def _handle_backspace_char(self) -> bool:
         if self._input == '0.':
             self._input = NO_TEXT
+        elif self._input == MINUS + '0.':
+            self._input = MINUS
         elif self._input == NO_TEXT:
             return False
         else:
@@ -60,8 +62,8 @@ class NumPadModel(
     def _handle_dot_char(self) -> bool:
         if DOT in self._input:
             return False
-        elif self._input == NO_TEXT:
-            self._input = '0.'
+        elif self._input == NO_TEXT or self._input == MINUS:
+            self._input += '0.'
         else:
             self._input += DOT
         return True
@@ -73,8 +75,12 @@ class NumPadModel(
             self._input = MINUS + self._input
 
     def _handle_allowed_char(self, char: str) -> None:
-        if self._input == NO_TEXT and char == '0':
-            self._input += char + DOT
+        if char == '0':
+            self._input += (
+                char + DOT
+                if self._input == NO_TEXT or self._input == MINUS
+                else char
+            )
         else:
             self._input += char
 
@@ -224,6 +230,7 @@ class NumPadContainer(
                         self._btn_3,
                         self._btn_6,
                         self._btn_9,
+                        self._btn_backspace,
                     ]
                 ),
             ]
@@ -233,7 +240,6 @@ class NumPadContainer(
     def _build_sign_box(self) -> None:
         self._sign_box = FlexColumn(
             children=[
-                self._btn_backspace,
                 self._btn_minus,
             ]
         )

@@ -25,10 +25,7 @@ from .interfaces import ISimpleCalcView
 
 @inject
 @dataclass
-class SimpleCalcView(
-    BaseView,
-    ISimpleCalcView,
-):
+class SimpleCalcView(BaseView, ISimpleCalcView):
     """Simple math calculation page view."""
 
     # Containers injection

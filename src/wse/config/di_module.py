@@ -18,10 +18,17 @@ from .layout import (
     TextTaskTheme,
     ThemeConfig,
 )
-from .settings import LAYOUT_STYLE, LAYOUT_THEME, STYLE_PATH
+from .settings import (
+    CONFIGS_PATH,
+    LAYOUT_STYLE,
+    LAYOUT_THEME,
+    STYLE_PATH,
+    APIConfigV1,
+)
 
 LAYOUT_STYLE_PATH = STYLE_PATH / LAYOUT_STYLE
 LAYOUT_THEME_PATH = STYLE_PATH / LAYOUT_THEME
+API_CONFIG_PATH = CONFIGS_PATH / 'api.json'
 
 T = TypeVar('T')
 
@@ -65,6 +72,13 @@ def load_data(
 
 class ConfigModule(Module):
     """Configuration injection module."""
+
+    @provider
+    @singleton
+    def provide_api_config(self) -> APIConfigV1:
+        """Provide API configuration."""
+        with open(API_CONFIG_PATH, 'r') as f:
+            return APIConfigV1(**json.load(f))
 
     @provider
     @singleton

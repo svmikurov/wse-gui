@@ -2,21 +2,15 @@
 
 from typing import Protocol
 
-from wse_exercises.core.mathem.enums import Exercises
-from wse_exercises.core.mathem.interfaces import ISimpleCalcTask
+from wse_exercises.base.enums import ExerciseEnum
+from wse_exercises.core.math.task import SimpleCalcTask
 
 
-class ISimpleCalcService(
-    Protocol,
-):
+class ISimpleCalcService(Protocol):
     """Protocols for Exercise Service interface."""
 
-    def get_task(self, exercise: Exercises) -> ISimpleCalcTask:
+    def get_task(self, exercise: ExerciseEnum) -> SimpleCalcTask:
         """Get task."""
 
-    def check_answer(
-        self,
-        user_answer: str,
-        task: ISimpleCalcTask,
-    ) -> bool:
+    def check_answer(self, user_answer: str) -> bool:
         """Check the user answer."""

@@ -2,7 +2,7 @@
 
 from typing import Protocol
 
-from wse_exercises.core.mathem.enums import Exercises
+from wse_exercises.base.enums import ExerciseEnum
 
 from wse.features.interfaces import IView
 from wse.features.interfaces.imvc import IModel, IPageController
@@ -17,7 +17,7 @@ class IIndexMathModel(
     def on_open(self) -> None:
         """Call methods when page opens."""
 
-    def change_exersice(self, value: Exercises) -> None:
+    def change_exersice(self, value: ExerciseEnum) -> None:
         """Change the exercise to perform."""
 
     def start_exercise(self) -> None:
@@ -30,7 +30,7 @@ class IIndexMathView(
 ):
     """Protocol for Main Math page view interface."""
 
-    def update_exercise_selection(self, exercises: list[Exercises]) -> None:
+    def update_exercise_selection(self, exercises: list[ExerciseEnum]) -> None:
         """Update the Exercise selection data source."""
 
 
@@ -42,15 +42,15 @@ class IIndexMathController(
 
     # Notifications from Model
 
-    def exercises_updated(self, values: list[Exercises]) -> None:
+    def exercises_updated(self, values: list[ExerciseEnum]) -> None:
         """Update exercises selection data source."""
 
-    def exercise_started(self, value: Exercises) -> None:
+    def exercise_started(self, value: ExerciseEnum) -> None:
         """Navigate to exercise page."""
 
     # Notifications from view
 
-    def exercise_changed(self, value: Exercises) -> None:
+    def exercise_changed(self, value: ExerciseEnum) -> None:
         """Handle the change of exercise type."""
 
     def start_button_pressed(self) -> None:

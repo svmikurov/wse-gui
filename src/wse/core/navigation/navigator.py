@@ -4,8 +4,10 @@ import logging
 from collections import deque
 
 import toga
+from typing_extensions import override
 
-from wse.features.exceptions import ContentError, NavigateError
+from wse.core.exceptions import ContentError, NavigateError
+from wse.core.interfaces import INavigator
 from wse.features.interfaces.imvc import IPageController
 from wse.features.subapps.nav_id import NavID
 
@@ -14,7 +16,7 @@ logger = logging.getLogger(__name__)
 HISTORY_LEN = 10
 
 
-class Navigator:
+class Navigator(INavigator):
     """Page navigation service."""
 
     _routes: dict[NavID, IPageController]
@@ -29,6 +31,7 @@ class Navigator:
         self._window = window
         self._content_history: deque[NavID] = deque(maxlen=HISTORY_LEN)
 
+    @override
     def navigate(self, nav_id: NavID, **kwargs: object) -> None:
         """Navigate to page."""
         if nav_id == NavID.BACK:
@@ -51,10 +54,12 @@ class Navigator:
             self._window.content = page_controller.content
             logger.debug(f"The '{nav_id}' page is open")
 
+    @override
     def set_main_window(self, window: toga.Window) -> None:
         """Set main window."""
         self._window = window
 
+    @override
     def set_routes(self, routes: dict[NavID, IPageController]) -> None:
         """Set page route mapping."""
         self._routes = routes
