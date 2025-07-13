@@ -36,9 +36,7 @@ class AuthSchema(httpx.Auth, IAuthScheme):
     ) -> Generator[Request, Response, None]:
         """Execute the authentication flow."""
         if self._auth_service.is_auth:
-            request.headers['Authorization'] = (  # type: ignore[call-overload]
-                f'Bearer {self._auth_service.access_token}'
-            )
+            request = self._add_auth_header(request)
 
         response = yield request
 
@@ -46,9 +44,12 @@ class AuthSchema(httpx.Auth, IAuthScheme):
             # If the server issues a 401 response, then issue a
             # request to refresh tokens, and resend the request.
             self._auth_service.refresh_access_token()
-
-            request.headers['Authorization'] = (  # type: ignore[call-overload]
-                f'Bearer {self._auth_service.access_token}'
-            )
-
+            request = self._add_auth_header(request)
             yield request
+
+    def _add_auth_header(self, request: Request) -> Request:
+        """Add authentication with JWT to request header."""
+        request.headers['Authorization'] = (  # type: ignore[call-overload]
+            f'Bearer {self._auth_service.access_token}'
+        )
+        return request
