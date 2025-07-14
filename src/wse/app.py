@@ -33,10 +33,14 @@ class WSE(toga.App):  # type: ignore[misc]
         self._navigate_to_start_page()
 
     def _initialize_main_window(self) -> None:
-        self.main_window = toga.MainWindow(
-            title=self.formal_name,
-            size=self._layout_config.window_size,
-        )
+        main_window = self._injector.get(toga.MainWindow)
+
+        # Configure the main window
+        main_window.title = self.formal_name
+        main_window.size = self._layout_config.window_size
+
+        # Set and show main window
+        self.main_window = main_window
         self.main_window.show()
 
     def _set_injector(self) -> None:

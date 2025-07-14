@@ -3,6 +3,7 @@
 from typing import no_type_check
 
 import httpx
+import toga
 from injector import Binder, Module, provider, singleton
 
 from wse.core.http.auth import AuthSchema
@@ -51,3 +52,9 @@ class CoreModule(Module):
     def provide_http_client(self) -> httpx.Client:
         """Provide the http client."""
         return httpx.Client()
+
+    @provider
+    @singleton
+    def provide_main_window(self) -> toga.MainWindow:
+        """Provide the Main window."""
+        return toga.MainWindow()
