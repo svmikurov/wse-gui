@@ -64,3 +64,13 @@ class BaseSelectionSource(Source, Generic[T], ABC):
         """Remove all entry from the data source."""
         self._items = []
         self.notify('clear')
+
+    def find(self, entry: object) -> Entry[T]:
+        """Find entry in source entries."""
+        for item in self._items:
+            if item.entry == entry:
+                return item
+
+        raise ValueError(
+            f"{self.__class__.__name__} does not contain '{entry}' entry"
+        )
