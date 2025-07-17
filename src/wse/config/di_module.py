@@ -17,6 +17,8 @@ from .layout import (
     TextTaskStyle,
     TextTaskTheme,
     ThemeConfig,
+    TopBarStyle,
+    TopBarTheme,
 )
 from .settings import (
     CONFIGS_PATH,
@@ -152,4 +154,24 @@ class ConfigModule(Module):
             LAYOUT_THEME_PATH,
             LoginTheme,
             container_alice='login',
+        )
+
+    @provider
+    @singleton
+    def provide_top_bar_style(self) -> TopBarStyle:
+        """Load and provide layout style for top bar container."""
+        return load_data(
+            LAYOUT_STYLE_PATH,
+            TopBarStyle,
+            container_alice='top_bar',
+        )
+
+    @provider
+    @singleton
+    def provide_top_bar_theme(self) -> TopBarTheme:
+        """Load and provide layout color theme for top bar container."""
+        return load_data(
+            LAYOUT_THEME_PATH,
+            TopBarTheme,
+            container_alice='top_bar',
         )
