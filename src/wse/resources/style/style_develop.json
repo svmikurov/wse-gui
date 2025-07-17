@@ -77,5 +77,23 @@
       "margin_bottom": 2,
       "margin_left": 5
     }
+  },
+  "top_bar": {
+    "label_balance": {
+      "font_size": 15,
+      "height": 60,
+      "margin_top": 2,
+      "margin_right": 5,
+      "margin_bottom": 2,
+      "margin_left": 5
+    },
+    "button": {
+      "font_size": 15,
+      "height": 60,
+      "margin_top": 2,
+      "margin_right": 5,
+      "margin_bottom": 2,
+      "margin_left": 5
+    }
   }
 }

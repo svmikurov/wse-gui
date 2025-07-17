@@ -10,7 +10,17 @@ class BaseConfig:
 
 
 @dataclass
-class StyleConfig(BaseConfig):
+class BaseStyle(BaseConfig):
+    """Base class for style config."""
+
+
+@dataclass
+class BaseThema(BaseConfig):
+    """Base class for thema config."""
+
+
+@dataclass
+class StyleConfig(BaseStyle):
     """Application layout style configuration.
 
     For example, load from json config:
@@ -31,10 +41,11 @@ class StyleConfig(BaseConfig):
     button: dict[str, str | int] = field(default_factory=dict)
     btn_nav: dict[str, str | int] = field(default_factory=dict)
     selection: dict[str, str | int] = field(default_factory=dict)
+    top_bar: dict[str, str | int] = field(default_factory=dict)
 
 
 @dataclass
-class ThemeConfig(BaseConfig):
+class ThemeConfig(BaseThema):
     """Application layout theme configuration.
 
     For example, load from json config:
@@ -56,10 +67,11 @@ class ThemeConfig(BaseConfig):
     button: dict[str, str] = field(default_factory=dict)
     btn_nav: dict[str, str] = field(default_factory=dict)
     selection: dict[str, str] = field(default_factory=dict)
+    top_bar: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
-class TextTaskStyle(BaseConfig):
+class TextTaskStyle(BaseStyle):
     """Style config for exercise task I/O text container."""
 
     label_question: dict[str, str | int] = field(default_factory=dict)
@@ -67,7 +79,7 @@ class TextTaskStyle(BaseConfig):
 
 
 @dataclass
-class TextTaskTheme(BaseConfig):
+class TextTaskTheme(BaseThema):
     """Theme config for exercise task I/O text container."""
 
     label_question: dict[str, str] = field(default_factory=dict)
@@ -75,7 +87,7 @@ class TextTaskTheme(BaseConfig):
 
 
 @dataclass
-class NumPadStyle(BaseConfig):
+class NumPadStyle(BaseStyle):
     """Style config for NumPad container."""
 
     button: dict[str, str | int] = field(default_factory=dict)
@@ -83,7 +95,7 @@ class NumPadStyle(BaseConfig):
 
 
 @dataclass
-class NumPadTheme(BaseConfig):
+class NumPadTheme(BaseThema):
     """Theme config for NumPad container."""
 
     button: dict[str, str] = field(default_factory=dict)
@@ -91,7 +103,7 @@ class NumPadTheme(BaseConfig):
 
 
 @dataclass
-class LoginStyle(BaseConfig):
+class LoginStyle(BaseStyle):
     """Style config for login container."""
 
     input: dict[str, str | int] = field(default_factory=dict)
@@ -99,8 +111,24 @@ class LoginStyle(BaseConfig):
 
 
 @dataclass
-class LoginTheme(BaseConfig):
+class LoginTheme(BaseThema):
     """Theme config for login container."""
 
     input: dict[str, str] = field(default_factory=dict)
     button: dict[str, str] = field(default_factory=dict)
+
+
+@dataclass
+class TopBarStyle(BaseStyle):
+    """Theme config for Top Bar container."""
+
+    button: dict[str, str | int] = field(default_factory=dict)
+    label_balance: dict[str, str | int] = field(default_factory=dict)
+
+
+@dataclass
+class TopBarTheme(BaseThema):
+    """Theme config for Top Bar container."""
+
+    button: dict[str, str] = field(default_factory=dict)
+    label_balance: dict[str, str | int] = field(default_factory=dict)
