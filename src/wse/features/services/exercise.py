@@ -5,9 +5,13 @@ import uuid
 
 from injector import inject
 from typing_extensions import override
-from wse_exercises.base.components import TextAnswer
+from wse_exercises.base.components import NumberAnswer
 from wse_exercises.base.enums import ExerciseEnum
-from wse_exercises.core.math.rest import SimpleCalcAnswer, SimpleCalcResponse
+from wse_exercises.core.math.rest import (
+    SimpleCalcCheck,
+    SimpleCalcResponse,
+    SimpleCalcResult,
+)
 from wse_exercises.core.math.task import SimpleCalcTask
 
 from wse.core.exceptions import ExerciseError
@@ -42,24 +46,28 @@ class SimpleCalcService(AddObserverMixin, ISimpleCalcService):
         return response_dto.task
 
     @override
-    def check_answer(self, user_answer: str) -> bool:
+    def check_answer(self, user_answer: str) -> SimpleCalcResult:
         """Check the user answer."""
         if self._task_uid is None:
             raise ExerciseError('Unique task identifier is not defined')
 
-        answer_dto = SimpleCalcAnswer(
-            uid=self._task_uid,
-            answer=TextAnswer(text=user_answer),
-        )
+        try:
+            answer_dto = SimpleCalcCheck(
+                uid=self._task_uid,
+                answer=NumberAnswer(number=int(user_answer)),
+            )
+        except Exception as e:
+            logger.exception('Answer DTO creation error')
+            raise e
 
         try:
-            is_correct = self._exercise_api.check_answer(answer_dto)
+            result_dto = self._exercise_api.check_answer(answer_dto)
 
         except ExerciseError as e:
             logger.exception(f'Answer check error: {e}')
             raise
 
         else:
-            if is_correct:
+            if result_dto.is_correct:
                 self._task_uid = None
-            return is_correct
+            return result_dto
