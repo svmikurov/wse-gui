@@ -41,6 +41,9 @@ class ITextTaskContainer(
     def update_style(self, config: TextTaskStyle | TextTaskTheme) -> None:
         """Update widgets style."""
 
+    def display_correct_answer(self, expression: str) -> None:
+        """Display the correct answer."""
+
 
 # NumPad
 
@@ -65,6 +68,9 @@ class INumPadContainer(
 ):
     """Protocol for NumPad container interface."""
 
+    def update_enabled(self, enabled: bool) -> None:
+        """Update buttons enabled features."""
+
 
 class INumPadController(
     IAddObserver,
@@ -73,8 +79,26 @@ class INumPadController(
 ):
     """Protocol for NumPad controller interface."""
 
+    # Notification from View
+
+    def button_pressed(self, value: str) -> None:
+        """Handle the button press event."""
+
+    # Notification for outer component
+
+    def numpad_input_updated(self, value: str) -> None:
+        """Handle the input update event."""
+
+    # API for outer component
+
     def clear_input(self) -> None:
         """Clear the entered data."""
+
+    def disable_buttons(self) -> None:
+        """Disable numpad buttons."""
+
+    def enable_buttons(self) -> None:
+        """Enable numpad buttons."""
 
 
 # Login container

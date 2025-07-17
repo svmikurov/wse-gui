@@ -16,6 +16,7 @@ from ...base.mixins import AddObserverMixin
 from ...interfaces import IContent, ISubject
 from ...shared.containers.interfaces import (
     INumPadContainer,
+    INumPadController,
     INumPadModel,
 )
 
@@ -193,6 +194,15 @@ class NumPadContainer(
         # Update outer NumPad box style
         self._outer_box.style.update(**config.outer_box)
 
+    def update_enabled(self, enabled: bool) -> None:
+        """Update buttons enabled features."""
+        for row in self._num_box.children:
+            for button in row.children:
+                button.enabled = enabled
+
+        for button in self._sign_box.children:
+            button.enabled = enabled
+
     # Utility layout methods
 
     def _create_button(self, text: str | int) -> toga.Button:
@@ -250,6 +260,7 @@ class NumPadContainer(
 class NumPadController(
     AddObserverMixin,
     BaseController,
+    INumPadController,
 ):
     """Number keyword controller."""
 
@@ -278,6 +289,14 @@ class NumPadController(
     def clear_input(self) -> None:
         """Clear the entered data."""
         self._model.clear_input()
+
+    def disable_buttons(self) -> None:
+        """Disable numpad buttons."""
+        self._container.update_enabled(enabled=False)
+
+    def enable_buttons(self) -> None:
+        """Enable numpad buttons."""
+        self._container.update_enabled(enabled=True)
 
     # Property
 
