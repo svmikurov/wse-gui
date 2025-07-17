@@ -12,10 +12,13 @@ from .interfaces import (
     INumPadController,
     INumPadModel,
     ITextTaskContainer,
+    ITopBarContainer,
+    ITopBarController,
 )
 from .login import LoginContainer, LoginController, LoginModel
 from .numpad import NumPadContainer, NumPadController, NumPadModel
 from .task_panel import TextTaskPanel
+from .top_bar import TopBarContainer, TopBarController
 
 
 class ContainerModule(Module):
@@ -35,3 +38,7 @@ class ContainerModule(Module):
         binder.bind(ILoginModel, to=LoginModel)
         binder.bind(ILoginContainer, to=LoginContainer)
         binder.bind(ILoginController, to=LoginController)
+
+        # TopBar container
+        binder.bind(ITopBarContainer, to=TopBarContainer)
+        binder.bind(ITopBarController, to=TopBarController)

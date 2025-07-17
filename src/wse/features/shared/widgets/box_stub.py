@@ -28,3 +28,15 @@ class FlexColumnStub(toga.Box):  # type: ignore[misc]
             flex=1,
         )
         super().__init__(style=style)
+
+
+class FlexRowStub(toga.Box):  # type: ignore[misc]
+    """Flexible row direction box."""
+
+    def __init__(self) -> None:
+        """Construct the box."""
+        style = Pack(
+            flex=1,
+        )
+        super().__init__(style=style)
+        self.direction = 'column'

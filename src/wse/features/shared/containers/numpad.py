@@ -8,10 +8,10 @@ import toga
 from injector import inject
 
 from wse.config.layout import NumPadStyle, NumPadTheme
+from wse.features.shared.boxes import FlexColumn
 
 from ...base import BaseController
-from ...base.boxes import FlexColumn
-from ...base.container import BaseContainer
+from ...base.container import ContainerABC
 from ...base.mixins import AddObserverMixin
 from ...interfaces import IContent, ISubject
 from ...shared.containers.interfaces import (
@@ -144,7 +144,7 @@ class NumPadModel(
 @dataclass
 class NumPadContainer(
     AddObserverMixin,
-    BaseContainer,
+    ContainerABC,
 ):
     """Number keyword container."""
 

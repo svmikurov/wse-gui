@@ -12,12 +12,11 @@ from wse.core.interfaces.iauth import IAuthService
 from wse.utils.i18n import _
 
 from ...base import BaseController
-from ...base.container import BaseContainer
+from ...base.container import ContainerABC
 from ...base.mixins import AddObserverMixin
 from ...interfaces import IContent, ISubject
 from ...shared.containers.interfaces import (
     ILoginContainer,
-    ILoginController,
     ILoginModel,
 )
 from ...subapps.nav_id import NavID
@@ -68,8 +67,7 @@ class LoginModel(
 @dataclass
 class LoginContainer(
     AddObserverMixin,
-    BaseContainer,
-    ILoginContainer,
+    ContainerABC,
 ):
     """Login container."""
 
@@ -79,7 +77,7 @@ class LoginContainer(
 
     def _setup(self) -> None:
         self.content.test_id = NavID.LOGIN
-        self.localize()
+        self.localize_ui()
         self.update_style(self._style_config)
         self.update_style(self._theme_config)
 
@@ -95,21 +93,18 @@ class LoginContainer(
         self._input_password = toga.PasswordInput()
         self._btn_confirm = toga.Button('', on_press=self._confirm_handler)
 
-    @override
-    def localize(self) -> None:
+    def localize_ui(self) -> None:
         """Localize the UI text."""
         self._input_username.placeholder = _('Username')
         self._input_password.placeholder = _('Password')
         self._btn_confirm.text = _('Login')
 
-    @override
     def update_style(self, config: LoginStyle | LoginTheme) -> None:
         """Update UI style."""
         self._input_username.style.update(**config.input)
         self._input_password.style.update(**config.input)
         self._btn_confirm.style.update(**config.button)
 
-    @override
     def clear_credential(self) -> None:
         """Clear the entered credential."""
         self._input_username.value = ''
@@ -131,7 +126,6 @@ class LoginContainer(
 class LoginController(
     AddObserverMixin,
     BaseController,
-    ILoginController,
 ):
     """Login container controller."""
 
@@ -150,19 +144,16 @@ class LoginController(
         """Get page content."""
         return self._container.content
 
-    @override
     def clear_credential(self) -> None:
         """Clear the entered credential."""
         self._container.clear_credential()
 
     # Notifications from Container
 
-    @override
     def login_confirm(self, username: str, password: str) -> None:
         """Handle the login confirmation."""
         self._model.authenticate(username, password)
 
-    @override
     def success_authentication(self) -> None:
         """Notify about successful authentication."""
         self._subject.notify('success_authentication')

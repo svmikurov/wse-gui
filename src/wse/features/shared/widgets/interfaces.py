@@ -9,3 +9,7 @@ class IDivider(Protocol):
 
 class IFlexColumnStub(Protocol):
     """Protocol for flexible column direction box interface."""
+
+
+class IFlexRowStub(Protocol):
+    """Protocol for flexible column direction box interface."""

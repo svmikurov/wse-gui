@@ -7,9 +7,8 @@ import toga
 from injector import inject
 
 from wse.config.layout import TextTaskStyle, TextTaskTheme
-from wse.utils.i18n import _
 
-from ...base.container import BaseContainer
+from ...base.container import ContainerABC
 from ...shared.widgets.interfaces import IDivider
 from .interfaces import ITextTaskContainer
 
@@ -17,7 +16,7 @@ from .interfaces import ITextTaskContainer
 @inject
 @dataclass
 class TextTaskPanel(
-    BaseContainer,
+    ContainerABC,
     ITextTaskContainer,
 ):
     """Abstract base class for I/O one line text container."""
@@ -62,7 +61,6 @@ class TextTaskPanel(
     def display_correct_answer(self, expression: str) -> None:
         """Display the correct answer."""
         self.display_question(expression)
-        self.display_answer(_('Correct answer'))
 
     def localize_ui(self) -> None:
         """Localize the UI text."""
