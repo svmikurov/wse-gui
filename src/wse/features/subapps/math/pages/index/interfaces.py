@@ -4,8 +4,7 @@ from typing import Protocol
 
 from wse_exercises.base.enums import ExerciseEnum
 
-from wse.features.interfaces import IView
-from wse.features.interfaces.imvc import IModel, IPageController
+from wse.features.interfaces.imvc import IModel, IPageController, IView
 
 
 class IIndexMathModel(

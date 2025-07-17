@@ -1,6 +1,6 @@
 """Defines subject of Observer pattern."""
 
-from ..interfaces import IObserver
+from ..interfaces.iobserver import IObserver
 
 
 class Subject:

@@ -5,7 +5,7 @@ from typing import no_type_check
 from wse.features.base import BaseRoutes
 from wse.features.subapps.nav_id import NavID
 
-from ...interfaces import IPageController
+from ...interfaces.imvc import IPageController
 from .pages.index.interfaces import IIndexMathController
 from .pages.simple_calc.interfaces import ISimpleCalcController
 

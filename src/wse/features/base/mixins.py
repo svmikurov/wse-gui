@@ -7,7 +7,8 @@ from injector import inject
 
 from wse.core.interfaces import INavigator
 
-from ..interfaces import IContent, IObserver, ISubject
+from ..interfaces.icontent import IContent
+from ..interfaces.iobserver import IObserver, ISubject
 from ..interfaces.iwidgets import INavButton
 from ..shared.widgets.buttons import NavButton
 from ..subapps.nav_id import NavID
@@ -30,7 +31,22 @@ class NavigateMixin:
 @inject
 @dataclass
 class NotifyNavigateMixin:
-    """Mixin to provide navigation notification."""
+    """Mixin to provide navigation notification.
+
+    Use to pass navigation event notification from view component to
+    controller.
+    To do this, add a mixin in the view component controller and the
+    view controller.
+
+    For example:
+
+        class TopBarController(NotifyNavigateMixin, ...): ...
+
+        class SomePageController((NotifyNavigateMixin, ...):
+
+            _container: ITopBarController
+
+    """
 
     _subject: ISubject
 

@@ -13,20 +13,19 @@ from wse.config.layout import (
 )
 from wse.utils.i18n import _, nav_
 
-from ...base.container import NavigableContainer
-from ...base.mixins import AddObserverMixin, NotifyNavigateMixin
-from ...base.mvc import BaseController
-from ...interfaces import IContent
+from ...interfaces.icontent import IContent
 from ...subapps.nav_id import NavID
 from ..widgets.interfaces import IFlexRowStub
-from .interfaces import ITopBarContainer, ITopBarController
+from ._iabc.itop_bar import (
+    BaseTopBarContainer,
+    BaseTopBarController,
+    ITopBarContainer,
+)
 
 
 @inject
 @dataclass
-class TopBarContainer(
-    NavigableContainer[TopBarStyle, TopBarTheme],
-):
+class TopBarContainer(BaseTopBarContainer):
     """Top bar container."""
 
     _style_config: TopBarStyle
@@ -59,6 +58,7 @@ class TopBarContainer(
         self._btn_back.text = nav_(NavID.BACK)
         self._label_balance.text = _('Balance')
 
+    @override
     def update_style(self, config: TopBarStyle | TopBarTheme) -> None:
         """Update widgets style."""
         self._btn_back.style.update(**config.button)
@@ -67,12 +67,7 @@ class TopBarContainer(
 
 @inject
 @dataclass
-class TopBarController(
-    AddObserverMixin,
-    BaseController,
-    NotifyNavigateMixin,
-    ITopBarController,
-):
+class TopBarController(BaseTopBarController):
     """Top bar controller."""
 
     _container: ITopBarContainer

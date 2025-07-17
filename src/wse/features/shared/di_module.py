@@ -4,10 +4,8 @@ from typing import no_type_check
 
 from injector import Binder, Module
 
-from ..interfaces import (
-    IContent,
-    ISubject,
-)
+from ..interfaces.icontent import IContent
+from ..interfaces.iobserver import ISubject
 from . import Content, Subject
 
 

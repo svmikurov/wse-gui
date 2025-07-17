@@ -4,6 +4,7 @@ from typing import no_type_check
 
 from injector import Binder, Module
 
+from ._iabc.itop_bar import ITopBarContainer, ITopBarController
 from .interfaces import (
     ILoginContainer,
     ILoginController,
@@ -12,8 +13,6 @@ from .interfaces import (
     INumPadController,
     INumPadModel,
     ITextTaskContainer,
-    ITopBarContainer,
-    ITopBarController,
 )
 from .login import LoginContainer, LoginController, LoginModel
 from .numpad import NumPadContainer, NumPadController, NumPadModel

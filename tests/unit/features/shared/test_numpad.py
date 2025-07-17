@@ -1,10 +1,12 @@
 """Test the NumPad."""
 
+from __future__ import annotations
+
 from unittest.mock import Mock
 
 import pytest
 
-from wse.features.interfaces import ISubject
+from wse.features.interfaces.iobserver import ISubject
 from wse.features.shared.containers.numpad import NumPadModel
 
 MAX_CHAR_COUNT = 8

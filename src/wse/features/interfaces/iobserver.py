@@ -9,15 +9,7 @@ class IObserver(
     """Protocol for observer interface of Observer pattern."""
 
 
-class IAddObserver(Protocol):
-    """Protocol for add observer interface."""
-
-    def add_observer(self, observer: IObserver) -> None:
-        """Add a new observer to this subject."""
-
-
 class ISubject(
-    IAddObserver,
     Protocol,
 ):
     """Protocol for subject interface of Observer pattern."""
@@ -28,3 +20,6 @@ class ISubject(
     @property
     def observers(self) -> list[IObserver]:
         """Get observers."""
+
+    def add_observer(self, observer: IObserver) -> None:
+        """Add a new observer to this subject."""

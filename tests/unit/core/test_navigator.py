@@ -7,7 +7,7 @@ from unittest.mock import MagicMock
 import toga
 
 from wse.core.navigation.navigator import Navigator
-from wse.features.interfaces import IContent
+from wse.features.interfaces.icontent import IContent
 from wse.features.subapps.main.pages.home.interfaces import IHomeController
 from wse.features.subapps.math.pages.index.interfaces import (
     IIndexMathController,

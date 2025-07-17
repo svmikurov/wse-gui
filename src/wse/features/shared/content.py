@@ -6,7 +6,7 @@ from typing_extensions import override
 
 from wse.config.layout import ThemeConfig
 
-from ..interfaces import IContent
+from ..interfaces.icontent import IContent
 from ..subapps.nav_id import NavID
 
 

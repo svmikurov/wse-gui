@@ -5,12 +5,12 @@ from dataclasses import dataclass
 
 from injector import inject
 
+from .. import StyleT, ThemeT
 from ..base.mixins import (
     AddObserverMixin,
     CreateNavButtonMixin,
     GetContentMixin,
 )
-from ..shared import StyleT, ThemeT
 from ._abc.mvc import LocalizeABC, UpdateStyleABC
 
 
@@ -98,7 +98,7 @@ class LocaleContainerABC(
 
 @inject
 @dataclass
-class InteractiveContainer(
+class InteractiveContainerABV(
     AddObserverMixin,
     LocaleContainerABC[StyleT, ThemeT],
     ABC,
@@ -108,9 +108,9 @@ class InteractiveContainer(
 
 @inject
 @dataclass
-class NavigableContainer(
+class NavigableContainerABC(
     CreateNavButtonMixin,
-    InteractiveContainer[StyleT, ThemeT],
+    InteractiveContainerABV[StyleT, ThemeT],
     ABC,
 ):
     """Abstract base class for navigation container."""

@@ -10,7 +10,7 @@ from wse_exercises.base.enums import ExerciseEnum
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseView
 from wse.features.base.mixins import NotifyNavigateMixin
-from wse.features.shared.containers.interfaces import ITopBarController
+from wse.features.shared.containers._iabc.itop_bar import ITopBarController
 from wse.features.subapps.nav_id import NavID
 from wse.utils.contextmanager import EventDisabler
 from wse.utils.i18n import _, label_

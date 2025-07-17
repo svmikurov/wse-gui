@@ -14,7 +14,8 @@ from wse.utils.i18n import _
 from ...base import BaseController
 from ...base.container import ContainerABC
 from ...base.mixins import AddObserverMixin
-from ...interfaces import IContent, ISubject
+from ...interfaces.icontent import IContent
+from ...interfaces.iobserver import ISubject
 from ...shared.containers.interfaces import (
     ILoginContainer,
     ILoginModel,

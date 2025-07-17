@@ -6,8 +6,8 @@ from typing import Generic
 
 from injector import inject
 
-from ...interfaces import IContent
-from ...shared import StyleT, ThemeT
+from ... import StyleT, ThemeT
+from ...interfaces.icontent import IContent
 
 
 class LocalizeABC(ABC):

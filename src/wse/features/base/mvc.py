@@ -10,9 +10,10 @@ from typing_extensions import override
 from wse.core.interfaces import INavigator
 
 from ...config.layout import StyleConfig, ThemeConfig
-from ..interfaces import IContent, IView
+from ..interfaces.icontent import IContent
+from ..interfaces.imvc import IView
 from ._abc.mvc import ContentABC
-from .container import NavigableContainer
+from .container import NavigableContainerABC
 from .mixins import (
     AddObserverMixin,
     NavigateMixin,
@@ -39,7 +40,7 @@ class BaseModel(
 @inject
 @dataclass
 class BaseView(
-    NavigableContainer[StyleConfig, ThemeConfig],
+    NavigableContainerABC[StyleConfig, ThemeConfig],
     ABC,
 ):
     """Base implementation for page view."""

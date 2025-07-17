@@ -2,7 +2,7 @@
 
 from typing import Protocol
 
-from wse.features.interfaces import IModel, IPageController, IView
+from wse.features.interfaces.imvc import IModel, IPageController, IView
 
 
 class IAuthModel(

@@ -11,11 +11,8 @@ from wse.config.layout import (
     TextTaskTheme,
 )
 
-from ...interfaces import (
-    IAddObserver,
-    IContainer,
-    IGetContent,
-)
+from ...interfaces.icontainer import IAddObserver, IContainer
+from ...interfaces.icontent import IGetContent
 
 # Text task container
 
@@ -173,19 +170,3 @@ class ISelectionController(
 
     def update_items(self, items: Iterable[Any]) -> None:
         """Update selection items."""
-
-
-class ITopBarContainer(
-    IAddObserver,
-    IContainer,
-    Protocol,
-):
-    """Defines protocol for top bar container interface."""
-
-
-class ITopBarController(
-    IAddObserver,
-    IGetContent,
-    Protocol,
-):
-    """Defines protocol for top bar controller interface."""
