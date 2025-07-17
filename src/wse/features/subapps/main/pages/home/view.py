@@ -8,7 +8,6 @@ from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseView
-from wse.features.subapps.main.pages.home.interfaces import IHomeView
 from wse.features.subapps.nav_id import NavID
 from wse.utils.i18n import _, label_, nav_
 
@@ -17,15 +16,13 @@ from wse.utils.i18n import _, label_, nav_
 @dataclass
 class HomeView(
     BaseView,
-    IHomeView,
 ):
     """Home page view of main feature."""
 
-    @override
     def _setup(self) -> None:
+        super()._setup()
         self._content.test_id = NavID.HOME
 
-    @override
     def _populate_content(self) -> None:
         self._content.add(
             self._label_title,
@@ -33,7 +30,6 @@ class HomeView(
             self._btn_login,
         )
 
-    @override
     def _create_ui(self) -> None:
         self._label_title = toga.Label('')
         self._btn_login = self._create_nav_btn(nav_id=NavID.LOGIN)

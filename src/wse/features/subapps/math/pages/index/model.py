@@ -9,14 +9,11 @@ from wse_exercises.core import MathExercise
 
 from wse.features.base import BaseModel
 
-from .interfaces import IIndexMathModel
-
 
 @inject
 @dataclass
 class IndexMathModel(
     BaseModel,
-    IIndexMathModel,
 ):
     """Index Math page model."""
 
@@ -34,22 +31,23 @@ class IndexMathModel(
     def _notify_exercises_updated(self) -> None:
         self._notify('exercises_updated', values=self._exercises)
 
-    def _notify_start_exercise(self, value: ExerciseEnum) -> None:
+    def _notify_exercise_selected(self, value: ExerciseEnum) -> None:
+        self._notify('exercise_selected', value=value)
+
+    def _notify_exercise_started(self, value: ExerciseEnum) -> None:
         self._notify('exercise_started', value=value)
 
     # Api for controller
 
-    @override
     def on_open(self) -> None:
         """Call methods when page opens."""
         self._notify_exercises_updated()
+        self._notify_exercise_selected(self._current_exercise)
 
-    @override
     def change_exersice(self, value: ExerciseEnum) -> None:
         """Change the exercise to perform."""
         self._current_exercise = value
 
-    @override
     def start_exercise(self) -> None:
         """Handle the event to start exercise."""
-        self._notify_start_exercise(value=self._current_exercise)
+        self._notify_exercise_started(value=self._current_exercise)

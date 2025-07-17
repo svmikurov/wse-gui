@@ -36,7 +36,6 @@ class TopBarContainer(
     @override
     def _setup(self) -> None:
         super()._setup()
-        self.localize_ui()
         self._content.style.direction = 'row'
 
     @override

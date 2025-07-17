@@ -11,6 +11,8 @@ class IAuthModel(
 ):
     """Protocol for Authentication page model interface."""
 
+    # API for controller
+
     def handle_success_authentication(self) -> None:
         """Handle the success authentication."""
 

@@ -8,9 +8,8 @@ from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseView
+from wse.features.interfaces.iwidgets import INavButton
 from wse.features.shared.containers.interfaces import ILoginController
-from wse.features.shared.widgets.buttons import NavButton
-from wse.features.subapps.main.pages.auth.interfaces import IAuthView
 from wse.features.subapps.nav_id import NavID
 from wse.utils.i18n import label_, nav_
 
@@ -19,7 +18,6 @@ from wse.utils.i18n import label_, nav_
 @dataclass
 class AuthView(
     BaseView,
-    IAuthView,
 ):
     """Authentication page view."""
 
@@ -27,6 +25,7 @@ class AuthView(
 
     @override
     def _setup(self) -> None:
+        super()._setup()
         self.content.test_id = NavID.LOGIN
         self._login_container.add_observer(self)
 
@@ -41,10 +40,7 @@ class AuthView(
     @override
     def _create_ui(self) -> None:
         self._label_title = toga.Label('')
-        self._btn_back = NavButton(
-            nav_id=NavID.BACK,
-            on_press=self._handle_nav_back,
-        )
+        self._btn_back = self._create_nav_btn(NavID.BACK)
 
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
@@ -60,21 +56,19 @@ class AuthView(
 
     # API for controller
 
-    @override
     def clear_credential(self) -> None:
         """Clear the entered credential."""
         self._login_container.clear_credential()
 
     # Notifications from Login container
 
-    @override
     def success_authentication(self) -> None:
         """Notify subjects about success authentication event."""
         self._notify('success_authentication')
 
     # Button callback functions
 
-    def _handle_nav_back(self, button: NavButton) -> None:
-        """Handle navigation back button press."""
+    def _handle_navigate(self, button: INavButton) -> None:
+        """Handle navigation button press."""
         self.clear_credential()
-        self._handle_navigate(button)
+        super()._handle_navigate(button)

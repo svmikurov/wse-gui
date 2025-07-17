@@ -2,8 +2,6 @@
 
 from typing import no_type_check
 
-from injector import inject
-
 from wse.features.base import BaseRoutes
 from wse.features.interfaces import IPageController
 from wse.features.subapps.main.pages.auth.interfaces import IAuthController
@@ -11,7 +9,6 @@ from wse.features.subapps.main.pages.home.interfaces import IHomeController
 from wse.features.subapps.nav_id import NavID
 
 
-@inject
 class MainRoutes(BaseRoutes):
     """Main application page routes."""
 

@@ -7,14 +7,13 @@ from typing_extensions import override
 
 from wse.features.base.mvc import BasePageController
 
-from .interfaces import IAuthController, IAuthModel, IAuthView
+from .interfaces import IAuthModel, IAuthView
 
 
 @inject
 @dataclass
 class AuthController(
     BasePageController,
-    IAuthController,
 ):
     """Authentication page controller."""
 
@@ -27,14 +26,12 @@ class AuthController(
 
     # Notifications from View
 
-    @override
     def success_authentication(self) -> None:
         """Handle the success authentication event."""
         self._model.handle_success_authentication()
 
     # Notifications from Model
 
-    @override
     def credential_clean(self) -> None:
         """Handle the credential clean."""
         self._view.clear_credential()

@@ -33,6 +33,9 @@ class IIndexMathView(
     def update_exercise_selection(self, exercises: list[ExerciseEnum]) -> None:
         """Update the Exercise selection data source."""
 
+    def set_selected_exercise(self, value: ExerciseEnum) -> None:
+        """Set selected exercise to choices."""
+
 
 class IIndexMathController(
     IPageController,
@@ -47,6 +50,9 @@ class IIndexMathController(
 
     def exercise_started(self, value: ExerciseEnum) -> None:
         """Navigate to exercise page."""
+
+    def exercise_selected(self, value: ExerciseEnum) -> None:
+        """Set selected exercise to choices."""
 
     # Notifications from view
 

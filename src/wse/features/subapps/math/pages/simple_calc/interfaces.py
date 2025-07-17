@@ -19,6 +19,9 @@ class ISimpleCalcModel(
 ):
     """Simple math calculation page view."""
 
+    def start_new_task(self) -> None:
+        """Start new task."""
+
     # API for controller
 
     def on_open(self, exercise: ExerciseEnum) -> None:
@@ -65,6 +68,12 @@ class ISimpleCalcView(
     def clear_answer(self) -> None:
         """Clear the answer text."""
 
+    def display_correct_answer(self, value: str) -> None:
+        """Display the correct answer."""
+
+    def reset_layout(self) -> None:
+        """Reset to initial layout."""
+
 
 class ISimpleCalcController(
     IPageController,
@@ -99,6 +108,9 @@ class ISimpleCalcController(
 
     def answer_confirmed(self) -> None:
         """Handle the task submit event."""
+
+    def task_started(self) -> None:
+        """Handle the next task started event."""
 
 
 class ISimpleCalcContainer(

@@ -10,7 +10,6 @@ from wse.features.base.mvc import BasePageController
 from wse.features.subapps.nav_id import NavID
 
 from .interfaces import (
-    IIndexMathController,
     IIndexMathModel,
     IIndexMathView,
 )
@@ -20,7 +19,6 @@ from .interfaces import (
 @dataclass
 class IndexMathController(
     BasePageController,
-    IIndexMathController,
 ):
     """Main Math page controller."""
 
@@ -38,24 +36,24 @@ class IndexMathController(
 
     # Notifications from Model
 
-    @override
     def exercises_updated(self, values: list[ExerciseEnum]) -> None:
         """Update exercises selection data source."""
         self._view.update_exercise_selection(values)
 
-    @override
     def exercise_started(self, value: ExerciseEnum) -> None:
         """Navigate to exercise page."""
         self._navigator.navigate(NavID.SIMPLE_CALC, exercise=value)
 
+    def exercise_selected(self, value: ExerciseEnum) -> None:
+        """Set selected exercise to choices."""
+        self._view.set_selected_exercise(value)
+
     # Notifications from view
 
-    @override
     def exercise_changed(self, value: ExerciseEnum) -> None:
         """Handle the change of exercise type."""
         self._model.change_exersice(value)
 
-    @override
     def start_button_pressed(self) -> None:
         """Handle the start exercise button pressed."""
         self._model.start_exercise()
