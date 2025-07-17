@@ -4,7 +4,7 @@ from typing import Any, Generator, Protocol
 
 import httpx
 from wse_exercises.base.enums import ExerciseEnum
-from wse_exercises.core.math.rest import SimpleCalcAnswer
+from wse_exercises.core.math.rest import SimpleCalcCheck, SimpleCalcResult
 
 
 class IHttpClient(Protocol):
@@ -54,7 +54,7 @@ class IExerciseAPI(Protocol):
     def request_task(self, exercise: ExerciseEnum) -> dict[str, Any]:
         """Request the task."""
 
-    def check_answer(self, answer: SimpleCalcAnswer) -> bool:
+    def check_answer(self, answer: SimpleCalcCheck) -> SimpleCalcResult:
         """Check the user entered answer."""
 
 

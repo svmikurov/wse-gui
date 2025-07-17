@@ -8,7 +8,7 @@ from httpx import Response
 from injector import inject
 from typing_extensions import override
 from wse_exercises.base.enums import ExerciseEnum
-from wse_exercises.core.math.rest import SimpleCalcAnswer
+from wse_exercises.core.math.rest import SimpleCalcCheck, SimpleCalcResult
 
 from wse.config.settings import APIConfigV1
 from wse.core.exceptions import ExerciseError
@@ -55,7 +55,7 @@ class ExerciseAPI(IExerciseAPI):
         return response_data
 
     @override
-    def check_answer(self, answer: SimpleCalcAnswer) -> bool:
+    def check_answer(self, answer: SimpleCalcCheck) -> SimpleCalcResult:
         """Check the user entered answer."""
         try:
             response: Response = self._http_client.post(
@@ -70,7 +70,7 @@ class ExerciseAPI(IExerciseAPI):
 
         else:
             try:
-                is_correct: bool = response.json().get('is_correct')
+                result_dto = SimpleCalcResult.from_dict(response.json())
             except AttributeError as e:
                 raise ExerciseError from e
-            return is_correct
+            return result_dto
