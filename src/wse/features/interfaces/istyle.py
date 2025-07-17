@@ -9,13 +9,20 @@ class IStyle(Protocol):
     def update(self, **kwargs: object) -> None:
         """Update component style."""
 
+    @property
+    def direction(self) -> str:
+        """The widget`s style direction."""
+
+    @direction.setter
+    def direction(self, value: str) -> None: ...
+
 
 class IStyleMixin(Protocol):
     """Protocol for style interface."""
 
     @property
     def style(self) -> IStyle:
-        """The button's style."""
+        """The widget`s style."""
 
     @style.setter
     def style(self, style: IStyle) -> None: ...

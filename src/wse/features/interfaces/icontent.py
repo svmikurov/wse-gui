@@ -8,7 +8,10 @@ from ..interfaces.istyle import IStyleMixin
 from ..subapps.nav_id import NavID
 
 
-class IContent(IStyleMixin, Protocol):
+class IContent(
+    IStyleMixin,
+    Protocol,
+):
     """Protocol for content interface."""
 
     def add(self, *ui: Widget) -> None:
