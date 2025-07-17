@@ -1,33 +1,32 @@
 """Defines base class for MVC model components."""
 
 import logging
-from abc import ABC, abstractmethod
+from abc import ABC
 from dataclasses import dataclass
 
+from injector import inject
 from typing_extensions import override
 
-from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.interfaces import INavigator
 
-from ..interfaces import IContent, ISubject, IView
-from .container import BaseContainer
+from ...config.layout import StyleConfig, ThemeConfig
+from ..interfaces import IContent, IView
+from ._abc.mvc import ContentABC
+from .container import NavigableContainer
 from .mixins import (
     AddObserverMixin,
-    BaseLocalizeMixin,
-    CreateNavButtonMixin,
     NavigateMixin,
 )
 
 logger = logging.getLogger(__name__)
 
 
+@inject
 @dataclass
 class BaseModel(
     AddObserverMixin,
 ):
     """Base class for page view."""
-
-    _subject: ISubject
 
     def __post_init__(self) -> None:
         """Construct the model."""
@@ -37,44 +36,25 @@ class BaseModel(
         """Set up the model features."""
 
 
+@inject
 @dataclass
 class BaseView(
-    AddObserverMixin,
-    BaseLocalizeMixin,
-    CreateNavButtonMixin,
-    BaseContainer,
+    NavigableContainer[StyleConfig, ThemeConfig],
     ABC,
 ):
     """Base implementation for page view."""
 
-    _subject: ISubject
     _style_config: StyleConfig
     _theme_config: ThemeConfig
 
-    @override
-    def __post_init__(self) -> None:
-        """Construct the view."""
-        super().__post_init__()
-        self.localize_ui()
-        self.update_style(self._style_config)
-        self.update_style(self._theme_config)
 
-    @abstractmethod
-    def update_style(self, config: StyleConfig | ThemeConfig) -> None:
-        """Update widgets style.
-
-        For example:
-            def update_style(
-                self, config: StyleConfig | ThemeConfig
-            ) -> None:
-                self._label_title.style.update(**config.title)
-                ...
-        """
-
-
+@inject
 @dataclass
-class BaseController(ABC):
-    """Base class for controller."""
+class BaseController(
+    ContentABC,
+    ABC,
+):
+    """Abstract base class for controller."""
 
     def __post_init__(self) -> None:
         """Construct the controller."""
@@ -84,12 +64,8 @@ class BaseController(ABC):
         """Set up the controller features."""
         pass
 
-    @property
-    @abstractmethod
-    def content(self) -> IContent:
-        """Get page content."""
 
-
+@inject
 @dataclass
 class BasePageController(
     NavigateMixin,

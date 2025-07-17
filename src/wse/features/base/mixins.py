@@ -1,7 +1,9 @@
 """Defines mixins for features base classes."""
 
 import logging
-from abc import ABC, abstractmethod
+from dataclasses import dataclass
+
+from injector import inject
 
 from wse.core.interfaces import INavigator
 
@@ -13,20 +15,8 @@ from ..subapps.nav_id import NavID
 logger = logging.getLogger(__name__)
 
 
-class BaseLocalizeMixin(ABC):
-    """Mixin with provided `localize()` abstract method."""
-
-    @abstractmethod
-    def localize_ui(self) -> None:
-        """Localize the UI text.
-
-        For example:
-            def localize_ui(self) -> None:
-                self._label_title.text = label_('Home page title')
-                ...
-        """
-
-
+@inject
+@dataclass
 class NavigateMixin:
     """Mixin to provide navigation functionality."""
 
@@ -37,30 +27,20 @@ class NavigateMixin:
         self._navigator.navigate(nav_id)
 
 
-class GetContentMixin:
-    """Mixin to provide content."""
-
-    _content: IContent
-
-    @property
-    def content(self) -> IContent:
-        """Get page content."""
-        return self._content
-
-
-class AddObserverMixin:
-    """Mixin that enables observer subscription capability."""
+@inject
+@dataclass
+class NotifyNavigateMixin:
+    """Mixin to provide navigation notification."""
 
     _subject: ISubject
 
-    def add_observer(self, observer: IObserver) -> None:
-        """Subscribe observer an event has occurred."""
-        self._subject.add_observer(observer)
-
-    def _notify(self, notification: str, **kwargs: object) -> None:
-        self._subject.notify(notification, **kwargs)
+    def navigate(self, nav_id: NavID) -> None:
+        """Notify to navigate."""
+        self._subject.notify('navigate', nav_id=nav_id)
 
 
+@inject
+@dataclass
 class CreateNavButtonMixin:
     """Mixin that provides navigation button creation functionality."""
 
@@ -73,3 +53,31 @@ class CreateNavButtonMixin:
     def _handle_navigate(self, button: INavButton) -> None:
         """Handle navigation button press."""
         self._subject.notify('navigate', nav_id=button.nav_id)
+
+
+@inject
+@dataclass
+class GetContentMixin:
+    """Mixin to provide content."""
+
+    _content: IContent
+
+    @property
+    def content(self) -> IContent:
+        """Get page content."""
+        return self._content
+
+
+@inject
+@dataclass
+class AddObserverMixin:
+    """Mixin that enables observer subscription capability."""
+
+    _subject: ISubject
+
+    def add_observer(self, observer: IObserver) -> None:
+        """Subscribe observer an event has occurred."""
+        self._subject.add_observer(observer)
+
+    def _notify(self, notification: str, **kwargs: object) -> None:
+        self._subject.notify(notification, **kwargs)
