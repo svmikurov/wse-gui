@@ -36,7 +36,11 @@ LAYOUT_THEME = LayoutTheme.DEVELOP
 LAYOUT_STYLE = LayoutStyle.DEVELOP
 
 
-class APIConfigV1(BaseModel):
+class ApiConfig(BaseModel):
+    """Base api configuration."""
+
+
+class APIConfigV1(ApiConfig):
     """API configuration for v1 version."""
 
     base_url: str
