@@ -23,5 +23,11 @@ msgstr "Выйти из учетной записи"
 
 # Exercise
 
+msgid "Start exercise"
+msgstr "Начать упражнение"
+
 msgid "Send answer"
 msgstr "Ответить"
+
+msgid "Next task"
+msgstr "Следующее задание"

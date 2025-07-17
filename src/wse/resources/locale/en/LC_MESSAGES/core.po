@@ -23,5 +23,11 @@ msgstr "Logout"
 
 # Exercise
 
+msgid "Start exercise"
+msgstr "Start exercise"
+
 msgid "Send answer"
 msgstr "Send answer"
+
+msgid "Next task"
+msgstr "Next task"
