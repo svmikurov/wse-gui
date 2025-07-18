@@ -21,5 +21,8 @@ class ISubject(
     def observers(self) -> list[IObserver]:
         """Get observers."""
 
+    # This method duplicates the `IAddObserver` mixin `add_observer`
+    # method from `.icontainer.` module to avoid circular imports in
+    # multiple inheritance.
     def add_observer(self, observer: IObserver) -> None:
         """Add a new observer to this subject."""

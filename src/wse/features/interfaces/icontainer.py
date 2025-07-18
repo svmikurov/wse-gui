@@ -1,4 +1,4 @@
-"""Defines protocols for widget containers interface."""
+"""Defines abc and protocols for widget containers interface."""
 
 from typing import Protocol
 
@@ -14,6 +14,9 @@ class IAddObserver(
 ):
     """Protocol for add observer interface."""
 
+    # This method duplicates the `ISubject` protocol `add_observer`
+    # method from `.iobserver.` module to avoid circular imports in
+    # multiple inheritance.
     def add_observer(self, observer: IObserver) -> None:
         """Add a new observer to this subject."""
 

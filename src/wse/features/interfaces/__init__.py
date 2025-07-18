@@ -1,1 +1,1 @@
-"""Features interfaces."""
+"""Contains abc and protocols for features."""

@@ -96,3 +96,13 @@ class BaseTopBarController(
     ITopBarController,
 ):
     """Base class for top bar controller."""
+
+
+# Interface for pages where the container is injected
+
+
+class ITopBarPageViewMixin(Protocol):
+    """Protocol for page view interface where top bar is injected."""
+
+    def update_balance(self, value: str) -> None:
+        """Update balance."""

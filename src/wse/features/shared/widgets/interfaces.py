@@ -13,3 +13,14 @@ class IFlexColumnStub(Protocol):
 
 class IFlexRowStub(Protocol):
     """Protocol for flexible column direction box interface."""
+
+
+class ILabel(Protocol):
+    """Protocol for label interface."""
+
+    @property
+    def text(self) -> str:
+        """The text displayed by the label."""
+
+    @text.setter
+    def text(self, value: object) -> None: ...
