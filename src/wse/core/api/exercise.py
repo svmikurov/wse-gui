@@ -12,7 +12,9 @@ from wse_exercises.core.math.rest import SimpleCalcCheck, SimpleCalcResult
 
 from wse.config.settings import APIConfigV1
 from wse.core.exceptions import ExerciseError
-from wse.core.interfaces.iapi import IAuthScheme, IExerciseAPI, IHttpClient
+from wse.core.interfaces.iapi import IAuthScheme, IExerciseAPI
+
+from ...core.http import IHttpClient
 
 logger = logging.getLogger(__name__)
 

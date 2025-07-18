@@ -9,7 +9,8 @@ from typing_extensions import override
 
 from wse.config.settings import APIConfigV1
 from wse.core.exceptions import AuthError
-from wse.core.interfaces.iapi import IAuthAPIjwt, IHttpClient
+from wse.core.http import IHttpClient
+from wse.core.interfaces.iapi import IAuthAPIjwt
 
 logger = logging.getLogger(__name__)
 

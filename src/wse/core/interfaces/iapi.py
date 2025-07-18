@@ -7,34 +7,6 @@ from wse_exercises.base.enums import ExerciseEnum
 from wse_exercises.core.math.rest import SimpleCalcCheck, SimpleCalcResult
 
 
-class IHttpClient(Protocol):
-    """Protocol for http client."""
-
-    def get(
-        self,
-        url: httpx.URL | str,
-        auth: httpx.Auth | None = None,
-    ) -> httpx.Response:
-        """Send a `GET` request."""
-
-    def post(
-        self,
-        url: httpx.URL | str,
-        json: dict[str, Any] | None = None,
-        auth: httpx.Auth | None = None,
-        headers: dict[str, str] | None = None,
-    ) -> httpx.Response:
-        """Send a `POST` request."""
-
-    def patch(
-        self,
-        url: httpx.URL | str,
-        json: dict[str, Any],
-        auth: httpx.Auth | None = None,
-    ) -> httpx.Response:
-        """Send a `PATCH` request."""
-
-
 class IAuthAPIjwt(Protocol):
     """Protocol for authentication API interface."""
 

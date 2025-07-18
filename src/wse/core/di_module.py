@@ -12,12 +12,14 @@ from wse.core.http.client import HttpClient
 from .api.auth_jwt import AuthAPIjwt
 from .api.exercise import ExerciseAPI
 from .auth.service import AuthService
+from .http import IHttpClient
+from .http._iabc.inspector import IAccountStateInspector
+from .http.inspector import AccountStateInspector
 from .interfaces import INavigator
 from .interfaces.iapi import (
     IAuthAPIjwt,
     IAuthScheme,
     IExerciseAPI,
-    IHttpClient,
 )
 from .interfaces.iauth import IAuthService
 from .interfaces.istorage import IJWTJsonStorage
@@ -38,9 +40,12 @@ class CoreModule(Module):
         # Authentication service
         binder.bind(IAuthService, to=AuthService, scope=singleton)
 
-        # API services
+        # HTTP services
         binder.bind(IHttpClient, to=HttpClient)
         binder.bind(IAuthScheme, to=AuthSchema, scope=singleton)
+        binder.bind(IAccountStateInspector, to=AccountStateInspector)
+
+        # API services
         binder.bind(IAuthAPIjwt, to=AuthAPIjwt)
         binder.bind(IExerciseAPI, to=ExerciseAPI)
 
