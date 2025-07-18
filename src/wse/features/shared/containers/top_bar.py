@@ -1,5 +1,9 @@
-"""Defines top bar container."""
+"""Defines top bar container.
 
+Contains mixins for page components to control top bar containers.
+"""
+
+from abc import ABC
 from dataclasses import dataclass
 from typing import Type
 
@@ -13,6 +17,8 @@ from wse.config.layout import (
 )
 from wse.utils.i18n import _, nav_
 
+from ...base.mixins import NotifyNavigateMixin
+from ...interfaces.icontainer import NotifyABC
 from ...interfaces.icontent import IContent
 from ...subapps.nav_id import NavID
 from ..widgets.interfaces import IFlexRowStub
@@ -20,12 +26,15 @@ from ._iabc.itop_bar import (
     BaseTopBarContainer,
     BaseTopBarController,
     ITopBarContainer,
+    ITopBarController,
 )
 
 
 @inject
 @dataclass
-class TopBarContainer(BaseTopBarContainer):
+class TopBarContainer(
+    BaseTopBarContainer,
+):
     """Top bar container."""
 
     _style_config: TopBarStyle
@@ -35,6 +44,7 @@ class TopBarContainer(BaseTopBarContainer):
     @override
     def _setup(self) -> None:
         super()._setup()
+        # TODO: Fix direction style changing
         self._content.style.direction = 'row'
 
     @override
@@ -64,19 +74,82 @@ class TopBarContainer(BaseTopBarContainer):
         self._btn_back.style.update(**config.button)
         self._label_balance.style.update(**config.label_balance)
 
+    # API for controller
+
+    def update_balance(self, value: str) -> None:
+        """Update balance label."""
+        self._label_balance.text = value
+
 
 @inject
 @dataclass
-class TopBarController(BaseTopBarController):
+class TopBarController(
+    BaseTopBarController,
+):
     """Top bar controller."""
 
     _container: ITopBarContainer
 
     @override
     def _setup(self) -> None:
+        super()._setup()
         self._container.add_observer(self)
 
     @property
+    @override
     def content(self) -> IContent:
         """Get container content."""
         return self._container.content
+
+    # API for view
+
+    @override
+    def update_balance(self, value: str) -> None:
+        """Handle the balance update notification."""
+        self._container.update_balance(value)
+
+
+# Mixins for page MVC model components
+
+
+class TopBarModelMixin(NotifyABC, ABC):
+    """Mixin providing model features."""
+
+    def _notify_balance_updated(self, value: str) -> None:
+        """Notify than balance updated."""
+        self._notify('balance_update', value=value)
+
+
+@inject
+@dataclass
+class TopBarPageViewMixin(
+    NotifyNavigateMixin,
+):
+    """Mixin providing top bar api for page view.
+
+    Used with `ContainerABC` derived classes.
+    """
+
+    _top_bar: ITopBarController
+
+    def _setup(self) -> None:
+        super()._setup()  # type: ignore[misc]
+        self._top_bar.add_observer(self)
+
+    # API for page controller
+
+    def update_balance(self, value: str) -> None:
+        """Update balance."""
+        self._top_bar.update_balance(value)
+
+
+class TopBarPageControllerMixin:
+    """Mixins providing notification for page controller."""
+
+    _view: TopBarPageViewMixin
+
+    # Notification from page model
+
+    def balance_update(self, value: str) -> None:
+        """Handle balance update event notification."""
+        self._view.update_balance(value)
