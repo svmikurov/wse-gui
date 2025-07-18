@@ -9,39 +9,35 @@ from wse_exercises.base.enums import ExerciseEnum
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseView
-from wse.features.base.mixins import NotifyNavigateMixin
-from wse.features.shared.containers._iabc.itop_bar import ITopBarController
+from wse.features.shared.containers.top_bar import TopBarPageViewMixin
+from wse.features.subapps.math.sources.interfaces import (
+    IExerciseSelectionSource,
+)
 from wse.features.subapps.nav_id import NavID
 from wse.utils.contextmanager import EventDisabler
 from wse.utils.i18n import _, label_
-
-from ...sources.interfaces import IExerciseSelectionSource
 
 
 @inject
 @dataclass
 class IndexMathView(
+    TopBarPageViewMixin,
     BaseView,
-    NotifyNavigateMixin,
 ):
     """Main Math page view."""
 
     # Sources injection
     _exercise_source: IExerciseSelectionSource
 
-    # Widgets injection
-    _top_bar: ITopBarController
-
     @override
     def _setup(self) -> None:
         super()._setup()
         self._content.test_id = NavID.INDEX_MATH
-        self._top_bar.add_observer(self)
 
     @override
     def _populate_content(self) -> None:
         self.content.add(
-            self._top_bar.content,
+            self._top_bar.content,  # Provided by `TopBarPageViewMixin`
             self._label_title,
             self._exercise_selection,
             self._btn_start,

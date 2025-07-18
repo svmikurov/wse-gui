@@ -13,17 +13,19 @@ from wse.features.shared.containers.interfaces import (
     INumPadController,
     ITextTaskContainer,
 )
+from wse.features.shared.containers.top_bar import TopBarPageViewMixin
 from wse.features.shared.widgets.interfaces import (
     IDivider,
     IFlexColumnStub,
 )
 from wse.features.subapps.nav_id import NavID
-from wse.utils.i18n import _, label_, nav_
+from wse.utils.i18n import _, label_
 
 
 @inject
 @dataclass
 class SimpleCalcView(
+    TopBarPageViewMixin,
     BaseView,
 ):
     """Simple math calculation page view."""
@@ -47,6 +49,7 @@ class SimpleCalcView(
     @override
     def _populate_content(self) -> None:
         self.content.add(
+            self._top_bar.content,  # Provided by `TopBarPageViewMixin`
             self._label_title,
             self._divider(),
             self._task_panel.content,
@@ -55,13 +58,11 @@ class SimpleCalcView(
             self._numpad.content,
             self._divider(),
             self._btn_submit,
-            self._btn_back,
         )
 
     @override
     def _create_ui(self) -> None:
         self._label_title = toga.Label('')
-        self._btn_back = self._create_nav_btn(nav_id=NavID.BACK)
         self._btn_submit = toga.Button('', on_press=self._confirm_answer)
         self._btn_next = toga.Button('', on_press=self._next_task)
 
@@ -69,7 +70,6 @@ class SimpleCalcView(
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
         self._label_title.style.update(**config.label_title)
-        self._btn_back.style.update(**config.btn_nav)
         self._btn_submit.style.update(**config.button)
         self._btn_next.style.update(**config.button)
 
@@ -77,7 +77,6 @@ class SimpleCalcView(
     def localize_ui(self) -> None:
         """Localize the UI text."""
         self._label_title.text = label_('Simple calculation title')
-        self._btn_back.text = nav_(NavID.BACK)
         self._btn_submit.text = _('Send answer')
         self._btn_next.text = _('Next task')
 
