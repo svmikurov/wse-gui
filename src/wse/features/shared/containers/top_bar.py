@@ -3,7 +3,6 @@
 Contains mixins for page components to control top bar containers.
 """
 
-from abc import ABC
 from dataclasses import dataclass
 from typing import Type
 
@@ -15,11 +14,11 @@ from wse.config.layout import (
     TopBarStyle,
     TopBarTheme,
 )
-from wse.utils.i18n import _, nav_
+from wse.utils.i18n import nav_
 
 from ...base.mixins import NotifyNavigateMixin
-from ...interfaces.icontainer import NotifyABC
 from ...interfaces.icontent import IContent
+from ...interfaces.iobserver import ISubject
 from ...subapps.nav_id import NavID
 from ..widgets.interfaces import IFlexRowStub
 from ._iabc.itop_bar import (
@@ -66,7 +65,7 @@ class TopBarContainer(
     def localize_ui(self) -> None:
         """Localize the UI text."""
         self._btn_back.text = nav_(NavID.BACK)
-        self._label_balance.text = _('Balance')
+        self._label_balance.text = ''
 
     @override
     def update_style(self, config: TopBarStyle | TopBarTheme) -> None:
@@ -112,12 +111,14 @@ class TopBarController(
 # Mixins for page MVC model components
 
 
-class TopBarModelMixin(NotifyABC, ABC):
+class TopBarModelMixin:
     """Mixin providing model features."""
+
+    _subject: ISubject
 
     def _notify_balance_updated(self, value: str) -> None:
         """Notify than balance updated."""
-        self._notify('balance_update', value=value)
+        self._subject.notify('balance_update', value=value)
 
 
 @inject
