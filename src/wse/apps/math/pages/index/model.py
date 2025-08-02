@@ -67,7 +67,12 @@ class IndexMathModel(
         self._notify_exercise_selected(self._current_exercise)
 
     def _get_server_context(self) -> None:
-        context = self._api.get_index_context()
-        balance = context['balance']
-        self._notify_balance_updated(balance)
-        print(context)
+        """Get Math app data from server."""
+        try:
+            context = self._api.get_index_context()
+            balance = context['balance']
+        except Exception:
+            return
+        else:
+            self._notify_balance_updated(balance)
+            print(context)
