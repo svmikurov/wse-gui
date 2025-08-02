@@ -1,7 +1,8 @@
 """Defines data source."""
 
 from wse.features import ListenerT
-from wse.features.sources._iabc.source import ISource
+
+from .source import ISource
 
 
 class Source(
