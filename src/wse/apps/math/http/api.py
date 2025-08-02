@@ -1,5 +1,6 @@
 """Defines API for context requests."""
 
+import logging
 from typing import Any
 
 from injector import inject
@@ -10,6 +11,8 @@ from wse.core.interfaces.iapi import IAuthScheme
 
 from ._iabc import MathAPIABC
 from .config import MathAPIConfigV1
+
+logger = logging.getLogger(__file__)
 
 
 class MathAPI(MathAPIABC):
@@ -30,8 +33,13 @@ class MathAPI(MathAPIABC):
     @override
     def get_index_context(self) -> dict[str, Any]:
         """Get context for index page context."""
-        response = self._http_client.get(
-            self._api_config.index,
-        )
-        data: dict[str, Any] = response.json()
-        return data
+        try:
+            response = self._http_client.get(
+                self._api_config.index,
+            )
+        except Exception:
+            logger.error('Error requesting general info for the Math app')
+            return {}
+        else:
+            data: dict[str, Any] = response.json()
+            return data
