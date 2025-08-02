@@ -6,9 +6,9 @@ from injector import inject
 from typing_extensions import override
 from wse_exercises.base.enums import ExerciseEnum
 
+from wse.apps.nav_id import NavID
 from wse.features.base.mvc import BasePageController
 from wse.features.shared.containers.top_bar import TopBarPageControllerMixin
-from wse.features.subapps.nav_id import NavID
 
 from .interfaces import (
     IIndexMathModel,

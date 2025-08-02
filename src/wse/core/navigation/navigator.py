@@ -7,9 +7,9 @@ from collections import deque
 
 import toga
 
+from wse.apps.nav_id import NavID
 from wse.core.exceptions import ContentError, NavigateError
 from wse.features.interfaces.imvc import IPageController
-from wse.features.subapps.nav_id import NavID
 
 logger = logging.getLogger(__name__)
 

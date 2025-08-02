@@ -6,11 +6,11 @@ import toga
 from injector import inject
 from typing_extensions import override
 
+from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseView
 from wse.features.interfaces.iwidgets import INavButton
 from wse.features.shared.containers.interfaces import ILoginController
-from wse.features.subapps.nav_id import NavID
 from wse.utils.i18n import label_, nav_
 
 

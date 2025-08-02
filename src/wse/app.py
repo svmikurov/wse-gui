@@ -6,11 +6,11 @@ import httpx
 import toga
 from injector import Injector
 
+from .apps.nav_id import NavID
 from .config.layout import StyleConfig
 from .core.interfaces import INavigator, IRoutes
 from .core.interfaces.iauth import IAuthService
 from .di import create_injector
-from .features.subapps.nav_id import NavID
 
 logger = logging.getLogger(__name__)
 

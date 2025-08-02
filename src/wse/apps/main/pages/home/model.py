@@ -5,9 +5,9 @@ from dataclasses import dataclass
 from injector import inject
 from typing_extensions import override
 
+from wse.apps.main.pages.home.interfaces import IHomeModel
 from wse.core.interfaces.iauth import IAuthService
 from wse.features.base import BaseModel
-from wse.features.subapps.main.pages.home.interfaces import IHomeModel
 
 
 @inject

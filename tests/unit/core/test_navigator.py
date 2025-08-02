@@ -6,16 +6,12 @@ from unittest.mock import MagicMock
 
 import toga
 
+from wse.apps.main.pages.home.interfaces import IHomeController
+from wse.apps.math.pages.index.interfaces import IIndexMathController
+from wse.apps.math.pages.simple_calc.interfaces import ISimpleCalcController
+from wse.apps.nav_id import NavID
 from wse.core.navigation.navigator import Navigator
 from wse.features.interfaces.icontent import IContent
-from wse.features.subapps.main.pages.home.interfaces import IHomeController
-from wse.features.subapps.math.pages.index.interfaces import (
-    IIndexMathController,
-)
-from wse.features.subapps.math.pages.simple_calc.interfaces import (
-    ISimpleCalcController,
-)
-from wse.features.subapps.nav_id import NavID
 
 
 class TestNavigator(unittest.TestCase):

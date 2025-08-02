@@ -7,11 +7,11 @@ from injector import inject
 
 from wse.core.interfaces import INavigator
 
+from ...apps.nav_id import NavID
 from ..interfaces.icontent import IContent
 from ..interfaces.iobserver import IObserver, ISubject
 from ..interfaces.iwidgets import INavButton
 from ..shared.widgets.buttons import NavButton
-from ..subapps.nav_id import NavID
 
 logger = logging.getLogger(__name__)
 

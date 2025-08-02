@@ -4,7 +4,7 @@ from typing import Protocol
 
 from wse.config.layout import StyleConfig, ThemeConfig
 
-from ..subapps.nav_id import NavID
+from ...apps.nav_id import NavID
 from .icontainer import IAddObserver, IContainer
 from .icontent import IGetContent
 

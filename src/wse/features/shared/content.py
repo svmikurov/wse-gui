@@ -6,8 +6,8 @@ from typing_extensions import override
 
 from wse.config.layout import ThemeConfig
 
+from ...apps.nav_id import NavID
 from ..interfaces.icontent import IContent
-from ..subapps.nav_id import NavID
 
 
 class Content(toga.Box, IContent):  # type: ignore[misc]

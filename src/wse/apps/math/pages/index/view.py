@@ -7,13 +7,11 @@ from injector import inject
 from typing_extensions import override
 from wse_exercises.base.enums import ExerciseEnum
 
+from wse.apps.math.sources.interfaces import IExerciseSelectionSource
+from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseView
 from wse.features.shared.containers.top_bar import TopBarPageViewMixin
-from wse.features.subapps.math.sources.interfaces import (
-    IExerciseSelectionSource,
-)
-from wse.features.subapps.nav_id import NavID
 from wse.utils.contextmanager import EventDisabler
 from wse.utils.i18n import _, label_
 

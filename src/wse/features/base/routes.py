@@ -4,8 +4,8 @@ from abc import ABC, abstractmethod
 
 from injector import Injector, inject
 
+from ...apps.nav_id import NavID
 from ..interfaces.imvc import IPageController
-from ..subapps.nav_id import NavID
 
 
 class BaseRoutes(ABC):

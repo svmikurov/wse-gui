@@ -2,10 +2,10 @@
 
 from typing import no_type_check
 
+from wse.apps.nav_id import NavID
 from wse.features.base import BaseRoutes
-from wse.features.subapps.nav_id import NavID
 
-from ...interfaces.imvc import IPageController
+from ...features.interfaces.imvc import IPageController
 from .pages.index.interfaces import IIndexMathController
 from .pages.simple_calc.interfaces import ISimpleCalcController
 

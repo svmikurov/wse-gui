@@ -5,7 +5,7 @@ from typing import no_type_check
 
 from injector import inject
 
-from ..interfaces.imvc import IPageController
+from ..features.interfaces.imvc import IPageController
 from .main.interfaces import IMainRoutes
 from .math.interfaces import IMathRoutes
 from .nav_id import NavID

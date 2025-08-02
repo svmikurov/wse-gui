@@ -2,8 +2,8 @@
 
 from typing import Protocol
 
+from wse.apps.nav_id import NavID
 from wse.features.interfaces.imvc import IPageController
-from wse.features.subapps.nav_id import NavID
 
 
 class IRoutes(Protocol):

@@ -10,6 +10,7 @@ import toga
 from injector import inject
 from typing_extensions import override
 
+from wse.apps.nav_id import NavID
 from wse.config.layout import (
     TopBarStyle,
     TopBarTheme,
@@ -19,7 +20,6 @@ from wse.utils.i18n import nav_
 from ...base.mixins import NotifyNavigateMixin
 from ...interfaces.icontent import IContent
 from ...interfaces.iobserver import ISubject
-from ...subapps.nav_id import NavID
 from ..widgets.interfaces import IFlexRowStub
 from .iabc.itop_bar import (
     BaseTopBarContainer,

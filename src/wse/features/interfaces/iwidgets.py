@@ -4,8 +4,8 @@ from typing import Any, Iterable, Protocol
 
 from toga.sources import Source
 
+from ...apps.nav_id import NavID
 from ..interfaces.istyle import IStyleMixin
-from ..subapps.nav_id import NavID
 
 
 class INavButton(

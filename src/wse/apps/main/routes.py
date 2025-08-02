@@ -2,11 +2,11 @@
 
 from typing import no_type_check
 
+from wse.apps.main.pages.auth.interfaces import IAuthController
+from wse.apps.main.pages.home.interfaces import IHomeController
+from wse.apps.nav_id import NavID
 from wse.features.base import BaseRoutes
 from wse.features.interfaces.imvc import IPageController
-from wse.features.subapps.main.pages.auth.interfaces import IAuthController
-from wse.features.subapps.main.pages.home.interfaces import IHomeController
-from wse.features.subapps.nav_id import NavID
 
 
 class MainRoutes(BaseRoutes):

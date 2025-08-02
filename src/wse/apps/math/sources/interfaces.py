@@ -4,8 +4,8 @@ from typing import Protocol, Type
 
 from wse_exercises.base.enums import ExerciseEnum
 
+from wse.apps.math.sources.selection import ExerciseEntry
 from wse.features.sources.interfaces import ISelectionSource
-from wse.features.subapps.math.sources.selection import ExerciseEntry
 
 
 class IExerciseSelectionSource(

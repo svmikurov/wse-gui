@@ -4,7 +4,7 @@ from pathlib import Path
 
 from pydantic import BaseModel
 
-from wse.features.subapps.nav_id import NavID
+from wse.apps.nav_id import NavID
 
 from .enums import (
     Language,

@@ -7,6 +7,7 @@ import toga
 from injector import inject
 from typing_extensions import override
 
+from wse.apps.nav_id import NavID
 from wse.config.layout import LoginStyle, LoginTheme
 from wse.core.interfaces.iauth import IAuthService
 from wse.utils.i18n import _
@@ -20,7 +21,6 @@ from ...shared.containers.interfaces import (
     ILoginContainer,
     ILoginModel,
 )
-from ...subapps.nav_id import NavID
 
 logger = logging.getLogger(__name__)
 
