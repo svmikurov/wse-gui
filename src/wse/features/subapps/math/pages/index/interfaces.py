@@ -5,7 +5,7 @@ from typing import Protocol
 from wse_exercises.base.enums import ExerciseEnum
 
 from wse.features.interfaces.imvc import IModel, IPageController, IView
-from wse.features.shared.containers._iabc.itop_bar import ITopBarPageViewMixin
+from wse.features.shared.containers.iabc.itop_bar import ITopBarPageViewMixin
 
 
 class IIndexMathModel(

@@ -1,6 +1,6 @@
 """Configure Mathematics sub application features."""
 
-from .di_module import MathRoutesModule
+from .di_module import MathAppModule
 from .pages.index.di_module import IndexMathModule
 from .pages.simple_calc.di_module import SimpleCalculationModule
 from .sources.di_module import MathSourcesModule
@@ -13,5 +13,5 @@ MATH_APP_MODULES = [
     # Sources
     MathSourcesModule(),
     # Page routes
-    MathRoutesModule(),
+    MathAppModule(),
 ]

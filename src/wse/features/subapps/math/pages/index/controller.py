@@ -7,6 +7,7 @@ from typing_extensions import override
 from wse_exercises.base.enums import ExerciseEnum
 
 from wse.features.base.mvc import BasePageController
+from wse.features.shared.containers.top_bar import TopBarPageControllerMixin
 from wse.features.subapps.nav_id import NavID
 
 from .interfaces import (
@@ -18,6 +19,7 @@ from .interfaces import (
 @inject
 @dataclass
 class IndexMathController(
+    TopBarPageControllerMixin[IIndexMathView],
     BasePageController,
 ):
     """Main Math page controller."""
