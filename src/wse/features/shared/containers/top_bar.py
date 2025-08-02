@@ -4,7 +4,7 @@ Contains mixins for page components to control top bar containers.
 """
 
 from dataclasses import dataclass
-from typing import Type
+from typing import Generic, Type, TypeVar
 
 import toga
 from injector import inject
@@ -21,12 +21,15 @@ from ...interfaces.icontent import IContent
 from ...interfaces.iobserver import ISubject
 from ...subapps.nav_id import NavID
 from ..widgets.interfaces import IFlexRowStub
-from ._iabc.itop_bar import (
+from .iabc.itop_bar import (
     BaseTopBarContainer,
     BaseTopBarController,
     ITopBarContainer,
     ITopBarController,
+    ITopBarPageViewMixin,
 )
+
+TopBarView = TypeVar('TopBarView', bound=ITopBarPageViewMixin)
 
 
 @inject
@@ -112,7 +115,7 @@ class TopBarController(
 
 
 class TopBarModelMixin:
-    """Mixin providing model features."""
+    """Mixin providing top bar features for page model."""
 
     _subject: ISubject
 
@@ -126,7 +129,7 @@ class TopBarModelMixin:
 class TopBarPageViewMixin(
     NotifyNavigateMixin,
 ):
-    """Mixin providing top bar api for page view.
+    """Mixin providing top bar features for page view.
 
     Used with `ContainerABC` derived classes.
     """
@@ -144,10 +147,10 @@ class TopBarPageViewMixin(
         self._top_bar.update_balance(value)
 
 
-class TopBarPageControllerMixin:
-    """Mixins providing notification for page controller."""
+class TopBarPageControllerMixin(Generic[TopBarView]):
+    """Mixin providing top bar features for page controller."""
 
-    _view: TopBarPageViewMixin
+    _view: TopBarView
 
     # Notification from page model
 

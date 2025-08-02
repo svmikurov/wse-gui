@@ -4,7 +4,7 @@ from typing import no_type_check
 
 from injector import Binder, Module
 
-from ._iabc.itop_bar import ITopBarContainer, ITopBarController
+from .iabc.itop_bar import ITopBarContainer, ITopBarController
 from .interfaces import (
     ILoginContainer,
     ILoginController,
