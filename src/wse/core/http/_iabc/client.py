@@ -67,7 +67,3 @@ class BaseHttpClient(ABC, IHttpClient):
         auth: httpx.Auth | None = None,
     ) -> httpx.Response:
         """Send a `PATCH` request."""
-
-    @abstractmethod
-    def _inspect_account_state(self, data: dict[str, Any]) -> None:
-        """Inspect the account state."""

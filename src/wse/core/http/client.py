@@ -27,8 +27,8 @@ class HttpClient(BaseHttpClient):
     ) -> None:
         """Construct the client."""
         self._http_client = http_client
+        # Set base url to client
         self._http_client.base_url = api_config.base_url
-        self._account_state_inspector = account_state_inspector
 
     @override
     def get(
@@ -37,7 +37,7 @@ class HttpClient(BaseHttpClient):
         auth: httpx.Auth | None = None,
     ) -> httpx.Response:
         """Send a `GET` request."""
-        return self._request('post', url, auth=auth)
+        return self._request('get', url, auth=auth)
 
     @override
     def post(
@@ -97,9 +97,4 @@ class HttpClient(BaseHttpClient):
             raise
 
         else:
-            self._inspect_account_state(response.json())
             return response
-
-    def _inspect_account_state(self, data: dict[str, Any]) -> None:
-        """Inspect the account state."""
-        self._account_state_inspector.inspect(data)
