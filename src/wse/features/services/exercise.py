@@ -40,7 +40,11 @@ class SimpleCalcService(AddObserverMixin, ISimpleCalcService):
     @override
     def get_task(self, exercise: ExerciseEnum) -> SimpleCalcTask:
         """Get task."""
-        request_dto = self._exercise_api.request_task(exercise)
+        data = {
+            'name': exercise,
+            'config': {'min_value': '1', 'max_value': '9'},
+        }
+        request_dto = self._exercise_api.request_task(data)
         response_dto = SimpleCalcResponse.from_dict(request_dto)
         self._task_uid = response_dto.uid
         return response_dto.task
