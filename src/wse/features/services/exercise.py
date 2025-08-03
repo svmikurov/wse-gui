@@ -2,6 +2,7 @@
 
 import logging
 import uuid
+from typing import Any
 
 from injector import inject
 from typing_extensions import override
@@ -38,12 +39,8 @@ class SimpleCalcService(AddObserverMixin, ISimpleCalcService):
         self._task_uid: uuid.UUID | None = None
 
     @override
-    def get_task(self, exercise: ExerciseEnum) -> SimpleCalcTask:
+    def get_task(self, data: dict[str, Any]) -> SimpleCalcTask:
         """Get task."""
-        data = {
-            'name': exercise,
-            'config': {'min_value': '1', 'max_value': '9'},
-        }
         request_dto = self._exercise_api.request_task(data)
         response_dto = SimpleCalcResponse.from_dict(request_dto)
         self._task_uid = response_dto.uid
