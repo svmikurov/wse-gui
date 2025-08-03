@@ -1,16 +1,20 @@
 """Defines Index Math page model."""
-
+import logging
 from dataclasses import dataclass
 
 from injector import inject
+from pydantic import ValidationError
 from typing_extensions import override
 from wse_exercises.base.enums import ExerciseEnum
 from wse_exercises.core import MathEnum
 
 from wse.features.base import BaseModel
 from wse.features.shared.containers.top_bar import TopBarModelMixin
+from .data import IndexData
 
 from ...http import IMathAPI
+
+logger = logging.getLogger(__name__)
 
 
 @inject
@@ -69,10 +73,14 @@ class IndexMathModel(
     def _get_server_context(self) -> None:
         """Get Math app data from server."""
         try:
-            context = self._api.get_index_context()
-            balance = context['balance']
-        except Exception:
-            return
+            response_data = self._api.get_index_context()
+            data = IndexData(**response_data)
+
+        except ValidationError as e:
+            logger.error(f'Validation error:\n{e}')
+
+        except Exception as e:
+            logger.error(f'Unexpected error:\n{e}')
+
         else:
-            self._notify_balance_updated(balance)
-            print(context)
+            self._notify_balance_updated(data.balance)
