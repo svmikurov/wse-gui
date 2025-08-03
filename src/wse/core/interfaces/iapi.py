@@ -23,7 +23,7 @@ class IAuthAPIjwt(Protocol):
 class IExerciseAPI(Protocol):
     """Defines protocol for exercise API interface."""
 
-    def request_task(self, exercise: ExerciseEnum) -> dict[str, Any]:
+    def request_task(self, data: dict[str, Any]) -> dict[str, Any]:
         """Request the task."""
 
     def check_answer(self, answer: SimpleCalcCheck) -> SimpleCalcResult:

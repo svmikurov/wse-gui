@@ -37,12 +37,8 @@ class ExerciseAPI(IExerciseAPI):
         self._validate_answer_endpoint = api_config.task['validate_answer']
 
     @override
-    def request_task(self, exercise: ExerciseEnum) -> dict[str, Any]:
+    def request_task(self, data: dict[str, Any]) -> dict[str, Any]:
         """Request the task."""
-        data = {
-            'name': exercise,
-            'config': {'min_value': '1', 'max_value': '9'},
-        }
         try:
             response: Response = self._http_client.post(
                 url=self._get_task_endpoint,
