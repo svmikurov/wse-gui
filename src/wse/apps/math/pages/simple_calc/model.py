@@ -42,16 +42,21 @@ class SimpleCalcModel(
         self._clear()
 
         try:
-            self._get_task()
+            self._set_task()
             self._notify_display_question()
         except ExerciseError:
             logger.error('Create task error')
 
-    def _get_task(self) -> None:
+    def _set_task(self) -> None:
         if self.current_exercise is None:
             raise ExerciseError('Current exercise is not defined')
 
-        self._task = self._exercise_service.get_task(self.current_exercise)
+        data = {
+            'name': self.current_exercise,
+            'config': {'min_value': '1', 'max_value': '9'},
+        }
+
+        self._task = self._exercise_service.get_task(data)
 
     def _check_answer(self) -> None:
         if self._task is None:
