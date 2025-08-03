@@ -4,6 +4,7 @@ Contains mixins for page components to control top bar containers.
 """
 
 from dataclasses import dataclass
+from decimal import Decimal
 from typing import Generic, Type, TypeVar
 
 import toga
@@ -119,7 +120,7 @@ class TopBarModelMixin:
 
     _subject: ISubject
 
-    def _notify_balance_updated(self, value: str) -> None:
+    def _notify_balance_updated(self, value: Decimal) -> None:
         """Notify than balance updated."""
         self._subject.notify('balance_update', value=value)
 
