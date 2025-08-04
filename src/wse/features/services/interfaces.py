@@ -1,17 +1,15 @@
 """Defines the protocols for services interface."""
 
-from typing import Protocol, Any
+from typing import Any, Protocol
 
-from wse_exercises.base.enums import ExerciseEnum
-from wse_exercises.core.math.rest import SimpleCalcResult
-from wse_exercises.core.math.task import SimpleCalcTask
+from wse.apps.math.pages.simple_calc.dto import CalcResultDTO, CalcTaskDTO
 
 
-class ISimpleCalcService(Protocol):
+class ICalcService(Protocol):
     """Protocols for Exercise Service interface."""
 
-    def get_task(self, data: dict[str, Any]) -> SimpleCalcTask:
+    def get_task(self, data: dict[str, Any]) -> CalcTaskDTO:
         """Get task."""
 
-    def check_answer(self, user_answer: str) -> SimpleCalcResult:
+    def check_answer(self, user_answer: str) -> CalcResultDTO:
         """Check the user answer."""
