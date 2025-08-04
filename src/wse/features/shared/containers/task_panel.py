@@ -1,4 +1,4 @@
-"""Defines base  and base abstract class for common view containers."""
+"""Defines I/O text container."""
 
 from dataclasses import dataclass
 from typing import Type
@@ -19,7 +19,7 @@ class TextTaskPanel(
     ContainerABC,
     ITextTaskContainer,
 ):
-    """Abstract base class for I/O one line text container."""
+    """I/O text container."""
 
     _divider: Type[IDivider]
     _style_config: TextTaskStyle
