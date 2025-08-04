@@ -1,4 +1,5 @@
 """Defines Index Math page model."""
+
 import logging
 from dataclasses import dataclass
 
@@ -10,9 +11,9 @@ from wse_exercises.core import MathEnum
 
 from wse.features.base import BaseModel
 from wse.features.shared.containers.top_bar import TopBarModelMixin
-from .data import IndexData
 
 from ...http import IMathAPI
+from .dto import IndexData
 
 logger = logging.getLogger(__name__)
 
@@ -83,4 +84,6 @@ class IndexMathModel(
             logger.error(f'Unexpected error:\n{e}')
 
         else:
-            self._notify_balance_updated(data.balance)
+            balance = data.balance
+            if balance is not None:
+                self._notify_balance_updated(balance)
