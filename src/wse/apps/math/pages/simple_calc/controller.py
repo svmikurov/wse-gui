@@ -8,20 +8,20 @@ from injector import inject
 from wse.features.base.mvc import BasePageController
 
 from .interfaces import (
-    ISimpleCalcModel,
-    ISimpleCalcView,
+    ICalcModel,
+    ICalcView,
 )
 
 
 @inject
 @dataclass
-class SimpleCalcController(
+class CalcController(
     BasePageController,
 ):
     """The controller of Simple Math calculation page."""
 
-    _model: ISimpleCalcModel
-    _view: ISimpleCalcView
+    _model: ICalcModel
+    _view: ICalcView
 
     def _setup(self) -> None:
         """Set up the controller features."""

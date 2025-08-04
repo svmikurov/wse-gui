@@ -7,11 +7,11 @@ import httpx
 from injector import inject
 from typing_extensions import override
 from wse_exercises.base.enums import ExerciseEnum
-from wse_exercises.core.math.task import SimpleCalcTask
 
+from wse.apps.math.pages.simple_calc.dto import CalcTaskDTO
 from wse.core.exceptions import ExerciseError
 from wse.features.base import BaseModel
-from wse.features.services.interfaces import ISimpleCalcService
+from wse.features.services.interfaces import ICalcService
 
 logger = logging.getLogger(__name__)
 
@@ -20,19 +20,19 @@ NO_TEXT = ''
 
 @inject
 @dataclass
-class SimpleCalcModel(
+class CalcModel(
     BaseModel,
 ):
     """Simple Math calculation page model."""
 
-    _exercise_service: ISimpleCalcService
+    _exercise_service: ICalcService
 
     @override
     def __post_init__(self) -> None:
         """Construct the model."""
         super().__post_init__()
         self._user_answer: str = NO_TEXT
-        self._task: SimpleCalcTask | None = None
+        self._task: CalcTaskDTO | None = None
         self._current_exercise: ExerciseEnum | None = None
 
     # Business logic
@@ -52,8 +52,11 @@ class SimpleCalcModel(
             raise ExerciseError('Current exercise is not defined')
 
         data = {
-            'name': self.current_exercise,
-            'config': {'min_value': '1', 'max_value': '9'},
+            'exercise_name': self._current_exercise,
+            'config': {
+                'min_value': '1',
+                'max_value': '9',
+            },
         }
 
         self._task = self._exercise_service.get_task(data)
@@ -65,20 +68,23 @@ class SimpleCalcModel(
 
         try:
             result_dto = self._exercise_service.check_answer(self._user_answer)
+
         except httpx.HTTPStatusError as e:
             logger.exception(f'Exercise service error:\n{e}')
-            # TODO: Add event handling
+
         except ValueError:
             logger.exception('Entered answer error')
+
         else:
             self._clear_answer()
 
             if result_dto.is_correct:
                 self._handle_correct_user_answer()
+
             else:
-                if result_dto.expression is None:
-                    raise ValueError('Correct answer expressions is not get')
-                self._handle_incorrect_user_answer(result_dto.expression)
+                self._handle_incorrect_user_answer(
+                    f'{self._task.question} = {result_dto.correct_answer}'
+                )
 
     def _handle_correct_user_answer(self) -> None:
         self.start_new_task()
@@ -102,7 +108,7 @@ class SimpleCalcModel(
 
     def _notify_display_question(self) -> None:
         if self._task is not None:
-            self._notify('question_updated', value=self._task.question.text)
+            self._notify('question_updated', value=self._task.question)
         else:
             raise ExerciseError('Task is not defined')
 

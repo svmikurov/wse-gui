@@ -4,12 +4,10 @@ from typing import Protocol
 
 from wse_exercises.base.enums import ExerciseEnum
 
-from wse.config.layout import TextTaskStyle, TextTaskTheme
-from wse.features.interfaces.icontent import IGetContent
 from wse.features.interfaces.imvc import IModel, IPageController, IView
 
 
-class ISimpleCalcModel(
+class ICalcModel(
     IModel,
     Protocol,
 ):
@@ -39,7 +37,7 @@ class ISimpleCalcModel(
     def current_exercise(self, value: ExerciseEnum) -> None: ...
 
 
-class ISimpleCalcView(
+class ICalcView(
     IView,
     Protocol,
 ):
@@ -71,14 +69,14 @@ class ISimpleCalcView(
         """Reset to initial layout."""
 
 
-class ISimpleCalcController(
+class ICalcController(
     IPageController,
     Protocol,
 ):
     """The controller of Simple Math calculation page."""
 
-    _model: ISimpleCalcModel
-    _view: ISimpleCalcView
+    _model: ICalcModel
+    _view: ICalcView
 
     # Notifications from Model
 
@@ -107,32 +105,3 @@ class ISimpleCalcController(
 
     def task_started(self) -> None:
         """Handle the next task started event."""
-
-
-class ISimpleCalcContainer(
-    IGetContent,
-    Protocol,
-):
-    """Protocol fot Simple Math calculation container interface."""
-
-    # Layout methods
-
-    def localize_ui(self) -> None:
-        """Localize the UI text."""
-
-    def update_style(self, config: TextTaskStyle | TextTaskTheme) -> None:
-        """Update widgets style."""
-
-    # API for view
-
-    def display_output(self, value: str) -> None:
-        """Update the output text field."""
-
-    def clear_output(self) -> None:
-        """Clear the output text field."""
-
-    def display_input(self, value: str) -> None:
-        """Update the input text field."""
-
-    def clear_input(self) -> None:
-        """Clear the input text field."""

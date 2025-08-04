@@ -6,26 +6,26 @@ from injector import Binder, Module
 
 from ...sources.interfaces import IExerciseSelectionSource
 from ...sources.selection import ExerciseSelectionSource
-from .controller import SimpleCalcController
+from .controller import CalcController
 from .interfaces import (
-    ISimpleCalcController,
-    ISimpleCalcModel,
-    ISimpleCalcView,
+    ICalcController,
+    ICalcModel,
+    ICalcView,
 )
-from .model import SimpleCalcModel
-from .view import SimpleCalcView
+from .model import CalcModel
+from .view import CalcView
 
 
-class SimpleCalculationModule(Module):
+class CalculationModule(Module):
     """Simple Math calculation page module."""
 
     @no_type_check
     def configure(self, binder: Binder) -> None:
         """Configure the bindings."""
         # MVC model
-        binder.bind(ISimpleCalcModel, to=SimpleCalcModel)
-        binder.bind(ISimpleCalcView, to=SimpleCalcView)
-        binder.bind(ISimpleCalcController, to=SimpleCalcController)
+        binder.bind(ICalcModel, to=CalcModel)
+        binder.bind(ICalcView, to=CalcView)
+        binder.bind(ICalcController, to=CalcController)
 
         # Sources
         binder.bind(IExerciseSelectionSource, to=ExerciseSelectionSource)

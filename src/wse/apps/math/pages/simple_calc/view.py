@@ -24,7 +24,7 @@ from wse.utils.i18n import _, label_
 
 @inject
 @dataclass
-class SimpleCalcView(
+class CalcView(
     TopBarPageViewMixin,
     BaseView,
 ):
