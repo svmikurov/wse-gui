@@ -77,14 +77,7 @@ class NumPadModel(
             self._input = MINUS + self._input
 
     def _handle_allowed_char(self, char: str) -> None:
-        if char == '0':
-            self._input += (
-                char + DOT
-                if self._input == NO_TEXT or self._input == MINUS
-                else char
-            )
-        else:
-            self._input += char
+        self._input += char
 
     @staticmethod
     def _validate_char(char: str) -> bool:
