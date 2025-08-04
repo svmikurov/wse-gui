@@ -8,7 +8,7 @@ import toga
 
 from wse.apps.main.pages.home.interfaces import IHomeController
 from wse.apps.math.pages.index.interfaces import IIndexMathController
-from wse.apps.math.pages.simple_calc.interfaces import ISimpleCalcController
+from wse.apps.math.pages.simple_calc.interfaces import ICalcController
 from wse.apps.nav_id import NavID
 from wse.core.navigation.navigator import Navigator
 from wse.features.interfaces.icontent import IContent
@@ -30,7 +30,7 @@ class TestNavigator(unittest.TestCase):
         self.mock_math_controller.content = self.mock_math_content
 
         self.mock_calc_content = MagicMock(spec=IContent)
-        self.mock_calc_controller = MagicMock(spec=ISimpleCalcController)
+        self.mock_calc_controller = MagicMock(spec=ICalcController)
         self.mock_calc_controller.content = self.mock_calc_content
 
         self.routes = {
