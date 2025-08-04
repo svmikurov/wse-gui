@@ -10,7 +10,7 @@ from wse.core.http.auth import AuthSchema
 from wse.core.http.client import HttpClient
 
 from .api.auth_jwt import AuthAPIjwt
-from .api.exercise import ExerciseAPI
+from .api.exercise import ExerciseApiClient
 from .auth.service import AuthService
 from .http import IHttpClient
 from .http._iabc.inspector import IAccountStateInspector
@@ -19,7 +19,7 @@ from .interfaces import INavigator
 from .interfaces.iapi import (
     IAuthAPIjwt,
     IAuthScheme,
-    IExerciseAPI,
+    IExerciseApiClient,
 )
 from .interfaces.iauth import IAuthService
 from .interfaces.istorage import IJWTJsonStorage
@@ -47,7 +47,7 @@ class CoreModule(Module):
 
         # API services
         binder.bind(IAuthAPIjwt, to=AuthAPIjwt)
-        binder.bind(IExerciseAPI, to=ExerciseAPI)
+        binder.bind(IExerciseApiClient, to=ExerciseApiClient)
 
         # Storage service
         binder.bind(IJWTJsonStorage, JWTJsonStorage)

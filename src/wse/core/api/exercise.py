@@ -7,21 +7,20 @@ import httpx
 from httpx import Response
 from injector import inject
 from typing_extensions import override
-from wse_exercises.base.enums import ExerciseEnum
-from wse_exercises.core.math.rest import SimpleCalcCheck, SimpleCalcResult
 
 from wse.config.settings import APIConfigV1
 from wse.core.exceptions import ExerciseError
-from wse.core.interfaces.iapi import IAuthScheme, IExerciseAPI
+from wse.core.interfaces.iapi import IAuthScheme, IExerciseApiClient
 
+from ...apps.math.pages.simple_calc.dto import CalcAnswerDTO, CalcResultDTO
 from ...core.http import IHttpClient
 
 logger = logging.getLogger(__name__)
 
 
 @inject
-class ExerciseAPI(IExerciseAPI):
-    """Exercise API."""
+class ExerciseApiClient(IExerciseApiClient):
+    """Exercise API client."""
 
     def __init__(
         self,
@@ -53,7 +52,7 @@ class ExerciseAPI(IExerciseAPI):
         return response_data
 
     @override
-    def check_answer(self, answer: SimpleCalcCheck) -> SimpleCalcResult:
+    def check_answer(self, answer: CalcAnswerDTO) -> CalcResultDTO:
         """Check the user entered answer."""
         try:
             response: Response = self._http_client.post(
@@ -68,7 +67,7 @@ class ExerciseAPI(IExerciseAPI):
 
         else:
             try:
-                result_dto = SimpleCalcResult.from_dict(response.json())
+                result_dto = CalcResultDTO.from_dict(response.json())
             except AttributeError as e:
                 raise ExerciseError from e
             return result_dto

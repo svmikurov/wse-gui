@@ -3,8 +3,8 @@
 from typing import Any, Generator, Protocol
 
 import httpx
-from wse_exercises.base.enums import ExerciseEnum
-from wse_exercises.core.math.rest import SimpleCalcCheck, SimpleCalcResult
+
+from wse.apps.math.pages.simple_calc.dto import CalcAnswerDTO, CalcResultDTO
 
 
 class IAuthAPIjwt(Protocol):
@@ -20,14 +20,14 @@ class IAuthAPIjwt(Protocol):
         """Refresh the 'access' token."""
 
 
-class IExerciseAPI(Protocol):
-    """Defines protocol for exercise API interface."""
+class IExerciseApiClient(Protocol):
+    """Defines protocol for exercise API client interface."""
 
     def request_task(self, data: dict[str, Any]) -> dict[str, Any]:
-        """Request the task."""
+        """Request a task from the server."""
 
-    def check_answer(self, answer: SimpleCalcCheck) -> SimpleCalcResult:
-        """Check the user entered answer."""
+    def check_answer(self, answer: CalcAnswerDTO) -> CalcResultDTO:
+        """Check the user's entered answer on the server."""
 
 
 class IAuthScheme(Protocol):
