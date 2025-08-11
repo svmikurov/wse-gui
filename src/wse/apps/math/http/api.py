@@ -12,7 +12,7 @@ from wse.core.interfaces.iapi import IAuthScheme
 from ._iabc import MathAPIABC
 from .config import MathAPIConfigV1
 
-logger = logging.getLogger(__file__)
+logger = logging.getLogger(__name__)
 
 
 class MathAPI(MathAPIABC):
