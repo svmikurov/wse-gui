@@ -7,6 +7,7 @@ from wse_exercises.base.mixins import ConvertMixin
 
 # TODO: Fix combined `ConvertMixin` and `BaseModel` to `BaseSchema'
 
+
 class CalcConfDTO(ConvertMixin, BaseModel):
     """Calculation task config DTO."""
 
