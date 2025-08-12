@@ -8,3 +8,4 @@ class MathAPIConfigV1(BaseModel):
 
     base_url: str
     index: str
+    calculation: dict[str, str]

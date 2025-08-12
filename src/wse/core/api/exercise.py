@@ -8,10 +8,10 @@ from httpx import Response
 from injector import inject
 from typing_extensions import override
 
-from wse.config.settings import APIConfigV1
 from wse.core.exceptions import ExerciseError
 from wse.core.interfaces.iapi import IAuthScheme, IExerciseApiClient
 
+from ...apps.math.http.config import MathAPIConfigV1
 from ...apps.math.pages.simple_calc.dto import CalcAnswerDTO, CalcResultDTO
 from ...core.http import IHttpClient
 
@@ -26,14 +26,14 @@ class ExerciseApiClient(IExerciseApiClient):
         self,
         auth_scheme: IAuthScheme,
         http_client: IHttpClient,
-        api_config: APIConfigV1,
+        api_config: MathAPIConfigV1,
     ) -> None:
         """Construct the API."""
         self._auth_scheme = auth_scheme
         self._http_client = http_client
         # Endpoints
-        self._get_task_endpoint = api_config.task['get_task']
-        self._validate_answer_endpoint = api_config.task['validate_answer']
+        self._get_task_endpoint = api_config.calculation['get_task']
+        self._validate_endpoint = api_config.calculation['validate_answer']
 
     @override
     def request_task(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -56,7 +56,7 @@ class ExerciseApiClient(IExerciseApiClient):
         """Check the user entered answer."""
         try:
             response: Response = self._http_client.post(
-                url=self._validate_answer_endpoint,
+                url=self._validate_endpoint,
                 json=answer.to_dict(),
                 auth=cast(httpx.Auth, self._auth_scheme),
             )

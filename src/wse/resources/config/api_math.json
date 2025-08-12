@@ -1,4 +1,8 @@
 {
   "base_url": "http://127.0.0.1:8000/",
-  "index": "api/v1/math/index/"
+  "index": "api/v1/math/index/",
+  "calculation": {
+    "get_task": "api/v1/math/exercise/calculation/",
+    "validate_answer": "api/v1/math/exercise/calculation/validate/"
+  }
 }

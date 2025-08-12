@@ -45,4 +45,3 @@ class APIConfigV1(ApiConfig):
 
     base_url: str
     jwt: dict[str, str]
-    task: dict[str, str]
