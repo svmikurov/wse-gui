@@ -29,6 +29,7 @@ These methods will be called when the view is initialized.
 To crate widget use ``_create_ui()`` abstract base method.
 
 .. code-block:: python
+   :caption: src/wse/apps/main/pages/home/view.py:
 
    class HomeView(BaseView):
 
@@ -74,14 +75,24 @@ Create simple controller
 ------------------------
 
 Inherit page controller from ``BasePageController``.
+   :caption: src/wse/apps/main/pages/home/controller.py:
 
 .. code-block:: python
 
    class HomeController(BasePageController):
 
-       _view: HomeView
+       _view: IHomeView
 
-To bind the controller to the view, we annotated the view in the page controller class.
+To bind the controller to the view, we annotated the page view in the page controller class with `IHomeView` protocol.
+
+.. code-block:: python
+   :caption: src/wse/apps/main/pages/home/interfaces.py:
+
+   class IHomeView(IView, Protocol):
+      ...
+
+   class IHomeController(IPageController, Protocol):
+      ...
 
 To display a page, the controller initializes the view and provides page ``content`` with view widgets.
 
@@ -100,6 +111,7 @@ The application uses the ``injector`` library to inject dependencies
 Let's mark our class with decorators so that dependencies are injected and take a look at our code.
 
 .. code-block:: python
+   :caption: For example, the modules are combined:
 
    from dataclasses import dataclass
    from injector import inject

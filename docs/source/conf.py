@@ -3,6 +3,10 @@
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
+import os
+import sys
+from pathlib import Path
+
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
@@ -11,15 +15,19 @@ copyright = '2025, Sergey Mikurov'
 author = 'Sergey Mikurov'
 release = '0.4.0'
 
+SRC_PATH = Path(__file__).parents[2] / 'src'
+print(f'----------------------------------------------------')
+print(f'{SRC_PATH = }')
+print(f'----------------------------------------------------')
+sys.path.insert(0, SRC_PATH.resolve().as_posix())
+
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions: list[str] = [
-    # Include documentation from docstrings
-    # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#module-sphinx.ext.autodoc
     'sphinx.ext.autodoc',
-    # Add copy button from block
-    # https://sphinx-copybutton.readthedocs.io/en/latest/#sphinx-copybutton
+    'sphinx.ext.autosummary',
+    'sphinx.ext.viewcode',
     'sphinx_copybutton',
     # Allow reference sections using its title
     # https://www.sphinx-doc.org/en/master/usage/extensions/autosectionlabel.html#module-sphinx.ext.autosectionlabel

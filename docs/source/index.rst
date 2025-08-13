@@ -10,9 +10,11 @@ Welcome to WSE GUI's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   overview/index.rst
    tutorial/index.rst
-   style/index.rst
    guid/index.rst
+   reference/index.rst
+   style/index.rst
    typing/index.rst
 
 

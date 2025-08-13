@@ -3,6 +3,6 @@ Create page tutorial
 
 .. toctree::
 
-   view.rst
-
-TODO: Add docs for "Add 'back' button"
+   simple_page.rst
+   navigation.rst
+   di.rst
