@@ -34,7 +34,10 @@ class BaseModel(
         self._setup()
 
     def _setup(self) -> None:
-        """Set up the model features."""
+        """Set up the model features.
+
+        Override to set up model features on model initialize.
+        """
 
 
 @inject
