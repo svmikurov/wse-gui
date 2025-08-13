@@ -16,9 +16,6 @@ author = 'Sergey Mikurov'
 release = '0.4.0'
 
 SRC_PATH = Path(__file__).parents[2] / 'src'
-print(f'----------------------------------------------------')
-print(f'{SRC_PATH = }')
-print(f'----------------------------------------------------')
 sys.path.insert(0, SRC_PATH.resolve().as_posix())
 
 # -- General configuration ---------------------------------------------------
