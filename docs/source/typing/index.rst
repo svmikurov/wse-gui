@@ -1,24 +1,6 @@
 Type checking
 =============
 
-Using `@runtime_checkable`
---------------------------
-
-The project uses the "injector" library. The Injector library uses runtime checking.
-This is why the @runtime_checkable decorator is sometimes
-added to protocol interfaces used with the "injector" library.
-
-.. code-block:: python
-
-   from typing import Protocol, runtime_checkable
-
-   @runtime_checkable
-   class IController(
-       IGetContent,
-       Protocol,
-   ):
-       """Protocol for page controller interface."""
-
 Using `@no_type_check`
 ----------------------
 
