@@ -6,6 +6,8 @@ from typing import Any, Protocol
 import httpx
 from typing_extensions import override
 
+from wse.core.interfaces.iapi import IAuthScheme
+
 
 class IHttpClient(Protocol):
     """Protocol for http client interface."""
@@ -13,7 +15,7 @@ class IHttpClient(Protocol):
     def get(
         self,
         url: httpx.URL | str,
-        auth: httpx.Auth | None = None,
+        auth: IAuthScheme | None = None,
     ) -> httpx.Response:
         """Send a `GET` request."""
 
@@ -21,7 +23,7 @@ class IHttpClient(Protocol):
         self,
         url: httpx.URL | str,
         json: dict[str, Any] | None = None,
-        auth: httpx.Auth | None = None,
+        auth: IAuthScheme | None = None,
         headers: dict[str, str] | None = None,
     ) -> httpx.Response:
         """Send a `POST` request."""
@@ -30,7 +32,7 @@ class IHttpClient(Protocol):
         self,
         url: httpx.URL | str,
         json: dict[str, Any],
-        auth: httpx.Auth | None = None,
+        auth: IAuthScheme | None = None,
     ) -> httpx.Response:
         """Send a `PATCH` request."""
 
@@ -43,7 +45,7 @@ class BaseHttpClient(ABC, IHttpClient):
     def get(
         self,
         url: httpx.URL | str,
-        auth: httpx.Auth | None = None,
+        auth: IAuthScheme | None = None,
     ) -> httpx.Response:
         """Send a `GET` request."""
 
@@ -53,7 +55,7 @@ class BaseHttpClient(ABC, IHttpClient):
         self,
         url: httpx.URL | str,
         json: dict[str, Any] | None = None,
-        auth: httpx.Auth | None = None,
+        auth: IAuthScheme | None = None,
         headers: dict[str, str] | None = None,
     ) -> httpx.Response:
         """Send a `POST` request."""
@@ -64,6 +66,6 @@ class BaseHttpClient(ABC, IHttpClient):
         self,
         url: httpx.URL | str,
         json: dict[str, Any],
-        auth: httpx.Auth | None = None,
+        auth: IAuthScheme | None = None,
     ) -> httpx.Response:
         """Send a `PATCH` request."""

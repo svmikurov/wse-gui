@@ -1,7 +1,7 @@
 """Defines exercise API."""
 
 import logging
-from typing import Any, cast
+from typing import Any
 
 import httpx
 from httpx import Response
@@ -42,7 +42,7 @@ class ExerciseApiClient(IExerciseApiClient):
             response: Response = self._http_client.post(
                 url=self._get_task_endpoint,
                 json=data,
-                auth=cast(httpx.Auth, self._auth_scheme),
+                auth=self._auth_scheme,
             )
         except Exception as e:
             logger.error('Request task error: %s', str(e))
@@ -58,7 +58,7 @@ class ExerciseApiClient(IExerciseApiClient):
             response: Response = self._http_client.post(
                 url=self._validate_endpoint,
                 json=answer.to_dict(),
-                auth=cast(httpx.Auth, self._auth_scheme),
+                auth=self._auth_scheme,
             )
 
         except httpx.HTTPStatusError:

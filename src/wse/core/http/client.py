@@ -9,8 +9,8 @@ from typing_extensions import override
 
 from wse.config.settings import APIConfigV1
 
+from ..interfaces.iapi import IAuthScheme
 from ._iabc.client import BaseHttpClient
-from ._iabc.inspector import IAccountStateInspector
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +23,6 @@ class HttpClient(BaseHttpClient):
         self,
         http_client: httpx.Client,
         api_config: APIConfigV1,
-        account_state_inspector: IAccountStateInspector,
     ) -> None:
         """Construct the client."""
         self._http_client = http_client
@@ -34,7 +33,7 @@ class HttpClient(BaseHttpClient):
     def get(
         self,
         url: httpx.URL | str,
-        auth: httpx.Auth | None = None,
+        auth: IAuthScheme | None = None,
     ) -> httpx.Response:
         """Send a `GET` request."""
         return self._request('get', url, auth=auth)
@@ -44,7 +43,7 @@ class HttpClient(BaseHttpClient):
         self,
         url: httpx.URL | str,
         json: dict[str, Any] | None = None,
-        auth: httpx.Auth | None = None,
+        auth: IAuthScheme | None = None,
         headers: dict[str, str] | None = None,
     ) -> httpx.Response:
         """Send a `POST` request."""
@@ -61,7 +60,7 @@ class HttpClient(BaseHttpClient):
         self,
         url: httpx.URL | str,
         json: dict[str, Any],
-        auth: httpx.Auth | None = None,
+        auth: IAuthScheme | None = None,
     ) -> httpx.Response:
         """Send a `PATCH` request."""
         return self._request('patch', url, json=json, auth=auth)
@@ -70,7 +69,7 @@ class HttpClient(BaseHttpClient):
         self,
         method: str,
         url: httpx.URL | str,
-        auth: httpx.Auth | None,
+        auth: IAuthScheme | None,
         json: dict[str, Any] | None = None,
         headers: dict[str, str] | None = None,
     ) -> httpx.Response:
@@ -79,7 +78,7 @@ class HttpClient(BaseHttpClient):
                 method,
                 url,
                 json=json,
-                auth=auth,
+                auth=auth,  # type: ignore[arg-type]
                 headers=headers,
             )
             response.raise_for_status()
