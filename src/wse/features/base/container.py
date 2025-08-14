@@ -98,7 +98,7 @@ class LocaleContainerABC(
 
 @inject
 @dataclass
-class InteractiveContainerABV(
+class InteractiveContainerABC(
     AddObserverMixin,
     LocaleContainerABC[StyleT, ThemeT],
     ABC,
@@ -110,7 +110,7 @@ class InteractiveContainerABV(
 @dataclass
 class NavigableContainerABC(
     CreateNavButtonMixin,
-    InteractiveContainerABV[StyleT, ThemeT],
+    InteractiveContainerABC[StyleT, ThemeT],
     ABC,
 ):
     """Abstract base class for navigation container."""
