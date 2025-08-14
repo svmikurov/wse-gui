@@ -1,4 +1,21 @@
-"""Defines authentication scheme."""
+"""Authentication scheme for authenticated requests.
+
+Add authentication scheme instance to request method of
+``httpx.Client()`` or to ``httpx.Client()`` constructor
+to send authenticated request.
+
+.. code-block:: python
+
+   import httpx
+
+   response = httpx.Client(auth=auth_scheme).get(url)
+
+.. seealso::
+
+   For more information, see the documentation:
+   `HTTPX Authentication <https://www.python-httpx.org/advanced/authentication/>`_
+
+"""
 
 import logging
 from http import HTTPStatus
@@ -15,10 +32,38 @@ from wse.core.interfaces.iauth import IAuthService
 logger = logging.getLogger(__name__)
 
 
-class AuthSchema(httpx.Auth, IAuthScheme):
+# TODO: Fix typing ignore
+class AuthSchema(httpx.Auth, IAuthScheme):  # type: ignore[misc]
     """Custom authentication schema.
 
-    Use with httpx.Client for authenticated request.
+    Use with httpx.Client() for authenticated request.
+
+    :ivar IAuthService auth_service: Authentication service
+
+    For example:
+
+    .. code-block:: python
+
+        from injector import inject
+
+        class ApiService:
+
+            @inject
+            def __init__(
+                self,
+                http_client: IHttpClient,
+                auth_schema: IAuthScheme,
+                url: str,
+            ):
+                self._http_client = http_client
+                self._auth_schema = auth_schema
+                self._url = url
+
+        def request_bar(self) -> httpx.Response:
+            return self._http_client.get(
+                url=self._url,
+                auth=self._auth_scheme,
+            )
     """
 
     @inject
