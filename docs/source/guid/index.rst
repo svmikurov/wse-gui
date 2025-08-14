@@ -1,8 +1,6 @@
-Create page guid
-================
+Guid
+====
 
 .. toctree::
 
    view.rst
-
-TODO: Add docs for "Add top bar widget 'back' button"

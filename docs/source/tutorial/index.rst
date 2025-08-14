@@ -1,5 +1,5 @@
-Create page tutorial
-====================
+Tutorial
+========
 
 .. toctree::
 
