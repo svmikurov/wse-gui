@@ -15,6 +15,7 @@ class NavID(BaseEnum):
 
     # Main app
     HOME = 'Home page'
+    ASSIGNED = 'Assigned exercises'
 
     # Math app
     INDEX_MATH = 'Main math page'

@@ -1,0 +1,1 @@
+"""Defines assigned exercises page."""
