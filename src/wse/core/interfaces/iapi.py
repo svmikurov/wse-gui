@@ -1,8 +1,9 @@
 """Defines protocol for API client interface."""
 
-from typing import Any, Generator, Protocol
+from typing import Any, AsyncGenerator, Generator, Protocol
 
 import httpx
+from httpx import Request, Response
 
 from wse.apps.math.pages.simple_calc.dto import CalcAnswerDTO, CalcResultDTO
 
@@ -38,3 +39,15 @@ class IAuthScheme(Protocol):
         request: httpx.Request,
     ) -> Generator[httpx.Request, httpx.Response, None]:
         """Execute the authentication flow."""
+
+    def sync_auth_flow(
+        self,
+        request: Request,
+    ) -> Generator[Request, Response, None]:
+        """Execute the authentication flow synchronously."""
+
+    async def async_auth_flow(
+        self,
+        request: Request,
+    ) -> AsyncGenerator[Request, Response]:
+        """Execute the authentication flow asynchronously."""
