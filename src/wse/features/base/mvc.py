@@ -48,8 +48,8 @@ class BaseView(
 ):
     """Base implementation for page view."""
 
-    _style_config: StyleConfig
-    _theme_config: ThemeConfig
+    _style: StyleConfig
+    _theme: ThemeConfig
 
 
 @inject

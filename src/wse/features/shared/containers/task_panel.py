@@ -6,7 +6,7 @@ from typing import Type
 import toga
 from injector import inject
 
-from wse.config.layout import TextTaskStyle, TextTaskTheme
+from wse.config.layout import StyleConfig, ThemeConfig
 
 from ...base.container import ContainerABC
 from ...shared.widgets.interfaces import IDivider
@@ -22,12 +22,12 @@ class TextTaskPanel(
     """I/O text container."""
 
     _divider: Type[IDivider]
-    _style_config: TextTaskStyle
-    _theme_config: TextTaskTheme
+    _style: StyleConfig
+    _theme: ThemeConfig
 
     def _setup(self) -> None:
-        self.update_style(self._style_config)
-        self.update_style(self._theme_config)
+        self.update_style(self._style)
+        self.update_style(self._theme)
 
     def _populate_content(self) -> None:
         self.content.add(
@@ -65,7 +65,7 @@ class TextTaskPanel(
     def localize_ui(self) -> None:
         """Localize the UI text."""
 
-    def update_style(self, config: TextTaskStyle | TextTaskTheme) -> None:
+    def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
-        self._label_question.style.update(**config.label_question)
-        self._label_answer.style.update(**config.label_answer)
+        self._label_question.style.update(**config.text_task.label_question)
+        self._label_answer.style.update(**config.text_task.label_answer)

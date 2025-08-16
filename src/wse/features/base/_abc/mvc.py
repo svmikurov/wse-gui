@@ -62,16 +62,16 @@ class UpdateStyleABC(ABC, Generic[StyleT, ThemeT]):
     Provides functionality to apply the application style and theme to
     all widgets.
 
-    :ivar StyleT _style_config: Widgets style config DTO
-    :ivar ThemeT _theme_config: Widgets thema config DTO
+    :ivar StyleT _style: Widgets style config DTO
+    :ivar ThemeT _theme: Widgets thema config DTO
     """
 
-    _style_config: StyleT
-    _theme_config: ThemeT
+    _style: StyleT
+    _theme: ThemeT
 
     def _apply_styles(self) -> None:
-        self.update_style(self._style_config)
-        self.update_style(self._theme_config)
+        self.update_style(self._style)
+        self.update_style(self._theme)
 
     @abstractmethod
     def update_style(self, config: StyleT | ThemeT) -> None:
@@ -86,8 +86,8 @@ class UpdateStyleABC(ABC, Generic[StyleT, ThemeT]):
                 UpdateStyleABC[TopBarStyle, TopBarTheme]
             ):
 
-                _style_config: TopBarStyle
-                _theme_config: TopBarTheme
+                _style: TopBarStyle
+                _theme: TopBarTheme
 
                 def _setup(self) -> None:
                     super()._setup()

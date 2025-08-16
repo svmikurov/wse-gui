@@ -39,13 +39,17 @@ class AssignedContainer(
         button = Button(
             id=self._get_button_id(exercise),
             text=exercise.exercise_name,
-            style=Pack(**self._style.button, **self._theme.button),
+            style=Pack(
+                **self._style.assigned.button,  # type: ignore[arg-type]
+                **self._theme.assigned.button,  # type: ignore[arg-type]
+            ),
             on_press=partial(
                 self._select, assignation_id=exercise.assignation_id
             ),
         )
         inner_box.add(button)
 
+    @override
     def update_exercises(self, exercises: list[AssignedExercisesDTO]) -> None:
         """Update exercises."""
         self.remove_exercises()
@@ -72,8 +76,8 @@ class AssignedContainer(
                 id=self._get_label_id(exercise),
                 text=exercise.mentor_username,
                 style=Pack(
-                    **self._style.label_title,
-                    **self._theme.label_title,
+                    **self._style.assigned.label,  # type: ignore[arg-type]
+                    **self._theme.assigned.label,  # type: ignore[arg-type]
                 ),
             )
             inner_box = Column(

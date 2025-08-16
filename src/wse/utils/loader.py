@@ -2,15 +2,14 @@
 
 import json
 import logging
-from dataclasses import fields
 from pathlib import Path
-from typing import Any, Generic, Type, TypeVar
+from typing import Generic, Type, TypeVar
 
-from pydantic import ValidationError
+from pydantic import BaseModel, ValidationError
 
 logger = logging.getLogger(__name__)
 
-T = TypeVar('T')
+T = TypeVar('T', bound=BaseModel)
 
 
 class ApiConfigLoader(Generic[T]):
@@ -26,7 +25,7 @@ class ApiConfigLoader(Generic[T]):
         self._path = config_path
 
     def load_api_config(self) -> T:
-        """Load config to model."""
+        """Load configuration data from a file."""
         try:
             if not self._path.exists():
                 logger.error(f'Error load {self._path} API config')
@@ -50,14 +49,6 @@ class ApiConfigLoader(Generic[T]):
             raise RuntimeError(f'Error to open {self._path}: {e}') from e
 
 
-def filter_data(
-    klass: Type[T],
-    data: dict[str, Any],
-) -> dict[str, Any]:
-    """Filter data for dataclass."""
-    return {f.name: data[f.name] for f in fields(klass) if f.name in data}  # type: ignore[arg-type]
-
-
 def load_style_data(
     path: Path,
     klass: Type[T],
@@ -75,11 +66,15 @@ def load_style_data(
             )
     except FileNotFoundError:
         logger.error(f"Config '{path.name}' not found")
+        raise
     except KeyError:
         logger.error(
-            f"Config '{path.name}' have no configuration "
+            f"Config '{path.name}' has no configuration "
             f"for '{container_alice}' container"
         )
+        raise
+    except json.JSONDecodeError:
+        logger.error(f"Invalid JSON in config file '{path.name}'")
+        raise
 
-    filtered_data = filter_data(klass, data)
-    return klass(**filtered_data)
+    return klass.parse_obj(data)

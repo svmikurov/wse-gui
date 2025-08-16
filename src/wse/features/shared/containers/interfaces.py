@@ -4,12 +4,7 @@ from typing import Any, Iterable
 
 from typing_extensions import Protocol
 
-from wse.config.layout import (
-    LoginStyle,
-    LoginTheme,
-    TextTaskStyle,
-    TextTaskTheme,
-)
+from wse.config.layout import StyleConfig, ThemeConfig
 
 from ...interfaces.icontainer import IAddObserver, IContainer
 from ...interfaces.icontent import IGetContent
@@ -35,7 +30,7 @@ class ITextTaskContainer(
     def clear_answer(self) -> None:
         """Clear the answer text field."""
 
-    def update_style(self, config: TextTaskStyle | TextTaskTheme) -> None:
+    def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
 
     def display_correct_answer(self, expression: str) -> None:
@@ -121,7 +116,7 @@ class ILoginContainer(
     def localize(self) -> None:
         """Localize the UI text."""
 
-    def update_style(self, config: LoginStyle | LoginTheme) -> None:
+    def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update UI style."""
 
     def clear_credential(self) -> None:

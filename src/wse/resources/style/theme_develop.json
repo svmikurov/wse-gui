@@ -14,5 +14,14 @@
   "numpad": {
   },
   "input": {
+  },
+  "login": {
+  },
+  "top_bar": {
+  },
+  "assigned": {
+    "label": {
+      "color": "red"
+    }
   }
 }

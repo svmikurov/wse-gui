@@ -8,7 +8,7 @@ from injector import inject
 from typing_extensions import override
 
 from wse.apps.nav_id import NavID
-from wse.config.layout import LoginStyle, LoginTheme
+from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.interfaces.iauth import IAuthService
 from wse.utils.i18n import _
 
@@ -73,14 +73,14 @@ class LoginContainer(
     """Login container."""
 
     _subject: ISubject
-    _style_config: LoginStyle
-    _theme_config: LoginTheme
+    _style: StyleConfig
+    _theme: ThemeConfig
 
     def _setup(self) -> None:
         self.content.test_id = NavID.LOGIN
         self.localize_ui()
-        self.update_style(self._style_config)
-        self.update_style(self._theme_config)
+        self.update_style(self._style)
+        self.update_style(self._theme)
 
     def _populate_content(self) -> None:
         self.content.add(
@@ -100,10 +100,10 @@ class LoginContainer(
         self._input_password.placeholder = _('Password')
         self._btn_confirm.text = _('Login')
 
-    def update_style(self, config: LoginStyle | LoginTheme) -> None:
+    def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update UI style."""
-        self._input_username.style.update(**config.input)
-        self._input_password.style.update(**config.input)
+        self._input_username.style.update(**config.login.input)
+        self._input_password.style.update(**config.login.input)
         self._btn_confirm.style.update(**config.button)
 
     def clear_credential(self) -> None:

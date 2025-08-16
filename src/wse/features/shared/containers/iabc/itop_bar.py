@@ -5,7 +5,7 @@ from typing import Protocol
 
 from typing_extensions import override
 
-from wse.config.layout import TopBarStyle, TopBarTheme
+from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseController
 from wse.features.base.container import NavigableContainerABC
 from wse.features.base.mixins import AddObserverMixin, NotifyNavigateMixin
@@ -29,7 +29,7 @@ class ITopBarContainerFeatures(Protocol):
 
 class ITopBarContainer(
     ITopBarContainerFeatures,
-    INavigableContainer[TopBarStyle, TopBarTheme],
+    INavigableContainer[StyleConfig, ThemeConfig],
     Protocol,
 ):
     """Protocol for top bar container interface."""
@@ -48,7 +48,7 @@ class TopBarContainerFeaturesABC(ABC, ITopBarContainerFeatures):
 
 class BaseTopBarContainer(
     TopBarContainerFeaturesABC,
-    NavigableContainerABC[TopBarStyle, TopBarTheme],
+    NavigableContainerABC[StyleConfig, ThemeConfig],
     ABC,
     ITopBarContainer,
 ):

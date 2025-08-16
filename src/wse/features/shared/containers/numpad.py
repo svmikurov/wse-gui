@@ -7,7 +7,7 @@ from dataclasses import dataclass
 import toga
 from injector import inject
 
-from wse.config.layout import NumPadStyle, NumPadTheme
+from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.shared.boxes import FlexColumn
 
 from ...base import BaseController
@@ -143,13 +143,13 @@ class NumPadContainer(
     """Number keyword container."""
 
     _subject: ISubject
-    _style_config: NumPadStyle
-    _theme_config: NumPadTheme
+    _style: StyleConfig
+    _theme: ThemeConfig
 
     def _setup(self) -> None:
         self._build_boxes()
-        self.update_style(self._style_config)
-        self.update_style(self._theme_config)
+        self.update_style(self._style)
+        self.update_style(self._theme)
 
     def _populate_content(self) -> None:
         self.content.add(self._outer_box)
@@ -175,7 +175,7 @@ class NumPadContainer(
         self._build_sign_box()
         self._build_outer_box()
 
-    def update_style(self, config: NumPadStyle | NumPadTheme) -> None:
+    def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
         # Update buttons style
         for row in self._num_box.children:
@@ -186,7 +186,7 @@ class NumPadContainer(
             button.style.update(**config.button)
 
         # Update outer NumPad box style
-        self._outer_box.style.update(**config.outer_box)
+        self._outer_box.style.update(**config.numpad.outer_box)
 
     def update_enabled(self, enabled: bool) -> None:
         """Update buttons enabled features."""

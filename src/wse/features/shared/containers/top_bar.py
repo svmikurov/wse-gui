@@ -12,10 +12,7 @@ from injector import inject
 from typing_extensions import override
 
 from wse.apps.nav_id import NavID
-from wse.config.layout import (
-    TopBarStyle,
-    TopBarTheme,
-)
+from wse.config.layout import StyleConfig, ThemeConfig
 from wse.utils.i18n import nav_
 
 from ...base.mixins import NotifyNavigateMixin
@@ -40,8 +37,8 @@ class TopBarContainer(
 ):
     """Top bar container."""
 
-    _style_config: TopBarStyle
-    _theme_config: TopBarTheme
+    _style: StyleConfig
+    _theme: ThemeConfig
     _flex_stub: Type[IFlexRowStub]
 
     @override
@@ -72,10 +69,10 @@ class TopBarContainer(
         self._label_balance.text = ''
 
     @override
-    def update_style(self, config: TopBarStyle | TopBarTheme) -> None:
+    def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
-        self._btn_back.style.update(**config.button)
-        self._label_balance.style.update(**config.label_balance)
+        self._btn_back.style.update(**config.top_bar.button)
+        self._label_balance.style.update(**config.top_bar.label_balance)
 
     # API for controller
 
