@@ -4,6 +4,8 @@ from typing import no_type_check
 
 from injector import Binder, Module
 
+from .assigned import AssignedContainer
+from .iabc.iassigned import IAssignedContainer
 from .iabc.itop_bar import ITopBarContainer, ITopBarController
 from .interfaces import (
     ILoginContainer,
@@ -41,3 +43,6 @@ class ContainerModule(Module):
         # TopBar container
         binder.bind(ITopBarContainer, to=TopBarContainer)
         binder.bind(ITopBarController, to=TopBarController)
+
+        # Assigned exercises container
+        binder.bind(IAssignedContainer, to=AssignedContainer)
