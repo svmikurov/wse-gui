@@ -2,8 +2,9 @@
 
 import json
 import logging
+from dataclasses import fields
 from pathlib import Path
-from typing import Generic, Type, TypeVar
+from typing import Any, Generic, Type, TypeVar
 
 from pydantic import ValidationError
 
@@ -47,3 +48,38 @@ class ApiConfigLoader(Generic[T]):
         except Exception as e:
             logger.exception(f'Error to open {self._path}')
             raise RuntimeError(f'Error to open {self._path}: {e}') from e
+
+
+def filter_data(
+    klass: Type[T],
+    data: dict[str, Any],
+) -> dict[str, Any]:
+    """Filter data for dataclass."""
+    return {f.name: data[f.name] for f in fields(klass) if f.name in data}  # type: ignore[arg-type]
+
+
+def load_style_data(
+    path: Path,
+    klass: Type[T],
+    container_alice: str | None = None,
+) -> T:
+    """Load config data from file."""
+    data = {}
+    try:
+        with open(path, 'r') as f:
+            json_data = json.load(f)
+            data = (
+                json_data
+                if container_alice is None
+                else json_data[container_alice]
+            )
+    except FileNotFoundError:
+        logger.error(f"Config '{path.name}' not found")
+    except KeyError:
+        logger.error(
+            f"Config '{path.name}' have no configuration "
+            f"for '{container_alice}' container"
+        )
+
+    filtered_data = filter_data(klass, data)
+    return klass(**filtered_data)

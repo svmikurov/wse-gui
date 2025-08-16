@@ -42,6 +42,7 @@ class StyleConfig(BaseStyle):
     btn_nav: dict[str, str | int] = field(default_factory=dict)
     selection: dict[str, str | int] = field(default_factory=dict)
     top_bar: dict[str, str | int] = field(default_factory=dict)
+    assigned: dict[str, str | int] = field(default_factory=dict)
 
 
 @dataclass
@@ -68,6 +69,7 @@ class ThemeConfig(BaseThema):
     btn_nav: dict[str, str] = field(default_factory=dict)
     selection: dict[str, str] = field(default_factory=dict)
     top_bar: dict[str, str] = field(default_factory=dict)
+    assigned: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
@@ -132,3 +134,17 @@ class TopBarTheme(BaseThema):
 
     button: dict[str, str] = field(default_factory=dict)
     label_balance: dict[str, str | int] = field(default_factory=dict)
+
+
+@dataclass
+class AssignedStyle(BaseStyle):
+    """Style config for the container of Assigned exercises."""
+
+    label: dict[str, str | int] = field(default_factory=dict)
+
+
+@dataclass
+class AssignedTheme(BaseThema):
+    """Theme config for the container of Assigned exercises."""
+
+    label: dict[str, str] = field(default_factory=dict)

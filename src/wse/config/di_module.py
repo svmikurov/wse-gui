@@ -2,13 +2,15 @@
 
 import json
 import logging
-from dataclasses import fields
-from pathlib import Path
-from typing import Any, Type, TypeVar
+from typing import TypeVar
 
 from injector import Module, provider, singleton
 
+from wse.utils.loader import load_style_data
+
 from .layout import (
+    AssignedStyle,
+    AssignedTheme,
     LoginStyle,
     LoginTheme,
     NumPadStyle,
@@ -37,41 +39,6 @@ T = TypeVar('T')
 logger = logging.getLogger(__name__)
 
 
-def filter_data(
-    klass: Type[T],
-    data: dict[str, Any],
-) -> dict[str, Any]:
-    """Filter data for dataclass."""
-    return {f.name: data[f.name] for f in fields(klass) if f.name in data}  # type: ignore[arg-type]
-
-
-def load_data(
-    path: Path,
-    klass: Type[T],
-    container_alice: str | None = None,
-) -> T:
-    """Load config data from file."""
-    data = {}
-    try:
-        with open(path, 'r') as f:
-            json_data = json.load(f)
-            data = (
-                json_data
-                if container_alice is None
-                else json_data[container_alice]
-            )
-    except FileNotFoundError:
-        logger.error(f"Config '{path.name}' not found")
-    except KeyError:
-        logger.error(
-            f"Config '{path.name}' have no configuration "
-            f"for '{container_alice}' container"
-        )
-
-    filtered_data = filter_data(klass, data)
-    return klass(**filtered_data)
-
-
 class ConfigModule(Module):
     """Configuration injection module."""
 
@@ -86,19 +53,19 @@ class ConfigModule(Module):
     @singleton
     def provide_style_config(self) -> StyleConfig:
         """Load and provide layout style configuration."""
-        return load_data(LAYOUT_STYLE_PATH, StyleConfig)
+        return load_style_data(LAYOUT_STYLE_PATH, StyleConfig)
 
     @provider
     @singleton
     def provide_theme_config(self) -> ThemeConfig:
         """Load and provide layout color theme configuration."""
-        return load_data(LAYOUT_THEME_PATH, ThemeConfig)
+        return load_style_data(LAYOUT_THEME_PATH, ThemeConfig)
 
     @provider
     @singleton
     def provide_text_exercise_style(self) -> TextTaskStyle:
         """Load and provide layout style configuration."""
-        return load_data(
+        return load_style_data(
             LAYOUT_STYLE_PATH,
             TextTaskStyle,
             container_alice='text_task_panel',
@@ -108,7 +75,7 @@ class ConfigModule(Module):
     @singleton
     def provide_text_exercise_theme(self) -> TextTaskTheme:
         """Load and provide layout color theme configuration."""
-        return load_data(
+        return load_style_data(
             LAYOUT_THEME_PATH,
             TextTaskTheme,
             container_alice='text_task_panel',
@@ -118,7 +85,7 @@ class ConfigModule(Module):
     @singleton
     def provide_numpad_style_config(self) -> NumPadStyle:
         """Load and provide layout style configuration."""
-        return load_data(
+        return load_style_data(
             LAYOUT_STYLE_PATH,
             NumPadStyle,
             container_alice='numpad',
@@ -128,7 +95,7 @@ class ConfigModule(Module):
     @singleton
     def provide_numpad_theme_config(self) -> NumPadTheme:
         """Load and provide layout color theme configuration."""
-        return load_data(
+        return load_style_data(
             LAYOUT_THEME_PATH,
             NumPadTheme,
             container_alice='numpad',
@@ -140,7 +107,7 @@ class ConfigModule(Module):
     @singleton
     def provide_login_style(self) -> LoginStyle:
         """Load and provide layout style for Login container."""
-        return load_data(
+        return load_style_data(
             LAYOUT_STYLE_PATH,
             LoginStyle,
             container_alice='login',
@@ -150,7 +117,7 @@ class ConfigModule(Module):
     @singleton
     def provide_numpad_theme(self) -> LoginTheme:
         """Load and provide layout color theme for Login container."""
-        return load_data(
+        return load_style_data(
             LAYOUT_THEME_PATH,
             LoginTheme,
             container_alice='login',
@@ -160,7 +127,7 @@ class ConfigModule(Module):
     @singleton
     def provide_top_bar_style(self) -> TopBarStyle:
         """Load and provide layout style for top bar container."""
-        return load_data(
+        return load_style_data(
             LAYOUT_STYLE_PATH,
             TopBarStyle,
             container_alice='top_bar',
@@ -170,8 +137,28 @@ class ConfigModule(Module):
     @singleton
     def provide_top_bar_theme(self) -> TopBarTheme:
         """Load and provide layout color theme for top bar container."""
-        return load_data(
+        return load_style_data(
             LAYOUT_THEME_PATH,
             TopBarTheme,
             container_alice='top_bar',
+        )
+
+    @provider
+    @singleton
+    def provide_assigned_style(self) -> AssignedStyle:
+        """Load and provide style for Assigned exercises."""
+        return load_style_data(
+            LAYOUT_STYLE_PATH,
+            AssignedStyle,
+            container_alice='assigned',
+        )
+
+    @provider
+    @singleton
+    def provide_assigned_theme(self) -> AssignedTheme:
+        """Load and Provide theme for Assigned exercises."""
+        return load_style_data(
+            LAYOUT_THEME_PATH,
+            AssignedTheme,
+            container_alice='assigned',
         )
