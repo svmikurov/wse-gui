@@ -6,7 +6,6 @@ from typing import Protocol
 from typing_extensions import override
 
 from wse.apps.main.http.dto import AssignedExercisesDTO
-from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.interfaces.icontent import IGetContent
 from wse.features.interfaces.iobserver import ISubject
 
