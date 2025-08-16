@@ -37,6 +37,8 @@ class ContainerABC(
 
         For example:
 
+        .. code-block:: python
+
             def setup(self) -> None:
                 self._content.test_id = NavID.HOME
                 ...
@@ -49,6 +51,8 @@ class ContainerABC(
 
         For example:
 
+        .. code-block:: python
+
             def _create_ui(self) -> None:
                 self._label_title = toga.Label('')
                 ...
@@ -60,10 +64,12 @@ class ContainerABC(
 
         For example:
 
+        .. code-block:: python
+
             def _populate_content(self) -> None:
                 self._content.add(
                     self._label_title,
-                    ...
+                    ...,
                 )
         """
 
