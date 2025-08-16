@@ -2,11 +2,12 @@
 
 import toga
 from injector import inject
+from toga.widgets.base import Widget
 from typing_extensions import override
 
+from wse.apps.nav_id import NavID
 from wse.config.layout import ThemeConfig
 
-from ...apps.nav_id import NavID
 from ..interfaces.icontent import IContent
 
 
@@ -26,6 +27,7 @@ class Content(toga.Box, IContent):  # type: ignore[misc]
         super().__init__(**style)
         self._test_id: NavID | None = None
 
+    # TODO: Remove property, use `id` attribute
     @override
     @property
     def test_id(self) -> NavID | None:
@@ -35,3 +37,11 @@ class Content(toga.Box, IContent):  # type: ignore[misc]
     @test_id.setter
     def test_id(self, value: NavID | None) -> None:
         self._test_id = value
+
+    def get_by_id(self, widget_id: str) -> Widget | None:
+        """Get widget by widget ID."""
+        child: Widget
+        for child in self.children:
+            if child.id == widget_id:
+                return child
+        return None
