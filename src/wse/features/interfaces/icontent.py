@@ -31,6 +31,15 @@ class IContent(
     def replace(self, old_child: Widget, new_child: Widget) -> None:
         """Replace an existing child widget with a new child widget."""
 
+    def insert(self, index: int, child: Widget) -> None:
+        """Insert a widget as a child of this widget."""
+
+    def clear(self) -> None:
+        """Remove all child widgets of content."""
+
+    def get_by_id(self, widget_id: str) -> Widget | None:
+        """Get widget by widget ID."""
+
 
 class IGetContent(Protocol):
     """Protocol for get content interface."""
