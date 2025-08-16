@@ -8,8 +8,10 @@ from pydantic import BaseModel
 class AssignedExercisesDTO(BaseModel):
     """Assigned exercises DTO."""
 
-    mentorship_id: int
-    exercise_id: int
+    assignation_id: str
+    mentorship_id: str
+    mentor_username: str
+    exercise_id: str
     exercise_name: str
     count: int | None
     award: int | None
