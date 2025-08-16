@@ -10,6 +10,7 @@ from wse.apps.main.http.dto import AssignedExercisesDTO
 from wse.apps.main.pages.assigned.iabc import AssignedViewABC
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseView
+from wse.features.shared.containers.iabc.iassigned import IAssignedContainer
 from wse.features.shared.containers.top_bar import TopBarPageViewMixin
 from wse.utils.i18n import label_
 
@@ -23,6 +24,12 @@ class AssignedView(
 ):
     """Assigned exercises page view."""
 
+    _exercises: IAssignedContainer
+
+    def _setup(self) -> None:
+        super()._setup()
+        self._exercises.add_observer(self)
+
     @override
     def _create_ui(self) -> None:
         self._label_title = toga.Label('')
@@ -32,7 +39,10 @@ class AssignedView(
         self.content.add(
             self._top_bar.content,  # Provided by `TopBarPageViewMixin`
             self._label_title,
+            self._exercises.content,
         )
+
+    # API
 
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
@@ -44,8 +54,13 @@ class AssignedView(
         """Localize the UI text."""
         self._label_title.text = label_('Assigned exercises title')
 
-    # API for controller
-
     @override
     def update_exercises(self, exercises: list[AssignedExercisesDTO]) -> None:
         """Update exercises to display."""
+        self._exercises.update_exercises(exercises)
+
+    # Notification from Assigned exercises container
+
+    def exersice_selected(self, value: str) -> None:
+        """Notify that exercise selected."""
+        self._notify('exercise_selected', value=value)

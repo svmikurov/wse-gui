@@ -32,9 +32,16 @@ class AssignedController(
         """Call methods when page opens."""
         self._model.on_open()
 
-    # Notifications from model
+    # Notification from model
 
     @override
     def exercises_updated(self, exercises: list[AssignedExercisesDTO]) -> None:
         """Update view on update exercises event."""
         self._view.update_exercises(exercises)
+
+    # Notification from view
+
+    @override
+    def exercise_selected(self, value: str) -> None:
+        """Handle exercise selected event."""
+        self._model.goto_exercise(value)

@@ -41,3 +41,8 @@ class AssignedModel(
 
     def _exercise_updated(self, exercises: list[AssignedExercisesDTO]) -> None:
         self._notify('exercises_updated', exercises=exercises)
+
+    # Controller API
+
+    def goto_exercise(self, exercise_id: str) -> None:
+        """Go to selected exercise."""
