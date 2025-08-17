@@ -1,8 +1,7 @@
 """Authentication scheme for authenticated requests.
 
-Add authentication scheme instance to request method of
-``httpx.Client()`` or to ``httpx.Client()`` constructor
-to send authenticated request.
+Add authentication scheme instance to request method or constructor
+of ``httpx.Client()`` to send authenticated request.
 
 .. code-block:: python
 
