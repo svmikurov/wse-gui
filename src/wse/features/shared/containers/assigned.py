@@ -34,7 +34,7 @@ class AssignedContainer(
 
     @override
     def add_exercise(self, exercise: AssignedExerciseDTO) -> None:
-        """Add exercise to specific mentor exercises box."""
+        """Add exercise to specific mentor exercise enumeration box."""
         inner_box = self._get_or_create_inner_box(exercise)
         button = Button(
             id=self._get_button_id(exercise),
@@ -51,7 +51,7 @@ class AssignedContainer(
 
     @override
     def update_exercises(self, exercises: list[AssignedExerciseDTO]) -> None:
-        """Update exercises."""
+        """Update exercise enumeration."""
         self.remove_exercises()
         for exercise in exercises:
             self.add_exercise(exercise)
