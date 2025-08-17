@@ -6,7 +6,7 @@ import toga
 from injector import inject
 from typing_extensions import override
 
-from wse.apps.main.http.dto import AssignedExercisesDTO
+from wse.apps.main.http.dto import AssignedExerciseDTO
 from wse.apps.main.pages.assigned.iabc import AssignedViewABC
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base import BaseView
@@ -55,7 +55,7 @@ class AssignedView(
         self._label_title.text = label_('Assigned exercises title')
 
     @override
-    def update_exercises(self, exercises: list[AssignedExercisesDTO]) -> None:
+    def update_exercises(self, exercises: list[AssignedExerciseDTO]) -> None:
         """Update exercises to display."""
         self._exercises.update_exercises(exercises)
 

@@ -5,7 +5,7 @@ from typing import Protocol
 
 from typing_extensions import override
 
-from wse.apps.main.http.dto import AssignedExercisesDTO
+from wse.apps.main.http.dto import AssignedExerciseDTO
 from wse.features.interfaces.icontent import IGetContent
 from wse.features.interfaces.iobserver import ISubject
 
@@ -17,18 +17,18 @@ class IAssignedContainer(
 ):
     """Protocol for the container interface of Assigned exercises."""
 
-    def add_exercise(self, exercise: AssignedExercisesDTO) -> None:
+    def add_exercise(self, exercise: AssignedExerciseDTO) -> None:
         """Add exercise to display.
 
         Groups the exercise by mentor.
 
-        :param AssignedExercisesDTO exercise: Assigned exercise
+        :param AssignedExerciseDTO exercise: Assigned exercise
         """
 
-    def update_exercises(self, exercises: list[AssignedExercisesDTO]) -> None:
+    def update_exercises(self, exercises: list[AssignedExerciseDTO]) -> None:
         """Update exercises.
 
-        :param list[AssignedExercisesDTO] exercises: Exercises to update
+        :param list[AssignedExerciseDTO] exercises: Exercises to update
         """
 
     def remove_exercises(self) -> None:
@@ -40,12 +40,12 @@ class AssignedContainerABC(IAssignedContainer, ABC):
 
     @abstractmethod
     @override
-    def add_exercise(self, exercise: AssignedExercisesDTO) -> None:
+    def add_exercise(self, exercise: AssignedExerciseDTO) -> None:
         """Add exercise to choice."""
 
     @abstractmethod
     @override
-    def update_exercises(self, exercises: list[AssignedExercisesDTO]) -> None:
+    def update_exercises(self, exercises: list[AssignedExerciseDTO]) -> None:
         """Update exercises."""
 
     @abstractmethod

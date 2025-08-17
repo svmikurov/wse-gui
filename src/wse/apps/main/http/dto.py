@@ -5,8 +5,8 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class AssignedExercisesDTO(BaseModel):
-    """Assigned exercises DTO."""
+class AssignedExerciseDTO(BaseModel):
+    """Assigned exercise DTO."""
 
     assignation_id: str
     mentorship_id: str

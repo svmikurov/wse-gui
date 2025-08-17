@@ -10,7 +10,7 @@ from wse.core.http import IHttpClient
 from wse.core.interfaces.iapi import IAuthScheme
 
 from .config import ExercisesApiConfig
-from .dto import AssignedExercisesDTO
+from .dto import AssignedExerciseDTO
 from .iapi import AssignedExercisesABC
 
 logger = logging.getLogger(__name__)
@@ -32,7 +32,7 @@ class AssignedExercisesApi(AssignedExercisesABC):
         self._api_config = api_config
 
     @override
-    def request_all_exercises(self) -> list[AssignedExercisesDTO]:
+    def request_all_exercises(self) -> list[AssignedExerciseDTO]:
         """Request all assigned by mentors exercises."""
         try:
             response = self._http_client.get(
@@ -48,8 +48,8 @@ class AssignedExercisesApi(AssignedExercisesABC):
     @staticmethod
     def _create_assigned_exercises_dtos(
         response_data: list[dict[str, Any]],
-    ) -> list[AssignedExercisesDTO]:
-        exercises: list[AssignedExercisesDTO] = []
+    ) -> list[AssignedExerciseDTO]:
+        exercises: list[AssignedExerciseDTO] = []
         for data in response_data:
-            exercises.append(AssignedExercisesDTO(**data))
+            exercises.append(AssignedExerciseDTO(**data))
         return exercises

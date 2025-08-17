@@ -5,7 +5,7 @@ from typing import Protocol
 
 from typing_extensions import override
 
-from wse.apps.main.http.dto import AssignedExercisesDTO
+from wse.apps.main.http.dto import AssignedExerciseDTO
 from wse.features.interfaces.imvc import IModel, IPageController, IView
 from wse.features.interfaces.iobserver import IObserver
 
@@ -42,7 +42,7 @@ class AssignedModelABC(IAssignedModel, ABC):
 class IAssignedView(IView, Protocol):
     """Protocol for Assigned exercise page view interface."""
 
-    def update_exercises(self, exercises: list[AssignedExercisesDTO]) -> None:
+    def update_exercises(self, exercises: list[AssignedExerciseDTO]) -> None:
         """Update exercises to display."""
 
 
@@ -51,7 +51,7 @@ class AssignedViewABC(IAssignedView, Protocol):
 
     @abstractmethod
     @override
-    def update_exercises(self, exercises: list[AssignedExercisesDTO]) -> None:
+    def update_exercises(self, exercises: list[AssignedExerciseDTO]) -> None:
         """Update exercises to display."""
 
 
@@ -63,7 +63,7 @@ class IAssignedController(IPageController, Protocol):
 
     # Notifications from model
 
-    def exercises_updated(self, exercises: list[AssignedExercisesDTO]) -> None:
+    def exercises_updated(self, exercises: list[AssignedExerciseDTO]) -> None:
         """Update view on update exercises event."""
 
     # Notifications from view
@@ -79,7 +79,7 @@ class AssignedControllerABC(IAssignedController, ABC):
 
     @abstractmethod
     @override
-    def exercises_updated(self, exercises: list[AssignedExercisesDTO]) -> None:
+    def exercises_updated(self, exercises: list[AssignedExerciseDTO]) -> None:
         """Update view on update exercises event."""
 
     # Notifications from view

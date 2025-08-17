@@ -8,7 +8,7 @@ from toga import Box, Button, Column, Label
 from toga.style import Pack
 from typing_extensions import override
 
-from wse.apps.main.http.dto import AssignedExercisesDTO
+from wse.apps.main.http.dto import AssignedExerciseDTO
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.features.base.mixins import AddObserverMixin, GetContentMixin
 
@@ -33,7 +33,7 @@ class AssignedContainer(
     _theme: ThemeConfig
 
     @override
-    def add_exercise(self, exercise: AssignedExercisesDTO) -> None:
+    def add_exercise(self, exercise: AssignedExerciseDTO) -> None:
         """Add exercise to specific mentor exercises box."""
         inner_box = self._get_or_create_inner_box(exercise)
         button = Button(
@@ -50,7 +50,7 @@ class AssignedContainer(
         inner_box.add(button)
 
     @override
-    def update_exercises(self, exercises: list[AssignedExercisesDTO]) -> None:
+    def update_exercises(self, exercises: list[AssignedExerciseDTO]) -> None:
         """Update exercises."""
         self.remove_exercises()
         for exercise in exercises:
@@ -61,10 +61,10 @@ class AssignedContainer(
         """Remove all exercises."""
         self.content.clear()
 
-    def _get_or_create_inner_box(self, exercise: AssignedExercisesDTO) -> Box:
+    def _get_or_create_inner_box(self, exercise: AssignedExerciseDTO) -> Box:
         """Get existing or create new inner box for mentor exercises.
 
-        :param AssignedExercisesDTO exercise: Assigned exercise DTO
+        :param AssignedExerciseDTO exercise: Assigned exercise DTO
         :return: Existing or newly created exercises container
         :rtype: toga.Box
         """
@@ -97,13 +97,13 @@ class AssignedContainer(
     # Utility methods
 
     @staticmethod
-    def _get_inner_id(exercise: AssignedExercisesDTO) -> str:
+    def _get_inner_id(exercise: AssignedExerciseDTO) -> str:
         return f'{INNER_BOX_PREFIX}_{exercise.mentorship_id}'
 
     @staticmethod
-    def _get_label_id(exercise: AssignedExercisesDTO) -> str:
+    def _get_label_id(exercise: AssignedExerciseDTO) -> str:
         return f'{LABEL_PREFIX}_{exercise.mentorship_id}'
 
     @staticmethod
-    def _get_button_id(exercise: AssignedExercisesDTO) -> str:
+    def _get_button_id(exercise: AssignedExerciseDTO) -> str:
         return f'{BUTTON_PREFIX}_{exercise.assignation_id}'

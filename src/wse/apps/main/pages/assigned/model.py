@@ -6,7 +6,7 @@ from injector import inject
 
 from wse.features.base import BaseModel
 
-from ...http.dto import AssignedExercisesDTO
+from ...http.dto import AssignedExerciseDTO
 from ...http.iapi import IAssignedExercisesApi
 from .iabc import AssignedModelABC
 
@@ -25,7 +25,7 @@ class AssignedModel(
     def __post_init__(self) -> None:
         """Construct the model."""
         super().__post_init__()
-        self.exercises: list[AssignedExercisesDTO] | None = None
+        self.exercises: list[AssignedExerciseDTO] | None = None
 
     def on_open(self) -> None:
         """Call methods when page opens."""
@@ -39,7 +39,7 @@ class AssignedModel(
 
     # Controller notifications
 
-    def _exercise_updated(self, exercises: list[AssignedExercisesDTO]) -> None:
+    def _exercise_updated(self, exercises: list[AssignedExerciseDTO]) -> None:
         self._notify('exercises_updated', exercises=exercises)
 
     # Controller API

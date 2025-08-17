@@ -7,7 +7,7 @@ from typing_extensions import override
 
 from wse.features.base.mvc import BasePageController
 
-from ...http.dto import AssignedExercisesDTO
+from ...http.dto import AssignedExerciseDTO
 from .iabc import AssignedControllerABC, IAssignedModel, IAssignedView
 
 
@@ -35,7 +35,7 @@ class AssignedController(
     # Notification from model
 
     @override
-    def exercises_updated(self, exercises: list[AssignedExercisesDTO]) -> None:
+    def exercises_updated(self, exercises: list[AssignedExerciseDTO]) -> None:
         """Update view on update exercises event."""
         self._view.update_exercises(exercises)
 
