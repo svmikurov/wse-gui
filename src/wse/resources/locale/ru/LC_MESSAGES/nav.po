@@ -16,8 +16,11 @@ msgstr "Главная страница"
 msgid "Login page"
 msgstr "Авторизоваться"
 
-msgid "Assigned exercises"
+msgid "Assigned exercises page"
 msgstr "Заданные упражнения"
+
+msgid "Exercise completion page"
+msgstr "Выполнение заданий"
 
 msgid "Main math page"
 msgstr "Математика"

@@ -16,8 +16,11 @@ msgstr "Home page"
 msgid "Login page"
 msgstr "Login page"
 
-msgid "Assigned exercises"
+msgid "Assigned exercises page"
 msgstr "Assigned exercises"
+
+msgid "Exercise completion page"
+msgstr "Exercise completion"
 
 msgid "Main math page"
 msgstr "Mathematics"
