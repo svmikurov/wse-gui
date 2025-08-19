@@ -23,3 +23,29 @@ Troubleshooting: Bound dependency with ``Module`` class of ``injector`` library
        def configure(self, binder: Binder) -> None:
            ...
            binder.bind(BarInterface, to=Bar)
+
+Possible reason: Dependency not injected (error using library ``injector``)
+
+Troubleshooting: Add ``@inject`` and ``@dataclass`` (optional) decorators,
+add dependency annotation
+
+.. code-block:: python
+
+   from dataclasses import dataclass
+   from injector import inject
+
+   @inject
+   @dataclass
+   class Foo:
+
+       bar: Bar
+
+.. code-block:: python
+
+   from injector import inject
+
+   class Foo:
+
+      @inject
+      def __init__(self, bar: Bar): ...
+
