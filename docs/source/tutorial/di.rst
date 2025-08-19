@@ -11,14 +11,14 @@ and add it to ``MAIN_APP_MODULES`` list into ``apps.main.apps`` module.
 
    from .interfaces import IHomeController, IHomeView
    from .controller import HomeController
-   from .model import HomeModel
+   from .view import HomeView
 
    class HomeModule(Module):
 
        @no_type_check
        def configure(self, binder):
-           binder.bind(IHomeModel, to=HomeModel)
            binder.bind(IHomeView, to=HomeView)
+           binder.bind(IHomeController, to=HomeController)
 
 
 .. code-block:: python
