@@ -42,6 +42,7 @@ class TopBarStyle(BaseStyle):
     label_balance: dict[str, str | int] = {}
 
 
+# TODO: Rename `label_title` to `title_sm`, `title_md`
 class StyleConfig(BaseStyle):
     """Application layout style configuration.
 
