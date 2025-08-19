@@ -24,6 +24,8 @@ class AssignedView(
 ):
     """Assigned exercises page view."""
 
+    _style: StyleConfig
+    _theme: ThemeConfig
     _exercises: IAssignedContainer
 
     def _setup(self) -> None:

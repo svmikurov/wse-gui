@@ -30,6 +30,8 @@ class CalcView(
 ):
     """Simple math calculation page view."""
 
+    _style: StyleConfig
+    _theme: ThemeConfig
     # Containers injection
     _task_panel: ITextTaskContainer
     _numpad: INumPadController

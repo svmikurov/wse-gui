@@ -21,6 +21,8 @@ class AuthView(
 ):
     """Authentication page view."""
 
+    _style: StyleConfig
+    _theme: ThemeConfig
     _login_container: ILoginController
 
     @override

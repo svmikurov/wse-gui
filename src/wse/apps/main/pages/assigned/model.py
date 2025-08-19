@@ -4,9 +4,9 @@ from dataclasses import dataclass
 
 from injector import inject
 
+from wse.apps.nav_id import NavID
 from wse.features.base import BaseModel
 
-from ...http.dto import AssignedExerciseDTO
 from ...http.iapi import IAssignedExercisesApi
 from .iabc import AssignedModelABC
 
@@ -19,30 +19,15 @@ class AssignedModel(
 ):
     """Assigned exercises page model."""
 
-    # Injected API client for exercises data
-    _api_assigned: IAssignedExercisesApi
-
-    def __post_init__(self) -> None:
-        """Construct the model."""
-        super().__post_init__()
-        self.exercises: list[AssignedExerciseDTO] | None = None
+    _api_service: IAssignedExercisesApi
 
     def on_open(self) -> None:
         """Call methods when page opens."""
-        self._request_all_exercises()
-        if self.exercises is not None:
-            self._exercise_updated(self.exercises)
+        exercises = self._api_service.request_all_exercises()
+        if exercises is not None:
+            self._notify('exercises_updated', exercises=exercises)
 
-    def _request_all_exercises(self) -> None:
-        """Request all assigned exercises for user."""
-        self.exercises = self._api_assigned.request_all_exercises()
-
-    # Controller notifications
-
-    def _exercise_updated(self, exercises: list[AssignedExerciseDTO]) -> None:
-        self._notify('exercises_updated', exercises=exercises)
-
-    # Controller API
-
-    def goto_exercise(self, exercise_id: str) -> None:
+    def goto_exercise(self, assignation_id: str) -> None:
         """Go to selected exercise."""
+        exercise_meta_dto = self._api_service.request_selected(assignation_id)
+        self._notify('navigate', nav_id=NavID.EXERCISE, meta=exercise_meta_dto)

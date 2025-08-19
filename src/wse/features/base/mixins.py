@@ -2,6 +2,7 @@
 
 import logging
 from dataclasses import dataclass
+from typing import Any
 
 from injector import inject
 
@@ -23,9 +24,9 @@ class NavigateMixin:
 
     _navigator: INavigator
 
-    def navigate(self, nav_id: NavID) -> None:
+    def navigate(self, nav_id: NavID, **kwargs: dict[str, Any]) -> None:
         """Navigate to page."""
-        self._navigator.navigate(nav_id)
+        self._navigator.navigate(nav_id, **kwargs)
 
 
 @inject

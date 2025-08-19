@@ -24,6 +24,8 @@ class IndexMathView(
 ):
     """Main Math page view."""
 
+    _style: StyleConfig
+    _theme: ThemeConfig
     # Sources injection
     _exercise_source: IExerciseSelectionSource
 

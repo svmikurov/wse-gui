@@ -19,6 +19,9 @@ class HomeView(
 ):
     """Home page view of main feature."""
 
+    _style: StyleConfig
+    _theme: ThemeConfig
+
     def _setup(self) -> None:
         super()._setup()
         self._content.test_id = NavID.HOME
