@@ -37,8 +37,12 @@ class Navigator:
             self._go_back()
             return
 
-        self._update_window_content(nav_id, **kwargs)
-        self._add_to_history(nav_id)
+        try:
+            self._update_window_content(nav_id, **kwargs)
+        except (NavigateError, ContentError):
+            logger.exception('Window content is not updated')
+        else:
+            self._add_to_history(nav_id)
 
     def _update_window_content(self, nav_id: NavID, **kwargs: object) -> None:
         if self._window is None:
@@ -47,11 +51,12 @@ class Navigator:
         try:
             page_controller = self._get_page_controller(nav_id)
         except ContentError:
-            logger.exception(f'Failed to navigate to "{nav_id}"')
+            logger.error(f"The navigation to the '{nav_id}' has failed")
+            raise
         else:
             page_controller.on_open(**kwargs)
             self._window.content = page_controller.content
-            logger.debug(f"The '{nav_id}' page is open")
+            logger.debug(f"The '{nav_id}' is open")
 
     def set_main_window(self, window: toga.Window) -> None:
         """Set main window."""
@@ -68,7 +73,9 @@ class Navigator:
         try:
             return self._routes[nav_id]
         except KeyError as err:
-            raise ContentError(f'Failed to navigate: "{nav_id}"') from err
+            raise ContentError(
+                f"Route mapping for '{nav_id}' to controller is not set"
+            ) from err
 
     def _add_to_history(self, nav_id: NavID) -> None:
         """Add navigation ID to history."""
