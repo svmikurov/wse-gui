@@ -18,3 +18,11 @@ class AssignedExerciseDTO(BaseModel):
     is_active: bool | None
     is_daily: bool | None
     expiration: datetime | None
+
+
+class ExerciseMetaDTO(BaseModel):
+    """Exercise meta DTO."""
+
+    assignation_id: str
+    exercise_path: str
+    task_io: str

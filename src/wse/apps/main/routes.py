@@ -8,6 +8,7 @@ from wse.features.interfaces.imvc import IPageController
 
 from .pages.assigned.iabc import IAssignedController
 from .pages.auth.interfaces import IAuthController
+from .pages.exercise.iabc import IExerciseController
 from .pages.home.interfaces import IHomeController
 
 
@@ -22,4 +23,5 @@ class MainRoutes(BaseRoutes):
             NavID.HOME: self._injector.get(IHomeController),
             NavID.LOGIN: self._injector.get(IAuthController),
             NavID.ASSIGNED: self._injector.get(IAssignedController),
+            NavID.EXERCISE: self._injector.get(IExerciseController),
         }
