@@ -7,7 +7,7 @@ from httpx import URL
 from injector import inject
 from typing_extensions import override
 
-from wse.config.settings import APIConfigV1
+from wse.config.api_paths import APIConfigV1
 from wse.core.exceptions import AuthError
 from wse.core.http import IHttpClient
 from wse.core.interfaces.iapi import IAuthAPIjwt

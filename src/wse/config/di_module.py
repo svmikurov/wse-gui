@@ -4,13 +4,13 @@ import json
 
 from injector import Module, provider, singleton
 
+from wse.config.api_paths import APIConfigV1
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.config.settings import (
     CONFIGS_PATH,
     LAYOUT_STYLE,
     LAYOUT_THEME,
     STYLE_PATH,
-    APIConfigV1,
 )
 from wse.utils.loader import load_style_data
 

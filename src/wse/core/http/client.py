@@ -7,7 +7,7 @@ import httpx
 from injector import inject
 from typing_extensions import override
 
-from wse.config.settings import APIConfigV1
+from wse.config.api_paths import APIConfigV1
 
 from ..interfaces.iapi import IAuthScheme
 from ._iabc.client import BaseHttpClient

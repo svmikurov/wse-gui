@@ -4,5 +4,7 @@
     "obtain_token": "/api/auth/jwt/obtain/",
     "refresh_token": "/api/auth/jwt/refresh/",
     "check_token": "/api/auth/jwt/verify/"
-  }
+  },
+  "assigned_exercises": "/api/v1/core/assigned/",
+  "selected_exercise": "/api/v1/core/assigned/{exercise_id}/"
 }
