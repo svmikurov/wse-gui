@@ -84,8 +84,10 @@ class AuthService(IAuthService):
                 self._token_storage.access_token = updated_access_token
                 self._is_auth = True
 
-        except Exception as e:
-            raise e
+        except Exception:
+            logger.error('Error setting authenticated status')
+            raise
+
         else:
             self._is_auth = is_auth
 
