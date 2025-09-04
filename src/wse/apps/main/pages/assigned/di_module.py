@@ -1,21 +1,19 @@
-"""Defines Assigned exercise page injector module."""
+"""DI module for Assigned exercise completion page."""
 
 from typing import no_type_check
 
 from injector import Binder, Module
 
 from .controller import AssignedController
-from .iabc import IAssignedController, IAssignedModel, IAssignedView
-from .model import AssignedModel
-from .view import AssignedView
+from .model import AssignedExerciseModel
+from .protocol import AssignedControllerProto, AssignedModelProto
 
 
-class AssignedModule(Module):
-    """Login page injector module."""
+class ExerciseModule(Module):
+    """Exercise completion page module."""
 
     @no_type_check
     def configure(self, binder: Binder) -> None:
         """Configure the bindings."""
-        binder.bind(IAssignedModel, to=AssignedModel)
-        binder.bind(IAssignedView, to=AssignedView)
-        binder.bind(IAssignedController, to=AssignedController)
+        binder.bind(AssignedModelProto, to=AssignedExerciseModel)
+        binder.bind(AssignedControllerProto, to=AssignedController)

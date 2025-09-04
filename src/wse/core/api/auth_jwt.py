@@ -8,20 +8,20 @@ from injector import inject
 from typing_extensions import override
 
 from wse.config.api_paths import APIConfigV1
+from wse.core.api import AuthAPIjwtProto
 from wse.core.exceptions import AuthError
-from wse.core.http import IHttpClient
-from wse.core.interfaces.iapi import IAuthAPIjwt
+from wse.core.http import HttpClientProto
 
 logger = logging.getLogger(__name__)
 
 
-class AuthAPIjwt(IAuthAPIjwt):
+class AuthAPIjwt(AuthAPIjwtProto):
     """Authentication with JWT the API service."""
 
     @inject
     def __init__(
         self,
-        http_client: IHttpClient,
+        http_client: HttpClientProto,
         api_config: APIConfigV1,
     ) -> None:
         """Construct the API."""

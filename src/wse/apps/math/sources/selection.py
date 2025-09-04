@@ -2,15 +2,15 @@
 
 from wse_exercises.base.enums import ExerciseEnum
 
-from wse.features.sources.selection import BaseSelectionSource, Entry
+from wse.feature.sources.selection import BaseSelectSource, Entry
 from wse.utils.i18n import exercise_
 
 
 class ExerciseEntry(Entry[ExerciseEnum]):
-    """Exercise DTO to entry to selection widget."""
+    """Exercise entry of selection widget."""
 
     def __init__(self, entry: ExerciseEnum) -> None:
-        """Construct the DTO."""
+        """Construct the entry."""
         super().__init__(entry)
         self.accessor = self._localize(entry.value)
 
@@ -20,9 +20,9 @@ class ExerciseEntry(Entry[ExerciseEnum]):
         return exercise_(text)
 
 
-class ExerciseSelectionSource(BaseSelectionSource[ExerciseEnum]):
+class ExerciseSelectSource(BaseSelectSource[ExerciseEnum]):
     """Exercise selection data source."""
 
-    def _create_entry_dto(self, entry: ExerciseEnum) -> ExerciseEntry:
-        """Create DTO of entry."""
-        return ExerciseEntry(entry)
+    def _create_entry(self, value: ExerciseEnum) -> ExerciseEntry:
+        """Create entry."""
+        return ExerciseEntry(value)

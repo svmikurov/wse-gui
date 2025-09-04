@@ -1,70 +1,37 @@
-"""Defines the controller of Simple Math Calculation page."""
+"""Simple Math calculation page controller."""
 
 from dataclasses import dataclass
-from typing import Any
 
 from injector import inject
 
-from wse.features.base.mvc import BasePageController
+from wse.apps.math.api import Calculation
+from wse.feature.base.mvc import PageController
+from wse.feature.base.mvc_exercise import ExerciseViewObserver
+from wse.feature.interfaces.imvc_exercise import ExerciseModelFeatureProto
+from wse.feature.shared.views import IntegerViewProto
 
-from .interfaces import (
-    ICalcModel,
-    ICalcView,
-)
+from .protocols import CalculationModelProto
 
 
 @inject
 @dataclass
-class CalcController(
-    BasePageController,
+class CalculationController(
+    ExerciseViewObserver[ExerciseModelFeatureProto],
+    PageController[
+        CalculationModelProto,
+        IntegerViewProto,
+        Calculation,
+    ],
 ):
-    """The controller of Simple Math calculation page."""
+    """Simple Math calculation page controller."""
 
-    _model: ICalcModel
-    _view: ICalcView
+    _model: CalculationModelProto
+    _view: IntegerViewProto
 
-    def _setup(self) -> None:
-        """Set up the controller features."""
-        self._model.add_observer(self)
-
-    # TODO: Fix noqa: ANN401
-    def on_open(self, **kwargs: Any) -> None:  # noqa: ANN401
-        """Call controller methods when page opens."""
-        self._model.on_open(kwargs['exercise'])
-        self._view.reset_layout()
-
-    # Notifications from Model
-
-    def question_updated(self, value: str) -> None:
-        """Display the question."""
-        self._view.display_question(value)
-
-    def question_cleared(self) -> None:
-        """Clear the question text."""
-        self._view.clear_question()
-
-    def answer_updated(self, value: str) -> None:
-        """Display the user answer."""
-        self._view.display_answer(value)
-
-    def answer_cleared(self) -> None:
-        """Clear the question text."""
-        self._view.clear_answer()
-
-    def correct_answer_received(self, value: str) -> None:
-        """Display the correct answer."""
-        self._view.display_correct_answer(value)
-
-    # Notifications from View
-
-    def numpad_input_updated(self, value: str) -> None:
-        """Update user input for model."""
-        self._model.handle_answer_input(value)
-
-    def answer_confirmed(self) -> None:
-        """Handle the task submit event."""
-        self._model.handle_submit()
-
-    def task_started(self) -> None:
-        """Handle the next task started event."""
-        self._model.start_new_task()
+    def on_open(self, value: Calculation | None = None) -> None:
+        """Call methods when page opens."""
+        if not isinstance(value, Calculation):
+            raise TypeError(
+                f'Expected Calculation type, got {type(value).__name__}'
+            )
+        self._model.set_exercise(value)

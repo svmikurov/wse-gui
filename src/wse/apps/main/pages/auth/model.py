@@ -1,29 +1,41 @@
 """Defines Authentication page model."""
 
 from dataclasses import dataclass
+from typing import Literal
 
 from injector import inject
 from typing_extensions import override
 
 from wse.apps.nav_id import NavID
-from wse.core.interfaces.iauth import IAuthService
-from wse.features.base import BaseModel
+from wse.core.auth import AuthServiceProto
+from wse.feature.base.mixins import AddObserverGeneric
 
-from ._abc import AuthModelABC
+from .abc import AuthModelFeature
+
+_NotifyType = Literal[
+    'credential_clean',
+    'navigate',
+]
 
 
-@inject
-@dataclass
-class AuthModel(
-    BaseModel,
-    AuthModelABC,
+class _Feature(
+    AddObserverGeneric[_NotifyType],
+    AuthModelFeature,
 ):
-    """Authentication page model."""
-
-    _auth_service: IAuthService
+    """Authentication page model feature."""
 
     @override
     def handle_success_authentication(self) -> None:
         """Handle the success authentication."""
         self._notify('credential_clean')
         self._notify('navigate', nav_id=NavID.HOME)
+
+
+@inject
+@dataclass
+class AuthModel(
+    _Feature,
+):
+    """Authentication page model."""
+
+    _auth_service: AuthServiceProto

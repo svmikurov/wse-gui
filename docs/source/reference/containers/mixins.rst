@@ -4,13 +4,13 @@ Mixins reference
 Style mixin
 -----------
 
-.. autoclass:: wse.features.base._abc.mvc.UpdateStyleABC
+.. autoclass:: wse.features.base.abstract.mvc.UpdateStyleABC
    :members:
 
 Localize mixin
 --------------
 
-.. autoclass:: wse.features.base._abc.mvc.LocalizeABC
+.. autoclass:: wse.features.base.abstract.mvc.LocalizeABC
    :members:
 
 Create navigation button mixin

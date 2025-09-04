@@ -6,8 +6,8 @@ from unittest.mock import Mock
 
 import pytest
 
-from wse.features.interfaces.iobserver import ISubject
-from wse.features.shared.containers.numpad import NumPadModel
+from wse.feature.interfaces.iobserver import Observable
+from wse.feature.shared.containers.numpad import NumpadModel
 
 MAX_CHAR_COUNT = 8
 NO_TEXT = ''
@@ -21,19 +21,19 @@ MINUS = '\u002d'
 @pytest.fixture
 def mock_subject() -> Mock:
     """Fixture for creating a mock ISubject object."""
-    return Mock(spec=ISubject)
+    return Mock(spec=Observable)
 
 
 @pytest.fixture
-def numpad_model(mock_subject: Mock) -> NumPadModel:
+def numpad_model(mock_subject: Mock) -> NumpadModel:
     """Fixture for creating a NumPadModel instance."""
-    return NumPadModel(mock_subject)
+    return NumpadModel(mock_subject)
 
 
 class TestNumPadModel:
     """Test the `NumPadModel`."""
 
-    def test_initial_state(self, numpad_model: NumPadModel) -> None:
+    def test_initial_state(self, numpad_model: NumpadModel) -> None:
         """Test the initial model state."""
         assert numpad_model._input == NO_TEXT
 
@@ -51,6 +51,7 @@ class TestNumPadModel:
             ('', '9', '9'),
             ('', '0', '0'),
             ('1', '0', '10'),
+            ('0', '3', '0.3'),
             # Test with backspace
             ('', BACKSPACE, ''),
             ('1', BACKSPACE, ''),
@@ -81,7 +82,7 @@ class TestNumPadModel:
         char: str,
         expected_input: str,
         mock_subject: Mock,
-        numpad_model: NumPadModel,
+        numpad_model: NumpadModel,
     ) -> None:
         """Test update initial input."""
         numpad_model._input = initial_input
@@ -91,7 +92,7 @@ class TestNumPadModel:
     def test_notification_update_with_allowed_char(
         self,
         mock_subject: Mock,
-        numpad_model: NumPadModel,
+        numpad_model: NumpadModel,
     ) -> None:
         """Test model notification to update with allowed char."""
         numpad_model.update_input('4')
@@ -117,7 +118,7 @@ class TestNumPadModel:
         char: str,
         expected_input: str,
         mock_subject: Mock,
-        numpad_model: NumPadModel,
+        numpad_model: NumpadModel,
     ) -> None:
         """Test that notification occurred."""
         numpad_model._input = initial_input
@@ -140,7 +141,7 @@ class TestNumPadModel:
         initial_input: str,
         char: str,
         mock_subject: Mock,
-        numpad_model: NumPadModel,
+        numpad_model: NumpadModel,
     ) -> None:
         """Test that notification not occurred."""
         numpad_model._input = initial_input

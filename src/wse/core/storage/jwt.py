@@ -8,12 +8,12 @@ from typing_extensions import override
 
 from wse.config.settings import RESOURCES_PATH
 from wse.core.exceptions import StorageError
-from wse.core.interfaces.istorage import IJWTJsonStorage
+from wse.core.interfaces.istorage import JWTJsonStorageProto
 
 logger = logging.getLogger(__name__)
 
 
-class JWTJsonStorage(IJWTJsonStorage):
+class JWTJsonStorage(JWTJsonStorageProto):
     """JWT storage with JSON."""
 
     FALLBACK_PATH = RESOURCES_PATH / '.storage' / 'jwt.json'

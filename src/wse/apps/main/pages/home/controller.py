@@ -1,46 +1,38 @@
-"""Defines Home page controller."""
+"""Home page controller."""
 
 from dataclasses import dataclass
 
 from injector import inject
 from typing_extensions import override
 
-from wse.features.base.mvc import BasePageController
+from wse.feature.base.mvc import PageController
 
-from .interfaces import IHomeController, IHomeModel, IHomeView
+from .abc import HomeViewObserver
+from .protocols import HomeModelProto, HomeViewProto
+
+
+class _ViewObserver(HomeViewObserver):
+    """Home page view notification observer."""
+
+    _model: HomeModelProto
+
+    @override
+    def logout(self) -> None:
+        """Handle the logout event."""
+        self._model.logout()
 
 
 @inject
 @dataclass
 class HomeController(
-    BasePageController,
-    IHomeController,
+    PageController[HomeModelProto, HomeViewProto, None],
+    _ViewObserver,
 ):
     """Home page controller."""
 
-    _view: IHomeView
-    _model: IHomeModel
+    _model: HomeModelProto
+    _view: HomeViewProto
 
-    @override
-    def _setup(self) -> None:
-        self._model.add_observer(self)
-
-    @override
-    def on_open(self, **kwargs: object) -> None:
+    def on_open(self, data: None = None) -> None:
         """Call methods when page opens."""
-        self._model.on_open()
-
-    @override
-    def user_authenticated(self) -> None:
-        """Set content for authenticated user."""
-        self._view.set_authenticated_content()
-
-    @override
-    def user_anonymous(self) -> None:
-        """Set content for anonymous user."""
-        self._view.set_anonymous_content()
-
-    @override
-    def logout(self) -> None:
-        """Handle the logout event."""
-        self._model.handle_logout()
+        self._model.check_auth_status()

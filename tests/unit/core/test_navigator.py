@@ -6,12 +6,12 @@ from unittest.mock import MagicMock
 
 import toga
 
-from wse.apps.main.pages.home.interfaces import IHomeController
-from wse.apps.math.pages.index.interfaces import IIndexMathController
-from wse.apps.math.pages.simple_calc.interfaces import ICalcController
+from wse.apps.main.pages.home import HomeControllerProto
+from wse.apps.math.pages.index import MathControllerProto
+from wse.apps.math.pages.simple_calc import CalculationControllerProto
 from wse.apps.nav_id import NavID
 from wse.core.navigation.navigator import Navigator
-from wse.features.interfaces.icontent import IContent
+from wse.feature.interfaces.icontent import ContentProto
 
 
 class TestNavigator(unittest.TestCase):
@@ -21,16 +21,16 @@ class TestNavigator(unittest.TestCase):
         """Set up the test."""
         self.mock_window = MagicMock(spec=toga.Window)
 
-        self.mock_home_content = MagicMock(spec=IContent)
-        self.mock_home_controller = MagicMock(spec=IHomeController)
+        self.mock_home_content = MagicMock(spec=ContentProto)
+        self.mock_home_controller = MagicMock(spec=HomeControllerProto)
         self.mock_home_controller.content = self.mock_home_content
 
-        self.mock_math_content = MagicMock(spec=IContent)
-        self.mock_math_controller = MagicMock(spec=IIndexMathController)
+        self.mock_math_content = MagicMock(spec=ContentProto)
+        self.mock_math_controller = MagicMock(spec=MathControllerProto)
         self.mock_math_controller.content = self.mock_math_content
 
-        self.mock_calc_content = MagicMock(spec=IContent)
-        self.mock_calc_controller = MagicMock(spec=ICalcController)
+        self.mock_calc_content = MagicMock(spec=ContentProto)
+        self.mock_calc_controller = MagicMock(spec=CalculationControllerProto)
         self.mock_calc_controller.content = self.mock_calc_content
 
         self.routes = {
@@ -54,7 +54,7 @@ class TestNavigator(unittest.TestCase):
         self.navigator.navigate(NavID.HOME)
 
         # Type checking
-        self.assertEqual(self.mock_window.content.__class__, IContent)
+        self.assertEqual(self.mock_window.content.__class__, ContentProto)
 
         # Is assign necessary page content to window
         self.assertEqual(

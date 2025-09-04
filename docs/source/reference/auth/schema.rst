@@ -1,7 +1,7 @@
 Authentication schema
 =====================
 
-.. automodule:: wse.core.http.auth
+.. automodule:: wse.core.http.auth_schema
    :noindex:
 
-.. autoclass:: wse.core.http.auth.AuthSchema
+.. autoclass:: wse.core.http.auth_schema.AuthSchema

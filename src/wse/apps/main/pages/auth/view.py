@@ -1,35 +1,93 @@
 """Defines Authentication page view."""
 
 from dataclasses import dataclass
+from typing import Literal
 
 import toga
 from injector import inject
 from typing_extensions import override
 
+from wse.apps.main.pages.auth.abc import AuthModelObserver
 from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.features.base import BaseView
-from wse.features.interfaces.iwidgets import INavButton
-from wse.features.shared.containers.interfaces import ILoginController
+from wse.feature.base import View
+from wse.feature.base.mixins import AddObserverGeneric, CreateNavButtonMixin
+from wse.feature.interfaces.iwidgets import NavButtonProto
+from wse.feature.shared.containers.login import (
+    LoginControllerProto,
+    LoginObserver,
+)
 from wse.utils.i18n import label_, nav_
+
+_NotifyType = Literal['success_authentication']
+
+
+class _Utility:
+    """Mixing providing utility methods for view."""
+
+    _login_container: LoginControllerProto
+
+    def _clear_credential(self) -> None:
+        """Clear the entered credential."""
+        self._login_container.clear_credential()
+
+
+class _ModelObserver(
+    _Utility,
+    AuthModelObserver,
+):
+    """Mixin providing observe to Auth page model event."""
+
+    @override
+    def credential_clean(self) -> None:
+        """Handle the credential clean."""
+        self._clear_credential()
+
+
+class _LoginContainerObserver(
+    LoginObserver,
+    AddObserverGeneric[_NotifyType],
+):
+    """Mixin providing observe to Login container event."""
+
+    @override
+    def success_authentication(self) -> None:
+        """Notify subjects about success authentication event."""
+        self._notify('success_authentication')
+
+
+class _Callback(
+    _Utility,
+    CreateNavButtonMixin,
+):
+    """Mixin providing callback functions."""
+
+    def _handle_navigate(self, button: NavButtonProto) -> None:
+        """Handle navigation button press."""
+        self._clear_credential()
+        super()._handle_navigate(button)
 
 
 @inject
 @dataclass
 class AuthView(
-    BaseView,
+    _ModelObserver,
+    _LoginContainerObserver,
+    _Callback,
+    _Utility,
+    LoginObserver,
+    View,
 ):
     """Authentication page view."""
 
-    _style: StyleConfig
-    _theme: ThemeConfig
-    _login_container: ILoginController
+    _login_container: LoginControllerProto
 
     @override
-    def _setup(self) -> None:
-        super()._setup()
-        self.content.test_id = NavID.LOGIN
+    def __post_init__(self) -> None:
+        """Construct the view."""
+        super().__post_init__()
         self._login_container.add_observer(self)
+        self.content.test_id = NavID.LOGIN
 
     @override
     def _populate_content(self) -> None:
@@ -55,22 +113,3 @@ class AuthView(
         """Localize the UI text."""
         self._label_title.text = label_('Login page title')
         self._btn_back.text = nav_(NavID.BACK)
-
-    # API for controller
-
-    def clear_credential(self) -> None:
-        """Clear the entered credential."""
-        self._login_container.clear_credential()
-
-    # Notifications from Login container
-
-    def success_authentication(self) -> None:
-        """Notify subjects about success authentication event."""
-        self._notify('success_authentication')
-
-    # Button callback functions
-
-    def _handle_navigate(self, button: INavButton) -> None:
-        """Handle navigation button press."""
-        self.clear_credential()
-        super()._handle_navigate(button)

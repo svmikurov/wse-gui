@@ -1,14 +1,14 @@
 """Defines protocol for page route."""
 
-from typing import Protocol
+from typing import Any, Protocol
 
 from wse.apps.nav_id import NavID
-from wse.features.interfaces.imvc import IPageController
+from wse.feature.interfaces.imvc import PageControllerProto
 
 
-class IRoutes(Protocol):
+class RoutesProto(Protocol):
     """Protocol for page route mapping navigation interface."""
 
     @property
-    def routes(self) -> dict[NavID, IPageController]:
+    def routes(self) -> dict[NavID, PageControllerProto[Any]]:
         """Get page route mapping."""

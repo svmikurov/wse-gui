@@ -5,6 +5,6 @@
     "refresh_token": "/api/auth/jwt/refresh/",
     "check_token": "/api/auth/jwt/verify/"
   },
-  "assigned_exercises": "/api/v1/core/assigned/",
-  "selected_exercise": "/api/v1/core/assigned/{assignation_id}/"
+  "assigned_exercises": "/api/v1/study/assigned/",
+  "selected_exercise": "/api/v1/study/assigned/{assignation_id}/"
 }

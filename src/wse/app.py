@@ -6,10 +6,11 @@ import httpx
 import toga
 from injector import Injector
 
+from wse.core.auth import AuthServiceProto
+
 from .apps.nav_id import NavID
 from .config.layout import StyleConfig
-from .core.interfaces import INavigator, IRoutes
-from .core.interfaces.iauth import IAuthService
+from .core.interfaces import NavigatorProto, RoutesProto
 from .di import create_injector
 
 logger = logging.getLogger(__name__)
@@ -20,7 +21,7 @@ class WSE(toga.App):  # type: ignore[misc]
 
     _injector: Injector
     _layout_config: StyleConfig
-    _navigator: INavigator
+    _navigator: NavigatorProto
     _start_page_id = NavID.HOME
 
     def startup(self) -> None:
@@ -53,14 +54,14 @@ class WSE(toga.App):  # type: ignore[misc]
 
     def _set_auth_status(self) -> None:
         """Set user authenticated status."""
-        auth_service = self._injector.get(IAuthService)  # type: ignore[type-abstract]
+        auth_service = self._injector.get(AuthServiceProto)  # type: ignore[type-abstract]
         auth_service.set_auth_status()
         logger.info(f'User authenticated: {auth_service.is_auth}')
 
     def _set_navigator(self) -> None:
         """Set the page navigator."""
-        self._navigator = self._injector.get(INavigator)  # type: ignore[type-abstract]
-        routes = self._injector.get(IRoutes).routes  # type: ignore[type-abstract]
+        self._navigator = self._injector.get(NavigatorProto)  # type: ignore[type-abstract]
+        routes = self._injector.get(RoutesProto).routes  # type: ignore[type-abstract]
 
         # Configure navigator
         self._navigator.set_main_window(self.main_window)

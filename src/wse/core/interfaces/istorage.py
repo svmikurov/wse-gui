@@ -3,7 +3,7 @@
 from typing import Protocol
 
 
-class IJWTStorage(Protocol):
+class JWTStorageProto(Protocol):
     """Protocol for JWT storage interface."""
 
     def save_tokens(self, access: str, refresh: str) -> None:
@@ -25,5 +25,5 @@ class IJWTStorage(Protocol):
         """Delete JWT tokens."""
 
 
-class IJWTJsonStorage(IJWTStorage, Protocol):
+class JWTJsonStorageProto(JWTStorageProto, Protocol):
     """Protocol for JWT storage with JSON interface."""

@@ -5,7 +5,7 @@ from typing import Callable, Protocol
 from wse.config.enums import Language
 
 
-class II18NService(Protocol):
+class I18NServiceProto(Protocol):
     """Localization service.
 
     For example:

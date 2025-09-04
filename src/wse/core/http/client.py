@@ -9,8 +9,8 @@ from typing_extensions import override
 
 from wse.config.api_paths import APIConfigV1
 
-from ..interfaces.iapi import IAuthScheme
-from ._iabc.client import BaseHttpClient
+from .base import BaseHttpClient
+from .protocol import AuthSchemeProto
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ class HttpClient(BaseHttpClient):
     def get(
         self,
         url: httpx.URL | str,
-        auth: IAuthScheme | None = None,
+        auth: AuthSchemeProto | None = None,
     ) -> httpx.Response:
         """Send a `GET` request."""
         return self._request('get', url, auth=auth)
@@ -43,7 +43,7 @@ class HttpClient(BaseHttpClient):
         self,
         url: httpx.URL | str,
         json: dict[str, Any] | None = None,
-        auth: IAuthScheme | None = None,
+        auth: AuthSchemeProto | None = None,
         headers: dict[str, str] | None = None,
     ) -> httpx.Response:
         """Send a `POST` request."""
@@ -60,16 +60,17 @@ class HttpClient(BaseHttpClient):
         self,
         url: httpx.URL | str,
         json: dict[str, Any],
-        auth: IAuthScheme | None = None,
+        auth: AuthSchemeProto | None = None,
     ) -> httpx.Response:
         """Send a `PATCH` request."""
         return self._request('patch', url, json=json, auth=auth)
 
+    @override
     def _request(
         self,
         method: str,
         url: httpx.URL | str,
-        auth: IAuthScheme | None,
+        auth: AuthSchemeProto | None,
         json: dict[str, Any] | None = None,
         headers: dict[str, str] | None = None,
     ) -> httpx.Response:
@@ -83,16 +84,12 @@ class HttpClient(BaseHttpClient):
             )
             response.raise_for_status()
 
-        except httpx.ConnectError:
-            logger.error('Error connecting to server')
+        except httpx.ConnectError as err:
+            logger.exception('Error connecting to server %s', err.request.url)
             raise
 
-        except httpx.HTTPStatusError as e:
-            logger.error(f'HTTP error {e.response.status_code}: {e}')
-            raise
-
-        except Exception as e:
-            logger.error(f'Unexpected error: {e}')
+        except httpx.HTTPStatusError as err:
+            logger.exception(f'HTTP error {err.response.status_code}')
             raise
 
         else:

@@ -1,13 +1,16 @@
 """Contains HTTP request components.
 
 Contains:
-    - HTTP client
     - Authentication schema
-    - Account state inspector
+    - HTTP client
 """
 
 __all__ = [
-    'IHttpClient',
+    'AuthSchemeProto',
+    'HttpClientProto',
 ]
 
-from ._iabc.client import IHttpClient
+from .protocol import (
+    AuthSchemeProto,
+    HttpClientProto,
+)

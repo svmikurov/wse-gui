@@ -1,47 +1,39 @@
-"""Defines Assigned exercises page controller."""
+"""Simple Math calculation page controller."""
 
 from dataclasses import dataclass
 
 from injector import inject
 from typing_extensions import override
 
-from wse.features.base.mvc import BasePageController
+from wse.apps.main.api.schema import ExerciseMeta
+from wse.feature.base.mvc import PageController
+from wse.feature.base.mvc_exercise import ExerciseViewObserver
+from wse.feature.interfaces.imvc_exercise import ExerciseModelFeatureProto
+from wse.feature.shared.views import IntegerViewProto
 
-from ...http.dto import AssignedExerciseDTO
-from .iabc import AssignedControllerABC, IAssignedModel, IAssignedView
+from .protocol import AssignedModelProto
 
 
 @inject
 @dataclass
 class AssignedController(
-    BasePageController,
-    AssignedControllerABC,
+    ExerciseViewObserver[ExerciseModelFeatureProto],
+    PageController[
+        AssignedModelProto,
+        IntegerViewProto,
+        ExerciseMeta,
+    ],
 ):
-    """Assigned exercises page controller."""
+    """Simple Math calculation page controller."""
 
-    # Injected page elements
-    _model: IAssignedModel
-    _view: IAssignedView
-
-    def _setup(self) -> None:
-        super()._setup()
-        self._model.add_observer(self)
+    _model: AssignedModelProto
+    _view: IntegerViewProto
 
     @override
-    def on_open(self, **kwargs: object) -> None:
+    def on_open(self, value: ExerciseMeta | None = None) -> None:
         """Call methods when page opens."""
-        self._model.on_open()
-
-    # Notification from model
-
-    @override
-    def exercises_updated(self, exercises: list[AssignedExerciseDTO]) -> None:
-        """Update view on update exercises event."""
-        self._view.update_exercises(exercises)
-
-    # Notification from view
-
-    @override
-    def exercise_selected(self, value: str) -> None:
-        """Handle exercise selected event."""
-        self._model.goto_exercise(value)
+        if not isinstance(value, ExerciseMeta):
+            raise TypeError(
+                f'Expected ExerciseMeta type, got {type(value).__name__}'
+            )
+        self._model.set_exercise(value)

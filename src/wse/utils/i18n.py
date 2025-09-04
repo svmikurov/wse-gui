@@ -7,14 +7,14 @@ from typing import Callable
 
 from wse.config.enums import Language, LocaleDomain
 from wse.config.settings import LANGUAGE, LOCALE_DOMAINS, RESOURCES_PATH
-from wse.utils.interfaces import II18NService
+from wse.utils import I18NServiceProto
 
 logger = logging.getLogger(__name__)
 
 LOCALEDIR = RESOURCES_PATH / 'locale'
 
 
-class I18NService(II18NService):
+class I18NService(I18NServiceProto):
     """Localization service."""
 
     def __init__(

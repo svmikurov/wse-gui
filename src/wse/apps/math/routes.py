@@ -3,11 +3,11 @@
 from typing import no_type_check
 
 from wse.apps.nav_id import NavID
-from wse.features.base import BaseRoutes
-from wse.features.interfaces.imvc import IPageController
+from wse.feature.base import BaseRoutes
+from wse.feature.interfaces.imvc import PageControllerProto
 
-from .pages.index.interfaces import IIndexMathController
-from .pages.simple_calc.interfaces import ICalcController
+from .pages.index import MathControllerProto
+from .pages.simple_calc import CalculationControllerProto
 
 
 class MathRoutes(BaseRoutes):
@@ -15,9 +15,9 @@ class MathRoutes(BaseRoutes):
 
     @property
     @no_type_check
-    def routes(self) -> dict[NavID, IPageController]:
+    def routes(self) -> dict[NavID, PageControllerProto]:
         """Get page routes."""
         return {
-            NavID.INDEX_MATH: self._injector.get(IIndexMathController),
-            NavID.SIMPLE_CALC: self._injector.get(ICalcController),
+            NavID.INDEX_MATH: self._injector.get(MathControllerProto),
+            NavID.SIMPLE_CALC: self._injector.get(CalculationControllerProto),
         }

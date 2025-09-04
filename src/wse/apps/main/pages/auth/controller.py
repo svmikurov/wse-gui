@@ -1,37 +1,34 @@
-"""Defines Authentication page controller."""
+"""Authentication page controller."""
 
 from dataclasses import dataclass
 
 from injector import inject
-from typing_extensions import override
 
-from wse.features.base.mvc import BasePageController
+from wse.feature.base.mvc import PageController
 
-from .interfaces import IAuthModel, IAuthView
+from .abc import AuthViewObserver
+from .protocols import AuthModelProto, AuthViewProto
 
 
-@inject
-@dataclass
-class AuthController(
-    BasePageController,
+class _ViewObserver(
+    AuthViewObserver,
 ):
-    """Authentication page controller."""
+    """Auth page view notification observer."""
 
-    _model: IAuthModel
-    _view: IAuthView
-
-    @override
-    def _setup(self) -> None:
-        self._model.add_observer(self)
-
-    # Notifications from View
+    _model: AuthModelProto
 
     def success_authentication(self) -> None:
         """Handle the success authentication event."""
         self._model.handle_success_authentication()
 
-    # Notifications from Model
 
-    def credential_clean(self) -> None:
-        """Handle the credential clean."""
-        self._view.clear_credential()
+@inject
+@dataclass
+class AuthController(
+    _ViewObserver,
+    PageController[AuthModelProto, AuthViewProto, None],
+):
+    """Auth page controller."""
+
+    _model: AuthModelProto
+    _view: AuthViewProto

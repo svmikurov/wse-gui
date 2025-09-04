@@ -21,7 +21,7 @@ test:
 	briefcase dev --test
 
 # Update and build android `app-debug.apk` fail.
-# To create `.apk` fail enter: briefcase create android
+# To create `.apk` file enter: briefcase create android
 update-android:
 	briefcase update android
 	briefcase build android

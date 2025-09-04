@@ -6,23 +6,20 @@ import httpx
 import toga
 from injector import Binder, Module, provider, singleton
 
-from wse.core.http.auth import AuthSchema
+from wse.apps.main.api import AssignedApiProto
+from wse.apps.main.api.assigned import AssignedApiClient
+from wse.apps.math.api.calculation import CalculationApiClient
+from wse.apps.math.api.protocol import CalculationApiProto
+from wse.core.auth import AuthServiceProto
+from wse.core.http.auth_schema import AuthSchema
 from wse.core.http.client import HttpClient
 
+from .api import AuthAPIjwtProto
 from .api.auth_jwt import AuthAPIjwt
-from .api.exercise import ExerciseApiClient
 from .auth.service import AuthService
-from .http import IHttpClient
-from .http._iabc.inspector import IAccountStateInspector
-from .http.inspector import AccountStateInspector
-from .interfaces import INavigator
-from .interfaces.iapi import (
-    IAuthAPIjwt,
-    IAuthScheme,
-    IExerciseApiClient,
-)
-from .interfaces.iauth import IAuthService
-from .interfaces.istorage import IJWTJsonStorage
+from .http import AuthSchemeProto, HttpClientProto
+from .interfaces import NavigatorProto
+from .interfaces.istorage import JWTJsonStorageProto
 from .navigation.navigator import Navigator
 from .storage import JWTJsonStorage
 
@@ -30,27 +27,26 @@ from .storage import JWTJsonStorage
 class CoreModule(Module):
     """Core injector module."""
 
-    # TODO: Check the singleton scopes
     @no_type_check
     def configure(self, binder: Binder) -> None:
         """Configure dependencies."""
         # Navigation service
-        binder.bind(INavigator, to=Navigator, scope=singleton)
-
-        # Authentication service
-        binder.bind(IAuthService, to=AuthService, scope=singleton)
-
-        # HTTP services
-        binder.bind(IHttpClient, to=HttpClient)
-        binder.bind(IAuthScheme, to=AuthSchema, scope=singleton)
-        binder.bind(IAccountStateInspector, to=AccountStateInspector)
-
-        # API services
-        binder.bind(IAuthAPIjwt, to=AuthAPIjwt)
-        binder.bind(IExerciseApiClient, to=ExerciseApiClient)
+        binder.bind(NavigatorProto, to=Navigator, scope=singleton)
 
         # Storage service
-        binder.bind(IJWTJsonStorage, JWTJsonStorage)
+        binder.bind(JWTJsonStorageProto, JWTJsonStorage)
+
+        # Authentication service
+        binder.bind(AuthServiceProto, to=AuthService, scope=singleton)
+        binder.bind(AuthAPIjwtProto, to=AuthAPIjwt)
+
+        # HTTP services
+        binder.bind(HttpClientProto, to=HttpClient)
+        binder.bind(AuthSchemeProto, to=AuthSchema, scope=singleton)
+
+        # Exercise API services
+        binder.bind(AssignedApiProto, to=AssignedApiClient)
+        binder.bind(CalculationApiProto, to=CalculationApiClient)
 
     @provider
     @singleton

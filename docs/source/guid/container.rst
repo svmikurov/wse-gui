@@ -11,15 +11,15 @@ Also, a container can have observers of the "Observer" pattern.
 .. rubric:: Define container
 
 Inherit container from
-:class:`~wse.features.base.container.InteractiveContainerABC` or
+:class:`~wse.features.base.container.SubjectContainerABC` or
 :class:`~wse.features.base.container.NavigableContainerABC`
 (adding :class:`~wse.features.base.mixins.CreateNavButtonMixin` methods)
 abstract base class and override methods:
 
 - :meth:`~wse.features.base.container.ContainerABC._create_ui`
 - :meth:`~wse.features.base.container.ContainerABC._populate_content`
-- :meth:`~wse.features.base._abc.mvc.UpdateStyleABC.update_style`
-- :meth:`~wse.features.base._abc.mvc.LocalizeABC.localize_ui`
+- :meth:`~wse.features.base.abstract.mvc.UpdateStyleABC.update_style`
+- :meth:`~wse.features.base.abstract.mvc.LocalizeABC.localize_ui`
 
 .. rubric:: Define style and thema
 

@@ -207,6 +207,8 @@ exclude = [
     "docs/",
     "build/",
     "*/conftest.py",
+    # TODO: Remove from exclude
+    "*/services/__init__.py"
 ]
 line-length = 79
 

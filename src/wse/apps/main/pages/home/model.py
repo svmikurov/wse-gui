@@ -1,39 +1,51 @@
 """Defines Home page model."""
 
 from dataclasses import dataclass
+from typing import Literal
 
 from injector import inject
 from typing_extensions import override
 
-from wse.apps.main.pages.home.interfaces import IHomeModel
-from wse.core.interfaces.iauth import IAuthService
-from wse.features.base import BaseModel
+from wse.core.auth import AuthServiceProto
+from wse.feature.base.mixins import AddObserverGeneric
+
+from .abc import HomeModelFeature
+
+_NotifyType = Literal[
+    'user_authenticated',
+    'user_anonymous',
+]
+
+
+class _Feature(
+    HomeModelFeature,
+    AddObserverGeneric[_NotifyType],
+):
+    """Home page model feature."""
+
+    _auth_service: AuthServiceProto
+
+    @override
+    def check_auth_status(self) -> None:
+        """Check user authentication status."""
+        if self._auth_service.is_auth:
+            self._notify('user_authenticated')
+        else:
+            self._notify('user_anonymous')
+
+    @override
+    def logout(self) -> None:
+        """Handle the logout event."""
+        self._auth_service.logout()
+        self.check_auth_status()
 
 
 @inject
 @dataclass
 class HomeModel(
-    BaseModel,
-    IHomeModel,
+    _Feature,
+    AddObserverGeneric[_NotifyType],
 ):
     """Home page model."""
 
-    _auth_service: IAuthService
-
-    @override
-    def on_open(self) -> None:
-        """Call model methods when page opens."""
-        self._define_view_content()
-
-    def _define_view_content(self) -> None:
-        """Define view content by user auth state."""
-        notification = 'user_authenticated'
-        if not self._auth_service.is_auth:
-            notification = 'user_anonymous'
-        self._notify(notification)
-
-    @override
-    def handle_logout(self) -> None:
-        """Handle the logout event."""
-        self._auth_service.logout()
-        self._define_view_content()
+    _auth_service: AuthServiceProto

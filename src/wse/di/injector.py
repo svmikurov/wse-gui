@@ -7,10 +7,10 @@ from wse.apps.main.apps import MAIN_APP_MODULES
 from wse.apps.math.apps import MATH_APP_MODULES
 from wse.config.di_module import ConfigModule
 from wse.core.di_module import CoreModule
-from wse.features.services.di_module import FeatureServicesModule
-from wse.features.shared.containers.di_module import ContainerModule
-from wse.features.shared.di_module import FeatureSharedModule
-from wse.features.shared.widgets.di_module import WidgetsModule
+from wse.feature.services.di_module import FeatureServicesModule
+from wse.feature.shared.containers.di_module import ContainerModule
+from wse.feature.shared.di_module import FeatureSharedModule
+from wse.feature.shared.widgets.di_module import WidgetsModule
 
 
 def create_injector() -> Injector:

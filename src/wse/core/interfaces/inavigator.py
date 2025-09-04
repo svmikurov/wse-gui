@@ -1,14 +1,14 @@
 """Page navigation service."""
 
-from typing import Protocol
+from typing import Any, Protocol
 
 import toga
 
 from wse.apps.nav_id import NavID
-from wse.features.interfaces.imvc import IPageController
+from wse.feature.interfaces.imvc import PageControllerProto
 
 
-class INavigator(Protocol):
+class NavigatorProto(Protocol):
     """Page navigation service interface."""
 
     def navigate(self, nav_id: NavID, **kwargs: object) -> None:
@@ -17,5 +17,8 @@ class INavigator(Protocol):
     def set_main_window(self, window: toga.Window) -> None:
         """Set main window."""
 
-    def set_routes(self, routes: dict[NavID, IPageController]) -> None:
+    def set_routes(
+        self,
+        routes: dict[NavID, PageControllerProto[Any]],
+    ) -> None:
         """Set page route mapping."""

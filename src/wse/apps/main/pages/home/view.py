@@ -1,4 +1,4 @@
-"""Home page view of ain feature."""
+"""Home page view."""
 
 from dataclasses import dataclass
 
@@ -8,24 +8,25 @@ from typing_extensions import override
 
 from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.features.base import BaseView
+from wse.feature.base import View
 from wse.utils.i18n import _, label_, nav_
+
+from .abc import HomeModelObserver
 
 
 @inject
 @dataclass
-class HomeView(
-    BaseView,
+class HomeViewLayout(
+    View,
 ):
-    """Home page view of main feature."""
+    """Home page view layout."""
 
-    _style: StyleConfig
-    _theme: ThemeConfig
-
+    @override
     def _setup(self) -> None:
         super()._setup()
         self._content.test_id = NavID.HOME
 
+    @override
     def _populate_content(self) -> None:
         self._content.add(
             self._label_title,
@@ -34,6 +35,7 @@ class HomeView(
             self._btn_login,
         )
 
+    @override
     def _create_ui(self) -> None:
         self._label_title = toga.Label('')
         self._btn_login = self._create_nav_btn(nav_id=NavID.LOGIN)
@@ -59,25 +61,32 @@ class HomeView(
         self._btn_math.text = nav_(NavID.INDEX_MATH)
         self._btn_assigned.text = nav_(NavID.ASSIGNED)
 
-    # Button callback functions
+    # Button callback function
 
     def _handle_logout(self, _: toga.Button) -> None:
         self._notify('logout')
 
-    # Set content by user authentication state
 
-    def set_authenticated_content(self) -> None:
-        """Set page content for authenticated user."""
+class HomeView(
+    HomeViewLayout,
+    HomeModelObserver,
+):
+    """Home page view with a subscription to model notifications."""
+
+    @override
+    def user_authenticated(self) -> None:
+        """Set content for authenticated user."""
         try:
             self._content.replace(self._btn_login, self._btn_logout)
         except ValueError:
-            # ignore
+            # Content for authenticated user is already set
             pass
 
-    def set_anonymous_content(self) -> None:
-        """Set page content for anonymous user."""
+    @override
+    def user_anonymous(self) -> None:
+        """Set content for anonymous user."""
         try:
             self._content.replace(self._btn_logout, self._btn_login)
         except ValueError:
-            # ignore
+            # Content for anonymous user is already set
             pass

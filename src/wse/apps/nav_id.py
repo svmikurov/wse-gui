@@ -7,7 +7,7 @@ class NavID(BaseEnum):
     """Navigation route enums."""
 
     # Utility ID
-    BACK = 'move to previous page'
+    BACK = 'Move to previous page'
 
     # Auth
     LOGIN = 'Login page'

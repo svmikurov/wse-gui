@@ -5,7 +5,7 @@ from typing import no_type_check
 from injector import Binder, Module
 
 from wse.apps.routes import Routes
-from wse.core.interfaces import IRoutes
+from wse.core.interfaces import RoutesProto
 
 
 class FeaturesAppsModule(Module):
@@ -14,4 +14,4 @@ class FeaturesAppsModule(Module):
     @no_type_check
     def configure(self, binder: Binder) -> None:
         """Configure dependencies."""
-        binder.bind(IRoutes, to=Routes)
+        binder.bind(RoutesProto, to=Routes)

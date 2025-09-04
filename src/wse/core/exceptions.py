@@ -17,5 +17,9 @@ class ExerciseError(Exception):
     """Raised when an error occurs in performing an exercise."""
 
 
+class ExerciseAttributeError(ExerciseError):
+    """Raised when an error occurs in performing an exercise."""
+
+
 class StorageError(Exception):
     """Raised when an error occurs in storage service."""

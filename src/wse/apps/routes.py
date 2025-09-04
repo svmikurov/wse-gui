@@ -5,9 +5,9 @@ from typing import no_type_check
 
 from injector import inject
 
-from ..features.interfaces.imvc import IPageController
-from .main.interfaces import IMainRoutes
-from .math.interfaces import IMathRoutes
+from ..feature.interfaces.imvc import PageControllerProto
+from .main.protocol import MainRoutesProto
+from .math.protocol import MathRoutesProto
 from .nav_id import NavID
 
 
@@ -16,12 +16,12 @@ from .nav_id import NavID
 class Routes:
     """Route mapping navigation ID with pages."""
 
-    _main_routes: IMainRoutes
-    _math_routes: IMathRoutes
+    _main_routes: MainRoutesProto
+    _math_routes: MathRoutesProto
 
     @property
     @no_type_check
-    def routes(self) -> dict[NavID, IPageController]:
+    def routes(self) -> dict[NavID, PageControllerProto]:
         """Get page routes."""
         return {
             **self._main_routes.routes,

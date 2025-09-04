@@ -1,33 +1,19 @@
-"""Defines Assigned exercises page model."""
+"""Assigned exercise completion page model."""
 
 from dataclasses import dataclass
 
 from injector import inject
 
-from wse.apps.nav_id import NavID
-from wse.features.base import BaseModel
-
-from ...http.iapi import IAssignedExercisesApi
-from .iabc import AssignedModelABC
+from wse.apps.main.api.schema import Assigned
+from wse.feature.base.model import ExerciseModel
+from wse.feature.services import AssignedServiceProto
 
 
 @inject
 @dataclass
-class AssignedModel(
-    BaseModel,
-    AssignedModelABC,
+class AssignedExerciseModel(
+    ExerciseModel[Assigned, AssignedServiceProto],
 ):
-    """Assigned exercises page model."""
+    """Assigned exercise completion page model."""
 
-    _api_service: IAssignedExercisesApi
-
-    def on_open(self) -> None:
-        """Call methods when page opens."""
-        exercises = self._api_service.request_all_exercises()
-        if exercises is not None:
-            self._notify('exercises_updated', exercises=exercises)
-
-    def goto_exercise(self, assignation_id: str) -> None:
-        """Go to selected exercise."""
-        exercise_meta_dto = self._api_service.request_selected(assignation_id)
-        self._notify('navigate', nav_id=NavID.EXERCISE, meta=exercise_meta_dto)
+    _exercise_service: AssignedServiceProto

@@ -4,12 +4,13 @@ from __future__ import annotations
 
 import logging
 from collections import deque
+from typing import Any
 
 import toga
 
 from wse.apps.nav_id import NavID
 from wse.core.exceptions import ContentError, NavigateError
-from wse.features.interfaces.imvc import IPageController
+from wse.feature.interfaces.imvc import PageControllerProto
 
 logger = logging.getLogger(__name__)
 
@@ -19,10 +20,10 @@ HISTORY_LEN = 10
 class Navigator:
     """Page navigation service."""
 
-    _routes: dict[NavID, IPageController]
+    _routes: dict[NavID, PageControllerProto[Any]]
 
     _PREVIOUS_PAGE_INDEX = -1
-    _NAV_IDS_NOT_FOR_HISTORY: set[NavID] = {
+    _EXCLUDE_HISTORY: set[NavID] = {
         NavID.LOGOUT,
     }
 
@@ -54,7 +55,11 @@ class Navigator:
             logger.error(f"The navigation to the '{nav_id}' has failed")
             raise
         else:
-            page_controller.on_open(**kwargs)
+            try:
+                page_controller.on_open(**kwargs)
+            except AttributeError:
+                # The page may not have any methods called when opened.
+                pass
             self._window.content = page_controller.content
             logger.debug(f"The '{nav_id}' is open")
 
@@ -62,11 +67,17 @@ class Navigator:
         """Set main window."""
         self._window = window
 
-    def set_routes(self, routes: dict[NavID, IPageController]) -> None:
+    def set_routes(
+        self,
+        routes: dict[NavID, PageControllerProto[Any]],
+    ) -> None:
         """Set page route mapping."""
         self._routes = routes
 
-    def _get_page_controller(self, nav_id: NavID) -> IPageController:
+    def _get_page_controller(
+        self,
+        nav_id: NavID,
+    ) -> PageControllerProto[Any]:
         if self._routes is None:
             raise NavigateError('Route mapping is not initialized')
 
@@ -79,7 +90,7 @@ class Navigator:
 
     def _add_to_history(self, nav_id: NavID) -> None:
         """Add navigation ID to history."""
-        if nav_id not in self._NAV_IDS_NOT_FOR_HISTORY:
+        if nav_id not in self._EXCLUDE_HISTORY:
             self._content_history.append(nav_id)
 
     def _go_back(self) -> None:

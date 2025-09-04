@@ -6,7 +6,7 @@ from wse.core.base.enums import BaseEnum
 
 
 class Language(BaseEnum):
-    """Localisation langauge enumerations."""
+    """Localisation langauge enumeration."""
 
     EN = 'en'
     RU = 'ru'
@@ -21,11 +21,21 @@ class LocaleDomain(BaseEnum):
     EXERCISE = 'exercise'
 
 
+# Layout
+
+
+class TaskIO(BaseEnum):
+    """Task I/O widget enumeration."""
+
+    INTEGER = 'integer'
+    TEXT = 'text'
+
+
 # UI styles
 
 
 class LayoutTheme(BaseEnum):
-    """Layout color theme enumerations."""
+    """Layout color theme enumeration."""
 
     DEFAULT = 'theme_default.json'
     DEVELOP = 'theme_develop.json'
@@ -33,7 +43,7 @@ class LayoutTheme(BaseEnum):
 
 
 class LayoutStyle(BaseEnum):
-    """Layout style enumerations."""
+    """Layout style enumeration."""
 
     DEFAULT = 'style_default.json'
     DEVELOP = 'style_develop.json'

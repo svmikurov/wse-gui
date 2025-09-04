@@ -6,22 +6,22 @@ import httpx
 from injector import inject
 from typing_extensions import override
 
+from wse.core.api import AuthAPIjwtProto
+from wse.core.auth import AuthServiceProto
 from wse.core.exceptions import AuthError
-from wse.core.interfaces.iapi import IAuthAPIjwt
-from wse.core.interfaces.iauth import IAuthService
-from wse.core.interfaces.istorage import IJWTJsonStorage
+from wse.core.interfaces.istorage import JWTJsonStorageProto
 
 logger = logging.getLogger(__name__)
 
 
-class AuthService(IAuthService):
+class AuthService(AuthServiceProto):
     """Authentication service."""
 
     @inject
     def __init__(
         self,
-        auth_api: IAuthAPIjwt,
-        token_storage: IJWTJsonStorage,
+        auth_api: AuthAPIjwtProto,
+        token_storage: JWTJsonStorageProto,
     ) -> None:
         """Construct the service."""
         self._auth_api = auth_api
@@ -97,8 +97,9 @@ class AuthService(IAuthService):
         """Get access token."""
         return self._token_storage.access_token
 
-    def _set_access_token(self, access: str) -> None:
-        self._token_storage.access_token = access
+    @access_token.setter
+    def access_token(self, value: str) -> None:
+        self._token_storage.access_token = value
 
     def refresh_access_token(self) -> None:
         """Refresh access token."""
