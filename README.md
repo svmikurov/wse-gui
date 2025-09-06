@@ -1,10 +1,6 @@
 WSE GUI
 =======
 
-### Note: Development of this version has been discontinued due to changes in the application architecture.
-
-
-
 # Install development mode
 
 ## Create environment

@@ -2,7 +2,7 @@
 [tool.briefcase]
 project_name = "WSE GUI"
 bundle = "com.example"
-version = "0.4.0"
+version = "0.5.0"
 url = "https://example.com/wse"
 license.file = "LICENSE"
 author = "Sergei Mikurov"
