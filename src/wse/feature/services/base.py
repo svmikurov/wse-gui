@@ -3,18 +3,12 @@
 from typing import TypeVar
 
 from wse.apps.main.api.schema import ExerciseMeta
-from wse.core.api import (
-    ExerciseApiProto,
-    RelatedData,
-)
+from wse.core.api import ExerciseApiProto, RelatedData
 
 from . import Answer, Question, Result
 from .abc import BaseExerciseService
 
-ExerciseT = TypeVar(
-    'ExerciseT',
-    bound=ExerciseMeta,
-)
+ExerciseT = TypeVar('ExerciseT', bound=ExerciseMeta)
 
 
 class ExerciseService(

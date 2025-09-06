@@ -20,6 +20,9 @@ from wse.feature.shared.containers import (
     TextTaskContainerProto,
 )
 from wse.feature.shared.containers.top_bar import TopBarViewMixin
+from wse.feature.shared.containers.top_bar.itop_bar import (
+    TopBarControllerProto,
+)
 from wse.feature.shared.views import IntegerViewProto
 from wse.feature.shared.widgets import (
     DividerProto,
@@ -103,6 +106,18 @@ class _NumpadObserver(
         self._notify('answer_entered', value=value)
 
 
+class _TopBarObserver(
+    AddObserverGeneric[_NotifyType],
+):
+    """Mixin providing observe of top bar event."""
+
+    _top_bar: TopBarControllerProto
+
+    def balance_updated(self, value: str) -> None:
+        """Handle balance update event notification."""
+        self._top_bar.update_balance(value)
+
+
 class _Callback(
     _Utility,
     AddObserverGeneric[_NotifyType],
@@ -127,6 +142,7 @@ class IntegerView(
     View,
     _ModelObserver,
     _NumpadObserver,
+    _TopBarObserver,
     _Callback,
     IntegerViewProto,
 ):

@@ -5,17 +5,11 @@ from typing import Generic, Literal
 
 from typing_extensions import override
 
+from wse.core.api import RelatedData
 from wse.feature.base.mixins import AddObserverGeneric
-from wse.feature.services import (
-    Answer,
-    Question,
-)
+from wse.feature.services import Answer, Question
 
-from .protocol import (
-    ExerciseModelProto,
-    ExerciseT_contra,
-    ServiceT,
-)
+from .protocol import ExerciseModelProto, ExerciseT_contra, ServiceT
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +20,7 @@ _NotifyType = Literal[
     'task_updated',
     'answer_updated',
     'answer_incorrect',
+    'balance_updated',
 ]
 """Literal types to notifying model observer.
 """
@@ -75,21 +70,20 @@ class ExerciseModel(
     def check_answer(self) -> None:
         """Check the user submitted answer."""
         if self._user_answer == NO_ANSWER:
-            # Checking for empty answers is ignored.
-            return
+            return None
 
         if self._task is None or self._exercise_meta is None:
             logger.error(
-                f'Answer check error ({self._task = }; '
-                f'{self._exercise_meta = })'
+                f'Answer check error ({self._task=}; {self._exercise_meta=})'
             )
-            return
-
-        answer = Answer(uid=self._task.uid, answer=self._user_answer)
+            return None
 
         result, related_data = self._exercise_service.check_answer(
-            answer,
-            self._exercise_meta,
+            answer=Answer(
+                uid=self._task.uid,
+                answer=self._user_answer,
+            ),
+            exercise=self._exercise_meta,
         )
 
         if result:
@@ -101,7 +95,21 @@ class ExerciseModel(
                     value=f'{self._task.question} = {result.correct_answer}',
                 )
 
+        if related_data:
+            self._update_related_data(related_data)
+
+        return None
+
     def _reset_task_state(self) -> None:
         self._task = None
         self._notify('task_updated', value=NO_QUESTION)
         self.set_answer(NO_ANSWER)
+
+    def _update_related_data(self, related_data: RelatedData) -> None:
+        """Update page model with response related data."""
+        self._update_balance(related_data.balance)
+
+    def _update_balance(self, balance: str) -> None:
+        """Update balance."""
+        self._balance = balance
+        self._notify('balance_updated', value=balance)
