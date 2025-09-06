@@ -6,7 +6,7 @@ from typing import Generic, Literal
 from typing_extensions import override
 
 from wse.core.api import RelatedData
-from wse.feature.base.mixins import AddObserverGeneric
+from wse.feature.base.mixins import AddObserverGen
 from wse.feature.services import Answer, Question
 
 from .protocol import ExerciseModelProto, ExerciseT_contra, ServiceT
@@ -27,7 +27,7 @@ _NotifyType = Literal[
 
 
 class ExerciseModel(
-    AddObserverGeneric[_NotifyType],
+    AddObserverGen[_NotifyType],
     ExerciseModelProto[ExerciseT_contra],
     Generic[ExerciseT_contra, ServiceT],
 ):

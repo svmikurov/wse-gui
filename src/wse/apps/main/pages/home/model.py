@@ -7,7 +7,7 @@ from injector import inject
 from typing_extensions import override
 
 from wse.core.auth import AuthServiceProto
-from wse.feature.base.mixins import AddObserverGeneric
+from wse.feature.base.mixins import AddObserverGen
 
 from .abc import HomeModelFeature
 
@@ -19,7 +19,7 @@ _NotifyType = Literal[
 
 class _Feature(
     HomeModelFeature,
-    AddObserverGeneric[_NotifyType],
+    AddObserverGen[_NotifyType],
 ):
     """Home page model feature."""
 
@@ -44,7 +44,7 @@ class _Feature(
 @dataclass
 class HomeModel(
     _Feature,
-    AddObserverGeneric[_NotifyType],
+    AddObserverGen[_NotifyType],
 ):
     """Home page model."""
 

@@ -11,7 +11,7 @@ from injector import inject
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.feature.base import Controller
 from wse.feature.base.container import Container
-from wse.feature.base.mixins import AddObserverGeneric
+from wse.feature.base.mixins import AddObserverGen
 from wse.feature.interfaces.icontent import ContentProto
 from wse.feature.interfaces.iobserver import Observable
 from wse.feature.shared.widgets.boxes import FlexColumn
@@ -41,7 +41,7 @@ ControllerNotifyT = Literal['numpad_entered']
 
 @inject
 class NumpadModel(
-    AddObserverGeneric[ModelNotifyT],
+    AddObserverGen[ModelNotifyT],
 ):
     """Model for NumPad container."""
 
@@ -144,7 +144,7 @@ class NumpadModel(
 @inject
 @dataclass
 class NumpadContainer(
-    AddObserverGeneric[ContainerNotifyT],
+    AddObserverGen[ContainerNotifyT],
     Container,
 ):
     """Number keyword container."""
@@ -259,7 +259,7 @@ class NumpadContainer(
 @inject
 @dataclass
 class NumpadController(
-    AddObserverGeneric[ControllerNotifyT],
+    AddObserverGen[ControllerNotifyT],
     Controller,
     NumpadControllerProto,
 ):

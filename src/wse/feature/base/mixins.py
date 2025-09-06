@@ -111,7 +111,7 @@ class AddObserverMixin:
 
 
 @dataclass
-class AddObserverGeneric(Generic[NotifyT]):
+class AddObserverGen(Generic[NotifyT]):
     """Mixin that enables observer subscription capability."""
 
     _subject: Observable

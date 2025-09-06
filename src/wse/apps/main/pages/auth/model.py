@@ -8,7 +8,7 @@ from typing_extensions import override
 
 from wse.apps.nav_id import NavID
 from wse.core.auth import AuthServiceProto
-from wse.feature.base.mixins import AddObserverGeneric
+from wse.feature.base.mixins import AddObserverGen
 
 from .abc import AuthModelFeature
 
@@ -19,7 +19,7 @@ _NotifyType = Literal[
 
 
 class _Feature(
-    AddObserverGeneric[_NotifyType],
+    AddObserverGen[_NotifyType],
     AuthModelFeature,
 ):
     """Authentication page model feature."""

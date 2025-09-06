@@ -11,7 +11,7 @@ from wse.apps.main.pages.auth.abc import AuthModelObserver
 from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.feature.base import View
-from wse.feature.base.mixins import AddObserverGeneric, CreateNavButtonMixin
+from wse.feature.base.mixins import AddObserverGen, CreateNavButtonMixin
 from wse.feature.interfaces.iwidgets import NavButtonProto
 from wse.feature.shared.containers.login import (
     LoginControllerProto,
@@ -46,7 +46,7 @@ class _ModelObserver(
 
 class _LoginContainerObserver(
     LoginObserver,
-    AddObserverGeneric[_NotifyType],
+    AddObserverGen[_NotifyType],
 ):
     """Mixin providing observe to Login container event."""
 

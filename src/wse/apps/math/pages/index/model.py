@@ -14,7 +14,7 @@ from wse.apps.math.api.schema import (
     CalculationConfig,
 )
 from wse.config.enums import TaskIO
-from wse.feature.base.mixins import AddObserverGeneric
+from wse.feature.base.mixins import AddObserverGen
 
 from .abc import MathModelFeature
 
@@ -27,7 +27,7 @@ _NotifyType = Literal[
 
 class _Feature(
     MathModelFeature,
-    AddObserverGeneric[_NotifyType],
+    AddObserverGen[_NotifyType],
 ):
     """Index Math page model feature."""
 

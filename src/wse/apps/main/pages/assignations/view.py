@@ -18,7 +18,7 @@ from wse.apps.main.pages.assignations.abc import (
     BaseAssignationsView,
 )
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.base.mixins import AddObserverGeneric
+from wse.feature.base.mixins import AddObserverGen
 from wse.feature.shared.containers.assigned import (
     AssignationsContainerProto,
 )
@@ -30,7 +30,7 @@ _NotifyType = Literal['exercise_selected']
 
 class _Feature(
     AssignationsViewFeature,
-    AddObserverGeneric[_NotifyType],
+    AddObserverGen[_NotifyType],
 ):
     """Assigned page view feature."""
 

@@ -10,7 +10,7 @@ from typing_extensions import override
 from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.feature.base import View
-from wse.feature.base.mixins import AddObserverGeneric
+from wse.feature.base.mixins import AddObserverGen
 from wse.feature.base.mvc_exercise import ExerciseModelObserver
 from wse.feature.interfaces.icontent import GetContentProto
 from wse.feature.interfaces.iobserver import Observable
@@ -97,7 +97,7 @@ class _ModelObserver(
 
 class _NumpadObserver(
     NumpadObserver,
-    AddObserverGeneric[_NotifyType],
+    AddObserverGen[_NotifyType],
 ):
     """Mixin providing observe of numpad container event."""
 
@@ -107,7 +107,7 @@ class _NumpadObserver(
 
 
 class _TopBarObserver(
-    AddObserverGeneric[_NotifyType],
+    AddObserverGen[_NotifyType],
 ):
     """Mixin providing observe of top bar event."""
 
@@ -120,7 +120,7 @@ class _TopBarObserver(
 
 class _Callback(
     _Utility,
-    AddObserverGeneric[_NotifyType],
+    AddObserverGen[_NotifyType],
 ):
     """Mixin providing callback functions."""
 

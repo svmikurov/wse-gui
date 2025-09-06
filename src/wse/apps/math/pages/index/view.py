@@ -13,7 +13,7 @@ from wse.apps.math.sources import ExerciseSelectSourceProto
 from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.feature.base import View
-from wse.feature.base.mixins import AddObserverGeneric
+from wse.feature.base.mixins import AddObserverGen
 from wse.feature.shared.containers.top_bar import TopBarViewMixin
 from wse.utils.contextmanager import EventDisabler
 from wse.utils.i18n import _, label_
@@ -58,7 +58,7 @@ class _ModelObserver(
 
 
 class _Callback(
-    AddObserverGeneric[_NotifyType],
+    AddObserverGen[_NotifyType],
 ):
     """Mixin provides Index Math page model callback function."""
 

@@ -8,7 +8,7 @@ from typing_extensions import override
 
 from wse.apps.main.api import AssignationsApiProto
 from wse.apps.main.api.schema import ExerciseMeta
-from wse.feature.base.mixins import AddObserverGeneric
+from wse.feature.base.mixins import AddObserverGen
 
 from .abc import AssignationsModelFeature, BaseAssignationsModel
 
@@ -17,7 +17,7 @@ _NotifyType = Literal['exercises_updated']
 
 class _Feature(
     AssignationsModelFeature,
-    AddObserverGeneric[_NotifyType],
+    AddObserverGen[_NotifyType],
 ):
     """Assigned page model feature."""
 
