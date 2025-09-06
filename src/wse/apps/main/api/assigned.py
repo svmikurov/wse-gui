@@ -10,10 +10,10 @@ from typing import TypeVar
 import httpx
 from typing_extensions import override
 
-from wse.apps.main.api.schema import Assigned
 from wse.core.api import QuestionResponse, ResultResponse
 from wse.core.api.base import ExerciseApi
 from wse.feature.services import Answer
+from wse.feature.shared.schemas.exercise import Assigned
 
 logger = logging.getLogger(__name__)
 

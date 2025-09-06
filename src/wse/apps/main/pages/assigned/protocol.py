@@ -2,10 +2,10 @@
 
 from typing import Protocol
 
-from wse.apps.main.api.schema import ExerciseMeta
 from wse.feature.base.model.exercise.protocol import ExerciseModelProto
 from wse.feature.interfaces.imvc import ModelProto, PageControllerProto
 from wse.feature.interfaces.imvc_exercise import ExerciseViewObserverProto
+from wse.feature.shared.schemas.exercise import ExerciseMeta
 
 
 class AssignedModelProto(

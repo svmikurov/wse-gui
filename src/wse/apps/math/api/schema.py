@@ -1,7 +1,7 @@
 """Defines Math app schema."""
 
-from wse.apps.main.api.schema import ExerciseMeta
 from wse.feature.base import BaseSchema
+from wse.feature.shared.schemas.exercise import ExerciseMeta
 
 
 class CalculationConfig(BaseSchema):

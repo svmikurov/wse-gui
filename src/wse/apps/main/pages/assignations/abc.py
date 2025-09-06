@@ -4,7 +4,6 @@ from abc import ABC, abstractmethod
 
 from typing_extensions import override
 
-from wse.apps.main.api.schema import ExerciseInfo, ExerciseMeta
 from wse.apps.main.pages.assignations import (
     AssignationsModelFeatureProto,
     AssignationsModelObserveProto,
@@ -22,6 +21,7 @@ from wse.feature.base.mvc import (
     View,
     ViewT,
 )
+from wse.feature.shared.schemas.exercise import ExerciseInfo, ExerciseMeta
 
 # Model
 

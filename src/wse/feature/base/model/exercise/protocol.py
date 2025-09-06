@@ -2,8 +2,8 @@
 
 from typing import Any, Protocol, TypeVar
 
-from wse.apps.main.api.schema import ExerciseMeta
 from wse.feature.services import ExerciseServiceProto
+from wse.feature.shared.schemas.exercise import ExerciseMeta
 
 ExerciseT_contra = TypeVar(
     'ExerciseT_contra',

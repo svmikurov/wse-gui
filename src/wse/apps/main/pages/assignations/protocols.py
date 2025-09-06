@@ -2,12 +2,12 @@
 
 from typing import Any, Protocol
 
-from wse.apps.main.api.schema import ExerciseInfo, ExerciseMeta
 from wse.feature.interfaces.imvc import (
     ModelProto,
     PageControllerProto,
     ViewProto,
 )
+from wse.feature.shared.schemas.exercise import ExerciseInfo, ExerciseMeta
 
 # Model
 

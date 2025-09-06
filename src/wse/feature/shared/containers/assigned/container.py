@@ -8,12 +8,12 @@ from toga import Box, Button, Column, Label
 from toga.style import Pack
 from typing_extensions import override
 
-from wse.apps.main.api.schema import ExerciseInfo
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.feature.base.mixins import AddObserverMixin, GetContentMixin
 from wse.feature.shared.containers.assigned.abc import (
     AssignationsContainerABC,
 )
+from wse.feature.shared.schemas.exercise import ExerciseInfo
 
 # Widgets are created dynamically with a specific ID prefix.
 INNER_BOX_PREFIX = '_inner'

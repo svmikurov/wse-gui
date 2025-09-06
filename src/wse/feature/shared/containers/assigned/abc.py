@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 from typing_extensions import override
 
-from wse.apps.main.api.schema import ExerciseInfo
+from wse.feature.shared.schemas.exercise import ExerciseInfo
 
 from . import AssignationsContainerProto
 

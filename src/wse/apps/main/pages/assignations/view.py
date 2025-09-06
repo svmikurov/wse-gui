@@ -7,7 +7,6 @@ import toga
 from injector import inject
 from typing_extensions import override
 
-from wse.apps.main.api.schema import ExerciseInfo
 from wse.apps.main.pages.assignations import (
     AssignationsModelProto,
     AssignationsViewFeatureProto,
@@ -23,6 +22,7 @@ from wse.feature.shared.containers.assigned import (
     AssignationsContainerProto,
 )
 from wse.feature.shared.containers.top_bar import TopBarViewMixin
+from wse.feature.shared.schemas.exercise import ExerciseInfo
 from wse.utils.i18n import label_
 
 _NotifyType = Literal['exercise_selected']

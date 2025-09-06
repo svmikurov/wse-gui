@@ -1,4 +1,4 @@
-"""Defines Main app DAT."""
+"""Exercise schema."""
 
 from datetime import datetime
 

@@ -3,8 +3,8 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar
 
-from wse.apps.main.api.schema import ExerciseMeta
 from wse.core.api.response import RelatedData
+from wse.feature.shared.schemas.exercise import ExerciseMeta
 
 from . import Answer, ExerciseServiceProto, Question, Result
 

@@ -7,8 +7,8 @@ from injector import inject
 from typing_extensions import override
 
 from wse.apps.main.api import AssignationsApiProto
-from wse.apps.main.api.schema import ExerciseMeta
 from wse.feature.base.mixins import AddObserverGen
+from wse.feature.shared.schemas.exercise import ExerciseMeta
 
 from .abc import AssignationsModelFeature, BaseAssignationsModel
 

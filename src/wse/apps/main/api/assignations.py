@@ -10,13 +10,13 @@ from typing_extensions import override
 
 from wse.config.api_paths import APIConfigV1
 from wse.core.http import AuthSchemeProto, HttpClientProto
-
-from . import (
+from wse.feature.shared.schemas.exercise import (
     Assigned,
     ExerciseInfo,
+    ExerciseMeta,
 )
+
 from .abc import BaseAssignationsApi
-from .schema import ExerciseMeta
 
 logger = logging.getLogger(__name__)
 

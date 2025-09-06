@@ -4,11 +4,9 @@ from abc import abstractmethod
 
 from typing_extensions import override
 
-from . import (
-    AssignationsApiProto,
-    ExerciseInfo,
-)
-from .schema import ExerciseMeta
+from wse.feature.shared.schemas.exercise import ExerciseInfo, ExerciseMeta
+
+from . import AssignationsApiProto
 
 
 class BaseAssignationsApi(AssignationsApiProto):

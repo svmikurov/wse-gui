@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Protocol
+from typing import Protocol
 
 from wse.core.api import ExerciseApiProto
-
-from .schema import Assigned, ExerciseMeta
-
-if TYPE_CHECKING:
-    from . import ExerciseInfo
+from wse.feature.shared.schemas.exercise import (
+    Assigned,
+    ExerciseInfo,
+    ExerciseMeta,
+)
 
 
 class AssignationsApiProto(Protocol):

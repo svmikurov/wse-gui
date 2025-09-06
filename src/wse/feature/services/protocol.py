@@ -2,9 +2,9 @@
 
 from typing import Protocol, TypeVar
 
-from wse.apps.main.api.schema import Assigned
 from wse.apps.math.api import Calculation
 from wse.core.api.response import RelatedData
+from wse.feature.shared.schemas.exercise import Assigned
 
 from . import Answer, Question, Result
 

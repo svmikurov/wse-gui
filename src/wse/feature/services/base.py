@@ -2,8 +2,8 @@
 
 from typing import TypeVar
 
-from wse.apps.main.api.schema import ExerciseMeta
 from wse.core.api import ExerciseApiProto, RelatedData
+from wse.feature.shared.schemas.exercise import ExerciseMeta
 
 from . import Answer, Question, Result
 from .abc import BaseExerciseService

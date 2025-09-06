@@ -2,9 +2,9 @@
 
 from typing import Protocol
 
-from wse.apps.main.api.schema import ExerciseInfo
 from wse.feature.interfaces.icontent import GetContentProto
 from wse.feature.interfaces.iobserver import Observable
+from wse.feature.shared.schemas.exercise import ExerciseInfo
 
 
 class AssignationsContainerProto(
