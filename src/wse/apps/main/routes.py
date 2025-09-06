@@ -1,6 +1,6 @@
 """Defines Main application navigation components."""
 
-from typing import no_type_check
+from typing import Any, Type, no_type_check
 
 from wse.apps.nav_id import NavID
 from wse.feature.base import BaseRoutes
@@ -17,11 +17,11 @@ class MainRoutes(BaseRoutes):
 
     @property
     @no_type_check
-    def routes(self) -> dict[NavID, PageControllerProto]:
+    def routes(self) -> dict[NavID, Type[PageControllerProto[Any]]]:
         """Get page routes."""
         return {
-            NavID.HOME: self._injector.get(HomeControllerProto),
-            NavID.LOGIN: self._injector.get(AuthControllerProto),
-            NavID.ASSIGNED: self._injector.get(AssignationsControllerProto),
-            NavID.EXERCISE: self._injector.get(AssignedControllerProto),
+            NavID.HOME: HomeControllerProto,
+            NavID.LOGIN: AuthControllerProto,
+            NavID.ASSIGNED: AssignationsControllerProto,
+            NavID.EXERCISE: AssignedControllerProto,
         }

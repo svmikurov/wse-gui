@@ -1,6 +1,6 @@
 """Page navigation service."""
 
-from typing import Any, Protocol
+from typing import Any, Protocol, Type
 
 import toga
 
@@ -19,6 +19,6 @@ class NavigatorProto(Protocol):
 
     def set_routes(
         self,
-        routes: dict[NavID, PageControllerProto[Any]],
+        routes: dict[NavID, Type[PageControllerProto[Any]]],
     ) -> None:
         """Set page route mapping."""

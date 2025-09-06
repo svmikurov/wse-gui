@@ -1,6 +1,6 @@
 """Defines Mathematics application navigation components."""
 
-from typing import no_type_check
+from typing import Any, Type, no_type_check
 
 from wse.apps.nav_id import NavID
 from wse.feature.base import BaseRoutes
@@ -15,9 +15,9 @@ class MathRoutes(BaseRoutes):
 
     @property
     @no_type_check
-    def routes(self) -> dict[NavID, PageControllerProto]:
+    def routes(self) -> dict[NavID, Type[PageControllerProto[Any]]]:
         """Get page routes."""
         return {
-            NavID.INDEX_MATH: self._injector.get(MathControllerProto),
-            NavID.SIMPLE_CALC: self._injector.get(CalculationControllerProto),
+            NavID.INDEX_MATH: MathControllerProto,
+            NavID.SIMPLE_CALC: CalculationControllerProto,
         }

@@ -1,7 +1,7 @@
 """Defines abstract base class for page routes."""
 
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Type
 
 from injector import Injector, inject
 
@@ -19,16 +19,18 @@ class BaseRoutes(ABC):
 
     @property
     @abstractmethod
-    def routes(self) -> dict[NavID, PageControllerProto[Any]]:
+    def routes(self) -> dict[NavID, Type[PageControllerProto[Any]]]:
         """Get the navigation ID mapping to page controllers.
 
         For example:
             @property
             @no_type_check
-            def routes(self) -> dict[NavID, PageControllerProto]:
+            def routes(self) -> dict[
+                NavID,
+                dict[NavID, Type[PageControllerProto[Any]]
+            ]:
                 return {
-                    NavID.INDEX_MATH: self._injector.get(
-                        MathControllerProto,
+                    NavID.INDEX_MATH: MathControllerProto[...],
                     ),
                     ...,
                 }

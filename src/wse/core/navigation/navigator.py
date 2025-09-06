@@ -4,9 +4,10 @@ from __future__ import annotations
 
 import logging
 from collections import deque
-from typing import Any
+from typing import Any, Type
 
 import toga
+from injector import Injector, NoInject, inject
 
 from wse.apps.nav_id import NavID
 from wse.core.exceptions import ContentError, NavigateError
@@ -20,16 +21,21 @@ HISTORY_LEN = 10
 class Navigator:
     """Page navigation service."""
 
-    _routes: dict[NavID, PageControllerProto[Any]]
-
     _PREVIOUS_PAGE_INDEX = -1
     _EXCLUDE_HISTORY: set[NavID] = {
         NavID.LOGOUT,
     }
 
-    def __init__(self, window: toga.Window | None = None) -> None:
+    @inject
+    def __init__(
+        self,
+        injector: Injector,
+        window: NoInject[toga.Window | None] = None,
+    ) -> None:
         """Construct the navigator."""
+        self._injector = injector
         self._window = window
+        self._routes: dict[NavID, Type[PageControllerProto[Any]]] = {}
         self._content_history: deque[NavID] = deque(maxlen=HISTORY_LEN)
 
     def navigate(self, nav_id: NavID, **kwargs: object) -> None:
@@ -50,7 +56,9 @@ class Navigator:
             raise NavigateError('Window is not initialized')
 
         try:
-            page_controller = self._get_page_controller(nav_id)
+            page_controller = self._injector.get(
+                self._get_page_controller(nav_id)
+            )
         except ContentError:
             logger.error(f"The navigation to the '{nav_id}' has failed")
             raise
@@ -69,7 +77,7 @@ class Navigator:
 
     def set_routes(
         self,
-        routes: dict[NavID, PageControllerProto[Any]],
+        routes: dict[NavID, Type[PageControllerProto[Any]]],
     ) -> None:
         """Set page route mapping."""
         self._routes = routes
@@ -77,7 +85,7 @@ class Navigator:
     def _get_page_controller(
         self,
         nav_id: NavID,
-    ) -> PageControllerProto[Any]:
+    ) -> Type[PageControllerProto[Any]]:
         if self._routes is None:
             raise NavigateError('Route mapping is not initialized')
 

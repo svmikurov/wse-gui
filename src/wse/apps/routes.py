@@ -1,7 +1,7 @@
 """Defines navigation combined applications page routes."""
 
 from dataclasses import dataclass
-from typing import no_type_check
+from typing import Any, Type, no_type_check
 
 from injector import inject
 
@@ -21,7 +21,7 @@ class Routes:
 
     @property
     @no_type_check
-    def routes(self) -> dict[NavID, PageControllerProto]:
+    def routes(self) -> dict[NavID, Type[PageControllerProto[Any]]]:
         """Get page routes."""
         return {
             **self._main_routes.routes,
