@@ -10,7 +10,7 @@ from wse.feature.base.mvc_exercise import ExerciseViewObserver
 from wse.feature.interfaces.imvc_exercise import ExerciseModelFeatureProto
 from wse.feature.shared.views import IntegerViewProto
 
-from .protocols import CalculationModelProto
+from .protocol import CalculationModelProto
 
 
 @inject

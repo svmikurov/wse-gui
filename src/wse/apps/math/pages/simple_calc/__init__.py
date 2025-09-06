@@ -4,6 +4,6 @@ __all__ = [
     'CalculationControllerProto',
 ]
 
-from .protocols import (
+from .protocol import (
     CalculationControllerProto,
 )

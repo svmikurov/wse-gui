@@ -9,7 +9,7 @@ from wse.apps.math.sources.selection import ExerciseSelectSource
 
 from .controller import CalculationController
 from .model import CalculationModel
-from .protocols import (
+from .protocol import (
     CalculationControllerProto,
     CalculationModelProto,
 )
