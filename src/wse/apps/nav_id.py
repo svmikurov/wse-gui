@@ -21,3 +21,6 @@ class NavID(BaseEnum):
     # Math app
     INDEX_MATH = 'Main math page'
     SIMPLE_CALC = 'Simple math calculation page'
+
+    # UI route
+    CALCULATION = 'Calculation'

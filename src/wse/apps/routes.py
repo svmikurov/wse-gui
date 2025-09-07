@@ -7,6 +7,7 @@ from injector import inject
 
 from ..feature.base import BaseRoutes
 from ..feature.interfaces.imvc import PageControllerProto
+from ..ui.routes import UIRoutes
 from .main.protocol import MainRoutesProto
 from .math.protocol import MathRoutesProto
 from .nav_id import NavID
@@ -19,6 +20,7 @@ class Routes(BaseRoutes):
 
     _main_routes: MainRoutesProto
     _math_routes: MathRoutesProto
+    _ui_routes: UIRoutes
 
     @property
     @no_type_check
@@ -27,4 +29,5 @@ class Routes(BaseRoutes):
         return {
             **self._main_routes.routes,
             **self._math_routes.routes,
+            **self._ui_routes.routes,
         }

@@ -2,6 +2,10 @@
 
 __all__ = [
     'CalculationModelViewProto',
+    'CalculationViewProto',
 ]
 
-from .protocol import CalculationModelViewProto
+from .protocol import (
+    CalculationModelViewProto,
+    CalculationViewProto,
+)
