@@ -13,8 +13,8 @@ from wse.domain import (
 from .abc import BaseCalculationModelView
 
 
-@dataclass
 @inject
+@dataclass
 class CalculationModelView(
     BaseCalculationModelView,
 ):

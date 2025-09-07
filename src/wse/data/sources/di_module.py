@@ -9,7 +9,7 @@ from . import (
 )
 
 
-class DataModule(Module):
+class SourceModule(Module):
     """Data sources DI module."""
 
     @no_type_check

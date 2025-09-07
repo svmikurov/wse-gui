@@ -19,8 +19,8 @@ from .abc import BaseCalculationRepository
 logger = logging.getLogger(__name__)
 
 
-@dataclass
 @inject
+@dataclass
 class CalculationRepository(BaseCalculationRepository):
     """Protocol for exercise repository interface."""
 

@@ -24,8 +24,8 @@ from wse.utils.i18n import _, label_
 from .protocol import CalculationModelViewProto
 
 
-@dataclass
 @inject
+@dataclass
 class CalculationView(
     TopBarViewMixin,
     View,
@@ -42,6 +42,7 @@ class CalculationView(
 
     def __post_init__(self) -> None:
         """Construct the view."""
+        super().__post_init__()
         self._numpad.add_observer(self)
         self._content.test_id = NavID.SIMPLE_CALC
 

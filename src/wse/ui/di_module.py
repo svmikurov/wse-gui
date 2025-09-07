@@ -5,7 +5,13 @@ from typing import no_type_check
 from injector import Binder, Module
 from typing_extensions import override
 
-from wse.ui.routes import UIRoutes
+from .calculation import (
+    CalculationModelViewProto,
+    CalculationViewProto,
+)
+from .calculation.state import CalculationModelView
+from .calculation.view import CalculationView
+from .routes import UIRoutes
 
 
 class UIModule(Module):
@@ -16,3 +22,5 @@ class UIModule(Module):
     def configure(self, binder: Binder) -> None:
         """Configure the bindings."""
         binder.bind(UIRoutes)
+        binder.bind(CalculationModelViewProto, to=CalculationModelView)
+        binder.bind(CalculationViewProto, to=CalculationView)
