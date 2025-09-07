@@ -4,7 +4,7 @@ import json
 
 from injector import Module, provider, singleton
 
-from wse.config.api_paths import APIConfigV1
+from wse.config.api_paths import APIConfigV1, MathAPIConfigV1
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.config.settings import (
     CONFIGS_PATH,
@@ -18,6 +18,7 @@ LAYOUT_STYLE_PATH = STYLE_PATH / LAYOUT_STYLE
 LAYOUT_THEME_PATH = STYLE_PATH / LAYOUT_THEME
 
 API_CONFIG_PATH = CONFIGS_PATH / 'api.json'
+MATH_API_CONFIG_PATH = CONFIGS_PATH / 'api_MATH.json'
 
 
 class ConfigModule(Module):
@@ -29,6 +30,13 @@ class ConfigModule(Module):
         """Provide API configuration."""
         with open(API_CONFIG_PATH, 'r') as f:
             return APIConfigV1(**json.load(f))
+
+    @provider
+    @singleton
+    def provide_math_api_config(self) -> MathAPIConfigV1:
+        """Provide Math API configuration."""
+        with open(MATH_API_CONFIG_PATH, 'r') as f:
+            return MathAPIConfigV1(**json.load(f))
 
     @provider
     @singleton
