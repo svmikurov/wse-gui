@@ -4,10 +4,10 @@ import toga
 
 from wse.apps.nav_id import NavID
 
-from ...interfaces.iwidgets import NavButtonProto
+from ...interfaces.iwidgets import NavigableButton
 
 
-class NavButton(toga.Button, NavButtonProto):  # type: ignore[misc]
+class NavButton(toga.Button, NavigableButton):  # type: ignore[misc]
     """Navigation button.
 
     Added `nav_id` attribute to implement navigation.

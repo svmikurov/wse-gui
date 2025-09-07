@@ -8,7 +8,7 @@ from wse_exercises.base.enums import ExerciseEnum
 
 from wse.apps.math.api import Calculation
 from wse.apps.nav_id import NavID
-from wse.core.interfaces import NavigatorProto
+from wse.core.interfaces import Navigable
 from wse.feature.base.mvc import PageController
 from wse.feature.interfaces.imvc import ModelProto
 from wse.feature.shared.containers.top_bar import TopBarControllerMixin
@@ -24,7 +24,7 @@ class _ModelObserver(
 ):
     """Mixin providing observe on Index Math page model."""
 
-    _navigator: NavigatorProto
+    _navigator: Navigable
 
     def exercise_started(self, value: Calculation) -> None:
         """Navigate to exercise page."""

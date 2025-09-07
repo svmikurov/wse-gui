@@ -6,7 +6,7 @@ from injector import inject
 from typing_extensions import override
 
 from wse.apps.nav_id import NavID
-from wse.core.interfaces import NavigatorProto
+from wse.core.interfaces import Navigable
 from wse.feature.base.mvc import PageController
 
 from .abc import (
@@ -24,7 +24,7 @@ class _ViewObserve(
     """Mixin providing observe of assigned view event."""
 
     _model: AssignationsModelProto
-    _navigator: NavigatorProto
+    _navigator: Navigable
 
     @override
     def exercise_selected(self, assignation_id: str) -> None:

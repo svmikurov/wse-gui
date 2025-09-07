@@ -10,7 +10,7 @@ from wse.core.auth import AuthServiceProto
 
 from .apps.nav_id import NavID
 from .config.layout import StyleConfig
-from .core.interfaces import NavigatorProto, RoutesProto
+from .core.interfaces import Navigable, RoutesProto
 from .di import create_injector
 
 logger = logging.getLogger(__name__)
@@ -21,7 +21,7 @@ class WSE(toga.App):  # type: ignore[misc]
 
     _injector: Injector
     _layout_config: StyleConfig
-    _navigator: NavigatorProto
+    _navigator: Navigable
     _start_page_id = NavID.HOME
 
     def startup(self) -> None:
@@ -60,7 +60,7 @@ class WSE(toga.App):  # type: ignore[misc]
 
     def _set_navigator(self) -> None:
         """Set the page navigator."""
-        self._navigator = self._injector.get(NavigatorProto)  # type: ignore[type-abstract]
+        self._navigator = self._injector.get(Navigable)  # type: ignore[type-abstract]
         routes = self._injector.get(RoutesProto).routes  # type: ignore[type-abstract]
 
         # Configure navigator

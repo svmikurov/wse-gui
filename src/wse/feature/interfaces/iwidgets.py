@@ -9,7 +9,7 @@ from wse.apps.nav_id import NavID
 from ..interfaces.istyle import StyleMixinProto
 
 
-class NavButtonProto(
+class NavigableButton(
     StyleMixinProto,
     Protocol,
 ):

@@ -4,12 +4,12 @@ from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 
 from wse.apps.nav_id import NavID
-from wse.core.interfaces import NavigatorProto
+from wse.core.interfaces import Navigable
 
 from ..interfaces.icontent import ContentProto
 from ..interfaces.imvc import ModelProto
 from ..interfaces.iobserver import Observable, ObserverProto
-from ..interfaces.iwidgets import NavButtonProto
+from ..interfaces.iwidgets import NavigableButton
 from ..interfaces.types import NotifyT
 from ..shared.widgets.buttons import NavButton
 
@@ -36,7 +36,7 @@ class SetupMixin:
 class NavigateMixin:
     """Mixin to provide navigation functionality."""
 
-    _navigator: NavigatorProto
+    _navigator: Navigable
 
     def navigate(self, nav_id: NavID, **kwargs: dict[str, Any]) -> None:
         """Navigate to page."""
@@ -75,11 +75,11 @@ class CreateNavButtonMixin:
 
     _subject: Observable
 
-    def _create_nav_btn(self, nav_id: NavID) -> NavButtonProto:
+    def _create_nav_btn(self, nav_id: NavID) -> NavigableButton:
         """Create navigation button."""
         return NavButton(nav_id=nav_id, on_press=self._handle_navigate)
 
-    def _handle_navigate(self, button: NavButtonProto) -> None:
+    def _handle_navigate(self, button: NavigableButton) -> None:
         """Handle navigation button press."""
         self._subject.notify('navigate', nav_id=button.nav_id)
 

@@ -1,9 +1,9 @@
 """Defines protocols for core package interfaces."""
 
 __all__ = [
-    'NavigatorProto',
+    'Navigable',
     'RoutesProto',
 ]
 
-from .inavigator import NavigatorProto
+from .inavigator import Navigable
 from .iroutes import RoutesProto

@@ -18,7 +18,7 @@ from .api import AuthAPIjwtProto
 from .api.auth_jwt import AuthAPIjwt
 from .auth.service import AuthService
 from .http import AuthSchemeProto, HttpClientProto
-from .interfaces import NavigatorProto
+from .interfaces import Navigable
 from .interfaces.istorage import JWTJsonStorageProto
 from .navigation.navigator import Navigator
 from .storage import JWTJsonStorage
@@ -31,7 +31,7 @@ class CoreModule(Module):
     def configure(self, binder: Binder) -> None:
         """Configure dependencies."""
         # Navigation service
-        binder.bind(NavigatorProto, to=Navigator, scope=singleton)
+        binder.bind(Navigable, to=Navigator, scope=singleton)
 
         # Storage service
         binder.bind(JWTJsonStorageProto, JWTJsonStorage)

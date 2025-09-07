@@ -8,7 +8,7 @@ from wse.apps.nav_id import NavID
 from wse.feature.interfaces.imvc import PageControllerProto
 
 
-class NavigatorProto(Protocol):
+class Navigable(Protocol):
     """Page navigation service interface."""
 
     def navigate(self, nav_id: NavID, **kwargs: object) -> None:

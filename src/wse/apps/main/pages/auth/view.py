@@ -12,7 +12,7 @@ from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.feature.base import View
 from wse.feature.base.mixins import AddObserverGen, CreateNavButtonMixin
-from wse.feature.interfaces.iwidgets import NavButtonProto
+from wse.feature.interfaces.iwidgets import NavigableButton
 from wse.feature.shared.containers.login import (
     LoginControllerProto,
     LoginObserver,
@@ -62,7 +62,7 @@ class _Callback(
 ):
     """Mixin providing callback functions."""
 
-    def _handle_navigate(self, button: NavButtonProto) -> None:
+    def _handle_navigate(self, button: NavigableButton) -> None:
         """Handle navigation button press."""
         self._clear_credential()
         super()._handle_navigate(button)
