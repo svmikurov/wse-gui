@@ -79,3 +79,7 @@ class CalculationView(
         self._label_title.text = label_('Simple calculation title')
         self._btn_submit.text = _('Send answer')
         self._btn_next.text = _('Next task')
+
+    def navigate(self, nav_id: NavID) -> None:
+        """Navigate."""
+        self._mv.navigate(nav_id)

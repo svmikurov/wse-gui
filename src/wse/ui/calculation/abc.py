@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 
 from typing_extensions import override
 
+from ...apps.nav_id import NavID
 from . import CalculationModelViewProto
 
 
@@ -22,3 +23,8 @@ class BaseCalculationModelView(
     @override
     def get_task(self) -> None:
         """Get next task."""
+
+    @abstractmethod
+    @override
+    def navigate(self, nav_id: NavID) -> None:
+        """Notify to navigate."""
