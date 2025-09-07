@@ -1,6 +1,9 @@
 WSE GUI
 =======
 
+__NOTE: The application architecture is being refactored 
+like [Android app](https://developer.android.com/topic/architecture?hl=ru#recommended-app-arch)__
+
 # Install development mode
 
 ## Create environment
