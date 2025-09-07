@@ -5,6 +5,7 @@ from typing import Any, Type, no_type_check
 
 from injector import inject
 
+from ..feature.base import BaseRoutes
 from ..feature.interfaces.imvc import PageControllerProto
 from .main.protocol import MainRoutesProto
 from .math.protocol import MathRoutesProto
@@ -13,7 +14,7 @@ from .nav_id import NavID
 
 @inject
 @dataclass
-class Routes:
+class Routes(BaseRoutes):
     """Route mapping navigation ID with pages."""
 
     _main_routes: MainRoutesProto

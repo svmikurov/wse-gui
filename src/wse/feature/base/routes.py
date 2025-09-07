@@ -3,19 +3,12 @@
 from abc import ABC, abstractmethod
 from typing import Any, Type
 
-from injector import Injector, inject
-
 from ...apps.nav_id import NavID
 from ..interfaces.imvc import PageControllerProto
 
 
 class BaseRoutes(ABC):
     """Abstract base class for page routes."""
-
-    @inject
-    def __init__(self, injector: Injector) -> None:
-        """Construct page routes."""
-        self._injector = injector
 
     @property
     @abstractmethod
