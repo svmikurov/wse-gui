@@ -11,12 +11,15 @@ from wse.core.api import QuestionResponse, ResultResponse
 from wse.core.api.base import ExerciseApi
 from wse.feature.services import Answer
 
+from .protocol import CalculationApiProto
+
 logger = logging.getLogger(__name__)
 
 
 @inject
 class CalculationApiClient(
     ExerciseApi[Calculation],
+    CalculationApiProto,
 ):
     """Exercise API client."""
 
