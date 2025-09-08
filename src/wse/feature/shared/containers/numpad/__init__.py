@@ -8,7 +8,7 @@ __all__ = [
     'NumpadContainer',
     'NumpadController',
     'NumpadModel',
-    'NumpadObserver',
+    'BaseNumpadObserver',
 ]
 
 from .components import (
@@ -16,7 +16,7 @@ from .components import (
     NumpadController,
     NumpadModel,
 )
-from .interface import NumpadObserver
+from .interface import BaseNumpadObserver
 from .protocols import (
     NumpadContainerProto,
     NumpadControllerProto,

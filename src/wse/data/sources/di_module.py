@@ -5,7 +5,7 @@ from typing import no_type_check
 from injector import Binder, Module, SingletonScope
 
 from . import (
-    TaskData,
+    TaskSource,
 )
 
 
@@ -15,4 +15,4 @@ class SourceModule(Module):
     @no_type_check
     def configure(self, binder: Binder) -> None:
         """Configure the bindings."""
-        binder.bind(TaskData, scope=SingletonScope)
+        binder.bind(TaskSource, scope=SingletonScope)

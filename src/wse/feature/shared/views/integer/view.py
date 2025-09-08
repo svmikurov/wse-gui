@@ -15,8 +15,8 @@ from wse.feature.base.mvc_exercise import ExerciseModelObserver
 from wse.feature.interfaces.icontent import GetContentProto
 from wse.feature.interfaces.iobserver import Observable
 from wse.feature.shared.containers import (
+    BaseNumpadObserver,
     NumpadControllerProto,
-    NumpadObserver,
     TextTaskContainerProto,
 )
 from wse.feature.shared.containers.top_bar import TopBarViewMixin
@@ -96,7 +96,7 @@ class _ModelObserver(
 
 
 class _NumpadObserver(
-    NumpadObserver,
+    BaseNumpadObserver,
     AddObserverGen[_NotifyType],
 ):
     """Mixin providing observe of numpad container event."""

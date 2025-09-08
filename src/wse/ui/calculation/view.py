@@ -1,7 +1,7 @@
 """Calculation exercise view."""
 
 from dataclasses import dataclass
-from typing import Type
+from typing import Literal, Type
 
 import toga
 from injector import inject
@@ -10,7 +10,9 @@ from typing_extensions import override
 from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.feature.base import View
+from wse.feature.base.mixins import AddObserverGen
 from wse.feature.shared.containers import (
+    BaseNumpadObserver,
     NumpadControllerProto,
     TextTaskContainerProto,
 )
@@ -21,18 +23,24 @@ from wse.feature.shared.widgets import (
 )
 from wse.utils.i18n import _, label_
 
+from .abc import BaseCalculationViewModelObserver
 from .protocol import CalculationModelViewProto
+
+_NotifyType = Literal['navigate']
 
 
 @inject
 @dataclass
 class CalculationView(
     TopBarViewMixin,
+    BaseNumpadObserver,
+    BaseCalculationViewModelObserver,
     View,
+    AddObserverGen[_NotifyType],
 ):
     """Calculation exercise view."""
 
-    _mv: CalculationModelViewProto
+    _state: CalculationModelViewProto
     _task_panel: TextTaskContainerProto
     _numpad: NumpadControllerProto
 
@@ -43,8 +51,9 @@ class CalculationView(
     def __post_init__(self) -> None:
         """Construct the view."""
         super().__post_init__()
-        self._numpad.add_observer(self)
         self._content.test_id = NavID.SIMPLE_CALC
+        self._numpad.add_observer(self)
+        self._state.add_observer(self)
 
     @override
     def _populate_content(self) -> None:
@@ -63,8 +72,8 @@ class CalculationView(
     @override
     def _create_ui(self) -> None:
         self._label_title = toga.Label('')
-        self._btn_submit = toga.Button('', on_press=self._mv.submit_answer)
-        self._btn_next = toga.Button('', on_press=self._mv.get_task)
+        self._btn_submit = toga.Button('', on_press=self._state.submit_answer)
+        self._btn_next = toga.Button('', on_press=self._state.updated_task)
 
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
@@ -80,6 +89,71 @@ class CalculationView(
         self._btn_submit.text = _('Send answer')
         self._btn_next.text = _('Next task')
 
+    # Feature
+
+    @override
     def navigate(self, nav_id: NavID) -> None:
         """Navigate."""
-        self._mv.navigate(nav_id)
+        self._state.navigate(nav_id)
+
+    def on_open(self) -> None:
+        """Call methods on page open."""
+        self._state.start_task()
+
+    # State observe
+
+    @override
+    def question_updated(self, value: str) -> None:
+        """Handle the model event on task update."""
+        self._reset_layout()
+        self._task_panel.display_question(value)
+
+    @override
+    def answer_updated(self, value: str) -> None:
+        """Handle the model event on task update."""
+        self._task_panel.display_answer(value)
+
+    @override
+    def answer_incorrect(self, value: str) -> None:
+        """Handle the model event on incorrect answer."""
+        self._task_panel.display_correct_answer(value)
+        self._set_next_btn()
+        self._numpad.disable_buttons()
+
+    @override
+    def state_reset(self) -> None:
+        """Handle the model event on task update."""
+        self._task_panel.clear_question()
+        self._task_panel.clear_answer()
+        self._numpad.clear_input()
+
+    # Numpad observe
+
+    @override
+    def numpad_entered(self, value: str) -> None:
+        """Update user input."""
+        self._state.update_answer(value=value)
+
+    # Utility methods
+
+    def _reset_layout(self) -> None:
+        """Reset to initial layout."""
+        self._set_submit_btn()
+        self._task_panel.clear_question()
+        self._task_panel.clear_answer()
+        self._numpad.clear_input()
+        self._numpad.enable_buttons()
+
+    def _set_next_btn(self) -> None:
+        try:
+            self.content.replace(self._btn_submit, self._btn_next)
+        except ValueError:
+            # The button is already sets
+            pass
+
+    def _set_submit_btn(self) -> None:
+        try:
+            self.content.replace(self._btn_next, self._btn_submit)
+        except ValueError:
+            # The button is already sets
+            pass

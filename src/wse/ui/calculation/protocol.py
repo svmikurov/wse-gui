@@ -2,25 +2,54 @@
 
 from typing import Protocol
 
+import toga
+
 from wse.apps.nav_id import NavID
 from wse.feature.interfaces.icontent import GetContentProto
+from wse.feature.interfaces.iobserver import AddObserverProto
 
 
-class CalculationModelViewProto(Protocol):
+class CalculationModelViewProto(
+    AddObserverProto,
+    Protocol,
+):
     """Protocol for Calculation exercise page ModelView interface."""
 
-    def submit_answer(self) -> None:
-        """Submit user answer."""
+    def start_task(self) -> None:
+        """Start new task."""
 
-    def get_task(self) -> None:
-        """Get next task."""
+    def update_answer(self, value: str) -> None:
+        """Update user answer."""
+
+    def submit_answer(self, button: toga.Button) -> None:
+        """Submit user answer, button callback."""
+
+    def updated_task(self, button: toga.Button) -> None:
+        """Get next task, button callback."""
 
     def navigate(self, nav_id: NavID) -> None:
         """Notify to navigate."""
 
 
+class CalculationViewModelObserverProto(Protocol):
+    """Protocol for task source observe protocol."""
+
+    def question_updated(self, value: str) -> None:
+        """Handle the model event on task update."""
+
+    def answer_updated(self, value: str) -> None:
+        """Handle the model event on answer update."""
+
+    def answer_incorrect(self, value: str) -> None:
+        """Handle the model event on incorrect answer."""
+
+    def state_reset(self) -> None:
+        """Handle the reset state event."""
+
+
 class CalculationViewProto(
     GetContentProto,
+    CalculationViewModelObserverProto,
     Protocol,
 ):
     """Protocol for Calculation view."""

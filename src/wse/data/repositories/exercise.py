@@ -13,7 +13,7 @@ from wse.config.api_paths import MathAPIConfigV1
 from wse.core.api import RelatedData
 from wse.feature.shared.schemas.task import Answer, Question, Result
 
-from ..sources import TaskData
+from ..sources import TaskSource
 from .abc import BaseCalculationRepository
 
 logger = logging.getLogger(__name__)
@@ -26,13 +26,13 @@ class CalculationRepository(BaseCalculationRepository):
 
     _api_client: CalculationApiProto
     _api_config: MathAPIConfigV1
-    _task_data: TaskData
+    _task_data: TaskSource
 
     @override
     def fetch_task(self) -> None:
         """Fetch calculation exercise task question."""
         if response := self._api_client.request_task(self._get_exercise()):
-            self._update_question(response.data)
+            self._update_task(response.data)
             self._handle_related(response.related_data)
 
     @override
@@ -65,14 +65,13 @@ class CalculationRepository(BaseCalculationRepository):
             ),
         )
 
-    def _update_question(self, data: Question) -> None:
-        self._task_data.uid = data.uid
-        self._task_data.question = data.question
+    def _update_task(self, data: Question) -> None:
+        self._task_data.set_task(uid=data.uid, question=data.question)
 
     # TODO: Implement method
     def _update_result(self, data: Result) -> None:
-        raise NotImplementedError
+        self._task_data.set_result(data)
 
     # TODO: Implement method
     def _handle_related(self, data: RelatedData | None) -> None:
-        raise NotImplementedError
+        logger.warning('Called not implemented `_handle_related` method')
