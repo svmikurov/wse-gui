@@ -7,6 +7,7 @@ from wse.apps.main.apps import MAIN_APP_MODULES
 from wse.apps.math.apps import MATH_APP_MODULES
 from wse.config.di_module import ConfigModule
 from wse.core.di_module import CoreModule
+from wse.data.di_module import DataModule
 from wse.data.repositories.di_module import RepositoryModule
 from wse.data.sources.di_module import SourceModule
 from wse.domain.di_module import UseCaseModule
@@ -38,6 +39,8 @@ def create_injector() -> Injector:
             # data/
             RepositoryModule(),
             SourceModule(),
+            # Temporary for architecture study
+            DataModule(),
         ]
         # features/subapps/
         + MAIN_APP_MODULES
