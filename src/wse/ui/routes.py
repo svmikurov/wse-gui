@@ -4,8 +4,7 @@ from typing import no_type_check
 
 from wse.apps.nav_id import NavID
 from wse.feature.interfaces.icontent import GetContentProto
-
-from .calculation import CalculationViewProto
+from wse.ui.math.calculation import CalculationViewProto
 
 
 class UIRoutes:

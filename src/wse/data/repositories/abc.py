@@ -11,5 +11,5 @@ class BaseCalculationRepository(ABC):
         """Fetch calculation exercise task question."""
 
     @abstractmethod
-    def check_answer(self, answer: str) -> None:
-        """Check calculation exercise task user answer."""
+    def fetch_result(self, answer: str) -> None:
+        """Fetch user answer check result."""

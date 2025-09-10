@@ -6,11 +6,11 @@ from injector import Binder, Module
 
 from . import (
     CheckCalculationUseCaseProto,
-    GetQuestionUseCaseProto,
+    UpdateQuestionUseCaseProto,
 )
 from .task import (
     CheckCalculationUseCase,
-    GetQuestionUseCase,
+    UpdateQuestionUseCase,
 )
 
 
@@ -20,5 +20,5 @@ class UseCaseModule(Module):
     @no_type_check
     def configure(self, binder: Binder) -> None:
         """Configure the bindings."""
-        binder.bind(GetQuestionUseCaseProto, to=GetQuestionUseCase)
+        binder.bind(UpdateQuestionUseCaseProto, to=UpdateQuestionUseCase)
         binder.bind(CheckCalculationUseCaseProto, to=CheckCalculationUseCase)

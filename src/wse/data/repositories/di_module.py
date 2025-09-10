@@ -7,7 +7,7 @@ from injector import Binder, Module
 from . import (
     CalculationRepositoryProto,
 )
-from .exercise import CalculationRepository
+from .calculation_task import CalculationTaskRepository
 
 
 class RepositoryModule(Module):
@@ -16,4 +16,4 @@ class RepositoryModule(Module):
     @no_type_check
     def configure(self, binder: Binder) -> None:
         """Configure the bindings."""
-        binder.bind(CalculationRepositoryProto, to=CalculationRepository)
+        binder.bind(CalculationRepositoryProto, to=CalculationTaskRepository)

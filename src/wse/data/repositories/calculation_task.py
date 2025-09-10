@@ -14,6 +14,7 @@ from wse.core.api import RelatedData
 from wse.feature.shared.schemas.task import Answer, Question, Result
 
 from ..sources import TaskSource
+from ..sources.task import TaskSourceObserveT
 from .abc import BaseCalculationRepository
 
 logger = logging.getLogger(__name__)
@@ -21,12 +22,13 @@ logger = logging.getLogger(__name__)
 
 @inject
 @dataclass
-class CalculationRepository(BaseCalculationRepository):
-    """Protocol for exercise repository interface."""
+class CalculationTaskRepository(BaseCalculationRepository):
+    """Protocol for calculation task repository interface."""
 
     _api_client: CalculationApiProto
     _api_config: MathAPIConfigV1
     _task_data: TaskSource
+    # _exercise_data: ExerciseRepository
 
     @override
     def fetch_task(self) -> None:
@@ -36,18 +38,19 @@ class CalculationRepository(BaseCalculationRepository):
             self._handle_related(response.related_data)
 
     @override
-    def check_answer(self, answer: str) -> None:
-        """Check calculation exercise task user answer."""
+    def fetch_result(self, answer: str) -> None:
+        """Fetch user answer check result."""
         if not self._task_data.uid:
             logger.error('Task identifier was not set')
             return None
 
         if response := self._api_client.check_answer(
-            Answer(uid=self._task_data.uid, answer=answer),
-            self._get_exercise(),
+            answer=Answer(uid=self._task_data.uid, answer=answer),
+            exercise=self._get_exercise(),
         ):
             self._update_result(response.data)
             self._handle_related(response.related_data)
+
         return None
 
     # TODO: Fix development implementation of method
@@ -66,12 +69,23 @@ class CalculationRepository(BaseCalculationRepository):
         )
 
     def _update_task(self, data: Question) -> None:
-        self._task_data.set_task(uid=data.uid, question=data.question)
+        self._task_data.update_task(data)
 
     # TODO: Implement method
     def _update_result(self, data: Result) -> None:
-        self._task_data.set_result(data)
+        self._task_data.update_result(data)
 
     # TODO: Implement method
     def _handle_related(self, data: RelatedData | None) -> None:
         logger.warning('Called not implemented `_handle_related` method')
+
+    def throw_listener(
+        self,
+        listener: TaskSourceObserveT,
+    ) -> None:
+        """Subscribe listener to repository notifications."""
+        self._task_data.add_listener(listener)
+
+    def update_solution(self) -> None:
+        """Set current solution."""
+        self._task_data.update_solution()

@@ -1,6 +1,5 @@
-"""Calculation exercise ModelView."""
+"""Calculation exercise ViewModel."""
 
-import uuid
 from dataclasses import dataclass
 
 import toga
@@ -9,43 +8,52 @@ from typing_extensions import Literal, override
 
 from wse.apps.nav_id import NavID
 from wse.core.interfaces import Navigable
-from wse.data.sources import BaseTaskObserver, TaskSource
+from wse.data.sources.task import TaskSourceObserveABC
 from wse.domain import (
     CheckCalculationUseCaseProto,
-    GetQuestionUseCaseProto,
+    UpdateQuestionUseCaseProto,
+)
+from wse.domain.task import (
+    CalculationLogicUseCase,
+    SubscribeExerciseSourceUseCase,
 )
 from wse.feature.base.mixins import AddObserverGen
 
-from .abc import BaseCalculationModelView
+from .abc import CalculationViewModelABC
 
 _NotifyType = Literal[
     'question_updated',
     'answer_updated',
     'answer_incorrect',
+    'solution_updated',
     'state_reset',
 ]
 
 
 @inject
 @dataclass
-class CalculationModelView(
+class CalculationViewModel(
     AddObserverGen[_NotifyType],
-    BaseCalculationModelView,
-    BaseTaskObserver,
+    CalculationViewModelABC,
+    TaskSourceObserveABC,
 ):
-    """Calculation exercise ModelView."""
+    """Calculation exercise ViewModel."""
 
-    _question_case: GetQuestionUseCaseProto
-    _result_case: CheckCalculationUseCaseProto
     _navigator: Navigable
-    _task_data: TaskSource
+
+    _question_case: UpdateQuestionUseCaseProto
+    _result_case: CheckCalculationUseCaseProto
+    _logic_case: CalculationLogicUseCase
+    _source_proxy: SubscribeExerciseSourceUseCase
 
     def __post_init__(self) -> None:
         """Construct the view state."""
-        self._task_uid: uuid.UUID | None = None
+        self._source_proxy.subscribe(self)
+
+        # Related data
         self._question: str | None = None
         self._user_answer: str | None = None
-        self._task_data.add_listener(self)
+        self._solution: str | None = None
 
     # API
 
@@ -53,13 +61,13 @@ class CalculationModelView(
     def start_task(self) -> None:
         """Start new task."""
         self._reset_state()
-        self._question_case.fetch()
+        self._question_case.update()
 
     @override
-    def update_answer(self, value: str) -> None:
+    def update_answer(self, answer: str) -> None:
         """Update user answer."""
-        self._user_answer = value
-        self._notify('answer_updated', value=value)
+        self._user_answer = answer
+        self._notify('answer_updated', answer=answer)
 
     @override
     def navigate(self, nav_id: NavID) -> None:
@@ -75,35 +83,35 @@ class CalculationModelView(
             self._result_case.check(self._user_answer)
 
     @override
-    def updated_task(self, _: toga.Button) -> None:
+    def update_task(self, _: toga.Button) -> None:
         """Get next task."""
         self.start_task()
 
     # Task Source observe
 
     @override
-    def task_updated(self, uid: uuid.UUID, question: str) -> None:
-        """Update question."""
-        self._task_uid = uid
-        self._question = question
-        self._notify('question_updated', value=question)
-
-    @override
-    def answer_incorrect(self, value: str) -> None:
-        """Handle the incorrect answer event."""
-        self._notify('answer_incorrect', value=value)
-
-    @override
-    def answer_correct(self) -> None:
-        """Handle the correct answer event."""
+    def question_updated(self, question: str) -> None:
+        """Handle the 'task updated' source event."""
         self._reset_state()
-        self.start_task()
+        self._question = question
+        self._notify('question_updated', question=question)
+
+    @override
+    def result_updated(self, is_correct: bool) -> None:
+        """Handle the correct answer event."""
+        if not is_correct:
+            self._notify('answer_incorrect')
+
+    def solution_updated(self, solution: str) -> None:
+        """Handle the 'solution updated' the source event."""
+        self._solution = solution
+        self._notify('solution_updated', solution=solution)
 
     # Utility methods
 
     def _reset_state(self) -> None:
         """Reset UI state."""
-        self._task_uid = None
         self._question = None
         self._user_answer = None
+        self._solution = None
         self._notify('state_reset')

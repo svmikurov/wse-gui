@@ -3,15 +3,9 @@
 from abc import ABC, abstractmethod
 
 from injector import inject
-from typing_extensions import override
 
 from wse.data.repositories import (
     CalculationRepositoryProto,
-)
-
-from . import (
-    CheckCalculationUseCaseProto,
-    GetQuestionUseCaseProto,
 )
 
 
@@ -27,24 +21,20 @@ class _BaseUserCase:
 class BaseGetQuestionUseCase(
     _BaseUserCase,
     ABC,
-    GetQuestionUseCaseProto,
 ):
     """ABC for get calculation task question Use Case."""
 
     @abstractmethod
-    @override
-    def fetch(self) -> None:
+    def update(self) -> None:
         """Fetch task question."""
 
 
 class BaseCheckCalculationUseCase(
     _BaseUserCase,
     ABC,
-    CheckCalculationUseCaseProto,
 ):
     """ABC for check calculation user answer Use Case."""
 
     @abstractmethod
-    @override
     def check(self, answer: str) -> None:
         """Check user answer."""

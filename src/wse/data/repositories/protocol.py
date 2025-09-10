@@ -9,5 +9,5 @@ class CalculationRepositoryProto(Protocol):
     def fetch_task(self) -> None:
         """Fetch calculation exercise task question."""
 
-    def check_answer(self, answer: str) -> None:
+    def fetch_result(self, answer: str) -> None:
         """Check calculation exercise task user answer."""

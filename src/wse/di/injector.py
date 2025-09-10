@@ -7,7 +7,6 @@ from wse.apps.main.apps import MAIN_APP_MODULES
 from wse.apps.math.apps import MATH_APP_MODULES
 from wse.config.di_module import ConfigModule
 from wse.core.di_module import CoreModule
-from wse.data.di_module import DataModule
 from wse.data.repositories.di_module import RepositoryModule
 from wse.data.sources.di_module import SourceModule
 from wse.domain.di_module import UseCaseModule
@@ -16,6 +15,7 @@ from wse.feature.shared.containers.di_module import ContainerModule
 from wse.feature.shared.di_module import FeatureSharedModule
 from wse.feature.shared.widgets.di_module import WidgetsModule
 from wse.ui.di_module import UIModule
+from wse.ui.math.di_module import MathUIModule
 
 
 def create_injector() -> Injector:
@@ -34,13 +34,12 @@ def create_injector() -> Injector:
             ContainerModule(),
             # ui/
             UIModule(),
+            MathUIModule(),
             # domain/
             UseCaseModule(),
             # data/
             RepositoryModule(),
             SourceModule(),
-            # Temporary for architecture study
-            DataModule(),
         ]
         # features/subapps/
         + MAIN_APP_MODULES

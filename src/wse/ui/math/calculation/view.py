@@ -23,8 +23,8 @@ from wse.feature.shared.widgets import (
 )
 from wse.utils.i18n import _, label_
 
-from .abc import BaseCalculationViewModelObserver
-from .protocol import CalculationModelViewProto
+from .abc import CalculationViewModelObserverABC
+from .protocol import CalculationViewModelProto
 
 _NotifyType = Literal['navigate']
 
@@ -34,13 +34,13 @@ _NotifyType = Literal['navigate']
 class CalculationView(
     TopBarViewMixin,
     BaseNumpadObserver,
-    BaseCalculationViewModelObserver,
+    CalculationViewModelObserverABC,
     View,
     AddObserverGen[_NotifyType],
 ):
     """Calculation exercise view."""
 
-    _state: CalculationModelViewProto
+    _state: CalculationViewModelProto
     _task_panel: TextTaskContainerProto
     _numpad: NumpadControllerProto
 
@@ -73,7 +73,7 @@ class CalculationView(
     def _create_ui(self) -> None:
         self._label_title = toga.Label('')
         self._btn_submit = toga.Button('', on_press=self._state.submit_answer)
-        self._btn_next = toga.Button('', on_press=self._state.updated_task)
+        self._btn_next = toga.Button('', on_press=self._state.update_task)
 
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
@@ -100,25 +100,28 @@ class CalculationView(
         """Call methods on page open."""
         self._state.start_task()
 
-    # State observe
+    # State holder observe
 
     @override
-    def question_updated(self, value: str) -> None:
+    def question_updated(self, question: str) -> None:
         """Handle the model event on task update."""
-        self._reset_layout()
-        self._task_panel.display_question(value)
+        self._task_panel.display_question(question)
 
     @override
-    def answer_updated(self, value: str) -> None:
+    def answer_updated(self, answer: str) -> None:
         """Handle the model event on task update."""
-        self._task_panel.display_answer(value)
+        self._task_panel.display_answer(answer)
 
     @override
-    def answer_incorrect(self, value: str) -> None:
+    def answer_incorrect(self) -> None:
         """Handle the model event on incorrect answer."""
-        self._task_panel.display_correct_answer(value)
         self._set_next_btn()
         self._numpad.disable_buttons()
+
+    @override
+    def solution_updated(self, solution: str) -> None:
+        """Display correct solution."""
+        self._task_panel.display_correct_answer(solution)
 
     @override
     def state_reset(self) -> None:
@@ -126,23 +129,17 @@ class CalculationView(
         self._task_panel.clear_question()
         self._task_panel.clear_answer()
         self._numpad.clear_input()
+        self._set_submit_btn()
+        self._numpad.enable_buttons()
 
     # Numpad observe
 
     @override
     def numpad_entered(self, value: str) -> None:
         """Update user input."""
-        self._state.update_answer(value=value)
+        self._state.update_answer(answer=value)
 
     # Utility methods
-
-    def _reset_layout(self) -> None:
-        """Reset to initial layout."""
-        self._set_submit_btn()
-        self._task_panel.clear_question()
-        self._task_panel.clear_answer()
-        self._numpad.clear_input()
-        self._numpad.enable_buttons()
 
     def _set_next_btn(self) -> None:
         try:

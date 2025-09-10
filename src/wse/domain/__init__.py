@@ -1,11 +1,11 @@
 """Domain layer Use Cases."""
 
 __all__ = [
-    'GetQuestionUseCaseProto',
+    'UpdateQuestionUseCaseProto',
     'CheckCalculationUseCaseProto',
 ]
 
 from .protocol import (
     CheckCalculationUseCaseProto,
-    GetQuestionUseCaseProto,
+    UpdateQuestionUseCaseProto,
 )

@@ -3,10 +3,10 @@
 from typing import Protocol
 
 
-class GetQuestionUseCaseProto(Protocol):
+class UpdateQuestionUseCaseProto(Protocol):
     """Protocol for get task question Use Case interface."""
 
-    def fetch(self) -> None:
+    def update(self) -> None:
         """Fetch task."""
 
 

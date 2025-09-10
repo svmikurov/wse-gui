@@ -9,22 +9,22 @@ from wse.feature.interfaces.icontent import GetContentProto
 from wse.feature.interfaces.iobserver import AddObserverProto
 
 
-class CalculationModelViewProto(
+class CalculationViewModelProto(
     AddObserverProto,
     Protocol,
 ):
-    """Protocol for Calculation exercise page ModelView interface."""
+    """Protocol for Calculation exercise page ViewModel interface."""
 
     def start_task(self) -> None:
         """Start new task."""
 
-    def update_answer(self, value: str) -> None:
+    def update_answer(self, answer: str) -> None:
         """Update user answer."""
 
     def submit_answer(self, button: toga.Button) -> None:
         """Submit user answer, button callback."""
 
-    def updated_task(self, button: toga.Button) -> None:
+    def update_task(self, button: toga.Button) -> None:
         """Get next task, button callback."""
 
     def navigate(self, nav_id: NavID) -> None:

@@ -6,9 +6,11 @@ import toga
 
 from wse.apps.nav_id import NavID
 
+# ViewModel
 
-class BaseCalculationModelView(ABC):
-    """Abstract base class for Calculation exercise ModelView."""
+
+class CalculationViewModelABC(ABC):
+    """Abstract base class for Calculation exercise ViewModel."""
 
     @abstractmethod
     def start_task(self) -> None:
@@ -23,7 +25,7 @@ class BaseCalculationModelView(ABC):
         """Submit user answer."""
 
     @abstractmethod
-    def updated_task(self, button: toga.Button) -> None:
+    def update_task(self, button: toga.Button) -> None:
         """Get next task."""
 
     @abstractmethod
@@ -31,8 +33,8 @@ class BaseCalculationModelView(ABC):
         """Notify to navigate."""
 
 
-class BaseCalculationViewModelObserver(ABC):
-    """Protocol for task source observe protocol."""
+class CalculationViewModelObserverABC(ABC):
+    """ABC for observe for ViewModel event."""
 
     @abstractmethod
     def question_updated(self, value: str) -> None:
@@ -43,7 +45,11 @@ class BaseCalculationViewModelObserver(ABC):
         """Handle the model event on answer update."""
 
     @abstractmethod
-    def answer_incorrect(self, value: str) -> None:
+    def answer_incorrect(self) -> None:
+        """Handle the model event on incorrect answer."""
+
+    @abstractmethod
+    def solution_updated(self, solution: str) -> None:
         """Handle the model event on incorrect answer."""
 
     @abstractmethod
