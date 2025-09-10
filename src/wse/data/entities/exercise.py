@@ -8,7 +8,7 @@ class CalculationExercise:
     """Calculation exercise."""
 
     # TODO: Remove exercise name default value
-    name: str = 'multiplication'
+    name: str = 'division'
     min_value = '1'
     max_value = '9'
     question_url_path: str = '/api/v1/math/exercise/calculation/'

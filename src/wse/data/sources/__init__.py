@@ -2,6 +2,8 @@
 
 __all__ = [
     'TaskSource',
+    'CalculationExerciseSource',
 ]
 
+from .exercise import CalculationExerciseSource
 from .task import TaskSource

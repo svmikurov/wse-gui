@@ -1,4 +1,4 @@
-"""Exercise data source."""
+"""Calculation exercise data source."""
 
 from typing import Literal
 
@@ -7,8 +7,8 @@ from wse.data.entities.exercise import CalculationExercise
 _NotifyT = Literal['']
 
 
-class DivisionExerciseSource:
-    """Exercise data source."""
+class CalculationExerciseSource:
+    """Calculation exercise data source."""
 
     def __init__(self) -> None:
         """Construct the source."""
@@ -18,5 +18,5 @@ class DivisionExerciseSource:
 
     @property
     def data(self) -> CalculationExercise:
-        """Exercise source data."""
+        """Calculation exercise source data."""
         return self._exercise

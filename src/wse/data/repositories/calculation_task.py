@@ -16,6 +16,7 @@ from wse.feature.shared.schemas.task import Answer, Question, Result
 from ..sources import TaskSource
 from ..sources.task import TaskSourceObserveT
 from .abc import BaseCalculationRepository
+from .calculation_exercise import CalculationExerciseRepository
 
 logger = logging.getLogger(__name__)
 
@@ -27,8 +28,8 @@ class CalculationTaskRepository(BaseCalculationRepository):
 
     _api_client: CalculationApiProto
     _api_config: MathAPIConfigV1
-    _task_data: TaskSource
-    # _exercise_data: ExerciseRepository
+    _task_source: TaskSource
+    _exercise_source: CalculationExerciseRepository
 
     @override
     def fetch_task(self) -> None:
@@ -40,12 +41,12 @@ class CalculationTaskRepository(BaseCalculationRepository):
     @override
     def fetch_result(self, answer: str) -> None:
         """Fetch user answer check result."""
-        if not self._task_data.uid:
+        if not self._task_source.uid:
             logger.error('Task identifier was not set')
             return None
 
         if response := self._api_client.check_answer(
-            answer=Answer(uid=self._task_data.uid, answer=answer),
+            answer=Answer(uid=self._task_source.uid, answer=answer),
             exercise=self._get_exercise(),
         ):
             self._update_result(response.data)
@@ -60,7 +61,7 @@ class CalculationTaskRepository(BaseCalculationRepository):
             check_url_path=self._api_config.calculation.validate_answer,
             task_io='text',
             condition=CalculationCondition(
-                exercise_name='adding',
+                exercise_name=self._exercise_source.exercise,
                 config=CalculationConfig(
                     min_value='1',
                     max_value='9',
@@ -69,11 +70,11 @@ class CalculationTaskRepository(BaseCalculationRepository):
         )
 
     def _update_task(self, data: Question) -> None:
-        self._task_data.update_task(data)
+        self._task_source.update_task(data)
 
     # TODO: Implement method
     def _update_result(self, data: Result) -> None:
-        self._task_data.update_result(data)
+        self._task_source.update_result(data)
 
     # TODO: Implement method
     def _handle_related(self, data: RelatedData | None) -> None:
@@ -84,8 +85,8 @@ class CalculationTaskRepository(BaseCalculationRepository):
         listener: TaskSourceObserveT,
     ) -> None:
         """Subscribe listener to repository notifications."""
-        self._task_data.add_listener(listener)
+        self._task_source.add_listener(listener)
 
     def update_solution(self) -> None:
         """Set current solution."""
-        self._task_data.update_solution()
+        self._task_source.update_solution()
