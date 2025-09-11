@@ -16,12 +16,12 @@ from wse.feature.shared.schemas.exercise import (
     ExerciseMeta,
 )
 
-from .abc import BaseAssignationsApi
+from .abc import AssignationsApiABC
 
 logger = logging.getLogger(__name__)
 
 
-class AssignationsApi(BaseAssignationsApi):
+class AssignationsApi(AssignationsApiABC):
     """Exercise assignations API client."""
 
     @inject

@@ -4,7 +4,7 @@ from typing import no_type_check
 
 from injector import Binder, Module
 
-from . import (
+from .protocol import (
     CheckCalculationUseCaseProto,
     UpdateQuestionUseCaseProto,
 )

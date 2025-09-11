@@ -10,7 +10,7 @@ from wse.apps.main.api import AssignationsApiProto
 from wse.feature.base.mixins import AddObserverGen
 from wse.feature.shared.schemas.exercise import ExerciseMeta
 
-from .abc import AssignationsModelFeature, BaseAssignationsModel
+from .abc import AssignationsModelABC, AssignationsModelFeature
 
 _NotifyType = Literal['exercises_updated']
 
@@ -43,7 +43,7 @@ class _Feature(
 @dataclass
 class AssignationsModel(
     _Feature,
-    BaseAssignationsModel,
+    AssignationsModelABC,
 ):
     """Assigned exercises page model."""
 

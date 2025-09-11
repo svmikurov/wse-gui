@@ -9,13 +9,13 @@ from typing_extensions import override
 
 from wse.config.api_paths import APIConfigV1
 
-from .base import BaseHttpClient
+from .base import HttpClientABC
 from .protocol import AuthSchemeProto
 
 logger = logging.getLogger(__name__)
 
 
-class HttpClient(BaseHttpClient):
+class HttpClient(HttpClientABC):
     """Http client."""
 
     @inject

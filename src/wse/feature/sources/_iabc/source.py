@@ -1,7 +1,7 @@
 """Defines protocol for source interface."""
 
 from abc import ABC, abstractmethod
-from typing import Protocol
+from typing import Generic, Protocol
 
 from typing_extensions import override
 
@@ -49,7 +49,7 @@ class SourceProto(Protocol[ListenerT]):
 
 class SourceABC(
     ABC,
-    SourceProto[ListenerT],
+    Generic[ListenerT],
 ):
     """A base class for data sources.
 
@@ -60,7 +60,6 @@ class SourceABC(
 
     @property
     @abstractmethod
-    @override
     def listeners(self) -> list[ListenerT]:
         """The listeners of this data source.
 
@@ -69,7 +68,6 @@ class SourceABC(
         """
 
     @abstractmethod
-    @override
     def add_listener(self, listener: ListenerT) -> None:
         """Add a new listener to this data source.
 
@@ -80,7 +78,6 @@ class SourceABC(
         """
 
     @abstractmethod
-    @override
     def remove_listener(self, listener: ListenerT) -> None:
         """Remove a listener from this data source.
 
@@ -88,7 +85,6 @@ class SourceABC(
         """
 
     @abstractmethod
-    @override
     def notify(self, notification: str, **kwargs: object) -> None:
         """Notify all listeners an event has occurred.
 

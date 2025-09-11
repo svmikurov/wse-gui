@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 
 
-class BaseCalculationRepository(ABC):
+class CalculationRepoABC(ABC):
     """Abstract base class for calculation repository."""
 
     @abstractmethod

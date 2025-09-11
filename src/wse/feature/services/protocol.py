@@ -2,8 +2,8 @@
 
 from typing import Protocol, TypeVar
 
-from wse.apps.math.api import Calculation
 from wse.core.api.response import RelatedData
+from wse.feature.api.math import Calculation
 from wse.feature.shared.schemas.exercise import Assigned
 
 from . import Answer, Question, Result

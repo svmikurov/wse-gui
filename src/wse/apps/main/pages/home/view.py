@@ -33,7 +33,6 @@ class HomeViewLayout(
             self._btn_math,
             self._btn_assigned,
             self._btn_login,
-            self._btn_calculation,
         )
 
     @override
@@ -43,7 +42,6 @@ class HomeViewLayout(
         self._btn_logout = toga.Button(on_press=self._handle_logout)
         self._btn_math = self._create_nav_btn(nav_id=NavID.INDEX_MATH)
         self._btn_assigned = self._create_nav_btn(nav_id=NavID.ASSIGNED)
-        self._btn_calculation = self._create_nav_btn(nav_id=NavID.CALCULATION)
 
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
@@ -53,7 +51,6 @@ class HomeViewLayout(
         self._btn_logout.style.update(**config.btn_nav)
         self._btn_math.style.update(**config.btn_nav)
         self._btn_assigned.style.update(**config.btn_nav)
-        self._btn_calculation.style.update(**config.btn_nav)
 
     @override
     def localize_ui(self) -> None:
@@ -63,7 +60,6 @@ class HomeViewLayout(
         self._btn_logout.text = _('Logout')
         self._btn_math.text = nav_(NavID.INDEX_MATH)
         self._btn_assigned.text = nav_(NavID.ASSIGNED)
-        self._btn_calculation.text = nav_(NavID.CALCULATION)
 
     # Button callback function
 

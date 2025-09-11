@@ -4,21 +4,19 @@ from abc import ABC, abstractmethod
 
 from injector import inject
 
-from wse.data.repositories import (
-    CalculationRepositoryProto,
-)
+from wse.data.repositories.protocol import CalculationRepoProto
 
 
 class _BaseUserCase:
     """Base calculation exercise Use Case."""
 
     @inject
-    def __init__(self, repository: CalculationRepositoryProto) -> None:
+    def __init__(self, repository: CalculationRepoProto) -> None:
         """Construct the repository."""
         self._repository = repository
 
 
-class BaseGetQuestionUseCase(
+class GetQuestionUseCaseABC(
     _BaseUserCase,
     ABC,
 ):
@@ -29,7 +27,7 @@ class BaseGetQuestionUseCase(
         """Fetch task question."""
 
 
-class BaseCheckCalculationUseCase(
+class CheckCalculationUseCaseABC(
     _BaseUserCase,
     ABC,
 ):

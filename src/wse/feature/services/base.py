@@ -6,13 +6,13 @@ from wse.core.api import ExerciseApiProto, RelatedData
 from wse.feature.shared.schemas.exercise import ExerciseMeta
 
 from . import Answer, Question, Result
-from .abc import BaseExerciseService
+from .abc import ExerciseServiceABC
 
 ExerciseT = TypeVar('ExerciseT', bound=ExerciseMeta)
 
 
 class ExerciseService(
-    BaseExerciseService[ExerciseT],
+    ExerciseServiceABC[ExerciseT],
 ):
     """Exercise service."""
 

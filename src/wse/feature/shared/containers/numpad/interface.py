@@ -2,10 +2,8 @@
 
 from abc import ABC, abstractmethod
 
-from .protocols import NumpadObserverProto
 
-
-class BaseNumpadObserver(ABC, NumpadObserverProto):
+class NumpadObserverABC(ABC):
     """Abstract base class for numpad observer."""
 
     @abstractmethod

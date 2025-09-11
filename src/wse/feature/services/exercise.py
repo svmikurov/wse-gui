@@ -3,10 +3,10 @@
 from injector import inject
 
 from wse.apps.main.api.protocol import AssignedApiProto
-from wse.apps.math.api import Calculation
-from wse.apps.math.api.protocol import CalculationApiProto
+from wse.feature.api.math import Calculation
 from wse.feature.shared.schemas.exercise import Assigned
 
+from ..api.math.protocol import CalculationApiProto
 from .base import ExerciseService
 
 

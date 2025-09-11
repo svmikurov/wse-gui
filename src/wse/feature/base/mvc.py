@@ -10,8 +10,9 @@ from wse.config.layout import StyleConfig, ThemeConfig
 
 from ..interfaces.icontent import ContentProto
 from ..interfaces.imvc import ModelProto, ViewProto
-from .abstract.mvc import BaseContent
-from .container import NavigableContainer
+from ..interfaces.types import NotifyT
+from .abstract.mvc import ContentABC
+from .container import NavigableContainer, NavigableContainerGen
 from .mixins import (
     AddObserverMixin,
     NavigateMixin,
@@ -42,6 +43,20 @@ class View(
     NavigableContainer[StyleConfig, ThemeConfig],
     ABC,
 ):
+    """Base implementation for page view.
+
+    **DEPRECATED** Use: `ViewGen`.
+    """
+
+    _style: StyleConfig
+    _theme: ThemeConfig
+
+
+@dataclass
+class ViewGen(
+    NavigableContainerGen[NotifyT, StyleConfig, ThemeConfig],
+    ABC,
+):
     """Base implementation for page view."""
 
     _style: StyleConfig
@@ -54,14 +69,14 @@ class View(
 @dataclass
 class Controller(
     SetupMixin,
-    BaseContent,
+    ContentABC,
     ABC,
 ):
     """Abstract base class for controller."""
 
 
 @dataclass
-class BasePageController(
+class PageControllerABC(
     NavigateMixin,
     Controller,
     Generic[ViewT],

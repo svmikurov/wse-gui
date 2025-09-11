@@ -4,15 +4,15 @@ from typing import Protocol, Type
 
 from wse_exercises.base.enums import ExerciseEnum
 
-from wse.apps.math.sources.selection import ExerciseEntry
+from wse.feature.source_wraps.selection import ExerciseEntry
 from wse.feature.sources import SelectSourceProto
 
 
-class ExerciseSelectSourceProto(
+class ExerciseSelectWrapperProto(
     SelectSourceProto[ExerciseEnum],
     Protocol,
 ):
-    """Protocol for Exercise selection data source."""
+    """Protocol for Exercise selection data source wrap."""
 
     @property
     def entry_type(self) -> Type[ExerciseEntry]:

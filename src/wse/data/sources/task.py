@@ -1,6 +1,5 @@
 """Task data source."""
 
-import logging
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import replace
@@ -10,21 +9,19 @@ from wse.data.entities.task import Task
 from wse.data.sources.base.source import DataSourceGen
 from wse.feature.shared.schemas.task import Question, Result
 
-logger = logging.getLogger(__name__)
-
 _NotifyType = Literal[
     'question_updated',
     'result_updated',
     'solution_updated',
 ]
 
-TaskSourceObserveT = Union[
-    'TaskSourceResultObserveABC',
-    'TaskSourceObserveABC',
+TaskObserverT = Union[
+    'ResultObserverABC',
+    'TaskObserverABC',
 ]
 
 
-class TaskSourceResultObserveABC(ABC):
+class ResultObserverABC(ABC):
     """ABC for task source 'result update' event observer."""
 
     @abstractmethod
@@ -32,8 +29,8 @@ class TaskSourceResultObserveABC(ABC):
         """Handle the 'result updated' task source event."""
 
 
-class TaskSourceObserveABC(
-    TaskSourceResultObserveABC,
+class TaskObserverABC(
+    ResultObserverABC,
     ABC,
 ):
     """ABC for task source observer."""
@@ -49,7 +46,7 @@ class TaskSourceObserveABC(
 
 class TaskSource(
     DataSourceGen[
-        TaskSourceObserveT,
+        TaskObserverT,
         _NotifyType,
     ],
 ):
@@ -97,7 +94,3 @@ class TaskSource(
     def _reset_task(self) -> None:
         """Update task data."""
         self._task = None
-
-    def _raise_task_none(self) -> None:
-        if self._task is None:
-            raise AttributeError('The task was not set')

@@ -33,22 +33,20 @@ class TopBarContainerProto(
     """Protocol for top bar container interface."""
 
 
-class TopBarContainerFeaturesABC(ABC, TopBarContainerFeatureProto):
+class TopBarContainerFeaturesABC(ABC):
     """Abstract base class for top bar container features."""
 
     # API for container controller
 
     @abstractmethod
-    @override
     def update_balance(self, value: str) -> None:
         """Update balance."""
 
 
-class BaseTopBarContainer(
+class TopBarContainerABC(
     TopBarContainerFeaturesABC,
     NavigableContainer[StyleConfig, ThemeConfig],
     ABC,
-    TopBarContainerProto,
 ):
     """Base class for Top Bar container."""
 
@@ -85,7 +83,7 @@ class TopBarControllerFeaturesABC(ABC, TopBarControllerFeatureProto):
         """Update balance."""
 
 
-class BaseTopBarController(
+class TopBarControllerABC(
     AddObserverMixin,
     NotifyNavigateMixin,  # Container contains back button
     Controller,

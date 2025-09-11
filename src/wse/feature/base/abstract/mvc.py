@@ -31,7 +31,7 @@ class LocalizeMixin(ABC):
         """
 
 
-class BaseContent(ABC):
+class ContentABC(ABC):
     """Abstract base class for providing content."""
 
     @property

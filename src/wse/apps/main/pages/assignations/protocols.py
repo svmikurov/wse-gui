@@ -33,7 +33,7 @@ class AssignationsModelProto(
     """Protocol for Assigned exercises page model interface."""
 
 
-class AssignationsModelObserveProto(Protocol):
+class AssignationsModelObserverProto(Protocol):
     """Protocol for assigned model event observer interface."""
 
     def exercises_updated(self, exercises: list[ExerciseInfo]) -> None:
@@ -61,7 +61,7 @@ class AssignationsViewProto(
     """Protocol for Assigned exercise page view interface."""
 
 
-class AssignationsViewObserveProto(Protocol):
+class AssignationsViewObserverProto(Protocol):
     """Protocol for assigned view event observer interface."""
 
     def exercise_selected(self, exercise_id: str) -> None:
@@ -72,8 +72,8 @@ class AssignationsViewObserveProto(Protocol):
 
 
 class AssignationsControllerProto(
-    AssignationsModelObserveProto,
-    AssignationsViewObserveProto,
+    AssignationsModelObserverProto,
+    AssignationsViewObserverProto,
     PageControllerProto[Any],
     Protocol,
 ):

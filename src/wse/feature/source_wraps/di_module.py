@@ -4,14 +4,14 @@ from typing import no_type_check
 
 from injector import Binder, Module
 
-from ..sources import ExerciseSelectSourceProto
-from ..sources.selection import ExerciseSelectSource
+from ..source_wraps import ExerciseSelectWrapperProto
+from ..source_wraps.selection import ExerciseSelectSourceWrap
 
 
-class MathSourcesModule(Module):
+class MathSourceWrapsModule(Module):
     """Simple Math calculation data sources module."""
 
     @no_type_check
     def configure(self, binder: Binder) -> None:
         """Configure the bindings."""
-        binder.bind(ExerciseSelectSourceProto, to=ExerciseSelectSource)
+        binder.bind(ExerciseSelectWrapperProto, to=ExerciseSelectSourceWrap)

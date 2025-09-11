@@ -3,8 +3,8 @@
 __all__ = [
     'TextTaskContainerProto',
     'NumpadControllerProto',
-    'BaseNumpadObserver',
+    'NumpadObserverABC',
 ]
 
 from .interfaces import TextTaskContainerProto
-from .numpad import BaseNumpadObserver, NumpadControllerProto
+from .numpad import NumpadControllerProto, NumpadObserverABC

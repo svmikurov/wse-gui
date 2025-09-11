@@ -14,16 +14,16 @@ from wse.feature.shared.widgets import FlexRowStubProto
 from wse.utils.i18n import nav_
 
 from ..top_bar.itop_bar import (
-    BaseTopBarContainer,
-    BaseTopBarController,
+    TopBarContainerABC,
     TopBarContainerProto,
+    TopBarControllerABC,
 )
 
 
 @inject
 @dataclass
 class TopBarContainer(
-    BaseTopBarContainer,
+    TopBarContainerABC,
 ):
     """Top bar container."""
 
@@ -74,7 +74,7 @@ class TopBarContainer(
 @inject
 @dataclass
 class TopBarController(
-    BaseTopBarController,
+    TopBarControllerABC,
 ):
     """Top bar controller."""
 

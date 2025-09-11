@@ -4,15 +4,15 @@ from typing import Protocol, TypeVar
 
 from wse_exercises.base.enums import ExerciseEnum
 
-from wse.apps.math.api import Calculation
+from wse.feature.api.math import Calculation
 from wse.feature.interfaces.imvc import (
     ModelProto,
-    PageControllerProto,
     ViewProto,
 )
 from wse.feature.shared.containers.top_bar.itop_bar import (
     TopBarViewMixinProto,
 )
+from wse.feature.source_wraps import ExerciseSelectWrapperProto
 
 T_contra = TypeVar('T_contra', contravariant=True)
 
@@ -33,7 +33,7 @@ class MathModelFeatureProto(Protocol):
         """Handle the event to start exercise."""
 
 
-class MathModelProto(
+class MathIndexViewModelProto(
     ModelProto,
     MathModelFeatureProto,
     Protocol,
@@ -57,18 +57,24 @@ class MathModelObserverProto(Protocol):
 # View
 
 
-class MathViewProto(
+class MathIndexViewProto(
     TopBarViewMixinProto,
     ViewProto,
     Protocol,
 ):
     """Protocol for Main Math page view interface."""
 
-    def update_exercise_select(self, exercises: list[ExerciseEnum]) -> None:
-        """Update the Exercise select data source."""
+    # def update_exercise_select(
+    #   self, exercises: list[ExerciseEnum]
+    # ) -> None:
+    #     """Update the Exercise select data source."""
+    #
+    # def set_selected_exercise(self, value: ExerciseEnum) -> None:
+    #     """Set selected exercise to choices."""
 
-    def set_selected_exercise(self, value: ExerciseEnum) -> None:
-        """Set selected exercise to choices."""
+    @property
+    def exercise_selections(self) -> ExerciseSelectWrapperProto:
+        """Get exercise selections."""
 
 
 class MathViewObserverProto(Protocol):
@@ -79,13 +85,3 @@ class MathViewObserverProto(Protocol):
 
     def start_button_pressed(self) -> None:
         """Handle the start exercise button pressed."""
-
-
-# Controller
-
-
-class MathControllerProto(
-    PageControllerProto[T_contra],
-    Protocol,
-):
-    """Protocol for Index Math page controller interface."""

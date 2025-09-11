@@ -1,13 +1,33 @@
 """Calculation exercise data source."""
 
-from typing import Literal
+from abc import ABC, abstractmethod
+from dataclasses import replace
+from typing import Literal, Union
+
+from wse_exercises.core import MathEnum
 
 from wse.data.entities.exercise import CalculationExercise
+from wse.data.sources.base.source import DataSourceGen
 
-_NotifyT = Literal['']
+_NotifyT = Literal['default_updated']
+
+ExerciseObserverT = Union['ExerciseObserverABC',]
 
 
-class CalculationExerciseSource:
+class ExerciseObserverABC(ABC):
+    """ABC for task source observer."""
+
+    @abstractmethod
+    def default_updated(self, default: MathEnum) -> None:
+        """Handle the 'default updated' Exercise source event."""
+
+
+class CalculationExerciseSource(
+    DataSourceGen[
+        ExerciseObserverT,
+        _NotifyT,
+    ]
+):
     """Calculation exercise data source."""
 
     def __init__(self) -> None:
@@ -20,3 +40,8 @@ class CalculationExerciseSource:
     def data(self) -> CalculationExercise:
         """Calculation exercise source data."""
         return self._exercise
+
+    def set_default(self, exercise: MathEnum) -> None:
+        """Set Calculation exercise as default."""
+        self._exercise = replace(self._exercise, default=exercise)
+        self.notify('default_updated', default=exercise)

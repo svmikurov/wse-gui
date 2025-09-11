@@ -1,45 +1,40 @@
 """Defines Main Math page view."""
 
 from dataclasses import dataclass
-from typing import Literal
 
 import toga
 from injector import inject
 from typing_extensions import override
-from wse_exercises.base.enums import ExerciseEnum
+from wse_exercises.core import MathEnum
 
-from wse.apps.math.pages.index.abc import MathModelObserver
-from wse.apps.math.sources import ExerciseSelectSourceProto
 from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.feature.base import View
-from wse.feature.base.mixins import AddObserverGen
 from wse.feature.shared.containers.top_bar import TopBarViewMixin
+from wse.feature.source_wraps import ExerciseSelectWrapperProto
+from wse.ui.math.index.abc import MathModelObserver
+from wse.ui.math.index.state import MathIndexViewModel
 from wse.utils.contextmanager import EventDisabler
 from wse.utils.i18n import _, label_
-
-_NotifyType = Literal[
-    'start_button_pressed',
-    'exercise_changed',
-]
 
 
 @inject
 @dataclass
-class MathView(
+class MathIndexView(
     TopBarViewMixin,
     View,
     MathModelObserver,
-    AddObserverGen[_NotifyType],
 ):
     """Main Math page view."""
 
-    _exercise_source: ExerciseSelectSourceProto
+    _state: MathIndexViewModel
+    _exercise_selections_wrapper: ExerciseSelectWrapperProto
 
     @override
     def __post_init__(self) -> None:
         """Construct the view."""
         super().__post_init__()
+        self._state.add_observer(self)
         self._content.test_id = NavID.INDEX_MATH
 
     @override
@@ -56,10 +51,10 @@ class MathView(
         self._label_title = toga.Label('')
         self._exercise_select = toga.Selection(
             accessor='accessor',
-            items=self._exercise_source,
-            on_change=self._on_exercise_change,
+            items=self._exercise_selections_wrapper,
+            on_change=self._state.change_exercise,
         )
-        self._btn_start = toga.Button(on_press=self._handle_start_pressed)
+        self._btn_start = toga.Button(on_press=self._state.start_exercise)
 
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
@@ -74,38 +69,26 @@ class MathView(
         self._label_title.text = label_('Main math page title')
         self._btn_start.text = _('Start exercise')
 
+    @override
+    def navigate(self, nav_id: NavID) -> None:
+        """Navigate."""
+        self._state.navigate(nav_id)
+
+    def on_open(self) -> None:
+        """Call methods on page open."""
+        self._state.update_context()
+
     # ViewModel observe
 
     @override
-    def exercises_updated(self, values: list[ExerciseEnum]) -> None:
+    def exercises_updated(self, values: list[MathEnum]) -> None:
         """Update exercises select data source."""
-        self._update_exercise_select(values)
+        with EventDisabler(self._exercise_select):
+            self._exercise_select.items.update(values)
 
     @override
-    def exercise_selected(self, value: ExerciseEnum) -> None:
+    def exercise_selected(self, value: MathEnum) -> None:
         """Set selected exercise to choices."""
-        self._set_selected_exercise(value)
-
-    # Callback
-
-    def _handle_start_pressed(self, _: toga.Button) -> None:
-        """Handle the start exercise button pressed."""
-        self._notify('start_button_pressed')
-
-    # Selection callback function
-
-    def _on_exercise_change(self, selection: toga.Selection) -> None:
-        """Handle the exercise changed selection event."""
-        self._notify('exercise_changed', value=selection.value.entry)
-
-    # Utility
-
-    def _update_exercise_select(self, exercises: list[ExerciseEnum]) -> None:
-        """Update the Exercise selection widget with exercises."""
-        with EventDisabler(self._exercise_select):
-            self._exercise_select.items.update(exercises)
-
-    def _set_selected_exercise(self, value: ExerciseEnum) -> None:
-        """Set selected exercise to choices."""
-        item = self._exercise_select.items.find(value)
-        self._exercise_select.value = item
+        # The selection is stored as an enumeration of entity instances.
+        entity = self._exercise_select.items.find(value)
+        self._exercise_select.value = entity

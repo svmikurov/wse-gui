@@ -3,7 +3,7 @@
 from typing import Protocol
 
 
-class CalculationRepositoryProto(Protocol):
+class CalculationRepoProto(Protocol):
     """Protocol for calculation repository interface."""
 
     def fetch_task(self) -> None:

@@ -12,8 +12,8 @@ from wse.config.layout import StyleConfig, ThemeConfig
 from wse.feature.base import View
 from wse.feature.base.mixins import AddObserverGen
 from wse.feature.shared.containers import (
-    BaseNumpadObserver,
     NumpadControllerProto,
+    NumpadObserverABC,
     TextTaskContainerProto,
 )
 from wse.feature.shared.containers.top_bar import TopBarViewMixin
@@ -33,7 +33,7 @@ _NotifyType = Literal['navigate']
 @dataclass
 class CalculationView(
     TopBarViewMixin,
-    BaseNumpadObserver,
+    NumpadObserverABC,
     CalculationViewModelObserverABC,
     View,
     AddObserverGen[_NotifyType],

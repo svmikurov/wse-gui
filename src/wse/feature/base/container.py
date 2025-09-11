@@ -7,10 +7,12 @@ from injector import inject
 
 from .. import StyleT, ThemeT
 from ..base.mixins import (
+    AddObserverGen,
     AddObserverMixin,
     CreateNavButtonMixin,
     GetContentMixin,
 )
+from ..interfaces.types import NotifyT
 from .abstract.mvc import LocalizeMixin, UpdateStyle
 
 
@@ -73,48 +75,40 @@ class Container(
         """
 
 
+@inject
 @dataclass
-class StyledContainer(
+class NavigableContainer(
+    CreateNavButtonMixin,
+    AddObserverMixin,
     Container,
     UpdateStyle[StyleT, ThemeT],
+    LocalizeMixin,
     ABC,
 ):
-    """Abstract base class for styled widget container."""
+    """Abstract base class for navigation container.
+
+    **DEPRECATED** – Use `NavigableContainerGen`.
+    """
 
     def _setup(self) -> None:
         super()._setup()
+        self.localize_ui()
         self._apply_styles()
 
 
 @inject
 @dataclass
-class LocaleContainer(
-    StyledContainer[StyleT, ThemeT],
+class NavigableContainerGen(
+    CreateNavButtonMixin,
+    AddObserverGen[NotifyT],
+    UpdateStyle[StyleT, ThemeT],
     LocalizeMixin,
+    Container,
     ABC,
 ):
-    """Abstract base class for styled and localized widget container."""
+    """Abstract base class for navigation container."""
 
     def _setup(self) -> None:
         super()._setup()
         self.localize_ui()
-
-
-@inject
-@dataclass
-class SubjectContainer(
-    AddObserverMixin,
-    LocaleContainer[StyleT, ThemeT],
-    ABC,
-):
-    """An abstract base class for a container of interactive widgets."""
-
-
-@inject
-@dataclass
-class NavigableContainer(
-    CreateNavButtonMixin,
-    SubjectContainer[StyleT, ThemeT],
-    ABC,
-):
-    """Abstract base class for navigation container."""
+        self._apply_styles()

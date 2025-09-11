@@ -2,44 +2,45 @@
 
 from abc import ABC, abstractmethod
 
-from wse_exercises.base.enums import ExerciseEnum
+import toga
+from wse_exercises.core import MathEnum
 
-from wse.apps.math.api import Calculation
+from wse.feature.api.math import Calculation
 
 # Model
 
 
 class MathModelFeature(ABC):
-    """Abstract base classes for Index Math page model feature."""
+    """Abstract base classes for Index Math screen model feature."""
 
     @abstractmethod
-    def update_page_context(self) -> None:
-        """Update page content."""
+    def update_context(self) -> None:
+        """Update screen content."""
 
     @abstractmethod
-    def change_exercise(self, value: ExerciseEnum) -> None:
+    def change_exercise(self, value: MathEnum) -> None:
         """Change the exercise to perform."""
 
     @abstractmethod
-    def start_exercise(self) -> None:
+    def start_exercise(self, _: toga.Button) -> None:
         """Handle the event to start exercise."""
 
 
 class MathModelObserver(ABC):
-    """Protocol for Index Math page model observer interface."""
+    """Protocol for Index Math screen model observer interface."""
 
     @abstractmethod
-    def exercises_updated(self, values: list[ExerciseEnum]) -> None:
+    def exercises_updated(self, values: list[MathEnum]) -> None:
         """Update exercises select data source."""
 
     @abstractmethod
-    def exercise_selected(self, value: ExerciseEnum) -> None:
+    def exercise_selected(self, value: MathEnum) -> None:
         """Set selected exercise to choices."""
 
 
 class MathModelNavigateObserver(ABC):
-    """Protocol for Index Math page model observer interface."""
+    """Protocol for Index Math screen model observer interface."""
 
     @abstractmethod
     def exercise_started(self, value: Calculation) -> None:
-        """Navigate to exercise page."""
+        """Navigate to exercise screen."""

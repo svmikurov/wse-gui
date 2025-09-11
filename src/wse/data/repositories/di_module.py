@@ -4,18 +4,16 @@ from typing import no_type_check
 
 from injector import Binder, Module
 
-from . import (
-    CalculationRepositoryProto,
-)
-from .calculation_exercise import CalculationExerciseRepository
-from .calculation_task import CalculationTaskRepository
+from .calculation_exercise import CalculationExerciseRepo
+from .calculation_task import CalculationTaskRepo
+from .protocol import CalculationRepoProto
 
 
-class RepositoryModule(Module):
+class RepoModule(Module):
     """Data layer repository DI module."""
 
     @no_type_check
     def configure(self, binder: Binder) -> None:
         """Configure the bindings."""
-        binder.bind(CalculationRepositoryProto, to=CalculationTaskRepository)
-        binder.bind(CalculationExerciseRepository)
+        binder.bind(CalculationRepoProto, to=CalculationTaskRepo)
+        binder.bind(CalculationExerciseRepo)

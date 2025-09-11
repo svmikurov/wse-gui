@@ -4,7 +4,9 @@ from typing import no_type_check
 
 from wse.apps.nav_id import NavID
 from wse.feature.interfaces.icontent import GetContentProto
-from wse.ui.math.calculation import CalculationViewProto
+
+from .math.calculation.protocol import CalculationViewProto
+from .math.index.protocol import MathIndexViewProto
 
 
 class UIRoutes:
@@ -15,5 +17,6 @@ class UIRoutes:
     def routes(self) -> dict[NavID, GetContentProto]:
         """Get view."""
         return {
+            NavID.MATH_INDEX: MathIndexViewProto,
             NavID.CALCULATION: CalculationViewProto,
         }

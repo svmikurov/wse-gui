@@ -2,41 +2,53 @@
 
 from injector import inject
 from typing_extensions import override
+from wse_exercises.core import MathEnum
 
-from ..data.repositories import CalculationRepositoryProto
-from ..data.repositories.calculation_task import CalculationTaskRepository
+from ..data.repositories.calculation_exercise import CalculationExerciseRepo
+from ..data.repositories.calculation_task import CalculationTaskRepo
+from ..data.repositories.protocol import CalculationRepoProto
 from ..data.sources.task import (
-    TaskSourceObserveABC,
-    TaskSourceResultObserveABC,
+    ResultObserverABC,
+    TaskObserverABC,
 )
-from .abc import (
-    BaseCheckCalculationUseCase,
-    BaseGetQuestionUseCase,
-)
+from .abc import CheckCalculationUseCaseABC, GetQuestionUseCaseABC
 
 
-class SubscribeExerciseSourceUseCase:
-    """Proxy Use Case to subscribe for Calculation source events."""
+class SetCalculationExerciseUseCase:
+    """Use Case for set current Calculation exercise."""
 
     @inject
-    def __init__(self, repository: CalculationTaskRepository) -> None:
+    def __init__(self, repository: CalculationExerciseRepo) -> None:
         """Construct the case."""
         self._repository = repository
 
-    def subscribe(self, listener: TaskSourceObserveABC) -> None:
-        """Add listener."""
-        self._repository.throw_listener(listener)
+    def set_default(self, exercise: MathEnum) -> None:
+        """Set Calculation exercise as default."""
+        self._repository.set_default(exercise)
+
+
+class CalculationObserverRegistryUseCase:
+    """Use Case for subscribing to calculation task events."""
+
+    @inject
+    def __init__(self, repository: CalculationTaskRepo) -> None:
+        """Construct the case."""
+        self._repository = repository
+
+    def register_observer(self, observer: TaskObserverABC) -> None:
+        """Register an observer to receive calculation task updates."""
+        self._repository.add_observer(observer)
 
 
 class UpdateQuestionUseCase(
-    BaseGetQuestionUseCase,
+    GetQuestionUseCaseABC,
 ):
     """Fetch calculation exercise task question Use Case."""
 
     @inject
     def __init__(
         self,
-        repository: CalculationRepositoryProto,
+        repository: CalculationRepoProto,
     ) -> None:
         """Construct the case."""
         super().__init__(repository)
@@ -48,7 +60,7 @@ class UpdateQuestionUseCase(
 
 
 class CheckCalculationUseCase(
-    BaseCheckCalculationUseCase,
+    CheckCalculationUseCaseABC,
 ):
     """Check calculation exercise user task answer Use Case."""
 
@@ -58,17 +70,17 @@ class CheckCalculationUseCase(
         self._repository.fetch_result(answer)
 
 
-class CalculationLogicUseCase(TaskSourceResultObserveABC):
+class CalculationLogicUseCase(ResultObserverABC):
     """Calculation exercise logic."""
 
     @inject
     def __init__(
         self,
-        repository: CalculationTaskRepository,
+        repository: CalculationTaskRepo,
     ) -> None:
         """Construct the case."""
         self._repository = repository
-        self._repository.throw_listener(self)
+        self._repository.add_observer(self)
 
     def result_updated(self, is_correct: bool) -> None:
         """Handle the answer check result."""

@@ -1,22 +1,19 @@
 """Abstract base class for services."""
 
 from abc import ABC, abstractmethod
-from typing import TypeVar
+from typing import Generic, TypeVar
 
 from wse.core.api.response import RelatedData
 from wse.feature.shared.schemas.exercise import ExerciseMeta
 
-from . import Answer, ExerciseServiceProto, Question, Result
+from . import Answer, Question, Result
 
-ExerciseT = TypeVar(
-    'ExerciseT',
-    bound=ExerciseMeta,
-)
+ExerciseT = TypeVar('ExerciseT', bound=ExerciseMeta)
 
 
-class BaseExerciseService(
+class ExerciseServiceABC(
     ABC,
-    ExerciseServiceProto[ExerciseT],
+    Generic[ExerciseT],
 ):
     """Abstract base class for Exercise service."""
 

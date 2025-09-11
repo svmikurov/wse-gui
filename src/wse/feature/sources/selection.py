@@ -22,7 +22,7 @@ class Entry(EntryProto[T]):
         self.accessor = 'undefined'
 
 
-class BaseSelectSource(Source, Generic[T], ABC):
+class SelectSourceABC(Source, ABC, Generic[T]):
     """Abstract base class of Selection data source."""
 
     _items: list[Entry[T]]

@@ -18,7 +18,7 @@ from .protocols import (
 )
 
 
-class _ViewObserve(
+class _ViewObserver(
     AssignationsViewObserver,
 ):
     """Mixin providing observe of assigned view event."""
@@ -37,7 +37,7 @@ class _ViewObserve(
 @inject
 @dataclass
 class AssignationsController(
-    _ViewObserve,
+    _ViewObserver,
     PageController[AssignationsModelProto, AssignationsViewProto, None],
 ):
     """Assigned exercises page controller."""

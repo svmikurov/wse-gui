@@ -4,16 +4,14 @@ from abc import ABC, abstractmethod
 from typing import Any
 
 import httpx
-from typing_extensions import override
 
-from .protocol import AuthSchemeProto, HttpClientProto
+from .protocol import AuthSchemeProto
 
 
-class BaseHttpClient(ABC, HttpClientProto):
+class HttpClientABC(ABC):
     """Abstract base class for Http client."""
 
     @abstractmethod
-    @override
     def get(
         self,
         url: httpx.URL | str,
@@ -22,7 +20,6 @@ class BaseHttpClient(ABC, HttpClientProto):
         """Send a `GET` request."""
 
     @abstractmethod
-    @override
     def post(
         self,
         url: httpx.URL | str,
@@ -33,7 +30,6 @@ class BaseHttpClient(ABC, HttpClientProto):
         """Send a `POST` request."""
 
     @abstractmethod
-    @override
     def patch(
         self,
         url: httpx.URL | str,

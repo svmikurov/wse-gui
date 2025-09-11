@@ -3,17 +3,17 @@
 __all__ = [
     'AssignationsControllerProto',
     'AssignationsModelFeatureProto',
-    'AssignationsModelObserveProto',
+    'AssignationsModelObserverProto',
     'AssignationsModelProto',
     'AssignationsViewFeatureProto',
-    'AssignationsViewObserveProto',
+    'AssignationsViewObserverProto',
 ]
 
 from .protocols import (
     AssignationsControllerProto,
     AssignationsModelFeatureProto,
-    AssignationsModelObserveProto,
+    AssignationsModelObserverProto,
     AssignationsModelProto,
     AssignationsViewFeatureProto,
-    AssignationsViewObserveProto,
+    AssignationsViewObserverProto,
 )

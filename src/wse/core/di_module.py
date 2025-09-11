@@ -8,12 +8,12 @@ from injector import Binder, Module, provider, singleton
 
 from wse.apps.main.api import AssignedApiProto
 from wse.apps.main.api.assigned import AssignedApiClient
-from wse.apps.math.api.calculation import CalculationApiClient
-from wse.apps.math.api.protocol import CalculationApiProto
 from wse.core.auth import AuthServiceProto
 from wse.core.http.auth_schema import AuthSchema
 from wse.core.http.client import HttpClient
 
+from ..feature.api.math.calculation import CalculationApiClient
+from ..feature.api.math.protocol import CalculationApiProto
 from .api import AuthAPIjwtProto
 from .api.auth_jwt import AuthAPIjwt
 from .auth.service import AuthService

@@ -2,7 +2,7 @@
 
 from wse_exercises.base.enums import ExerciseEnum
 
-from wse.feature.sources.selection import BaseSelectSource, Entry
+from wse.feature.sources.selection import Entry, SelectSourceABC
 from wse.utils.i18n import exercise_
 
 
@@ -20,8 +20,8 @@ class ExerciseEntry(Entry[ExerciseEnum]):
         return exercise_(text)
 
 
-class ExerciseSelectSource(BaseSelectSource[ExerciseEnum]):
-    """Exercise selection data source."""
+class ExerciseSelectSourceWrap(SelectSourceABC[ExerciseEnum]):
+    """Exercise selection data source wrap."""
 
     def _create_entry(self, value: ExerciseEnum) -> ExerciseEntry:
         """Create entry."""

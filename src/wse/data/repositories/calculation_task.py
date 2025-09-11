@@ -6,30 +6,30 @@ from dataclasses import dataclass
 from injector import inject
 from typing_extensions import override
 
-from wse.apps.math.api import Calculation
-from wse.apps.math.api.protocol import CalculationApiProto
-from wse.apps.math.api.schema import CalculationCondition, CalculationConfig
 from wse.config.api_paths import MathAPIConfigV1
 from wse.core.api import RelatedData
+from wse.feature.api.math import Calculation
+from wse.feature.api.math.protocol import CalculationApiProto
+from wse.feature.api.math.schema import CalculationCondition, CalculationConfig
 from wse.feature.shared.schemas.task import Answer, Question, Result
 
 from ..sources import TaskSource
-from ..sources.task import TaskSourceObserveT
-from .abc import BaseCalculationRepository
-from .calculation_exercise import CalculationExerciseRepository
+from ..sources.task import TaskObserverT
+from .abc import CalculationRepoABC
+from .calculation_exercise import CalculationExerciseRepo
 
 logger = logging.getLogger(__name__)
 
 
 @inject
 @dataclass
-class CalculationTaskRepository(BaseCalculationRepository):
+class CalculationTaskRepo(CalculationRepoABC):
     """Protocol for calculation task repository interface."""
 
     _api_client: CalculationApiProto
     _api_config: MathAPIConfigV1
     _task_source: TaskSource
-    _exercise_source: CalculationExerciseRepository
+    _exercise_source: CalculationExerciseRepo
 
     @override
     def fetch_task(self) -> None:
@@ -61,7 +61,7 @@ class CalculationTaskRepository(BaseCalculationRepository):
             check_url_path=self._api_config.calculation.validate_answer,
             task_io='text',
             condition=CalculationCondition(
-                exercise_name=self._exercise_source.exercise,
+                exercise_name=self._exercise_source.default,
                 config=CalculationConfig(
                     min_value='1',
                     max_value='9',
@@ -80,9 +80,9 @@ class CalculationTaskRepository(BaseCalculationRepository):
     def _handle_related(self, data: RelatedData | None) -> None:
         logger.warning('Called not implemented `_handle_related` method')
 
-    def throw_listener(
+    def add_observer(
         self,
-        listener: TaskSourceObserveT,
+        listener: TaskObserverT,
     ) -> None:
         """Subscribe listener to repository notifications."""
         self._task_source.add_listener(listener)

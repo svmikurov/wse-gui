@@ -6,9 +6,9 @@ import httpx
 from injector import inject
 from typing_extensions import override
 
-from wse.apps.math.api import Calculation
 from wse.core.api import QuestionResponse, ResultResponse
 from wse.core.api.base import ExerciseApi
+from wse.feature.api.math import Calculation
 from wse.feature.services import Answer
 
 from .protocol import CalculationApiProto

@@ -13,8 +13,8 @@ from wse.apps.main.pages.assignations import (
 )
 from wse.apps.main.pages.assignations.abc import (
     AssignationsModelObserver,
-    AssignationsViewFeature,
-    BaseAssignationsView,
+    AssignationsViewABC,
+    AssignationsViewFeatureABC,
 )
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.feature.base.mixins import AddObserverGen
@@ -29,7 +29,7 @@ _NotifyType = Literal['exercise_selected']
 
 
 class _Feature(
-    AssignationsViewFeature,
+    AssignationsViewFeatureABC,
     AddObserverGen[_NotifyType],
 ):
     """Assigned page view feature."""
@@ -47,7 +47,7 @@ class _Feature(
         self._notify('exercise_selected', assignation_id=assignation_id)
 
 
-class _ModelObserve(
+class _ModelObserver(
     AssignationsModelObserver,
     AssignationsViewFeatureProto,
 ):
@@ -63,9 +63,9 @@ class _ModelObserve(
 @dataclass
 class AssignationsView(
     _Feature,
-    _ModelObserve,
+    _ModelObserver,
     TopBarViewMixin,
-    BaseAssignationsView[AssignationsModelProto],
+    AssignationsViewABC[AssignationsModelProto],
 ):
     """Assigned exercises page view."""
 
