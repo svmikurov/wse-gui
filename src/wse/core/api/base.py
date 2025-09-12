@@ -7,7 +7,6 @@ from typing import Type, TypeVar
 import httpx
 from injector import inject
 from pydantic import ValidationError
-from typing_extensions import override
 
 from wse.feature.services import Answer
 
@@ -23,6 +22,7 @@ from .protocol import (
 
 logger = logging.getLogger(__name__)
 
+# TODO: Fix TypeVar definition
 T = TypeVar('T', QuestionResponse, ResultResponse)
 
 
@@ -43,7 +43,6 @@ class ExerciseApi(
         self._auth_scheme = auth_scheme
 
     @abstractmethod
-    @override
     def request_task(
         self,
         exercise: ExerciseT_contra,
@@ -51,7 +50,6 @@ class ExerciseApi(
         """Request a task from the server."""
 
     @abstractmethod
-    @override
     def check_answer(
         self,
         answer: Answer,
