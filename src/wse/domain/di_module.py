@@ -12,6 +12,10 @@ from .task import (
     CheckCalculationUseCase,
     UpdateQuestionUseCase,
 )
+from .user import (
+    UserObserverRegistryUseCase,
+    UserObserverRegistryUseCaseABC,
+)
 
 
 class UseCaseModule(Module):
@@ -22,3 +26,6 @@ class UseCaseModule(Module):
         """Configure the bindings."""
         binder.bind(UpdateQuestionUseCaseProto, to=UpdateQuestionUseCase)
         binder.bind(CheckCalculationUseCaseProto, to=CheckCalculationUseCase)
+        binder.bind(
+            UserObserverRegistryUseCaseABC, to=UserObserverRegistryUseCase
+        )

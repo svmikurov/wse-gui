@@ -17,6 +17,9 @@ from ..sources import TaskSource
 from ..sources.task import TaskObserverT
 from .abc import CalculationRepoABC
 from .calculation_exercise import CalculationExerciseRepo
+from .http_related import (
+    RelatedDataHttpResponseRepoABC,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -30,6 +33,7 @@ class CalculationTaskRepo(CalculationRepoABC):
     _api_config: MathAPIConfigV1
     _task_source: TaskSource
     _exercise_source: CalculationExerciseRepo
+    _related_data_repo: RelatedDataHttpResponseRepoABC
 
     @override
     def fetch_task(self) -> None:
@@ -72,13 +76,12 @@ class CalculationTaskRepo(CalculationRepoABC):
     def _update_task(self, data: Question) -> None:
         self._task_source.update_task(data)
 
-    # TODO: Implement method
     def _update_result(self, data: Result) -> None:
         self._task_source.update_result(data)
 
-    # TODO: Implement method
     def _handle_related(self, data: RelatedData | None) -> None:
-        logger.warning('Called not implemented `_handle_related` method')
+        if data is not None:
+            self._related_data_repo.update_related(data)
 
     def add_observer(
         self,

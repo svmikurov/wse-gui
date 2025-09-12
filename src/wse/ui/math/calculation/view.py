@@ -123,6 +123,10 @@ class CalculationView(
         """Display correct solution."""
         self._task_panel.display_correct_answer(solution)
 
+    def balance_updated(self, balance: str) -> None:
+        """Handle the balance updated state event."""
+        self._top_bar.update_balance(balance)
+
     @override
     def state_reset(self) -> None:
         """Handle the model event on task update."""

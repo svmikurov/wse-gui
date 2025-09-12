@@ -53,5 +53,9 @@ class CalculationViewModelObserverABC(ABC):
         """Handle the model event on incorrect answer."""
 
     @abstractmethod
+    def balance_updated(self, balance: str) -> None:
+        """Handle the balance updated state event."""
+
+    @abstractmethod
     def state_reset(self) -> None:
         """Handle the reset state event."""

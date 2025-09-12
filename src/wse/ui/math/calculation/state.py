@@ -10,6 +10,7 @@ from typing_extensions import Literal, Unpack, override
 from wse.apps.nav_id import NavID
 from wse.core.interfaces import Navigable
 from wse.data.sources.task import TaskObserverABC
+from wse.data.sources.user import UserObserverABC
 from wse.domain.protocol import (
     CheckCalculationUseCaseProto,
     UpdateQuestionUseCaseProto,
@@ -18,6 +19,7 @@ from wse.domain.task import (
     CalculationLogicUseCase,
     CalculationObserverRegistryUseCase,
 )
+from wse.domain.user import UserObserverRegistryUseCaseABC
 from wse.feature.base.mixins import AddObserverGen
 
 from .abc import CalculationViewModelABC
@@ -27,6 +29,7 @@ _NotifyType = Literal[
     'answer_updated',
     'answer_incorrect',
     'solution_updated',
+    'balance_updated',
     'state_reset',
 ]
 
@@ -37,6 +40,7 @@ class DataFieldType(TypedDict, total=False):
     question: str
     answer: str
     solution: str
+    balance: str
 
 
 @dataclass(frozen=True)
@@ -49,6 +53,7 @@ class CalculationUIState:
     question: str | None = None
     answer: str | None = None
     solution: str | None = None
+    balance: str | None = None
 
 
 @inject
@@ -57,6 +62,7 @@ class CalculationViewModel(
     AddObserverGen[_NotifyType],
     CalculationViewModelABC,
     TaskObserverABC,
+    UserObserverABC,
 ):
     """Calculation exercise ViewModel."""
 
@@ -64,13 +70,16 @@ class CalculationViewModel(
 
     _question_case: UpdateQuestionUseCaseProto
     _result_case: CheckCalculationUseCaseProto
-    _source_observer_case: CalculationObserverRegistryUseCase
     _logic_case: CalculationLogicUseCase
+
+    _source_observer_case: CalculationObserverRegistryUseCase
+    _user_observer_registry: UserObserverRegistryUseCaseABC
 
     def __post_init__(self) -> None:
         """Construct the view state."""
         self._data = CalculationUIState()
         self._source_observer_case.register_observer(self)
+        self._user_observer_registry.register_observer(self)
 
     @override
     def start_task(self) -> None:
@@ -122,6 +131,13 @@ class CalculationViewModel(
         """Handle the 'solution updated' the source event."""
         self._update_data(solution=solution)
         self._notify('solution_updated', solution=solution)
+
+    # User source observe
+
+    def balance_updated(self, balance: str) -> None:
+        """Handle the 'balance updated' event of User source."""
+        self._update_data(balance=balance)
+        self._notify('balance_updated', balance=balance)
 
     # Utility methods
 
