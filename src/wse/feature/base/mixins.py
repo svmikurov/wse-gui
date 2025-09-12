@@ -10,7 +10,7 @@ from ..interfaces.icontent import ContentProto
 from ..interfaces.imvc import ModelProto
 from ..interfaces.iobserver import Observable, ObserverProto
 from ..interfaces.iwidgets import NavigableButton
-from ..interfaces.types import NotifyT
+from ..interfaces.types import NotifyT, ObserverT
 from ..shared.widgets.buttons import NavButton
 
 ModelT = TypeVar('ModelT', bound=ModelProto)
@@ -112,7 +112,10 @@ class AddObserverMixin:
 
 @dataclass
 class AddObserverGen(Generic[NotifyT]):
-    """Mixin that enables observer subscription capability."""
+    """Mixin that enables observer subscription capability.
+
+    **DEPRECATED** Will be removed, use `AddObserverGenT`.
+    """
 
     _subject: Observable
 
@@ -127,6 +130,27 @@ class AddObserverGen(Generic[NotifyT]):
     def observers(self) -> list[ObserverProto]:
         """Get observers."""
         return self._subject.observers
+
+
+@dataclass
+class AddObserverGenT(Generic[ObserverT, NotifyT]):
+    """Mixin that enables observer subscription capability."""
+
+    _subject: Observable
+
+    def add_observer(self, observer: ObserverT) -> None:
+        """Subscribe observer an event has occurred."""
+        self._subject.add_observer(observer)
+
+    def _notify(self, notification: NotifyT, **kwargs: object) -> None:
+        self._subject.notify(notification, **kwargs)
+
+    # TODO: Fix type ignore.
+    #       Update `Observable` type with `list[ObserverT]` return type.
+    @property
+    def observers(self) -> list[ObserverT]:
+        """Get observers."""
+        return self._subject.observers  # type: ignore[return-value]
 
 
 class ModelObserverMixin(Generic[ModelT]):

@@ -9,7 +9,7 @@ from wse_exercises.core import MathEnum
 
 from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.base import View
+from wse.feature.base import ViewABC
 from wse.feature.shared.containers.top_bar import TopBarViewMixin
 from wse.feature.source_wraps import ExerciseSelectWrapperProto
 from wse.ui.math.index.abc import MathModelObserver
@@ -22,20 +22,20 @@ from wse.utils.i18n import _, label_
 @dataclass
 class MathIndexView(
     TopBarViewMixin,
-    View,
     MathModelObserver,
+    ViewABC,
 ):
     """Main Math page view."""
 
     _state: MathIndexViewModel
-    _exercise_selections_wrapper: ExerciseSelectWrapperProto
+    _exercise_selection_wrapper: ExerciseSelectWrapperProto
 
     @override
     def __post_init__(self) -> None:
         """Construct the view."""
         super().__post_init__()
-        self._state.add_observer(self)
         self._content.test_id = NavID.INDEX_MATH
+        self._state.add_observer(self)
 
     @override
     def _populate_content(self) -> None:
@@ -51,7 +51,7 @@ class MathIndexView(
         self._label_title = toga.Label('')
         self._exercise_select = toga.Selection(
             accessor='accessor',
-            items=self._exercise_selections_wrapper,
+            items=self._exercise_selection_wrapper,
             on_change=self._state.change_exercise,
         )
         self._btn_start = toga.Button(on_press=self._state.start_exercise)

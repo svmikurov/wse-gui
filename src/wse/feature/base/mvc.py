@@ -39,7 +39,7 @@ class Model(
 
 
 @dataclass
-class View(
+class ViewABC(
     NavigableContainer[StyleConfig, ThemeConfig],
     ABC,
 ):

@@ -10,7 +10,7 @@ from typing_extensions import override
 from wse.apps.main.pages.auth.abc import AuthModelObserver
 from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.base import View
+from wse.feature.base import ViewABC
 from wse.feature.base.mixins import AddObserverGen, CreateNavButtonMixin
 from wse.feature.interfaces.iwidgets import NavigableButton
 from wse.feature.shared.containers.login import (
@@ -76,7 +76,7 @@ class AuthView(
     _Callback,
     _Utility,
     LoginObserver,
-    View,
+    ViewABC,
 ):
     """Authentication page view."""
 

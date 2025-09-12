@@ -9,7 +9,7 @@ from typing_extensions import override
 
 from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.base import View
+from wse.feature.base import ViewABC
 from wse.feature.base.mixins import AddObserverGen
 from wse.feature.shared.containers import (
     NumpadControllerProto,
@@ -35,7 +35,7 @@ class CalculationView(
     TopBarViewMixin,
     NumpadObserverABC,
     CalculationViewModelObserverABC,
-    View,
+    ViewABC,
     AddObserverGen[_NotifyType],
 ):
     """Calculation exercise view."""

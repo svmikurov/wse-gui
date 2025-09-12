@@ -10,7 +10,7 @@ from wse.feature.base.mixins import (
 from wse.feature.base.mvc import (
     Model,
     PageControllerABC,
-    View,
+    ViewABC,
     ViewT,
 )
 from wse.feature.shared.schemas.exercise import ExerciseInfo, ExerciseMeta
@@ -73,7 +73,7 @@ class AssignationsViewFeatureABC(
 
 class AssignationsViewABC(
     AssignationsViewFeatureABC,
-    View,
+    ViewABC,
     ModelObserverMixin[ModelT],
     ABC,
 ):

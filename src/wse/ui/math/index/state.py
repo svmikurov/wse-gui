@@ -63,6 +63,10 @@ class MathIndexViewModel(
         self._notify('exercises_updated', values=self._data.exercises)
         self._notify('exercise_selected', value=self._data.current)
 
+    def navigate(self, nav_id: NavID) -> None:
+        """Handle the navigate event, callback."""
+        self._navigator.navigate(nav_id=nav_id)
+
     # UI callback
 
     def change_exercise(self, selection: toga.Selection) -> None:
@@ -73,12 +77,6 @@ class MathIndexViewModel(
     def start_exercise(self, _: toga.Button) -> None:
         """Handle the event to start exercise."""
         self._navigator.navigate(NavID.CALCULATION)
-
-    # Observe navigate event
-
-    def navigate(self, nav_id: NavID) -> None:
-        """Handle the navigate event, callback."""
-        self._navigator.navigate(nav_id=nav_id)
 
     # Utility
 
