@@ -6,6 +6,7 @@ from wse.apps.nav_id import NavID
 from wse.feature.interfaces.icontent import GetContentProto
 
 from .main.account.abc import AuthViewABC
+from .main.assignations.abc import AssignationsViewABC
 from .main.home.abc import HomeViewABC
 from .math.calculation.protocol import CalculationViewProto
 from .math.index.protocol import MathIndexViewProto
@@ -20,6 +21,7 @@ class UIRoutes:
         """Get view."""
         return {
             NavID.HOME: HomeViewABC,
+            NavID.ASSIGNED: AssignationsViewABC,
             # Account
             NavID.LOGIN: AuthViewABC,
             # Mathematical discipline

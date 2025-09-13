@@ -1,0 +1,1 @@
+"""Assigned exercise UI layer."""

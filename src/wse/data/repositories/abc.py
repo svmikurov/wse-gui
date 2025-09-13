@@ -13,3 +13,15 @@ class CalculationRepoABC(ABC):
     @abstractmethod
     def fetch_result(self, answer: str) -> None:
         """Fetch user answer check result."""
+
+
+class AssignedRepoABC(ABC):
+    """Abstract base class for Assigned exercise repository."""
+
+    @abstractmethod
+    def fetch_task(self) -> None:
+        """Fetch task question."""
+
+    @abstractmethod
+    def fetch_result(self, answer: str) -> None:
+        """Fetch user answer check result."""

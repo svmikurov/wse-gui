@@ -5,6 +5,7 @@ from abc import ABC, abstractmethod
 from injector import inject
 
 from wse.data.repositories.protocol import CalculationRepoProto
+from wse.data.sources.assigned import AssignedSourceObserverABC
 from wse.data.sources.user import UserObserverABC
 
 # User (auth) Use Cases
@@ -50,3 +51,14 @@ class CheckCalculationUseCaseABC(
     @abstractmethod
     def check(self, answer: str) -> None:
         """Check user answer."""
+
+
+# Assigned
+
+
+class AssignedObserverRegistryUseCaseABC(ABC):
+    """ABC for Assigned exercise source observer registry Use Case."""
+
+    @abstractmethod
+    def register_observer(self, observer: AssignedSourceObserverABC) -> None:
+        """Register an observer to receive calculation task updates."""

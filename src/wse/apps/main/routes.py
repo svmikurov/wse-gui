@@ -6,7 +6,6 @@ from wse.apps.nav_id import NavID
 from wse.feature.base import BaseRoutes
 from wse.feature.interfaces.imvc import PageControllerProto
 
-from .pages.assignations import AssignationsControllerProto
 from .pages.assigned import AssignedControllerProto
 
 
@@ -18,6 +17,5 @@ class MainRoutes(BaseRoutes):
     def routes(self) -> dict[NavID, Type[PageControllerProto[Any]]]:
         """Get page routes."""
         return {
-            NavID.ASSIGNED: AssignationsControllerProto,
             NavID.EXERCISE: AssignedControllerProto,
         }
