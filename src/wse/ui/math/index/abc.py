@@ -14,8 +14,8 @@ class MathModelFeature(ABC):
     """Abstract base classes for Index Math screen model feature."""
 
     @abstractmethod
-    def update_context(self) -> None:
-        """Update screen content."""
+    def refresh_context(self) -> None:
+        """Refresh screen content."""
 
     @abstractmethod
     def change_exercise(self, value: MathEnum) -> None:

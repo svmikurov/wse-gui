@@ -13,12 +13,3 @@ class CalculationRepoABC(ABC):
     @abstractmethod
     def fetch_result(self, answer: str) -> None:
         """Fetch user answer check result."""
-
-
-class HomeRepoABC(ABC):
-    """Home screen repository."""
-
-    @property
-    @abstractmethod
-    def is_authenticated(self) -> bool:
-        """Get user authenticated state."""

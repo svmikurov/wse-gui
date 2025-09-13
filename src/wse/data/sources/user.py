@@ -19,11 +19,6 @@ class UserSourceABC(ABC):
     def update_balance(self, balance: str) -> None:
         """Update balance."""
 
-    @property
-    @abstractmethod
-    def is_authenticated(self) -> bool:
-        """Get user authenticated state."""
-
 
 class UserObserverABC(ABC):
     """ABC for User source observer."""
@@ -51,13 +46,6 @@ class UserSource(
         self._update_data(balance=balance)
         self.notify('balance_updated', balance=self._data.balance)
         print(f'Balance updated: {balance}')
-
-    # Properties
-
-    @property
-    def is_authenticated(self) -> bool:
-        """Get user authenticated state."""
-        return self._data.is_authenticated
 
     # Utility methods
 

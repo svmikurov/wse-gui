@@ -8,7 +8,6 @@ from wse.feature.interfaces.imvc import PageControllerProto
 
 from .pages.assignations import AssignationsControllerProto
 from .pages.assigned import AssignedControllerProto
-from .pages.auth import AuthControllerProto
 
 
 class MainRoutes(BaseRoutes):
@@ -19,7 +18,6 @@ class MainRoutes(BaseRoutes):
     def routes(self) -> dict[NavID, Type[PageControllerProto[Any]]]:
         """Get page routes."""
         return {
-            NavID.LOGIN: AuthControllerProto,
             NavID.ASSIGNED: AssignationsControllerProto,
             NavID.EXERCISE: AssignedControllerProto,
         }

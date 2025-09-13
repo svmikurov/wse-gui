@@ -9,7 +9,6 @@ class UserFieldType(TypedDict, total=False):
 
     username: str
     balance: str
-    is_authenticated: bool
 
 
 @dataclass(frozen=True)
@@ -18,4 +17,3 @@ class User:
 
     username: str = 'Anonymous'
     balance: str | None = None
-    is_authenticated: bool = False

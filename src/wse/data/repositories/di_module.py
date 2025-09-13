@@ -4,10 +4,8 @@ from typing import no_type_check
 
 from injector import Binder, Module
 
-from .abc import HomeRepoABC
 from .calculation_exercise import CalculationExerciseRepo
 from .calculation_task import CalculationTaskRepo
-from .home import HomeRepo
 from .http_related import (
     RelatedDataHttpResponseRepo,
     RelatedDataHttpResponseRepoABC,
@@ -28,4 +26,3 @@ class RepoModule(Module):
             RelatedDataHttpResponseRepoABC, to=RelatedDataHttpResponseRepo
         )
         binder.bind(UserRepoABC, to=UserRepo)
-        binder.bind(HomeRepoABC, to=HomeRepo)

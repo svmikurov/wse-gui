@@ -5,9 +5,23 @@ from abc import ABC, abstractmethod
 from injector import inject
 
 from wse.data.repositories.protocol import CalculationRepoProto
+from wse.data.sources.user import UserObserverABC
+
+# User (auth) Use Cases
 
 
-class _BaseUserCase:
+class UserObserverRegistryUseCaseABC(ABC):
+    """ABC for Use Case to register user event notifications."""
+
+    @abstractmethod
+    def register_observer(self, observer: UserObserverABC) -> None:
+        """Register an observer to receive calculation task updates."""
+
+
+# Calculation Use Cases
+
+
+class _BaseCalculationUseCase:
     """Base calculation exercise Use Case."""
 
     @inject
@@ -17,7 +31,7 @@ class _BaseUserCase:
 
 
 class GetQuestionUseCaseABC(
-    _BaseUserCase,
+    _BaseCalculationUseCase,
     ABC,
 ):
     """ABC for get calculation task question Use Case."""
@@ -28,7 +42,7 @@ class GetQuestionUseCaseABC(
 
 
 class CheckCalculationUseCaseABC(
-    _BaseUserCase,
+    _BaseCalculationUseCase,
     ABC,
 ):
     """ABC for check calculation user answer Use Case."""

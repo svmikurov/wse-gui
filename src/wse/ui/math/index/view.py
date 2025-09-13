@@ -76,7 +76,7 @@ class MathIndexView(
 
     def on_open(self) -> None:
         """Call methods on page open."""
-        self._state.update_context()
+        self._state.refresh_context()
 
     # ViewModel observe
 

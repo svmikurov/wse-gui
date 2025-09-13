@@ -58,7 +58,7 @@ class MathIndexViewModel(
 
     # API
 
-    def update_context(self) -> None:
+    def refresh_context(self) -> None:
         """Update screen context."""
         self._notify('exercises_updated', values=self._data.exercises)
         self._notify('exercise_selected', value=self._data.current)

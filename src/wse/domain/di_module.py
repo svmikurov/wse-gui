@@ -4,6 +4,9 @@ from typing import no_type_check
 
 from injector import Binder, Module
 
+from .abc import (
+    UserObserverRegistryUseCaseABC,
+)
 from .protocol import (
     CheckCalculationUseCaseProto,
     UpdateQuestionUseCaseProto,
@@ -14,7 +17,6 @@ from .task import (
 )
 from .user import (
     UserObserverRegistryUseCase,
-    UserObserverRegistryUseCaseABC,
 )
 
 
@@ -24,8 +26,12 @@ class UseCaseModule(Module):
     @no_type_check
     def configure(self, binder: Binder) -> None:
         """Configure the bindings."""
+        # Mathematical discipline
         binder.bind(UpdateQuestionUseCaseProto, to=UpdateQuestionUseCase)
         binder.bind(CheckCalculationUseCaseProto, to=CheckCalculationUseCase)
+
+        # User
         binder.bind(
-            UserObserverRegistryUseCaseABC, to=UserObserverRegistryUseCase
+            UserObserverRegistryUseCaseABC,
+            to=UserObserverRegistryUseCase,
         )

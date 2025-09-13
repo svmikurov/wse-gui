@@ -11,6 +11,7 @@ from wse.apps.nav_id import NavID
 from wse.core.interfaces import Navigable
 from wse.data.sources.task import TaskObserverABC
 from wse.data.sources.user import UserObserverABC
+from wse.domain.abc import UserObserverRegistryUseCaseABC
 from wse.domain.protocol import (
     CheckCalculationUseCaseProto,
     UpdateQuestionUseCaseProto,
@@ -19,7 +20,6 @@ from wse.domain.task import (
     CalculationLogicUseCase,
     CalculationObserverRegistryUseCase,
 )
-from wse.domain.user import UserObserverRegistryUseCaseABC
 from wse.feature.base.mixins import AddObserverGen
 
 from .abc import CalculationViewModelABC

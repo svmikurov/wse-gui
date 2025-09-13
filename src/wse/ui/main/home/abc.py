@@ -34,8 +34,8 @@ class HomeViewModelABC(
     """ABC for Home screen ViewModel."""
 
     @abstractmethod
-    def update_context(self) -> None:
-        """Update screen context."""
+    def refresh_context(self) -> None:
+        """Refresh screen context."""
 
     @abstractmethod
     def navigate(self, nav_id: NavID) -> None:

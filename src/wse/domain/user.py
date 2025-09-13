@@ -1,21 +1,15 @@
 """User Use Cases."""
 
-from abc import ABC, abstractmethod
-
 from injector import inject
 
 from wse.data.sources.user import UserObserverABC, UserSource
 
-
-class UserObserverRegistryUseCaseABC(ABC):
-    """ABC for Use Case to register user event notifications."""
-
-    @abstractmethod
-    def register_observer(self, observer: UserObserverABC) -> None:
-        """Register an observer to receive calculation task updates."""
+from .abc import (
+    UserObserverRegistryUseCaseABC,
+)
 
 
-class UserObserverRegistryUseCase:
+class UserObserverRegistryUseCase(UserObserverRegistryUseCaseABC):
     """Use Case to register user event notifications."""
 
     @inject
