@@ -2,6 +2,8 @@
 
 from typing import TypeVar
 
+from mypy.types import TypedDictType
+
 from wse.config.layout import BaseStyle, BaseThema
 
 StyleT = TypeVar('StyleT', bound=BaseStyle)
@@ -14,3 +16,5 @@ ListenerT = TypeVar('ListenerT')
 
 NotifyT = TypeVar('NotifyT')
 ObserverT = TypeVar('ObserverT')
+
+TypedDictT = TypeVar('TypedDictT', bound=TypedDictType)

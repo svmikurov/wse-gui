@@ -2,14 +2,15 @@
 
 from typing import no_type_check
 
-from wse.apps.nav_id import NavID
+from wse.core.navigation.nav_id import NavID
 from wse.feature.interfaces.icontent import GetContentProto
 
 from .main.account.abc import AuthViewABC
 from .main.assignations.abc import AssignationsViewABC
+from .main.assigned.abc import AssignedExerciseViewABC
 from .main.home.abc import HomeViewABC
-from .math.calculation.protocol import CalculationViewProto
-from .math.index.protocol import MathIndexViewProto
+from .math.calculation.abc import CalculationViewABC
+from .math.index.abc import MathIndexModelViewABC
 
 
 class UIRoutes:
@@ -21,10 +22,12 @@ class UIRoutes:
         """Get view."""
         return {
             NavID.HOME: HomeViewABC,
-            NavID.ASSIGNED: AssignationsViewABC,
             # Account
             NavID.LOGIN: AuthViewABC,
+            # Assigned exercises
+            NavID.ASSIGNED: AssignationsViewABC,
+            NavID.EXERCISE: AssignedExerciseViewABC,
             # Mathematical discipline
-            NavID.MATH_INDEX: MathIndexViewProto,
-            NavID.CALCULATION: CalculationViewProto,
+            NavID.MATH_INDEX: MathIndexModelViewABC,
+            NavID.CALCULATION: CalculationViewABC,
         }

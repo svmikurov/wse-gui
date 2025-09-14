@@ -6,12 +6,13 @@ import toga
 from wse_exercises.core import MathEnum
 
 from wse.feature.api.math import Calculation
+from wse.feature.base import ViewABC
 
-# Model
+# ViewModel
 
 
 class MathModelFeature(ABC):
-    """Abstract base classes for Index Math screen model feature."""
+    """ABC for Index Math screen model feature."""
 
     @abstractmethod
     def refresh_context(self) -> None:
@@ -44,3 +45,18 @@ class MathModelNavigateObserver(ABC):
     @abstractmethod
     def exercise_started(self, value: Calculation) -> None:
         """Navigate to exercise screen."""
+
+
+class MathIndexModelViewABC:
+    """ABC for Math index screen View."""
+
+
+# View
+
+
+class MathIndexViewABC(
+    MathModelObserver,
+    ViewABC,
+    ABC,
+):
+    """ABC for Math index screen View."""

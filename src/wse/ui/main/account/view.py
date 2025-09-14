@@ -1,14 +1,13 @@
 """Account View."""
 
-import logging
 from dataclasses import dataclass
 
 import toga
 from injector import inject
 from typing_extensions import override
 
-from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
+from wse.core.navigation.nav_id import NavID
 from wse.feature.shared.containers.login import LoginControllerProto
 from wse.feature.shared.containers.top_bar.itop_bar import (
     TopBarControllerProto,
@@ -17,26 +16,26 @@ from wse.utils.i18n import label_, nav_
 
 from .abc import AuthViewABC, AuthViewModelABC
 
-logger = logging.getLogger(__name__)
-
 
 @inject
 @dataclass
 class AuthView(AuthViewABC):
     """Account View."""
 
+    _state: AuthViewModelABC
+
+    # Widget injection
     _top_bar: TopBarControllerProto
     _login_container: LoginControllerProto
-
-    _state: AuthViewModelABC
 
     @override
     def __post_init__(self) -> None:
         """Construct the view."""
         super().__post_init__()
         self.content.test_id = NavID.LOGIN
-        self._login_container.add_observer(self)
         self._state.add_observer(self)
+        self._login_container.add_observer(self)
+        self._top_bar.add_observer(self)
 
     @override
     def _populate_content(self) -> None:

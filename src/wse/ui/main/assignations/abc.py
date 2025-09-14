@@ -3,9 +3,9 @@
 from abc import ABC, abstractmethod
 from typing import Literal
 
+from wse.core.navigation.nav_id import NavID
 from wse.feature.base.mixins import AddObserverGenT
-from wse.feature.base.mvc import ViewABC
-from wse.feature.shared.containers.top_bar import TopBarViewMixin
+from wse.feature.base.ui import ViewABC
 from wse.feature.shared.schemas.exercise import ExerciseInfo
 
 # State
@@ -40,12 +40,15 @@ class AssignationsViewModelABC(
 ):
     """ABC for Assigned exercises ViewModel."""
 
+    @abstractmethod
+    def navigate(self, nav_id: NavID) -> None:
+        """Notify to navigate."""
+
 
 # View
 
 
 class AssignationsViewABC(
-    TopBarViewMixin,
     AssignationsStateObserverABC,
     ViewABC,
     ABC,

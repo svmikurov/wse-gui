@@ -7,7 +7,11 @@ from injector import inject
 from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
+from wse.core.navigation.nav_id import NavID
 from wse.feature.shared.containers.assigned import AssignationsContainerProto
+from wse.feature.shared.containers.top_bar.itop_bar import (
+    TopBarControllerProto,
+)
 from wse.feature.shared.schemas.exercise import ExerciseInfo
 from wse.utils.i18n import label_
 
@@ -25,6 +29,7 @@ class AssignationsView(AssignationsViewABC):
     _state: AssignationsViewModelABC
 
     # UI
+    _top_bar: TopBarControllerProto
     _exercises: AssignationsContainerProto
 
     def __post_init__(self) -> None:
@@ -32,11 +37,12 @@ class AssignationsView(AssignationsViewABC):
         super().__post_init__()
         self._exercises.add_observer(self)
         self._state.add_observer(self)
+        self._top_bar.add_observer(self)
 
     @override
     def _populate_content(self) -> None:
         self.content.add(
-            self._top_bar.content,  # Provided by `TopBarPageViewMixin`
+            self._top_bar.content,
             self._label_title,
             self._exercises.content,
         )
@@ -58,6 +64,10 @@ class AssignationsView(AssignationsViewABC):
     def on_open(self) -> None:
         """Call methods on screen open."""
         self._state.refresh_context()
+
+    def navigate(self, nav_id: NavID) -> None:
+        """Navigate."""
+        self._state.navigate(nav_id)
 
     # IU state observe
 

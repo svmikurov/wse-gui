@@ -10,7 +10,7 @@ from injector import inject
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.feature.base import Controller
-from wse.feature.base.container import Container
+from wse.feature.base.container import AddContentABC
 from wse.feature.base.mixins import AddObserverGen
 from wse.feature.interfaces.icontent import ContentProto
 from wse.feature.interfaces.iobserver import Observable
@@ -145,7 +145,7 @@ class NumpadModel(
 @dataclass
 class NumpadContainer(
     AddObserverGen[ContainerNotifyT],
-    Container,
+    AddContentABC,
 ):
     """Number keyword container."""
 

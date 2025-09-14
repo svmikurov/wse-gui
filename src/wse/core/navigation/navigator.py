@@ -9,8 +9,8 @@ from typing import Any, Type
 import toga
 from injector import Injector, NoInject, inject
 
-from wse.apps.nav_id import NavID
 from wse.core.exceptions import ContentError, NavigateError
+from wse.core.navigation.nav_id import NavID
 from wse.feature.interfaces.imvc import PageControllerProto
 
 logger = logging.getLogger(__name__)

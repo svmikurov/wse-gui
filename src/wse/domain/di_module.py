@@ -5,11 +5,17 @@ from typing import no_type_check
 from injector import Binder, Module
 
 from .abc import (
+    CheckAssignedAnswerUseCaseABC,
+    CheckCalculationAnswerUseCaseABC,
+    GetAssignedQuestionUseCaseABC,
+    GetCalculationQuestionUseCaseABC,
+    SetAssignedExerciseUseCaseABC,
     UserObserverRegistryUseCaseABC,
 )
-from .protocol import (
-    CheckCalculationUseCaseProto,
-    UpdateQuestionUseCaseProto,
+from .assigned import (
+    CheckAssignedAnswerUseCase,
+    GetAssignedQuestionUseCase,
+    SetAssignedExerciseUseCase,
 )
 from .task import (
     CheckCalculationUseCase,
@@ -27,11 +33,31 @@ class UseCaseModule(Module):
     def configure(self, binder: Binder) -> None:
         """Configure the bindings."""
         # Mathematical discipline
-        binder.bind(UpdateQuestionUseCaseProto, to=UpdateQuestionUseCase)
-        binder.bind(CheckCalculationUseCaseProto, to=CheckCalculationUseCase)
+        binder.bind(
+            GetCalculationQuestionUseCaseABC,
+            to=UpdateQuestionUseCase,
+        )
+        binder.bind(
+            CheckCalculationAnswerUseCaseABC,
+            to=CheckCalculationUseCase,
+        )
 
         # User
         binder.bind(
             UserObserverRegistryUseCaseABC,
             to=UserObserverRegistryUseCase,
+        )
+
+        # Assigned exercise
+        binder.bind(
+            SetAssignedExerciseUseCaseABC,
+            to=SetAssignedExerciseUseCase,
+        )
+        binder.bind(
+            GetAssignedQuestionUseCaseABC,
+            to=GetAssignedQuestionUseCase,
+        )
+        binder.bind(
+            CheckAssignedAnswerUseCaseABC,
+            to=CheckAssignedAnswerUseCase,
         )

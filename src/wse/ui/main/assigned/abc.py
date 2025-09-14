@@ -3,30 +3,39 @@
 from abc import ABC
 from typing import Literal
 
+from wse.data.sources.assigned import AssignedSourceObserverABC
+from wse.data.sources.task import TaskObserverABC
 from wse.data.sources.user import UserObserverABC
 from wse.feature.base import ViewABC
-from wse.feature.base.mixins import AddObserverGenT
+from wse.feature.base.mixins import (
+    AddObserverGen,
+    AddObserverGenT,
+    NavigateMixin,
+)
+from wse.feature.shared.containers import NumpadObserverABC
+from wse.ui.base.mixin import BalanceUpdatedMixin
+from wse.ui.base.task import TaskViewModelFeatureABC, TaskViewModelObserverABC
 
 # State
 
-_StateNotifyT = Literal['']
+_StateNotifyT = Literal[
+    'question_updated',
+    'answer_updated',
+    'answer_incorrect',
+    'solution_updated',
+    'balance_updated',
+    'state_reset',
+]
+_WidgetNotifyT = Literal['navigate']
 
 
-class AssignedStateFeatureABC(ABC):
-    """ABC for Assigned exercise UI state feature."""
-
-    ...
-
-
-class AssignedStateObserverABC(ABC):
-    """ABC for Assigned exercise UI state observer."""
-
-    ...
-
-
-class AssignedViewModelABC(
-    AssignedStateFeatureABC,
-    AddObserverGenT[AssignedStateObserverABC, _StateNotifyT],
+class AssignedExerciseViewModelABC(
+    AddObserverGenT[TaskViewModelObserverABC, _StateNotifyT],
+    NavigateMixin,
+    BalanceUpdatedMixin,
+    AssignedSourceObserverABC,
+    TaskViewModelFeatureABC,
+    TaskObserverABC,
     UserObserverABC,
     ABC,
 ):
@@ -36,8 +45,10 @@ class AssignedViewModelABC(
 # View
 
 
-class AssignedViewABC(
-    AssignedStateObserverABC,
+class AssignedExerciseViewABC(
+    AddObserverGen[_WidgetNotifyT],
+    NumpadObserverABC,
+    TaskViewModelObserverABC,
     ViewABC,
     ABC,
 ):

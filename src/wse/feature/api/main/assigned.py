@@ -11,7 +11,7 @@ import httpx
 from typing_extensions import override
 
 from wse.core.api import QuestionResponse, ResultResponse
-from wse.core.api.base import ExerciseApi
+from wse.feature.api.main.abc import AssignedApiClientABC
 from wse.feature.services import Answer
 from wse.feature.shared.schemas.exercise import Assigned
 
@@ -20,9 +20,7 @@ logger = logging.getLogger(__name__)
 T = TypeVar('T', QuestionResponse, ResultResponse)
 
 
-class AssignedApiClient(
-    ExerciseApi[Assigned],
-):
+class AssignedApiClient(AssignedApiClientABC):
     """Assigned exercise api client with text task."""
 
     @override

@@ -2,7 +2,7 @@
 
 from typing import Any, Protocol, Type
 
-from wse.apps.nav_id import NavID
+from wse.core.navigation.nav_id import NavID
 from wse.feature.interfaces.imvc import PageControllerProto
 
 

@@ -1,50 +1,41 @@
-"""Calculation exercise view."""
+"""Calculation exercise View."""
 
 from dataclasses import dataclass
-from typing import Literal, Type
+from typing import Type
 
 import toga
 from injector import inject
 from typing_extensions import override
 
-from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.base import ViewABC
-from wse.feature.base.mixins import AddObserverGen
+from wse.core.navigation.nav_id import NavID
 from wse.feature.shared.containers import (
     NumpadControllerProto,
-    NumpadObserverABC,
     TextTaskContainerProto,
 )
-from wse.feature.shared.containers.top_bar import TopBarViewMixin
+from wse.feature.shared.containers.top_bar.itop_bar import (
+    TopBarControllerProto,
+)
 from wse.feature.shared.widgets import (
     DividerProto,
     FlexColumnStubProto,
 )
 from wse.utils.i18n import _, label_
 
-from .abc import CalculationViewModelObserverABC
-from .protocol import CalculationViewModelProto
-
-_NotifyType = Literal['navigate']
+from .abc import CalculationViewABC, CalculationViewModelABC
 
 
 @inject
 @dataclass
-class CalculationView(
-    TopBarViewMixin,
-    NumpadObserverABC,
-    CalculationViewModelObserverABC,
-    ViewABC,
-    AddObserverGen[_NotifyType],
-):
+class CalculationView(CalculationViewABC):
     """Calculation exercise view."""
 
-    _state: CalculationViewModelProto
+    _state: CalculationViewModelABC
+
+    # Widget injection
+    _top_bar: TopBarControllerProto
     _task_panel: TextTaskContainerProto
     _numpad: NumpadControllerProto
-
-    # Widgets injections
     _divider: Type[DividerProto]
     _flex_stub: Type[FlexColumnStubProto]
 
@@ -52,13 +43,14 @@ class CalculationView(
         """Construct the view."""
         super().__post_init__()
         self._content.test_id = NavID.SIMPLE_CALC
+        self._top_bar.add_observer(self)
         self._numpad.add_observer(self)
         self._state.add_observer(self)
 
     @override
     def _populate_content(self) -> None:
         self.content.add(
-            self._top_bar.content,  # Provided by `TopBarPageViewMixin`
+            self._top_bar.content,
             self._label_title,
             self._divider(),
             self._task_panel.content,
@@ -91,7 +83,6 @@ class CalculationView(
 
     # Feature
 
-    @override
     def navigate(self, nav_id: NavID) -> None:
         """Navigate."""
         self._state.navigate(nav_id)
@@ -141,7 +132,7 @@ class CalculationView(
     @override
     def numpad_entered(self, value: str) -> None:
         """Update user input."""
-        self._state.update_answer(answer=value)
+        self._state.update_answer(value=value)
 
     # Utility methods
 

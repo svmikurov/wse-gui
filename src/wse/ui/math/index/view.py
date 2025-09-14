@@ -7,12 +7,13 @@ from injector import inject
 from typing_extensions import override
 from wse_exercises.core import MathEnum
 
-from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.base import ViewABC
-from wse.feature.shared.containers.top_bar import TopBarViewMixin
+from wse.core.navigation.nav_id import NavID
+from wse.feature.shared.containers.top_bar.itop_bar import (
+    TopBarControllerProto,
+)
 from wse.feature.source_wraps import ExerciseSelectWrapperProto
-from wse.ui.math.index.abc import MathModelObserver
+from wse.ui.math.index.abc import MathIndexViewABC
 from wse.ui.math.index.state import MathIndexViewModel
 from wse.utils.contextmanager import EventDisabler
 from wse.utils.i18n import _, label_
@@ -20,15 +21,14 @@ from wse.utils.i18n import _, label_
 
 @inject
 @dataclass
-class MathIndexView(
-    TopBarViewMixin,
-    MathModelObserver,
-    ViewABC,
-):
+class MathIndexView(MathIndexViewABC):
     """Main Math page view."""
 
     _state: MathIndexViewModel
     _exercise_selection_wrapper: ExerciseSelectWrapperProto
+
+    # Widget injection
+    _top_bar: TopBarControllerProto
 
     @override
     def __post_init__(self) -> None:
@@ -36,6 +36,7 @@ class MathIndexView(
         super().__post_init__()
         self._content.test_id = NavID.INDEX_MATH
         self._state.add_observer(self)
+        self._top_bar.add_observer(self)
 
     @override
     def _populate_content(self) -> None:
@@ -69,7 +70,6 @@ class MathIndexView(
         self._label_title.text = label_('Main math page title')
         self._btn_start.text = _('Start exercise')
 
-    @override
     def navigate(self, nav_id: NavID) -> None:
         """Navigate."""
         self._state.navigate(nav_id)

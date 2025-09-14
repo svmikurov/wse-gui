@@ -4,14 +4,15 @@ from injector import inject
 from typing_extensions import override
 from wse_exercises.core import MathEnum
 
-from ..data.repositories.calculation_exercise import CalculationExerciseRepo
-from ..data.repositories.calculation_task import CalculationTaskRepo
-from ..data.repositories.protocol import CalculationRepoProto
+from ..data.repositories.abc import CalculationTaskRepoABC
+from ..data.repositories.calculation_exercises import CalculationExerciseRepo
 from ..data.sources.task import (
-    ResultObserverABC,
     TaskObserverABC,
 )
-from .abc import CheckCalculationUseCaseABC, GetQuestionUseCaseABC
+from .abc import (
+    CheckCalculationAnswerUseCaseABC,
+    GetCalculationQuestionUseCaseABC,
+)
 
 
 class SetCalculationExerciseUseCase:
@@ -31,7 +32,7 @@ class CalculationObserverRegistryUseCase:
     """Use Case for subscribing to calculation task events."""
 
     @inject
-    def __init__(self, repository: CalculationTaskRepo) -> None:
+    def __init__(self, repository: CalculationTaskRepoABC) -> None:
         """Construct the case."""
         self._repository = repository
 
@@ -41,14 +42,14 @@ class CalculationObserverRegistryUseCase:
 
 
 class UpdateQuestionUseCase(
-    GetQuestionUseCaseABC,
+    GetCalculationQuestionUseCaseABC,
 ):
     """Fetch calculation exercise task question Use Case."""
 
     @inject
     def __init__(
         self,
-        repository: CalculationRepoProto,
+        repository: CalculationTaskRepoABC,
     ) -> None:
         """Construct the case."""
         super().__init__(repository)
@@ -60,7 +61,7 @@ class UpdateQuestionUseCase(
 
 
 class CheckCalculationUseCase(
-    CheckCalculationUseCaseABC,
+    CheckCalculationAnswerUseCaseABC,
 ):
     """Check calculation exercise user task answer Use Case."""
 
@@ -68,23 +69,3 @@ class CheckCalculationUseCase(
     def check(self, answer: str) -> None:
         """Check user answer."""
         self._repository.fetch_result(answer)
-
-
-class CalculationLogicUseCase(ResultObserverABC):
-    """Calculation exercise logic."""
-
-    @inject
-    def __init__(
-        self,
-        repository: CalculationTaskRepo,
-    ) -> None:
-        """Construct the case."""
-        self._repository = repository
-        self._repository.add_observer(self)
-
-    def result_updated(self, is_correct: bool) -> None:
-        """Handle the answer check result."""
-        if is_correct:
-            self._repository.fetch_task()
-        else:
-            self._repository.update_solution()

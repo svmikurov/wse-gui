@@ -13,7 +13,6 @@ from wse.core.http import AuthSchemeProto, HttpClientProto
 from wse.feature.shared.schemas.exercise import (
     Assigned,
     ExerciseInfo,
-    ExerciseMeta,
 )
 
 from .abc import AssignationsApiABC
@@ -58,7 +57,7 @@ class AssignationsApi(AssignationsApiABC):
                 return None
 
     @override
-    def request_selected(self, assignation_id: str) -> ExerciseMeta | None:
+    def request_selected(self, assignation_id: str) -> Assigned | None:
         """Request selected exercise."""
         try:
             response = self._http_client.get(
@@ -74,12 +73,12 @@ class AssignationsApi(AssignationsApiABC):
 
         else:
             try:
-                meta = Assigned(**response.json())
+                assigned_exercise = Assigned(**response.json())
             except ValidationError as e:
                 logger.exception(f'Create Exercise meta error: {str(e)}')
                 return None
             else:
-                return meta
+                return assigned_exercise
 
     @staticmethod
     def _collect(

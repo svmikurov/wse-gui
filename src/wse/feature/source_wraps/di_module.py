@@ -1,4 +1,4 @@
-"""Defines Math data sources module."""
+"""Source wrap DI module."""
 
 from typing import no_type_check
 
@@ -8,8 +8,8 @@ from ..source_wraps import ExerciseSelectWrapperProto
 from ..source_wraps.selection import ExerciseSelectSourceWrap
 
 
-class MathSourceWrapsModule(Module):
-    """Simple Math calculation data sources module."""
+class SourceWrapsModule(Module):
+    """Source wrap DI module."""
 
     @no_type_check
     def configure(self, binder: Binder) -> None:

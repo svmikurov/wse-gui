@@ -1,5 +1,6 @@
 """Assigned exercise UI state."""
 
+import logging
 from dataclasses import dataclass, replace
 from typing import TypedDict
 
@@ -7,12 +8,17 @@ from injector import inject
 from typing_extensions import Unpack
 
 from wse.core.interfaces import Navigable
-from wse.data.sources.assigned import AssignedSourceObserverABC
-from wse.domain.abc import UserObserverRegistryUseCaseABC
+from wse.domain.abc import (
+    CheckAssignedAnswerUseCaseABC,
+    GetAssignedQuestionUseCaseABC,
+)
 from wse.domain.assigned import AssignedObserverRegistryUseCase
-from wse.domain.task import CalculationLogicUseCase
+from wse.domain.task_logic import AssignedLogicUseCase
+from wse.ui.base.task_state import TaskViewModelMixin
 
-from .abc import AssignedViewModelABC
+from .abc import AssignedExerciseViewModelABC
+
+logger = logging.getLogger(__name__)
 
 
 class _DataFieldType(TypedDict, total=False):
@@ -25,11 +31,8 @@ class _DataFieldType(TypedDict, total=False):
 
 
 @dataclass(frozen=True)
-class ExerciseUIState:
-    """Assigned exercise UI state data.
-
-    The UI state data is immutable.
-    """
+class _ExerciseUIState:
+    """Assigned exercise UI state data."""
 
     question: str | None = None
     answer: str | None = None
@@ -37,35 +40,37 @@ class ExerciseUIState:
     balance: str | None = None
 
 
+# TODO: Fix type ignore
 @inject
 @dataclass
-class AssignedViewModel(
-    AssignedSourceObserverABC,
-    AssignedViewModelABC,
+class AssignedExerciseViewModel(
+    TaskViewModelMixin,
+    AssignedExerciseViewModelABC,
 ):
     """Assigned exercise ViewModel."""
 
     _navigator: Navigable
 
-    # _question_case: UpdateQuestionUseCaseProto
-    # _result_case: CheckCalculationUseCaseProto
-    _logic_case: CalculationLogicUseCase
+    _question_case: GetAssignedQuestionUseCaseABC
+    _result_case: CheckAssignedAnswerUseCaseABC
+    _logic_case: AssignedLogicUseCase
 
     _source_observer_case: AssignedObserverRegistryUseCase
-    _user_observer_registry: UserObserverRegistryUseCaseABC
 
     def __post_init__(self) -> None:
         """Construct the state."""
         self._create_data()
         self._source_observer_case.register_observer(self)
-        self._user_observer_registry.register_observer(self)
-
-    # Utility methods
 
     def _create_data(self) -> None:
         """Create UI state data."""
-        self._data = ExerciseUIState()
+        self._data = _ExerciseUIState()
 
     def _update_data(self, **data: Unpack[_DataFieldType]) -> None:
         """Update UI state data."""
-        replace(self._data, **data)
+        self._data = replace(self._data, **data)
+
+    def _reset_data(self) -> None:
+        """Reset UI state data."""
+        self._create_data()
+        self._notify('state_reset')

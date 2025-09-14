@@ -6,15 +6,15 @@ from dataclasses import dataclass
 from injector import inject
 from typing_extensions import override
 
-from wse.apps.main.api import AssignedApiProto
 from wse.core.api import RelatedData
+from wse.feature.api.main.abc import AssignedApiClientABC
 from wse.feature.shared.schemas.task import Answer, Question, Result
 
 from ...feature.shared.schemas.exercise import Assigned
 from ..sources import TaskSource
-from ..sources.assigned import AssignedSource
+from ..sources.assigned import AssignedExerciseSource
 from ..sources.task import TaskObserverT
-from .abc import AssignedRepoABC
+from .abc import AssignedTaskRepoABC
 from .http_related import (
     RelatedDataHttpResponseRepoABC,
 )
@@ -24,14 +24,12 @@ logger = logging.getLogger(__name__)
 
 @inject
 @dataclass
-class AssignedTaskRepo(AssignedRepoABC):
+class AssignedTaskRepo(AssignedTaskRepoABC):
     """Protocol for calculation task repository interface."""
 
-    _api_client: AssignedApiProto
-
+    _api_client: AssignedApiClientABC
     _task_source: TaskSource
-    _assigned_source: AssignedSource
-
+    _assigned_source: AssignedExerciseSource
     _related_data_repo: RelatedDataHttpResponseRepoABC
 
     @override
@@ -58,12 +56,7 @@ class AssignedTaskRepo(AssignedRepoABC):
         return None
 
     def _get_exercise(self) -> Assigned:
-        return Assigned(
-            assignation_id='',
-            question_url_path='',
-            check_url_path='',
-            task_io='',
-        )
+        return Assigned(**self._assigned_source.data.__dict__)
 
     def _update_task(self, data: Question) -> None:
         self._task_source.update_task(data)

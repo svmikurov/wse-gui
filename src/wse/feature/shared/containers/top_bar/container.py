@@ -7,9 +7,12 @@ import toga
 from injector import inject
 from typing_extensions import override
 
-from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
+from wse.core.navigation.nav_id import NavID
+from wse.feature.base.container import CreateNavButtonABC
+from wse.feature.base.mixins import AddObserverMixin
 from wse.feature.interfaces.icontent import ContentProto
+from wse.feature.interfaces.iwidgets import NavigableButton
 from wse.feature.shared.widgets import FlexRowStubProto
 from wse.utils.i18n import nav_
 
@@ -23,6 +26,8 @@ from ..top_bar.itop_bar import (
 @inject
 @dataclass
 class TopBarContainer(
+    AddObserverMixin,
+    CreateNavButtonABC,
     TopBarContainerABC,
 ):
     """Top bar container."""
@@ -69,6 +74,12 @@ class TopBarContainer(
     def update_balance(self, value: str) -> None:
         """Update balance label."""
         self._label_balance.text = value
+
+    # Navigation callback
+
+    def _handle_navigate(self, button: NavigableButton) -> None:
+        """Handle navigation button press."""
+        self._subject.notify('navigate', nav_id=button.nav_id)
 
 
 @inject

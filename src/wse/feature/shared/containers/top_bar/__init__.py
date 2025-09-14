@@ -7,7 +7,6 @@ __all__ = [
     'TopBarContainer',
     'TopBarController',
     'TopBarModelMixin',
-    'TopBarViewMixin',
     'TopBarControllerMixin',
 ]
 
@@ -18,5 +17,4 @@ from .container import (
 from .mixin import (
     TopBarControllerMixin,
     TopBarModelMixin,
-    TopBarViewMixin,
 )

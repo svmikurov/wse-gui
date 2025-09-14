@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from injector import inject
 from wse_exercises.core import MathEnum
 
-from ..sources.exercise import CalculationExerciseSource
+from ..sources.calculation import CalculationExerciseSource
 
 
 @inject

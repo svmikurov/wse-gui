@@ -1,76 +1,21 @@
 """Home screen state."""
 
-import logging
-from dataclasses import dataclass, replace
-from typing import TypedDict
+from dataclasses import dataclass
 
 from injector import inject
-from typing_extensions import Unpack, override
 
-from wse.apps.nav_id import NavID
-from wse.core.auth import AuthServiceProto
 from wse.core.interfaces import Navigable
 
+from ...base.mixin import NavigateMixin
 from .abc import HomeViewModelABC
-
-logger = logging.getLogger(__name__)
-
-
-class _DataFieldType(TypedDict, total=False):
-    """Field types for UI state data."""
-
-    is_auth: bool
-
-
-@dataclass(frozen=True)
-class HomeUIState:
-    """Home screen UI state data."""
-
-    is_auth: bool = False
 
 
 @inject
 @dataclass
 class HomeViewModel(
+    NavigateMixin,
     HomeViewModelABC,
 ):
     """Home screen ViewModel."""
 
     _navigator: Navigable
-    _auth_service: AuthServiceProto
-
-    def __post_init__(self) -> None:
-        """Construct the model."""
-        self._create_data()
-
-    # API
-
-    @override
-    def refresh_context(self) -> None:
-        """Update screen context."""
-        self._set_auth_state()
-
-    # TODO: Move to base class.
-    @override
-    def navigate(self, nav_id: NavID) -> None:
-        """Handle the navigate event, callback."""
-        self._navigator.navigate(nav_id=nav_id)
-
-    # Utility methods
-
-    def _create_data(self) -> None:
-        """Create UI state data."""
-        self._data = HomeUIState()
-
-    def _update_data(self, **data: Unpack[_DataFieldType]) -> None:
-        """Update UI state data."""
-        replace(self._data, **data)
-
-    def _set_auth_state(self) -> None:
-        """Set user authenticated state."""
-        if is_auth := self._auth_service.is_auth:
-            self._notify('user_authenticated')
-        else:
-            self._notify('user_anonymous')
-
-        self._update_data(is_auth=is_auth)

@@ -3,7 +3,8 @@
 from abc import ABC, abstractmethod
 from typing import Any, Type
 
-from ...apps.nav_id import NavID
+from wse.core.navigation.nav_id import NavID
+
 from ..interfaces.imvc import PageControllerProto
 
 

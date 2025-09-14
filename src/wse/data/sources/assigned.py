@@ -1,19 +1,20 @@
 """Assigned exercise data source."""
 
-from abc import ABC
+from dataclasses import replace
 from typing import Literal
 
 from wse.data.entities.assigned import AssignedExercise
 from wse.data.sources.base.source import DataSourceGen
+from wse.feature.shared.schemas.exercise import Assigned
 
 _SourceNotifyT = Literal['']
 
 
-class AssignedSourceObserverABC(ABC):
+class AssignedSourceObserverABC:
     """ABC for Assigned exercise data source observer."""
 
 
-class AssignedSource(
+class AssignedExerciseSource(
     DataSourceGen[AssignedSourceObserverABC, _SourceNotifyT],
 ):
     """Assigned exercise data source."""
@@ -23,6 +24,10 @@ class AssignedSource(
         super().__init__()
         # This is the single source of troth, not injected.
         self._exercise = AssignedExercise()
+
+    def set_exercise(self, exercise: Assigned) -> None:
+        """Set assigned exercise."""
+        self._exercise = replace(self._exercise, **exercise.to_dict())
 
     @property
     def data(self) -> AssignedExercise:

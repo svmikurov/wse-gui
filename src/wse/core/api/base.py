@@ -2,7 +2,7 @@
 
 import logging
 from abc import ABC, abstractmethod
-from typing import Type, TypeVar
+from typing import Generic, Type, TypeVar
 
 import httpx
 from injector import inject
@@ -11,14 +11,8 @@ from pydantic import ValidationError
 from wse.feature.services import Answer
 
 from ..http import AuthSchemeProto, HttpClientProto
-from . import (
-    QuestionResponse,
-    ResultResponse,
-)
-from .protocol import (
-    ExerciseApiProto,
-    ExerciseT_contra,
-)
+from . import QuestionResponse, ResultResponse
+from .protocol import ExerciseT_contra
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +22,7 @@ T = TypeVar('T', QuestionResponse, ResultResponse)
 
 class ExerciseApi(
     ABC,
-    ExerciseApiProto[ExerciseT_contra],
+    Generic[ExerciseT_contra],
 ):
     """Base exercise api client."""
 

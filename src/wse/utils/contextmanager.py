@@ -4,9 +4,9 @@ import toga
 
 
 class EventDisabler:
-    """Temporary disabled Select windget `on_change` method.
+    """Temporary disabled `on_change` method of `toga.Selection` widget.
 
-    For exemple:
+    For example:
 
         def update_exercise_select(
             self, exercises: list[Exercise],

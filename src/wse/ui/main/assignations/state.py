@@ -6,10 +6,14 @@ from typing import TypedDict
 from injector import inject
 from typing_extensions import Unpack, override
 
-from wse.apps.main.api import AssignationsApiProto
-from wse.apps.nav_id import NavID
 from wse.core.interfaces import Navigable
-from wse.feature.shared.schemas.exercise import ExerciseInfo, ExerciseMeta
+from wse.core.navigation.nav_id import NavID
+from wse.domain.abc import SetAssignedExerciseUseCaseABC
+from wse.feature.api.main.abc import AssignationsApiABC
+from wse.feature.shared.schemas.exercise import (
+    Assigned,
+    ExerciseInfo,
+)
 
 from .abc import AssignationsViewModelABC
 
@@ -33,7 +37,8 @@ class AssignationsViewModel(AssignationsViewModelABC):
     """Assignations of exercises UI the ViewModel."""
 
     _navigator: Navigable
-    _api_service: AssignationsApiProto
+    _api_service: AssignationsApiABC
+    _assigned_exercise_case: SetAssignedExerciseUseCaseABC
 
     def __post_init__(self) -> None:
         """Construct the state."""
@@ -47,16 +52,20 @@ class AssignationsViewModel(AssignationsViewModelABC):
     @override
     def start_exercise(self, assignation_id: str) -> None:
         """Start selected assigned exercise.."""
-        exercise_api = self._fetch_exercise(assignation_id)
-        if exercise_api:
-            self._navigator.navigate(nav_id=NavID.EXERCISE, value=exercise_api)
+        if assigned_exercise := self._fetch_exercise(assignation_id):
+            self._assigned_exercise_case.set_exercise(assigned_exercise)
+            self._navigator.navigate(nav_id=NavID.EXERCISE)
+
+    def navigate(self, nav_id: NavID) -> None:
+        """Handle the navigate event, callback."""
+        self._navigator.navigate(nav_id=nav_id)
 
     # Utility methods
 
     def _fetch_exercises(self) -> None:
         """Fetch assigned exercises."""
-        exercises = self._api_service.request_all_exercises()
-        self._update_data(exercises=exercises)
+        if exercises := self._api_service.request_all_exercises():
+            self._update_data(exercises=exercises)
 
         if self._data.exercises is not None:
             self._notify('exercises_updated', exercises=self._data.exercises)
@@ -64,7 +73,7 @@ class AssignationsViewModel(AssignationsViewModelABC):
     def _fetch_exercise(
         self,
         assignation_id: str,
-    ) -> ExerciseMeta | None:
+    ) -> Assigned | None:
         """Fetch assigned exercise meta data."""
         return self._api_service.request_selected(assignation_id)
 

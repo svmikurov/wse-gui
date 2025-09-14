@@ -15,8 +15,8 @@ from wse.feature.shared.schemas.task import Answer, Question, Result
 
 from ..sources import TaskSource
 from ..sources.task import TaskObserverT
-from .abc import CalculationRepoABC
-from .calculation_exercise import CalculationExerciseRepo
+from .abc import CalculationTaskRepoABC
+from .calculation_exercises import CalculationExerciseRepo
 from .http_related import (
     RelatedDataHttpResponseRepoABC,
 )
@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 
 @inject
 @dataclass
-class CalculationTaskRepo(CalculationRepoABC):
+class CalculationTaskRepo(CalculationTaskRepoABC):
     """Protocol for calculation task repository interface."""
 
     _api_client: CalculationApiProto

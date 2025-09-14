@@ -5,8 +5,8 @@ from injector import inject
 from toga.widgets.base import Widget
 from typing_extensions import override
 
-from wse.apps.nav_id import NavID
 from wse.config.layout import ThemeConfig
+from wse.core.navigation.nav_id import NavID
 
 from ..interfaces.icontent import ContentProto
 

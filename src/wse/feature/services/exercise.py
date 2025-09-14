@@ -2,7 +2,7 @@
 
 from injector import inject
 
-from wse.apps.main.api.protocol import AssignedApiProto
+from wse.feature.api.main import AssignedApiProto
 from wse.feature.api.math import Calculation
 from wse.feature.shared.schemas.exercise import Assigned
 

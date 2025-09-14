@@ -8,7 +8,7 @@ from injector import inject
 
 from wse.config.layout import StyleConfig, ThemeConfig
 
-from ...base.container import Container
+from ...base.container import AddContentABC
 from ...shared.widgets import DividerProto
 from . import TextTaskContainerProto
 
@@ -16,7 +16,7 @@ from . import TextTaskContainerProto
 @inject
 @dataclass
 class TextTaskPanel(
-    Container,
+    AddContentABC,
     TextTaskContainerProto,
 ):
     """I/O text container."""

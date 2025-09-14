@@ -8,9 +8,9 @@ from injector import inject
 from typing_extensions import Unpack
 from wse_exercises.core import MathEnum
 
-from wse.apps.nav_id import NavID
 from wse.core.interfaces import Navigable
-from wse.data.repositories.calculation_exercise import (
+from wse.core.navigation.nav_id import NavID
+from wse.data.repositories.calculation_exercises import (
     CalculationExerciseRepo,
 )
 from wse.domain.task import SetCalculationExerciseUseCase

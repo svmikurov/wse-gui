@@ -7,17 +7,20 @@ import toga
 from injector import inject
 from typing_extensions import override
 
-from wse.apps.nav_id import NavID
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.base.mvc import ViewGen
+from wse.core.navigation.nav_id import NavID
+from wse.feature.base.mixins import AddObserverGen
 from wse.feature.base.mvc_exercise import ExerciseModelObserverABC
+from wse.feature.base.ui import ViewABC
 from wse.feature.interfaces.iobserver import Observable
 from wse.feature.shared.containers import (
     NumpadControllerProto,
     NumpadObserverABC,
     TextTaskContainerProto,
 )
-from wse.feature.shared.containers.top_bar import TopBarViewMixin
+from wse.feature.shared.containers.top_bar.itop_bar import (
+    TopBarControllerProto,
+)
 from wse.feature.shared.widgets import (
     DividerProto,
     FlexColumnStubProto,
@@ -34,31 +37,33 @@ _NotifyType = Literal[
 @inject
 @dataclass
 class IntegerView(
-    TopBarViewMixin,
     ExerciseModelObserverABC,
     NumpadObserverABC,
-    ViewGen[_NotifyType],
+    AddObserverGen[_NotifyType],
+    ViewABC,
 ):
     """Exercise view with integer I/O UI."""
 
     _subject: Observable
+
+    # Widget injection
+    _top_bar: TopBarControllerProto
     _task_panel: TextTaskContainerProto
     _numpad: NumpadControllerProto
-
-    # Widgets injections
     _divider: Type[DividerProto]
     _flex_stub: Type[FlexColumnStubProto]
 
     @override
     def __post_init__(self) -> None:
         super().__post_init__()
+        self._top_bar.add_observer(self)
         self._numpad.add_observer(self)
         self._content.test_id = NavID.SIMPLE_CALC
 
     @override
     def _populate_content(self) -> None:
         self.content.add(
-            self._top_bar.content,  # Provided by `TopBarPageViewMixin`
+            self._top_bar.content,
             self._label_title,
             self._divider(),
             self._task_panel.content,

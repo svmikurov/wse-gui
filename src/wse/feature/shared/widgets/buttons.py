@@ -2,7 +2,7 @@
 
 import toga
 
-from wse.apps.nav_id import NavID
+from wse.core.navigation.nav_id import NavID
 
 from ...interfaces.iwidgets import NavigableButton
 

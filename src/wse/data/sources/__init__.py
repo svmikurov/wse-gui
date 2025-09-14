@@ -1,9 +1,11 @@
 """Data layer sources."""
 
 __all__ = [
-    'TaskSource',
+    'AssignedExerciseSource',
     'CalculationExerciseSource',
+    'TaskSource',
 ]
 
-from .exercise import CalculationExerciseSource
+from .assigned import AssignedExerciseSource
+from .calculation import CalculationExerciseSource
 from .task import TaskSource

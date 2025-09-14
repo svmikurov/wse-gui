@@ -1,17 +1,15 @@
-"""Defines abc for constructing mvc model component base classes."""
+"""Abstract base classes for UI layout."""
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Generic
 
-from injector import inject
-
 from ... import StyleT, ThemeT
 from ...interfaces.icontent import ContentProto
 
 
-class LocalizeMixin(ABC):
-    """Abstract base class for UI localisation."""
+class LocalizeABC(ABC):
+    """ABC for UI localisation."""
 
     @abstractmethod
     def localize_ui(self) -> None:
@@ -32,7 +30,7 @@ class LocalizeMixin(ABC):
 
 
 class ContentABC(ABC):
-    """Abstract base class for providing content."""
+    """ABC to provide content."""
 
     @property
     @abstractmethod
@@ -53,10 +51,9 @@ class ContentABC(ABC):
         """
 
 
-@inject
 @dataclass
-class UpdateStyle(ABC, Generic[StyleT, ThemeT]):
-    """Abstract base class for UI style updating.
+class UpdateStyleABC(ABC, Generic[StyleT, ThemeT]):
+    """ABC for UI style updating.
 
     Receives the style and theme configuration into the constructor.
     Provides functionality to apply the application style and theme to

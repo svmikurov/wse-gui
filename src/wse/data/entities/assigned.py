@@ -10,7 +10,9 @@ class AssignedExercise:
     Exercise that was selected by user to complete.
     """
 
-    question_url_path: str
-    check_url_path: str
+    assignation_id: str | None = None
 
-    task_io: str
+    question_url_path: str | None = None
+    check_url_path: str | None = None
+
+    task_io: str | None = None

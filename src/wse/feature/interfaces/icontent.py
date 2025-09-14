@@ -4,7 +4,7 @@ from typing import Protocol
 
 from toga import Widget
 
-from wse.apps.nav_id import NavID
+from wse.core.navigation.nav_id import NavID
 
 from ..interfaces.istyle import StyleMixinProto
 

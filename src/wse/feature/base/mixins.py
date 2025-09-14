@@ -3,15 +3,13 @@
 from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 
-from wse.apps.nav_id import NavID
 from wse.core.interfaces import Navigable
+from wse.core.navigation.nav_id import NavID
 
 from ..interfaces.icontent import ContentProto
 from ..interfaces.imvc import ModelProto
 from ..interfaces.iobserver import Observable, ObserverProto
-from ..interfaces.iwidgets import NavigableButton
 from ..interfaces.types import NotifyT, ObserverT
-from ..shared.widgets.buttons import NavButton
 
 ModelT = TypeVar('ModelT', bound=ModelProto)
 OpenT = TypeVar('OpenT')
@@ -67,21 +65,6 @@ class NotifyNavigateMixin:
     def navigate(self, nav_id: NavID) -> None:
         """Notify to navigate."""
         self._subject.notify('navigate', nav_id=nav_id)
-
-
-@dataclass
-class CreateNavButtonMixin:
-    """Mixin that provides navigation button creation functionality."""
-
-    _subject: Observable
-
-    def _create_nav_btn(self, nav_id: NavID) -> NavigableButton:
-        """Create navigation button."""
-        return NavButton(nav_id=nav_id, on_press=self._handle_navigate)
-
-    def _handle_navigate(self, button: NavigableButton) -> None:
-        """Handle navigation button press."""
-        self._subject.notify('navigate', nav_id=button.nav_id)
 
 
 @dataclass

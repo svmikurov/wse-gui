@@ -1,52 +1,26 @@
 """Abstract base classes for Home screen UI layer."""
 
-from abc import ABC, abstractmethod
-from typing import Literal
+from abc import ABC
 
-from wse.apps.nav_id import NavID
 from wse.feature.base import ViewABC
-from wse.feature.base.mixins import AddObserverGenT
-
-_NotifyT = Literal[
-    'user_authenticated',
-    'user_anonymous',
-]
+from wse.feature.base.container import CreateNavButtonABC
+from wse.ui.base.abc import NavigateABC
 
 # ViewModel
 
 
-class HomeViewModelObserverABC(ABC):
-    """ABC for Home ViewModel observer."""
-
-    @abstractmethod
-    def user_authenticated(self) -> None:
-        """Set content for authenticated user."""
-
-    @abstractmethod
-    def user_anonymous(self) -> None:
-        """Set content for anonymous user."""
-
-
 class HomeViewModelABC(
-    AddObserverGenT[HomeViewModelObserverABC, _NotifyT],
+    NavigateABC,
     ABC,
 ):
     """ABC for Home screen ViewModel."""
-
-    @abstractmethod
-    def refresh_context(self) -> None:
-        """Refresh screen context."""
-
-    @abstractmethod
-    def navigate(self, nav_id: NavID) -> None:
-        """Handle the navigate event, callback."""
 
 
 # View
 
 
 class HomeViewABC(
-    HomeViewModelObserverABC,
+    CreateNavButtonABC,
     ViewABC,
     ABC,
 ):

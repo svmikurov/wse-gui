@@ -3,21 +3,18 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from injector import inject
-
+from ...core.navigation.nav_id import NavID
 from .. import StyleT, ThemeT
 from ..base.mixins import (
-    AddObserverGen,
-    AddObserverMixin,
-    CreateNavButtonMixin,
     GetContentMixin,
 )
-from ..interfaces.types import NotifyT
-from .abstract.mvc import LocalizeMixin, UpdateStyle
+from ..interfaces.iwidgets import NavigableButton
+from ..shared.widgets.buttons import NavButton
+from .abstract.mvc import LocalizeABC, UpdateStyleABC
 
 
 @dataclass
-class Container(
+class AddContentABC(
     GetContentMixin,
     ABC,
 ):
@@ -29,7 +26,7 @@ class Container(
         self._setup()
         self._populate_content()
 
-    def _setup(self) -> None:
+    def _setup(self) -> None:  # noqa: B027
         """Set up container features.
 
         Add features:
@@ -75,38 +72,43 @@ class Container(
         """
 
 
-@inject
 @dataclass
-class NavigableContainer(
-    CreateNavButtonMixin,
-    AddObserverMixin,
-    Container,
-    UpdateStyle[StyleT, ThemeT],
-    LocalizeMixin,
-    ABC,
-):
-    """Abstract base class for navigation container.
+class CreateNavButtonABC(ABC):
+    """ABC for navigable container.
 
-    **DEPRECATED** – Use `NavigableContainerGen`.
+    For example:
+
+        self._btn_account = self._create_nav_btn(nav_id=NavID.ACCOUNT)
+
+        1) Use with observer pattern:
+
+        _subject: Observable
+
+        def _handle_navigate(self, button: NavigableButton) -> None:
+            self._subject.notify('navigate', nav_id=button.nav_id)
+
+        2) Use with callback of ViewModel method:
+
+        def _handle_navigate(self, button: NavigableButton) -> None:
+            self._state.navigate(button.nav_id)
     """
 
-    def _setup(self) -> None:
-        super()._setup()
-        self.localize_ui()
-        self._apply_styles()
+    def _create_nav_btn(self, nav_id: NavID) -> NavigableButton:
+        """Create navigation button."""
+        return NavButton(nav_id=nav_id, on_press=self._handle_navigate)
+
+    @abstractmethod
+    def _handle_navigate(self, button: NavigableButton) -> None:
+        """Handle navigation button press."""
 
 
-@inject
-@dataclass
-class NavigableContainerGen(
-    CreateNavButtonMixin,
-    AddObserverGen[NotifyT],
-    UpdateStyle[StyleT, ThemeT],
-    LocalizeMixin,
-    Container,
+class ContainerABC(
+    UpdateStyleABC[StyleT, ThemeT],
+    AddContentABC,
+    LocalizeABC,
     ABC,
 ):
-    """Abstract base class for navigation container."""
+    """ABC for container."""
 
     def _setup(self) -> None:
         super()._setup()

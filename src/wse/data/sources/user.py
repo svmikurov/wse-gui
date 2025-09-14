@@ -45,7 +45,6 @@ class UserSource(
         """Update balance."""
         self._update_data(balance=balance)
         self.notify('balance_updated', balance=self._data.balance)
-        print(f'Balance updated: {balance}')
 
     # Utility methods
 

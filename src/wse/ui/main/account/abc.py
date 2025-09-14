@@ -5,10 +5,9 @@ from typing import Literal
 
 import toga
 
-from wse.apps.nav_id import NavID
+from wse.core.navigation.nav_id import NavID
 from wse.feature.base import ViewABC
 from wse.feature.base.mixins import AddObserverGenT
-from wse.feature.shared.containers.top_bar import TopBarViewMixin
 
 _NotifyT = Literal[
     'user_authenticated',
@@ -76,7 +75,6 @@ class AuthViewModelABC(
 
 class AuthViewABC(
     ViewModelObserverABC,
-    TopBarViewMixin,
     ViewABC,
     ABC,
 ):

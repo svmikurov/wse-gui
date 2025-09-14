@@ -5,9 +5,7 @@ from typing import Protocol
 
 from typing_extensions import override
 
-from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.base import Controller
-from wse.feature.base.container import NavigableContainer
+from wse.feature.base import Controller, ViewABC
 from wse.feature.base.mixins import AddObserverMixin, NotifyNavigateMixin
 from wse.feature.interfaces.icontent import GetContentProto
 from wse.feature.interfaces.iobserver import AddObserverProto
@@ -45,7 +43,7 @@ class TopBarContainerFeaturesABC(ABC):
 
 class TopBarContainerABC(
     TopBarContainerFeaturesABC,
-    NavigableContainer[StyleConfig, ThemeConfig],
+    ViewABC,
     ABC,
 ):
     """Base class for Top Bar container."""
