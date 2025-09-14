@@ -71,7 +71,7 @@ class TopBarControllerProto(
 
 
 class TopBarControllerFeaturesABC(ABC, TopBarControllerFeatureProto):
-    """Abstract base class for top bar controller features."""
+    """ABC for top bar controller features."""
 
     # Api for view
 

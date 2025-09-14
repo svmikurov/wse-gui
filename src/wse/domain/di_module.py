@@ -32,6 +32,12 @@ class UseCaseModule(Module):
     @no_type_check
     def configure(self, binder: Binder) -> None:
         """Configure the bindings."""
+        # User
+        binder.bind(
+            UserObserverRegistryUseCaseABC,
+            to=UserObserverRegistryUseCase,
+        )
+
         # Mathematical discipline
         binder.bind(
             GetCalculationQuestionUseCaseABC,
@@ -40,12 +46,6 @@ class UseCaseModule(Module):
         binder.bind(
             CheckCalculationAnswerUseCaseABC,
             to=CheckCalculationUseCase,
-        )
-
-        # User
-        binder.bind(
-            UserObserverRegistryUseCaseABC,
-            to=UserObserverRegistryUseCase,
         )
 
         # Assigned exercise

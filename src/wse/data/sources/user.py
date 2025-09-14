@@ -1,5 +1,6 @@
 """User data source."""
 
+import logging
 from abc import ABC, abstractmethod
 from dataclasses import replace
 from typing import Literal
@@ -11,13 +12,15 @@ from wse.data.sources.base.source import DataSourceGen
 
 _NotifyT = Literal['balance_updated']
 
+logger = logging.getLogger(__name__)
+
 
 class UserSourceABC(ABC):
     """ABC for User source."""
 
     @abstractmethod
     def update_balance(self, balance: str) -> None:
-        """Update balance."""
+        """Update balance with listeners notify."""
 
 
 class UserObserverABC(ABC):
@@ -39,10 +42,16 @@ class UserSource(
         super().__init__()
         self._create_data()
 
+    def add_listener(self, listener: UserObserverABC) -> None:
+        """Notify new listener about state of user data."""
+        super().add_listener(listener)
+        if self._data.balance:
+            listener.balance_updated(balance=self._data.balance)
+
     # API
 
     def update_balance(self, balance: str) -> None:
-        """Update balance."""
+        """Update balance with listeners notify."""
         self._update_data(balance=balance)
         self.notify('balance_updated', balance=self._data.balance)
 

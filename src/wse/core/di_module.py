@@ -7,11 +7,12 @@ import toga
 from injector import Binder, Module, provider, singleton
 
 from wse.core.auth import AuthServiceProto
-from wse.core.http.auth_schema import AuthSchema
+from wse.core.http.auth_schema import AuthScheme
 from wse.core.http.client import HttpClient
 
 from .api import AuthAPIjwtProto
 from .api.auth_jwt import AuthAPIjwt
+from .api.data import DataApi, DataApiABC
 from .auth.service import AuthService
 from .http import AuthSchemeProto, HttpClientProto
 from .interfaces import Navigable
@@ -32,13 +33,16 @@ class CoreModule(Module):
         # Storage service
         binder.bind(JWTJsonStorageProto, JWTJsonStorage)
 
+        # Core API
+        binder.bind(DataApiABC, to=DataApi)
+
         # Authentication service
         binder.bind(AuthServiceProto, to=AuthService, scope=singleton)
         binder.bind(AuthAPIjwtProto, to=AuthAPIjwt)
 
         # HTTP services
         binder.bind(HttpClientProto, to=HttpClient)
-        binder.bind(AuthSchemeProto, to=AuthSchema, scope=singleton)
+        binder.bind(AuthSchemeProto, to=AuthScheme, scope=singleton)
 
     @provider
     @singleton

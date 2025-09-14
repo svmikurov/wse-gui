@@ -24,29 +24,27 @@ class ApiConfigLoader(Generic[T]):
         self._config = config
         self._path = config_path
 
-    def load_api_config(self) -> T:
+    def load_api_config(self) -> T | None:
         """Load configuration data from a file."""
         try:
             if not self._path.exists():
                 logger.error(f'Error load {self._path} API config')
-                raise FileNotFoundError(f'Fail {self._path} not found')
 
             with self._path.open('r', encoding='utf-8') as f:
                 try:
                     data = json.load(f)
-                except json.JSONDecodeError as e:
+                except json.JSONDecodeError:
                     logger.exception(f'Parsing error {self._path}')
-                    raise ValueError(f'Json parsing error: {e}') from e
 
             try:
                 return self._config(**data)
-            except ValidationError as e:
+            except ValidationError:
                 logger.exception(f'Validation error {self._path} config')
-                raise ValueError(f'Validation error: {e}') from e
 
-        except Exception as e:
+        except Exception:
             logger.exception(f'Error to open {self._path}')
-            raise RuntimeError(f'Error to open {self._path}: {e}') from e
+
+        return None
 
 
 def load_style_data(

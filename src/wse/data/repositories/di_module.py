@@ -12,6 +12,7 @@ from .http_related import (
     RelatedDataHttpResponseRepo,
     RelatedDataHttpResponseRepoABC,
 )
+from .initial import InitialDataRepo, InitialDataRepoABC
 from .user import UserRepo, UserRepoABC
 
 
@@ -25,6 +26,7 @@ class RepoModule(Module):
         binder.bind(CalculationExerciseRepo)
         binder.bind(UserRepoABC, to=UserRepo)
         binder.bind(AssignedTaskRepoABC, to=AssignedTaskRepo)
+        binder.bind(InitialDataRepoABC, to=InitialDataRepo)
 
         binder.bind(
             RelatedDataHttpResponseRepoABC,

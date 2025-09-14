@@ -11,6 +11,7 @@ from wse.core.interfaces import Navigable
 from wse.domain.abc import (
     CheckAssignedAnswerUseCaseABC,
     GetAssignedQuestionUseCaseABC,
+    UserObserverRegistryUseCaseABC,
 )
 from wse.domain.assigned import AssignedObserverRegistryUseCase
 from wse.domain.task_logic import AssignedLogicUseCase
@@ -40,7 +41,6 @@ class _ExerciseUIState:
     balance: str | None = None
 
 
-# TODO: Fix type ignore
 @inject
 @dataclass
 class AssignedExerciseViewModel(
@@ -55,12 +55,20 @@ class AssignedExerciseViewModel(
     _result_case: CheckAssignedAnswerUseCaseABC
     _logic_case: AssignedLogicUseCase
 
-    _source_observer_case: AssignedObserverRegistryUseCase
+    _task_observer_case: AssignedObserverRegistryUseCase
+    _user_observer_case: UserObserverRegistryUseCaseABC
 
     def __post_init__(self) -> None:
         """Construct the state."""
         self._create_data()
-        self._source_observer_case.register_observer(self)
+        self._task_observer_case.register_observer(self)
+        self._user_observer_case.register_observer(self)
+
+    def refresh_context(self) -> None:
+        """Refresh context."""
+        self._notify('balance_updated', balance=self._data.balance)
+
+    # Utility methods
 
     def _create_data(self) -> None:
         """Create UI state data."""
@@ -72,5 +80,5 @@ class AssignedExerciseViewModel(
 
     def _reset_data(self) -> None:
         """Reset UI state data."""
-        self._create_data()
+        # self._create_data()
         self._notify('state_reset')

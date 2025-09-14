@@ -1,20 +1,17 @@
 """Abstract base classes for Assigned exercise UI layer."""
 
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import Literal
 
 from wse.data.sources.assigned import AssignedSourceObserverABC
 from wse.data.sources.task import TaskObserverABC
 from wse.data.sources.user import UserObserverABC
-from wse.feature.base import ViewABC
 from wse.feature.base.mixins import (
-    AddObserverGen,
-    AddObserverGenT,
     NavigateMixin,
 )
-from wse.feature.shared.containers import NumpadObserverABC
 from wse.ui.base.mixin import BalanceUpdatedMixin
-from wse.ui.base.task import TaskViewModelFeatureABC, TaskViewModelObserverABC
+from wse.ui.base.task import TaskViewModelFeatureABC
+from wse.ui.math.calculation.view import CalculationView
 
 # State
 
@@ -30,7 +27,6 @@ _WidgetNotifyT = Literal['navigate']
 
 
 class AssignedExerciseViewModelABC(
-    AddObserverGenT[TaskViewModelObserverABC, _StateNotifyT],
     NavigateMixin,
     BalanceUpdatedMixin,
     AssignedSourceObserverABC,
@@ -41,15 +37,15 @@ class AssignedExerciseViewModelABC(
 ):
     """ABC for Assigned exercise ViewModel."""
 
+    @abstractmethod
+    def refresh_context(self) -> None:
+        """Refresh context."""
+
 
 # View
 
 
 class AssignedExerciseViewABC(
-    AddObserverGen[_WidgetNotifyT],
-    NumpadObserverABC,
-    TaskViewModelObserverABC,
-    ViewABC,
-    ABC,
+    CalculationView,
 ):
     """ABC for Assigned exercise View."""

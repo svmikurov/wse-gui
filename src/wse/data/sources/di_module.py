@@ -9,6 +9,7 @@ from . import (
     CalculationExerciseSource,
     TaskSource,
 )
+from .user import UserSource
 
 
 class SourceModule(Module):
@@ -20,3 +21,4 @@ class SourceModule(Module):
         binder.bind(TaskSource, scope=SingletonScope)
         binder.bind(CalculationExerciseSource, scope=SingletonScope)
         binder.bind(AssignedExerciseSource, scope=SingletonScope)
+        binder.bind(UserSource, scope=SingletonScope)

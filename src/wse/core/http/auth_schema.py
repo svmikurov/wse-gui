@@ -33,7 +33,7 @@ logger = logging.getLogger(__name__)
 
 
 # TODO: Fix typing ignore
-class AuthSchema(httpx.Auth, AuthSchemeProto):  # type: ignore[misc]
+class AuthScheme(httpx.Auth, AuthSchemeProto):  # type: ignore[misc]
     """Custom authentication schema.
 
     Use with httpx.Client() for authenticated request.

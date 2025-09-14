@@ -12,6 +12,7 @@ from wse.ui.routes import UIRoutes
 
 from .config.layout import StyleConfig
 from .core.interfaces import Navigable
+from .data.repositories.initial import InitialDataRepoABC
 from .di import create_injector
 
 logger = logging.getLogger(__name__)
@@ -31,6 +32,7 @@ class WSE(toga.App):  # type: ignore[misc]
         self._set_config()
         self._initialize_main_window()
         self._set_auth_status()
+        self._set_initial_data()
         self._set_navigator()
         self._navigate_to_start_page()
 
@@ -58,6 +60,11 @@ class WSE(toga.App):  # type: ignore[misc]
         auth_service = self._injector.get(AuthServiceProto)  # type: ignore[type-abstract]
         auth_service.set_auth_status()
         logger.info(f'User authenticated: {auth_service.is_auth}')
+
+    def _set_initial_data(self) -> None:
+        """Fetch initial app data."""
+        data_repo = self._injector.get(InitialDataRepoABC)  # type: ignore[type-abstract]
+        data_repo.update_data()
 
     def _set_navigator(self) -> None:
         """Set the page navigator."""

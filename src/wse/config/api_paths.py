@@ -10,6 +10,7 @@ class ApiConfig(BaseModel):
     jwt: dict[str, str]
     assigned_exercises: str
     selected_exercise: str
+    initial_data_path: str
 
 
 class APIConfigV1(ApiConfig):
