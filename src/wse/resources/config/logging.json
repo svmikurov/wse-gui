@@ -5,6 +5,15 @@
         "default": {
             "format": "[%(asctime)s] %(levelname)s - %(name)s: %(message)s",
             "datefmt": "%Y-%m-%d %H:%M:%S"
+        },
+        "audit": {
+            "()": "colorlog.ColoredFormatter",
+            "format": "%(log_color)s[%(asctime)s] AUDIT - %(message)s",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+            "log_colors": {
+                "INFO": "cyan",
+                "DEBUG": "yellow"
+            }
         }
     },
     "handlers": {
@@ -20,12 +29,23 @@
             "formatter": "default",
             "filename": "wse.log",
             "mode": "a"
+        },
+        "audit_console": {
+          "class": "logging.StreamHandler",
+          "level": "DEBUG",
+          "formatter": "audit",
+          "stream": "ext://sys.stdout"
         }
     },
     "loggers": {
         "wse": {
             "level": "DEBUG",
             "handlers": ["console", "file"],
+            "propagate": false
+        },
+        "audit": {
+            "level": "DEBUG",
+            "handlers": ["audit_console"],
             "propagate": false
         }
     },
