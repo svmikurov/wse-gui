@@ -56,19 +56,19 @@ class Navigator:
             raise NavigateError('Window is not initialized')
 
         try:
-            page_controller = self._injector.get(
-                self._get_page_controller(nav_id)
+            view = self._injector.get(
+                self._get_view(nav_id)
             )
         except ContentError:
             logger.error(f"The navigation to the '{nav_id}' has failed")
             raise
         else:
             try:
-                page_controller.on_open(**kwargs)
+                view.on_open(**kwargs)
             except AttributeError:
                 # The page may not have any methods called when opened.
                 pass
-            self._window.content = page_controller.content
+            self._window.content = view.content
             logger.debug(f"The '{nav_id}' is open")
 
     def set_main_window(self, window: toga.Window) -> None:
@@ -82,10 +82,7 @@ class Navigator:
         """Set page route mapping."""
         self._routes = routes
 
-    def _get_page_controller(
-        self,
-        nav_id: NavID,
-    ) -> Type[PageControllerProto[Any]]:
+    def _get_view(self, nav_id: NavID) -> Type[PageControllerProto[Any]]:
         if self._routes is None:
             raise NavigateError('Route mapping is not initialized')
 
