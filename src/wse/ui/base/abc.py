@@ -11,3 +11,11 @@ class NavigateABC(ABC):
     @abstractmethod
     def navigate(self, nav_id: NavID) -> None:
         """Handle the navigate event."""
+
+
+class CloseScreenABC(ABC):
+    """ABC for close screen event."""
+
+    @abstractmethod
+    def on_close(self) -> None:
+        """Call methods before close the screen."""

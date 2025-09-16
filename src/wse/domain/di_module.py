@@ -2,24 +2,28 @@
 
 from typing import no_type_check
 
-from injector import Binder, Module
+from injector import Binder, Module, SingletonScope
 
 from .abc import (
     CheckAssignedAnswerUseCaseABC,
     CheckCalculationAnswerUseCaseABC,
     GetAssignedQuestionUseCaseABC,
+    GetAssignedSolutionUseCaseABC,
     GetCalculationQuestionUseCaseABC,
+    GetCalculationSolutionUseCaseABC,
     SetAssignedExerciseUseCaseABC,
     UserObserverRegistryUseCaseABC,
 )
 from .assigned import (
     CheckAssignedAnswerUseCase,
     GetAssignedQuestionUseCase,
+    GetAssignedSolutionUseCase,
     SetAssignedExerciseUseCase,
 )
-from .task import (
-    CheckCalculationUseCase,
-    UpdateQuestionUseCase,
+from .math_task import (
+    CheckCalculationAnswerUseCase,
+    GetCalculationQuestionUseCase,
+    GetCalculationSolutionUseCase,
 )
 from .user import (
     UserObserverRegistryUseCase,
@@ -41,11 +45,16 @@ class UseCaseModule(Module):
         # Mathematical discipline
         binder.bind(
             GetCalculationQuestionUseCaseABC,
-            to=UpdateQuestionUseCase,
+            to=GetCalculationQuestionUseCase,
+            scope=SingletonScope,
         )
         binder.bind(
             CheckCalculationAnswerUseCaseABC,
-            to=CheckCalculationUseCase,
+            to=CheckCalculationAnswerUseCase,
+        )
+        binder.bind(
+            GetCalculationSolutionUseCaseABC,
+            to=GetCalculationSolutionUseCase,
         )
 
         # Assigned exercise
@@ -60,4 +69,8 @@ class UseCaseModule(Module):
         binder.bind(
             CheckAssignedAnswerUseCaseABC,
             to=CheckAssignedAnswerUseCase,
+        )
+        binder.bind(
+            GetAssignedSolutionUseCaseABC,
+            to=GetAssignedSolutionUseCase,
         )

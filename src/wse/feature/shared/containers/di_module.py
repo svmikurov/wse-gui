@@ -4,7 +4,7 @@ from typing import no_type_check
 
 from injector import Binder, Module
 
-from .assigned import AssignationsContainerProto
+from .assigned.abc import AssignationsContainerABC
 from .assigned.container import AssignationsContainer
 from .interfaces import TextTaskContainerProto
 from .login import (
@@ -27,7 +27,8 @@ from .numpad import (
 )
 from .task_panel import TextTaskPanel
 from .top_bar import TopBarContainer, TopBarController
-from .top_bar.itop_bar import TopBarContainerProto, TopBarControllerProto
+from .top_bar.abc import TopBarControllerABC
+from .top_bar.itop_bar import TopBarContainerProto
 
 
 class ContainerModule(Module):
@@ -50,7 +51,7 @@ class ContainerModule(Module):
 
         # TopBar container
         binder.bind(TopBarContainerProto, to=TopBarContainer)
-        binder.bind(TopBarControllerProto, to=TopBarController)
+        binder.bind(TopBarControllerABC, to=TopBarController)
 
         # Assigned exercises container
-        binder.bind(AssignationsContainerProto, to=AssignationsContainer)
+        binder.bind(AssignationsContainerABC, to=AssignationsContainer)

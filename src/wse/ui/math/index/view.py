@@ -9,9 +9,7 @@ from wse_exercises.core import MathEnum
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation.nav_id import NavID
-from wse.feature.shared.containers.top_bar.itop_bar import (
-    TopBarControllerProto,
-)
+from wse.feature.shared.containers.top_bar.abc import TopBarControllerABC
 from wse.feature.source_wraps import ExerciseSelectWrapperProto
 from wse.ui.math.index.abc import MathIndexViewABC
 from wse.ui.math.index.state import MathIndexViewModel
@@ -28,13 +26,13 @@ class MathIndexView(MathIndexViewABC):
     _exercise_selection_wrapper: ExerciseSelectWrapperProto
 
     # Widget injection
-    _top_bar: TopBarControllerProto
+    _top_bar: TopBarControllerABC
 
     @override
     def __post_init__(self) -> None:
         """Construct the view."""
         super().__post_init__()
-        self._content.test_id = NavID.INDEX_MATH
+        self._content.test_id = NavID.MATH
         self._state.add_observer(self)
         self._top_bar.add_observer(self)
 
@@ -92,3 +90,10 @@ class MathIndexView(MathIndexViewABC):
         # The selection is stored as an enumeration of entity instances.
         entity = self._exercise_select.items.find(value)
         self._exercise_select.value = entity
+
+    # Close screen
+
+    def on_close(self) -> None:
+        """CAll methods on close screen event."""
+        self._top_bar.remove_observer(self)
+        self._state.remove_observer(self)

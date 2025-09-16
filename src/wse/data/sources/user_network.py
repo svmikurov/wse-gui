@@ -5,7 +5,6 @@ from abc import ABC, abstractmethod
 from injector import inject
 
 from wse.core.api.data import DataApiABC
-from wse.core.api.response import InitialDataResponse
 from wse.feature.shared.schemas.core import InitialData
 
 
@@ -13,7 +12,7 @@ class UserNetworkSourceABC(ABC):
     """ABC for User Network data source."""
 
     @abstractmethod
-    def fetch_data(self) -> InitialDataResponse | None:
+    def fetch_data(self) -> InitialData | None:
         """Fetch app initial data."""
 
 

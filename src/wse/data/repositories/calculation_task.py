@@ -83,6 +83,7 @@ class CalculationTaskRepo(CalculationTaskRepoABC):
         if data is not None:
             self._related_data_repo.update_related(data)
 
+    @override
     def add_observer(
         self,
         listener: TaskObserverT,
@@ -90,6 +91,12 @@ class CalculationTaskRepo(CalculationTaskRepoABC):
         """Subscribe listener to repository notifications."""
         self._task_source.add_listener(listener)
 
+    @override
+    def remove_observer(self, listener: TaskObserverT) -> None:
+        """Remove listener from repository notifications."""
+        self._task_source.remove_listener(listener)
+
+    @override
     def update_solution(self) -> None:
         """Set current solution."""
         self._task_source.update_solution()

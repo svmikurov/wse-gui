@@ -8,10 +8,8 @@ from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation.nav_id import NavID
-from wse.feature.shared.containers.assigned import AssignationsContainerProto
-from wse.feature.shared.containers.top_bar.itop_bar import (
-    TopBarControllerProto,
-)
+from wse.feature.shared.containers.assigned.abc import AssignationsContainerABC
+from wse.feature.shared.containers.top_bar.abc import TopBarControllerABC
 from wse.feature.shared.schemas.exercise import ExerciseInfo
 from wse.utils.i18n import label_
 
@@ -29,8 +27,8 @@ class AssignationsView(AssignationsViewABC):
     _state: AssignationsViewModelABC
 
     # UI
-    _top_bar: TopBarControllerProto
-    _exercises: AssignationsContainerProto
+    _top_bar: TopBarControllerABC
+    _exercises: AssignationsContainerABC
 
     def __post_init__(self) -> None:
         """Construct the view."""
@@ -81,3 +79,10 @@ class AssignationsView(AssignationsViewABC):
     def exercise_selected(self, assignation_id: str) -> None:
         """Notify that exercise selected."""
         self._state.start_exercise(assignation_id=assignation_id)
+
+    def on_close(self) -> None:
+        """Call methods before close the screen."""
+        self._exercises.remove_observer(self)
+        self._top_bar.remove_observer(self)
+        self._state.remove_observer(self)
+        self._state.on_close()

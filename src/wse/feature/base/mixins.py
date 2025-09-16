@@ -1,14 +1,13 @@
 """Defines mixins for features base classes."""
 
 from dataclasses import dataclass
-from typing import Any, Generic, TypeVar
+from typing import Generic, TypeVar
 
-from wse.core.interfaces import Navigable
 from wse.core.navigation.nav_id import NavID
 
 from ..interfaces.icontent import ContentProto
 from ..interfaces.imvc import ModelProto
-from ..interfaces.iobserver import Observable, ObserverProto
+from ..interfaces.iobserver import ObserverProto, SubjectABC
 from ..interfaces.types import NotifyT, ObserverT
 
 ModelT = TypeVar('ModelT', bound=ModelProto)
@@ -31,17 +30,6 @@ class SetupMixin:
 
 
 @dataclass
-class NavigateMixin:
-    """Mixin to provide navigation functionality."""
-
-    _navigator: Navigable
-
-    def navigate(self, nav_id: NavID, **kwargs: dict[str, Any]) -> None:
-        """Navigate to page."""
-        self._navigator.navigate(nav_id, **kwargs)
-
-
-@dataclass
 class NotifyNavigateMixin:
     """Mixin to provide navigation notification.
 
@@ -60,7 +48,7 @@ class NotifyNavigateMixin:
 
     """
 
-    _subject: Observable
+    _subject: SubjectABC
 
     def navigate(self, nav_id: NavID) -> None:
         """Notify to navigate."""
@@ -83,11 +71,15 @@ class GetContentMixin:
 class AddObserverMixin:
     """Mixin that enables observer subscription capability."""
 
-    _subject: Observable
+    _subject: SubjectABC
 
     def add_observer(self, observer: ObserverProto) -> None:
-        """Subscribe observer an event has occurred."""
+        """Register an observer to receive calculation task updates."""
         self._subject.add_observer(observer)
+
+    def remove_observer(self, observer: ObserverProto) -> None:
+        """Remove observer from subject observers."""
+        self._subject.remove_observer(observer)
 
     def _notify(self, notification: str, **kwargs: object) -> None:
         self._subject.notify(notification, **kwargs)
@@ -100,30 +92,38 @@ class AddObserverGen(Generic[NotifyT]):
     **DEPRECATED** Will be removed, use `AddObserverGenT`.
     """
 
-    _subject: Observable
+    _subject: SubjectABC
 
-    def add_observer(self, observer: ObserverProto) -> None:
+    def add_observer(self, observer: ObserverT) -> None:
         """Subscribe observer an event has occurred."""
         self._subject.add_observer(observer)
+
+    def remove_observer(self, observer: ObserverT) -> None:
+        """Remove observer."""
+        self._subject.remove_observer(observer)
 
     def _notify(self, notification: NotifyT, **kwargs: object) -> None:
         self._subject.notify(notification, **kwargs)
 
     @property
-    def observers(self) -> list[ObserverProto]:
+    def observers(self) -> list[ObserverT]:
         """Get observers."""
-        return self._subject.observers
+        return self._subject.observers  # type: ignore[return-value]
 
 
 @dataclass
 class AddObserverGenT(Generic[ObserverT, NotifyT]):
     """Mixin that enables observer subscription capability."""
 
-    _subject: Observable
+    _subject: SubjectABC
 
     def add_observer(self, observer: ObserverT) -> None:
         """Subscribe observer an event has occurred."""
         self._subject.add_observer(observer)
+
+    def remove_observer(self, observer: ObserverT) -> None:
+        """Remove observer from subject observers."""
+        self._subject.remove_observer(observer)
 
     def _notify(self, notification: NotifyT, **kwargs: object) -> None:
         self._subject.notify(notification, **kwargs)

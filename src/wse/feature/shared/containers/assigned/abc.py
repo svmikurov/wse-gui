@@ -2,27 +2,33 @@
 
 from abc import ABC, abstractmethod
 
-from typing_extensions import override
-
+from wse.feature.base.abstract.mixins import GetContentABC
+from wse.feature.interfaces.iobserver import ObserverProto
 from wse.feature.shared.schemas.exercise import ExerciseInfo
 
-from . import AssignationsContainerProto
 
-
-class AssignationsContainerABC(AssignationsContainerProto, ABC):
+class AssignationsContainerABC(
+    GetContentABC,
+    ABC,
+):
     """Abstract base class for the container of Assigned exercises."""
 
     @abstractmethod
-    @override
     def add_exercise(self, exercise: ExerciseInfo) -> None:
         """Add exercise to choice."""
 
     @abstractmethod
-    @override
     def update_exercises(self, exercises: list[ExerciseInfo]) -> None:
         """Update exercises."""
 
     @abstractmethod
-    @override
     def remove_exercises(self) -> None:
         """Remove all exercises."""
+
+    @abstractmethod
+    def add_observer(self, observer: ObserverProto) -> None:
+        """Add an observer to receive task updates."""
+
+    @abstractmethod
+    def remove_observer(self, observer: ObserverProto) -> None:
+        """Remove observer from subject observers."""

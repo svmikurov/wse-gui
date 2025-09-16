@@ -75,6 +75,10 @@ class AssignedTaskRepo(AssignedTaskRepoABC):
         """Subscribe listener to repository notifications."""
         self._task_source.add_listener(listener)
 
+    def remove_observer(self, listener: TaskObserverT) -> None:
+        """Remove listener from repository notifications."""
+        self._task_source.remove_listener(listener)
+
     def update_solution(self) -> None:
         """Set current solution."""
         self._task_source.update_solution()

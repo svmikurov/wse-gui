@@ -14,7 +14,7 @@ from .container import (
     TopBarContainer,
     TopBarController,
 )
-from .mixin import (
+from .mixins import (
     TopBarControllerMixin,
     TopBarModelMixin,
 )

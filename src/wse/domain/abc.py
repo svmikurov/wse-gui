@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from typing import Generic
 
 from injector import inject
+from typing_extensions import override
 
 from wse.data.repositories.abc import (
     AssignedTaskRepoABC,
@@ -21,8 +22,12 @@ class ObserverRegistryUseCaseABC(ABC, Generic[ObserverT]):
     """ABC for Use Case to register observer on event notifications."""
 
     @abstractmethod
-    def register_observer(self, observer: ObserverT) -> None:
-        """Register an observer on event notifications."""
+    def add_observer(self, observer: ObserverT) -> None:
+        """Add an observer on event notifications."""
+
+    @abstractmethod
+    def remove_observer(self, observer: ObserverT) -> None:
+        """Remove an observer from event notifications."""
 
 
 class GetQuestionUseCaseABC(ABC):
@@ -41,6 +46,14 @@ class CheckAnswerUseCaseABC(ABC):
         """Check user answer."""
 
 
+class GetSolutionUseCaseABC(ABC):
+    """ABC for get current solution Use Case."""
+
+    @abstractmethod
+    def update_solution(self) -> None:
+        """Set current solution to Data layer."""
+
+
 # ABC for User Use Cases
 
 
@@ -51,8 +64,14 @@ class UserObserverRegistryUseCaseABC(
     """ABC for Use Case to register user event notifications."""
 
     @abstractmethod
-    def register_observer(self, observer: UserObserverABC) -> None:
+    @override
+    def add_observer(self, observer: UserObserverABC) -> None:
         """Register an observer on User event notifications."""
+
+    @abstractmethod
+    @override
+    def remove_observer(self, observer: UserObserverABC) -> None:
+        """Delete an observer from User event notifications."""
 
 
 # ABC for Calculation exercise Use Cases
@@ -83,6 +102,14 @@ class CheckCalculationAnswerUseCaseABC(
     """ABC for get Calculation exercise user answer Use Case."""
 
 
+class GetCalculationSolutionUseCaseABC(
+    _BaseCalculationUseCase,
+    GetSolutionUseCaseABC,
+    ABC,
+):
+    """ABC for get Calculation correct solution Use Case."""
+
+
 # ABC for Assigned exercise Use Cases
 
 
@@ -93,7 +120,7 @@ class AssignedObserverRegistryUseCaseABC(
     """ABC for Assigned exercise source observer registry Use Case."""
 
     @abstractmethod
-    def register_observer(self, observer: AssignedSourceObserverABC) -> None:
+    def add_observer(self, observer: AssignedSourceObserverABC) -> None:
         """Register an observer to receive calculation task updates."""
 
 
@@ -128,3 +155,11 @@ class CheckAssignedAnswerUseCaseABC(
     ABC,
 ):
     """ABC for get Assigned exercise user answer Use Case."""
+
+
+class GetAssignedSolutionUseCaseABC(
+    _BaseAssignedTaskUseCase,
+    GetSolutionUseCaseABC,
+    ABC,
+):
+    """ABC for get Calculation correct solution feature."""

@@ -1,31 +1,21 @@
-"""Task Use Cases."""
+"""Calculation task Use Cases."""
+
+import logging
 
 from injector import inject
 from typing_extensions import override
-from wse_exercises.core import MathEnum
 
 from ..data.repositories.abc import CalculationTaskRepoABC
-from ..data.repositories.calculation_exercises import CalculationExerciseRepo
 from ..data.sources.task import (
     TaskObserverABC,
 )
 from .abc import (
     CheckCalculationAnswerUseCaseABC,
     GetCalculationQuestionUseCaseABC,
+    GetCalculationSolutionUseCaseABC,
 )
 
-
-class SetCalculationExerciseUseCase:
-    """Use Case for set current Calculation exercise."""
-
-    @inject
-    def __init__(self, repository: CalculationExerciseRepo) -> None:
-        """Construct the case."""
-        self._repository = repository
-
-    def set_default(self, exercise: MathEnum) -> None:
-        """Set Calculation exercise as default."""
-        self._repository.set_default(exercise)
+logger = logging.getLogger(__name__)
 
 
 class CalculationObserverRegistryUseCase:
@@ -40,10 +30,12 @@ class CalculationObserverRegistryUseCase:
         """Register an observer to receive calculation task updates."""
         self._repository.add_observer(observer)
 
+    def remove_observer(self, observer: TaskObserverABC) -> None:
+        """Remove observer from subject observers."""
+        self._repository.remove_observer(observer)
 
-class UpdateQuestionUseCase(
-    GetCalculationQuestionUseCaseABC,
-):
+
+class GetCalculationQuestionUseCase(GetCalculationQuestionUseCaseABC):
     """Fetch calculation exercise task question Use Case."""
 
     @inject
@@ -60,12 +52,19 @@ class UpdateQuestionUseCase(
         self._repository.fetch_task()
 
 
-class CheckCalculationUseCase(
-    CheckCalculationAnswerUseCaseABC,
-):
+class CheckCalculationAnswerUseCase(CheckCalculationAnswerUseCaseABC):
     """Check calculation exercise user task answer Use Case."""
 
     @override
     def check(self, answer: str) -> None:
         """Check user answer."""
         self._repository.fetch_result(answer)
+
+
+class GetCalculationSolutionUseCase(GetCalculationSolutionUseCaseABC):
+    """Get Calculation correct solution Use Case."""
+
+    @override
+    def update_solution(self) -> None:
+        """Set current solution to Data layer."""
+        self._repository.update_solution()

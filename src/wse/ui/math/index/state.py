@@ -13,7 +13,7 @@ from wse.core.navigation.nav_id import NavID
 from wse.data.repositories.calculation_exercises import (
     CalculationExerciseRepo,
 )
-from wse.domain.task import SetCalculationExerciseUseCase
+from wse.domain.math_exercise import SetCalculationExerciseUseCase
 from wse.feature.base.mixins import AddObserverGen
 
 from .abc import MathModelFeature

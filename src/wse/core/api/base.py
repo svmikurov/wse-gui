@@ -57,7 +57,8 @@ class ExerciseApi(
         response_schema: Type[T],
     ) -> T | None:
         try:
-            return response_schema(**response.json())
+            r_schema = response_schema(**response.json())
+            return r_schema
 
         except ValidationError:
             logger.exception(

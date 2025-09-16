@@ -22,6 +22,10 @@ class TaskRepoABC(ABC):
         """Subscribe listener to repository notifications."""
 
     @abstractmethod
+    def remove_observer(self, listener: TaskObserverT) -> None:
+        """Remove listener from repository notifications."""
+
+    @abstractmethod
     def update_solution(self) -> None:
         """Set current solution."""
 

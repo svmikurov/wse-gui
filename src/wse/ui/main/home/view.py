@@ -8,6 +8,7 @@ from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation.nav_id import NavID
+from wse.feature.base.audit import AuditMixin
 from wse.feature.interfaces.iwidgets import NavigableButton
 from wse.utils.i18n import label_, nav_
 
@@ -19,7 +20,10 @@ from .abc import (
 
 @inject
 @dataclass
-class HomeView(HomeViewABC):
+class HomeView(
+    HomeViewABC,
+    AuditMixin,
+):
     """Home screen view."""
 
     _state: HomeViewModelABC
@@ -42,7 +46,7 @@ class HomeView(HomeViewABC):
     def _create_ui(self) -> None:
         self._label_title = toga.Label('')
         self._btn_assigned = self._create_nav_btn(nav_id=NavID.ASSIGNED)
-        self._btn_math = self._create_nav_btn(nav_id=NavID.INDEX_MATH)
+        self._btn_math = self._create_nav_btn(nav_id=NavID.MATH)
         self._btn_account = self._create_nav_btn(nav_id=NavID.LOGIN)
 
     @override
@@ -58,7 +62,7 @@ class HomeView(HomeViewABC):
         """Localize the UI text."""
         self._label_title.text = label_('Home page title')
         self._btn_assigned.text = nav_(NavID.ASSIGNED)
-        self._btn_math.text = nav_(NavID.INDEX_MATH)
+        self._btn_math.text = nav_(NavID.MATH)
         self._btn_account.text = nav_(NavID.ACCOUNT)
 
     # Callback
@@ -66,3 +70,9 @@ class HomeView(HomeViewABC):
     def _handle_navigate(self, button: NavigableButton) -> None:
         """Handle navigation button press."""
         self._state.navigate(button.nav_id)
+
+    # Clean up
+
+    def on_close(self) -> None:
+        """Call methods before close the screen."""
+        self._state.on_close()

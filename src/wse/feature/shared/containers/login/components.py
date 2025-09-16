@@ -14,7 +14,7 @@ from wse.feature.base import Controller
 from wse.feature.base.container import AddContentABC
 from wse.feature.base.mixins import AddObserverMixin
 from wse.feature.interfaces.icontent import ContentProto
-from wse.feature.interfaces.iobserver import Observable
+from wse.feature.interfaces.iobserver import SubjectABC
 from wse.feature.shared.containers.login import (
     LoginContainerProto,
     LoginModelProto,
@@ -33,7 +33,7 @@ class LoginModel(
 
     def __init__(
         self,
-        subject: Observable,
+        subject: SubjectABC,
         auth_service: AuthServiceProto,
     ) -> None:
         """Construct the model."""
@@ -71,7 +71,7 @@ class LoginContainer(
 ):
     """Login container."""
 
-    _subject: Observable
+    _subject: SubjectABC
     _style: StyleConfig
     _theme: ThemeConfig
 
@@ -129,7 +129,7 @@ class LoginController(
 ):
     """Login container controller."""
 
-    _subject: Observable
+    _subject: SubjectABC
     _model: LoginModelProto
     _container: LoginContainerProto
 

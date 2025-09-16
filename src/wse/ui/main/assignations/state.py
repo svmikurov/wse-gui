@@ -1,5 +1,6 @@
 """Assigned exercises UI state."""
 
+import logging
 from dataclasses import dataclass, replace
 from typing import TypedDict
 
@@ -16,6 +17,8 @@ from wse.feature.shared.schemas.exercise import (
 )
 
 from .abc import AssignationsViewModelABC
+
+audit = logging.getLogger(__name__)
 
 
 class _DataFieldType(TypedDict, total=False):
@@ -86,3 +89,9 @@ class AssignationsViewModel(AssignationsViewModelABC):
     def _update_data(self, **data: Unpack[_DataFieldType]) -> None:
         """Update UI state data."""
         self._data = replace(self._data, **data)
+
+    def on_close(self) -> None:
+        """Call methods before close the screen."""
+        audit.debug(
+            f'Not implemented `on_close()` for {self.__class__.__name__}'
+        )

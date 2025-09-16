@@ -5,7 +5,7 @@ from typing import Protocol, TypeVar
 from wse.config.layout import StyleConfig, ThemeConfig
 
 from .icontainer import Containerizable, Localizable, Stylizable
-from .icontent import GetContentProto
+from .icontent import ContentProto
 from .iobserver import AddObserverProto
 
 T_contra = TypeVar('T_contra', contravariant=True)
@@ -18,7 +18,7 @@ class ModelProto(
     AddObserverProto,
     Protocol,
 ):
-    """Protocol for page model interface."""
+    """Protocol for screen model interface."""
 
 
 # View
@@ -31,24 +31,18 @@ class ViewProto(
     Stylizable[StyleConfig, ThemeConfig],
     Protocol,
 ):
-    """Protocol for page view interface."""
+    """Protocol for screen view interface."""
 
 
-# Controller
+class NavigableView(Protocol[T_contra]):
+    """Protocol for navigable view interface."""
 
-
-class ControllerProto(
-    GetContentProto,
-    Protocol,
-):
-    """Protocol for controller interface."""
-
-
-class PageControllerProto(
-    ControllerProto,
-    Protocol[T_contra],
-):
-    """Protocol for page controller interface."""
+    @property
+    def content(self) -> ContentProto:
+        """Get screen content."""
 
     def on_open(self, **kwargs: T_contra) -> None:
-        """Call methods when page opens."""
+        """Call methods when screen opens."""
+
+    def on_close(self) -> None:
+        """Call methods before close the screen."""

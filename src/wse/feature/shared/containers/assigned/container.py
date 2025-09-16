@@ -1,5 +1,6 @@
 """Assigned exercises container."""
 
+import logging
 from dataclasses import dataclass
 from functools import partial
 
@@ -14,6 +15,8 @@ from wse.feature.shared.containers.assigned.abc import (
     AssignationsContainerABC,
 )
 from wse.feature.shared.schemas.exercise import ExerciseInfo
+
+audit = logging.getLogger(__name__)
 
 # Widgets are created dynamically with a specific ID prefix.
 INNER_BOX_PREFIX = '_inner'
@@ -108,3 +111,9 @@ class AssignationsContainer(
     @staticmethod
     def _get_button_id(exercise: ExerciseInfo) -> str:
         return f'{BUTTON_PREFIX}_{exercise.assignation_id}'
+
+    def on_close(self) -> None:
+        """Call methods before close the screen."""
+        audit.debug(
+            f'Not implemented `on_close()` for {self.__class__.__name__}'
+        )

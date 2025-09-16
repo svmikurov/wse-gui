@@ -1,6 +1,6 @@
 """Mixins for UI layer."""
 
-from typing import Callable
+from typing import Callable, no_type_check
 
 from wse.core.auth import AuthServiceProto
 from wse.core.interfaces import Navigable
@@ -38,9 +38,7 @@ class NavigateMixin:
 class BalanceUpdatedMixin:
     """Mixin providing observer method on update balance event."""
 
-    _notify: Callable[..., None]
-    _update_data: Callable[..., None]
-
+    @no_type_check
     def balance_updated(self, balance: str) -> None:
         """Handle the 'balance updated' event of User source."""
         self._update_data(balance=balance)

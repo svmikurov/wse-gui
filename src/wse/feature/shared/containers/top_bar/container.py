@@ -17,10 +17,9 @@ from wse.feature.shared.widgets import FlexRowStubProto
 from wse.utils.i18n import nav_
 
 from ..top_bar.itop_bar import (
-    TopBarContainerABC,
     TopBarContainerProto,
-    TopBarControllerABC,
 )
+from .abc import TopBarContainerABC, TopBarControllerABC
 
 
 @inject

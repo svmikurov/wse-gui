@@ -42,6 +42,5 @@ def create_injector() -> Injector:
             RepoModule(),
             SourceModule(),
             SourceWrapsModule(),
-            # TODO: Refactor
         ]
     )

@@ -1,6 +1,9 @@
 """Assigned exercise Use Cases."""
 
+import logging
+
 from injector import inject
+from typing_extensions import override
 
 from wse.data.sources.assigned import (
     AssignedExerciseSource,
@@ -13,8 +16,12 @@ from ..feature.shared.schemas.exercise import Assigned
 from .abc import (
     CheckAssignedAnswerUseCaseABC,
     GetAssignedQuestionUseCaseABC,
+    GetAssignedSolutionUseCaseABC,
+    ObserverRegistryUseCaseABC,
     SetAssignedExerciseUseCaseABC,
 )
+
+logger = logging.getLogger(__name__)
 
 # Exercise
 
@@ -42,7 +49,9 @@ class SetAssignedExerciseUseCase(
 # Observer
 
 
-class AssignedObserverRegistryUseCase:
+class AssignedObserverRegistryUseCase(
+    ObserverRegistryUseCaseABC[TaskObserverABC],
+):
     """Assigned exercise source observer registry the Use Case."""
 
     @inject
@@ -50,9 +59,13 @@ class AssignedObserverRegistryUseCase:
         """Construct the case."""
         self._repository = repository
 
-    def register_observer(self, observer: TaskObserverABC) -> None:
+    def add_observer(self, observer: TaskObserverABC) -> None:
         """Register an observer to receive calculation task updates."""
         self._repository.add_observer(observer)
+
+    def remove_observer(self, observer: TaskObserverABC) -> None:
+        """Remove an observer from event notifications."""
+        self._repository.remove_observer(observer)
 
 
 # Task question/answer
@@ -61,6 +74,7 @@ class AssignedObserverRegistryUseCase:
 class GetAssignedQuestionUseCase(GetAssignedQuestionUseCaseABC):
     """Get Assigned exercise task question the Use Case."""
 
+    @override
     def update(self) -> None:
         """Fetch task question."""
         self._repository.fetch_task()
@@ -69,9 +83,19 @@ class GetAssignedQuestionUseCase(GetAssignedQuestionUseCaseABC):
 class CheckAssignedAnswerUseCase(CheckAssignedAnswerUseCaseABC):
     """Check Assigned exercise task user answer the Use Case."""
 
+    @override
     def check(self, answer: str) -> None:
         """Check user answer."""
         self._repository.fetch_result(answer)
+
+
+class GetAssignedSolutionUseCase(GetAssignedSolutionUseCaseABC):
+    """Get Assigned correct solution Use Case."""
+
+    @override
+    def update_solution(self) -> None:
+        """Set current solution to Data layer."""
+        self._repository.update_solution()
 
 
 # Business logic

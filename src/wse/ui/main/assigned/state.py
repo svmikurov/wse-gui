@@ -1,51 +1,42 @@
 """Assigned exercise UI state."""
 
-import logging
-from dataclasses import dataclass, replace
-from typing import TypedDict
+from dataclasses import dataclass
+from typing import Literal, Union
 
 from injector import inject
-from typing_extensions import Unpack
 
 from wse.core.interfaces import Navigable
 from wse.domain.abc import (
     CheckAssignedAnswerUseCaseABC,
     GetAssignedQuestionUseCaseABC,
+    GetAssignedSolutionUseCaseABC,
     UserObserverRegistryUseCaseABC,
 )
 from wse.domain.assigned import AssignedObserverRegistryUseCase
-from wse.domain.task_logic import AssignedLogicUseCase
-from wse.ui.base.task_state import TaskViewModelMixin
+from wse.feature.base.audit import AuditMixin
 
+from ...base.mixin import BalanceUpdatedMixin, NavigateMixin
+from ...base.task_state import TaskNotifyT, TaskState, TaskViewModelMixin
 from .abc import AssignedExerciseViewModelABC
 
-logger = logging.getLogger(__name__)
-
-
-class _DataFieldType(TypedDict, total=False):
-    """Field types for Assigned exercise UI state data."""
-
-    question: str
-    answer: str
-    solution: str
-    balance: str
+NotifyT = Literal['balance_updated']
 
 
 @dataclass(frozen=True)
-class _ExerciseUIState:
+class AssignedExerciseUIState(TaskState):
     """Assigned exercise UI state data."""
 
-    question: str | None = None
-    answer: str | None = None
-    solution: str | None = None
     balance: str | None = None
 
 
 @inject
 @dataclass
 class AssignedExerciseViewModel(
+    BalanceUpdatedMixin,
+    NavigateMixin,
     TaskViewModelMixin,
     AssignedExerciseViewModelABC,
+    AuditMixin,
 ):
     """Assigned exercise ViewModel."""
 
@@ -53,32 +44,29 @@ class AssignedExerciseViewModel(
 
     _question_case: GetAssignedQuestionUseCaseABC
     _result_case: CheckAssignedAnswerUseCaseABC
-    _logic_case: AssignedLogicUseCase
+    _solution_case: GetAssignedSolutionUseCaseABC
 
-    _task_observer_case: AssignedObserverRegistryUseCase
     _user_observer_case: UserObserverRegistryUseCaseABC
+    _task_observer_case: AssignedObserverRegistryUseCase
 
     def __post_init__(self) -> None:
         """Construct the state."""
-        self._create_data()
-        self._task_observer_case.register_observer(self)
-        self._user_observer_case.register_observer(self)
+        self._data: AssignedExerciseUIState = AssignedExerciseUIState()
+        self._task_observer_case.add_observer(self)
+        self._user_observer_case.add_observer(self)
 
     def refresh_context(self) -> None:
         """Refresh context."""
         self._notify('balance_updated', balance=self._data.balance)
 
-    # Utility methods
+    def _notify(
+        self,
+        notification: Union[NotifyT | TaskNotifyT],
+        **kwargs: object,
+    ) -> None:
+        self._subject.notify(notification, **kwargs)
 
-    def _create_data(self) -> None:
-        """Create UI state data."""
-        self._data = _ExerciseUIState()
-
-    def _update_data(self, **data: Unpack[_DataFieldType]) -> None:
-        """Update UI state data."""
-        self._data = replace(self._data, **data)
-
-    def _reset_data(self) -> None:
-        """Reset UI state data."""
-        # self._create_data()
-        self._notify('state_reset')
+    def on_close(self) -> None:
+        """Call methods before close the screen."""
+        self._user_observer_case.remove_observer(self)
+        self._task_observer_case.remove_observer(self)

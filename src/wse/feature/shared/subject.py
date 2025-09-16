@@ -1,9 +1,9 @@
 """Defines subject of Observer pattern."""
 
-from ..interfaces.iobserver import ObserverProto
+from ..interfaces.iobserver import ObserverProto, SubjectABC
 
 
-class Subject:
+class Subject(SubjectABC):
     """Subject of Observer patten."""
 
     def __init__(self) -> None:
@@ -18,6 +18,10 @@ class Subject:
     def add_observer(self, observer: ObserverProto) -> None:
         """Add a new observer to this subject."""
         self._observers.append(observer)
+
+    def remove_observer(self, observer: ObserverProto) -> None:
+        """Remove an observer from this subject."""
+        self._observers.remove(observer)
 
     def notify(self, notification: str, **kwargs: object) -> None:
         """Notify all observers an event has occurred."""

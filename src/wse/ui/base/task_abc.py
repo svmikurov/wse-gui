@@ -45,5 +45,5 @@ class TaskViewModelObserverABC(ABC):
         """Handle the model event on incorrect answer."""
 
     @abstractmethod
-    def state_reset(self) -> None:
-        """Handle the reset state event."""
+    def task_reset(self) -> None:
+        """Handle the reset task state event."""

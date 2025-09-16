@@ -9,13 +9,12 @@ from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation.nav_id import NavID
+from wse.feature.base.audit import AuditMixin
 from wse.feature.shared.containers import (
     NumpadControllerProto,
     TextTaskContainerProto,
 )
-from wse.feature.shared.containers.top_bar.itop_bar import (
-    TopBarControllerProto,
-)
+from wse.feature.shared.containers.top_bar.abc import TopBarControllerABC
 from wse.feature.shared.widgets import (
     DividerProto,
     FlexColumnStubProto,
@@ -27,13 +26,16 @@ from .abc import CalculationViewABC, CalculationViewModelABC
 
 @inject
 @dataclass
-class CalculationView(CalculationViewABC):
+class CalculationView(
+    AuditMixin,
+    CalculationViewABC,
+):
     """Calculation exercise view."""
 
     _state: CalculationViewModelABC
 
     # Widget injection
-    _top_bar: TopBarControllerProto
+    _top_bar: TopBarControllerABC
     _task_panel: TextTaskContainerProto
     _numpad: NumpadControllerProto
     _divider: Type[DividerProto]
@@ -42,7 +44,7 @@ class CalculationView(CalculationViewABC):
     def __post_init__(self) -> None:
         """Construct the view."""
         super().__post_init__()
-        self._content.test_id = NavID.SIMPLE_CALC
+        self._content.test_id = NavID.CALCULATION
         self._top_bar.add_observer(self)
         self._numpad.add_observer(self)
         self._state.add_observer(self)
@@ -119,7 +121,7 @@ class CalculationView(CalculationViewABC):
         self._top_bar.update_balance(balance)
 
     @override
-    def state_reset(self) -> None:
+    def task_reset(self) -> None:
         """Handle the model event on task update."""
         self._task_panel.clear_question()
         self._task_panel.clear_answer()
@@ -149,3 +151,13 @@ class CalculationView(CalculationViewABC):
         except ValueError:
             # The button is already sets
             pass
+
+    # On screen close
+
+    @override
+    def on_close(self) -> None:
+        """Call methods before close the screen."""
+        self._top_bar.remove_observer(self)
+        self._numpad.remove_observer(self)
+        self._state.remove_observer(self)
+        self._state.on_close()

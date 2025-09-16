@@ -10,7 +10,7 @@ from ..base.mixins import (
 )
 from ..interfaces.iwidgets import NavigableButton
 from ..shared.widgets.buttons import NavButton
-from .abstract.mvc import LocalizeABC, UpdateStyleABC
+from .abstract.ui_layer import LocalizeABC, UpdateStyleABC
 
 
 @dataclass

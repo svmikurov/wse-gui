@@ -9,9 +9,7 @@ from typing_extensions import override
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation.nav_id import NavID
 from wse.feature.shared.containers.login import LoginControllerProto
-from wse.feature.shared.containers.top_bar.itop_bar import (
-    TopBarControllerProto,
-)
+from wse.feature.shared.containers.top_bar.abc import TopBarControllerABC
 from wse.utils.i18n import label_, nav_
 
 from .abc import AuthViewABC, AuthViewModelABC
@@ -25,7 +23,7 @@ class AuthView(AuthViewABC):
     _state: AuthViewModelABC
 
     # Widget injection
-    _top_bar: TopBarControllerProto
+    _top_bar: TopBarControllerABC
     _login_container: LoginControllerProto
 
     @override
@@ -33,9 +31,9 @@ class AuthView(AuthViewABC):
         """Construct the view."""
         super().__post_init__()
         self.content.test_id = NavID.LOGIN
-        self._state.add_observer(self)
-        self._login_container.add_observer(self)
         self._top_bar.add_observer(self)
+        self._login_container.add_observer(self)
+        self._state.add_observer(self)
 
     @override
     def _populate_content(self) -> None:
@@ -101,3 +99,12 @@ class AuthView(AuthViewABC):
         except ValueError:
             # Content for anonymous user is already set
             pass
+
+    # On screen close event
+
+    def on_close(self) -> None:
+        """Call methods before close the screen."""
+        self._top_bar.remove_observer(self)
+        self._login_container.remove_observer(self)
+        self._state.remove_observer(self)
+        self._state.on_close()

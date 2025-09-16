@@ -6,7 +6,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from wse.feature.interfaces.iobserver import Observable
+from wse.feature.interfaces.iobserver import SubjectABC
 from wse.feature.shared.containers.numpad import NumpadModel
 
 MAX_CHAR_COUNT = 8
@@ -21,7 +21,7 @@ MINUS = '\u002d'
 @pytest.fixture
 def mock_subject() -> Mock:
     """Fixture for creating a mock ISubject object."""
-    return Mock(spec=Observable)
+    return Mock(spec=SubjectABC)
 
 
 @pytest.fixture

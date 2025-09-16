@@ -7,6 +7,7 @@ from wse_exercises.core import MathEnum
 
 from wse.feature.api.math import Calculation
 from wse.feature.base import ViewABC
+from wse.ui.base.abc import CloseScreenABC
 
 # ViewModel
 
@@ -47,7 +48,10 @@ class MathModelNavigateObserver(ABC):
         """Navigate to exercise screen."""
 
 
-class MathIndexModelViewABC:
+class MathIndexModelViewABC(
+    CloseScreenABC,
+    ABC,
+):
     """ABC for Math index screen View."""
 
 
@@ -57,6 +61,7 @@ class MathIndexModelViewABC:
 class MathIndexViewABC(
     MathModelObserver,
     ViewABC,
+    CloseScreenABC,
     ABC,
 ):
     """ABC for Math index screen View."""

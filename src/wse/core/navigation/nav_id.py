@@ -14,15 +14,14 @@ class NavID(BaseEnum):
     LOGOUT = 'Logout page'
     ACCOUNT = 'Account screen'
 
-    # Main app
+    # Main
     HOME = 'Home page'
     ASSIGNED = 'Assigned exercises page'
     EXERCISE = 'Exercise completion page'
 
-    # Math app
-    INDEX_MATH = 'Main math page'
-    SIMPLE_CALC = 'Simple math calculation page'
-
-    # UI route
+    # Math
+    MATH = 'Main math page'
     CALCULATION = 'Calculation'
-    MATH_INDEX = 'Main math page'
+
+    # Glossary
+    GLOSSARY = 'Glossary index screen'

@@ -1,5 +1,6 @@
 """Account UI state."""
 
+import logging
 from dataclasses import dataclass, replace
 from typing import TypedDict
 
@@ -11,6 +12,8 @@ from wse.core.auth import AuthServiceProto
 from wse.core.interfaces import Navigable
 from wse.ui.base.mixin import NavigateMixin, SetAuthStatusMixin
 from wse.ui.main.account.abc import AuthViewModelABC
+
+audit = logging.getLogger(__name__)
 
 
 class _DataFieldType(TypedDict, total=False):
@@ -72,3 +75,9 @@ class AuthViewModel(
     def _update_data(self, **data: Unpack[_DataFieldType]) -> None:
         """Update UI state data."""
         replace(self._data, **data)
+
+    # On screen close event
+
+    def on_close(self) -> None:
+        """Call methods before close the screen."""
+        audit.debug(f'Have no `on_close()`: {self.__class__.__name__}')

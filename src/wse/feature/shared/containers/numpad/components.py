@@ -13,7 +13,7 @@ from wse.feature.base import Controller
 from wse.feature.base.container import AddContentABC
 from wse.feature.base.mixins import AddObserverGen
 from wse.feature.interfaces.icontent import ContentProto
-from wse.feature.interfaces.iobserver import Observable
+from wse.feature.interfaces.iobserver import SubjectABC
 from wse.feature.shared.widgets.boxes import FlexColumn
 
 from .protocols import (
@@ -47,7 +47,7 @@ class NumpadModel(
 
     def __init__(
         self,
-        subject: Observable,
+        subject: SubjectABC,
     ) -> None:
         """Construct the model."""
         self._subject = subject
@@ -149,7 +149,7 @@ class NumpadContainer(
 ):
     """Number keyword container."""
 
-    _subject: Observable
+    _subject: SubjectABC
     _style: StyleConfig
     _theme: ThemeConfig
 
@@ -265,7 +265,7 @@ class NumpadController(
 ):
     """Number keyword controller."""
 
-    _subject: Observable
+    _subject: SubjectABC
     _model: NumpadModelProto
     _container: NumpadContainerProto
 

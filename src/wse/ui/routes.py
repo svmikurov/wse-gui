@@ -28,6 +28,6 @@ class UIRoutes:
             NavID.ASSIGNED: AssignationsViewABC,
             NavID.EXERCISE: AssignedExerciseViewABC,
             # Mathematical discipline
-            NavID.MATH_INDEX: MathIndexModelViewABC,
+            NavID.MATH: MathIndexModelViewABC,
             NavID.CALCULATION: CalculationViewABC,
         }

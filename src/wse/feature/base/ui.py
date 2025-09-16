@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 from wse.config.layout import StyleConfig, ThemeConfig
 
-from .abstract.mvc import ContentABC
+from .abstract.ui_layer import ContentABC
 from .container import ContainerABC
 from .mixins import SetupMixin
 

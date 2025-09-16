@@ -5,7 +5,7 @@ from typing import Any, Type
 
 from wse.core.navigation.nav_id import NavID
 
-from ..interfaces.imvc import PageControllerProto
+from ..interfaces.imvc import NavigableView
 
 
 class BaseRoutes(ABC):
@@ -13,7 +13,7 @@ class BaseRoutes(ABC):
 
     @property
     @abstractmethod
-    def routes(self) -> dict[NavID, Type[PageControllerProto[Any]]]:
+    def routes(self) -> dict[NavID, Type[NavigableView[Any]]]:
         """Get the navigation ID mapping to page controllers.
 
         For example:

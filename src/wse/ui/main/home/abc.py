@@ -4,13 +4,14 @@ from abc import ABC
 
 from wse.feature.base import ViewABC
 from wse.feature.base.container import CreateNavButtonABC
-from wse.ui.base.abc import NavigateABC
+from wse.ui.base.abc import CloseScreenABC, NavigateABC
 
 # ViewModel
 
 
 class HomeViewModelABC(
     NavigateABC,
+    CloseScreenABC,
     ABC,
 ):
     """ABC for Home screen ViewModel."""
@@ -21,6 +22,7 @@ class HomeViewModelABC(
 
 class HomeViewABC(
     CreateNavButtonABC,
+    CloseScreenABC,
     ViewABC,
     ABC,
 ):

@@ -8,6 +8,7 @@ import toga
 from wse.core.navigation.nav_id import NavID
 from wse.feature.base import ViewABC
 from wse.feature.base.mixins import AddObserverGenT
+from wse.ui.base.abc import CloseScreenABC
 
 _NotifyT = Literal[
     'user_authenticated',
@@ -45,6 +46,7 @@ class ViewModelFeatureABC(ABC):
 
 class AuthViewModelABC(
     AddObserverGenT[ViewModelObserverABC, _NotifyT],
+    CloseScreenABC,
     ABC,
 ):
     """ABC for Auth ViewModel."""
@@ -76,6 +78,7 @@ class AuthViewModelABC(
 class AuthViewABC(
     ViewModelObserverABC,
     ViewABC,
+    CloseScreenABC,
     ABC,
 ):
     """ABC for Auth View."""
