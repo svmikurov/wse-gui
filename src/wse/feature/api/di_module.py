@@ -5,6 +5,8 @@ from typing import no_type_check
 from injector import Binder, Module
 from typing_extensions import override
 
+from .glossary.abc import TermApiABC
+from .glossary.term import TermApi
 from .main.abc import AssignationsApiABC, AssignedApiClientABC
 from .main.assignations import AssignationsApi
 from .main.assigned import AssignedApiClient
@@ -19,9 +21,12 @@ class ApiModule(Module):
     @override
     def configure(self, binder: Binder) -> None:
         """Configure dependencies."""
-        # Assigned exercise API
+        # Assigned
         binder.bind(AssignedApiClientABC, to=AssignedApiClient)
         binder.bind(AssignationsApiABC, to=AssignationsApi)
 
-        # Calculation exercise API
+        # Calculation
         binder.bind(CalculationApiProto, to=CalculationApiClient)
+
+        # Glossary
+        binder.bind(TermApiABC, to=TermApi)

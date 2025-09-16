@@ -1,0 +1,13 @@
+"""Abstract Base Classes for Glossary discipline API clients."""
+
+from abc import ABC, abstractmethod
+
+from wse.feature.api.glossary.schema import TermsData
+
+
+class TermApiABC(ABC):
+    """ABC for Term API client."""
+
+    @abstractmethod
+    def fetch_terms(self) -> TermsData | None:
+        """Fetch terms."""

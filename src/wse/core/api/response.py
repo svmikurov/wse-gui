@@ -1,6 +1,6 @@
 """Response schema."""
 
-from typing import Literal
+from typing import Any, Literal
 
 from wse.feature.base import BaseSchema
 from wse.feature.services import Question, Result
@@ -19,6 +19,15 @@ class Response(BaseSchema):
     status: Literal['success', 'error']
     message: str | None
     related_data: RelatedData | None = None
+
+
+class ItemsData(BaseSchema):
+    """Response items data."""
+
+    count: str
+    next: str | None
+    previous: str | None
+    results: list[Any]
 
 
 class QuestionResponse(Response):

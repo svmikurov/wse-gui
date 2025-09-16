@@ -8,6 +8,8 @@ from .abc import AssignedTaskRepoABC, CalculationTaskRepoABC
 from .assigned_task import AssignedTaskRepo
 from .calculation_exercises import CalculationExerciseRepo
 from .calculation_task import CalculationTaskRepo
+from .glossary import TermRepoABC
+from .glossary.term import TermRepo
 from .http_related import (
     RelatedDataHttpResponseRepo,
     RelatedDataHttpResponseRepoABC,
@@ -22,13 +24,23 @@ class RepoModule(Module):
     @no_type_check
     def configure(self, binder: Binder) -> None:
         """Configure the bindings."""
-        binder.bind(CalculationTaskRepoABC, to=CalculationTaskRepo)
-        binder.bind(CalculationExerciseRepo)
-        binder.bind(UserRepoABC, to=UserRepo)
-        binder.bind(AssignedTaskRepoABC, to=AssignedTaskRepo)
+        # Core
         binder.bind(InitialDataRepoABC, to=InitialDataRepo)
-
         binder.bind(
             RelatedDataHttpResponseRepoABC,
             to=RelatedDataHttpResponseRepo,
         )
+
+        # User
+        binder.bind(UserRepoABC, to=UserRepo)
+
+        # Calculation
+        binder.bind(CalculationTaskRepoABC, to=CalculationTaskRepo)
+        # TODO: Add ABC to bind `CalculationExerciseRepo`
+        binder.bind(CalculationExerciseRepo)
+
+        # Assigned
+        binder.bind(AssignedTaskRepoABC, to=AssignedTaskRepo)
+
+        # Glossary
+        binder.bind(TermRepoABC, to=TermRepo)

@@ -39,6 +39,7 @@ class HomeView(
             self._label_title,
             self._btn_assigned,
             self._btn_math,
+            self._btn_glos,
             self._btn_account,
         )
 
@@ -47,6 +48,7 @@ class HomeView(
         self._label_title = toga.Label('')
         self._btn_assigned = self._create_nav_btn(nav_id=NavID.ASSIGNED)
         self._btn_math = self._create_nav_btn(nav_id=NavID.MATH)
+        self._btn_glos = self._create_nav_btn(nav_id=NavID.GLOSSARY)
         self._btn_account = self._create_nav_btn(nav_id=NavID.LOGIN)
 
     @override
@@ -55,6 +57,7 @@ class HomeView(
         self._label_title.style.update(**config.label_title)
         self._btn_assigned.style.update(**config.btn_nav)
         self._btn_math.style.update(**config.btn_nav)
+        self._btn_glos.style.update(**config.btn_nav)
         self._btn_account.style.update(**config.btn_nav)
 
     @override
@@ -63,6 +66,7 @@ class HomeView(
         self._label_title.text = label_('Home page title')
         self._btn_assigned.text = nav_(NavID.ASSIGNED)
         self._btn_math.text = nav_(NavID.MATH)
+        self._btn_glos.text = nav_(NavID.GLOSSARY)
         self._btn_account.text = nav_(NavID.ACCOUNT)
 
     # Callback

@@ -14,6 +14,7 @@ from wse.feature.shared.di_module import FeatureSharedModule
 from wse.feature.shared.widgets.di_module import WidgetsModule
 from wse.feature.source_wraps.di_module import SourceWrapsModule
 from wse.ui.di_module import UIModule
+from wse.ui.glossary.di_module import GlossaryModule
 from wse.ui.main.di_module import HomeModule
 from wse.ui.math.di_module import MathUIModule
 
@@ -36,6 +37,7 @@ def create_injector() -> Injector:
             UIModule(),
             HomeModule(),
             MathUIModule(),
+            GlossaryModule(),
             # domain/
             UseCaseModule(),
             # data/
