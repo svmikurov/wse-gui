@@ -4,10 +4,9 @@ from abc import ABC
 from typing import Literal
 
 from wse.data.sources.task import TaskObserverABC
-from wse.feature.base import ViewABC
 from wse.feature.base.mixins import AddObserverGenT
 from wse.feature.shared.containers import NumpadObserverABC
-from wse.ui.base.abc import CloseScreenABC, NavigateABC
+from wse.ui.base.abc import CloseScreenABC, NavigateABC, ViewABC
 from wse.ui.base.task_abc import (
     TaskViewModelFeatureABC,
     TaskViewModelObserverABC,

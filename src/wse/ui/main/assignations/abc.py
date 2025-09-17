@@ -5,9 +5,8 @@ from typing import Literal
 
 from wse.core.navigation.nav_id import NavID
 from wse.feature.base.mixins import AddObserverGenT
-from wse.feature.base.ui import ViewABC
 from wse.feature.shared.schemas.exercise import ExerciseInfo
-from wse.ui.base.abc import CloseScreenABC, NavigateABC
+from wse.ui.base.abc import CloseScreenABC, NavigateABC, ViewABC
 
 # State
 

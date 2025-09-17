@@ -6,8 +6,7 @@ import toga
 from wse_exercises.core import MathEnum
 
 from wse.feature.api.math import Calculation
-from wse.feature.base import ViewABC
-from wse.ui.base.abc import CloseScreenABC, NavigateABC
+from wse.ui.base.abc import CloseScreenABC, NavigateABC, ViewABC
 
 # ViewModel
 

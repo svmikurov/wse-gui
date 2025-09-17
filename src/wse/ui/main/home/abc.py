@@ -2,9 +2,8 @@
 
 from abc import ABC
 
-from wse.feature.base import ViewABC
 from wse.feature.base.container import CreateNavButtonABC
-from wse.ui.base.abc import CloseScreenABC, NavigateABC
+from wse.ui.base.abc import CloseScreenABC, NavigateABC, ViewABC
 
 # ViewModel
 
