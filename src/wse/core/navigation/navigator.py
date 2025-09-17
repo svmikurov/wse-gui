@@ -78,7 +78,7 @@ class Navigator:
             else:
                 try:
                     # The view object must have an on_close()
-                    # method with remove references to itself,
+                    # method with remove references to Subject,
                     # such as unsubscribing from notifications.
                     self._current_view.on_close()
                 except AttributeError as err:
