@@ -9,7 +9,7 @@ from ..data.repositories.abc import CalculationTaskRepoABC
 from ..data.sources.task import (
     TaskObserverABC,
 )
-from .abc import (
+from .abc.calculation import (
     CheckCalculationAnswerUseCaseABC,
     GetCalculationQuestionUseCaseABC,
     GetCalculationSolutionUseCaseABC,

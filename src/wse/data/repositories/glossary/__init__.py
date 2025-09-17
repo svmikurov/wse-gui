@@ -1,7 +1,7 @@
 """Glossary discipline repositories."""
 
 __all__ = [
-    'TermRepoABC',
+    'TermsRepoABC',
 ]
 
-from .abc import TermRepoABC
+from .abc import TermsRepoABC

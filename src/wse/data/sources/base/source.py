@@ -1,11 +1,9 @@
 """Defines data source."""
 
-from typing import TypeVar
+from wse.feature import ListenerT
+from wse.feature.interfaces.types import NotifyT
 
 from .abc import BaseSource
-
-ListenerT = TypeVar('ListenerT')
-NotifyT = TypeVar('NotifyT')
 
 
 class DataSourceGen(

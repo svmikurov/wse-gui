@@ -2,12 +2,12 @@
 
 from abc import ABC, abstractmethod
 
-from wse.data.entities.term import Term
+from wse.feature.api.glossary.schema import TermSchema
 
 
 class TermNetworkSourceABC(ABC):
     """ABC for Term Network source."""
 
     @abstractmethod
-    def get_terms(self) -> list[Term] | None:
+    def get_terms(self) -> list[TermSchema] | None:
         """Get terms."""

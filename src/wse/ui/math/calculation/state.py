@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from injector import inject
 
 from wse.core.interfaces import Navigable
-from wse.domain.abc import (
+from wse.domain.abc.calculation import (
     CheckCalculationAnswerUseCaseABC,
     GetCalculationQuestionUseCaseABC,
     GetCalculationSolutionUseCaseABC,

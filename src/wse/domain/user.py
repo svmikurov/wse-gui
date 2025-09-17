@@ -4,10 +4,7 @@ from injector import inject
 from typing_extensions import override
 
 from wse.data.sources.user import UserObserverABC, UserSource
-
-from .abc import (
-    UserObserverRegistryUseCaseABC,
-)
+from wse.domain.abc.user import UserObserverRegistryUseCaseABC
 
 
 class UserObserverRegistryUseCase(UserObserverRegistryUseCaseABC):
@@ -19,11 +16,11 @@ class UserObserverRegistryUseCase(UserObserverRegistryUseCaseABC):
         self._source = source
 
     @override
-    def add_observer(self, observer: UserObserverABC) -> None:
+    def add_listener(self, observer: UserObserverABC) -> None:
         """Register an observer to receive calculation task updates."""
         self._source.add_listener(observer)
 
     @override
-    def remove_observer(self, observer: UserObserverABC) -> None:
+    def remove_listener(self, observer: UserObserverABC) -> None:
         """Delete an observer from User event notifications."""
         self._source.remove_listener(observer)

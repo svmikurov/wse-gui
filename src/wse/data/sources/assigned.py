@@ -11,7 +11,10 @@ _SourceNotifyT = Literal['']
 
 
 class AssignedSourceObserverABC:
-    """ABC for Assigned exercise data source observer."""
+    """ABC for Assigned exercise data source observer.
+
+    Not implemented yet.
+    """
 
 
 class AssignedExerciseSource(

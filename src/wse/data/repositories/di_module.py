@@ -8,8 +8,8 @@ from .abc import AssignedTaskRepoABC, CalculationTaskRepoABC
 from .assigned_task import AssignedTaskRepo
 from .calculation_exercises import CalculationExerciseRepo
 from .calculation_task import CalculationTaskRepo
-from .glossary import TermRepoABC
-from .glossary.term import TermRepo
+from .glossary import TermsRepoABC
+from .glossary.term import TermsRepo
 from .http_related import (
     RelatedDataHttpResponseRepo,
     RelatedDataHttpResponseRepoABC,
@@ -43,4 +43,4 @@ class RepoModule(Module):
         binder.bind(AssignedTaskRepoABC, to=AssignedTaskRepo)
 
         # Glossary
-        binder.bind(TermRepoABC, to=TermRepo)
+        binder.bind(TermsRepoABC, to=TermsRepo)

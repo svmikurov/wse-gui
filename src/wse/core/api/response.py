@@ -24,7 +24,7 @@ class Response(BaseSchema):
 class ItemsData(BaseSchema):
     """Response items data."""
 
-    count: str
+    count: int
     next: str | None
     previous: str | None
     results: list[Any]

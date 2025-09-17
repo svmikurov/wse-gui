@@ -4,16 +4,18 @@ from typing import no_type_check
 
 from injector import Binder, Module, SingletonScope
 
-from .abc import (
+from .abc.assigned import (
     CheckAssignedAnswerUseCaseABC,
-    CheckCalculationAnswerUseCaseABC,
     GetAssignedQuestionUseCaseABC,
     GetAssignedSolutionUseCaseABC,
+    SetAssignedExerciseUseCaseABC,
+)
+from .abc.calculation import (
+    CheckCalculationAnswerUseCaseABC,
     GetCalculationQuestionUseCaseABC,
     GetCalculationSolutionUseCaseABC,
-    SetAssignedExerciseUseCaseABC,
-    UserObserverRegistryUseCaseABC,
 )
+from .abc.user import UserObserverRegistryUseCaseABC
 from .assigned import (
     CheckAssignedAnswerUseCase,
     GetAssignedQuestionUseCase,

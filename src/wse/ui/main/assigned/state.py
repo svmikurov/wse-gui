@@ -6,12 +6,12 @@ from typing import Literal, Union
 from injector import inject
 
 from wse.core.interfaces import Navigable
-from wse.domain.abc import (
+from wse.domain.abc.assigned import (
     CheckAssignedAnswerUseCaseABC,
     GetAssignedQuestionUseCaseABC,
     GetAssignedSolutionUseCaseABC,
-    UserObserverRegistryUseCaseABC,
 )
+from wse.domain.abc.user import UserObserverRegistryUseCaseABC
 from wse.domain.assigned import AssignedObserverRegistryUseCase
 from wse.feature.base.audit import AuditMixin
 
@@ -52,8 +52,8 @@ class AssignedExerciseViewModel(
     def __post_init__(self) -> None:
         """Construct the state."""
         self._data: AssignedExerciseUIState = AssignedExerciseUIState()
-        self._task_observer_case.add_observer(self)
-        self._user_observer_case.add_observer(self)
+        self._task_observer_case.add_listener(self)
+        self._user_observer_case.add_listener(self)
 
     def refresh_context(self) -> None:
         """Refresh context."""
@@ -68,5 +68,5 @@ class AssignedExerciseViewModel(
 
     def on_close(self) -> None:
         """Call methods before close the screen."""
-        self._user_observer_case.remove_observer(self)
-        self._task_observer_case.remove_observer(self)
+        self._user_observer_case.remove_listener(self)
+        self._task_observer_case.remove_listener(self)

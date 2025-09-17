@@ -13,11 +13,11 @@ from ..data.repositories.abc import AssignedTaskRepoABC
 from ..data.repositories.assigned_task import AssignedTaskRepo
 from ..data.sources.task import ResultObserverABC, TaskObserverABC
 from ..feature.shared.schemas.exercise import Assigned
-from .abc import (
+from .abc import SubscribeUseCaseABC
+from .abc.assigned import (
     CheckAssignedAnswerUseCaseABC,
     GetAssignedQuestionUseCaseABC,
     GetAssignedSolutionUseCaseABC,
-    ObserverRegistryUseCaseABC,
     SetAssignedExerciseUseCaseABC,
 )
 
@@ -50,7 +50,7 @@ class SetAssignedExerciseUseCase(
 
 
 class AssignedObserverRegistryUseCase(
-    ObserverRegistryUseCaseABC[TaskObserverABC],
+    SubscribeUseCaseABC[TaskObserverABC],
 ):
     """Assigned exercise source observer registry the Use Case."""
 
@@ -59,11 +59,11 @@ class AssignedObserverRegistryUseCase(
         """Construct the case."""
         self._repository = repository
 
-    def add_observer(self, observer: TaskObserverABC) -> None:
+    def add_listener(self, observer: TaskObserverABC) -> None:
         """Register an observer to receive calculation task updates."""
         self._repository.add_observer(observer)
 
-    def remove_observer(self, observer: TaskObserverABC) -> None:
+    def remove_listener(self, observer: TaskObserverABC) -> None:
         """Remove an observer from event notifications."""
         self._repository.remove_observer(observer)
 

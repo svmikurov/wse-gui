@@ -12,9 +12,7 @@ StyleT_co = TypeVar('StyleT_co', bound=BaseStyle, covariant=True)
 ThemeT = TypeVar('ThemeT', bound=BaseThema)
 ThemeT_co = TypeVar('ThemeT_co', bound=BaseThema, covariant=True)
 
-ListenerT = TypeVar('ListenerT')
-
 NotifyT = TypeVar('NotifyT', bound=str)
-ObserverT = TypeVar('ObserverT')
+ListenerT = TypeVar('ListenerT')
 
 TypedDictT = TypeVar('TypedDictT', bound=TypedDictType)

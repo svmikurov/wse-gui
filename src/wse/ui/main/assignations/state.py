@@ -9,7 +9,7 @@ from typing_extensions import Unpack, override
 
 from wse.core.interfaces import Navigable
 from wse.core.navigation.nav_id import NavID
-from wse.domain.abc import SetAssignedExerciseUseCaseABC
+from wse.domain.abc.assigned import SetAssignedExerciseUseCaseABC
 from wse.feature.api.main.abc import AssignationsApiABC
 from wse.feature.shared.schemas.exercise import (
     Assigned,

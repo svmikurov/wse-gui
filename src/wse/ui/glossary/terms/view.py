@@ -56,6 +56,10 @@ class TermsView(
         """Update widgets style."""
         self._title.style.update(**config.label_title)
 
+    def on_open(self) -> None:
+        """Call methods on page open."""
+        self._state.refresh_context()
+
     @override
     def on_close(self) -> None:
         """Call methods before close the screen."""

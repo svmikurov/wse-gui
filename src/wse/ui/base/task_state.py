@@ -8,13 +8,13 @@ from typing_extensions import Unpack
 
 from wse.core.interfaces import Navigable
 from wse.data.sources.task import TaskObserverABC
-from wse.domain.abc import (
+from wse.feature.base.mixins import AddObserverGenT
+
+from ...domain.abc.task import (
     CheckAnswerUseCaseABC,
     GetQuestionUseCaseABC,
     GetSolutionUseCaseABC,
 )
-from wse.feature.base.mixins import AddObserverGenT
-
 from ..base.task_abc import TaskViewModelFeatureABC, TaskViewModelObserverABC
 
 TaskNotifyT = Literal[

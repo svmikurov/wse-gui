@@ -8,7 +8,7 @@ from wse.core.navigation.nav_id import NavID
 from ..interfaces.icontent import ContentProto
 from ..interfaces.imvc import ModelProto
 from ..interfaces.iobserver import ObserverProto, SubjectABC
-from ..interfaces.types import NotifyT, ObserverT
+from ..interfaces.types import ListenerT, NotifyT
 
 ModelT = TypeVar('ModelT', bound=ModelProto)
 OpenT = TypeVar('OpenT')
@@ -94,11 +94,11 @@ class AddObserverGen(Generic[NotifyT]):
 
     _subject: SubjectABC
 
-    def add_observer(self, observer: ObserverT) -> None:
+    def add_observer(self, observer: ListenerT) -> None:
         """Subscribe observer an event has occurred."""
         self._subject.add_observer(observer)
 
-    def remove_observer(self, observer: ObserverT) -> None:
+    def remove_observer(self, observer: ListenerT) -> None:
         """Remove observer."""
         self._subject.remove_observer(observer)
 
@@ -106,22 +106,22 @@ class AddObserverGen(Generic[NotifyT]):
         self._subject.notify(notification, **kwargs)
 
     @property
-    def observers(self) -> list[ObserverT]:
+    def observers(self) -> list[ListenerT]:
         """Get observers."""
         return self._subject.observers  # type: ignore[return-value]
 
 
 @dataclass
-class AddObserverGenT(Generic[ObserverT, NotifyT]):
+class AddObserverGenT(Generic[ListenerT, NotifyT]):
     """Mixin that enables observer subscription capability."""
 
     _subject: SubjectABC
 
-    def add_observer(self, observer: ObserverT) -> None:
+    def add_observer(self, observer: ListenerT) -> None:
         """Subscribe observer an event has occurred."""
         self._subject.add_observer(observer)
 
-    def remove_observer(self, observer: ObserverT) -> None:
+    def remove_observer(self, observer: ListenerT) -> None:
         """Remove observer from subject observers."""
         self._subject.remove_observer(observer)
 
@@ -131,6 +131,6 @@ class AddObserverGenT(Generic[ObserverT, NotifyT]):
     # TODO: Fix type ignore.
     #       Update `Observable` type with `list[ObserverT]` return type.
     @property
-    def observers(self) -> list[ObserverT]:
+    def observers(self) -> list[ListenerT]:
         """Get observers."""
         return self._subject.observers  # type: ignore[return-value]
