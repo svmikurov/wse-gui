@@ -26,3 +26,4 @@ class NavID(BaseEnum):
     # Glossary
     GLOSSARY = 'Glossary index screen'
     TERMS = 'Terms screen'
+    TERMS_STUDY = 'Study terms'
