@@ -7,7 +7,7 @@ from collections import deque
 from typing import Any, Type
 
 import toga
-from injector import Injector, NoInject, inject
+from injector import CallError, Injector, NoInject, inject
 
 from wse.core.exceptions import NavigateError, RouteContentError
 from wse.core.navigation.nav_id import NavID
@@ -70,6 +70,9 @@ class Navigator:
 
         except RouteContentError:
             logger.exception(f"The navigation to the '{nav_id}' has failed")
+
+        except CallError:
+            logger.exception('Dependncy injection error:\n')
 
         else:
             if self._current_view is None:
