@@ -33,4 +33,8 @@ class SourceModule(Module):
         binder.bind(AssignedExerciseSource, scope=SingletonScope)
 
         # Glossary
-        binder.bind(TermNetworkSourceABC, to=TermNetworkSource)
+        binder.bind(
+            TermNetworkSourceABC,
+            to=TermNetworkSource,
+            scope=SingletonScope,
+        )

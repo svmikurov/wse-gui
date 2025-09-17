@@ -7,7 +7,7 @@ from typing import Literal
 from wse_exercises.core import MathEnum
 
 from wse.data.entities.exercise import CalculationExercise
-from wse.data.sources.base.source import DataSourceGen
+from wse.data.sources.base.source import SourceGen
 
 _NotifyT = Literal['default_updated']
 
@@ -21,7 +21,7 @@ class ExerciseObserverABC(ABC):
 
 
 class CalculationExerciseSource(
-    DataSourceGen[
+    SourceGen[
         ExerciseObserverABC,
         _NotifyT,
     ]

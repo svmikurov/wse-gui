@@ -11,9 +11,11 @@ from wse.core import NavID
 from wse.feature.base.audit import AuditMixin
 from wse.feature.interfaces.iwidgets import NavigableButton
 from wse.feature.shared.containers.top_bar.abc import TopBarControllerABC
+from wse.utils.i18n import _
 
 from ...base.mixin import NavigateViewMixin
 from . import TermsViewABC, TermsViewModelABC
+from .state import TermsTableSource
 
 
 @inject
@@ -28,6 +30,7 @@ class TermsView(
     _state: TermsViewModelABC
 
     _top_bar: TopBarControllerABC
+    _table_state: TermsTableSource
 
     @override
     def __post_init__(self) -> None:
@@ -38,12 +41,19 @@ class TermsView(
     @override
     def _create_ui(self) -> None:
         self._title = toga.Label('')
+        self._table = toga.Table(
+            # After creating a table, cannot localize the header text.
+            headings=[_('Term'), _('Definition')],
+            accessors=['name', 'definition'],
+            data=self._table_state,
+        )
 
     @override
     def _populate_content(self) -> None:
         self._content.add(
             self._top_bar.content,
             self._title,
+            self._table,
         )
 
     @override
@@ -55,6 +65,7 @@ class TermsView(
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
         self._title.style.update(**config.label_title)
+        # TODO: Add style for table
 
     def on_open(self) -> None:
         """Call methods on page open."""

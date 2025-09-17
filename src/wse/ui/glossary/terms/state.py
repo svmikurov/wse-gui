@@ -1,14 +1,18 @@
 """Terms screen UI state."""
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from typing import TypedDict
 
 from injector import inject
-from typing_extensions import Unpack
+from typing_extensions import override
 
 from wse.core.interfaces import Navigable
 from wse.data.entities.term import Term
-from wse.data.repositories.glossary import TermsRepoABC
+from wse.data.sources.base.source import EntrySourceGen
+from wse.domain.glossary import (
+    GetTermsUseCaseABC,
+    SubscribeTermsUseCaseABC,
+)
 from wse.feature.base.audit import AuditMixin
 from wse.ui.base.mixin import NavigateStateMixin
 from wse.ui.glossary.terms import TermsViewModelABC
@@ -20,11 +24,11 @@ class _DataFieldType(TypedDict, total=False):
     terms: list[Term] | None
 
 
-@dataclass(frozen=True)
-class TermsUIState:
-    """Terms UI state data."""
+class TermsTableSource(EntrySourceGen[Term]):
+    """Terms table data state source.
 
-    terms: list[Term] | None = None
+    DI provides this source as singleton.
+    """
 
 
 @inject
@@ -38,22 +42,27 @@ class TermsViewModel(
 
     _navigator: Navigable
 
-    _terms_repo: TermsRepoABC
+    _subscribe_terms_case: SubscribeTermsUseCaseABC
+    _get_terms_case: GetTermsUseCaseABC
+    _table_state: TermsTableSource
 
+    def __post_init__(self) -> None:
+        """Construct the ViewModel."""
+        self._subscribe_terms_case.add_listener(self)
+
+    @override
     def refresh_context(self) -> None:
         """Refresh screen context."""
-        term_schemas = self._terms_repo.get_terms()
-        if term_schemas is not None:
-            terms = [Term(**term.to_dict()) for term in term_schemas]
-            print('===========================================')
-            print(f'{terms = }')
-            print('===========================================')
+        self._get_terms_case.get_terms()
 
-    def _create_data(self) -> None:
-        """Create UI state data."""
-        self._data = TermsUIState()
+    @override
+    def updated(self, terms: list[Term]) -> None:
+        """Handle the data source updated event."""
+        self._table_state.clear()
+        for term in terms:
+            self._table_state.add(term)
 
-    # TODO: Move to ABC Generic[...UIState] class.
-    def _update_data(self, **data: Unpack[_DataFieldType]) -> None:
-        """Update UI state data."""
-        self._data = replace(self._data, **data)
+    @override
+    def on_close(self) -> None:
+        """Call methods before close the screen."""
+        self._subscribe_terms_case.remove_listener(self)

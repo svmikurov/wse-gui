@@ -8,7 +8,7 @@ from typing import Literal
 from typing_extensions import Unpack
 
 from wse.data.entities.user import User, UserFieldType
-from wse.data.sources.base.source import DataSourceGen
+from wse.data.sources.base.source import SourceGen
 
 _NotifyT = Literal['balance_updated']
 
@@ -33,7 +33,7 @@ class UserObserverABC(ABC):
 
 class UserSource(
     UserSourceABC,
-    DataSourceGen[UserObserverABC, _NotifyT],
+    SourceGen[UserObserverABC, _NotifyT],
 ):
     """User data source."""
 
@@ -42,7 +42,7 @@ class UserSource(
         super().__init__()
         self._create_data()
 
-    def add_listener(self, listener: UserObserverABC) -> None:
+    def add_listener(self, listener: UserObserverABC) -> None:  # type: ignore[override]
         """Notify new listener about state of user data."""
         super().add_listener(listener)
         if self._data.balance:

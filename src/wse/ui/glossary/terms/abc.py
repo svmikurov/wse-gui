@@ -2,14 +2,15 @@
 
 from abc import ABC
 
-from wse.data.sources.glossary.term import TermNetworkSourceObserverABC
+from wse.data.sources.glossary.term import TermNetworkSourceListenerABC
 from wse.feature.base import ViewABC
 from wse.feature.base.container import CreateNavButtonABC
 from wse.ui.base.abc import CloseScreenABC, NavigateABC
 
 
 class TermsViewModelABC(
-    TermNetworkSourceObserverABC,
+    TermNetworkSourceListenerABC,
+    CloseScreenABC,
     NavigateABC,
     ABC,
 ):
@@ -20,8 +21,8 @@ class TermsViewModelABC(
 
 
 class TermsViewABC(
-    CloseScreenABC,
     CreateNavButtonABC,
+    CloseScreenABC,
     ViewABC,
     ABC,
 ):

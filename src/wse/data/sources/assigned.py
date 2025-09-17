@@ -4,7 +4,7 @@ from dataclasses import replace
 from typing import Literal
 
 from wse.data.entities.assigned import AssignedExercise
-from wse.data.sources.base.source import DataSourceGen
+from wse.data.sources.base.source import SourceGen
 from wse.feature.shared.schemas.exercise import Assigned
 
 _SourceNotifyT = Literal['']
@@ -18,7 +18,7 @@ class AssignedSourceObserverABC:
 
 
 class AssignedExerciseSource(
-    DataSourceGen[AssignedSourceObserverABC, _SourceNotifyT],
+    SourceGen[AssignedSourceObserverABC, _SourceNotifyT],
 ):
     """Assigned exercise data source."""
 

@@ -6,7 +6,7 @@ from dataclasses import replace
 from typing import Literal, Union
 
 from wse.data.entities.task import Task
-from wse.data.sources.base.source import DataSourceGen
+from wse.data.sources.base.source import SourceGen
 from wse.feature.shared.schemas.task import Question, Result
 
 _NotifyType = Literal[
@@ -45,7 +45,7 @@ class TaskObserverABC(
 
 
 class TaskSource(
-    DataSourceGen[
+    SourceGen[
         TaskObserverT,
         _NotifyType,
     ],

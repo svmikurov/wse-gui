@@ -1,5 +1,6 @@
 """Term sources."""
 
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Literal, TypedDict
 
@@ -8,8 +9,10 @@ from injector import inject
 from wse.feature.api.glossary.abc import TermApiABC
 
 from ...entities.term import Term, Terms
-from ..base.source import DataSourceGen
+from ..base.source import SourceGen
 from . import TermNetworkSourceABC
+
+_NotifyT = Literal['updated']
 
 
 class _SourceDateTypes(TypedDict, total=False):
@@ -21,20 +24,18 @@ class _SourceDateTypes(TypedDict, total=False):
     terms: list[Term] | None
 
 
-_NotifyT = Literal['updated',]
-
-
-class TermNetworkSourceObserverABC:
+class TermNetworkSourceListenerABC(ABC):
     """ABC for Terms data source Observer."""
 
-    def updated(self, value: list[Term]) -> None:
+    @abstractmethod
+    def updated(self, terms: list[Term]) -> None:
         """Handle the data source updated event."""
 
 
 @inject
 @dataclass
 class TermNetworkSource(
-    DataSourceGen[TermNetworkSourceObserverABC, _NotifyT],
+    SourceGen[TermNetworkSourceListenerABC, _NotifyT],
     TermNetworkSourceABC,
 ):
     """Term Network Source."""
@@ -59,7 +60,6 @@ class TermNetworkSource(
                     previous_url=data.previous,
                     terms=[Term(**term.to_dict()) for term in results],
                 )
-                self.notify('updated', terms=self._terms.terms)
 
-                print(f'{self._terms = }')
+                self.notify('updated', terms=self._terms.terms)
         return None
