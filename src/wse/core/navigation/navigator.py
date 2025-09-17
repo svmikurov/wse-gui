@@ -9,9 +9,10 @@ from typing import Any, Type
 import toga
 from injector import Injector, NoInject, inject
 
-from wse.core.exceptions import ContentError, NavigateError
+from wse.core.exceptions import RouteContentError, NavigateError
 from wse.core.navigation.nav_id import NavID
 from wse.feature.interfaces.imvc import NavigableView
+from wse.ui.routes import UIRoutes
 
 logger = logging.getLogger(__name__)
 
@@ -53,7 +54,7 @@ class Navigator:
 
         try:
             self._update_window_content(nav_id, **kwargs)
-        except (NavigateError, ContentError):
+        except (NavigateError, RouteContentError):
             logger.exception('Window content is not updated')
         else:
             self._add_to_history(nav_id)
@@ -67,9 +68,8 @@ class Navigator:
             # that is hashed as the current one.
             new_view = self._injector.get(self._get_view_type(nav_id))
 
-        except ContentError:
-            logger.error(f"The navigation to the '{nav_id}' has failed")
-            raise
+        except RouteContentError:
+            logger.exception(f"The navigation to the '{nav_id}' has failed")
 
         else:
             if self._current_view is None:
@@ -115,9 +115,7 @@ class Navigator:
         try:
             return self._routes[nav_id]
         except KeyError as err:
-            raise ContentError(
-                f"Route mapping for '{nav_id}' to controller is not set"
-            ) from err
+            raise RouteContentError(err, nav_id, UIRoutes)
 
     def _add_to_history(self, nav_id: NavID) -> None:
         """Add navigation ID to history."""
