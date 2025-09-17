@@ -15,7 +15,7 @@ from wse.domain.abc import (
 from wse.domain.assigned import AssignedObserverRegistryUseCase
 from wse.feature.base.audit import AuditMixin
 
-from ...base.mixin import BalanceUpdatedMixin, NavigateMixin
+from ...base.mixin import BalanceUpdatedMixin, NavigateStateMixin
 from ...base.task_state import TaskNotifyT, TaskState, TaskViewModelMixin
 from .abc import AssignedExerciseViewModelABC
 
@@ -33,7 +33,7 @@ class AssignedExerciseUIState(TaskState):
 @dataclass
 class AssignedExerciseViewModel(
     BalanceUpdatedMixin,
-    NavigateMixin,
+    NavigateStateMixin,
     TaskViewModelMixin,
     AssignedExerciseViewModelABC,
     AuditMixin,

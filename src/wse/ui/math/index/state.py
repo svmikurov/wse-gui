@@ -16,6 +16,7 @@ from wse.data.repositories.calculation_exercises import (
 from wse.domain.math_exercise import SetCalculationExerciseUseCase
 from wse.feature.base.mixins import AddObserverGen
 
+from ...base.abc import NavigateABC
 from .abc import MathModelFeature
 
 _NotifyType = Literal[
@@ -44,6 +45,7 @@ class MathIndexUIState:
 class MathIndexViewModel(
     MathModelFeature,
     AddObserverGen[_NotifyType],
+    NavigateABC,
 ):
     """Index Math screen model."""
 

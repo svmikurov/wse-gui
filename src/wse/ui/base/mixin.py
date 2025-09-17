@@ -5,6 +5,7 @@ from typing import Callable, no_type_check
 from wse.core.auth import AuthServiceProto
 from wse.core.interfaces import Navigable
 from wse.core.navigation.nav_id import NavID
+from wse.ui.base.abc import NavigateABC
 
 
 class SetAuthStatusMixin:
@@ -25,14 +26,24 @@ class SetAuthStatusMixin:
         self._update_data(is_auth=is_auth)
 
 
-class NavigateMixin:
-    """Mixin providing API for navigate event handle."""
+class NavigateStateMixin:
+    """Mixin for State provides API for navigate."""
 
     _navigator: Navigable
 
     def navigate(self, nav_id: NavID) -> None:
         """Handle the navigate event."""
         self._navigator.navigate(nav_id=nav_id)
+
+
+class NavigateViewMixin:
+    """Mixin for View provides navigate feature."""
+
+    _state: NavigateABC
+
+    def navigate(self, nav_id: NavID) -> None:
+        """Navigate."""
+        self._state.navigate(nav_id)
 
 
 class BalanceUpdatedMixin:

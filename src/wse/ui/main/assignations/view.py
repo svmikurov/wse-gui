@@ -7,12 +7,12 @@ from injector import inject
 from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.core.navigation.nav_id import NavID
 from wse.feature.shared.containers.assigned.abc import AssignationsContainerABC
 from wse.feature.shared.containers.top_bar.abc import TopBarControllerABC
 from wse.feature.shared.schemas.exercise import ExerciseInfo
 from wse.utils.i18n import label_
 
+from ...base.mixin import NavigateViewMixin
 from .abc import (
     AssignationsViewABC,
     AssignationsViewModelABC,
@@ -21,7 +21,10 @@ from .abc import (
 
 @inject
 @dataclass
-class AssignationsView(AssignationsViewABC):
+class AssignationsView(
+    NavigateViewMixin,
+    AssignationsViewABC,
+):
     """Assigned exercises UI view."""
 
     _state: AssignationsViewModelABC
@@ -62,10 +65,6 @@ class AssignationsView(AssignationsViewABC):
     def on_open(self) -> None:
         """Call methods on screen open."""
         self._state.refresh_context()
-
-    def navigate(self, nav_id: NavID) -> None:
-        """Navigate."""
-        self._state.navigate(nav_id)
 
     # IU state observe
 

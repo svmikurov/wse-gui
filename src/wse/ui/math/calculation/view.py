@@ -21,6 +21,7 @@ from wse.feature.shared.widgets import (
 )
 from wse.utils.i18n import _, label_
 
+from ...base.mixin import NavigateViewMixin
 from .abc import CalculationViewABC, CalculationViewModelABC
 
 
@@ -28,6 +29,7 @@ from .abc import CalculationViewABC, CalculationViewModelABC
 @dataclass
 class CalculationView(
     AuditMixin,
+    NavigateViewMixin,
     CalculationViewABC,
 ):
     """Calculation exercise view."""
@@ -82,12 +84,6 @@ class CalculationView(
         self._label_title.text = label_('Simple calculation title')
         self._btn_submit.text = _('Send answer')
         self._btn_next.text = _('Next task')
-
-    # Feature
-
-    def navigate(self, nav_id: NavID) -> None:
-        """Navigate."""
-        self._state.navigate(nav_id)
 
     def on_open(self) -> None:
         """Call methods on page open."""

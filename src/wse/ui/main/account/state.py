@@ -10,7 +10,7 @@ from typing_extensions import Unpack
 
 from wse.core.auth import AuthServiceProto
 from wse.core.interfaces import Navigable
-from wse.ui.base.mixin import NavigateMixin, SetAuthStatusMixin
+from wse.ui.base.mixin import NavigateStateMixin, SetAuthStatusMixin
 from wse.ui.main.account.abc import AuthViewModelABC
 
 audit = logging.getLogger(__name__)
@@ -37,7 +37,7 @@ class AuthUIState:
 @dataclass
 class AuthViewModel(
     SetAuthStatusMixin,
-    NavigateMixin,
+    NavigateStateMixin,
     AuthViewModelABC,
 ):
     """Account UI state the ViewModel."""

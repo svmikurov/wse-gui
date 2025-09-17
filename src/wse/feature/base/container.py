@@ -1,8 +1,10 @@
 """Defines abstract base class for widget containers."""
 
+import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
+from ...core.exceptions import PopulateContentError
 from ...core.navigation.nav_id import NavID
 from .. import StyleT, ThemeT
 from ..base.mixins import (
@@ -11,6 +13,8 @@ from ..base.mixins import (
 from ..interfaces.iwidgets import NavigableButton
 from ..shared.widgets.buttons import NavButton
 from .abstract.ui_layer import LocalizeABC, UpdateStyleABC
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -24,7 +28,13 @@ class AddContentABC(
         """Construct the container."""
         self._create_ui()
         self._setup()
-        self._populate_content()
+
+        try:
+            self._populate_content()
+        except AttributeError as err:
+            logger.exception(PopulateContentError(err))
+        except Exception:
+            logger.exception('Unexpected populate content error:\n')
 
     def _setup(self) -> None:  # noqa: B027
         """Set up container features.

@@ -12,7 +12,7 @@ from wse.domain.abc import (
 )
 from wse.domain.math_task import CalculationObserverRegistryUseCase
 
-from ...base.mixin import NavigateMixin
+from ...base.mixin import NavigateStateMixin
 from ...base.task_state import TaskState, TaskViewModelMixin
 from .abc import CalculationViewModelABC
 
@@ -25,7 +25,7 @@ class CalculationUIState(TaskState):
 @inject
 @dataclass
 class CalculationViewModel(
-    NavigateMixin,
+    NavigateStateMixin,
     TaskViewModelMixin,
     CalculationViewModelABC,
 ):

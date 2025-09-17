@@ -11,6 +11,7 @@ from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation.nav_id import NavID
 from wse.feature.shared.containers.top_bar.abc import TopBarControllerABC
 from wse.feature.source_wraps import ExerciseSelectWrapperProto
+from wse.ui.base.mixin import NavigateViewMixin
 from wse.ui.math.index.abc import MathIndexViewABC
 from wse.ui.math.index.state import MathIndexViewModel
 from wse.utils.contextmanager import EventDisabler
@@ -19,7 +20,10 @@ from wse.utils.i18n import _, label_
 
 @inject
 @dataclass
-class MathIndexView(MathIndexViewABC):
+class MathIndexView(
+    NavigateViewMixin,
+    MathIndexViewABC,
+):
     """Main Math page view."""
 
     _state: MathIndexViewModel
@@ -67,10 +71,6 @@ class MathIndexView(MathIndexViewABC):
         """Localize the UI text."""
         self._label_title.text = label_('Main math page title')
         self._btn_start.text = _('Start exercise')
-
-    def navigate(self, nav_id: NavID) -> None:
-        """Navigate."""
-        self._state.navigate(nav_id)
 
     def on_open(self) -> None:
         """Call methods on page open."""

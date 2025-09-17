@@ -12,12 +12,16 @@ from wse.feature.shared.containers.login import LoginControllerProto
 from wse.feature.shared.containers.top_bar.abc import TopBarControllerABC
 from wse.utils.i18n import label_, nav_
 
+from ...base.mixin import NavigateViewMixin
 from .abc import AuthViewABC, AuthViewModelABC
 
 
 @inject
 @dataclass
-class AuthView(AuthViewABC):
+class AuthView(
+    NavigateViewMixin,
+    AuthViewABC,
+):
     """Account View."""
 
     _state: AuthViewModelABC
@@ -63,12 +67,6 @@ class AuthView(AuthViewABC):
     def on_open(self) -> None:
         """Call methods on page open."""
         self._state.refresh_context()
-
-    # Top bar observe
-
-    def navigate(self, nav_id: NavID) -> None:
-        """Navigate."""
-        self._state.navigate(nav_id)
 
     # Login container observe
 

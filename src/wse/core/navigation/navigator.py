@@ -9,7 +9,7 @@ from typing import Any, Type
 import toga
 from injector import Injector, NoInject, inject
 
-from wse.core.exceptions import RouteContentError, NavigateError
+from wse.core.exceptions import NavigateError, RouteContentError
 from wse.core.navigation.nav_id import NavID
 from wse.feature.interfaces.imvc import NavigableView
 from wse.ui.routes import UIRoutes
@@ -115,7 +115,7 @@ class Navigator:
         try:
             return self._routes[nav_id]
         except KeyError as err:
-            raise RouteContentError(err, nav_id, UIRoutes)
+            raise RouteContentError(err, nav_id, UIRoutes) from err
 
     def _add_to_history(self, nav_id: NavID) -> None:
         """Add navigation ID to history."""

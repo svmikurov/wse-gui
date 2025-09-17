@@ -7,7 +7,7 @@ from wse.core.navigation.nav_id import NavID
 from wse.feature.base.mixins import AddObserverGenT
 from wse.feature.base.ui import ViewABC
 from wse.feature.shared.schemas.exercise import ExerciseInfo
-from wse.ui.base.abc import CloseScreenABC
+from wse.ui.base.abc import CloseScreenABC, NavigateABC
 
 # State
 
@@ -37,6 +37,7 @@ class AssignationsStateObserverABC(ABC):
 class AssignationsViewModelABC(
     AssignationsStateFeatureABC,
     AddObserverGenT[AssignationsStateObserverABC, _StateNotifyT],
+    NavigateABC,
     CloseScreenABC,
     ABC,
 ):

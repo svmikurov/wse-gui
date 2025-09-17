@@ -7,14 +7,14 @@ from typing_extensions import override
 
 from wse.core.interfaces import Navigable
 
-from ...base.mixin import NavigateMixin
+from ...base.mixin import NavigateStateMixin
 from .abc import HomeViewModelABC
 
 
 @inject
 @dataclass
 class HomeViewModel(
-    NavigateMixin,
+    NavigateStateMixin,
     HomeViewModelABC,
 ):
     """Home screen ViewModel."""

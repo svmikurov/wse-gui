@@ -2,9 +2,7 @@
 
 from typing import Generic, TypeVar
 
-from wse.core import NavID
 from wse.feature.interfaces.iobserver import SubjectABC
-from wse.ui.base.abc import NavigateABC
 
 from .itop_bar import (
     TopBarViewMixinProto,
@@ -31,16 +29,3 @@ class TopBarControllerMixin(Generic[TopBarViewT]):
     def balance_update(self, value: str) -> None:
         """Handle balance update event notification."""
         self._view.update_balance(value)
-
-
-class TopBarNavigationViewMixin:
-    """Mixin providing navigation notifications for View.
-
-    Add View to observers of TopBar.
-    """
-
-    _state: NavigateABC
-
-    def navigate(self, nav_id: NavID) -> None:
-        """Navigate."""
-        self._state.navigate(nav_id)
