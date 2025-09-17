@@ -134,13 +134,3 @@ class AddObserverGenT(Generic[ObserverT, NotifyT]):
     def observers(self) -> list[ObserverT]:
         """Get observers."""
         return self._subject.observers  # type: ignore[return-value]
-
-
-class ModelObserverMixin(Generic[ModelT]):
-    """Mixing providing subscribe to model notification."""
-
-    _model: ModelT
-
-    def _setup(self) -> None:
-        """Set up the controller features."""
-        self._model.add_observer(self)

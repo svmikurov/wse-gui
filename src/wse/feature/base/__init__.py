@@ -3,10 +3,8 @@
 __all__ = [
     'ViewABC',
     'Controller',
-    'BaseRoutes',
     'BaseSchema',
 ]
 
-from .routes import BaseRoutes
 from .schema import BaseSchema
 from .ui import Controller, ViewABC
