@@ -85,11 +85,11 @@ class HttpClient(HttpClientABC):
             response.raise_for_status()
 
         except httpx.ConnectError as err:
-            logger.exception('Error connecting to server %s', err.request.url)
+            logger.error('Error connecting to server %s', err.request.url)
             raise
 
         except httpx.HTTPStatusError as err:
-            logger.exception(f'HTTP error {err.response.status_code}')
+            logger.error(f'HTTP error {err.response.status_code}')
             raise
 
         else:

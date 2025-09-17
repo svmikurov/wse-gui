@@ -75,8 +75,8 @@ class DataApi(DataApiABC):
             )
             response.raise_for_status()
 
-        except httpx.HTTPError:
-            logger.exception('Request task error')
+        except httpx.HTTPError as err:
+            logger.error(f'Error load app initial data: {err.args}')
             return None
 
         return self._parse_response(response, InitialDataResponse)
