@@ -1,5 +1,6 @@
 """Mixins for UI layer."""
 
+from dataclasses import dataclass
 from typing import Callable, no_type_check
 
 from wse.core.auth import AuthServiceProto
@@ -26,6 +27,7 @@ class SetAuthStatusMixin:
         self._update_data(is_auth=is_auth)
 
 
+@dataclass
 class NavigateStateMixin:
     """Mixin for State provides API for navigate."""
 
