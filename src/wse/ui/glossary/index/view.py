@@ -40,6 +40,7 @@ class IndexGlossaryView(
     def _create_ui(self) -> None:
         self._title = toga.Label('')
         self._btn_terms = self._create_nav_btn(NavID.TERMS)
+        self._btn_study = self._create_nav_btn(NavID.TERMS_STUDY)
 
     @override
     def _populate_content(self) -> None:
@@ -47,6 +48,7 @@ class IndexGlossaryView(
             self._top_bar.content,
             self._title,
             self._btn_terms,
+            self._btn_study,
         )
 
     @override
@@ -54,12 +56,14 @@ class IndexGlossaryView(
         """Localize the UI text."""
         self._title.text = label_(NavID.GLOSSARY)
         self._btn_terms.text = nav_(NavID.TERMS)
+        self._btn_study.text = nav_(NavID.TERMS_STUDY)
 
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
         self._title.style.update(**config.label_title)
         self._btn_terms.style.update(**config.btn_nav)
+        self._btn_study.style.update(**config.btn_nav)
 
     def on_open(self) -> None:
         """Call methods before close the screen."""
