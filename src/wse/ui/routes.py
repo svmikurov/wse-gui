@@ -6,6 +6,7 @@ from wse.core.navigation.nav_id import NavID
 from wse.feature.interfaces.icontent import GetContentProto
 
 from .glossary.index import IndexGlossaryViewABC
+from .glossary.study import TermsStudyViewABC
 from .glossary.terms import TermsViewABC
 from .main.account.abc import AuthViewABC
 from .main.assignations.abc import AssignationsViewABC
@@ -35,4 +36,5 @@ class UIRoutes:
             # Glossary discipline
             NavID.GLOSSARY: IndexGlossaryViewABC,
             NavID.TERMS: TermsViewABC,
+            NavID.TERMS_STUDY: TermsStudyViewABC,
         }
