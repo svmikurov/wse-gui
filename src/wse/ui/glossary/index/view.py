@@ -7,7 +7,7 @@ from injector import inject
 from typing_extensions import override
 
 from wse.config import StyleConfig, ThemeConfig
-from wse.core import NavID
+from wse.core.navigation import NavID
 from wse.feature.base.audit import AuditMixin
 from wse.feature.interfaces.iwidgets import NavigableButton
 from wse.feature.shared.containers.top_bar.abc import TopBarControllerABC

@@ -2,7 +2,7 @@
 
 from typing import Any, Type
 
-from wse.core import NavID
+from wse.core.navigation import NavID
 
 
 class ContentError(Exception):
