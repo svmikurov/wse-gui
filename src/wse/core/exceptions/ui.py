@@ -22,7 +22,7 @@ class RouteContentError(ContentError):
         message = (
             f'\nRoute mapping for `{nav_id}` was not set.\n'
             f'Add mapping `NavID` with Abstract Base Class of View '
-            f'to {routes_class}\n'
+            f'to {routes_class}\n\n'
             f'For example:\n\n'
             f'    class {routes_class.__name__}:\n'
             f'        def routes(self) -> dict[NavID, GetContentProto]:\n'
@@ -44,7 +44,7 @@ class PopulateContentError(ContentError):
         message = (
             f'Populate content error:\n'
             f'Check that got content from injected widget.\n\n'
-            f'Example:\n'
+            f'For example:\n\n'
             f'  def _populate_content(self) -> None:\n'
             f'      self._content.add(\n'
             f'          self._top_bar.content,\n'
