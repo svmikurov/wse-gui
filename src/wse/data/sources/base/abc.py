@@ -6,7 +6,7 @@ from typing import Generic
 from .protocol import ListenerT, NotifyT_contra
 
 
-class BaseSource(
+class SourceABC(
     ABC,
     Generic[ListenerT, NotifyT_contra],
 ):

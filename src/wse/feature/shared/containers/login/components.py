@@ -11,7 +11,6 @@ from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.auth import AuthServiceProto
 from wse.core.navigation.nav_id import NavID
 from wse.feature.base import Controller
-from wse.feature.base.container import AddContentABC
 from wse.feature.base.mixins import AddObserverMixin
 from wse.feature.interfaces.icontent import ContentProto
 from wse.feature.interfaces.iobserver import SubjectABC
@@ -19,6 +18,7 @@ from wse.feature.shared.containers.login import (
     LoginContainerProto,
     LoginModelProto,
 )
+from wse.ui.base.abc.container import AddContentABC
 from wse.utils.i18n import _
 
 logger = logging.getLogger(__name__)

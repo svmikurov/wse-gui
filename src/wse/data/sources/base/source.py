@@ -8,12 +8,12 @@ from typing_extensions import override
 from wse.feature import ListenerT
 from wse.feature.interfaces.types import EntryNotifyT, EntryT, NotifyT
 
-from .abc import BaseSource
+from .abc import SourceABC
 
 
 # TODO: Fix type ignore
 class SourceGen(
-    BaseSource[ListenerT, NotifyT],
+    SourceABC[ListenerT, NotifyT],
 ):
     """Data sources.
 

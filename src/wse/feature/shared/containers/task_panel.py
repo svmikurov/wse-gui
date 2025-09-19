@@ -8,7 +8,7 @@ from injector import inject
 
 from wse.config.layout import StyleConfig, ThemeConfig
 
-from ...base.container import AddContentABC
+from ....ui.base.abc.container import AddContentABC
 from ...shared.widgets import DividerProto
 from . import TextTaskContainerProto
 

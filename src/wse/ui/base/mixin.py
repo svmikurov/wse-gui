@@ -6,7 +6,7 @@ from typing import Callable, no_type_check
 from wse.core.auth import AuthServiceProto
 from wse.core.interfaces import Navigable
 from wse.core.navigation.nav_id import NavID
-from wse.ui.base.abc import NavigateABC
+from wse.ui.base.abc.navigate import NavigateABC
 
 
 class SetAuthStatusMixin:

@@ -7,7 +7,8 @@ from wse.data.sources.assigned import AssignedSourceObserverABC
 from wse.data.sources.task import TaskObserverABC
 from wse.data.sources.user import UserObserverABC
 from wse.feature.base.mixins import AddObserverGenT
-from wse.ui.base.abc import CloseScreenABC, NavigateABC
+from wse.ui.base.abc.navigate import NavigateABC
+from wse.ui.base.abc.utils import OnCloseABC
 from wse.ui.base.task_abc import (
     TaskViewModelFeatureABC,
     TaskViewModelObserverABC,
@@ -34,7 +35,7 @@ class AssignedExerciseViewModelABC(
     TaskObserverABC,
     UserObserverABC,
     NavigateABC,
-    CloseScreenABC,
+    OnCloseABC,
     ABC,
 ):
     """ABC for Assigned exercise ViewModel."""
@@ -49,7 +50,7 @@ class AssignedExerciseViewModelABC(
 
 class AssignedExerciseViewABC(
     CalculationView,
-    CloseScreenABC,
+    OnCloseABC,
     ABC,
 ):
     """ABC for Assigned exercise View."""

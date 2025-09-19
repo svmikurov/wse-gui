@@ -6,7 +6,9 @@ from typing import Literal
 from wse.core.navigation.nav_id import NavID
 from wse.feature.base.mixins import AddObserverGenT
 from wse.feature.shared.schemas.exercise import ExerciseInfo
-from wse.ui.base.abc import CloseScreenABC, NavigateABC, ViewABC
+from wse.ui.base.abc.navigate import NavigateABC
+from wse.ui.base.abc.utils import OnCloseABC
+from wse.ui.base.abc.view import ViewABC
 
 # State
 
@@ -37,7 +39,7 @@ class AssignationsViewModelABC(
     AssignationsStateFeatureABC,
     AddObserverGenT[AssignationsStateObserverABC, _StateNotifyT],
     NavigateABC,
-    CloseScreenABC,
+    OnCloseABC,
     ABC,
 ):
     """ABC for Assigned exercises ViewModel."""
@@ -53,7 +55,7 @@ class AssignationsViewModelABC(
 class AssignationsViewABC(
     AssignationsStateObserverABC,
     ViewABC,
-    CloseScreenABC,
+    OnCloseABC,
     ABC,
 ):
     """ABC for Assigned exercises UI view."""

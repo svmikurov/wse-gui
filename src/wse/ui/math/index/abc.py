@@ -6,7 +6,9 @@ import toga
 from wse_exercises.core import MathEnum
 
 from wse.feature.api.math import Calculation
-from wse.ui.base.abc import CloseScreenABC, NavigateABC, ViewABC
+from wse.ui.base.abc.navigate import NavigateABC
+from wse.ui.base.abc.utils import OnCloseABC
+from wse.ui.base.abc.view import ViewABC
 
 # ViewModel
 
@@ -48,7 +50,7 @@ class MathModelNavigateObserver(ABC):
 
 
 class MathIndexModelViewABC(
-    CloseScreenABC,
+    OnCloseABC,
     NavigateABC,
     ABC,
 ):
@@ -61,7 +63,7 @@ class MathIndexModelViewABC(
 class MathIndexViewABC(
     MathModelObserver,
     ViewABC,
-    CloseScreenABC,
+    OnCloseABC,
     ABC,
 ):
     """ABC for Math index screen View."""

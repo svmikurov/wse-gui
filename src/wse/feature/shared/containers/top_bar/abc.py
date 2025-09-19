@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 from wse.feature.base import Controller
 from wse.feature.base.mixins import AddObserverMixin, NotifyNavigateMixin
-from wse.ui.base.abc import ViewABC
+from wse.ui.base.abc.view import ViewABC
 
 
 class TopBarControllerFeaturesABC(ABC):

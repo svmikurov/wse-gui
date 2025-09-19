@@ -9,11 +9,11 @@ from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation.nav_id import NavID
-from wse.feature.base.container import CreateNavButtonABC
 from wse.feature.base.mixins import AddObserverMixin
 from wse.feature.interfaces.icontent import ContentProto
 from wse.feature.interfaces.iwidgets import NavigableButton
 from wse.feature.shared.widgets import FlexRowStubProto
+from wse.ui.base.abc.navigate import CreateNavButtonABC
 from wse.utils.i18n import nav_
 
 from ..top_bar.itop_bar import (
