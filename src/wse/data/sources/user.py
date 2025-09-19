@@ -42,7 +42,7 @@ class UserSource(
         super().__init__()
         self._create_data()
 
-    def add_listener(self, listener: UserObserverABC) -> None:  # type: ignore[override]
+    def add_listener(self, listener: UserObserverABC) -> None:
         """Notify new listener about state of user data."""
         super().add_listener(listener)
         if self._data.balance:

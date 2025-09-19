@@ -1,9 +1,9 @@
 """Terms screen UI state."""
 
 from dataclasses import dataclass
-from typing import TypedDict
 
 from injector import inject
+from toga.sources import Source
 from typing_extensions import override
 
 from wse.core.interfaces import Navigable
@@ -18,13 +18,12 @@ from wse.ui.base.mixin import NavigateStateMixin
 from wse.ui.glossary.terms import TermsViewModelABC
 
 
-class _DataFieldType(TypedDict, total=False):
-    """Types for UI data state fields."""
-
-    terms: list[Term] | None
-
-
-class TermsTableSource(EntrySourceGen[Term]):
+class TermsTableSource(  # type: ignore[misc] ## `Source` is incompatible with definition
+    EntrySourceGen[Term],
+    # The `toga.Table` widget programmatically subscribes to a source
+    # if it `data` attribute is of the `toga.source.Source` subtype.
+    Source,
+):
     """Terms table data state source.
 
     DI provides this source as singleton.
