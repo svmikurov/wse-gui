@@ -5,7 +5,6 @@ from typing import Literal
 
 from wse.data.sources.task import TaskObserverABC
 from wse.feature.base.mixins import AddObserverGenT
-from wse.feature.shared.containers import NumpadObserverABC
 from wse.ui.base.abc.navigate import NavigateABC
 from wse.ui.base.abc.utils import OnCloseABC
 from wse.ui.base.abc.view import ViewABC
@@ -13,6 +12,7 @@ from wse.ui.base.task_abc import (
     TaskViewModelFeatureABC,
     TaskViewModelObserverABC,
 )
+from wse.ui.containers.numpad import NumpadObserverABC
 
 _StateNotifyT = Literal[
     'question_updated',

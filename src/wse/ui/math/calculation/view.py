@@ -10,15 +10,15 @@ from typing_extensions import override
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation.nav_id import NavID
 from wse.feature.base.audit import AuditMixin
-from wse.feature.shared.containers import (
-    NumpadControllerProto,
-    TextTaskContainerProto,
-)
-from wse.feature.shared.containers.top_bar.abc import TopBarControllerABC
 from wse.feature.shared.widgets import (
     DividerProto,
     FlexColumnStubProto,
 )
+from wse.ui.containers.numpad.protocols import NumpadControllerProto
+from wse.ui.containers.task_panel import (
+    TextTaskContainerProto,
+)
+from wse.ui.containers.top_bar.abc import TopBarControllerABC
 from wse.utils.i18n import _, label_
 
 from ...base.mixin import NavigateViewMixin

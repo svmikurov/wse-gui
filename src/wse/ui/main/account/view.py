@@ -8,8 +8,8 @@ from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation.nav_id import NavID
-from wse.feature.shared.containers.top_bar.abc import TopBarControllerABC
 from wse.ui.containers.login import LoginControllerProto
+from wse.ui.containers.top_bar.abc import TopBarControllerABC
 from wse.utils.i18n import label_, nav_
 
 from ...base.mixin import NavigateViewMixin

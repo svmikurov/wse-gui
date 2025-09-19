@@ -11,10 +11,10 @@ from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.feature.base.mixins import AddObserverMixin, GetContentMixin
-from wse.feature.shared.containers.assigned.abc import (
+from wse.feature.shared.schemas.exercise import ExerciseInfo
+from wse.ui.containers.assigned.abc import (
     AssignationsContainerABC,
 )
-from wse.feature.shared.schemas.exercise import ExerciseInfo
 
 audit = logging.getLogger(__name__)
 

@@ -16,9 +16,6 @@ from wse.feature.shared.widgets import FlexRowStubProto
 from wse.ui.base.abc.navigate import CreateNavButtonABC
 from wse.utils.i18n import nav_
 
-from ..top_bar.itop_bar import (
-    TopBarContainerProto,
-)
 from .abc import TopBarContainerABC, TopBarControllerABC
 
 
@@ -88,7 +85,7 @@ class TopBarController(
 ):
     """Top bar controller."""
 
-    _container: TopBarContainerProto
+    _container: TopBarContainerABC
 
     @override
     def _setup(self) -> None:

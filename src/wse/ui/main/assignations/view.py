@@ -7,9 +7,9 @@ from injector import inject
 from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.shared.containers.assigned.abc import AssignationsContainerABC
-from wse.feature.shared.containers.top_bar.abc import TopBarControllerABC
 from wse.feature.shared.schemas.exercise import ExerciseInfo
+from wse.ui.containers.assigned.abc import AssignationsContainerABC
+from wse.ui.containers.top_bar.abc import TopBarControllerABC
 from wse.utils.i18n import label_
 
 from ...base.mixin import NavigateViewMixin

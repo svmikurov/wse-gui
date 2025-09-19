@@ -9,9 +9,9 @@ from wse_exercises.core import MathEnum
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation.nav_id import NavID
-from wse.feature.shared.containers.top_bar.abc import TopBarControllerABC
 from wse.feature.source_wraps import ExerciseSelectWrapperProto
 from wse.ui.base.mixin import NavigateViewMixin
+from wse.ui.containers.top_bar.abc import TopBarControllerABC
 from wse.ui.math.index.abc import MathIndexViewABC
 from wse.ui.math.index.state import MathIndexViewModel
 from wse.utils.contextmanager import EventDisabler
