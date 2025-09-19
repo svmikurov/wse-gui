@@ -2,8 +2,9 @@
 
 from abc import ABC, abstractmethod
 
-from wse.feature.base.container import CreateNavButtonABC
-from wse.ui.base.abc import CloseScreenABC, NavigateABC, ViewABC
+from wse.ui.base.abc.navigate import CreateNavButtonABC, NavigateABC
+from wse.ui.base.abc.utils import OnCloseABC
+from wse.ui.base.abc.view import ViewABC
 
 
 class IndexGlossaryViewModelABC(
@@ -19,7 +20,7 @@ class IndexGlossaryViewModelABC(
 
 class IndexGlossaryViewABC(
     CreateNavButtonABC,
-    CloseScreenABC,
+    OnCloseABC,
     ViewABC,
     ABC,
 ):

@@ -13,6 +13,7 @@ from wse.feature.shared.containers.di_module import ContainerModule
 from wse.feature.shared.di_module import FeatureSharedModule
 from wse.feature.shared.widgets.di_module import WidgetsModule
 from wse.feature.source_wraps.di_module import SourceWrapsModule
+from wse.ui.containers.di_module import UIContainerModule
 from wse.ui.di_module import UIModule
 from wse.ui.glossary.di_module import GlossaryModule
 from wse.ui.main.di_module import HomeModule
@@ -35,6 +36,7 @@ def create_injector() -> Injector:
             ContainerModule(),
             # ui/
             UIModule(),
+            UIContainerModule(),
             HomeModule(),
             MathUIModule(),
             GlossaryModule(),
