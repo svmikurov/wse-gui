@@ -8,8 +8,11 @@ from typing import Any, Type
 
 import toga
 from injector import CallError, Injector, NoInject, inject
-
-from wse.core.exceptions import NavigateError, RouteContentError
+from wse.core.exceptions import ( 
+    NotEmplementedAccessorError,
+    NavigateError,
+    RouteContentError,
+)
 from wse.core.navigation.nav_id import NavID
 from wse.feature.interfaces.imvc import NavigableView
 from wse.ui.routes import UIRoutes
@@ -54,8 +57,14 @@ class Navigator:
 
         try:
             self._update_window_content(nav_id, **kwargs)
-        except (NavigateError, RouteContentError):
+        except (
+            NavigateError,
+            RouteContentError,
+            NotEmplementedAccessorError,
+        ):
             logger.exception('Window content is not updated')
+        except Exception:
+            logger.exception('Got unexpected error')
         else:
             self._add_to_history(nav_id)
 
