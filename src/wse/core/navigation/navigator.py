@@ -8,9 +8,10 @@ from typing import Any, Type
 
 import toga
 from injector import CallError, Injector, NoInject, inject
-from wse.core.exceptions import ( 
-    NotEmplementedAccessorError,
+
+from wse.core.exceptions import (
     NavigateError,
+    NotEmplementedAccessorError,
     RouteContentError,
 )
 from wse.core.navigation.nav_id import NavID
@@ -121,7 +122,7 @@ class Navigator:
         self._routes = routes
 
     def _get_view_type(self, nav_id: NavID) -> Type[NavigableView[Any]]:
-        if self._routes is None:
+        if not self._routes:
             raise NavigateError('Route mapping is not initialized')
 
         try:
