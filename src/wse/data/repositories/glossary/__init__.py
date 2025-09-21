@@ -2,6 +2,7 @@
 
 __all__ = [
     'TermsRepoABC',
+    'TermPresentationRepoABC',
 ]
 
-from .abc import TermsRepoABC
+from .abc import TermPresentationRepoABC, TermsRepoABC

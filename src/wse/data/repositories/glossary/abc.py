@@ -11,3 +11,11 @@ class TermsRepoABC(ABC):
     @abstractmethod
     def get_terms(self) -> list[TermSchema] | None:
         """Get terms."""
+
+
+class TermPresentationRepoABC(ABC):
+    """ABC for Term Presentation repo."""
+
+    @abstractmethod
+    def get_presentation(self) -> None:
+        """Get presentation."""
