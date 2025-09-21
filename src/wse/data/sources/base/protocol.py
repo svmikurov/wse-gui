@@ -4,6 +4,7 @@ from typing import Protocol, TypeVar
 
 ListenerT = TypeVar('ListenerT')
 NotifyT_contra = TypeVar('NotifyT_contra', contravariant=True)
+AccessorT_contra = TypeVar('AccessorT_contra', contravariant=True)
 
 
 class SourceProto(Protocol[ListenerT, NotifyT_contra]):

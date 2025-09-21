@@ -3,17 +3,55 @@
 from abc import ABC, abstractmethod
 from typing import Generic
 
-from .protocol import ListenerT, NotifyT_contra
+from .protocol import AccessorT_contra, ListenerT, NotifyT_contra
 
 
-class SourceABC(
+class NotifyABC(
     ABC,
-    Generic[ListenerT, NotifyT_contra],
+    Generic[NotifyT_contra],
 ):
-    """A base class for data sources.
+    """ABC for notifications.
 
-    Provides an implementation of data notifications.
+    Implements by Toga `toga` dependency and custom widgets.
     """
+
+    @abstractmethod
+    def notify(self, notification: NotifyT_contra, **kwargs: object) -> None:
+        """Notify all listeners an event has occurred.
+
+        :param notification: The notification to emit.
+        :param kwargs: The data associated with the notification.
+        """
+
+
+class NotifyAccessorABC(
+    ABC,
+    Generic[NotifyT_contra, AccessorT_contra],
+):
+    """ABC for notifications with spcific accessors.
+
+    Implements only by custom widgets.
+    """
+
+    @abstractmethod
+    def notify(
+        self,
+        notification: NotifyT_contra,
+        accessor: AccessorT_contra,
+        **kwargs: object,
+    ) -> None:
+        """Notify all listeners an event has occurred.
+
+        :param notification: The notification to emit.
+        :param kwargs: The data associated with the notification.
+        """
+
+
+class ListenerManagementABC(
+    ABC,
+    Generic[ListenerT],
+):
+    """ABC for source listener management."""
 
     _listeners: list[ListenerT] = []
 
@@ -43,10 +81,26 @@ class SourceABC(
         :param listener: The listener to remove.
         """
 
-    @abstractmethod
-    def notify(self, notification: NotifyT_contra, **kwargs: object) -> None:
-        """Notify all listeners an event has occurred.
 
-        :param notification: The notification to emit.
-        :param kwargs: The data associated with the notification.
-        """
+class SourceABC(
+    ListenerManagementABC[ListenerT],
+    NotifyABC[NotifyT_contra],
+    ABC,
+    Generic[ListenerT, NotifyT_contra],
+):
+    """ABC for source.
+
+    Implements by Toga `toga` dependency and custom widgets.
+    """
+
+
+class AccessorSourceABC(
+    ListenerManagementABC[ListenerT],
+    NotifyAccessorABC[NotifyT_contra, AccessorT_contra],
+    ABC,
+    Generic[ListenerT, NotifyT_contra, AccessorT_contra],
+):
+    """ABC for source.
+
+    Implements only by custom widgets.
+    """
