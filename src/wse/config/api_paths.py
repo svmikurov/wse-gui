@@ -12,6 +12,7 @@ class ApiConfig(BaseModel):
     selected_exercise: str
     initial_data_path: str
     terms: str
+    term_presentation: str
 
 
 class APIConfigV1(ApiConfig):

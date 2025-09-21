@@ -8,5 +8,6 @@
   "initial_data_path": "/api/v1/core/index/",
   "assigned_exercises": "/api/v1/study/assigned/",
   "selected_exercise": "/api/v1/study/assigned/{assignation_id}/",
-  "terms": "/api/v1/glossary/terms/"
+  "terms": "/api/v1/glossary/terms/",
+  "term_presentation": "/api/v1/glossary/study/presentation/"
 }

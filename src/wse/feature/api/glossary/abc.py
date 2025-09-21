@@ -2,7 +2,11 @@
 
 from abc import ABC, abstractmethod
 
-from wse.feature.api.glossary.schema import TermsData
+from wse.feature.api.glossary.schema import (
+    TermPresentationParamsSchema,
+    TermPresentationSchema,
+    TermsData,
+)
 
 
 class TermApiABC(ABC):
@@ -11,3 +15,14 @@ class TermApiABC(ABC):
     @abstractmethod
     def fetch_terms(self) -> TermsData | None:
         """Fetch terms."""
+
+
+class TermPresentationApiABC(ABC):
+    """ABC for Term Presentation API client."""
+
+    @abstractmethod
+    def fetch_presentation(
+        self,
+        payload: TermPresentationParamsSchema,
+    ) -> TermPresentationSchema | None:
+        """Fetch presentation."""

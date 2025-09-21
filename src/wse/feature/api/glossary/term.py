@@ -43,7 +43,7 @@ class TermApi(TermApiABC):
 
         else:
             if not hasattr(response, 'json'):
-                logger.debug(
+                logger.error(
                     'Request Terms error: response does not contain JSON data'
                 )
 
