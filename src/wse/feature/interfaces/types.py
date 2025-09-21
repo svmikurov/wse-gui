@@ -16,6 +16,7 @@ ThemeT_co = TypeVar('ThemeT_co', bound=BaseThema, covariant=True)
 EntryT = TypeVar('EntryT')
 ListenerT = TypeVar('ListenerT')
 NotifyT = TypeVar('NotifyT', bound=str)
+AccessorT = TypeVar('AccessorT', bound=str)
 EntryNotifyT = Literal[
     'insert',
     'remove',
