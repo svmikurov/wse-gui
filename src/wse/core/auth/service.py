@@ -57,8 +57,8 @@ class AuthService(AuthServiceProto):
         self._token_storage.delete_tokens()
         self._is_auth = False
 
-    @override
     @property
+    @override
     def is_auth(self) -> bool:
         """Get user authentication state."""
         return self._is_auth
@@ -91,8 +91,8 @@ class AuthService(AuthServiceProto):
         else:
             self._is_auth = is_auth
 
-    @override
     @property
+    @override
     def access_token(self) -> str:
         """Get access token."""
         return self._token_storage.access_token
