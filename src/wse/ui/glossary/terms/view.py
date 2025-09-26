@@ -66,6 +66,7 @@ class TermsView(
         """Update widgets style."""
         self._title.style.update(**config.label_title)
         # TODO: Add style for table
+        self._table.style.flex = True
 
     def on_open(self) -> None:
         """Call methods on page open."""
