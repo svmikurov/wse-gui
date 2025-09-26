@@ -26,9 +26,6 @@ LOCALE_DOMAINS = [  # Localization domains
     LocaleDomain.EXERCISE,
 ]
 
-# Authentication
-SUCCESS_REDIRECT = NavID.HOME
-
 # Layout style
 LAYOUT_THEME = LayoutTheme.DEVELOP
 LAYOUT_STYLE = LayoutStyle.DEVELOP

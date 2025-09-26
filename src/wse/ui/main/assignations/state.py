@@ -11,10 +11,7 @@ from wse.core.interfaces import Navigable
 from wse.core.navigation.nav_id import NavID
 from wse.domain.abc.assigned import SetAssignedExerciseUseCaseABC
 from wse.feature.api.main.abc import AssignationsApiABC
-from wse.feature.shared.schemas.exercise import (
-    Assigned,
-    ExerciseInfo,
-)
+from wse.feature.api.schemas.exercise import Assigned, ExerciseInfo
 
 from .abc import AssignationsViewModelABC
 
@@ -71,7 +68,7 @@ class AssignationsViewModel(AssignationsViewModelABC):
             self._update_data(exercises=exercises)
 
         if self._data.exercises is not None:
-            self._notify('exercises_updated', exercises=self._data.exercises)
+            self.notify('exercises_updated', exercises=self._data.exercises)
 
     def _fetch_exercise(
         self,

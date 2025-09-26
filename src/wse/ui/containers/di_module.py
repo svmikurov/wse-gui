@@ -2,14 +2,14 @@
 
 from typing import no_type_check
 
-from injector import Binder, Module
+from injector import Binder, Module, SingletonScope
 
 from .assigned import AssignationsContainerABC
 from .assigned.container import AssignationsContainer
 from .login import (
-    LoginContainerProto,
+    LoginContainerABC,
     LoginControllerProto,
-    LoginModelProto,
+    LoginModelABC,
 )
 from .login.components import (
     LoginContainer,
@@ -17,16 +17,20 @@ from .login.components import (
     LoginModel,
 )
 from .numpad import (
-    NumpadContainer,
-    NumpadContainerProto,
-    NumpadController,
-    NumpadControllerProto,
-    NumpadModel,
-    NumpadModelProto,
+    NumPadContainer,
+    NumPadContainerABC,
+    NumPadController,
+    NumPadControllerABC,
+    NumPadModel,
+    NumPadModelABC,
 )
-from .presentation import PresentationContainerABC
+from .presentation import (
+    PresentationContainerABC,
+    PresentationContainerStateABC,
+)
 from .presentation.container import PresentationContainer
-from .task_panel import TextTaskContainerProto, TextTaskPanel
+from .presentation.state import PresentationContainerState
+from .task_panel import TextTaskContainerABC, TextTaskPanel
 from .top_bar import TopBarContainer, TopBarController
 from .top_bar.abc import TopBarContainerABC, TopBarControllerABC
 
@@ -41,20 +45,25 @@ class UIContainerModule(Module):
         binder.bind(AssignationsContainerABC, to=AssignationsContainer)
 
         # Numpad container
-        binder.bind(NumpadModelProto, to=NumpadModel)
-        binder.bind(NumpadContainerProto, to=NumpadContainer)
-        binder.bind(NumpadControllerProto, to=NumpadController)
+        binder.bind(NumPadModelABC, to=NumPadModel)
+        binder.bind(NumPadContainerABC, to=NumPadContainer)
+        binder.bind(NumPadControllerABC, to=NumPadController)
 
         # Login container
-        binder.bind(LoginModelProto, to=LoginModel)
-        binder.bind(LoginContainerProto, to=LoginContainer)
+        binder.bind(LoginModelABC, to=LoginModel)
+        binder.bind(LoginContainerABC, to=LoginContainer)
         binder.bind(LoginControllerProto, to=LoginController)
 
         # Presentation container
+        binder.bind(
+            PresentationContainerStateABC,
+            to=PresentationContainerState,
+            scope=SingletonScope,
+        )
         binder.bind(PresentationContainerABC, to=PresentationContainer)
 
         # Text task psnel
-        binder.bind(TextTaskContainerProto, to=TextTaskPanel)
+        binder.bind(TextTaskContainerABC, to=TextTaskPanel)
 
         # TopBar container
         binder.bind(TopBarContainerABC, to=TopBarContainer)

@@ -1,16 +1,19 @@
 """Abstract base class for TopBar."""
 
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from typing import Literal
 
-from wse.feature.base import Controller
-from wse.feature.base.mixins import (
-    AddObserverGenT,
-    AddObserverMixin,
+from wse.feature.observer.generic import SubjectGenABC
+from wse.feature.observer.mixins import (
     NotifyNavigateMixin,
+    ObserverManager,
 )
-from wse.ui.base.abc.navigate import NavigateABC
-from wse.ui.base.abc.view import ViewABC
+from wse.ui.base.content.abc import GetContentABC
+from wse.ui.base.navigate import NavigateABC
+from wse.ui.base.view.abc import ViewABC
+
+NotifyT = Literal['navigate']
 
 
 class TopBarControllerFeaturesABC(ABC):
@@ -35,11 +38,10 @@ class TopBarContainerFeaturesABC(ABC):
         """Update balance."""
 
 
-_NotifyT = Literal['navigate']
-
-
+@dataclass
 class TopBarContainerABC(
-    AddObserverGenT[NavigateABC, _NotifyT],
+    GetContentABC,
+    SubjectGenABC[NavigateABC, NotifyT],
     TopBarContainerFeaturesABC,
     ViewABC,
     ABC,
@@ -47,10 +49,11 @@ class TopBarContainerABC(
     """Base class for Top Bar container."""
 
 
+@dataclass
 class TopBarControllerABC(
-    AddObserverMixin,
+    GetContentABC,
+    ObserverManager,
     NotifyNavigateMixin,  # Container contains back button
-    Controller,
     NavigateABC,
     TopBarControllerFeaturesABC,
     ABC,

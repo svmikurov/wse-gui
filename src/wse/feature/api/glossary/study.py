@@ -4,7 +4,7 @@ import logging
 
 import httpx
 
-from wse.config.api_paths import APIConfigV1
+from wse.config.api import APIConfigV1
 from wse.core.http.auth_schema import AuthScheme
 from wse.feature.api.glossary.schema import (
     TermPresentationParamsSchema,

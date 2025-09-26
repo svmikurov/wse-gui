@@ -5,13 +5,14 @@ from dataclasses import dataclass
 from functools import partial
 
 from injector import inject
-from toga import Box, Button, Column, Label
+from toga import Box, Button, Column, Label, Widget
 from toga.style import Pack
 from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.base.mixins import AddObserverMixin, GetContentMixin
-from wse.feature.shared.schemas.exercise import ExerciseInfo
+from wse.feature.api.schemas.exercise import ExerciseInfo
+from wse.feature.observer.mixins import AddNotifyMixin, ObserverManager
+from wse.ui.base.content.mixins import GetContentMixin
 from wse.ui.containers.assigned.abc import (
     AssignationsContainerABC,
 )
@@ -28,7 +29,8 @@ BUTTON_PREFIX = '_button'
 @dataclass
 class AssignationsContainer(
     GetContentMixin,
-    AddObserverMixin,
+    ObserverManager,
+    AddNotifyMixin,
     AssignationsContainerABC,
 ):
     """Container for Assigned exercises."""
@@ -73,9 +75,9 @@ class AssignationsContainer(
         :rtype: toga.Box
         """
         inner_box_id = self._get_inner_id(exercise)
-        inner_box = self.content.get_by_id(inner_box_id)
+        inner_box: Widget | None = self.content.get_by_id(inner_box_id)
 
-        if inner_box is None:
+        if not inner_box:
             label = Label(
                 id=self._get_label_id(exercise),
                 text=exercise.mentor_username,
@@ -84,7 +86,7 @@ class AssignationsContainer(
                     **self._theme.assigned.label,  # type: ignore[arg-type]
                 ),
             )
-            inner_box = Column(
+            inner_box = Column(  # type: ignore[no-untyped-call]
                 id=inner_box_id,
                 children=[label],
             )
@@ -96,7 +98,7 @@ class AssignationsContainer(
 
     def _select(self, _: Button, assignation_id: str) -> None:
         """Notify observer that exercise selected."""
-        self._notify('exercise_selected', assignation_id=assignation_id)
+        self.notify('exercise_selected', assignation_id=assignation_id)
 
     # Utility methods
 

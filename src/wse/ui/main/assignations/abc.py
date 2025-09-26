@@ -4,11 +4,10 @@ from abc import ABC, abstractmethod
 from typing import Literal
 
 from wse.core.navigation.nav_id import NavID
-from wse.feature.base.mixins import AddObserverGenT
-from wse.feature.shared.schemas.exercise import ExerciseInfo
-from wse.ui.base.abc.navigate import NavigateABC
-from wse.ui.base.abc.utils import OnCloseABC
-from wse.ui.base.abc.view import ViewABC
+from wse.feature.api.schemas.exercise import ExerciseInfo
+from wse.feature.observer.mixins import SubjectGen
+from wse.ui.base.navigate import NavigateABC, OnCloseABC
+from wse.ui.base.view.abc import ViewABC
 
 # State
 
@@ -37,7 +36,7 @@ class AssignationsStateObserverABC(ABC):
 
 class AssignationsViewModelABC(
     AssignationsStateFeatureABC,
-    AddObserverGenT[AssignationsStateObserverABC, _StateNotifyT],
+    SubjectGen[AssignationsStateObserverABC, _StateNotifyT],
     NavigateABC,
     OnCloseABC,
     ABC,

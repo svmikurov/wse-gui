@@ -13,17 +13,17 @@ Interface:
 
 __all__ = [
     # Interface
-    'LoginProto',
+    'LoginABC',
     'LoginObserver',
     # Protocols
-    'LoginModelProto',
-    'LoginContainerProto',
+    'LoginModelABC',
+    'LoginContainerABC',
     'LoginControllerProto',
 ]
 
-from .interface import LoginObserver, LoginProto
+from .interface import LoginABC, LoginObserver
 from .protocols import (
-    LoginContainerProto,
+    LoginContainerABC,
     LoginControllerProto,
-    LoginModelProto,
+    LoginModelABC,
 )

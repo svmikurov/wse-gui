@@ -12,7 +12,7 @@ from wse.data.sources.assigned import (
 from ..data.repositories.abc import AssignedTaskRepoABC
 from ..data.repositories.assigned_task import AssignedTaskRepo
 from ..data.sources.task import ResultObserverABC, TaskObserverABC
-from ..feature.shared.schemas.exercise import Assigned
+from ..feature.api.schemas.exercise import Assigned
 from .abc import SubscribeUseCaseABC
 from .abc.assigned import (
     CheckAssignedAnswerUseCaseABC,

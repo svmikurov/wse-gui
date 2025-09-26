@@ -1,11 +1,11 @@
 """Page navigation service."""
 
-from typing import Protocol, Type
+from typing import Protocol
 
 import toga
 
 from wse.core.navigation.nav_id import NavID
-from wse.feature.interfaces.icontent import GetContentProto
+from wse.ui.base.content.abc import GetContentABC
 
 
 class Navigable(Protocol):
@@ -19,6 +19,6 @@ class Navigable(Protocol):
 
     def set_routes(
         self,
-        routes: dict[NavID, Type[GetContentProto]],
+        routes: dict[NavID, GetContentABC],
     ) -> None:
         """Set page route mapping."""

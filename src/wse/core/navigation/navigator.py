@@ -11,11 +11,11 @@ from injector import CallError, Injector, NoInject, inject
 
 from wse.core.exceptions import (
     NavigateError,
-    NotEmplementedAccessorError,
+    NotImplementedAccessorError,
     RouteContentError,
 )
 from wse.core.navigation.nav_id import NavID
-from wse.feature.interfaces.imvc import NavigableView
+from wse.ui.base.view.abc import NavigableViewABC
 from wse.ui.routes import UIRoutes
 
 logger = logging.getLogger(__name__)
@@ -43,12 +43,12 @@ class Navigator:
         """Construct the navigator."""
         self._injector = injector
         self._window = window
-        self._routes: dict[NavID, Type[NavigableView[Any]]] = {}
+        self._routes: dict[NavID, Type[NavigableViewABC[Any]]] = {}
         self._content_history: deque[NavID] = deque(maxlen=HISTORY_LEN)
 
         # Current view must contain method to manage the dependencies,
         # such as unsubscribe observer from subject
-        self._current_view: NavigableView[Any] | None = None
+        self._current_view: NavigableViewABC[Any] | None = None
 
     def navigate(self, nav_id: NavID, **kwargs: object) -> None:
         """Navigate to screen."""
@@ -61,11 +61,11 @@ class Navigator:
         except (
             NavigateError,
             RouteContentError,
-            NotEmplementedAccessorError,
+            NotImplementedAccessorError,
         ):
             logger.exception('Window content is not updated')
         except Exception:
-            logger.exception('Got unexpected error')
+            logger.exception(f"Got unexpected error with '{nav_id = }'")
         else:
             self._add_to_history(nav_id)
 
@@ -80,9 +80,11 @@ class Navigator:
 
         except RouteContentError:
             logger.exception(f"The navigation to the '{nav_id}' has failed")
+            raise
 
         except CallError:
-            logger.exception('Dependncy injection error:\n')
+            logger.exception('Dependency injection error:\n')
+            raise
 
         else:
             if self._current_view is None:
@@ -116,12 +118,12 @@ class Navigator:
 
     def set_routes(
         self,
-        routes: dict[NavID, Type[NavigableView[Any]]],
+        routes: dict[NavID, Type[NavigableViewABC[Any]]],
     ) -> None:
         """Set screen route mapping."""
         self._routes = routes
 
-    def _get_view_type(self, nav_id: NavID) -> Type[NavigableView[Any]]:
+    def _get_view_type(self, nav_id: NavID) -> Type[NavigableViewABC[Any]]:
         if not self._routes:
             raise NavigateError('Route mapping is not initialized')
 

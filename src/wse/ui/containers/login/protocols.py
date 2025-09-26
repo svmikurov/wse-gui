@@ -1,16 +1,15 @@
 """Login container protocols."""
 
-from typing import Protocol
+from abc import ABC, abstractmethod
 
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.interfaces.icontainer import Containerizable
-from wse.feature.interfaces.icontent import GetContentProto
-from wse.feature.interfaces.iobserver import AddObserverProto
+from wse.feature.observer.abc import ObserverManagerABC
+from wse.ui.base.container.abc import ContainerGenABC
+from wse.ui.base.content.abc import GetContentABC
 
 
-class LoginModelProto(
-    AddObserverProto,
-    Protocol,
+class LoginModelABC(
+    ObserverManagerABC,
 ):
     """Protocol for Login container model interface."""
 
@@ -18,27 +17,30 @@ class LoginModelProto(
         """Authenticate the user."""
 
 
-class LoginContainerProto(
-    AddObserverProto,
-    Containerizable,
-    Protocol,
+class LoginContainerABC(
+    ContainerGenABC[StyleConfig, ThemeConfig],
+    GetContentABC,
+    ObserverManagerABC,
+    ABC,
 ):
     """Protocol for Login container interface."""
 
+    @abstractmethod
     def localize(self) -> None:
         """Localize the UI text."""
 
+    @abstractmethod
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update UI style."""
 
+    @abstractmethod
     def clear_credential(self) -> None:
         """Clear the entered credential."""
 
 
 class LoginControllerProto(
-    AddObserverProto,
-    GetContentProto,
-    Protocol,
+    ObserverManagerABC,
+    GetContentABC,
 ):
     """Protocol for Login container controller interface."""
 

@@ -8,9 +8,9 @@ from typing_extensions import override
 
 from wse.core.api import RelatedData
 from wse.feature.api.main.abc import AssignedApiClientABC
-from wse.feature.shared.schemas.task import Answer, Question, Result
+from wse.feature.api.schemas.exercise import Assigned
+from wse.feature.api.schemas.task import Answer, Question, Result
 
-from ...feature.shared.schemas.exercise import Assigned
 from ..sources import TaskSource
 from ..sources.assigned import AssignedExerciseSource
 from ..sources.task import TaskObserverT

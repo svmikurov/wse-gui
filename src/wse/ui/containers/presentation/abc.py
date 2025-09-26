@@ -3,29 +3,38 @@
 from abc import ABC, abstractmethod
 from typing import Literal
 
-from wse.ui.base.abc.container import AddContentABC
+from wse.data.sources.base import AccessorSourceABC
+from wse.data.sources.glossary import TermPresentationListenerABC
+from wse.ui.base.container.abc import CreateContentABC
+from wse.ui.glossary.study.abc import ChangeObserverABC
 
-PresentationNotifyT = Literal[
-    'change_case',
-    'change_text',
-]
+NotifyT = Literal['change',]
+AccessorT = Literal['case', 'text']
 
 
-class PresentationListenerABC(ABC):
-    """Abstract Base Class for Presentation listener."""
-
-    @abstractmethod
-    def change_case(self, value: str) -> None:
-        """Change case."""
+class PresentationContainerStateListenerABC(ABC):
+    """ABC for Presentation container state listener."""
 
     @abstractmethod
-    def change_text(self, value: str) -> None:
-        """Change text."""
+    def change(self, accessor: AccessorT, value: str) -> None:
+        """Change value by accessor."""
+
+
+class PresentationContainerStateABC(
+    AccessorSourceABC[
+        PresentationContainerStateListenerABC,
+        AccessorT,
+        NotifyT,
+    ],
+    ABC,
+):
+    """ABC for Presentation container state source."""
 
 
 class PresentationContainerABC(
-    PresentationListenerABC,
-    AddContentABC,
+    TermPresentationListenerABC,
+    CreateContentABC,
+    ChangeObserverABC,
     ABC,
 ):
     """ABC for Presentation container."""

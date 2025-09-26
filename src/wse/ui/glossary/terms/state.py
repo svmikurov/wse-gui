@@ -13,8 +13,8 @@ from wse.domain.glossary import (
     GetTermsUseCaseABC,
     SubscribeTermsUseCaseABC,
 )
-from wse.feature.base.audit import AuditMixin
-from wse.ui.base.mixin import NavigateStateMixin
+from wse.feature.audit import AuditMixin
+from wse.ui.base.navigate.mixin import NavigateStateMixin
 from wse.ui.glossary.terms import TermsViewModelABC
 
 

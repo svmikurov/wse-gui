@@ -22,8 +22,13 @@ from .assigned import (
     GetAssignedSolutionUseCase,
     SetAssignedExerciseUseCase,
 )
-from .glossary.abc import GetTermsUseCaseABC, SubscribeTermsUseCaseABC
+from .glossary import (
+    GetTermsUseCaseABC,
+    SubscribeTermsUseCaseABC,
+    TermPresentationUseCaseABC,
+)
 from .glossary.observer import SubscribeTermsUseCase
+from .glossary.presentation import TermPresentationUseCase
 from .glossary.terms import GetTermsUseCase
 from .math_task import (
     CheckCalculationAnswerUseCase,
@@ -83,3 +88,4 @@ class UseCaseModule(Module):
         # Glossary
         binder.bind(SubscribeTermsUseCaseABC, to=SubscribeTermsUseCase)
         binder.bind(GetTermsUseCaseABC, to=GetTermsUseCase)
+        binder.bind(TermPresentationUseCaseABC, to=TermPresentationUseCase)

@@ -8,19 +8,39 @@ like [Android app](https://developer.android.com/topic/architecture?hl=ru#recomm
 
 ## Create environment
 ```commandline
-python3.11 -m venv .venv_wsegui
+python3 -m venv .venv_wsegui
 source .venv_wsegui/bin/activate
-python3 -m pip install --upgrade pip
+```
+
+## Platform-specific dependencies
+For Debian 13+ (for other platform [see](https://toga.readthedocs.io/en/stable/tutorial/tutorial-0.html) )
+```commandline
+sudo apt update
+sudo apt install git build-essential pkg-config python3-dev libgirepository-2.0-dev libcairo2-dev gir1.2-gtk-3.0 libcanberra-gtk3-module
+```
+
+Install gettext package
+```
+sudo apt-get update && sudo apt-get install gettext
+```
+
+## Install development dependency
+```
 pip install -r requirements-dev.txt
 ```
 
-## Fix install errors
-```commandline
-sudo apt update
-sudo apt install -y python3.11-dev pkg-config
-```
 
 ## Localize the project
 ```commandline
 make localize
+```
+
+## Run tests
+```
+make test
+```
+
+## Run development mode
+```commandline
+make start
 ```

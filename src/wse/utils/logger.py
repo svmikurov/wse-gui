@@ -55,7 +55,7 @@ def setup_logger() -> None:
             logging.config.dictConfig(logging_config)
             logger = logging.getLogger(LOGGER_NAME)
 
-            # Success configurate message
+            # Success configuration message
             logger.info(
                 'Logging is set up (console + "%s" file)', LOG_FILE_PATH
             )

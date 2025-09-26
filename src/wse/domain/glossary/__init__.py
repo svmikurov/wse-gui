@@ -3,9 +3,11 @@
 __all__ = [
     'GetTermsUseCaseABC',
     'SubscribeTermsUseCaseABC',
+    'TermPresentationUseCaseABC',
 ]
 
 from .abc import (
     GetTermsUseCaseABC,
     SubscribeTermsUseCaseABC,
+    TermPresentationUseCaseABC,
 )

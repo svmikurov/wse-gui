@@ -1,7 +1,6 @@
 """Defines top bar container."""
 
 from dataclasses import dataclass
-from typing import Type
 
 import toga
 from injector import inject
@@ -9,20 +8,20 @@ from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation.nav_id import NavID
-from wse.feature.base.mixins import AddObserverMixin
-from wse.feature.interfaces.icontent import ContentProto
-from wse.feature.interfaces.iwidgets import NavigableButton
-from wse.feature.shared.widgets import FlexRowStubProto
-from wse.ui.base.abc.navigate import CreateNavButtonABC
+from wse.feature.observer.mixins import SubjectGen
+from wse.ui.base.content.abc import ContentABC
+from wse.ui.base.iwidgets import NavigableButton
+from wse.ui.base.navigate import CreateNavButtonABC, NavigateABC
+from wse.ui.widgets import FlexRowStubType
 from wse.utils.i18n import nav_
 
-from .abc import TopBarContainerABC, TopBarControllerABC
+from .abc import NotifyT, TopBarContainerABC, TopBarControllerABC
 
 
 @inject
 @dataclass
 class TopBarContainer(
-    AddObserverMixin,
+    SubjectGen[NavigateABC, NotifyT],
     CreateNavButtonABC,
     TopBarContainerABC,
 ):
@@ -30,13 +29,14 @@ class TopBarContainer(
 
     _style: StyleConfig
     _theme: ThemeConfig
-    _flex_stub: Type[FlexRowStubProto]
+    _flex_stub: FlexRowStubType
 
+    # TODO: Fix type ignore
     @override
     def _setup(self) -> None:
         super()._setup()
         # TODO: Fix direction style changing
-        self._content.style.direction = 'row'
+        self._content.style.direction = 'row'  # type: ignore[attr-defined]
 
     @override
     def _create_ui(self) -> None:
@@ -77,6 +77,11 @@ class TopBarContainer(
         """Handle navigation button press."""
         self._subject.notify('navigate', nav_id=button.nav_id)
 
+    @property
+    def content(self) -> ContentABC:
+        """Get page content."""
+        return self._content
+
 
 @inject
 @dataclass
@@ -87,14 +92,13 @@ class TopBarController(
 
     _container: TopBarContainerABC
 
-    @override
-    def _setup(self) -> None:
-        super()._setup()
+    def __post_init__(self) -> None:
+        """Construct the controller."""
         self._container.add_observer(self)
 
     @property
     @override
-    def content(self) -> ContentProto:
+    def content(self) -> ContentABC:
         """Get container content."""
         return self._container.content
 

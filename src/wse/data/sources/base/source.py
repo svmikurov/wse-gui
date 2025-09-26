@@ -6,9 +6,18 @@ from toga.sources import Listener
 from typing_extensions import override
 
 from wse.feature import ListenerT
-from wse.feature.interfaces.types import EntryNotifyT, EntryT, NotifyT
+from wse.types import (
+    AccessorT,
+    EntryNotifyT,
+    EntryT,
+    NotifyT,
+)
 
 from .abc import SourceABC
+
+
+class AddListenerGen(Generic[ListenerT]):
+    """Add listener."""
 
 
 # TODO: Fix type ignore
@@ -54,6 +63,68 @@ class SourceGen(
         self._listeners.remove(listener)
 
     def notify(self, notification: NotifyT, **kwargs: object) -> None:
+        """Notify all listeners an event has occurred.
+
+        :param notification: The notification to emit.
+        :param kwargs: The data associated with the notification.
+        """
+        for listener in self._listeners:
+            try:
+                method = getattr(listener, str(notification))
+            except AttributeError:
+                method = None
+
+            if method:
+                method(**kwargs)
+
+
+# TODO: Rafactor, add inherit
+class AccessorSourceGen(
+    Generic[ListenerT, NotifyT, AccessorT],
+):
+    """Data sources.
+
+    Provides an implementation of data notifications.
+    """
+
+    def __init__(self) -> None:
+        """Construct the source."""
+        super().__init__()
+        self._listeners: list[ListenerT] = []
+
+    @property
+    def listeners(self) -> list[ListenerT]:
+        """The listeners of this data source.
+
+        :returns: A list of objects that are listening to this data
+            source.
+        """
+        return self._listeners
+
+    def add_listener(self, listener: ListenerT) -> None:
+        """Add a new listener to this data source.
+
+        If the listener is already registered on this data source,
+        the request to add is ignored.
+
+        :param listener: The listener to add
+        """
+        if listener not in self._listeners:
+            self._listeners.append(listener)
+
+    def remove_listener(self, listener: ListenerT) -> None:
+        """Remove a listener from this data source.
+
+        :param listener: The listener to remove.
+        """
+        self._listeners.remove(listener)
+
+    def notify(
+        self,
+        notification: NotifyT,
+        accessor: AccessorT,
+        **kwargs: object,
+    ) -> None:
         """Notify all listeners an event has occurred.
 
         :param notification: The notification to emit.

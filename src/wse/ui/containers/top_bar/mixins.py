@@ -1,14 +1,14 @@
 """Defines mixins for page components to control top bar containers."""
 
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, no_type_check
 
-from wse.feature.interfaces.iobserver import SubjectABC
+from wse.feature.observer.abc import SubjectABC
 
 from .itop_bar import (
-    TopBarViewMixinProto,
+    TopBarViewMixinABC,
 )
 
-TopBarViewT = TypeVar('TopBarViewT', bound=TopBarViewMixinProto)
+TopBarViewT = TypeVar('TopBarViewT', bound=TopBarViewMixinABC)
 
 
 class TopBarModelMixin:
@@ -29,3 +29,13 @@ class TopBarControllerMixin(Generic[TopBarViewT]):
     def balance_update(self, value: str) -> None:
         """Handle balance update event notification."""
         self._view.update_balance(value)
+
+
+class BalanceUpdatedMixin:
+    """Mixin providing observer method on update balance event."""
+
+    @no_type_check
+    def balance_updated(self, balance: str) -> None:
+        """Handle the 'balance updated' event of User source."""
+        self._update_data(balance=balance)
+        self.notify('balance_updated', balance=balance)

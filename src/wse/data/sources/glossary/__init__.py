@@ -3,11 +3,15 @@
 __all__ = [
     'TermNetworkSourceABC',
     'TermPresentationNetworkSourceABC',
-    'TermPresentationListenrABC',
+    'TermPresentationListenerABC',
+    'PresentationNotifyT',
+    'PresentationAccessorT',
 ]
 
 from .abc import (
+    PresentationAccessorT,
+    PresentationNotifyT,
     TermNetworkSourceABC,
-    TermPresentationListenrABC,
+    TermPresentationListenerABC,
     TermPresentationNetworkSourceABC,
 )

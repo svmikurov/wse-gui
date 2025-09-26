@@ -5,46 +5,46 @@ from typing import Any
 from pydantic import BaseModel, Field
 
 
-class BaseThema(BaseModel):
+class BaseTheme(BaseModel):
     """Base class for thema config."""
 
 
-class AssignedTheme(BaseThema):
+class AssignedTheme(BaseTheme):
     """Theme config for the container of Assigned exercises."""
 
     label: dict[str, str] = {}
     button: dict[str, str] = {}
 
 
-class LoginTheme(BaseThema):
+class LoginTheme(BaseTheme):
     """Theme config for login container."""
 
     input: dict[str, str] = {}
     button: dict[str, str] = {}
 
 
-class NumPadTheme(BaseThema):
+class NumPadTheme(BaseTheme):
     """Theme config for NumPad container."""
 
     button: dict[str, str] = {}
     outer_box: dict[str, str] = {}
 
 
-class TextTaskTheme(BaseThema):
+class TextTaskTheme(BaseTheme):
     """Theme config for exercise task I/O text container."""
 
     label_question: dict[str, str] = {}
     label_answer: dict[str, str] = {}
 
 
-class TopBarTheme(BaseThema):
+class TopBarTheme(BaseTheme):
     """Theme config for Top Bar container."""
 
     button: dict[str, str] = {}
     label_balance: dict[str, str | int] = {}
 
 
-class ThemeConfig(BaseThema):
+class ThemeConfig(BaseTheme):
     """Application layout theme configuration.
 
     For example, load from json config:

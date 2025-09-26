@@ -28,3 +28,11 @@ class GetTermsUseCaseABC(ABC):
     @abstractmethod
     def get_terms(self) -> None:
         """Get terms."""
+
+
+class TermPresentationUseCaseABC(ABC):
+    """ABC for Presentation Use Case."""
+
+    @abstractmethod
+    def get_presentation(self) -> None:
+        """Get presentation."""

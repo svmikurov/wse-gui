@@ -5,7 +5,10 @@ from dataclasses import dataclass
 import toga
 from injector import inject
 
+from wse.core.exceptions import NotImplementedAccessorError
+
 from . import (
+    AccessorT,
     PresentationContainerABC,
 )
 
@@ -17,20 +20,29 @@ class PresentationContainer(
 ):
     """Presentaition container."""
 
+    def __post_init__(self) -> None:
+        """Construct the container."""
+        super().__post_init__()
+        self.accessors = ['case', 'text']
+        for accessor in self.accessors:
+            if not hasattr(self, '_' + accessor):
+                raise NotImplementedAccessorError(accessor, self.__class__)
+
     def _create_ui(self) -> None:
-        self._case_panel = toga.Label('')
-        self._text_panel = toga.Label('')
+        self._case = toga.Label('')
+        self._text = toga.Label('')
 
     def _populate_content(self) -> None:
         self._content.add(
-            self._case_panel,
-            self._text_panel,
+            self._case,
+            self._text,
         )
 
-    def change_case(self, value: str) -> None:
-        """Change case."""
-        self._case_panel.text = value
-
-    def change_text(self, value: str) -> None:
-        """Change text."""
-        self._text_panel.text = value
+    def update(self, accessor: AccessorT, value: str) -> None:
+        """Change item value."""
+        if accessor not in self.accessors:
+            raise AttributeError(
+                f"{self.__class__} have no '{accessor}' accessor"
+            )
+        attr: toga.Label = getattr(self, '_' + accessor)
+        attr.text = value

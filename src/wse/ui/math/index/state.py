@@ -14,10 +14,10 @@ from wse.data.repositories.calculation_exercises import (
     CalculationExerciseRepo,
 )
 from wse.domain.math_exercise import SetCalculationExerciseUseCase
-from wse.feature.base.mixins import AddObserverGen
+from wse.feature.observer.mixins import SubjectGen
 
-from ...base.abc.navigate import NavigateABC
-from .abc import MathModelFeature
+from ...base.navigate import NavigateABC
+from .abc import MathModelFeature, MathModelObserver
 
 _NotifyType = Literal[
     'exercises_updated',
@@ -44,7 +44,7 @@ class MathIndexUIState:
 @dataclass
 class MathIndexViewModel(
     MathModelFeature,
-    AddObserverGen[_NotifyType],
+    SubjectGen[MathModelObserver, _NotifyType],
     NavigateABC,
 ):
     """Index Math screen model."""
@@ -62,8 +62,8 @@ class MathIndexViewModel(
 
     def refresh_context(self) -> None:
         """Update screen context."""
-        self._notify('exercises_updated', values=self._data.exercises)
-        self._notify('exercise_selected', value=self._data.current)
+        self.notify('exercises_updated', values=self._data.exercises)
+        self.notify('exercise_selected', value=self._data.current)
 
     def navigate(self, nav_id: NavID) -> None:
         """Handle the navigate event, callback."""
@@ -73,7 +73,7 @@ class MathIndexViewModel(
 
     def change_exercise(self, selection: toga.Selection) -> None:
         """Change the exercise to perform."""
-        self._set_exercise_case.set_default(selection.value.entry)
+        self._set_exercise_case.set_default(selection.value.entry)  # type: ignore[attr-defined]
         self._update_data(current=selection)
 
     def start_exercise(self, _: toga.Button) -> None:

@@ -7,18 +7,22 @@ from wse.feature.api.glossary.schema import (
     TermPresentationSchema,
     TermSchema,
 )
+from wse.feature.observer.generic import UpdateObserverABC
 
 from ..base import AccessorSourceABC
 
-_NotifyT = Literal['change']
-_AccessorT = Literal['case', 'text']
+PresentationNotifyT = Literal['change']
+PresentationAccessorT = Literal['case', 'text']
 
 
-class TermPresentationListenrABC(ABC):
+class TermPresentationListenerABC(
+    UpdateObserverABC[PresentationAccessorT],
+    ABC,
+):
     """ABC for Term Presentation listener."""
 
     @abstractmethod
-    def change(self, accessor: _AccessorT, value: str) -> None:
+    def update(self, accessor: PresentationAccessorT, value: str) -> None:
         """Change value by accessor."""
 
 
@@ -32,9 +36,9 @@ class TermNetworkSourceABC(ABC):
 
 class TermPresentationNetworkSourceABC(
     AccessorSourceABC[
-        TermPresentationListenrABC,
-        _NotifyT,
-        _AccessorT,
+        TermPresentationListenerABC,
+        PresentationNotifyT,
+        PresentationAccessorT,
     ],
     ABC,
 ):

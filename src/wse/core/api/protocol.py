@@ -2,8 +2,8 @@
 
 from typing import Protocol, TypeVar
 
+from wse.feature.api.schemas.exercise import ExerciseMeta
 from wse.feature.services import Answer
-from wse.feature.shared.schemas.exercise import ExerciseMeta
 
 from .response import QuestionResponse, ResultResponse
 

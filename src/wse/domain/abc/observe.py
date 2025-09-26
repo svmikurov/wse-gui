@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Generic
 
-from wse.feature.interfaces.types import ListenerT
+from wse.types import ListenerT
 
 
 class SubscribeUseCaseABC(ABC, Generic[ListenerT]):

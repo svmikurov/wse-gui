@@ -7,14 +7,13 @@ from typing import Callable
 
 from wse.config.enums import Language, LocaleDomain
 from wse.config.settings import LANGUAGE, LOCALE_DOMAINS, RESOURCES_PATH
-from wse.utils import I18NServiceProto
 
-logger = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
 LOCALEDIR = RESOURCES_PATH / 'locale'
 
 
-class I18NService(I18NServiceProto):
+class I18NService:
     """Localization service."""
 
     def __init__(
@@ -47,11 +46,11 @@ class I18NService(I18NServiceProto):
                     languages=[language],
                 )
                 new_translators[f'{domain}_'] = trans.gettext
-                logger.debug(
+                log.debug(
                     f'Loaded "{language}" language for "{domain}" domain'
                 )
             except Exception as e:
-                logger.exception(
+                log.exception(
                     f'Error loading "{language}" localization '
                     f'for {domain} domain:\n%s',
                     e,

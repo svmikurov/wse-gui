@@ -1,6 +1,6 @@
 """Defines context managers."""
 
-import toga
+from toga.widgets.selection import OnChangeHandler, Selection
 
 
 class EventDisabler:
@@ -15,15 +15,15 @@ class EventDisabler:
                 self._exercise_select.items.update(exercises)
     """
 
-    def __init__(self, widget: toga.Selection) -> None:
+    def __init__(self, widget: Selection) -> None:
         """Construct the context manage."""
         self._widget = widget
-        self._widget_handler = None
+        self._widget_handler: OnChangeHandler | None = None
 
     def __enter__(self) -> None:
         """Disable widget handler."""
         self._widget_handler = self._widget.on_change
-        self._widget.on_change = None
+        self._widget.on_change = None  # type: ignore[assignment]
 
     def __exit__(self, *args: object) -> None:
         """Enable widget handler."""

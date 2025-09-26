@@ -3,7 +3,8 @@
 from datetime import datetime
 
 from wse.core.api.response import ItemsData, Response
-from wse.feature.base import BaseSchema
+
+from ..schemas.base import BaseSchema
 
 # Schemas
 

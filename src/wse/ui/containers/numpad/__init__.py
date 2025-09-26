@@ -1,24 +1,24 @@
 """Contains Numpad container."""
 
 __all__ = [
-    'NumpadContainerProto',
-    'NumpadControllerProto',
-    'NumpadControllerProto',
-    'NumpadModelProto',
-    'NumpadContainer',
-    'NumpadController',
-    'NumpadModel',
-    'NumpadObserverABC',
+    'NumPadContainerABC',
+    'NumPadControllerABC',
+    'NumPadControllerABC',
+    'NumPadModelABC',
+    'NumPadContainer',
+    'NumPadController',
+    'NumPadModel',
+    'NumPadObserverABC',
 ]
 
 from .components import (
-    NumpadContainer,
-    NumpadController,
-    NumpadModel,
+    NumPadContainer,
+    NumPadController,
+    NumPadModel,
 )
-from .interface import NumpadObserverABC
+from .interface import NumPadObserverABC
 from .protocols import (
-    NumpadContainerProto,
-    NumpadControllerProto,
-    NumpadModelProto,
+    NumPadContainerABC,
+    NumPadControllerABC,
+    NumPadModelABC,
 )

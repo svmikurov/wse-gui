@@ -6,7 +6,7 @@ __all__ = [
     'NavigateError',
     'PopulateContentError',
     'StorageError',
-    'NotEmplementedAccessorError',
+    'NotImplementedAccessorError',
 ]
 
 from .content import PopulateContentError, RouteContentError
@@ -15,4 +15,4 @@ from .exceptions import (
     NavigateError,
     StorageError,
 )
-from .source import NotEmplementedAccessorError
+from .source import NotImplementedAccessorError

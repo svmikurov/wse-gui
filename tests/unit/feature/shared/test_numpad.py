@@ -6,8 +6,8 @@ from unittest.mock import Mock
 
 import pytest
 
-from wse.feature.interfaces.iobserver import SubjectABC
-from wse.ui.containers.numpad import NumpadModel
+from wse.feature.observer.abc import SubjectABC
+from wse.ui.containers.numpad import NumPadModel
 
 MAX_CHAR_COUNT = 8
 NO_TEXT = ''
@@ -25,15 +25,15 @@ def mock_subject() -> Mock:
 
 
 @pytest.fixture
-def numpad_model(mock_subject: Mock) -> NumpadModel:
+def numpad_model(mock_subject: Mock) -> NumPadModel:
     """Fixture for creating a NumPadModel instance."""
-    return NumpadModel(mock_subject)
+    return NumPadModel(mock_subject)
 
 
 class TestNumPadModel:
     """Test the `NumPadModel`."""
 
-    def test_initial_state(self, numpad_model: NumpadModel) -> None:
+    def test_initial_state(self, numpad_model: NumPadModel) -> None:
         """Test the initial model state."""
         assert numpad_model._input == NO_TEXT
 
@@ -82,7 +82,7 @@ class TestNumPadModel:
         char: str,
         expected_input: str,
         mock_subject: Mock,
-        numpad_model: NumpadModel,
+        numpad_model: NumPadModel,
     ) -> None:
         """Test update initial input."""
         numpad_model._input = initial_input
@@ -92,7 +92,7 @@ class TestNumPadModel:
     def test_notification_update_with_allowed_char(
         self,
         mock_subject: Mock,
-        numpad_model: NumpadModel,
+        numpad_model: NumPadModel,
     ) -> None:
         """Test model notification to update with allowed char."""
         numpad_model.update_input('4')
@@ -118,7 +118,7 @@ class TestNumPadModel:
         char: str,
         expected_input: str,
         mock_subject: Mock,
-        numpad_model: NumpadModel,
+        numpad_model: NumPadModel,
     ) -> None:
         """Test that notification occurred."""
         numpad_model._input = initial_input
@@ -141,7 +141,7 @@ class TestNumPadModel:
         initial_input: str,
         char: str,
         mock_subject: Mock,
-        numpad_model: NumpadModel,
+        numpad_model: NumPadModel,
     ) -> None:
         """Test that notification not occurred."""
         numpad_model._input = initial_input

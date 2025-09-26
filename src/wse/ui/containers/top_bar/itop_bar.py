@@ -1,57 +1,56 @@
 """Defines abc and protocols for the container interface."""
 
-from typing import Protocol
+from abc import ABC, abstractmethod
 
-from wse.feature.interfaces.icontent import GetContentProto
-from wse.feature.interfaces.iobserver import AddObserverProto
+from wse.ui.base.content.abc import GetContentABC
 
 # Top bar container
 
 
-class TopBarContainerFeatureProto(Protocol):
-    """Protocol for top bar container feature interface."""
+class TopBarContainerFeatureABC(ABC):
+    """ABC for top bar container feature interface."""
 
     # API for container controller
 
+    @abstractmethod
     def update_balance(self, value: str) -> None:
         """Update balance."""
 
 
-class TopBarContainerProto(
-    AddObserverProto,
-    GetContentProto,
-    TopBarContainerFeatureProto,
-    Protocol,
+class TopBarContainerABC(
+    GetContentABC,
+    TopBarContainerFeatureABC,
 ):
-    """Protocol for top bar container interface."""
+    """ABC for top bar container interface."""
 
 
 # Top bar controller
 
 
-class TopBarControllerFeatureProto(Protocol):
+class TopBarControllerFeatureABC(ABC):
     """Protocol for top bar controller features interface."""
 
     # API for view
 
+    @abstractmethod
     def update_balance(self, value: str) -> None:
         """Update balance."""
 
 
 class TopBarControllerProto(
-    TopBarControllerFeatureProto,
-    AddObserverProto,
-    GetContentProto,
-    Protocol,
+    TopBarControllerFeatureABC,
+    GetContentABC,
+    ABC,
 ):
-    """Protocol for Top Bar controller interface."""
+    """ABC for Top Bar controller interface."""
 
 
 # Interface for pages where the container is injected
 
 
-class TopBarViewMixinProto(Protocol):
-    """Protocol for page view interface where top bar is injected."""
+class TopBarViewMixinABC(ABC):
+    """ABC for page view interface where top bar is injected."""
 
+    @abstractmethod
     def update_balance(self, value: str) -> None:
         """Update balance."""

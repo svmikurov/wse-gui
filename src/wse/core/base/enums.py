@@ -6,8 +6,6 @@ from enum import Enum
 class BaseEnum(str, Enum):
     """Base class for enumerations."""
 
-    value: str
-
     def __str__(self) -> str:
         """Return button text."""
-        return self.value
+        return str(self.value)

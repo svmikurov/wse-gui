@@ -7,7 +7,7 @@ from typing import Generic, Type, TypeVar
 
 from pydantic import BaseModel, ValidationError
 
-logger = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
 T = TypeVar('T', bound=BaseModel)
 
@@ -28,51 +28,39 @@ class ApiConfigLoader(Generic[T]):
         """Load configuration data from a file."""
         try:
             if not self._path.exists():
-                logger.error(f'Error load {self._path} API config')
+                log.error(f'Error load {self._path} API config')
 
             with self._path.open('r', encoding='utf-8') as f:
                 try:
                     data = json.load(f)
-                except json.JSONDecodeError:
-                    logger.exception(f'Parsing error {self._path}')
 
-            try:
-                return self._config(**data)
-            except ValidationError:
-                logger.exception(f'Validation error {self._path} config')
+                except json.JSONDecodeError:
+                    log.exception(f'Parsing error {self._path}')
+
+                else:
+                    try:
+                        return self._config(**data)
+                    except ValidationError:
+                        log.exception(f'Validation error {self._path} config')
 
         except Exception:
-            logger.exception(f'Error to open {self._path}')
+            log.exception(f'Error load {self._path} API config')
 
         return None
 
 
-def load_style_data(
-    path: Path,
-    klass: Type[T],
-    container_alice: str | None = None,
-) -> T:
+def load_style_data(path: Path, style_scheme: Type[T]) -> T:
     """Load config data from file."""
-    data = {}
     try:
         with open(path, 'r') as f:
             json_data = json.load(f)
-            data = (
-                json_data
-                if container_alice is None
-                else json_data[container_alice]
-            )
+
     except FileNotFoundError:
-        logger.error(f"Config '{path.name}' not found")
-        raise
-    except KeyError:
-        logger.error(
-            f"Config '{path.name}' has no configuration "
-            f"for '{container_alice}' container"
-        )
-        raise
-    except json.JSONDecodeError:
-        logger.error(f"Invalid JSON in config file '{path.name}'")
+        log.error(f"Config '{path.name}' not found")
         raise
 
-    return klass.parse_obj(data)
+    except json.JSONDecodeError:
+        log.error(f"Invalid JSON in config file '{path.name}'")
+        raise
+
+    return style_scheme.parse_obj(json_data)

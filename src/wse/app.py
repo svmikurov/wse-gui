@@ -18,7 +18,7 @@ from .di import create_injector
 logger = logging.getLogger(__name__)
 
 
-class WSE(toga.App):  # type: ignore[misc]
+class WSE(toga.App):
     """WSE GUI application."""
 
     _injector: Injector
@@ -45,7 +45,13 @@ class WSE(toga.App):  # type: ignore[misc]
 
         # Set and show main window
         self.main_window = main_window
-        self.main_window.show()
+        if isinstance(self.main_window, toga.MainWindow):
+            self.main_window.show()
+        else:
+            raise AttributeError(
+                f'Main window has incompatible type: '
+                f'{type(self.main_window).__name__}'
+            )
 
     def _set_injector(self) -> None:
         """Set the `Injector` instance."""
@@ -72,6 +78,11 @@ class WSE(toga.App):  # type: ignore[misc]
         routes = self._injector.get(UIRoutes).routes
 
         # Configure navigator
+        if not isinstance(self.main_window, toga.MainWindow):
+            raise AttributeError(
+                f'Main window has incompatible type: '
+                f'{type(self.main_window).__name__}'
+            )
         self._navigator.set_main_window(self.main_window)
         self._navigator.set_routes(routes)
 

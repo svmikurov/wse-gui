@@ -2,9 +2,9 @@
 
 from typing import Any, Literal
 
-from wse.feature.base import BaseSchema
-from wse.feature.services import Question, Result
-from wse.feature.shared.schemas.core import InitialData
+from wse.feature.api.schemas.base import BaseSchema
+from wse.feature.api.schemas.core import InitialData
+from wse.feature.api.schemas.task import Question, Result
 
 
 class RelatedData(BaseSchema):

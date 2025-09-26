@@ -1,9 +1,12 @@
 """Abstract base classes for numpad components and numpad observer."""
 
 from abc import ABC, abstractmethod
+from typing import Literal
+
+NumPadNotifyT = Literal['numpad_entered']
 
 
-class NumpadObserverABC(ABC):
+class NumPadObserverABC(ABC):
     """Abstract base class for numpad observer."""
 
     @abstractmethod

@@ -7,26 +7,23 @@ notifications.
 """
 
 from abc import ABC, abstractmethod
-from typing import Protocol
 
-from wse.feature.interfaces.icontent import GetContentProto
-from wse.feature.interfaces.iobserver import AddObserverProto
+from wse.ui.base.content.abc import GetContentABC
 
 
-class LoginFeatureProto(Protocol):
-    """Protocol for Login container feature interface."""
+class LoginFeatureABC(ABC):
+    """ABC for Login container feature interface."""
 
+    @abstractmethod
     def clear_credential(self) -> None:
         """Clear the entered credential."""
 
 
-class LoginProto(
-    AddObserverProto,
-    GetContentProto,
-    LoginFeatureProto,
-    Protocol,
+class LoginABC(
+    GetContentABC,
+    LoginFeatureABC,
 ):
-    """Protocol for Login container interface."""
+    """ABC for Login container interface."""
 
 
 class LoginObserver(ABC):

@@ -6,9 +6,9 @@ from dataclasses import dataclass
 from injector import inject
 
 from wse.core.interfaces import Navigable
-from wse.feature.base.audit import AuditMixin
+from wse.feature.audit import AuditMixin
 
-from ...base.mixin import NavigateStateMixin
+from ...base.navigate.mixin import NavigateStateMixin
 from . import IndexGlossaryViewModelABC
 
 audit = logging.getLogger('audit')

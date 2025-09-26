@@ -1,0 +1,76 @@
+"""Defines toga Selection widget data source."""
+
+from abc import ABC, abstractmethod
+from typing import Generic, TypeVar
+
+from toga.sources import Source
+
+from wse.feature.source import EntryProto
+
+T = TypeVar('T')
+
+
+class Entry(EntryProto[T]):
+    """Data-Transfer-Object representation of entry."""
+
+    def __init__(
+        self,
+        entry: T,
+    ) -> None:
+        """Construct the entry."""
+        self.entry = entry
+        self.accessor = 'undefined'
+
+
+class SelectSourceABC(Source, ABC, Generic[T]):
+    """Abstract base class of Selection data source."""
+
+    _items: list[Entry[T]]
+
+    def __init__(self) -> None:
+        """Construct the source."""
+        super().__init__()
+        self._items = []
+
+    @abstractmethod
+    def _create_entry(self, entry: T) -> Entry[T]:
+        """Create entry."""
+
+    def __getitem__(self, index: int) -> Entry[T]:
+        """Get item from collection by index."""
+        return self._items[index]
+
+    def index(self, entry: Entry[T]) -> int:
+        """Return entry index in collection."""
+        return self._items.index(entry)
+
+    def add(self, value: T) -> None:
+        """Add entry."""
+        entry = self._create_entry(value)
+        self._items.append(entry)
+        self.notify(
+            'insert',
+            index=self._items.index(entry),
+            item=entry,
+        )
+
+    def update(self, entries: list[T]) -> None:
+        """Update select data source."""
+        self.clear()
+        for entry in entries:
+            self.add(entry)
+
+    def clear(self) -> None:
+        """Remove all entry from the data source."""
+        self._items = []
+        self.notify('clear')
+
+    def find(self, entry: object) -> Entry[T]:
+        """Find entry in source entries."""
+        for item in self._items:
+            if item.entry == entry:
+                return item
+
+        raise ValueError(
+            f"{self.__class__.__name__} does not contain '{entry}' entry"
+        )

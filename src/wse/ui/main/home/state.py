@@ -7,7 +7,7 @@ from typing_extensions import override
 
 from wse.core.interfaces import Navigable
 
-from ...base.mixin import NavigateStateMixin
+from ...base.navigate.mixin import NavigateStateMixin
 from .abc import HomeViewModelABC
 
 

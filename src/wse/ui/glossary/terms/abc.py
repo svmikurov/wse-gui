@@ -3,9 +3,8 @@
 from abc import ABC
 
 from wse.data.sources.glossary.term import TermNetworkSourceListenerABC
-from wse.ui.base.abc.navigate import CreateNavButtonABC, NavigateABC
-from wse.ui.base.abc.utils import OnCloseABC
-from wse.ui.base.abc.view import ViewABC
+from wse.ui.base.navigate import CreateNavButtonABC, NavigateABC, OnCloseABC
+from wse.ui.base.view.abc import ViewABC
 
 
 class TermsViewModelABC(

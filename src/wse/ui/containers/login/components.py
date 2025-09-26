@@ -1,6 +1,5 @@
 """Defines Login container."""
 
-import logging
 from dataclasses import dataclass
 
 import toga
@@ -10,24 +9,20 @@ from typing_extensions import override
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.auth import AuthServiceProto
 from wse.core.navigation.nav_id import NavID
-from wse.feature.base import Controller
-from wse.feature.base.mixins import AddObserverMixin
-from wse.feature.interfaces.icontent import ContentProto
-from wse.feature.interfaces.iobserver import SubjectABC
-from wse.ui.base.abc.container import AddContentABC
-from wse.ui.containers.login import (
-    LoginContainerProto,
-    LoginModelProto,
-)
+from wse.feature.observer.abc import SubjectABC
+from wse.feature.observer.mixins import ObserverManager
+from wse.ui.base.container.abc import CreateContentABC
+from wse.ui.base.content.abc import ContentABC
+from wse.ui.containers.login import LoginContainerABC, LoginModelABC
 from wse.utils.i18n import _
 
-logger = logging.getLogger(__name__)
+# TODO: Refactor to MVVM architecture
 
 
 @inject
 class LoginModel(
-    AddObserverMixin,
-    LoginModelProto,
+    ObserverManager,
+    LoginModelABC,
 ):
     """Login container model."""
 
@@ -66,8 +61,8 @@ class LoginModel(
 @inject
 @dataclass
 class LoginContainer(
-    AddObserverMixin,
-    AddContentABC,
+    ObserverManager,
+    CreateContentABC,
 ):
     """Login container."""
 
@@ -91,7 +86,7 @@ class LoginContainer(
     def _create_ui(self) -> None:
         self._input_username = toga.TextInput()
         self._input_password = toga.PasswordInput()
-        self._btn_confirm = toga.Button('', on_press=self._confirm_handler)
+        self._btn_confirm = toga.Button('', on_press=self._confirm_handler)  # type: ignore[arg-type]
 
     def localize_ui(self) -> None:
         """Localize the UI text."""
@@ -124,23 +119,21 @@ class LoginContainer(
 @inject
 @dataclass
 class LoginController(
-    AddObserverMixin,
-    Controller,
+    ObserverManager,
 ):
     """Login container controller."""
 
     _subject: SubjectABC
-    _model: LoginModelProto
-    _container: LoginContainerProto
+    _model: LoginModelABC
+    _container: LoginContainerABC
 
-    @override
-    def _setup(self) -> None:
+    def __post_init__(self) -> None:
+        """Construct the controller."""
         self._model.add_observer(self)
         self._container.add_observer(self)
 
-    @override
     @property
-    def content(self) -> ContentProto:
+    def content(self) -> ContentABC:
         """Get page content."""
         return self._container.content
 

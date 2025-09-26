@@ -2,9 +2,8 @@
 
 from abc import ABC, abstractmethod
 
-from wse.feature.base.abstract.mixins import GetContentABC
-from wse.feature.interfaces.iobserver import ObserverProto
-from wse.feature.shared.schemas.exercise import ExerciseInfo
+from wse.feature.api.schemas.exercise import ExerciseInfo
+from wse.ui.base.content.abc import GetContentABC
 
 
 class AssignationsContainerABC(
@@ -26,9 +25,9 @@ class AssignationsContainerABC(
         """Remove all exercises."""
 
     @abstractmethod
-    def add_observer(self, observer: ObserverProto) -> None:
+    def add_observer(self, observer: object) -> None:
         """Add an observer to receive task updates."""
 
     @abstractmethod
-    def remove_observer(self, observer: ObserverProto) -> None:
+    def remove_observer(self, observer: object) -> None:
         """Remove observer from subject observers."""

@@ -6,10 +6,9 @@ from typing import Literal
 import toga
 
 from wse.core.navigation.nav_id import NavID
-from wse.feature.base.mixins import AddObserverGenT
-from wse.ui.base.abc.navigate import NavigateABC
-from wse.ui.base.abc.utils import OnCloseABC
-from wse.ui.base.abc.view import ViewABC
+from wse.feature.observer.mixins import SubjectGen
+from wse.ui.base.navigate import NavigateABC, OnCloseABC
+from wse.ui.base.view.abc import ViewABC
 
 _NotifyT = Literal[
     'user_authenticated',
@@ -46,7 +45,7 @@ class ViewModelFeatureABC(ABC):
 
 
 class AuthViewModelABC(
-    AddObserverGenT[ViewModelObserverABC, _NotifyT],
+    SubjectGen[ViewModelObserverABC, _NotifyT],
     NavigateABC,
     OnCloseABC,
     ABC,

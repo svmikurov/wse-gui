@@ -9,8 +9,8 @@ from wse_exercises.core import MathEnum
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation.nav_id import NavID
-from wse.feature.source_wraps import ExerciseSelectWrapperProto
-from wse.ui.base.mixin import NavigateViewMixin
+from wse.feature.source.wraps import ExerciseSelectWrapperABC
+from wse.ui.base.navigate.mixin import NavigateViewMixin
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 from wse.ui.math.index.abc import MathIndexViewABC
 from wse.ui.math.index.state import MathIndexViewModel
@@ -27,7 +27,7 @@ class MathIndexView(
     """Main Math page view."""
 
     _state: MathIndexViewModel
-    _exercise_selection_wrapper: ExerciseSelectWrapperProto
+    _exercise_selection_wrapper: ExerciseSelectWrapperABC
 
     # Widget injection
     _top_bar: TopBarControllerABC
@@ -54,10 +54,10 @@ class MathIndexView(
         self._label_title = toga.Label('')
         self._exercise_select = toga.Selection(
             accessor='accessor',
-            items=self._exercise_selection_wrapper,
-            on_change=self._state.change_exercise,
+            items=self._exercise_selection_wrapper,  # type: ignore[arg-type]
+            on_change=self._state.change_exercise,  # type: ignore[arg-type]
         )
-        self._btn_start = toga.Button(on_press=self._state.start_exercise)
+        self._btn_start = toga.Button(on_press=self._state.start_exercise)  # type: ignore[arg-type]
 
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
@@ -82,13 +82,13 @@ class MathIndexView(
     def exercises_updated(self, values: list[MathEnum]) -> None:
         """Update exercises select data source."""
         with EventDisabler(self._exercise_select):
-            self._exercise_select.items.update(values)
+            self._exercise_select.items.update(values)  # type: ignore[union-attr]
 
     @override
     def exercise_selected(self, value: MathEnum) -> None:
         """Set selected exercise to choices."""
         # The selection is stored as an enumeration of entity instances.
-        entity = self._exercise_select.items.find(value)
+        entity = self._exercise_select.items.find(value)  # type: ignore[union-attr]
         self._exercise_select.value = entity
 
     # Close screen

@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Protocol
 
 from wse.core.api import ExerciseApiProto
-from wse.feature.shared.schemas.exercise import (
+from wse.feature.api.schemas.exercise import (
     Assigned,
     ExerciseInfo,
     ExerciseMeta,

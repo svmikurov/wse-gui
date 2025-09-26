@@ -7,9 +7,8 @@ wse-exercises<1.0.0
 
 # Toga framework requirements
 # to install development mode
-pygobject==3.50.0
-toga==0.5.1
-briefcase==0.3.23
+toga==0.5.2
+briefcase==0.3.25
 
 # Code checking requirements
 mypy==1.16.1

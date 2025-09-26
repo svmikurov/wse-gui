@@ -12,8 +12,8 @@ from wse.domain.abc.calculation import (
 )
 from wse.domain.math_task import CalculationObserverRegistryUseCase
 
-from ...base.mixin import NavigateStateMixin
-from ...base.task_state import TaskState, TaskViewModelMixin
+from ...base.navigate.mixin import NavigateStateMixin
+from ...base.task.state import TaskState, TaskViewModelMixin
 from .abc import CalculationViewModelABC
 
 

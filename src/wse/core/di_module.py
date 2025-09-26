@@ -54,4 +54,4 @@ class CoreModule(Module):
     @singleton
     def provide_main_window(self) -> toga.MainWindow:
         """Provide the Main window."""
-        return toga.MainWindow()
+        return toga.MainWindow()  # type: ignore[no-untyped-call]

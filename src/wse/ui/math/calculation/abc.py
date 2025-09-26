@@ -4,15 +4,14 @@ from abc import ABC
 from typing import Literal
 
 from wse.data.sources.task import TaskObserverABC
-from wse.feature.base.mixins import AddObserverGenT
-from wse.ui.base.abc.navigate import NavigateABC
-from wse.ui.base.abc.utils import OnCloseABC
-from wse.ui.base.abc.view import ViewABC
-from wse.ui.base.task_abc import (
+from wse.feature.observer.mixins import SubjectGen
+from wse.ui.base.navigate import NavigateABC, OnCloseABC
+from wse.ui.base.task.abc import (
     TaskViewModelFeatureABC,
     TaskViewModelObserverABC,
 )
-from wse.ui.containers.numpad import NumpadObserverABC
+from wse.ui.base.view.abc import ViewABC
+from wse.ui.containers.numpad import NumPadObserverABC
 
 _StateNotifyT = Literal[
     'question_updated',
@@ -28,7 +27,7 @@ _WidgetNotifyT = Literal['navigate']
 
 
 class CalculationViewModelABC(
-    AddObserverGenT[TaskViewModelObserverABC, _StateNotifyT],
+    SubjectGen[TaskViewModelObserverABC, _StateNotifyT],
     TaskViewModelFeatureABC,
     TaskObserverABC,
     NavigateABC,
@@ -42,8 +41,8 @@ class CalculationViewModelABC(
 
 
 class CalculationViewABC(
+    NumPadObserverABC,
     TaskViewModelObserverABC,
-    NumpadObserverABC,
     ViewABC,
     OnCloseABC,
     ABC,

@@ -1,7 +1,7 @@
 """Source as subject of Observer pattern exceptions."""
 
 
-class NotEmplementedAccessorError(Exception):
+class NotImplementedAccessorError(Exception):
     """Raised when not emplemented accessor by listener."""
 
     def __init__(

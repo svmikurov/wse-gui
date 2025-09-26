@@ -5,7 +5,7 @@ from typing import Literal
 
 from wse.data.entities.assigned import AssignedExercise
 from wse.data.sources.base.source import SourceGen
-from wse.feature.shared.schemas.exercise import Assigned
+from wse.feature.api.schemas.exercise import Assigned
 
 _SourceNotifyT = Literal['']
 

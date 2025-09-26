@@ -2,10 +2,10 @@
 
 __all__ = [
     'BaseStyle',
-    'BaseThema',
+    'BaseTheme',
     'StyleConfig',
     'ThemeConfig',
 ]
 
 from .style import BaseStyle, StyleConfig
-from .thema import BaseThema, ThemeConfig
+from .thema import BaseTheme, ThemeConfig

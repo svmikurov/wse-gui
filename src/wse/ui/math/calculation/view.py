@@ -1,7 +1,6 @@
 """Calculation exercise View."""
 
 from dataclasses import dataclass
-from typing import Type
 
 import toga
 from injector import inject
@@ -9,19 +8,16 @@ from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation.nav_id import NavID
-from wse.feature.base.audit import AuditMixin
-from wse.feature.shared.widgets import (
-    DividerProto,
-    FlexColumnStubProto,
-)
-from wse.ui.containers.numpad.protocols import NumpadControllerProto
+from wse.feature.audit import AuditMixin
+from wse.ui.containers.numpad.protocols import NumPadControllerABC
 from wse.ui.containers.task_panel import (
-    TextTaskContainerProto,
+    TextTaskContainerABC,
 )
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
+from wse.ui.widgets import DividerType, FlexColumnStubType
 from wse.utils.i18n import _, label_
 
-from ...base.mixin import NavigateViewMixin
+from ...base.navigate.mixin import NavigateViewMixin
 from .abc import CalculationViewABC, CalculationViewModelABC
 
 
@@ -38,17 +34,17 @@ class CalculationView(
 
     # Widget injection
     _top_bar: TopBarControllerABC
-    _task_panel: TextTaskContainerProto
-    _numpad: NumpadControllerProto
-    _divider: Type[DividerProto]
-    _flex_stub: Type[FlexColumnStubProto]
+    _task_panel: TextTaskContainerABC
+    _numpad: NumPadControllerABC
+    _divider: DividerType
+    _flex_stub: FlexColumnStubType
 
     def __post_init__(self) -> None:
         """Construct the view."""
         super().__post_init__()
         self._content.test_id = NavID.CALCULATION
         self._top_bar.add_observer(self)
-        self._numpad.add_observer(self)
+        self._numpad.add_observer(self)  # type: ignore[arg-type]
         self._state.add_observer(self)
 
     @override
@@ -68,8 +64,8 @@ class CalculationView(
     @override
     def _create_ui(self) -> None:
         self._label_title = toga.Label('')
-        self._btn_submit = toga.Button('', on_press=self._state.submit_answer)
-        self._btn_next = toga.Button('', on_press=self._state.update_task)
+        self._btn_submit = toga.Button('', on_press=self._state.submit_answer)  # type: ignore[arg-type]
+        self._btn_next = toga.Button('', on_press=self._state.update_task)  # type: ignore[arg-type]
 
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
@@ -154,6 +150,6 @@ class CalculationView(
     def on_close(self) -> None:
         """Call methods before close the screen."""
         self._top_bar.remove_observer(self)
-        self._numpad.remove_observer(self)
+        self._numpad.remove_observer(self)  # type: ignore[arg-type]
         self._state.remove_observer(self)
         self._state.on_close()

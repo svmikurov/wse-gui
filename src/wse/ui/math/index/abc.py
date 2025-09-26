@@ -6,9 +6,8 @@ import toga
 from wse_exercises.core import MathEnum
 
 from wse.feature.api.math import Calculation
-from wse.ui.base.abc.navigate import NavigateABC
-from wse.ui.base.abc.utils import OnCloseABC
-from wse.ui.base.abc.view import ViewABC
+from wse.ui.base.navigate import NavigateABC, OnCloseABC
+from wse.ui.base.view.abc import ViewABC
 
 # ViewModel
 
@@ -21,7 +20,7 @@ class MathModelFeature(ABC):
         """Refresh screen content."""
 
     @abstractmethod
-    def change_exercise(self, value: MathEnum) -> None:
+    def change_exercise(self, value: toga.Widget) -> None:
         """Change the exercise to perform."""
 
     @abstractmethod

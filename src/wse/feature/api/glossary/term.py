@@ -6,7 +6,7 @@ import httpx
 from injector import inject
 from pydantic import ValidationError
 
-from wse.config.api_paths import APIConfigV1
+from wse.config.api import APIConfigV1
 from wse.core.http.auth_schema import AuthScheme
 from wse.feature.api.glossary.abc import TermApiABC
 from wse.feature.api.glossary.schema import TermsData, TermsResponse

@@ -8,11 +8,12 @@ from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation import NavID
-from wse.feature.base.audit import AuditMixin
+from wse.feature.audit import AuditMixin
+from wse.ui.base.content.abc import ContentABC
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 from wse.utils.i18n import label_
 
-from ...base.mixin import NavigateViewMixin
+from ...base.navigate.mixin import NavigateViewMixin
 from ...containers.presentation import PresentationContainerABC
 from . import TermsStudyViewABC, TermsStudyViewModelABC
 
@@ -35,7 +36,7 @@ class TermsStudyView(
         """Construct the View."""
         super().__post_init__()
         self._top_bar.add_observer(self)
-        self._state.add_listener(self._presentation)
+        self._state.add_observer(self._presentation)
 
     def _create_ui(self) -> None:
         self._title = toga.Label(label_(NavID.TERMS_STUDY))
@@ -49,7 +50,7 @@ class TermsStudyView(
 
     def localize_ui(self) -> None:
         """Localize UI."""
-        # Depricated
+        # Deprecated
         pass
 
     def on_open(self) -> None:
@@ -64,3 +65,8 @@ class TermsStudyView(
     def on_close(self) -> None:
         """Call methods on screen close event."""
         self._top_bar.remove_observer(self)
+
+    @property
+    def content(self) -> ContentABC:
+        """Get page content."""
+        return self._content

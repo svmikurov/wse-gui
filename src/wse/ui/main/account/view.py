@@ -12,7 +12,7 @@ from wse.ui.containers.login import LoginControllerProto
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 from wse.utils.i18n import label_, nav_
 
-from ...base.mixin import NavigateViewMixin
+from ...base.navigate.mixin import NavigateViewMixin
 from .abc import AuthViewABC, AuthViewModelABC
 
 
@@ -50,7 +50,7 @@ class AuthView(
     @override
     def _create_ui(self) -> None:
         self._label_title = toga.Label('')
-        self._btn_logout = toga.Button(on_press=self._state.logout)
+        self._btn_logout = toga.Button(on_press=self._state.logout)  # type: ignore[arg-type]
 
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:

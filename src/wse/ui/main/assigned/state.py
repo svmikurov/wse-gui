@@ -13,10 +13,11 @@ from wse.domain.abc.assigned import (
 )
 from wse.domain.abc.user import UserObserverRegistryUseCaseABC
 from wse.domain.assigned import AssignedObserverRegistryUseCase
-from wse.feature.base.audit import AuditMixin
+from wse.feature.audit import AuditMixin
 
-from ...base.mixin import BalanceUpdatedMixin, NavigateStateMixin
-from ...base.task_state import TaskNotifyT, TaskState, TaskViewModelMixin
+from ...base.navigate.mixin import NavigateStateMixin
+from ...base.task.state import TaskNotifyT, TaskState, TaskViewModelMixin
+from ...containers.top_bar.mixins import BalanceUpdatedMixin
 from .abc import AssignedExerciseViewModelABC
 
 NotifyT = Literal['balance_updated']
@@ -57,13 +58,14 @@ class AssignedExerciseViewModel(
 
     def refresh_context(self) -> None:
         """Refresh context."""
-        self._notify('balance_updated', balance=self._data.balance)
+        self.notify('balance_updated', balance=self._data.balance)
 
-    def _notify(
+    def notify(
         self,
-        notification: Union[NotifyT | TaskNotifyT],
+        notification: Union[NotifyT, TaskNotifyT],
         **kwargs: object,
     ) -> None:
+        """Notify observers."""
         self._subject.notify(notification, **kwargs)
 
     def on_close(self) -> None:

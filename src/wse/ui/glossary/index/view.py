@@ -8,12 +8,12 @@ from typing_extensions import override
 
 from wse.config import StyleConfig, ThemeConfig
 from wse.core.navigation import NavID
-from wse.feature.base.audit import AuditMixin
-from wse.feature.interfaces.iwidgets import NavigableButton
+from wse.feature.audit import AuditMixin
+from wse.ui.base.iwidgets import NavigableButton
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 from wse.utils.i18n import label_, nav_
 
-from ...base.mixin import NavigateViewMixin
+from ...base.navigate.mixin import NavigateViewMixin
 from . import IndexGlossaryViewABC, IndexGlossaryViewModelABC
 
 

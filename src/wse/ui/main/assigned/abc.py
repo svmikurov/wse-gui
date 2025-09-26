@@ -6,10 +6,9 @@ from typing import Literal
 from wse.data.sources.assigned import AssignedSourceObserverABC
 from wse.data.sources.task import TaskObserverABC
 from wse.data.sources.user import UserObserverABC
-from wse.feature.base.mixins import AddObserverGenT
-from wse.ui.base.abc.navigate import NavigateABC
-from wse.ui.base.abc.utils import OnCloseABC
-from wse.ui.base.task_abc import (
+from wse.feature.observer.mixins import SubjectGen
+from wse.ui.base.navigate import NavigateABC, OnCloseABC
+from wse.ui.base.task.abc import (
     TaskViewModelFeatureABC,
     TaskViewModelObserverABC,
 )
@@ -29,7 +28,7 @@ _WidgetNotifyT = Literal['navigate']
 
 
 class AssignedExerciseViewModelABC(
-    AddObserverGenT[TaskViewModelObserverABC, _StateNotifyT],
+    SubjectGen[TaskViewModelObserverABC, _StateNotifyT],
     AssignedSourceObserverABC,
     TaskViewModelFeatureABC,
     TaskObserverABC,

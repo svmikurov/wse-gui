@@ -7,7 +7,7 @@ import httpx
 from injector import inject
 from typing_extensions import override
 
-from wse.config.api_paths import APIConfigV1
+from wse.config.api import APIConfigV1
 
 from .base import HttpClientABC
 from .protocol import AuthSchemeProto

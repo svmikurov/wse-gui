@@ -2,11 +2,11 @@
 
 from wse.core.base.enums import BaseEnum
 
-# Langauge localization
+# Language localization
 
 
 class Language(BaseEnum):
-    """Localisation langauge enumeration."""
+    """Localization language enumeration."""
 
     EN = 'en'
     RU = 'ru'

@@ -3,7 +3,7 @@
 from typing import no_type_check
 
 from wse.core.navigation.nav_id import NavID
-from wse.feature.interfaces.icontent import GetContentProto
+from wse.ui.base.content.abc import GetContentABC
 
 from .glossary.index import IndexGlossaryViewABC
 from .glossary.study import TermsStudyViewABC
@@ -21,7 +21,7 @@ class UIRoutes:
 
     @property
     @no_type_check
-    def routes(self) -> dict[NavID, GetContentProto]:
+    def routes(self) -> dict[NavID, GetContentABC]:
         """Get view."""
         return {
             NavID.HOME: HomeViewABC,

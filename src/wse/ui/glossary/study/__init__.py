@@ -3,9 +3,15 @@
 __all__ = [
     'TermsStudyViewABC',
     'TermsStudyViewModelABC',
+    'NotifyT',
+    'AccessorT',
+    'ChangeObserverABC',
 ]
 
 from .abc import (
+    AccessorT,
+    ChangeObserverABC,
+    NotifyT,
     TermsStudyViewABC,
     TermsStudyViewModelABC,
 )

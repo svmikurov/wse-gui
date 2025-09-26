@@ -3,23 +3,25 @@
 import logging
 import sys
 from dataclasses import dataclass
-from typing import Literal
 
 import toga
 from injector import inject
 
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.base import Controller
-from wse.feature.base.mixins import AddObserverGen
-from wse.feature.interfaces.icontent import ContentProto
-from wse.feature.interfaces.iobserver import SubjectABC
-from wse.feature.shared.widgets.boxes import FlexColumn
-from wse.ui.base.abc.container import AddContentABC
+from wse.feature.observer.abc import SubjectABC
+from wse.feature.observer.mixins import SubjectGen
+from wse.ui.base.container.abc import CreateContentABC
+from wse.ui.base.content.abc import ContentABC
+from wse.ui.widgets.boxes import FlexColumn
 
 from .protocols import (
-    NumpadContainerProto,
-    NumpadControllerProto,
-    NumpadModelProto,
+    ContainerNotifyT,
+    ControllerNotifyT,
+    ModelNotifyT,
+    NumPadContainerABC,
+    NumPadControllerABC,
+    NumPadModelABC,
+    NumPadObserverABC,
 )
 
 logger = logging.getLogger(__name__)
@@ -27,21 +29,17 @@ logger = logging.getLogger(__name__)
 MAX_CHAR_COUNT = 8
 NO_TEXT = ''
 
-# Numpad characters
+# NumPad characters
 BACKSPACE = '\u232b'
 DOT = '\u002e'
 MINUS = '\u002d'
 ALLOWED_CHARACTERS = '1234567890'
 SPECIAL_CHARACTERS = [BACKSPACE, DOT, MINUS]
 
-ModelNotifyT = Literal['numpad_input_updated']
-ContainerNotifyT = Literal['button_pressed']
-ControllerNotifyT = Literal['numpad_entered']
-
 
 @inject
-class NumpadModel(
-    AddObserverGen[ModelNotifyT],
+class NumPadModel(
+    SubjectGen[object, ModelNotifyT],
 ):
     """Model for NumPad container."""
 
@@ -106,7 +104,7 @@ class NumpadModel(
         return False
 
     def _notify_input_updated(self) -> None:
-        self._notify('numpad_input_updated', value=self._input)
+        self.notify('numpad_input_updated', value=self._input)
 
     # API for controller
 
@@ -143,9 +141,9 @@ class NumpadModel(
 
 @inject
 @dataclass
-class NumpadContainer(
-    AddObserverGen[ContainerNotifyT],
-    AddContentABC,
+class NumPadContainer(
+    SubjectGen[object, ContainerNotifyT],
+    CreateContentABC,
 ):
     """Number keyword container."""
 
@@ -207,10 +205,10 @@ class NumpadContainer(
     # Utility layout methods
 
     def _create_button(self, text: str | int) -> toga.Button:
-        return toga.Button(text=str(text), on_press=self._handle_button_press)
+        return toga.Button(text=str(text), on_press=self._handle_button_press)  # type: ignore[arg-type]
 
     def _handle_button_press(self, button: toga.Button) -> None:
-        self._notify('button_pressed', value=button.text)
+        self.notify('button_pressed', value=button.text)
 
     def _build_outer_box(self) -> None:
         """Create outer box for NumPad."""
@@ -218,7 +216,7 @@ class NumpadContainer(
         self._outer_box = toga.Box(children=[self._num_box, self._sign_box])
 
     def _build_num_box(self) -> None:
-        self._num_box = toga.Row(
+        self._num_box = toga.Row(  # type: ignore[no-untyped-call]
             children=[
                 FlexColumn(
                     children=[
@@ -258,18 +256,18 @@ class NumpadContainer(
 
 @inject
 @dataclass
-class NumpadController(
-    AddObserverGen[ControllerNotifyT],
-    Controller,
-    NumpadControllerProto,
+class NumPadController(
+    SubjectGen[NumPadObserverABC, ControllerNotifyT],
+    NumPadControllerABC,
 ):
     """Number keyword controller."""
 
     _subject: SubjectABC
-    _model: NumpadModelProto
-    _container: NumpadContainerProto
+    _model: NumPadModelABC
+    _container: NumPadContainerABC
 
-    def _setup(self) -> None:
+    def __post_init__(self) -> None:
+        """Construct the controller."""
         self._model.add_observer(self)
         self._container.add_observer(self)
 
@@ -302,6 +300,6 @@ class NumpadController(
     # Property
 
     @property
-    def content(self) -> ContentProto:
+    def content(self) -> ContentABC:
         """Get container content."""
         return self._container.content

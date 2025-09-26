@@ -12,7 +12,7 @@ from wse.domain.abc.task import (
     GetQuestionUseCaseABC,
     GetSolutionUseCaseABC,
 )
-from wse.feature.shared.schemas.exercise import Assigned
+from wse.feature.api.schemas.exercise import Assigned
 
 
 class SubscribeAssignedUseCaseABC(

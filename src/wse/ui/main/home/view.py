@@ -8,8 +8,8 @@ from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation.nav_id import NavID
-from wse.feature.base.audit import AuditMixin
-from wse.feature.interfaces.iwidgets import NavigableButton
+from wse.feature.audit import AuditMixin
+from wse.ui.base.iwidgets import NavigableButton
 from wse.utils.i18n import label_, nav_
 
 from .abc import (

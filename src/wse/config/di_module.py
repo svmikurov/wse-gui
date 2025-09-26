@@ -6,7 +6,7 @@ import logging
 from injector import Module, provider, singleton
 from pydantic import ValidationError
 
-from wse.config.api_paths import APIConfigV1, MathAPIConfigV1
+from wse.config.api import APIConfigV1, MathAPIConfigV1
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.config.settings import (
     CONFIGS_PATH,

@@ -1,42 +1,48 @@
 """Defines I/O text container."""
 
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Protocol, Type
 
 import toga
 from injector import inject
 
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.interfaces.icontainer import Containerizable
-from wse.feature.shared.widgets import DividerProto
-from wse.ui.base.abc.container import AddContentABC
+from wse.ui.base.container.abc import ContainerGenABC
+from wse.ui.widgets import DividerType
 
 
-class TextTaskContainerProto(
-    Containerizable,
-    Protocol,
+class TextTaskContainerABC(
+    ContainerGenABC[StyleConfig, ThemeConfig],
+    ABC,
 ):
-    """Protocol for Texet task container interface."""
+    """ABC for Text task container interface."""
 
+    @abstractmethod
     def display_question(self, value: str) -> None:
         """Update the question text field."""
 
+    @abstractmethod
     def clear_question(self) -> None:
         """Clear the question text field."""
 
+    @abstractmethod
     def display_answer(self, value: str) -> None:
         """Update the answer text field."""
 
+    @abstractmethod
     def clear_answer(self) -> None:
         """Clear the answer text field."""
 
+    @abstractmethod
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
 
+    @abstractmethod
     def display_correct_answer(self, expression: str) -> None:
         """Display the correct answer."""
 
     @property
+    @abstractmethod
     def answer(self) -> str:
         """Get text."""
 
@@ -44,12 +50,11 @@ class TextTaskContainerProto(
 @inject
 @dataclass
 class TextTaskPanel(
-    AddContentABC,
-    TextTaskContainerProto,
+    TextTaskContainerABC,
 ):
     """I/O text container."""
 
-    _divider: Type[DividerProto]
+    _divider: DividerType
     _style: StyleConfig
     _theme: ThemeConfig
 

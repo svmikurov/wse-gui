@@ -7,7 +7,7 @@ from typing import Literal, Union
 
 from wse.data.entities.task import Task
 from wse.data.sources.base.source import SourceGen
-from wse.feature.shared.schemas.task import Question, Result
+from wse.feature.api.schemas.task import Question, Result
 
 _NotifyType = Literal[
     'question_updated',

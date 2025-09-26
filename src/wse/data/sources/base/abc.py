@@ -6,7 +6,7 @@ from typing import Generic
 from .protocol import AccessorT_contra, ListenerT, NotifyT_contra
 
 
-class NotifyABC(
+class SourceNotifyABC(
     ABC,
     Generic[NotifyT_contra],
 ):
@@ -24,7 +24,7 @@ class NotifyABC(
         """
 
 
-class NotifyAccessorABC(
+class SourceNotifyAccessorABC(
     ABC,
     Generic[NotifyT_contra, AccessorT_contra],
 ):
@@ -47,7 +47,7 @@ class NotifyAccessorABC(
         """
 
 
-class ListenerManagementABC(
+class SourceListenerManagementABC(
     ABC,
     Generic[ListenerT],
 ):
@@ -83,8 +83,8 @@ class ListenerManagementABC(
 
 
 class SourceABC(
-    ListenerManagementABC[ListenerT],
-    NotifyABC[NotifyT_contra],
+    SourceListenerManagementABC[ListenerT],
+    SourceNotifyABC[NotifyT_contra],
     ABC,
     Generic[ListenerT, NotifyT_contra],
 ):
@@ -95,8 +95,8 @@ class SourceABC(
 
 
 class AccessorSourceABC(
-    ListenerManagementABC[ListenerT],
-    NotifyAccessorABC[NotifyT_contra, AccessorT_contra],
+    SourceListenerManagementABC[ListenerT],
+    SourceNotifyAccessorABC[NotifyT_contra, AccessorT_contra],
     ABC,
     Generic[ListenerT, NotifyT_contra, AccessorT_contra],
 ):

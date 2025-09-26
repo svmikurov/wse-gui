@@ -4,10 +4,13 @@ __all__ = [
     'ListenerT',
     'StyleT',
     'ThemeT',
+    'Subject',
 ]
 
-from wse.feature.interfaces.types import (
+from wse.types import (
     ListenerT,
     StyleT,
     ThemeT,
 )
+
+from .observer.subject import Subject
