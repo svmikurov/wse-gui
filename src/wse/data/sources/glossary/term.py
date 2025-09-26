@@ -1,5 +1,6 @@
 """Term sources."""
 
+import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Literal, TypedDict
@@ -14,8 +15,10 @@ from . import TermNetworkSourceABC
 
 _NotifyT = Literal['updated']
 
+log = logging.getLogger(__name__)
 
-class _SourceDateTypes(TypedDict, total=False):
+
+class SourceDateTypes(TypedDict, total=False):
     """Types for Terms data source fields."""
 
     count: int | None
@@ -62,4 +65,6 @@ class TermNetworkSource(
                 )
 
                 self.notify('updated', terms=self._terms.terms)
+            else:
+                log.debug('No terms data in http response')
         return None
