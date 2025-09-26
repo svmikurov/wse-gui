@@ -4,10 +4,10 @@ from dataclasses import dataclass
 from typing import Generic
 
 from wse.core.navigation.nav_id import NavID
-from wse.feature.observer.abc import SubjectABC
-from wse.feature.observer.generic import NotifyGenABC, ObserverManagerGenABC
+from wse.types import AccessorT, NotifyT, ObserverT
 
-from ...types import AccessorT, NotifyT, ObserverT
+from .abc import SubjectABC
+from .generic import NotifyGenABC, ObserverManagerGenABC
 
 
 @dataclass
