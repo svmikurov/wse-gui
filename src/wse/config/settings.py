@@ -2,8 +2,6 @@
 
 from pathlib import Path
 
-from wse.core.navigation.nav_id import NavID
-
 from .enums import (
     Language,
     LayoutStyle,
