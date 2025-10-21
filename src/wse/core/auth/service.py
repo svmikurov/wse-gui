@@ -107,6 +107,9 @@ class AuthService(AuthServiceProto):
             updated_access_token = self._auth_api.refresh_access_token(
                 self._token_storage.refresh_token
             )
+        except FileNotFoundError as e:
+            logger.error('Auth service error: refresh token file not found')
+            raise AuthError from e
         except Exception as e:
             raise e
         else:

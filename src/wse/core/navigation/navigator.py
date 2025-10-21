@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from collections import deque
 from typing import Any, Type
@@ -10,6 +11,7 @@ import toga
 from injector import CallError, Injector, NoInject, inject
 
 from wse.core.exceptions import (
+    AuthError,
     NavigateError,
     NotImplementedAccessorError,
     RouteContentError,
@@ -58,14 +60,21 @@ class Navigator:
 
         try:
             self._update_window_content(nav_id, **kwargs)
+
         except (
             NavigateError,
             RouteContentError,
             NotImplementedAccessorError,
         ):
             logger.exception('Window content is not updated')
+
+        except AuthError:
+            logger.debug(f"Authentication required for '{nav_id.value}'")
+            self._show_unauth_message()
+
         except Exception:
             logger.exception(f"Got unexpected error with '{nav_id = }'")
+
         else:
             self._add_to_history(nav_id)
 
@@ -105,7 +114,7 @@ class Navigator:
             except AttributeError:
                 # The screen may not have any
                 # methods called when opened.
-                audit.info(f'Have no `on_open()`: {new_view.__class__}')
+                audit.info(f'{new_view.__class__} have no `on_open` method')
 
             self._window.content = new_view.content
 
@@ -149,3 +158,8 @@ class Navigator:
             logger.debug('No previous screen back button')
         else:
             self._update_window_content(nav_id)
+
+    def _show_unauth_message(self) -> None:
+        info_msg = toga.InfoDialog('Oops', 'Authentication required')
+        if self._window:
+            asyncio.create_task(self._window.dialog(info_msg))

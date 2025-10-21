@@ -47,8 +47,8 @@ class JWTJsonStorage(JWTJsonStorageProto):
             self._access_token = access
             self._refresh_token = refresh
 
-    @override
     @property
+    @override
     def access_token(self) -> str:
         """Get access storage token."""
         if self._access_token is not None:
@@ -87,8 +87,8 @@ class JWTJsonStorage(JWTJsonStorageProto):
         finally:
             self._access_token = token
 
-    @override
     @property
+    @override
     def refresh_token(self) -> str:
         """Get access storage token."""
         if self._refresh_token is not None:
@@ -99,6 +99,10 @@ class JWTJsonStorage(JWTJsonStorageProto):
                 token: str = json.load(f).get('refresh')
                 self._refresh_token = token
                 return token
+
+        except FileNotFoundError as e:
+            logger.error('Refresh token fail not found')
+            raise e
 
         except Exception as e:
             logger.exception('Error loading refresh token: %s', e)

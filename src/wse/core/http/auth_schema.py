@@ -88,9 +88,14 @@ class AuthScheme(httpx.Auth, AuthSchemeProto):  # type: ignore[misc]
         if response.status_code == HTTPStatus.UNAUTHORIZED:
             # If the server issues a 401 response, then issue a
             # request to refresh tokens, and resend the request.
-            self._auth_service.refresh_access_token()
-            request = self._add_auth_header(request)
-            yield request
+            try:
+                self._auth_service.refresh_access_token()
+            except Exception as e:
+                logger.error('Refresh access token error')
+                raise e
+            else:
+                request = self._add_auth_header(request)
+                yield request
 
     def _add_auth_header(self, request: Request) -> Request:
         """Add authentication with JWT to request header."""

@@ -1,6 +1,10 @@
 """Defines subject of Observer pattern."""
 
+import logging
+
 from wse.feature.observer.abc import SubjectABC
+
+log = logging.getLogger(__name__)
 
 
 class Subject(SubjectABC):
@@ -21,7 +25,10 @@ class Subject(SubjectABC):
 
     def remove_observer(self, observer: object) -> None:
         """Remove an observer from this subject."""
-        self._observers.remove(observer)
+        try:
+            self._observers.remove(observer)
+        except ValueError:
+            log.error('Attempt to remove a non-existent observer')
 
     def notify(self, notification: str, **kwargs: object) -> None:
         """Notify all observers an event has occurred."""
