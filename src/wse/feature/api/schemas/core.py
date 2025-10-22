@@ -6,4 +6,4 @@ from ..schemas.base import BaseSchema
 class InitialData(BaseSchema):
     """Application initial data schema."""
 
-    balance: str
+    balance: str | None

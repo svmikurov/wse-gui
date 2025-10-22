@@ -23,6 +23,7 @@ class InitialDataRepoABC(ABC):
 class InitialDataRepo(InitialDataRepoABC):
     """Initial data repository."""
 
+    # TODO: Update to depend on abstraction
     _user_local_source: UserSource
     _user_network_source: UserNetworkSource
 
@@ -30,4 +31,5 @@ class InitialDataRepo(InitialDataRepoABC):
     def update_data(self) -> None:
         """Update app initial data."""
         if data := self._user_network_source.fetch_data():
-            self._user_local_source.update_balance(balance=data.balance)
+            if balance := data.balance:
+                self._user_local_source.update_balance(balance=balance)
