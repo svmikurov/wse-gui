@@ -13,17 +13,14 @@ from injector import CallError, Injector, NoInject, inject
 from wse.core.exceptions import (
     AuthError,
     NavigateError,
-    NotImplementedAccessorError,
     RouteContentError,
 )
 from wse.core.navigation.nav_id import NavID
 from wse.ui.base.view.abc import NavigableViewABC
 from wse.ui.routes import UIRoutes
 
-logger = logging.getLogger(__name__)
-
+log = logging.getLogger(__name__)
 audit = logging.getLogger('audit')
-
 
 HISTORY_LEN = 10
 
@@ -50,76 +47,7 @@ class Navigator:
 
         # Current view must contain method to manage the dependencies,
         # such as unsubscribe observer from subject
-        self._current_view: NavigableViewABC[Any] | None = None
-
-    def navigate(self, nav_id: NavID, **kwargs: object) -> None:
-        """Navigate to screen."""
-        if nav_id == NavID.BACK:
-            self._go_back()
-            return
-
-        try:
-            self._update_window_content(nav_id, **kwargs)
-
-        except (
-            NavigateError,
-            RouteContentError,
-            NotImplementedAccessorError,
-        ):
-            logger.exception('Window content is not updated')
-
-        except AuthError:
-            logger.debug(f"Authentication required for '{nav_id.value}'")
-            self._show_unauth_message()
-
-        except Exception:
-            logger.exception(f"Got unexpected error with '{nav_id = }'")
-
-        else:
-            self._add_to_history(nav_id)
-
-    def _update_window_content(self, nav_id: NavID, **kwargs: object) -> None:
-        if self._window is None:
-            raise NavigateError('Window is not initialized')
-
-        try:
-            # The injector creates a view instance
-            # that is hashed as the current one.
-            new_view = self._injector.get(self._get_view_type(nav_id))
-
-        except RouteContentError:
-            logger.exception(f"The navigation to the '{nav_id}' has failed")
-            raise
-
-        except CallError:
-            logger.exception('Dependency injection error:\n')
-            raise
-
-        else:
-            if self._current_view is None:
-                audit.info('Current view was not set')
-
-            else:
-                try:
-                    # The view object must have an on_close()
-                    # method with remove references to Subject,
-                    # such as unsubscribing from notifications.
-                    self._current_view.on_close()
-                except AttributeError as err:
-                    logger.exception('Close screen error:\n %s', err)
-
-            try:
-                new_view.on_open(**kwargs)
-
-            except AttributeError:
-                # The screen may not have any
-                # methods called when opened.
-                audit.info(f'{new_view.__class__} have no `on_open` method')
-
-            self._window.content = new_view.content
-
-            # Hash of the created view instance.
-            self._current_view = new_view
+        self._current_screen: NavigableViewABC[Any] | None = None
 
     def set_main_window(self, window: toga.Window) -> None:
         """Set main window."""
@@ -132,14 +60,106 @@ class Navigator:
         """Set screen route mapping."""
         self._routes = routes
 
+    def navigate(self, nav_id: NavID, **kwargs: object) -> None:
+        """Navigate to screen."""
+        if nav_id == NavID.BACK:
+            self._go_back()
+            return
+
+        try:
+            self._update_window_content(nav_id)
+
+        except Exception:
+            log.debug(f"Window content not updated with '{nav_id.name}'")
+            return
+
+        self._add_to_history(nav_id)
+
+    def _update_window_content(self, nav_id: NavID) -> None:
+        if self._window is None:
+            log.error('Window is not initialized')
+            raise
+
+        try:
+            screen = self._get_screen(nav_id)
+
+        except Exception:
+            log.error(f"No view to get content for '{nav_id.name}'")
+            raise
+
+        try:
+            self._set_content(nav_id, screen)
+
+        except AuthError:
+            log.debug(f"Authentication required for '{nav_id.name}'")
+            self._show_unauth_message()
+            raise
+
+        except Exception:
+            raise
+
+        self._window.content = screen.content
+        self._close_current_screen()
+        self._current_screen = screen
+
     def _get_view_type(self, nav_id: NavID) -> Type[NavigableViewABC[Any]]:
         if not self._routes:
             raise NavigateError('Route mapping is not initialized')
-
         try:
             return self._routes[nav_id]
         except KeyError as err:
             raise RouteContentError(err, nav_id, UIRoutes) from err
+
+    def _get_screen(self, nav_id: NavID) -> NavigableViewABC[Any]:
+        try:
+            screen = self._injector.get(self._get_view_type(nav_id))
+
+        except RouteContentError:
+            log.exception(f"The navigation to the '{nav_id}' has failed")
+            raise
+
+        except CallError:
+            log.exception('Dependency injection error:\n')
+            raise
+
+        except Exception:
+            log.exception('Unexpected error:\n')
+            raise
+
+        else:
+            return screen
+
+    def _set_content(
+        self,
+        nav_id: NavID,
+        new_view: NavigableViewABC[Any],
+    ) -> None:
+        try:
+            new_view.on_open()
+
+        except AttributeError:
+            # The screen may not have any methods called when opened.
+            audit.info(f'{new_view.__class__} have no `on_open` method')
+
+        except AuthError:
+            log.debug(f"No '{nav_id.name}' content for unauthenticated user")
+            raise
+
+        except Exception:
+            log.exception(f"'{nav_id.name}' screen open error")
+            raise
+
+    def _close_current_screen(self) -> None:
+        if self._current_screen:
+            try:
+                # The view object must have an on_close()
+                # method with remove references to Subject,
+                # such as unsubscribing from notifications.
+                self._current_screen.on_close()
+            except AttributeError:
+                log.exception('Close screen error:\n')
+            except Exception:
+                log.exception('Unexpected error of close screen:\n')
 
     def _add_to_history(self, nav_id: NavID) -> None:
         """Add navigation ID to history."""
@@ -155,9 +175,16 @@ class Navigator:
             # Get previous navigation id from history
             nav_id = self._content_history[self._PREVIOUS_SCREEN_INDEX]
         except IndexError:
-            logger.debug('No previous screen back button')
-        else:
+            log.error(
+                f'Attempt to get a previous screen from empty navigation '
+                f"history on '{self._current_screen}' screen"
+            )
+            return
+
+        try:
             self._update_window_content(nav_id)
+        except Exception:
+            return
 
     def _show_unauth_message(self) -> None:
         info_msg = toga.InfoDialog('Oops', 'Authentication required')
