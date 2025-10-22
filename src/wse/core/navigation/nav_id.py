@@ -27,3 +27,8 @@ class NavID(BaseEnum):
     GLOSSARY = 'Glossary index screen'
     TERMS = 'Terms screen'
     TERMS_STUDY = 'Study terms'
+
+    @property
+    def name(self) -> str:
+        """Get text representation of navigation route."""
+        return self.value
