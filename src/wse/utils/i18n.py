@@ -7,6 +7,7 @@ from typing import Callable
 
 from wse.config.enums import Language, LocaleDomain
 from wse.config.settings import LANGUAGE, LOCALE_DOMAINS, RESOURCES_PATH
+from wse.core.base.enums import BaseEnum
 
 log = logging.getLogger(__name__)
 
@@ -94,3 +95,22 @@ def label_(text: str) -> str:
 def exercise_(text: str) -> str:
     """Get translated text for label widget."""
     return i18n.get_translator(LocaleDomain.EXERCISE)(text)
+
+
+class I18N(BaseEnum):
+    """Callable translate text enumerations."""
+
+    NAV = 'navigation translate text'
+    LABEL = 'title translate text'
+    EXERCISE = 'exercise translate text'
+    CORE = 'core translate text'
+
+    def __call__(self, text: str) -> str:
+        """Make enum callable for translation."""
+        translators = {
+            I18N.NAV: nav_,
+            I18N.LABEL: label_,
+            I18N.EXERCISE: exercise_,
+            I18N.CORE: _,
+        }
+        return translators[self](text)

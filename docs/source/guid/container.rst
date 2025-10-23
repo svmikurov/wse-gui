@@ -21,7 +21,7 @@ abstract base class and override methods:
 - :meth:`~wse.features.base.abstract.mvc.UpdateStyleABC.update_style`
 - :meth:`~wse.features.base.abstract.mvc.LocalizeABC.localize_ui`
 
-.. rubric:: Define style and thema
+.. rubric:: Define style and theme
 
 .. rubric:: Code example:
 

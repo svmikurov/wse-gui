@@ -1,4 +1,4 @@
-Style and thema reference
+Style and theme reference
 =========================
 
 .. toctree::

@@ -1,4 +1,4 @@
-"""Defines thema configuration for widgets."""
+"""Defines theme configuration for widgets."""
 
 from typing import Any
 
@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 
 
 class BaseTheme(BaseModel):
-    """Base class for thema config."""
+    """Base class for theme config."""
 
 
 class AssignedTheme(BaseTheme):

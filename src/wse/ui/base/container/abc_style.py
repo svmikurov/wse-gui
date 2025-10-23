@@ -41,7 +41,7 @@ class UpdateStyleGenABC(ABC, Generic[StyleT, ThemeT]):
     all widgets.
 
     :ivar StyleT _style: Widgets style config
-    :ivar ThemeT _theme: Widgets thema config
+    :ivar ThemeT _theme: Widgets theme config
     """
 
     _style: StyleT

@@ -13,7 +13,7 @@ from wse.feature.audit import AuditMixin
 from wse.ui.base.iwidgets import NavigableButton
 from wse.ui.base.navigate.mixin import NavigateViewMixin
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
-from wse.utils.i18n import label_
+from wse.utils.i18n import I18N, label_
 
 from .abc import IndexForeignViewABC, IndexForeignViewModelABC
 
@@ -44,12 +44,14 @@ class IndexForeignView(
             # TODO: May be refactor style injection?
             style=Pack(**self._style.label_title, **self._theme.label_title),  # type: ignore[arg-type]
         )
+        self._btn_study = self._create_nav_btn(NavID.FOREIGN_STUDY)
 
     @override
     def _populate_content(self) -> None:
         self._content.add(
             self._top_bar.content,
             self._title,
+            self._btn_study,
         )
 
     # Deprecated `localize_ui` method?
@@ -57,14 +59,14 @@ class IndexForeignView(
     @override
     def localize_ui(self) -> None:
         """Localize the UI text."""
-        pass
+        self._btn_study.text = I18N.NAV(NavID.FOREIGN_STUDY)
 
     # Deprecated `update_style` method?
     # TODO: Remove `update_style` abstract method?
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
-        pass
+        self._btn_study.style.update(**config.btn_nav)
 
     @override
     def on_close(self) -> None:

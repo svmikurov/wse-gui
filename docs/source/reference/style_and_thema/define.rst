@@ -1,4 +1,4 @@
-Add style and thema
+Add style and theme
 ===================
 
 .. seealso:: `Toga style <https://toga.readthedocs.io/en/stable/reference/style/pack.html>`_
@@ -16,7 +16,7 @@ There are stages to adding style/theme:
   * provide DTO
 
 - inject DTO into view/container
-- assign style/thema to widget
+- assign style/theme to widget
 
 .. _update-json:
 
@@ -66,7 +66,7 @@ The structure of the theme's JSON configuration for these same widgets
 is defined in a similar way.
 
 .. code-block:: json
-   :caption: wse/resources/style/thema_default.json:
+   :caption: wse/resources/style/theme_default.json:
    :emphasize-lines: 5-13
 
    {

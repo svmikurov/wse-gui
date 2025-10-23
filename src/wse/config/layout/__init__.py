@@ -8,4 +8,4 @@ __all__ = [
 ]
 
 from .style import BaseStyle, StyleConfig
-from .thema import BaseTheme, ThemeConfig
+from .theme import BaseTheme, ThemeConfig
