@@ -17,6 +17,7 @@ Welcome to WSE GUI's documentation!
    style/index.rst
    typing/index.rst
    errors/index.rst
+   problems/index.rst
 
 
 
