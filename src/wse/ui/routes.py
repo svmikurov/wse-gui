@@ -5,6 +5,7 @@ from typing import no_type_check
 from wse.core.navigation.nav_id import NavID
 from wse.ui.base.content.abc import GetContentABC
 
+from .foreign.index import IndexForeignViewABC
 from .glossary.index import IndexGlossaryViewABC
 from .glossary.study import TermsStudyViewABC
 from .glossary.terms import TermsViewABC
@@ -37,4 +38,6 @@ class UIRoutes:
             NavID.GLOSSARY: IndexGlossaryViewABC,
             NavID.TERMS: TermsViewABC,
             NavID.TERMS_STUDY: TermsStudyViewABC,
+            # Foreign
+            NavID.FOREIGN: IndexForeignViewABC,
         }

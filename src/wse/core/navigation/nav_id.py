@@ -28,6 +28,9 @@ class NavID(BaseEnum):
     TERMS = 'Terms screen'
     TERMS_STUDY = 'Study terms'
 
+    # Foreign
+    FOREIGN = 'Foreign index screen'
+
     @property
     def name(self) -> str:
         """Get text representation of navigation route."""

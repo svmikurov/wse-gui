@@ -13,6 +13,7 @@ from wse.feature.services.di_module import FeatureServicesModule
 from wse.feature.source.wraps.di_module import SourceWrapsModule
 from wse.ui.containers.di_module import UIContainerModule
 from wse.ui.di_module import UIModule
+from wse.ui.foreign.di_module import ForeignModule
 from wse.ui.glossary.di_module import GlossaryModule
 from wse.ui.main.di_module import HomeModule
 from wse.ui.math.di_module import MathUIModule
@@ -38,6 +39,7 @@ def create_injector() -> Injector:
             HomeModule(),
             MathUIModule(),
             GlossaryModule(),
+            ForeignModule(),
             # domain/
             UseCaseModule(),
             # data/
