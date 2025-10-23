@@ -19,7 +19,7 @@ class RouteContentError(ContentError):
         routes_class: Type[Any],
     ) -> None:
         """Construct the exception."""
-        message = (
+        help_message = (
             f'\nRoute mapping for `{nav_id}` was not set.\n'
             f'Add mapping `NavID` with Abstract Base Class of View '
             f'to {routes_class}\n\n'
@@ -29,11 +29,11 @@ class RouteContentError(ContentError):
             f'            return {{\n'
             f'                ...\n'
             f'                NavID.TERMS: TermsViewABC,\n'
-            f'                --------------------------\n'
+            f'                +++++++++++++++++++++++++\n'
             f'            }}\n\n'
             f'Original error: {type(original_err).__name__}: {original_err}'
         )
-        super().__init__(message)
+        super().__init__(help_message)
 
 
 class PopulateContentError(ContentError):
