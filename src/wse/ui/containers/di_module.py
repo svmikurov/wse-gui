@@ -24,12 +24,12 @@ from .numpad import (
     NumPadModel,
     NumPadModelABC,
 )
-from .presentation import (
+from .presentation.legacy import (
     PresentationContainerABC,
     PresentationContainerStateABC,
 )
-from .presentation.container import PresentationContainer
-from .presentation.state import PresentationContainerState
+from .presentation.legacy.container import PresentationContainer
+from .presentation.legacy.state import PresentationContainerState
 from .task_panel import TextTaskContainerABC, TextTaskPanel
 from .top_bar import TopBarContainer, TopBarController
 from .top_bar.abc import TopBarContainerABC, TopBarControllerABC

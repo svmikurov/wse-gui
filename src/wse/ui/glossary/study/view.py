@@ -14,7 +14,7 @@ from wse.ui.containers.top_bar.abc import TopBarControllerABC
 from wse.utils.i18n import label_
 
 from ...base.navigate.mixin import NavigateViewMixin
-from ...containers.presentation import PresentationContainerABC
+from ...containers.presentation.legacy import PresentationContainerABC
 from . import TermsStudyViewABC, TermsStudyViewModelABC
 
 
