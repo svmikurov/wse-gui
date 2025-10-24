@@ -3,7 +3,7 @@
 import json
 import logging
 from pathlib import Path
-from typing import Generic, Type, TypeVar
+from typing import Any, Generic, Type, TypeVar
 
 from pydantic import BaseModel, ValidationError
 
@@ -64,3 +64,10 @@ def load_style_data(path: Path, style_scheme: Type[T]) -> T:
         raise
 
     return style_scheme.parse_obj(json_data)
+
+
+def load_fixture(path: Path) -> dict[str, Any]:
+    """Load json fixture."""
+    with path.open('r', encoding='utf-8') as file:
+        json_data: dict[str, Any] = json.load(file)
+    return json_data

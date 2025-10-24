@@ -1,0 +1,20 @@
+{
+    "data": [
+        {
+            "definition": "red",
+            "explanation": "красный"
+        },
+        {
+            "definition": "green",
+            "explanation": "зеленый"
+        },
+        {
+            "definition": "blue",
+            "explanation": "синий"
+        },
+        {
+            "definition": "white",
+            "explanation": "белый"
+        }
+    ]
+}
