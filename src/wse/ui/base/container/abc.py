@@ -25,6 +25,17 @@ class ContainerABC(ABC):
     def _populate_content(self) -> None: ...
 
 
+class ApplyStyleGenABC(ABC, Generic[StyleT, ThemeT]):
+    """ABC to apply style."""
+
+    _style: StyleT
+    _theme: ThemeT
+
+    @abstractmethod
+    def update_style(self, config: StyleT | ThemeT) -> None:
+        """Update widgets style."""
+
+
 # **DEPRECATED** use above
 
 

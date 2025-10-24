@@ -4,6 +4,7 @@ from typing import Any, Literal
 
 from wse.feature.api.schemas.base import BaseSchema
 from wse.feature.api.schemas.core import InitialData
+from wse.feature.api.schemas.foreign import WordStudySchema
 from wse.feature.api.schemas.task import Question, Result
 
 
@@ -47,3 +48,13 @@ class InitialDataResponse(BaseSchema):
 
     # Temporary balance
     data: InitialData
+
+
+# Foreign discipline
+# ------------------
+
+
+class WordStudyResponse(Response):
+    """Response with word."""
+
+    data: WordStudySchema

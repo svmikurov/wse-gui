@@ -3,8 +3,10 @@
 from abc import ABC
 from dataclasses import dataclass
 
+from wse.config.layout import StyleConfig, ThemeConfig
 from wse.feature.observer.abc import AccessorABC, AccessorNotifyChangeABC
-from wse.ui.base.container.abc import ContainerABC
+from wse.ui.base.container.abc import ApplyStyleGenABC, ContainerABC
+from wse.ui.base.content.abc import GetContentABC
 
 
 @dataclass
@@ -12,12 +14,22 @@ class LabelAccessorContainerABC(
     ContainerABC,
     AccessorABC,
     AccessorNotifyChangeABC,
+    GetContentABC,
+    ApplyStyleGenABC[StyleConfig, ThemeConfig],
     ABC,
 ):
     """ABC for label listener container via accessors."""
+
+    _style: StyleConfig
+    _theme: ThemeConfig
 
     def __post_init__(self) -> None:
         """Construct the accessor."""
         self._create_ui()
         self._populate_content()
         self._check_accessors()
+        self._apply_styles()
+
+    def _apply_styles(self) -> None:
+        self.update_style(self._style)
+        self.update_style(self._theme)

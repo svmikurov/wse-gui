@@ -22,6 +22,8 @@ from .assigned import (
     GetAssignedSolutionUseCase,
     SetAssignedExerciseUseCase,
 )
+from .foreign.abc import WordsStudyUseCaseABC
+from .foreign.presenter import WordsStudyUseCase
 from .glossary import (
     GetTermsUseCaseABC,
     SubscribeTermsUseCaseABC,
@@ -35,9 +37,7 @@ from .math_task import (
     GetCalculationQuestionUseCase,
     GetCalculationSolutionUseCase,
 )
-from .user import (
-    UserObserverRegistryUseCase,
-)
+from .user import UserObserverRegistryUseCase
 
 
 class UseCaseModule(Module):
@@ -89,3 +89,6 @@ class UseCaseModule(Module):
         binder.bind(SubscribeTermsUseCaseABC, to=SubscribeTermsUseCase)
         binder.bind(GetTermsUseCaseABC, to=GetTermsUseCase)
         binder.bind(TermPresentationUseCaseABC, to=TermPresentationUseCase)
+
+        # Foreign
+        binder.bind(WordsStudyUseCaseABC, to=WordsStudyUseCase)

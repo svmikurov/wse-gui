@@ -6,6 +6,7 @@ from typing import override
 import toga
 from injector import inject
 
+from wse.config.layout import StyleConfig, ThemeConfig
 from wse.ui.base.content.mixins import GetContentMixin
 
 from . import AccessorMixin, LabelAccessorContainerABC
@@ -20,7 +21,10 @@ class PresenterContainer(
 ):
     """Presenter container."""
 
-    _accessors: list[str] = ['definition', 'explanation']
+    def __post_init__(self) -> None:
+        """Construct the container."""
+        self._accessors: tuple[str, ...] = 'definition', 'explanation'
+        super().__post_init__()
 
     # Building the container
 
@@ -35,6 +39,12 @@ class PresenterContainer(
             self._definition,
             self._explanation,
         )
+
+    @override
+    def update_style(self, config: StyleConfig | ThemeConfig) -> None:
+        """Update widgets style."""
+        self._definition.style.update(**config.presenter.definition)
+        self._explanation.style.update(**config.presenter.explanation)
 
     # Lister methods
 

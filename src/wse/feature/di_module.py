@@ -6,6 +6,8 @@ from injector import Binder, Module
 
 from .observer.abc import SubjectABC
 from .observer.subject import Subject
+from .timer import TimerABC
+from .timer.time import Timer
 
 
 class FeatureSharedModule(Module):
@@ -15,3 +17,4 @@ class FeatureSharedModule(Module):
     def configure(self, binder: Binder) -> None:
         """Configure bindings."""
         binder.bind(SubjectABC, to=Subject)
+        binder.bind(TimerABC, to=Timer)

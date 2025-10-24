@@ -13,6 +13,7 @@ from wse.feature.audit import AuditMixin
 from wse.ui.base.iwidgets import NavigableButton
 from wse.ui.base.navigate.mixin import NavigateViewMixin
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
+from wse.ui.widgets.buttons import NavButton
 from wse.utils.i18n import I18N, label_
 
 from .abc import IndexForeignViewABC, IndexForeignViewModelABC
@@ -75,8 +76,11 @@ class IndexForeignView(
 
     # Callback methods
 
+    def _create_nav_btn(self, nav_id: NavID) -> NavigableButton:
+        """Create navigation button."""
+        return NavButton(nav_id=nav_id, on_press=self._handle_navigate)
+
     # TODO: Move `_handle_navigate` to mixin?
-    @override
     def _handle_navigate(self, button: NavigableButton) -> None:
         """Handle navigation button press."""
         self._state.navigate(button.nav_id)

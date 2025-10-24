@@ -6,7 +6,7 @@ import toga
 class AccessorMixin:
     """Listener via accessors."""
 
-    _accessors: list[str]
+    _accessors: tuple[str, ...]
 
     def _check_accessors(self) -> None:
         """Check that UI attr name corresponding to accessor."""

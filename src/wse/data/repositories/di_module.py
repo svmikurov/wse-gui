@@ -8,6 +8,8 @@ from .abc import AssignedTaskRepoABC, CalculationTaskRepoABC
 from .assigned_task import AssignedTaskRepo
 from .calculation_exercises import CalculationExerciseRepo
 from .calculation_task import CalculationTaskRepo
+from .foreign.abc import WordsStudyNetworkRepoABC
+from .foreign.word_study import WordsStudyNetworkRepo
 from .glossary import TermPresentationRepoABC, TermsRepoABC
 from .glossary.study import TermPresentationRepo
 from .glossary.term import TermsRepo
@@ -46,3 +48,6 @@ class RepoModule(Module):
         # Glossary
         binder.bind(TermsRepoABC, to=TermsRepo)
         binder.bind(TermPresentationRepoABC, to=TermPresentationRepo)
+
+        # Foreign
+        binder.bind(WordsStudyNetworkRepoABC, to=WordsStudyNetworkRepo)

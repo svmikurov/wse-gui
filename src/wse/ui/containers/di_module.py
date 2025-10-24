@@ -30,6 +30,8 @@ from .presentation.legacy import (
 )
 from .presentation.legacy.container import PresentationContainer
 from .presentation.legacy.state import PresentationContainerState
+from .presentation.presenter import LabelAccessorContainerABC
+from .presentation.presenter.container import PresenterContainer
 from .task_panel import TextTaskContainerABC, TextTaskPanel
 from .top_bar import TopBarContainer, TopBarController
 from .top_bar.abc import TopBarContainerABC, TopBarControllerABC
@@ -61,6 +63,8 @@ class UIContainerModule(Module):
             scope=SingletonScope,
         )
         binder.bind(PresentationContainerABC, to=PresentationContainer)
+        # Presenter
+        binder.bind(LabelAccessorContainerABC, to=PresenterContainer)
 
         # Text task psnel
         binder.bind(TextTaskContainerABC, to=TextTaskPanel)
