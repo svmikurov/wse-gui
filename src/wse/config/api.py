@@ -13,6 +13,12 @@ class ApiConfig(BaseModel):
     initial_data_path: str
     terms: str
     term_presentation: str
+    word_presentation: str
+
+    class Config:
+        """Model configuration."""
+
+        extra = 'forbid'
 
 
 class APIConfigV1(ApiConfig):

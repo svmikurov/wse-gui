@@ -9,5 +9,6 @@
   "assigned_exercises": "/api/v1/study/assigned/",
   "selected_exercise": "/api/v1/study/assigned/{assignation_id}/",
   "terms": "/api/v1/glossary/terms/",
-  "term_presentation": "/api/v1/glossary/study/presentation/"
+  "term_presentation": "/api/v1/glossary/study/presentation/",
+  "word_presentation": "/api/v1/lang/study/presentation/"
 }
