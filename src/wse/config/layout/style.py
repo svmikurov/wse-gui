@@ -36,10 +36,17 @@ class TextTaskStyle(BaseStyle):
 
 
 class TopBarStyle(BaseStyle):
-    """Theme config for Top Bar container."""
+    """Style config for Top Bar container."""
 
     button: dict[str, str | int] = {}
     label_balance: dict[str, str | int] = {}
+
+
+class PresenterStyle(BaseStyle):
+    """Style config for Presenter container."""
+
+    definition: dict[str, str | int] = {}
+    explanation: dict[str, str | int] = {}
 
 
 # TODO: Rename `label_title` to `title_sm`, `title_md`
@@ -66,8 +73,9 @@ class StyleConfig(BaseStyle):
     label_title: dict[str, str | int] = {}
     selection: dict[str, str | int] = {}
 
-    assigned: AssignedStyle = Field(default_factory=AssignedStyle)
+    top_bar: TopBarStyle = Field(default_factory=TopBarStyle)
     login: LoginStyle = Field(default_factory=LoginStyle)
     numpad: NumPadStyle = Field(default_factory=NumPadStyle)
+    assigned: AssignedStyle = Field(default_factory=AssignedStyle)
     text_task: TextTaskStyle = Field(default_factory=TextTaskStyle)
-    top_bar: TopBarStyle = Field(default_factory=TopBarStyle)
+    presenter: PresenterStyle = Field(default_factory=PresenterStyle)

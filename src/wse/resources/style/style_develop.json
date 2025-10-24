@@ -112,5 +112,21 @@
       "margin_bottom": 2,
       "margin_left": 5
     }
+  },
+  "presenter": {
+    "definition": {
+      "font_size": 15,
+      "text_align": "left",
+      "margin_left": 5,
+      "margin_top": 15,
+      "margin_bottom": 15
+    },
+    "explanation": {
+      "font_size": 15,
+      "text_align": "left",
+      "margin_left": 5,
+      "margin_top": 15,
+      "margin_bottom": 15
+    }
   }
 }

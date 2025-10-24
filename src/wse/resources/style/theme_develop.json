@@ -23,5 +23,13 @@
     "label": {
       "color": "red"
     }
+  },
+    "presenter": {
+    "definition": {
+      "color": "red"
+    },
+    "explanation": {
+      "color": "red"
+    }
   }
 }

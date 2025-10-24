@@ -41,7 +41,14 @@ class TopBarTheme(BaseTheme):
     """Theme config for Top Bar container."""
 
     button: dict[str, str] = {}
-    label_balance: dict[str, str | int] = {}
+    label_balance: dict[str, str] = {}
+
+
+class PresenterTheme(BaseTheme):
+    """Theme config for Presenter container."""
+
+    definition: dict[str, str] = {}
+    explanation: dict[str, str] = {}
 
 
 class ThemeConfig(BaseTheme):
@@ -68,8 +75,9 @@ class ThemeConfig(BaseTheme):
     label_title: dict[str, str] = {}
     selection: dict[str, str] = {}
 
-    assigned: AssignedTheme = Field(default_factory=AssignedTheme)
+    top_bar: TopBarTheme = Field(default_factory=TopBarTheme)
     login: LoginTheme = Field(default_factory=LoginTheme)
     numpad: NumPadTheme = Field(default_factory=NumPadTheme)
+    assigned: AssignedTheme = Field(default_factory=AssignedTheme)
     text_task: TextTaskTheme = Field(default_factory=TextTaskTheme)
-    top_bar: TopBarTheme = Field(default_factory=TopBarTheme)
+    presenter: PresenterTheme = Field(default_factory=PresenterTheme)
