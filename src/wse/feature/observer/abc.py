@@ -66,4 +66,4 @@ class AccessorNotifyChangeABC(ABC):
 
     @abstractmethod
     def change(self, accessor: str, value: str) -> None:
-        """Change ui content via accessor."""
+        """Change ui context via accessor."""
