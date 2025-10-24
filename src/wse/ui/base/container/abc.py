@@ -15,6 +15,19 @@ from .abc_style import UpdateStyleGenABC
 log = logging.getLogger(__name__)
 
 
+class ContainerABC(ABC):
+    """ABC for container."""
+
+    @abstractmethod
+    def _create_ui(self) -> None: ...
+
+    @abstractmethod
+    def _populate_content(self) -> None: ...
+
+
+# **DEPRECATED** use above
+
+
 @dataclass
 class CreateContentABC(
     GetContentMixin,
