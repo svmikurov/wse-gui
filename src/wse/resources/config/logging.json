@@ -12,7 +12,7 @@
             "datefmt": "%Y-%m-%d %H:%M:%S",
             "log_colors": {
                 "INFO": "cyan",
-                "DEBUG": "yellow"
+                "DEBUG": "light_black"
             }
         }
     },
