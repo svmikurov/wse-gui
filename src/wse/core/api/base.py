@@ -11,8 +11,8 @@ from pydantic import ValidationError
 from wse.feature.services import Answer
 
 from ..http import AuthSchemeProto, HttpClientProto
-from . import QuestionResponse, ResultResponse
 from .protocol import ExerciseT_contra
+from .response import QuestionResponse, ResultResponse
 
 logger = logging.getLogger(__name__)
 

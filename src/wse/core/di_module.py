@@ -10,9 +10,9 @@ from wse.core.auth import AuthServiceProto
 from wse.core.http.auth_schema import AuthScheme
 from wse.core.http.client import HttpClient
 
-from .api import AuthAPIjwtProto
 from .api.auth_jwt import AuthAPIjwt
 from .api.data import DataApi, DataApiABC
+from .api.protocol import AuthAPIjwtProto
 from .auth.service import AuthService
 from .http import AuthSchemeProto, HttpClientProto
 from .interfaces import Navigable

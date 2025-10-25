@@ -3,18 +3,18 @@
 import asyncio
 import logging
 from dataclasses import dataclass
-from typing import Any
 
 import toga
 from injector import inject
 
 from wse.core.navigation import NavID
-from wse.data.repositories.foreign.abc import WordsStudyNetworkRepoABC
+from wse.data.repositories.foreign.abc import WordStudyNetworkRepoABC
 from wse.domain.foreign.abc import (
     ExerciseAccessorT,
     UIStateNotifyT,
-    WordsStudyUseCaseABC,
+    WordStudyUseCaseABC,
 )
+from wse.feature.api.foreign.schemas import WordStudyPresentationSchema
 from wse.feature.observer.mixins import NotifyAccessorGen
 from wse.feature.timer.abc import TimerABC
 from wse.ui.content import Content
@@ -26,19 +26,19 @@ log = logging.getLogger(__name__)
 
 @inject
 @dataclass
-class WordsStudyUseCase(
-    WordsStudyUseCaseABC,
+class WordStudyUseCase(
+    WordStudyUseCaseABC,
     NotifyAccessorGen[UIStateNotifyT, ExerciseAccessorT],
 ):
     """Words study Use Case."""
 
-    _words_study_repo: WordsStudyNetworkRepoABC
+    _words_study_repo: WordStudyNetworkRepoABC
     _main_window: toga.MainWindow
     _timer: TimerABC
 
     def __post_init__(self) -> None:
         """Construct the case."""
-        self._study_data: dict[str, Any] | None = None
+        self._study_data: WordStudyPresentationSchema | None = None
 
     def _update_study_data(self) -> None:
         self._study_data = self._words_study_repo.get_data()
@@ -52,22 +52,20 @@ class WordsStudyUseCase(
 
     async def loop(self) -> None:
         """Loop exercise."""
-        if not self._study_data:
+        if not isinstance(self._study_data, WordStudyPresentationSchema):
             log.error('No words study data')
             return
 
         while self.is_enable_exercise:
             self._study_data = self._words_study_repo.get_data()
 
-            self._display_definition(self._study_data['definition'])
+            self._display_definition(self._study_data.definition)
             await self._timer.start(1)
 
-            self._display_explanation(self._study_data['explanation'])
+            self._display_explanation(self._study_data.explanation)
             await self._timer.start(1)
             self._display_definition(NO_TEXT)
             self._display_explanation(NO_TEXT)
-
-            print('End cycle')
 
     @property
     def is_enable_exercise(self) -> bool:

@@ -1,0 +1,1 @@
+"""Foreign discipline API schemas."""

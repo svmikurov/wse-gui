@@ -1,7 +1,7 @@
 """Foreign discipline repositories."""
 
 __all__ = [
-    'WordsStudyNetworkRepoABC',
+    'WordStudyNetworkRepoABC',
 ]
 
-from .abc import WordsStudyNetworkRepoABC
+from .abc import WordStudyNetworkRepoABC

@@ -26,7 +26,7 @@ class ExerciseNotifyABC(ABC):
 
 @inject
 @dataclass
-class WordsStudyUseCaseABC(
+class WordStudyUseCaseABC(
     ObserverManagerGen[ExerciseNotifyABC],
     ABC,
 ):

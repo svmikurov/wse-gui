@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 
-from wse.feature.api.glossary.schema import (
+from wse.feature.api.glossary.schemas import (
     TermPresentationParamsSchema,
     TermPresentationSchema,
     TermsData,

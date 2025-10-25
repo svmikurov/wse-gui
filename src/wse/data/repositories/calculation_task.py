@@ -7,7 +7,7 @@ from injector import inject
 from typing_extensions import override
 
 from wse.config.api import MathAPIConfigV1
-from wse.core.api import RelatedData
+from wse.core.api.response import RelatedData
 from wse.feature.api.math import Calculation
 from wse.feature.api.math.protocol import CalculationApiProto
 from wse.feature.api.math.schema import CalculationCondition, CalculationConfig

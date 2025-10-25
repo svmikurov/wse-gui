@@ -2,7 +2,8 @@
 
 from typing import TypeVar
 
-from wse.core.api import ExerciseApiProto, RelatedData
+from wse.core.api.protocol import ExerciseApiProto
+from wse.core.api.response import RelatedData
 from wse.feature.api.schemas.exercise import ExerciseMeta
 from wse.feature.api.schemas.task import Answer, Question, Result
 

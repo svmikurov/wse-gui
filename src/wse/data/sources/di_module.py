@@ -9,6 +9,8 @@ from . import (
     CalculationExerciseSource,
     TaskSource,
 )
+from .foreign.abc import WordStudyPresentationNetworkSourceABC
+from .foreign.study import WordStudyPresentationNetworkSource
 from .glossary import TermNetworkSourceABC, TermPresentationNetworkSourceABC
 from .glossary.study import TermPresentationNetworkSource
 from .glossary.term import TermNetworkSource
@@ -43,4 +45,10 @@ class SourceModule(Module):
             TermPresentationNetworkSourceABC,
             to=TermPresentationNetworkSource,
             scope=SingletonScope,
+        )
+
+        # Foreign
+        binder.bind(
+            WordStudyPresentationNetworkSourceABC,
+            to=WordStudyPresentationNetworkSource,
         )

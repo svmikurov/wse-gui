@@ -9,7 +9,6 @@ from injector import inject
 from wse.config.layout.style import StyleConfig
 from wse.config.layout.theme import ThemeConfig
 from wse.core.navigation import NavID
-from wse.feature.observer.abc import SubjectABC
 from wse.ui.base.navigate.mixin import NavigateViewMixin
 from wse.ui.containers.presentation.presenter import LabelAccessorContainerABC
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
@@ -25,7 +24,6 @@ class StudyForeignView(
 ):
     """Foreign words study View."""
 
-    _subject: SubjectABC
     _state: StudyForeignViewModelABC
     _top_bar: TopBarControllerABC
     _presenter: LabelAccessorContainerABC

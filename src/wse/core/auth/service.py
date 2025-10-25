@@ -6,7 +6,7 @@ import httpx
 from injector import inject
 from typing_extensions import override
 
-from wse.core.api import AuthAPIjwtProto
+from wse.core.api.protocol import AuthAPIjwtProto
 from wse.core.auth import AuthServiceProto
 from wse.core.exceptions import AuthError
 from wse.core.interfaces.istorage import JWTJsonStorageProto

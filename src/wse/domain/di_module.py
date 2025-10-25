@@ -22,8 +22,8 @@ from .assigned import (
     GetAssignedSolutionUseCase,
     SetAssignedExerciseUseCase,
 )
-from .foreign.abc import WordsStudyUseCaseABC
-from .foreign.presenter import WordsStudyUseCase
+from .foreign.abc import WordStudyUseCaseABC
+from .foreign.study import WordStudyUseCase
 from .glossary import (
     GetTermsUseCaseABC,
     SubscribeTermsUseCaseABC,
@@ -91,4 +91,4 @@ class UseCaseModule(Module):
         binder.bind(TermPresentationUseCaseABC, to=TermPresentationUseCase)
 
         # Foreign
-        binder.bind(WordsStudyUseCaseABC, to=WordsStudyUseCase)
+        binder.bind(WordStudyUseCaseABC, to=WordStudyUseCase)

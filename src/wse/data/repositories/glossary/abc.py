@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 
-from wse.feature.api.glossary.schema import TermSchema
+from wse.feature.api.glossary.schemas import TermSchema
 
 
 class TermsRepoABC(ABC):

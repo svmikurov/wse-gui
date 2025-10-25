@@ -2,11 +2,7 @@
 
 from datetime import datetime
 
-from wse.core.api.response import ItemsData, Response
-
-from ..schemas.base import BaseSchema
-
-# Schemas
+from ..schemas.base import BaseSchema, ItemsData
 
 
 class TermSchema(BaseSchema):
@@ -36,18 +32,3 @@ class TermPresentationSchema(BaseSchema):
 
     term: str
     definition: str
-
-
-# Response
-
-
-class TermsResponse(Response):
-    """Terms http response schema."""
-
-    data: TermsData
-
-
-class TermPresentationResponse(Response):
-    """Term Presentaion response schema."""
-
-    data: TermPresentationSchema

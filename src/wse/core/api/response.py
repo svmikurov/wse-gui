@@ -1,10 +1,10 @@
 """Response schema."""
 
-from typing import Any, Literal
+from typing import Literal
 
+from wse.feature.api.foreign.schemas import WordStudyPresentationSchema
 from wse.feature.api.schemas.base import BaseSchema
 from wse.feature.api.schemas.core import InitialData
-from wse.feature.api.schemas.foreign import WordStudySchema
 from wse.feature.api.schemas.task import Question, Result
 
 
@@ -20,15 +20,6 @@ class Response(BaseSchema):
     status: Literal['success', 'error']
     message: str | None
     related_data: RelatedData | None = None
-
-
-class ItemsData(BaseSchema):
-    """Response items data."""
-
-    count: int
-    next: str | None
-    previous: str | None
-    results: list[Any]
 
 
 class QuestionResponse(Response):
@@ -57,4 +48,4 @@ class InitialDataResponse(BaseSchema):
 class WordStudyResponse(Response):
     """Response with word."""
 
-    data: WordStudySchema
+    data: WordStudyPresentationSchema

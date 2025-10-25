@@ -9,7 +9,8 @@ from pydantic import ValidationError
 from wse.config.api import APIConfigV1
 from wse.core.http.auth_schema import AuthScheme
 from wse.feature.api.glossary.abc import TermApiABC
-from wse.feature.api.glossary.schema import TermsData, TermsResponse
+from wse.feature.api.glossary.responses import TermsResponse
+from wse.feature.api.glossary.schemas import TermsData
 
 logger = logging.getLogger(__name__)
 

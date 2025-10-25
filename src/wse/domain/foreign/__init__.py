@@ -3,7 +3,7 @@
 __all__ = [
     'ExerciseAccessorT',
     'ExerciseNotifyABC',
-    'WordsStudyUseCaseABC',
+    'WordStudyUseCaseABC',
     'UIStateNotifyT',
 ]
 
@@ -11,5 +11,5 @@ from .abc import (
     ExerciseAccessorT,
     ExerciseNotifyABC,
     UIStateNotifyT,
-    WordsStudyUseCaseABC,
+    WordStudyUseCaseABC,
 )

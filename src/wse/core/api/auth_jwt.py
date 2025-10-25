@@ -8,9 +8,10 @@ from injector import inject
 from typing_extensions import override
 
 from wse.config.api import APIConfigV1
-from wse.core.api import AuthAPIjwtProto
 from wse.core.exceptions import AuthError
 from wse.core.http import HttpClientProto
+
+from .protocol import AuthAPIjwtProto
 
 logger = logging.getLogger(__name__)
 

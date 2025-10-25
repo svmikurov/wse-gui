@@ -9,7 +9,7 @@ from injector import inject
 from wse.domain.foreign import (
     ExerciseAccessorT,
     ExerciseNotifyABC,
-    WordsStudyUseCaseABC,
+    WordStudyUseCaseABC,
 )
 from wse.feature.observer.abc import AccessorNotifyChangeABC
 from wse.feature.observer.mixins import NotifyAccessorGen, ObserverManagerGen
@@ -35,7 +35,7 @@ class StudyForeignViewModel(
 ):
     """Foreign words study ViewModel."""
 
-    _study_case: WordsStudyUseCaseABC
+    _study_case: WordStudyUseCaseABC
 
     def __post_init__(self) -> None:
         """Construct the ViewModel."""
