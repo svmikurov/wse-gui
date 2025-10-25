@@ -12,7 +12,8 @@ from wse.config.api import APIConfigV1
 from .base import HttpClientABC
 from .protocol import AuthSchemeProto
 
-logger = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
+audit = logging.getLogger('audit')
 
 
 class HttpClient(HttpClientABC):
@@ -85,11 +86,11 @@ class HttpClient(HttpClientABC):
             response.raise_for_status()
 
         except httpx.ConnectError as err:
-            logger.error('Error connecting to server %s', err.request.url)
+            log.error('Error connecting to server %s', err.request.url)
             raise
 
         except httpx.HTTPStatusError as err:
-            logger.error(f'HTTP error {err.response.status_code}')
+            log.error(f'HTTP error {err.response.status_code}')
             raise
 
         else:

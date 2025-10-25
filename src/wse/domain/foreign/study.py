@@ -22,6 +22,7 @@ from wse.ui.content import Content
 NO_TEXT = ''
 
 log = logging.getLogger(__name__)
+audit = logging.getLogger('audit')
 
 
 @inject
@@ -44,18 +45,15 @@ class WordStudyUseCase(
         self._study_data = self._words_study_repo.get_data()
 
     # Exercise management
+    # -------------------
 
     def start(self) -> None:
         """Start exercise."""
-        self._update_study_data()
+        log.debug("Started 'Word study presentation'")
         asyncio.create_task(self.loop())
 
     async def loop(self) -> None:
         """Loop exercise."""
-        if not isinstance(self._study_data, WordStudyPresentationSchema):
-            log.error('No words study data')
-            return
-
         while self.is_enable_exercise:
             self._study_data = self._words_study_repo.get_data()
 
@@ -82,6 +80,7 @@ class WordStudyUseCase(
         return False
 
     # UIState management
+    # ------------------
 
     def _display_definition(self, value: str) -> None:
         self.notify('exercise_updated', accessor='definition', value=value)

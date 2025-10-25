@@ -1,6 +1,8 @@
 """Abstract base classes for Foreign discipline API."""
 
 import logging
+from http import HTTPStatus
+from json.decoder import JSONDecodeError
 
 import httpx
 from injector import inject
@@ -16,6 +18,7 @@ from .schemas import (
 )
 
 log = logging.getLogger(__name__)
+audit = logging.getLogger('audit')
 
 
 class WordStudyPresentationApi(WordStudyPresentationApiABC):
@@ -50,24 +53,25 @@ class WordStudyPresentationApi(WordStudyPresentationApiABC):
             log.error('Request Word study presentation HTTP error:\n')
             raise
 
-        else:
-            if not hasattr(response, 'json'):
-                log.error(
-                    'Request Word study presentation error: '
-                    'response does not contain JSON data\n'
-                )
-                raise AttributeError
+        # TODO: Refactor no content case
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            raise LookupError
 
-            else:
-                try:
-                    return WordStudyPresentationResponse(
-                        **response.json()
-                    ).data
+        try:
+            audit.debug(f'Got response json data:\n{response.json()}')
+            return WordStudyPresentationResponse(**response.json()).data
 
-                except ValueError as err:
-                    log.error(
-                        f'Word study presentation response validate error:\n'
-                        f'{str(err)}\n'
-                        f'Got response JSON: {response.json()}'
-                    )
-                    raise
+        except JSONDecodeError:
+            log.error(
+                'Request Word study presentation error: '
+                'response does not contain JSON data\n'
+            )
+            raise
+
+        except ValueError as err:
+            log.error(
+                f'Word study presentation response validate error:\n'
+                f'{str(err)}\n'
+                f'Got response JSON: {response.json()}'
+            )
+            raise
