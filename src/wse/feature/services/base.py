@@ -2,10 +2,10 @@
 
 from typing import TypeVar
 
+from wse.api.schemas.exercise import ExerciseMeta
+from wse.api.schemas.task import Answer, Question, Result
 from wse.core.api.protocol import ExerciseApiProto
 from wse.core.api.response import RelatedData
-from wse.feature.api.schemas.exercise import ExerciseMeta
-from wse.feature.api.schemas.task import Answer, Question, Result
 
 from .abc import ExerciseServiceABC
 

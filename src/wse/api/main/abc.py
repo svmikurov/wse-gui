@@ -2,8 +2,8 @@
 
 from abc import ABC, abstractmethod
 
+from wse.api.schemas.exercise import Assigned, ExerciseInfo
 from wse.core.api.base import ExerciseApi
-from wse.feature.api.schemas.exercise import Assigned, ExerciseInfo
 
 
 class AssignationsApiABC(ABC):

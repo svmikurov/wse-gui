@@ -2,12 +2,12 @@
 
 from injector import Injector
 
+from wse.api.di_module import ApiModule
 from wse.config.di_module import ConfigModule
 from wse.core.di_module import CoreModule
 from wse.data.repositories.di_module import RepoModule
 from wse.data.sources.di_module import SourceModule
 from wse.domain.di_module import UseCaseModule
-from wse.feature.api.di_module import ApiModule
 from wse.feature.di_module import FeatureSharedModule
 from wse.feature.services.di_module import FeatureServicesModule
 from wse.feature.source.wraps.di_module import SourceWrapsModule

@@ -2,7 +2,7 @@
 
 from typing import Protocol, TypeVar
 
-from wse.feature.api.schemas.exercise import ExerciseMeta
+from wse.api.schemas.exercise import ExerciseMeta
 from wse.feature.services import Answer
 
 from .response import QuestionResponse, ResultResponse

@@ -4,15 +4,15 @@ import logging
 
 import httpx
 
-from wse.config.api import APIConfigV1
-from wse.core.http.auth_schema import AuthScheme
-from wse.feature.api.glossary.responses import (
+from wse.api.glossary.responses import (
     TermPresentationResponse,
 )
-from wse.feature.api.glossary.schemas import (
+from wse.api.glossary.schemas import (
     TermPresentationParamsSchema,
     TermPresentationSchema,
 )
+from wse.config.api import APIConfigV1
+from wse.core.http.auth_schema import AuthScheme
 
 from . import TermPresentationApiABC
 

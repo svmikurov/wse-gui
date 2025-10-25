@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 
-from wse.feature.api.foreign.schemas import WordStudyPresentationSchema
+from wse.api.foreign.schemas import WordStudyPresentationSchema
 
 
 class WordStudyNetworkRepoABC(ABC):

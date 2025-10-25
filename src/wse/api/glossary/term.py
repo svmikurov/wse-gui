@@ -6,11 +6,11 @@ import httpx
 from injector import inject
 from pydantic import ValidationError
 
+from wse.api.glossary.abc import TermApiABC
+from wse.api.glossary.responses import TermsResponse
+from wse.api.glossary.schemas import TermsData
 from wse.config.api import APIConfigV1
 from wse.core.http.auth_schema import AuthScheme
-from wse.feature.api.glossary.abc import TermApiABC
-from wse.feature.api.glossary.responses import TermsResponse
-from wse.feature.api.glossary.schemas import TermsData
 
 logger = logging.getLogger(__name__)
 

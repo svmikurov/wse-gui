@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 from injector import inject
 
-from wse.feature.api.glossary.schemas import TermSchema
+from wse.api.glossary.schemas import TermSchema
 
 from ...sources.glossary import TermNetworkSourceABC
 from . import TermsRepoABC

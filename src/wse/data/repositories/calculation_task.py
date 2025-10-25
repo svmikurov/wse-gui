@@ -6,12 +6,12 @@ from dataclasses import dataclass
 from injector import inject
 from typing_extensions import override
 
+from wse.api.math import Calculation
+from wse.api.math.protocol import CalculationApiProto
+from wse.api.math.schema import CalculationCondition, CalculationConfig
+from wse.api.schemas.task import Answer, Question, Result
 from wse.config.api import MathAPIConfigV1
 from wse.core.api.response import RelatedData
-from wse.feature.api.math import Calculation
-from wse.feature.api.math.protocol import CalculationApiProto
-from wse.feature.api.math.schema import CalculationCondition, CalculationConfig
-from wse.feature.api.schemas.task import Answer, Question, Result
 
 from ..sources import TaskSource
 from ..sources.task import TaskObserverT

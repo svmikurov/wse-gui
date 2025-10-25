@@ -11,7 +11,7 @@ __all__ = [
     'CalculationServiceProto',
 ]
 
-from wse.feature.api.schemas.task import (
+from wse.api.schemas.task import (
     Answer,
     Result,
     Question,

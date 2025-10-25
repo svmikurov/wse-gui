@@ -1,8 +1,8 @@
 """Glossary Term Presentation source."""
 
+from wse.api.glossary import TermPresentationApiABC
+from wse.api.glossary.schemas import TermPresentationSchema
 from wse.data.sources.base.source import AccessorSourceGen
-from wse.feature.api.glossary import TermPresentationApiABC
-from wse.feature.api.glossary.schemas import TermPresentationSchema
 
 from . import (
     PresentationAccessorT,

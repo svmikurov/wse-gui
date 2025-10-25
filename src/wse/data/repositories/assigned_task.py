@@ -6,10 +6,10 @@ from dataclasses import dataclass
 from injector import inject
 from typing_extensions import override
 
+from wse.api.main.abc import AssignedApiClientABC
+from wse.api.schemas.exercise import Assigned
+from wse.api.schemas.task import Answer, Question, Result
 from wse.core.api.response import RelatedData
-from wse.feature.api.main.abc import AssignedApiClientABC
-from wse.feature.api.schemas.exercise import Assigned
-from wse.feature.api.schemas.task import Answer, Question, Result
 
 from ..sources import TaskSource
 from ..sources.assigned import AssignedExerciseSource

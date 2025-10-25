@@ -7,7 +7,7 @@ from typing import Literal, TypedDict
 
 from injector import inject
 
-from wse.feature.api.glossary.abc import TermApiABC
+from wse.api.glossary.abc import TermApiABC
 
 from ...entities.term import Term, Terms
 from ..base.source import SourceGen

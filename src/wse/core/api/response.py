@@ -2,10 +2,10 @@
 
 from typing import Literal
 
-from wse.feature.api.foreign.schemas import WordStudyPresentationSchema
-from wse.feature.api.schemas.base import BaseSchema
-from wse.feature.api.schemas.core import InitialData
-from wse.feature.api.schemas.task import Question, Result
+from wse.api.foreign.schemas import WordStudyPresentationSchema
+from wse.api.schemas.base import BaseSchema
+from wse.api.schemas.core import InitialData
+from wse.api.schemas.task import Question, Result
 
 
 class RelatedData(BaseSchema):

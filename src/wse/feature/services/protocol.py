@@ -2,10 +2,10 @@
 
 from typing import Protocol, TypeVar
 
+from wse.api.math import Calculation
+from wse.api.schemas.exercise import Assigned
+from wse.api.schemas.task import Answer, Question, Result
 from wse.core.api.response import RelatedData
-from wse.feature.api.math import Calculation
-from wse.feature.api.schemas.exercise import Assigned
-from wse.feature.api.schemas.task import Answer, Question, Result
 
 ExerciseT = TypeVar('ExerciseT', contravariant=True)
 

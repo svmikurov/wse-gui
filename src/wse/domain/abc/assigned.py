@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 
 from injector import inject
 
+from wse.api.schemas.exercise import Assigned
 from wse.data.repositories.abc import AssignedTaskRepoABC
 from wse.data.sources.assigned import AssignedSourceObserverABC
 from wse.domain.abc import SubscribeUseCaseABC
@@ -12,7 +13,6 @@ from wse.domain.abc.task import (
     GetQuestionUseCaseABC,
     GetSolutionUseCaseABC,
 )
-from wse.feature.api.schemas.exercise import Assigned
 
 
 class SubscribeAssignedUseCaseABC(

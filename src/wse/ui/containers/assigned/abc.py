@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 
-from wse.feature.api.schemas.exercise import ExerciseInfo
+from wse.api.schemas.exercise import ExerciseInfo
 from wse.ui.base.content.abc import GetContentABC
 
 

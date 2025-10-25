@@ -1,6 +1,6 @@
 """Defines Math app schema."""
 
-from wse.feature.api.schemas.exercise import ExerciseMeta
+from wse.api.schemas.exercise import ExerciseMeta
 
 from ..schemas.base import BaseSchema
 

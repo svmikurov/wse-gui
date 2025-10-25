@@ -3,8 +3,8 @@
 from abc import ABC, abstractmethod
 from typing import Literal
 
+from wse.api.schemas.exercise import ExerciseInfo
 from wse.core.navigation.nav_id import NavID
-from wse.feature.api.schemas.exercise import ExerciseInfo
 from wse.feature.observer.mixins import SubjectGen
 from wse.ui.base.navigate import NavigateABC, OnCloseABC
 from wse.ui.base.view.abc import ViewABC

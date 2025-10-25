@@ -4,8 +4,8 @@ from dataclasses import dataclass
 
 from injector import inject
 
+from wse.api.foreign.schemas import WordStudyPresentationSchema
 from wse.data.sources.foreign.abc import WordStudyPresentationNetworkSourceABC
-from wse.feature.api.foreign.schemas import WordStudyPresentationSchema
 
 from . import WordStudyNetworkRepoABC
 

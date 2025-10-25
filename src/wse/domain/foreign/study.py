@@ -7,6 +7,7 @@ from dataclasses import dataclass
 import toga
 from injector import inject
 
+from wse.api.foreign.schemas import WordStudyPresentationSchema
 from wse.core.navigation import NavID
 from wse.data.repositories.foreign.abc import WordStudyNetworkRepoABC
 from wse.domain.foreign.abc import (
@@ -14,7 +15,6 @@ from wse.domain.foreign.abc import (
     UIStateNotifyT,
     WordStudyUseCaseABC,
 )
-from wse.feature.api.foreign.schemas import WordStudyPresentationSchema
 from wse.feature.observer.mixins import NotifyAccessorGen
 from wse.feature.timer.abc import TimerABC
 from wse.ui.content import Content

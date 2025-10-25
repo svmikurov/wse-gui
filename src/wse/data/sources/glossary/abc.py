@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Literal
 
-from wse.feature.api.glossary.schemas import (
+from wse.api.glossary.schemas import (
     TermPresentationSchema,
     TermSchema,
 )
