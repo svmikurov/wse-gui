@@ -7,23 +7,62 @@ msgstr ""
 "Project-Id-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
-msgid "Move to previous page"
+# Utility ID
+# ----------
+
+msgid "Move to previous screen"
 msgstr "Назад"
 
-msgid "Home page"
+# Main
+# ----
+
+msgid "Home screen"
 msgstr "Главная страница"
 
-msgid "Login page"
-msgstr "Авторизоваться"
+msgid "Assigned exercises screen"
+msgstr "Назначенные задания"
 
-msgid "Assigned exercises page"
-msgstr "Заданные упражнения"
-
-msgid "Exercise completion page"
+msgid "Exercise completion screen"
 msgstr "Выполнение заданий"
 
-msgid "Main math page"
+# Auth
+# ----
+
+msgid "Login screen"
+msgstr "Авторизоваться"
+
+msgid "Logout"
+msgstr "Выйти из учетной записи"
+
+msgid "Account screen"
+msgstr "Аккаунт"
+
+# Math
+# ----
+
+msgid "Main math screen"
 msgstr "Математика"
 
-msgid "Simple math calculation page"
-msgstr "Простые вычисления"
+msgid "Calculation screen"
+msgstr "Вычисления"
+
+# Glossary
+# --------
+
+msgid "Glossary index screen"
+msgstr "Глоссарий"
+
+msgid "Terms screen"
+msgstr "Термины"
+
+msgid "Study terms"
+msgstr "Изучение терминов"
+
+# Foreign
+# -------
+
+msgid "Foreign index screen"
+msgstr "Иностранный язык"
+
+msgid "Foreign words study screen"
+msgstr "Изучение иностранных слов"

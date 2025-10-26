@@ -1,4 +1,4 @@
-"""Defines navigation page route enums."""
+"""Defines navigation screen route enums."""
 
 from wse.core.base.enums import BaseEnum
 
@@ -7,21 +7,21 @@ class NavID(BaseEnum):
     """Navigation route enums."""
 
     # Utility ID
-    BACK = 'Move to previous page'
-
-    # Auth
-    LOGIN = 'Login page'
-    LOGOUT = 'Logout page'
-    ACCOUNT = 'Account screen'
+    BACK = 'Move to previous screen'
 
     # Main
-    HOME = 'Home page'
-    ASSIGNED = 'Assigned exercises page'
-    EXERCISE = 'Exercise completion page'
+    HOME = 'Home screen'
+    ASSIGNED = 'Assigned exercises screen'
+    EXERCISE = 'Exercise completion screen'
+
+    # Auth
+    LOGIN = 'Login screen'
+    LOGOUT = 'Logout'
+    ACCOUNT = 'Account screen'
 
     # Math
-    MATH = 'Main math page'
-    CALCULATION = 'Calculation'
+    MATH = 'Main math screen'
+    CALCULATION = 'Calculation screen'
 
     # Glossary
     GLOSSARY = 'Glossary index screen'
