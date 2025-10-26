@@ -49,8 +49,12 @@ class WordStudyPresentationApi(WordStudyPresentationApiABC):
             )
             response.raise_for_status()
 
+        except httpx.ConnectError:
+            log.error('Server connect error')
+            raise
+
         except httpx.HTTPError:
-            log.error('Request Word study presentation HTTP error:\n')
+            log.error('Request Word study presentation HTTP error')
             raise
 
         # TODO: Refactor no content case
