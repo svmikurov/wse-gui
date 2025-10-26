@@ -5,6 +5,7 @@ from abc import ABC, abstractmethod
 from wse.core.navigation import NavID
 from wse.ui.base.iwidgets import NavigableButton
 from wse.ui.widgets.buttons import NavButton
+from wse.utils.i18n import I18N
 
 
 class CreateNavButtonABC(ABC):
@@ -29,7 +30,11 @@ class CreateNavButtonABC(ABC):
 
     def _create_nav_btn(self, nav_id: NavID) -> NavigableButton:
         """Create navigation button."""
-        return NavButton(nav_id=nav_id, on_press=self._handle_navigate)
+        return NavButton(
+            text=I18N.NAV(nav_id),
+            nav_id=nav_id,
+            on_press=self._handle_navigate,
+        )
 
     @abstractmethod
     def _handle_navigate(self, button: NavigableButton) -> None:

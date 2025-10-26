@@ -64,5 +64,8 @@ msgstr "Изучение терминов"
 msgid "Foreign index screen"
 msgstr "Иностранный язык"
 
-msgid "Foreign words study screen"
+msgid "Word study screen"
 msgstr "Изучение иностранных слов"
+
+msgid "Word study params screen"
+msgstr "Параметры изучения слов"

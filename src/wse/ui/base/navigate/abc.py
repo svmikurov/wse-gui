@@ -12,6 +12,7 @@ class NavigateABC(ABC):
     def navigate(self, nav_id: NavID) -> None:
         """Handle the navigate event."""
 
+
 # TODO: Move to .view module?
 class OnOpenABC(ABC):
     """ABC for open screen event."""

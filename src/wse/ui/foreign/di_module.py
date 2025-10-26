@@ -7,6 +7,9 @@ from injector import Binder, Module
 from .index import IndexForeignViewABC, IndexForeignViewModelABC
 from .index.state import IndexForeignViewModel
 from .index.view import IndexForeignView
+from .params import WordStudyParamsViewABC, WordStudyParamsViewModelABC
+from .params.state import WordStudyParamsViewModel
+from .params.view import WordStudyParamsView
 from .study import StudyForeignViewABC, StudyForeignViewModelABC
 from .study.state import StudyForeignViewModel
 from .study.view import StudyForeignView
@@ -22,6 +25,10 @@ class ForeignModule(Module):
         binder.bind(IndexForeignViewModelABC, to=IndexForeignViewModel)
         binder.bind(IndexForeignViewABC, to=IndexForeignView)
 
-        # Words study
+        # Word study
         binder.bind(StudyForeignViewModelABC, to=StudyForeignViewModel)
         binder.bind(StudyForeignViewABC, to=StudyForeignView)
+
+        # Word study params
+        binder.bind(WordStudyParamsViewModelABC, to=WordStudyParamsViewModel)
+        binder.bind(WordStudyParamsViewABC, to=WordStudyParamsView)

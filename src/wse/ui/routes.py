@@ -6,6 +6,7 @@ from wse.core.navigation.nav_id import NavID
 from wse.ui.base.content.abc import GetContentABC
 
 from .foreign.index import IndexForeignViewABC
+from .foreign.params import WordStudyParamsViewABC
 from .foreign.study import StudyForeignViewABC
 from .glossary.index import IndexGlossaryViewABC
 from .glossary.study import TermsStudyViewABC
@@ -41,5 +42,6 @@ class UIRoutes:
             NavID.TERMS_STUDY: TermsStudyViewABC,
             # Foreign
             NavID.FOREIGN: IndexForeignViewABC,
+            NavID.FOREIGN_PARAMS: WordStudyParamsViewABC,
             NavID.FOREIGN_STUDY: StudyForeignViewABC,
         }

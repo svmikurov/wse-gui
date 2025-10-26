@@ -46,12 +46,14 @@ class IndexForeignView(
             style=Pack(**self._style.label_title, **self._theme.label_title),  # type: ignore[arg-type]
         )
         self._btn_study = self._create_nav_btn(NavID.FOREIGN_STUDY)
+        self._btn_params = self._create_nav_btn(NavID.FOREIGN_PARAMS)
 
     @override
     def _populate_content(self) -> None:
         self._content.add(
             self._top_bar.content,
             self._title,
+            self._btn_params,
             self._btn_study,
         )
 
@@ -61,6 +63,7 @@ class IndexForeignView(
     def localize_ui(self) -> None:
         """Localize the UI text."""
         self._btn_study.text = I18N.NAV(NavID.FOREIGN_STUDY)
+        self._btn_params.text = I18N.NAV(NavID.FOREIGN_PARAMS)
 
     # Deprecated `update_style` method?
     # TODO: Remove `update_style` abstract method?
@@ -68,6 +71,7 @@ class IndexForeignView(
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
         self._btn_study.style.update(**config.btn_nav)
+        self._btn_params.style.update(**config.btn_nav)
 
     @override
     def on_close(self) -> None:

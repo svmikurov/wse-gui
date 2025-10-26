@@ -30,7 +30,8 @@ class NavID(BaseEnum):
 
     # Foreign
     FOREIGN = 'Foreign index screen'
-    FOREIGN_STUDY = 'Foreign words study screen'
+    FOREIGN_PARAMS = 'Word study params screen'
+    FOREIGN_STUDY = 'Word study screen'
 
     @property
     def name(self) -> str:
