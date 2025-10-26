@@ -7,9 +7,10 @@ import toga
 from injector import inject
 
 from wse.config.layout import StyleConfig, ThemeConfig
+from wse.feature.observer.accessor import AccessorMixin
 from wse.ui.base.content.mixins import GetContentMixin
 
-from . import AccessorMixin, LabelAccessorContainerABC
+from . import LabelAccessorContainerABC
 
 
 @inject

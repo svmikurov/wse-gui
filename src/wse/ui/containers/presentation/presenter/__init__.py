@@ -2,8 +2,6 @@
 
 __all__ = [
     'LabelAccessorContainerABC',
-    'AccessorMixin',
 ]
 
 from .abc import LabelAccessorContainerABC
-from .mixin import AccessorMixin
