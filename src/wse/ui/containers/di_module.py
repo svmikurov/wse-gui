@@ -24,6 +24,8 @@ from .numpad import (
     NumPadModel,
     NumPadModelABC,
 )
+from .params import ParamsContainerABC, ParamsContainerModelABC
+from .params.container import ParamsContainer, ParamsContainerModel
 from .presentation.legacy import (
     PresentationContainerABC,
     PresentationContainerStateABC,
@@ -72,3 +74,7 @@ class UIContainerModule(Module):
         # TopBar container
         binder.bind(TopBarContainerABC, to=TopBarContainer)
         binder.bind(TopBarControllerABC, to=TopBarController)
+
+        # Params container
+        binder.bind(ParamsContainerModelABC, to=ParamsContainerModel)
+        binder.bind(ParamsContainerABC, to=ParamsContainer)

@@ -13,6 +13,7 @@ from wse.core.navigation import NavID
 # TODO: Rename 'wse.ui.base.iwidgets'
 from wse.ui.base.iwidgets import NavigableButton
 from wse.ui.base.navigate.mixin import NavigateViewMixin
+from wse.ui.containers.params import ParamsContainerABC
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 from wse.utils.i18n import I18N
 
@@ -29,6 +30,7 @@ class WordStudyParamsView(
 
     _top_bar: TopBarControllerABC
     _state: WordStudyParamsViewModelABC
+    _params: ParamsContainerABC
 
     def __post_init__(self) -> None:
         """Construct the View."""
@@ -46,6 +48,7 @@ class WordStudyParamsView(
         self._content.add(
             self._top_bar.content,
             self._title,
+            self._params.content,
             self._btn_start,
         )
 
