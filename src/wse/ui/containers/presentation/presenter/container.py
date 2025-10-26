@@ -50,6 +50,6 @@ class PresenterContainer(
     # Lister methods
 
     @override
-    def change(self, accessor: str, value: str) -> None:
+    def change(self, accessor: str, value: object) -> None:
         """Change ui context via accessor."""
         self._get_ui(accessor).text = value

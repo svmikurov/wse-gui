@@ -16,7 +16,7 @@ class PresentationContainerStateListenerABC(ABC):
     """ABC for Presentation container state listener."""
 
     @abstractmethod
-    def change(self, accessor: AccessorT, value: str) -> None:
+    def change(self, accessor: AccessorT, value: object) -> None:
         """Change value by accessor."""
 
 

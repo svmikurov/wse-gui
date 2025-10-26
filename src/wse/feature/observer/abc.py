@@ -65,5 +65,5 @@ class AccessorNotifyChangeABC(ABC):
     """ABC for notifications via accessors."""
 
     @abstractmethod
-    def change(self, accessor: str, value: str) -> None:
+    def change(self, accessor: str, value: object) -> None:
         """Change ui context via accessor."""
