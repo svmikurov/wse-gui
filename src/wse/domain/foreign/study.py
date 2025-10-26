@@ -50,12 +50,19 @@ class WordStudyUseCase(
     def start(self) -> None:
         """Start exercise."""
         log.debug("Started 'Word study presentation'")
-        asyncio.create_task(self.loop())
+        try:
+            asyncio.create_task(self.loop())
+        except Exception:
+            log.error(f'The exercise has been break')
 
     async def loop(self) -> None:
         """Loop exercise."""
         while self.is_enable_exercise:
-            self._study_data = self._words_study_repo.get_data()
+            try:
+                self._study_data = self._words_study_repo.get_data()
+            except Exception:
+                log.error(f'Get word study error')
+                raise
 
             self._display_definition(self._study_data.definition)
             await self._timer.start(1)
