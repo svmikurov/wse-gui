@@ -3,6 +3,7 @@
 Add mixins to MVC components.
 """
 
+# TODO: Remove classes, add abstracts
 __all__ = [
     'TopBarContainer',
     'TopBarController',

@@ -42,6 +42,7 @@ class ViewABC(
     _style: StyleConfig
     _theme: ThemeConfig
 
+    # TODO: Make private
     @abstractmethod
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:

@@ -70,6 +70,7 @@ class StyleConfig(BaseStyle):
 
     btn_nav: dict[str, str | int] = {}
     button: dict[str, str | int] = {}
+    # TODO: Rename 'label_title' to 'title'
     label_title: dict[str, str | int] = {}
     selection: dict[str, str | int] = {}
 

@@ -6,6 +6,7 @@
 from abc import ABC, abstractmethod
 
 
+# TODO: Remove ABC
 class LocalizeABC(ABC):
     """ABC for UI localization."""
 
