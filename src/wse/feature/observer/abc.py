@@ -49,6 +49,14 @@ class SubjectABC(
 # ---------------------
 
 
+class AccessorNotifyABC(ABC):
+    """ABC for observer notification via accessor."""
+
+    @abstractmethod
+    def notify(self, notification: str, accessor: str, value: object) -> None:
+        """Notify all observers via accessor an event has occurred."""
+
+
 class AccessorABC(ABC):
     """ABC for listener via accessor."""
 
