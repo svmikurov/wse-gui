@@ -4,6 +4,10 @@ from abc import ABC
 from dataclasses import dataclass
 from typing import Any
 
+from wse.feature.observer.abc import (
+    AccessorABC,
+    AccessorNotifyChangeABC,
+)
 from wse.feature.observer.generic import (
     ObserverManagerGenABC,
 )
@@ -11,15 +15,11 @@ from wse.ui.base.container import ContainerABC
 from wse.ui.base.content import ContentABC, GetContentABC
 
 
-class ParamsContainerModelABC(
-    ObserverManagerGenABC[Any],
-    ABC,
-):
-    """ABC for Params container model."""
-
-
 @dataclass
 class ParamsContainerABC(
+    AccessorABC,
+    AccessorNotifyChangeABC,
+    ObserverManagerGenABC[Any],
     GetContentABC,
     ContainerABC,
     ABC,
@@ -27,10 +27,9 @@ class ParamsContainerABC(
     """ABC for Params container."""
 
     _content: ContentABC
-    _state: ParamsContainerModelABC
 
     def __post_init__(self) -> None:
         """Construct the container."""
-        self._state.add_observer(self)
         self._create_ui()
         self._populate_content()
+        self._check_accessors()
