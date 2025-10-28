@@ -51,6 +51,14 @@ class PresenterTheme(BaseTheme):
     explanation: dict[str, str] = {}
 
 
+class ParamsConfig(BaseTheme):
+    """Theme config for params container."""
+
+    label: dict[str, str] = {}
+    select: dict[str, str] = {}
+    number: dict[str, str] = {}
+
+
 class ThemeConfig(BaseTheme):
     """Application layout theme configuration.
 
@@ -74,6 +82,7 @@ class ThemeConfig(BaseTheme):
     button: dict[str, str] = {}
     label_title: dict[str, str] = {}
     selection: dict[str, str] = {}
+    number_input: dict[str, str] = {}
 
     top_bar: TopBarTheme = Field(default_factory=TopBarTheme)
     login: LoginTheme = Field(default_factory=LoginTheme)
@@ -81,3 +90,4 @@ class ThemeConfig(BaseTheme):
     assigned: AssignedTheme = Field(default_factory=AssignedTheme)
     text_task: TextTaskTheme = Field(default_factory=TextTaskTheme)
     presenter: PresenterTheme = Field(default_factory=PresenterTheme)
+    params: ParamsConfig = Field(default_factory=ParamsConfig)

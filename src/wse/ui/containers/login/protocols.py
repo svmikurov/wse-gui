@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.observer.abc import ObserverManagerABC
+from wse.feature.observer import ObserverManagerABC
 from wse.ui.base.container.abc import ContainerGenABC
 from wse.ui.base.content.abc import GetContentABC
 

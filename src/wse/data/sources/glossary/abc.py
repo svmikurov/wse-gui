@@ -7,7 +7,7 @@ from wse.api.glossary.schemas import (
     TermPresentationSchema,
     TermSchema,
 )
-from wse.feature.observer.generic import UpdateObserverABC
+from wse.feature.observer import UpdateObserverABC
 
 from ..base import AccessorSourceABC
 
@@ -22,7 +22,7 @@ class TermPresentationListenerABC(
     """ABC for Term Presentation listener."""
 
     @abstractmethod
-    def update(self, accessor: PresentationAccessorT, value: str) -> None:
+    def update(self, accessor: PresentationAccessorT, value: object) -> None:
         """Change value by accessor."""
 
 

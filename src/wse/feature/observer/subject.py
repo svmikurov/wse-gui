@@ -2,7 +2,7 @@
 
 import logging
 
-from wse.feature.observer.abc import SubjectABC
+from wse.feature.observer import SubjectABC
 
 log = logging.getLogger(__name__)
 

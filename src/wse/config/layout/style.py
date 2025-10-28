@@ -49,6 +49,14 @@ class PresenterStyle(BaseStyle):
     explanation: dict[str, str | int] = {}
 
 
+class ParamsStyle(BaseStyle):
+    """Style config for params container."""
+
+    label: dict[str, str | int] = {}
+    select: dict[str, str | int] = {}
+    number: dict[str, str | int] = {}
+
+
 # TODO: Rename `label_title` to `title_sm`, `title_md`
 class StyleConfig(BaseStyle):
     """Application layout style configuration.
@@ -73,6 +81,7 @@ class StyleConfig(BaseStyle):
     # TODO: Rename 'label_title' to 'title'
     label_title: dict[str, str | int] = {}
     selection: dict[str, str | int] = {}
+    number_input: dict[str, str | int] = {}
 
     top_bar: TopBarStyle = Field(default_factory=TopBarStyle)
     login: LoginStyle = Field(default_factory=LoginStyle)
@@ -80,3 +89,4 @@ class StyleConfig(BaseStyle):
     assigned: AssignedStyle = Field(default_factory=AssignedStyle)
     text_task: TextTaskStyle = Field(default_factory=TextTaskStyle)
     presenter: PresenterStyle = Field(default_factory=PresenterStyle)
+    params: ParamsStyle = Field(default_factory=ParamsStyle)

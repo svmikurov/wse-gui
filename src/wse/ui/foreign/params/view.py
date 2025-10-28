@@ -12,9 +12,9 @@ from wse.core.navigation import NavID
 # TODO: Rename 'wse.ui.base.iwidgets'
 from wse.ui.base.iwidgets import NavigableButton
 from wse.ui.base.navigate.mixin import NavigateViewMixin
-from wse.ui.containers.params import ParamsContainerABC
-from wse.ui.containers.params.entity import CATEGORIES, MARKS
+from wse.ui.containers.params import ParamsAccessorEnum, ParamsContainerABC
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
+from wse.ui.widgets.buttons import NavButton
 from wse.utils.i18n import I18N
 
 from . import WordStudyParamsViewABC, WordStudyParamsViewModelABC
@@ -36,13 +36,17 @@ class WordStudyParamsView(
         """Construct the View."""
         self._state.add_observer(self)
         self._top_bar.add_observer(self)
-        self._params.add_observer(self)
+        self._params.add_observer(self._state)
         super().__post_init__()
 
     @override
     def _create_ui(self) -> None:
         self._title = toga.Label(I18N.NAV(NavID.FOREIGN_PARAMS))
-        self._btn_start = self._create_nav_btn(NavID.FOREIGN_STUDY)
+        self._btn_start = NavButton(
+            text=I18N.NAV(NavID.FOREIGN_STUDY),
+            nav_id=NavID.FOREIGN_STUDY,
+            on_press=self._start_exercise,
+        )
 
     @override
     def _populate_content(self) -> None:
@@ -64,19 +68,31 @@ class WordStudyParamsView(
     def localize_ui(self) -> None:
         """Localize widgets."""
 
+    @override
     def on_open(self) -> None:
         """Call methods on screen open."""
-        self._params.change('mark_select', MARKS)
-        self._params.change('category_select', CATEGORIES)
+        self._state.on_open()
 
     @override
     def on_close(self) -> None:
         """Call methods before close the screen."""
-        self._state.remove_observer(self)
         self._top_bar.remove_observer(self)
-        self._params.remove_observer(self)
+        self._params.remove_observer(self._state)
+        self._state.remove_observer(self)
+        self._state.on_close()
 
     # TODO: Move `_handle_navigate` to mixin?
     def _handle_navigate(self, button: NavigableButton) -> None:
-        """Handle navigation button press."""
+        """Handle navigation button press, top bar handler."""
         self._state.navigate(button.nav_id)
+
+    def _start_exercise(self, button: toga.Button) -> None:
+        """Start exercise."""
+        self._state.start_exercise()
+
+    # Notifications
+    # -------------
+
+    def update(self, accessor: ParamsAccessorEnum, value: object) -> None:
+        """Update widget context."""
+        self._params.update(accessor=accessor, value=value)

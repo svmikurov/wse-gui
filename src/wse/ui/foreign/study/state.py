@@ -2,7 +2,7 @@
 
 import logging
 from dataclasses import dataclass
-from typing import Literal, override
+from typing import Any, Literal, override
 
 from injector import inject
 
@@ -11,8 +11,9 @@ from wse.domain.foreign import (
     ExerciseNotifyABC,
     WordStudyUseCaseABC,
 )
-from wse.feature.observer.abc import AccessorNotifyChangeABC
-from wse.feature.observer.mixins import NotifyAccessorGen, ObserverManagerGen
+from wse.feature.observer import UpdateObserverABC
+from wse.feature.observer.accessor import NotifyAccessorGen
+from wse.feature.observer.mixins import ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateStateMixin
 
 from . import StudyForeignViewModelABC
@@ -28,7 +29,7 @@ NO_TEXT = ''
 @dataclass
 class StudyForeignViewModel(
     NavigateStateMixin,
-    ObserverManagerGen[AccessorNotifyChangeABC],
+    ObserverManagerGen[UpdateObserverABC[Any]],
     NotifyAccessorGen[_PresenterNotifyT, ExerciseAccessorT],
     ExerciseNotifyABC,
     StudyForeignViewModelABC,

@@ -6,7 +6,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from wse.feature.observer.abc import SubjectABC
+from wse.feature.observer import SubjectABC
 from wse.ui.containers.numpad import NumPadModel
 
 MAX_CHAR_COUNT = 8

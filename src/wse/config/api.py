@@ -14,6 +14,7 @@ class ApiConfig(BaseModel):
     terms: str
     term_presentation: str
     word_presentation: str
+    word_params: str
 
     class Config:
         """Model configuration."""

@@ -3,10 +3,8 @@
 from abc import ABC, abstractmethod
 from typing import Literal, Union
 
-from wse.feature.observer.generic import (
-    SubjectAccessorGenABC,
-    UpdateObserverABC,
-)
+from wse.feature.observer import UpdateObserverABC
+from wse.feature.observer.accessor import SubjectAccessorGenABC
 from wse.ui.base.content.abc import GetContentABC
 from wse.ui.base.navigate import NavigateABC
 from wse.ui.base.view.abc import ViewABC

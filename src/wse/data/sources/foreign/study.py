@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from injector import inject
 
 from wse.api.foreign.abc import WordStudyPresentationApiABC
-from wse.api.foreign.schemas import (
+from wse.data.sources.foreign.schemas import (
     WordStudyPresentationParamsSchema,
     WordStudyPresentationSchema,
 )

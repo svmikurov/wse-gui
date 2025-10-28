@@ -2,7 +2,8 @@
 
 from abc import ABC, abstractmethod
 
-from .schemas import (
+from ...data.sources.foreign.schemas import (
+    WordParamsSchema,
     WordStudyPresentationParamsSchema,
     WordStudyPresentationSchema,
 )
@@ -17,3 +18,13 @@ class WordStudyPresentationApiABC(ABC):
         payload: WordStudyPresentationParamsSchema,
     ) -> WordStudyPresentationSchema:
         """Fetch presentation."""
+
+
+class WordParamsApiABC(ABC):
+    """ABC for Word study params API."""
+
+    @abstractmethod
+    def fetch_initial_params(
+        self,
+    ) -> WordParamsSchema:
+        """Fetch Word study params."""

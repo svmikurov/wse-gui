@@ -13,7 +13,7 @@ from pathlib import Path
 project = 'WSE GUI'
 copyright = '2025, Sergey Mikurov'
 author = 'Sergey Mikurov'
-release = '0.4.0'
+release = '0.5.0'
 
 SRC_PATH = Path(__file__).parents[2] / 'src'
 sys.path.insert(0, SRC_PATH.resolve().as_posix())

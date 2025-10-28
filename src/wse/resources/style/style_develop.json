@@ -30,6 +30,14 @@
     "margin_bottom": 2,
     "margin_left": 5
   },
+  "number_input": {
+    "font_size": 15,
+    "height": 60,
+    "margin_top": 2,
+    "margin_right": 5,
+    "margin_bottom": 2,
+    "margin_left": 5
+  },
   "text_task": {
     "label_question": {
       "font_size": 40,
@@ -127,6 +135,22 @@
       "margin_left": 5,
       "margin_top": 15,
       "margin_bottom": 15
+    }
+  },
+  "params": {
+    "label": {
+      "font_size": 15,
+      "flex": 1
+    },
+    "select": {
+      "font_size": 13,
+      "height": 50,
+      "flex": 1
+},
+    "number": {
+      "font_size": 15,
+      "height": 50,
+      "flex": 1
     }
   }
 }

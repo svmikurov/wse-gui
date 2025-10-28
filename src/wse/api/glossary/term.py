@@ -10,7 +10,7 @@ from wse.api.glossary.abc import TermApiABC
 from wse.api.glossary.responses import TermsResponse
 from wse.api.glossary.schemas import TermsData
 from wse.config.api import APIConfigV1
-from wse.core.http.auth_schema import AuthScheme
+from wse.core.http.auth_schema import AuthSchema
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +22,7 @@ class TermApi(TermApiABC):
     def __init__(
         self,
         http_client: httpx.Client,
-        auth_scheme: AuthScheme,
+        auth_scheme: AuthSchema,
         api_config: APIConfigV1,
     ) -> None:
         """Construct the client."""

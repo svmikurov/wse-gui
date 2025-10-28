@@ -5,7 +5,8 @@ from typing import no_type_check
 from injector import Binder, Module
 from typing_extensions import override
 
-from .foreign.abc import WordStudyPresentationApiABC
+from .foreign.abc import WordParamsApiABC, WordStudyPresentationApiABC
+from .foreign.params import WordParamsApi
 from .foreign.study import WordStudyPresentationApi
 from .glossary.abc import TermApiABC
 from .glossary.term import TermApi
@@ -35,3 +36,4 @@ class ApiModule(Module):
 
         # Foreign
         binder.bind(WordStudyPresentationApiABC, to=WordStudyPresentationApi)
+        binder.bind(WordParamsApiABC, to=WordParamsApi)

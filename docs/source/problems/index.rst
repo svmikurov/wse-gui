@@ -19,3 +19,18 @@ Troubleshooting: Add ``super().__post_init__()``
            ...
            super().__post_init__()
            ...
+
+No functionality
+----------------
+
+Problem: Method of class not calls
+
+Possible reason: Class not decorated with ``@inject`` and / or with ``@dataclass``
+
+Troubleshooting: Decorate class with ``@inject`` and / or with ``@dataclass``
+
+.. code-block:: python
+
+   @inject
+   @dataclass
+   class Some: ...

@@ -1,10 +1,14 @@
 """Term study Use Case."""
 
+import logging
+
 from injector import inject
 
 from wse.data.sources.glossary import TermPresentationNetworkSourceABC
 
 from . import TermPresentationRepoABC
+
+audit = logging.getLogger('audit')
 
 
 class TermPresentationRepo(TermPresentationRepoABC):
@@ -20,4 +24,4 @@ class TermPresentationRepo(TermPresentationRepoABC):
 
     def get_presentation(self) -> None:
         """Get presentation."""
-        print('Called `get_presentation()` of `TermPresentationRepo`')
+        audit.warning('Called `get_presentation()` of `TermPresentationRepo`')

@@ -2,7 +2,7 @@
 
 from typing import Generic, TypeVar, no_type_check
 
-from wse.feature.observer.abc import SubjectABC
+from wse.feature.observer import SubjectABC
 
 from .itop_bar import (
     TopBarViewMixinABC,

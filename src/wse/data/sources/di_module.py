@@ -9,6 +9,7 @@ from . import (
     CalculationExerciseSource,
     TaskSource,
 )
+from .foreign import params
 from .foreign.abc import WordStudyPresentationNetworkSourceABC
 from .foreign.study import WordStudyPresentationNetworkSource
 from .glossary import TermNetworkSourceABC, TermPresentationNetworkSourceABC
@@ -51,4 +52,19 @@ class SourceModule(Module):
         binder.bind(
             WordStudyPresentationNetworkSourceABC,
             to=WordStudyPresentationNetworkSource,
+            scope=SingletonScope,
+        )
+        # Foreign: Word study params
+        binder.bind(
+            params.WordParamsData,
+            scope=SingletonScope,
+        )
+        binder.bind(
+            params.WordParamsLocaleSourceABC,
+            to=params.WordParamsLocaleSource,
+            scope=SingletonScope,
+        )
+        binder.bind(
+            params.WordParamsNetworkSourceABC,
+            to=params.WordParamsNetworkSource,
         )

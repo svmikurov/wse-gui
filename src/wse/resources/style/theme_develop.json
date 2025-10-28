@@ -17,6 +17,8 @@
   },
   "login": {
   },
+  "number_input": {
+  },
   "top_bar": {
   },
   "assigned": {
@@ -30,6 +32,14 @@
     },
     "explanation": {
       "color": "red"
+    }
+  },
+  "params": {
+    "select": {
+    },
+    "label": {
+    },
+    "number":{
     }
   }
 }

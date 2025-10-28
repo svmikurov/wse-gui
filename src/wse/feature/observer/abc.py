@@ -1,9 +1,11 @@
 """Abstract Base Classes protocols for Observer pattern components."""
 
 from abc import ABC, abstractmethod
-from typing import override
+from typing import Generic, override
 
 import toga
+
+from wse.types import AccessorT, NotifyT
 
 from .generic import NotifyGenABC, ObserverManagerGenABC
 
@@ -49,12 +51,17 @@ class SubjectABC(
 # ---------------------
 
 
-class AccessorNotifyABC(ABC):
+class AccessorNotifyGenABC(ABC, Generic[NotifyT, AccessorT]):
     """ABC for observer notification via accessor."""
 
     @abstractmethod
-    def notify(self, notification: str, accessor: str, value: object) -> None:
-        """Notify all observers via accessor an event has occurred."""
+    def notify(
+        self,
+        notification: NotifyT,
+        accessor: AccessorT,
+        **kwargs: object,
+    ) -> None:
+        """Notify all observers an event has occurred."""
 
 
 class AccessorABC(ABC):
@@ -69,9 +76,10 @@ class AccessorABC(ABC):
         """Get UI via accessor."""
 
 
-class AccessorNotifyChangeABC(ABC):
-    """ABC for notifications via accessors."""
+# TODO: Add methods: `add`, `insert`, `remove`, `clear`
+class UpdateObserverABC(ABC, Generic[AccessorT]):
+    """ABC for 'update' observer accessor event."""
 
     @abstractmethod
-    def change(self, accessor: str, value: object) -> None:
-        """Change ui context via accessor."""
+    def update(self, accessor: AccessorT, value: object) -> None:
+        """Update observer accessor."""

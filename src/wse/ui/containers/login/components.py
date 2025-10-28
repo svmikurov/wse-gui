@@ -9,7 +9,7 @@ from typing_extensions import override
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.auth import AuthServiceProto
 from wse.core.navigation.nav_id import NavID
-from wse.feature.observer.abc import SubjectABC
+from wse.feature.observer import SubjectABC
 from wse.feature.observer.mixins import ObserverManager
 from wse.ui.base.container.abc import CreateContentABC
 from wse.ui.base.content.abc import ContentABC

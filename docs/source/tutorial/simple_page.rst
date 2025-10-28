@@ -116,8 +116,8 @@ Let's mark our class with decorators so that dependencies are injected and take 
    from dataclasses import dataclass
    from injector import inject
 
-   from wse.features.base.mvc import BasePageController
-   from wse.features.base import BaseView
+   from wse.feature.base.mvc import BasePageController
+   from wse.feature.base import BaseView
    from wse.utils.i18n import label_
 
    @inject

@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Generic, Protocol
 
+from wse.config.layout import StyleConfig, ThemeConfig
 from wse.types import StyleT, ThemeT
 
 
@@ -79,3 +80,21 @@ class UpdateStyleGenABC(ABC, Generic[StyleT, ThemeT]):
                     self._label_balance.style.update(**config.label_balance)
                     ...
         """
+
+
+@dataclass
+class StyleABC(ABC):
+    """ABC for UI style updating.
+
+    Call ``_apply_styles`` method into derived class.
+    """
+
+    _style: StyleConfig
+    _theme: ThemeConfig
+
+    def _apply_styles(self) -> None:
+        self._update_style(self._style)
+        self._update_style(self._theme)
+
+    @abstractmethod
+    def _update_style(self, config: StyleConfig | ThemeConfig) -> None: ...

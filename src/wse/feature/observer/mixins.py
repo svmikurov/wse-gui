@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Generic
 
 from wse.core.navigation.nav_id import NavID
-from wse.types import AccessorT, NotifyT, ObserverT
+from wse.types import NotifyT, ObserverT
 
 from .abc import SubjectABC
 from .generic import NotifyGenABC, ObserverManagerGenABC
@@ -41,35 +41,10 @@ class NotifyGen(NotifyGenABC[NotifyT]):
 
 
 @dataclass
-class NotifyAccessorGen(Generic[NotifyT, AccessorT]):
-    """Notify observer about event."""
-
-    _subject: SubjectABC
-
-    def notify(
-        self,
-        notification: NotifyT,
-        accessor: AccessorT,
-        **kwargs: object,
-    ) -> None:
-        """Notify observer about event."""
-        self._subject.notify(notification, accessor=accessor, **kwargs)
-
-
-@dataclass
 class SubjectGen(
     ObserverManagerGen[ObserverT],
     NotifyGen[NotifyT],
     Generic[ObserverT, NotifyT],
-):
-    """Mixin that enables observer subscription capability."""
-
-
-@dataclass
-class AddObserverAccessorGen(
-    ObserverManagerGen[ObserverT],
-    NotifyAccessorGen[NotifyT, AccessorT],
-    Generic[ObserverT, NotifyT, AccessorT],
 ):
     """Mixin that enables observer subscription capability."""
 

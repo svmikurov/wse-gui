@@ -1,7 +1,17 @@
 """Foreign discipline repositories."""
 
 __all__ = [
-    'WordStudyNetworkRepoABC',
+    'RefreshWordParamsRepoABC',
+    'GetWordStudyRepoABC',
+    'SetWordParamsRepoABC',
+    'WordParamsRepoABC',
+    'WordParamsMapperABC',
 ]
 
-from .abc import WordStudyNetworkRepoABC
+from .abc import (
+    GetWordStudyRepoABC,
+    RefreshWordParamsRepoABC,
+    SetWordParamsRepoABC,
+    WordParamsMapperABC,
+    WordParamsRepoABC,
+)

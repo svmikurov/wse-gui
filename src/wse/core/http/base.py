@@ -5,7 +5,7 @@ from typing import Any
 
 import httpx
 
-from .protocol import AuthSchemeProto
+from .protocol import AuthSchemaProto
 
 
 class HttpClientABC(ABC):
@@ -15,7 +15,7 @@ class HttpClientABC(ABC):
     def get(
         self,
         url: httpx.URL | str,
-        auth: AuthSchemeProto | None = None,
+        auth: AuthSchemaProto | None = None,
     ) -> httpx.Response:
         """Send a `GET` request."""
 
@@ -24,7 +24,7 @@ class HttpClientABC(ABC):
         self,
         url: httpx.URL | str,
         json: dict[str, Any] | None = None,
-        auth: AuthSchemeProto | None = None,
+        auth: AuthSchemaProto | None = None,
         headers: dict[str, str] | None = None,
     ) -> httpx.Response:
         """Send a `POST` request."""
@@ -34,7 +34,7 @@ class HttpClientABC(ABC):
         self,
         url: httpx.URL | str,
         json: dict[str, Any],
-        auth: AuthSchemeProto | None = None,
+        auth: AuthSchemaProto | None = None,
     ) -> httpx.Response:
         """Send a `PATCH` request."""
 
@@ -43,7 +43,7 @@ class HttpClientABC(ABC):
         self,
         method: str,
         url: httpx.URL | str,
-        auth: AuthSchemeProto | None,
+        auth: AuthSchemaProto | None,
         json: dict[str, Any] | None = None,
         headers: dict[str, str] | None = None,
     ) -> httpx.Response: ...

@@ -27,13 +27,13 @@ from typing_extensions import Generator, override
 
 from wse.core.auth import AuthServiceProto
 
-from .protocol import AuthSchemeProto
+from .protocol import AuthSchemaProto
 
 logger = logging.getLogger(__name__)
 
 
 # TODO: Fix typing ignore
-class AuthScheme(httpx.Auth, AuthSchemeProto):  # type: ignore[misc]
+class AuthSchema(httpx.Auth, AuthSchemaProto):  # type: ignore[misc]
     """Custom authentication schema.
 
     Use with httpx.Client() for authenticated request.

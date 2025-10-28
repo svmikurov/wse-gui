@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from typing import Literal
 
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.observer.abc import SubjectABC
+from wse.feature.observer import SubjectABC
 from wse.feature.observer.generic import SubjectGenABC
 from wse.ui.base.container.abc import ContainerGenABC
 from wse.ui.base.content.abc import GetContentABC

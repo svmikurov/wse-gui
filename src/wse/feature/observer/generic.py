@@ -12,7 +12,7 @@ Contains base classes for:
 from abc import ABC, abstractmethod
 from typing import Generic
 
-from wse.types import AccessorT, NotifyT, ObserverT
+from wse.types import NotifyT, ObserverT
 
 # Subject
 
@@ -22,19 +22,6 @@ class NotifyGenABC(ABC, Generic[NotifyT]):
 
     @abstractmethod
     def notify(self, notification: NotifyT, **kwargs: object) -> None:
-        """Notify all observers an event has occurred."""
-
-
-class AccessorNotifyGenABC(ABC, Generic[NotifyT, AccessorT]):
-    """ABC for Subject with accessor event."""
-
-    @abstractmethod
-    def notify(
-        self,
-        notification: NotifyT,
-        accessor: AccessorT,
-        **kwargs: object,
-    ) -> None:
         """Notify all observers an event has occurred."""
 
 
@@ -61,25 +48,3 @@ class SubjectGenABC(
     Generic[ObserverT, NotifyT],
 ):
     """ABC for Subject observer."""
-
-
-class SubjectAccessorGenABC(
-    ObserverManagerGenABC[ObserverT],
-    AccessorNotifyGenABC[NotifyT, AccessorT],
-    Generic[ObserverT, NotifyT, AccessorT],
-):
-    """ABC for Subject observer with accessor."""
-
-
-# Observer
-
-
-class UpdateObserverABC(ABC, Generic[AccessorT]):
-    """ABC for 'update' observer accessor event."""
-
-    @abstractmethod
-    def update(self, accessor: AccessorT, value: str) -> None:
-        """Update observer accessor."""
-
-
-# TODO: Add methods: `add`, `insert`, `remove`, `clear`

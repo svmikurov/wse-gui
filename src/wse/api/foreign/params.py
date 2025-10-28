@@ -1,4 +1,4 @@
-"""Abstract base classes for Foreign discipline API."""
+"""Word study params API client."""
 
 import logging
 from json.decoder import JSONDecodeError
@@ -9,19 +9,16 @@ from injector import inject
 from wse.config.api import APIConfigV1
 from wse.core.http.auth_schema import AuthSchema
 
-from ...data.sources.foreign.schemas import (
-    WordStudyPresentationParamsSchema,
-    WordStudyPresentationSchema,
-)
-from .abc import WordStudyPresentationApiABC
-from .responses import WordStudyPresentationResponse
+from ...data.sources.foreign.schemas import WordParamsSchema
+from . import WordParamsApiABC
+from .responses import WordStudyParamsResponse
 
 log = logging.getLogger(__name__)
 audit = logging.getLogger('audit')
 
 
-class WordStudyPresentationApi(WordStudyPresentationApiABC):
-    """Word study presentation API."""
+class WordParamsApi(WordParamsApiABC):
+    """Word study params API client."""
 
     @inject
     def __init__(
@@ -35,16 +32,14 @@ class WordStudyPresentationApi(WordStudyPresentationApiABC):
         self._auth_scheme = auth_scheme
         self._api_config = api_config
 
-    def fetch_presentation(
+    def fetch_initial_params(
         self,
-        payload: WordStudyPresentationParamsSchema,
-    ) -> WordStudyPresentationSchema:
+    ) -> WordParamsSchema:
         """Fetch presentation."""
         try:
-            response = self._http_client.post(
-                url=self._api_config.word_presentation,
+            response = self._http_client.get(
+                url=self._api_config.word_params,
                 auth=self._auth_scheme,
-                json=payload.to_dict(),
             )
             response.raise_for_status()
 
@@ -58,18 +53,18 @@ class WordStudyPresentationApi(WordStudyPresentationApiABC):
 
         try:
             audit.info(f'Got response json data:\n{response.json()}')
-            return WordStudyPresentationResponse(**response.json()).data
+            return WordStudyParamsResponse(**response.json()).data
 
         except JSONDecodeError:
             log.error(
-                'Request Word study presentation error: '
+                'Request Word study params error: '
                 'response does not contains JSON data\n'
             )
             raise
 
         except ValueError as err:
             log.error(
-                f'Word study presentation response validate error:\n'
+                f'Word study params response validate error:\n'
                 f'{str(err)}\n'
                 f'Got response JSON: {response.json()}'
             )

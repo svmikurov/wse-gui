@@ -10,7 +10,7 @@ from pydantic import ValidationError
 
 from wse.feature.services import Answer
 
-from ..http import AuthSchemeProto, HttpClientProto
+from ..http import AuthSchemaProto, HttpClientProto
 from .protocol import ExerciseT_contra
 from .response import QuestionResponse, ResultResponse
 
@@ -30,7 +30,7 @@ class ExerciseApi(
     def __init__(
         self,
         http_client: HttpClientProto,
-        auth_scheme: AuthSchemeProto,
+        auth_scheme: AuthSchemaProto,
     ) -> None:
         """Construct the client."""
         self._http_client = http_client

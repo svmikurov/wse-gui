@@ -11,7 +11,7 @@ from typing_extensions import override
 
 from wse.config.api import APIConfigV1
 from wse.core.api.response import InitialDataResponse
-from wse.core.http.auth_schema import AuthScheme
+from wse.core.http.auth_schema import AuthSchema
 
 logger = logging.getLogger(__name__)
 
@@ -51,7 +51,7 @@ class DataApi(DataApiABC):
     def __init__(
         self,
         http_client: httpx.Client,
-        auth_scheme: AuthScheme,
+        auth_scheme: AuthSchema,
         api_config: APIConfigV1,
     ) -> None:
         """Construct the api."""

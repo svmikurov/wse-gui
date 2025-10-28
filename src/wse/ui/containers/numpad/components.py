@@ -8,7 +8,7 @@ import toga
 from injector import inject
 
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.observer.abc import SubjectABC
+from wse.feature.observer import SubjectABC
 from wse.feature.observer.mixins import SubjectGen
 from wse.ui.base.container.abc import CreateContentABC
 from wse.ui.base.content.abc import ContentABC

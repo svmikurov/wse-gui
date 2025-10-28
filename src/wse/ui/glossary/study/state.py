@@ -6,7 +6,7 @@ from typing import Union
 from injector import inject
 
 from wse.domain.glossary import TermPresentationUseCaseABC
-from wse.feature.observer.mixins import AddObserverAccessorGen
+from wse.feature.observer.accessor import AddObserverAccessorGen
 from wse.ui.base.navigate.mixin import NavigateStateMixin
 from wse.ui.containers.numpad.interface import NumPadNotifyT
 

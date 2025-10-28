@@ -12,7 +12,7 @@ from wse.api.glossary.schemas import (
     TermPresentationSchema,
 )
 from wse.config.api import APIConfigV1
-from wse.core.http.auth_schema import AuthScheme
+from wse.core.http.auth_schema import AuthSchema
 
 from . import TermPresentationApiABC
 
@@ -25,7 +25,7 @@ class TermPresentationApi(TermPresentationApiABC):
     def __init__(
         self,
         http_client: httpx.Client,
-        auth_scheme: AuthScheme,
+        auth_scheme: AuthSchema,
         api_config: APIConfigV1,
     ) -> None:
         """Construct the client."""

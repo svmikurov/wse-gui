@@ -10,4 +10,4 @@ class AuditMixin:
 
     def __del__(self) -> None:
         """Call on delete instance."""
-        audit_logger.info(f'Deleted {self.__class__}')
+        audit_logger.debug(f'Deleted {self.__class__}')

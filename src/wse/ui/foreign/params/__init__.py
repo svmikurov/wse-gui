@@ -5,4 +5,7 @@ __all__ = [
     'WordStudyParamsViewModelABC',
 ]
 
-from .abc import WordStudyParamsViewABC, WordStudyParamsViewModelABC
+from .abc import (
+    WordStudyParamsViewABC,
+    WordStudyParamsViewModelABC,
+)

@@ -7,15 +7,15 @@ from dataclasses import dataclass
 import toga
 from injector import inject
 
-from wse.api.foreign.schemas import WordStudyPresentationSchema
 from wse.core.navigation import NavID
-from wse.data.repositories.foreign.abc import WordStudyNetworkRepoABC
+from wse.data.repositories.foreign.abc import GetWordStudyRepoABC
+from wse.data.sources.foreign.schemas import WordStudyPresentationSchema
 from wse.domain.foreign.abc import (
     ExerciseAccessorT,
     UIStateNotifyT,
     WordStudyUseCaseABC,
 )
-from wse.feature.observer.mixins import NotifyAccessorGen
+from wse.feature.observer.accessor import NotifyAccessorGen
 from wse.feature.timer.abc import TimerABC
 from wse.ui.content import Content
 
@@ -33,7 +33,7 @@ class WordStudyUseCase(
 ):
     """Words study Use Case."""
 
-    _words_study_repo: WordStudyNetworkRepoABC
+    _word_study_repo: GetWordStudyRepoABC
     _main_window: toga.MainWindow
     _timer: TimerABC
 
@@ -42,7 +42,7 @@ class WordStudyUseCase(
         self._study_data: WordStudyPresentationSchema | None = None
 
     def _update_study_data(self) -> None:
-        self._study_data = self._words_study_repo.get_data()
+        self._study_data = self._word_study_repo.get_word()
 
     # Exercise management
     # -------------------
@@ -60,7 +60,7 @@ class WordStudyUseCase(
         """Loop exercise."""
         while self.is_enable_exercise:
             try:
-                self._study_data = self._words_study_repo.get_data()
+                self._study_data = self._word_study_repo.get_word()
             except Exception:
                 log.error('Get word study error')
                 break

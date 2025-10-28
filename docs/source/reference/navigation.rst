@@ -1,7 +1,7 @@
 Navigation
 ==========
 
-.. automodule:: wse.apps.nav_id
+.. automodule:: wse.core.navigation.nav_id
    :noindex:
 
-.. autoclass:: wse.apps.nav_id.NavID
+.. autoclass:: wse.core.navigation.nav_id.NavID

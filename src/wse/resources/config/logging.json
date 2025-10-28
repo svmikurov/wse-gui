@@ -11,8 +11,11 @@
             "format": "%(log_color)s[%(asctime)s] AUDIT - %(message)s",
             "datefmt": "%Y-%m-%d %H:%M:%S",
             "log_colors": {
-                "INFO": "cyan",
-                "DEBUG": "light_black"
+                "DEBUG": "cyan",
+                "INFO": "green",
+                "WARNING": "yellow",
+                "ERROR": "red",
+                "CRITICAL": "bold_red"
             }
         }
     },

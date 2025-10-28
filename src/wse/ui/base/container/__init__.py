@@ -2,6 +2,8 @@
 
 __all__ = [
     'ContainerABC',
+    'StyleABC',
 ]
 
 from .abc import ContainerABC
+from .abc_style import StyleABC

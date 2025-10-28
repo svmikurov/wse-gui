@@ -10,7 +10,7 @@ from typing_extensions import override
 from wse.config.api import APIConfigV1
 
 from .base import HttpClientABC
-from .protocol import AuthSchemeProto
+from .protocol import AuthSchemaProto
 
 log = logging.getLogger(__name__)
 audit = logging.getLogger('audit')
@@ -34,7 +34,7 @@ class HttpClient(HttpClientABC):
     def get(
         self,
         url: httpx.URL | str,
-        auth: AuthSchemeProto | None = None,
+        auth: AuthSchemaProto | None = None,
     ) -> httpx.Response:
         """Send a `GET` request."""
         return self._request('get', url, auth=auth)
@@ -44,7 +44,7 @@ class HttpClient(HttpClientABC):
         self,
         url: httpx.URL | str,
         json: dict[str, Any] | None = None,
-        auth: AuthSchemeProto | None = None,
+        auth: AuthSchemaProto | None = None,
         headers: dict[str, str] | None = None,
     ) -> httpx.Response:
         """Send a `POST` request."""
@@ -61,7 +61,7 @@ class HttpClient(HttpClientABC):
         self,
         url: httpx.URL | str,
         json: dict[str, Any],
-        auth: AuthSchemeProto | None = None,
+        auth: AuthSchemaProto | None = None,
     ) -> httpx.Response:
         """Send a `PATCH` request."""
         return self._request('patch', url, json=json, auth=auth)
@@ -71,7 +71,7 @@ class HttpClient(HttpClientABC):
         self,
         method: str,
         url: httpx.URL | str,
-        auth: AuthSchemeProto | None,
+        auth: AuthSchemaProto | None,
         json: dict[str, Any] | None = None,
         headers: dict[str, str] | None = None,
     ) -> httpx.Response:

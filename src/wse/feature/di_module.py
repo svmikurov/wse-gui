@@ -4,7 +4,7 @@ from typing import no_type_check
 
 from injector import Binder, Module
 
-from .observer.abc import SubjectABC
+from .observer import SubjectABC
 from .observer.subject import Subject
 from .timer import TimerABC
 from .timer.time import Timer

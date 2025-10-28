@@ -10,7 +10,7 @@ from typing_extensions import override
 
 from wse.api.schemas.exercise import Assigned, ExerciseInfo
 from wse.config.api import APIConfigV1
-from wse.core.http import AuthSchemeProto, HttpClientProto
+from wse.core.http import AuthSchemaProto, HttpClientProto
 
 from .abc import AssignationsApiABC
 
@@ -24,7 +24,7 @@ class AssignationsApi(AssignationsApiABC):
     def __init__(
         self,
         http_client: HttpClientProto,
-        auth_scheme: AuthSchemeProto,
+        auth_scheme: AuthSchemaProto,
         api_config: APIConfigV1,
     ) -> None:
         """Construct the API."""

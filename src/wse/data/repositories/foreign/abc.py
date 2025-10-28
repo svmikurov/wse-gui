@@ -1,13 +1,82 @@
 """Abstract base classes for Foreign discipline repositories."""
 
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING
 
-from wse.api.foreign.schemas import WordStudyPresentationSchema
+if TYPE_CHECKING:
+    from wse.data.sources.foreign import WordParamsNotifyABC
+    from wse.data.sources.foreign.schemas import (
+        WordParamsSchema,
+        WordSelectedSchema,
+        WordStudyPresentationSchema,
+    )
+
+# Study repo
+# ----------
 
 
-class WordStudyNetworkRepoABC(ABC):
-    """ABC for Word study network repository."""
+class GetWordStudyRepoABC(ABC):
+    """ABC for repository to get words to study."""
 
     @abstractmethod
-    def get_data(self) -> WordStudyPresentationSchema:
-        """Get word study exercise data."""
+    def get_word(self) -> WordStudyPresentationSchema:
+        """Get word to study."""
+
+
+# Study params repo
+# -----------------
+
+
+class RefreshWordParamsRepoABC(ABC):
+    """ABC for repository to refresh Word study params."""
+
+    @abstractmethod
+    def refresh_initial_params(self) -> None:
+        """Set available params, default for Word study params.
+
+        These params come from external source (API) and define what
+        params user can choose from.
+        """
+
+
+class WordParamsMapperABC(ABC):
+    """Word study params Source mapper."""
+
+    @abstractmethod
+    def subscribe(self, observer: WordParamsNotifyABC) -> None:
+        """Subscribe observer to Word params source notifications."""
+
+    @abstractmethod
+    def unsubscribe(self, observer: WordParamsNotifyABC) -> None:
+        """Unsubscribe observer to Word params source notifications."""
+
+
+class WordParamsRepoABC(
+    RefreshWordParamsRepoABC,
+):
+    """ABC for Word study repository."""
+
+
+# TODO: Delete below
+
+
+class SetWordParamsRepoABC(ABC):
+    """ABC for repository to set Word study params."""
+
+    @abstractmethod
+    def set_initial_params(self, params: WordParamsSchema) -> None:
+        """Set available params, default values for Word study params.
+
+        These params come from external source (API) and define what
+        params user can choose from.
+        """
+
+    @abstractmethod
+    def set_selected_params(self, params: WordSelectedSchema) -> None:
+        """Set user's current selection for Word study params.
+
+        These params represent actual choices made by user in the UI
+        and should be persisted for session continuity.
+        """

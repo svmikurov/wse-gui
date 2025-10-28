@@ -139,7 +139,7 @@ class Navigator:
 
         except AttributeError:
             # The screen may not have any methods called when opened.
-            audit.info(f'{new_view.__class__} have no `on_open` method')
+            audit.debug(f'{new_view.__class__} have no `on_open` method')
 
         except AuthError:
             log.debug(f"No '{nav_id.name}' content for unauthenticated user")

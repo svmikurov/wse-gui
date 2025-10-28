@@ -2,9 +2,10 @@
 
 from abc import ABC
 from dataclasses import dataclass
+from typing import Any
 
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.observer.abc import AccessorABC, AccessorNotifyChangeABC
+from wse.feature.observer import AccessorABC, UpdateObserverABC
 from wse.ui.base.container.abc import ApplyStyleGenABC, ContainerABC
 from wse.ui.base.content.abc import GetContentABC
 
@@ -13,7 +14,7 @@ from wse.ui.base.content.abc import GetContentABC
 class LabelAccessorContainerABC(
     ContainerABC,
     AccessorABC,
-    AccessorNotifyChangeABC,
+    UpdateObserverABC[Any],
     GetContentABC,
     ApplyStyleGenABC[StyleConfig, ThemeConfig],
     ABC,

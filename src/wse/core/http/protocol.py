@@ -6,7 +6,7 @@ import httpx
 from httpx import Request, Response
 
 
-class AuthSchemeProto(Protocol):
+class AuthSchemaProto(Protocol):
     """Protocol for authentication schema interface."""
 
     def auth_flow(
@@ -34,7 +34,7 @@ class HttpClientProto(Protocol):
     def get(
         self,
         url: httpx.URL | str,
-        auth: AuthSchemeProto | None = None,
+        auth: AuthSchemaProto | None = None,
     ) -> httpx.Response:
         """Send a `GET` request."""
 
@@ -42,7 +42,7 @@ class HttpClientProto(Protocol):
         self,
         url: httpx.URL | str,
         json: dict[str, Any] | None = None,
-        auth: AuthSchemeProto | None = None,
+        auth: AuthSchemaProto | None = None,
         headers: dict[str, str] | None = None,
     ) -> httpx.Response:
         """Send a `POST` request."""
@@ -51,6 +51,6 @@ class HttpClientProto(Protocol):
         self,
         url: httpx.URL | str,
         json: dict[str, Any],
-        auth: AuthSchemeProto | None = None,
+        auth: AuthSchemaProto | None = None,
     ) -> httpx.Response:
         """Send a `PATCH` request."""
