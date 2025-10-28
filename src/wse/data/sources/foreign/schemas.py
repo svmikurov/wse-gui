@@ -63,7 +63,7 @@ class WordDefaultSchema(BaseSchema):
     """Default Word study case schema."""
 
     default_category: IdNameSchema | None
-    default_mark: IdNameSchema | None
+    default_label: IdNameSchema | None
 
 
 class WordSelectedSchema(BaseSchema):
@@ -71,7 +71,7 @@ class WordSelectedSchema(BaseSchema):
 
     # The field may not be selected.
     selected_category: IdNameSchema | None
-    selected_mark: IdNameSchema | None
+    selected_label: IdNameSchema | None
 
 
 class WordParamsSchema(
@@ -80,4 +80,4 @@ class WordParamsSchema(
     """Word study params schema."""
 
     categories: list[IdNameSchema]
-    marks: list[IdNameSchema]
+    labels: list[IdNameSchema]

@@ -16,7 +16,7 @@ class SelectionsWordParamsDTO(NamedTuple):
     """Selections of Word study params DTO."""
 
     categories: list[IdNameDTO]
-    marks: list[IdNameDTO]
+    labels: list[IdNameDTO]
 
 
 class CaseWordParamsDTO(NamedTuple):

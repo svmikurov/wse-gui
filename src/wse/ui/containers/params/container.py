@@ -33,7 +33,7 @@ class ParamsContainer(
     """
 
     _accessors = (
-        'mark_select',
+        'label_select',
         'category_select',
         'count_input',
     )
@@ -42,8 +42,8 @@ class ParamsContainer(
     def _create_ui(self) -> None:
         self._category_label = toga.Label(I18N.LABEL('Category'))
         self._category_select = self._create_selection('category_select')
-        self._mark_label = toga.Label(I18N.LABEL('Mark'))
-        self._mark_select = self._create_selection('mark_select')
+        self._label_label = toga.Label(I18N.LABEL('Label'))
+        self._label_select = self._create_selection('label_select')
         self._count_label = toga.Label(I18N.LABEL('Count'))
         self._count_input = toga.NumberInput()
 
@@ -51,7 +51,7 @@ class ParamsContainer(
     def _populate_content(self) -> None:
         self._content.add(
             self.select_category,
-            self.select_mark,
+            self.select_label,
             self.input_count,
         )
 
@@ -59,8 +59,8 @@ class ParamsContainer(
     def _update_style(self, config: StyleConfig | ThemeConfig) -> None:
         self._category_label.style.update(**config.params.label)
         self._category_select.style.update(**config.params.select)
-        self._mark_label.style.update(**config.params.label)
-        self._mark_select.style.update(**config.params.select)
+        self._label_label.style.update(**config.params.label)
+        self._label_select.style.update(**config.params.select)
         self._count_label.style.update(**config.params.label)
         self._count_input.style.update(**config.params.number)
 
@@ -73,9 +73,9 @@ class ParamsContainer(
         return self._combine(self._category_label, self._category_select)
 
     @property
-    def select_mark(self) -> toga.Box:
-        """Mark select."""
-        return self._combine(self._mark_label, self._mark_select)
+    def select_label(self) -> toga.Box:
+        """Label select."""
+        return self._combine(self._label_label, self._label_select)
 
     @property
     def input_count(self) -> toga.Box:
@@ -111,6 +111,12 @@ class ParamsContainer(
             on_change=partial(self._on_select, accessor=accessor),
         )
 
+    # Widget callback
+    # ---------------
+
+    def _on_select(self, selection: toga.Selection, accessor: str) -> None:
+        self.notify('update', accessor=accessor, value=selection.value)
+
     # Source methods
     # --------------
 
@@ -124,6 +130,3 @@ class ParamsContainer(
         ui = self._get_ui(accessor)
         with EventDisabler(ui):
             ui.items.update(value)
-
-    def _on_select(self, selection: toga.Selection, accessor: str) -> None:
-        self.notify('update', accessor=accessor, value=selection.value)

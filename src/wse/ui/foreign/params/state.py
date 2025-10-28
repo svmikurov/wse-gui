@@ -30,9 +30,9 @@ class WordParamsSourceData:
 
     # Field name according schemas name
     default_category: IdNameSchema | None = None
-    default_mark: IdNameSchema | None = None
+    default_label: IdNameSchema | None = None
     categories: list[IdNameSchema] | None = None
-    marks: list[IdNameSchema] | None = None
+    labels: list[IdNameSchema] | None = None
 
 
 @dataclass
@@ -40,7 +40,7 @@ class WordParamsWidgetData:
     """Word study Widgets data."""
 
     # Field name according widget attr name
-    mark_select: IdNameSchema | None = None
+    label_select: IdNameSchema | None = None
     category_select: IdNameSchema | None = None
 
 
@@ -97,5 +97,5 @@ class WordStudyParamsViewModel(
         self._source = replace(
             self._source, **{k: v for k, v in params.__dict__.items()}
         )
-        self.notify('update', 'mark_select', value=self._source.marks)
+        self.notify('update', 'label_select', value=self._source.labels)
         self.notify('update', 'category_select', value=self._source.categories)

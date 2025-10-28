@@ -25,13 +25,13 @@ class WordParamsData:
     """Word params data."""
 
     categories: list[IdNameSchema] | None = None
-    marks: list[IdNameSchema] | None = None
+    labels: list[IdNameSchema] | None = None
 
     default_category: IdNameSchema | None = None
-    default_mark: IdNameSchema | None = None
+    default_label: IdNameSchema | None = None
 
     selected_category: IdNameSchema | None = None
-    selected_mark: IdNameSchema | None = None
+    selected_label: IdNameSchema | None = None
 
 
 @inject
