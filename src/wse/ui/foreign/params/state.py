@@ -1,6 +1,5 @@
 """Word study params state."""
 
-import logging
 from dataclasses import dataclass, replace
 from typing import Any, override
 
@@ -18,10 +17,9 @@ from wse.data.sources.foreign.schemas import (
 from wse.feature.observer.accessor import NotifyAccessorGen
 from wse.feature.observer.mixins import ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateStateMixin
+from wse.utils import decorators
 
 from . import WordStudyParamsViewModelABC
-
-audit = logging.getLogger('audit')
 
 
 @dataclass
@@ -83,9 +81,9 @@ class WordStudyParamsViewModel(
         """Refresh Initial params of Word study."""
         self._repo.refresh_initial_params()
 
+    @decorators.log_unimplemented_call
     def _update_locale_params(self) -> None:
         """Update Word study params Locale source."""
-        audit.warning('Not implemented `_update_locale_params`')
 
     # Notification handlers
     # ---------------------
