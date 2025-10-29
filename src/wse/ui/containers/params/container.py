@@ -33,18 +33,35 @@ class ParamsContainer(
     """
 
     _accessors = (
-        'label_select',
         'category_select',
+        'label_select',
+        'source_select',
+        'order_select',
+        'start_period_select',
+        'end_period_select',
         'count_input',
     )
 
     @override
     def _create_ui(self) -> None:
+        # Selection with label
         self._category_label = toga.Label(I18N.LABEL('Category'))
         self._category_select = self._create_selection('category_select')
         self._label_label = toga.Label(I18N.LABEL('Label'))
         self._label_select = self._create_selection('label_select')
-        self._count_label = toga.Label(I18N.LABEL('Count'))
+        self._source_label = toga.Label(I18N.LABEL('Source'))
+        self._source_select = self._create_selection('source_select')
+        self._order_label = toga.Label(I18N.LABEL('Translate order'))
+        self._order_select = self._create_selection('order_select')
+
+        self._period_label = toga.Label(I18N.LABEL('Word adding period'))
+        self._start_period_select = self._create_selection(
+            'start_period_select'
+        )
+        self._end_period_select = self._create_selection('end_period_select')
+
+        # Number input with label
+        self._count_label = toga.Label(I18N.LABEL('Word study count'))
         self._count_input = toga.NumberInput()
 
     @override
@@ -52,15 +69,28 @@ class ParamsContainer(
         self._content.add(
             self.select_category,
             self.select_label,
+            self.source_select,
+            self.order_select,
+            self.period_select,
             self.input_count,
         )
 
     @override
     def _update_style(self, config: StyleConfig | ThemeConfig) -> None:
+        # Selections
         self._category_label.style.update(**config.params.label)
         self._category_select.style.update(**config.params.select)
         self._label_label.style.update(**config.params.label)
         self._label_select.style.update(**config.params.select)
+        self._source_label.style.update(**config.params.label)
+        self._source_select.style.update(**config.params.select)
+        self._order_label.style.update(**config.params.label)
+        self._order_select.style.update(**config.params.select)
+        self._period_label.style.update(**config.params.label)
+        self._start_period_select.style.update(**config.params.select)
+        self._end_period_select.style.update(**config.params.select)
+
+        # Number input
         self._count_label.style.update(**config.params.label)
         self._count_input.style.update(**config.params.number)
 
@@ -78,9 +108,35 @@ class ParamsContainer(
         return self._combine(self._label_label, self._label_select)
 
     @property
+    def source_select(self) -> toga.Box:
+        """Source select."""
+        return self._combine(self._source_label, self._source_select)
+
+    @property
+    def order_select(self) -> toga.Box:
+        """Order select."""
+        return self._combine(self._order_label, self._order_select)
+
+    @property
     def input_count(self) -> toga.Box:
-        """Word count select."""
+        """Word count input."""
         return self._combine(self._count_label, self._count_input)
+
+    @property
+    def period_select(self) -> toga.Box:
+        """Word adding period select."""
+        label_row = toga.Box(margin=(10, 0, 10, 0))
+        left_box = toga.Box(flex=1, padding_right=1)
+        right_box = toga.Box(flex=1, padding_left=1)
+
+        label_row.add(self._period_label)
+        left_box.add(self._start_period_select)
+        right_box.add(self._end_period_select)
+
+        return toga.Column(  # type: ignore[no-any-return, no-untyped-call]
+            children=[label_row, toga.Box(children=[left_box, right_box])],
+            margin=(2, 5, 2, 5),
+        )
 
     # Utility methods
     # ---------------

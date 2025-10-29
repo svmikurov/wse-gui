@@ -144,12 +144,12 @@
     },
     "select": {
       "font_size": 13,
-      "height": 50,
+      "height": 45,
       "flex": 1
 },
     "number": {
       "font_size": 15,
-      "height": 50,
+      "height": 45,
       "flex": 1
     }
   }

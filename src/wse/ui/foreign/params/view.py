@@ -54,6 +54,7 @@ class WordStudyParamsView(
             self._top_bar.content,
             self._title,
             self._params.content,
+            toga.Box(flex=1),
             self._btn_start,
         )
 
