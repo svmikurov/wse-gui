@@ -9,6 +9,29 @@ F = TypeVar('F', bound=Callable[..., Any])
 audit = logging.getLogger('audit')
 
 
+def log_params(func: F) -> F:
+    """Log params with method called."""
+
+    @wraps(func)
+    def wrapper(*args: object, **kwargs: object) -> object:
+        if args:
+            first_arg = args[0]
+            if hasattr(first_arg, '__class__') and not isinstance(
+                first_arg, type
+            ):
+                class_name = first_arg.__class__.__name__
+                method_name = f'{class_name}.{func.__name__}'
+            else:
+                method_name = func.__name__
+        else:
+            method_name = func.__name__
+
+        audit.info(f'{method_name} called with args: {args}, kwargs: {kwargs}')
+        return func(*args, **kwargs)
+
+    return wrapper  # type: ignore[return-value]
+
+
 def log_unimplemented_call(func: F) -> F:
     """Log that called method is not implemented yet."""
 

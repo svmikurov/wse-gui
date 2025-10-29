@@ -8,11 +8,11 @@ from injector import inject
 
 from wse.config.api import APIConfigV1
 from wse.core.http.auth_schema import AuthSchema
-
-from ...data.sources.foreign.schemas import (
+from wse.data.sources.foreign.schemas import (
     WordStudyPresentationParamsSchema,
     WordStudyPresentationSchema,
 )
+
 from .abc import WordStudyPresentationApiABC
 from .responses import WordStudyPresentationResponse
 
@@ -52,8 +52,11 @@ class WordStudyPresentationApi(WordStudyPresentationApiABC):
             log.error('Server connect error')
             raise
 
-        except httpx.HTTPError:
-            log.error('Request Word study presentation HTTP error')
+        except httpx.HTTPError as e:
+            log.error(
+                f'Request Word study case HTTP error:\n'
+                f'{str(e)}\n{e.response.json()}'  # type: ignore[attr-defined]
+            )
             raise
 
         try:

@@ -7,11 +7,13 @@ __all__ = [
     'AccessorNotifyGenABC',
     'AccessorABC',
     'UpdateObserverABC',
+    'ChangeObserverABC',
 ]
 
 from .abc import (
     AccessorABC,
     AccessorNotifyGenABC,
+    ChangeObserverABC,
     NotifyABC,
     ObserverManagerABC,
     SubjectABC,

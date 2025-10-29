@@ -77,9 +77,19 @@ class AccessorABC(ABC):
 
 
 # TODO: Add methods: `add`, `insert`, `remove`, `clear`
+
+
 class UpdateObserverABC(ABC, Generic[AccessorT]):
     """ABC for 'update' observer accessor event."""
 
     @abstractmethod
     def update(self, accessor: AccessorT, value: object) -> None:
         """Update observer accessor."""
+
+
+class ChangeObserverABC(ABC, Generic[AccessorT]):
+    """ABC for 'change' observer accessor event."""
+
+    @abstractmethod
+    def change(self, accessor: AccessorT, value: object) -> None:
+        """Change observer accessor."""

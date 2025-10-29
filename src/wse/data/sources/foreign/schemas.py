@@ -39,8 +39,8 @@ class WordsData(ItemsData):
 class WordStudyPresentationParamsSchema(BaseSchema):
     """Word study presentation schema for HTTP request."""
 
-    category: list[str] | None
-    marks: list[str] | None
+    category: IdNameSchema | None
+    label: IdNameSchema | None
 
     class Config:
         """Schema configuration."""

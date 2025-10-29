@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any
 
-from wse.feature.observer import UpdateObserverABC
+from wse.feature.observer import ChangeObserverABC
 from wse.feature.observer.generic import ObserverManagerGenABC
 from wse.ui.base.navigate import NavigateABC, OnCloseABC
 from wse.ui.base.view import ViewABC
@@ -14,7 +14,7 @@ from wse.ui.base.view import ViewABC
 class StudyForeignViewModelABC(
     OnCloseABC,
     NavigateABC,
-    ObserverManagerGenABC[UpdateObserverABC[Any]],
+    ObserverManagerGenABC[ChangeObserverABC[Any]],
     ABC,
 ):
     """ABC for Foreign words study ViewModel."""

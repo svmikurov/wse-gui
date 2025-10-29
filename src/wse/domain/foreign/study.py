@@ -61,8 +61,8 @@ class WordStudyUseCase(
         while self.is_enable_exercise:
             try:
                 self._study_data = self._word_study_repo.get_word()
-            except Exception:
-                log.error('Get word study error')
+            except Exception as e:
+                log.error(f'Get word study error: {e}')
                 break
 
             self._display_definition(self._study_data.definition)
