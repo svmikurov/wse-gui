@@ -51,12 +51,20 @@ class PresenterTheme(BaseTheme):
     explanation: dict[str, str] = {}
 
 
-class ParamsConfig(BaseTheme):
+class ParamsTheme(BaseTheme):
     """Theme config for params container."""
 
     label: dict[str, str] = {}
     select: dict[str, str] = {}
     number: dict[str, str] = {}
+
+
+class ControlTheme(BaseTheme):
+    """Theme config for control container."""
+
+    left_btn: dict[str, str] = {}
+    right_btn: dict[str, str] = {}
+    outbox: dict[str, str] = {}
 
 
 class ThemeConfig(BaseTheme):
@@ -90,4 +98,5 @@ class ThemeConfig(BaseTheme):
     assigned: AssignedTheme = Field(default_factory=AssignedTheme)
     text_task: TextTaskTheme = Field(default_factory=TextTaskTheme)
     presenter: PresenterTheme = Field(default_factory=PresenterTheme)
-    params: ParamsConfig = Field(default_factory=ParamsConfig)
+    params: ParamsTheme = Field(default_factory=ParamsTheme)
+    control: ControlTheme = Field(default_factory=ControlTheme)

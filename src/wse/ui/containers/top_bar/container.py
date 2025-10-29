@@ -31,13 +31,6 @@ class TopBarContainer(
     _theme: ThemeConfig
     _flex_stub: FlexRowStubType
 
-    # TODO: Fix type ignore
-    @override
-    def _setup(self) -> None:
-        super()._setup()
-        # TODO: Fix direction style changing
-        self._content.style.direction = 'row'  # type: ignore[attr-defined]
-
     @override
     def _create_ui(self) -> None:
         """Create UI."""
@@ -62,6 +55,7 @@ class TopBarContainer(
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
+        self._content.style.direction = 'row'
         self._btn_back.style.update(**config.top_bar.button)
         self._label_balance.style.update(**config.top_bar.label_balance)
 

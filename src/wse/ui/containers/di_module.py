@@ -6,6 +6,8 @@ from injector import Binder, Module, SingletonScope
 
 from .assigned import AssignationsContainerABC
 from .assigned.container import AssignationsContainer
+from .control import ControlContainerABC
+from .control.container import ControlContainer
 from .login import (
     LoginContainerABC,
     LoginControllerProto,
@@ -77,3 +79,6 @@ class UIContainerModule(Module):
 
         # Params container
         binder.bind(ParamsContainerABC, to=ParamsContainer)
+
+        # Control container
+        binder.bind(ControlContainerABC, to=ControlContainer)

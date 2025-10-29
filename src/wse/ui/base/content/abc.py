@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from typing import Self
 
 import toga
+from toga.style import Pack
 
 from wse.core.navigation.nav_id import NavID
 
@@ -29,7 +30,12 @@ class ContentABC(
     @property
     @abstractmethod
     def children(self) -> list[toga.Widget]:
-        """The widgets of content."""
+        """Get widget children."""
+
+    @property
+    @abstractmethod
+    def style(self) -> Pack:
+        """Get widget style."""
 
     @abstractmethod
     def replace(

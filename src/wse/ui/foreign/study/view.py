@@ -10,6 +10,7 @@ from wse.config.layout.style import StyleConfig
 from wse.config.layout.theme import ThemeConfig
 from wse.core.navigation import NavID
 from wse.ui.base.navigate.mixin import NavigateViewMixin
+from wse.ui.containers.control import ControlContainerABC
 from wse.ui.containers.presentation.presenter import PresenterContainerABC
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 
@@ -27,6 +28,7 @@ class StudyForeignView(
     _state: StudyForeignViewModelABC
     _top_bar: TopBarControllerABC
     _presenter: PresenterContainerABC
+    _control_container: ControlContainerABC
 
     @override
     def __post_init__(self) -> None:
@@ -46,6 +48,8 @@ class StudyForeignView(
             self._top_bar.content,
             self._title,
             self._presenter.content,
+            toga.Box(flex=1),
+            self._control_container.content,
         )
 
     @override

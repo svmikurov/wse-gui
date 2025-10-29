@@ -57,6 +57,14 @@ class ParamsStyle(BaseStyle):
     number: dict[str, str | int] = {}
 
 
+class ControlStyle(BaseStyle):
+    """Control config for params container."""
+
+    left_btn: dict[str, str | int] = {}
+    right_btn: dict[str, str | int] = {}
+    outbox: dict[str, str | int] = {}
+
+
 # TODO: Rename `label_title` to `title_sm`, `title_md`
 class StyleConfig(BaseStyle):
     """Application layout style configuration.
@@ -90,3 +98,4 @@ class StyleConfig(BaseStyle):
     text_task: TextTaskStyle = Field(default_factory=TextTaskStyle)
     presenter: PresenterStyle = Field(default_factory=PresenterStyle)
     params: ParamsStyle = Field(default_factory=ParamsStyle)
+    control: ControlStyle = Field(default_factory=ControlStyle)
