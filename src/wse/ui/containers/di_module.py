@@ -32,7 +32,7 @@ from .presentation.legacy import (
 )
 from .presentation.legacy.container import PresentationContainer
 from .presentation.legacy.state import PresentationContainerState
-from .presentation.presenter import LabelAccessorContainerABC
+from .presentation.presenter import PresenterContainerABC
 from .presentation.presenter.container import PresenterContainer
 from .task_panel import TextTaskContainerABC, TextTaskPanel
 from .top_bar import TopBarContainer, TopBarController
@@ -45,10 +45,10 @@ class UIContainerModule(Module):
     @no_type_check
     def configure(self, binder: Binder) -> None:
         """Configure the bindings."""
-        # Assiganation container
+        # Assignation container
         binder.bind(AssignationsContainerABC, to=AssignationsContainer)
 
-        # Numpad container
+        # NumPad container
         binder.bind(NumPadModelABC, to=NumPadModel)
         binder.bind(NumPadContainerABC, to=NumPadContainer)
         binder.bind(NumPadControllerABC, to=NumPadController)
@@ -66,9 +66,9 @@ class UIContainerModule(Module):
         )
         binder.bind(PresentationContainerABC, to=PresentationContainer)
         # Presenter
-        binder.bind(LabelAccessorContainerABC, to=PresenterContainer)
+        binder.bind(PresenterContainerABC, to=PresenterContainer)
 
-        # Text task psnel
+        # Text task panel
         binder.bind(TextTaskContainerABC, to=TextTaskPanel)
 
         # TopBar container

@@ -41,7 +41,7 @@ class AccessorMixin:
     def _has_accessor(self, accessor: str) -> None:
         if not hasattr(self, accessor):
             raise AttributeError(
-                f"Not implemented attribute '{f'_{accessor}'}' in "
+                f"Not implemented attribute '{accessor}' in "
                 f'`{self.__class__.__name__}` for observer pattern'
             )
 

@@ -11,7 +11,7 @@ from wse.ui.base.content.abc import GetContentABC
 
 
 @dataclass
-class LabelAccessorContainerABC(
+class PresenterContainerABC(
     ContainerABC,
     AccessorABC,
     ChangeObserverABC[Any],  # TODO: Fix Any

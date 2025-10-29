@@ -10,7 +10,7 @@ from wse.config.layout import StyleConfig, ThemeConfig
 from wse.feature.observer.accessor import AccessorMixin
 from wse.ui.base.content.mixins import GetContentMixin
 
-from . import LabelAccessorContainerABC
+from . import PresenterContainerABC
 
 
 @inject
@@ -18,16 +18,11 @@ from . import LabelAccessorContainerABC
 class PresenterContainer(
     GetContentMixin,
     AccessorMixin,
-    LabelAccessorContainerABC,
+    PresenterContainerABC,
 ):
     """Presenter container."""
 
-    def __post_init__(self) -> None:
-        """Construct the container."""
-        self._accessors: tuple[str, ...] = 'definition', 'explanation'
-        super().__post_init__()
-
-    # Building the container
+    _accessors = 'definition', 'explanation'
 
     @override
     def _create_ui(self) -> None:
@@ -47,7 +42,8 @@ class PresenterContainer(
         self._definition.style.update(**config.presenter.definition)
         self._explanation.style.update(**config.presenter.explanation)
 
-    # Lister methods
+    # Source methods
+    # --------------
 
     @override
     def change(self, accessor: str, value: object) -> None:

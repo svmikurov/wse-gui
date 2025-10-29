@@ -10,7 +10,7 @@ from wse.config.layout.style import StyleConfig
 from wse.config.layout.theme import ThemeConfig
 from wse.core.navigation import NavID
 from wse.ui.base.navigate.mixin import NavigateViewMixin
-from wse.ui.containers.presentation.presenter import LabelAccessorContainerABC
+from wse.ui.containers.presentation.presenter import PresenterContainerABC
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 
 from . import StudyForeignViewABC, StudyForeignViewModelABC
@@ -26,7 +26,7 @@ class StudyForeignView(
 
     _state: StudyForeignViewModelABC
     _top_bar: TopBarControllerABC
-    _presenter: LabelAccessorContainerABC
+    _presenter: PresenterContainerABC
 
     @override
     def __post_init__(self) -> None:
