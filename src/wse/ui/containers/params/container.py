@@ -17,6 +17,8 @@ from wse.utils.i18n import I18N
 from . import ParamsContainerABC
 from .entity import NamedEntitySource
 
+UI_MARGIN = (2, 5, 2, 5)
+
 
 @inject
 @dataclass
@@ -135,7 +137,7 @@ class ParamsContainer(
 
         return toga.Column(  # type: ignore[no-any-return, no-untyped-call]
             children=[label_row, toga.Box(children=[left_box, right_box])],
-            margin=(2, 5, 2, 5),
+            margin=UI_MARGIN,
         )
 
     # Utility methods
@@ -149,7 +151,7 @@ class ParamsContainer(
                 toga.Box(children=[label], flex=1),
                 toga.Box(children=[widget], flex=1),
             ],
-            margin=(2, 5, 2, 5),
+            margin=UI_MARGIN,
             align_items='center',
             flex=1,
         )
