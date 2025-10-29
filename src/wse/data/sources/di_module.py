@@ -9,9 +9,22 @@ from . import (
     CalculationExerciseSource,
     TaskSource,
 )
-from .foreign import params
-from .foreign.abc import WordStudyPresentationNetworkSourceABC
-from .foreign.study import WordStudyPresentationNetworkSource
+from .foreign import (
+    WordParamsLocaleSourceABC,
+    WordParamsNetworkSourceABC,
+    WordStudyPresentationNetworkSourceABC,
+    WordStudySettingsLocaleSourceABC,
+)
+from .foreign.params import (
+    WordParamsData,
+    WordParamsLocaleSource,
+    WordParamsNetworkSource,
+)
+from .foreign.study import (
+    WordStudyPresentationNetworkSource,
+    WordStudySettingsData,
+    WordStudySettingsLocaleSource,
+)
 from .glossary import TermNetworkSourceABC, TermPresentationNetworkSourceABC
 from .glossary.study import TermPresentationNetworkSource
 from .glossary.term import TermNetworkSource
@@ -48,23 +61,33 @@ class SourceModule(Module):
             scope=SingletonScope,
         )
 
-        # Foreign
+        # Foreign: Word study
         binder.bind(
             WordStudyPresentationNetworkSourceABC,
             to=WordStudyPresentationNetworkSource,
             scope=SingletonScope,
         )
+        binder.bind(
+            WordStudySettingsLocaleSourceABC,
+            to=WordStudySettingsLocaleSource,
+            scope=SingletonScope,
+        )
+        binder.bind(
+            WordStudySettingsData,
+            scope=SingletonScope,
+        )
+
         # Foreign: Word study params
         binder.bind(
-            params.WordParamsData,
+            WordParamsData,
             scope=SingletonScope,
         )
         binder.bind(
-            params.WordParamsLocaleSourceABC,
-            to=params.WordParamsLocaleSource,
+            WordParamsLocaleSourceABC,
+            to=WordParamsLocaleSource,
             scope=SingletonScope,
         )
         binder.bind(
-            params.WordParamsNetworkSourceABC,
-            to=params.WordParamsNetworkSource,
+            WordParamsNetworkSourceABC,
+            to=WordParamsNetworkSource,
         )

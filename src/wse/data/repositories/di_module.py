@@ -12,9 +12,10 @@ from .foreign import (
     GetWordStudyRepoABC,
     WordParamsMapperABC,
     WordParamsRepoABC,
+    WordStudySettingsRepoABC,
 )
 from .foreign.params import WordParamsMapper, WordParamsRepo
-from .foreign.study import GetWordStudyRepo
+from .foreign.study import GetWordStudyRepo, WordStudySettingsRepo
 from .glossary import TermPresentationRepoABC, TermsRepoABC
 from .glossary.study import TermPresentationRepo
 from .glossary.term import TermsRepo
@@ -58,3 +59,4 @@ class RepoModule(Module):
         binder.bind(GetWordStudyRepoABC, to=GetWordStudyRepo)
         binder.bind(WordParamsRepoABC, to=WordParamsRepo)
         binder.bind(WordParamsMapperABC, to=WordParamsMapper)
+        binder.bind(WordStudySettingsRepoABC, to=WordStudySettingsRepo)

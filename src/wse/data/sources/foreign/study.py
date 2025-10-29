@@ -1,7 +1,8 @@
 """Foreign word study source."""
 
 import logging
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
+from typing import override
 
 from injector import inject
 
@@ -9,11 +10,24 @@ from wse.api.foreign.abc import WordStudyPresentationApiABC
 from wse.data.sources.foreign.schemas import (
     WordStudyPresentationParamsSchema,
     WordStudyPresentationSchema,
+    WordStudySettingsSchema,
 )
 
-from .abc import WordStudyPresentationNetworkSourceABC
+from .abc import (
+    WordStudyPresentationNetworkSourceABC,
+    WordStudySettingsLocaleSourceABC,
+)
 
 log = logging.getLogger(__name__)
+
+DEFAULT_WORD_STUDY_TIMEOUT = 3
+
+
+@dataclass(frozen=True)
+class WordStudySettingsData:
+    """Word study settings Data source."""
+
+    timeout: int = DEFAULT_WORD_STUDY_TIMEOUT
 
 
 @inject
@@ -26,6 +40,7 @@ class WordStudyPresentationNetworkSource(
     _presentation_api: WordStudyPresentationApiABC
 
     # TODO: Fix payload
+    @override
     def fetch_presentation(self) -> WordStudyPresentationSchema:
         """Fetch word study presentation case."""
         params = {'category': None, 'label': None}
@@ -35,3 +50,20 @@ class WordStudyPresentationNetworkSource(
             log.exception(f'Source Network error: {e}')
             raise
         return self._presentation_api.fetch_presentation(payload)
+
+
+@inject
+@dataclass
+class WordStudySettingsLocaleSource(WordStudySettingsLocaleSourceABC):
+    """Word study Locale settings source."""
+
+    _data: WordStudySettingsData
+
+    @override
+    def get_settings(self) -> WordStudySettingsSchema:
+        """Get word study settings."""
+        try:
+            return WordStudySettingsSchema.from_dict(asdict(self._data))
+        except Exception as e:
+            log.exception(f'Word study Locale settings error: {e}')
+            raise

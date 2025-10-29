@@ -3,11 +3,25 @@
 from abc import ABC, abstractmethod
 from typing import Literal
 
-from wse.data.sources.foreign.schemas import (
+from wse.feature.observer.generic import ObserverManagerGenABC
+
+from .schemas import (
     WordParamsSchema,
     WordStudyPresentationSchema,
+    WordStudySettingsSchema,
 )
-from wse.feature.observer.generic import ObserverManagerGenABC
+
+# Word study settings
+# -------------------
+
+
+class WordStudySettingsLocaleSourceABC(ABC):
+    """Word study Locale settings source."""
+
+    @abstractmethod
+    def get_settings(self) -> WordStudySettingsSchema:
+        """Get word study settings."""
+
 
 # Word study source
 # -----------------

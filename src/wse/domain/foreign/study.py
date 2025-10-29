@@ -8,7 +8,10 @@ import toga
 from injector import inject
 
 from wse.core.navigation import NavID
-from wse.data.repositories.foreign.abc import GetWordStudyRepoABC
+from wse.data.repositories.foreign.abc import (
+    GetWordStudyRepoABC,
+    WordStudySettingsRepoABC,
+)
 from wse.data.sources.foreign.schemas import WordStudyPresentationSchema
 from wse.domain.foreign.abc import (
     ExerciseAccessorT,
@@ -36,10 +39,12 @@ class WordStudyUseCase(
     _word_study_repo: GetWordStudyRepoABC
     _main_window: toga.MainWindow
     _timer: TimerABC
+    _settings_repo: WordStudySettingsRepoABC
 
     def __post_init__(self) -> None:
         """Construct the case."""
         self._study_data: WordStudyPresentationSchema | None = None
+        self._settings = self._settings_repo.get_settings()
 
     def _update_study_data(self) -> None:
         self._study_data = self._word_study_repo.get_word()
@@ -66,10 +71,10 @@ class WordStudyUseCase(
                 break
 
             self._display_definition(self._study_data.definition)
-            await self._timer.start(1)
+            await self._timer.start(self._settings.timeout)
 
             self._display_explanation(self._study_data.explanation)
-            await self._timer.start(1)
+            await self._timer.start(self._settings.timeout)
             self._display_definition(NO_TEXT)
             self._display_explanation(NO_TEXT)
 

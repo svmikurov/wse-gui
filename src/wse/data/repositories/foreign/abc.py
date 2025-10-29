@@ -11,6 +11,7 @@ if TYPE_CHECKING:
         WordParamsSchema,
         WordSelectedSchema,
         WordStudyPresentationSchema,
+        WordStudySettingsSchema,
     )
 
 # Study repo
@@ -57,6 +58,14 @@ class WordParamsRepoABC(
     RefreshWordParamsRepoABC,
 ):
     """ABC for Word study repository."""
+
+
+class WordStudySettingsRepoABC(ABC):
+    """ABC for Word study settings repository."""
+
+    @abstractmethod
+    def get_settings(self) -> WordStudySettingsSchema:
+        """Get word study settings."""
 
 
 # TODO: Delete below

@@ -55,6 +55,16 @@ class WordStudyPresentationSchema(BaseSchema):
     explanation: str
 
 
+# Word study settings
+# -------------------
+
+
+class WordStudySettingsSchema(BaseSchema):
+    """Word study settings schema."""
+
+    timeout: int
+
+
 # Word study params
 # -----------------
 
