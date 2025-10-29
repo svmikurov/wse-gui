@@ -2,25 +2,24 @@
 
 import logging
 from dataclasses import dataclass
-from typing import Any, Literal, override
+from typing import override
 
 from injector import inject
 
 from wse.domain.foreign import (
     ExerciseAccessorT,
-    ExerciseNotifyABC,
     WordStudyUseCaseABC,
 )
-from wse.feature.observer import UpdateObserverABC
-from wse.feature.observer.accessor import NotifyAccessorGen
-from wse.feature.observer.mixins import ObserverManagerGen
+from wse.feature.observer import ChangeObserverABC
+from wse.feature.observer.generic import HandleObserverABC
+from wse.feature.observer.mixins import NotifyGen, ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateStateMixin
+from wse.ui.containers.control import Action
+from wse.utils import decorators
 
-from . import StudyForeignViewModelABC
+from . import PresenterNotifyT, StudyForeignViewModelABC
 
 log = logging.getLogger(__name__)
-
-_PresenterNotifyT = Literal['change']
 
 NO_TEXT = ''
 
@@ -29,9 +28,10 @@ NO_TEXT = ''
 @dataclass
 class StudyForeignViewModel(
     NavigateStateMixin,
-    ObserverManagerGen[UpdateObserverABC[Any]],
-    NotifyAccessorGen[_PresenterNotifyT, ExerciseAccessorT],
-    ExerciseNotifyABC,
+    ObserverManagerGen[
+        ChangeObserverABC[PresenterNotifyT] | HandleObserverABC[Action],
+    ],
+    NotifyGen[PresenterNotifyT | Action],
     StudyForeignViewModelABC,
 ):
     """Foreign words study ViewModel."""
@@ -58,3 +58,17 @@ class StudyForeignViewModel(
         value: str,
     ) -> None:
         self.notify('change', accessor=accessor, value=value)
+
+    @decorators.log_unimplemented_call
+    @override
+    def handle(self, action: Action) -> None:
+        """Handle user action."""
+        match action:
+            case Action.PAUSE:
+                pass
+            case Action.NEXT:
+                pass
+            case Action.KNOWN:
+                pass
+            case Action.UNKNOWN:
+                pass

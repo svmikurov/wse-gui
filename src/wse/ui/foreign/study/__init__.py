@@ -3,6 +3,11 @@
 __all__ = [
     'StudyForeignViewABC',
     'StudyForeignViewModelABC',
+    'PresenterNotifyT',
 ]
 
-from .abc import StudyForeignViewABC, StudyForeignViewModelABC
+from .abc import (
+    PresenterNotifyT,
+    StudyForeignViewABC,
+    StudyForeignViewModelABC,
+)

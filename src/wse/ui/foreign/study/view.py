@@ -9,8 +9,13 @@ from injector import inject
 from wse.config.layout.style import StyleConfig
 from wse.config.layout.theme import ThemeConfig
 from wse.core.navigation import NavID
+from wse.feature.observer.generic import HandleObserverABC
+from wse.feature.observer.mixins import ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateViewMixin
-from wse.ui.containers.control import ControlContainerABC
+from wse.ui.containers.control import (
+    Action,
+    ControlContainerABC,
+)
 from wse.ui.containers.presentation.presenter import PresenterContainerABC
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 
@@ -20,6 +25,8 @@ from . import StudyForeignViewABC, StudyForeignViewModelABC
 @inject
 @dataclass
 class StudyForeignView(
+    ObserverManagerGen[HandleObserverABC[Action]],
+    # NotifyGen[ControlNotifyT],
     NavigateViewMixin,
     StudyForeignViewABC,
 ):
@@ -35,6 +42,7 @@ class StudyForeignView(
         """Configure the view."""
         self._top_bar.add_observer(self)
         self._state.add_observer(self._presenter)
+        self._control_container.add_observer(self)
         self._content.test_id = NavID.FOREIGN_STUDY
         super().__post_init__()
 
@@ -70,3 +78,12 @@ class StudyForeignView(
         """Call methods before close the screen."""
         self._top_bar.remove_observer(self)
         self._state.remove_observer(self._presenter)
+        self._control_container.remove_observer(self)
+
+    # Observer methods
+    # ----------------
+
+    @override
+    def handle(self, action: Action) -> None:
+        """Handle user action."""
+        self._state.handle(action)

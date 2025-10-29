@@ -1,35 +1,23 @@
 """Exercise control container."""
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
 
 import toga
 from injector import inject
 
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.core.base.enums import BaseEnum
+from wse.feature.observer.generic import HandleObserverABC
+from wse.feature.observer.mixins import NotifyGen, ObserverManagerGen
 from wse.ui.base.content.mixins import GetContentMixin
-from wse.utils import decorators
-from wse.utils.i18n import I18N
 
-from . import ControlContainerABC
-
-if TYPE_CHECKING:
-    from toga.widgets.button import OnPressHandler
-
-
-class Action(BaseEnum):
-    """Exercise action enumeration."""
-
-    PAUSE = I18N.EXERCISE('Pause')
-    NEXT = I18N.EXERCISE('Next')
-    KNOWN = I18N.EXERCISE('Known')
-    UNKNOWN = I18N.EXERCISE('Unknown')
+from . import Action, ControlContainerABC, ControlNotifyT
 
 
 @inject
 @dataclass
 class ControlContainer(
+    ObserverManagerGen[HandleObserverABC[Action]],
+    NotifyGen[ControlNotifyT],
     GetContentMixin,
     ControlContainerABC,
 ):
@@ -58,8 +46,6 @@ class ControlContainer(
     def _create_btn(self, text: Action) -> toga.Button:
         return toga.Button(text, on_press=self._on_press)  # type: ignore[arg-type]
 
-    # TODO: Implement method
-    @decorators.log_unimplemented_call
-    def _on_press(self, button: toga.Button) -> OnPressHandler:  # type: ignore[empty-body]
+    def _on_press(self, button: toga.Button) -> None:
         """Button callback."""
-        pass
+        self.notify('handle', action=Action(button.text))

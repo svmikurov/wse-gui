@@ -48,3 +48,11 @@ class SubjectGenABC(
     Generic[ObserverT, NotifyT],
 ):
     """ABC for Subject observer."""
+
+
+class HandleObserverABC(ABC, Generic[NotifyT]):
+    """ABC for 'handle' observer accessor event."""
+
+    @abstractmethod
+    def handle(self, action: NotifyT) -> None:
+        """Handle action."""
