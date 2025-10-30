@@ -24,10 +24,31 @@ class ExerciseNotifyABC(ABC):
         """Notify that exercise updated."""
 
 
+class ExerciseUserActionsABC(ABC):
+    """ABC for Exercise user action."""
+
+    @abstractmethod
+    def pause(self) -> None:
+        """Handle 'pause' case user action of exercise."""
+
+    @abstractmethod
+    def next(self) -> None:
+        """Handle 'next' case user action of exercise."""
+
+    @abstractmethod
+    def known(self) -> None:
+        """Handle 'known' case user action of exercise."""
+
+    @abstractmethod
+    def unknown(self) -> None:
+        """Handle 'unknown' case user action of exercise."""
+
+
 @inject
 @dataclass
 class WordStudyUseCaseABC(
     ObserverManagerGen[ExerciseNotifyABC],
+    ExerciseUserActionsABC,
     ABC,
 ):
     """ABC for Words study Use Case."""

@@ -15,7 +15,6 @@ from wse.feature.observer.generic import HandleObserverABC
 from wse.feature.observer.mixins import NotifyGen, ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateStateMixin
 from wse.ui.containers.control import Action
-from wse.utils import decorators
 
 from . import PresenterNotifyT, StudyForeignViewModelABC
 
@@ -59,16 +58,15 @@ class StudyForeignViewModel(
     ) -> None:
         self.notify('change', accessor=accessor, value=value)
 
-    @decorators.log_unimplemented_call
     @override
     def handle(self, action: Action) -> None:
         """Handle user action."""
         match action:
             case Action.PAUSE:
-                pass
+                self._study_case.pause()
             case Action.NEXT:
-                pass
+                self._study_case.next()
             case Action.KNOWN:
-                pass
+                self._study_case.known()
             case Action.UNKNOWN:
-                pass
+                self._study_case.unknown()

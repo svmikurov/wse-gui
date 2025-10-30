@@ -3,6 +3,7 @@
 import asyncio
 import logging
 from dataclasses import dataclass
+from typing import override
 
 import toga
 from injector import inject
@@ -21,6 +22,7 @@ from wse.domain.foreign.abc import (
 from wse.feature.observer.accessor import NotifyAccessorGen
 from wse.feature.timer.abc import TimerABC
 from wse.ui.content import Content
+from wse.utils import decorators
 
 NO_TEXT = ''
 
@@ -100,3 +102,30 @@ class WordStudyUseCase(
 
     def _display_explanation(self, value: str) -> None:
         self.notify('exercise_updated', accessor='explanation', value=value)
+
+    # Exercise user actions
+    # ---------------------
+
+    @decorators.log_unimplemented_call
+    @override
+    def pause(self) -> None:
+        """Handle 'pause' case user action of exercise."""
+        ...
+
+    @decorators.log_unimplemented_call
+    @override
+    def next(self) -> None:
+        """Handle 'next' case user action of exercise."""
+        ...
+
+    @decorators.log_unimplemented_call
+    @override
+    def known(self) -> None:
+        """Handle 'known' case user action of exercise."""
+        ...
+
+    @decorators.log_unimplemented_call
+    @override
+    def unknown(self) -> None:
+        """Handle 'unknown' case user action of exercise."""
+        ...
