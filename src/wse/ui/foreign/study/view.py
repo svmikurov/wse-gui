@@ -12,10 +12,7 @@ from wse.core.navigation import NavID
 from wse.feature.observer.generic import HandleObserverABC
 from wse.feature.observer.mixins import ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateViewMixin
-from wse.ui.containers.control import (
-    Action,
-    ControlContainerABC,
-)
+from wse.ui.containers.control import Action, ControlContainerABC
 from wse.ui.containers.presentation.presenter import PresenterContainerABC
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 
@@ -26,7 +23,6 @@ from . import StudyForeignViewABC, StudyForeignViewModelABC
 @dataclass
 class StudyForeignView(
     ObserverManagerGen[HandleObserverABC[Action]],
-    # NotifyGen[ControlNotifyT],
     NavigateViewMixin,
     StudyForeignViewABC,
 ):
