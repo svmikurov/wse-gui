@@ -1,10 +1,7 @@
 """Abstract base classes for Foreign discipline domain."""
 
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
 from typing import Literal
-
-from injector import inject
 
 from wse.feature.observer.mixins import ObserverManagerGen
 
@@ -44,8 +41,6 @@ class ExerciseUserActionsABC(ABC):
         """Handle 'unknown' case user action of exercise."""
 
 
-@inject
-@dataclass
 class WordStudyUseCaseABC(
     ObserverManagerGen[ExerciseNotifyABC],
     ExerciseUserActionsABC,
