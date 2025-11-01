@@ -51,6 +51,25 @@ def log_unimplemented_call(func: F) -> F:
     return wrapper  # type: ignore[return-value]
 
 
+def log_func_call(func: F) -> F:
+    """Log that func called."""
+
+    @wraps(func)
+    def wrapper(*args: object, **kwargs: object) -> object:
+        class_name = (
+            args[0].__class__.__name__
+            if args and hasattr(args[0], '__class__')
+            else ''
+        )
+        method_name = (
+            f'{class_name}.{func.__name__}' if class_name else func.__name__
+        )
+        audit.info(f'Func called: `{method_name}()`')
+        return func(*args, **kwargs)
+
+    return wrapper  # type: ignore[return-value]
+
+
 def log_implementation(func: F) -> F:
     """Add logging to the wrapped function."""
 
