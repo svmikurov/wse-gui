@@ -73,10 +73,10 @@ class WordStudyUseCase(
                 break
 
             self._display_definition(self._study_data.definition)
-            await self._timer.start(self._settings.timeout)
+            await self._timer.start(self._settings.question_timeout)
 
             self._display_explanation(self._study_data.explanation)
-            await self._timer.start(self._settings.timeout)
+            await self._timer.start(self._settings.answer_timeout)
             self._display_definition(NO_TEXT)
             self._display_explanation(NO_TEXT)
 

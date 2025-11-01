@@ -7,7 +7,7 @@ class TimerABC(ABC):
     """ABC for time control."""
 
     @abstractmethod
-    async def start(self, timeout: int | None = None) -> None:
+    async def start(self, timeout: float | None = None) -> None:
         """Start event timer."""
 
     @abstractmethod

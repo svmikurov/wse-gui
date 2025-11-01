@@ -16,7 +16,7 @@ class Timer(TimerABC):
         self.pause = False
         self.timeout = DEFAULT_TIMEOUT if not timeout else timeout
 
-    async def start(self, timeout: int | None = None) -> None:
+    async def start(self, timeout: float | None = None) -> None:
         """Start event timer."""
         timeout_ = self.timeout if not timeout else timeout
         self.timer = asyncio.create_task(asyncio.sleep(timeout_))

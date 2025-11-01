@@ -62,7 +62,8 @@ class WordStudyPresentationSchema(BaseSchema):
 class WordStudySettingsSchema(BaseSchema):
     """Word study settings schema."""
 
-    timeout: int
+    question_timeout: float = 1.5
+    answer_timeout: float = 1.5
 
 
 # Word study params
