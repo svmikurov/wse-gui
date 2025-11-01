@@ -28,6 +28,7 @@ requires = [
 ]
 test_requires = [
     "pytest",
+    "pytest-asyncio",
 ]
 
 [tool.briefcase.app.wse.macOS]
