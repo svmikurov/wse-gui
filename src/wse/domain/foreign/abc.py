@@ -5,12 +5,15 @@ from typing import Literal
 
 from wse.feature.observer.mixins import ObserverManagerGen
 
-ExerciseAccessorT = Literal['definition', 'explanation']
-UIStateNotifyT = Literal['exercise_updated']
+# TODO: Refactor 'ExerciseAccessorT' to Enum?
+ExerciseAccessorT = Literal['definition', 'explanation', 'progress']
+UIStateNotifyT = Literal['exercise_updated', 'progress_updated']
 
 
 class ExerciseNotifyABC(ABC):
     """ABC for exercise observer."""
+
+    # TODO: Add check each 'ExerciseAccessorT' type added to ABC?
 
     @abstractmethod
     def exercise_updated(
@@ -19,6 +22,15 @@ class ExerciseNotifyABC(ABC):
         value: str,
     ) -> None:
         """Notify that exercise updated."""
+
+    @abstractmethod
+    def progress_updated(
+        self,
+        accessor: ExerciseAccessorT,
+        max: float,
+        value: float,
+    ) -> None:
+        """Notify that progress updated."""
 
 
 class ExerciseUserActionsABC(ABC):
@@ -51,3 +63,7 @@ class WordStudyUseCaseABC(
     @abstractmethod
     def start(self) -> None:
         """Start exercise."""
+
+    @abstractmethod
+    def stop(self) -> None:
+        """Stop exercise."""

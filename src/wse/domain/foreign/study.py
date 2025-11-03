@@ -5,10 +5,8 @@ import logging
 from dataclasses import dataclass
 from typing import override
 
-import toga
 from injector import inject
 
-from wse.core.navigation import NavID
 from wse.data.repositories.foreign.abc import (
     GetWordStudyRepoABC,
     WordStudySettingsRepoABC,
@@ -20,14 +18,13 @@ from wse.domain.foreign.abc import (
     WordStudyUseCaseABC,
 )
 from wse.feature.observer.accessor import NotifyAccessorGen
-from wse.feature.timer.abc import TimerABC
-from wse.ui.content import Content
 from wse.utils import decorators
+
+from ..abc import PresentationABC
 
 NO_TEXT = ''
 
 log = logging.getLogger(__name__)
-audit = logging.getLogger('audit')
 
 
 @inject
@@ -39,63 +36,51 @@ class WordStudyUseCase(
     """Words study Use Case."""
 
     _word_study_repo: GetWordStudyRepoABC
-    _main_window: toga.MainWindow
-    _timer: TimerABC
     _settings_repo: WordStudySettingsRepoABC
+    _domain: PresentationABC
 
     def __post_init__(self) -> None:
         """Construct the case."""
-        self._study_data: WordStudyPresentationSchema | None = None
         self._settings = self._settings_repo.get_settings()
-
-    def _update_study_data(self) -> None:
-        self._study_data = self._word_study_repo.get_word()
-
-    # Exercise management
-    # -------------------
 
     def start(self) -> None:
         """Start exercise."""
-        log.debug("Started 'Word study presentation'")
-        try:
-            asyncio.create_task(self.loop())
-        except Exception:
-            log.error('The exercise has been break')
-            return
+        asyncio.create_task(self._loop_word_study())
+        self._domain.start()
 
-    async def loop(self) -> None:
-        """Loop exercise."""
-        while self.is_enable_exercise:
-            try:
-                self._study_data = self._word_study_repo.get_word()
-            except Exception as e:
-                log.error(f'Get word study error: {e}')
+    async def _loop_word_study(self) -> None:
+        """Loop Word study exercise."""
+        asyncio.create_task(self._monitor_progress())
+
+        while True:
+            # Start presentation case
+            await self._domain.wait_start_case_event()
+            if not (data := self._get_data()):
                 break
 
-            self._display_definition(self._study_data.definition)
-            await self._timer.start(self._settings.question_timeout)
+            # Definition presentation phase
+            await self._domain.wait_definition_event()
+            self._display_definition(data.definition)
 
-            self._display_explanation(self._study_data.explanation)
-            await self._timer.start(self._settings.answer_timeout)
+            # Explanation presentation phase
+            await self._domain.wait_explanation_event()
+            self._display_explanation(data.explanation)
+
+            # End presentation case
+            await self._domain.wait_end_case_event()
             self._display_definition(NO_TEXT)
             self._display_explanation(NO_TEXT)
 
-    @property
-    def is_enable_exercise(self) -> bool:
-        """Return `False` to cancel task update, `True` otherwise."""
-        if not self._timer.is_pause():
-            return self.is_visible_screen
-        return False
+    # Word study case event progress
+    # ------------------------------
 
-    @property
-    def is_visible_screen(self) -> bool:
-        """Is the current screen visible."""
-        if isinstance(self._main_window.content, Content):
-            return self._main_window.content.test_id == NavID.FOREIGN_STUDY
-        return False
+    async def _monitor_progress(self) -> None:
+        while True:
+            max, value = await self._domain.get_progress()
+            self._display_progress(max, value)
 
-    # UIState management
-    # ------------------
+    # Notifications
+    # -------------
 
     def _display_definition(self, value: str) -> None:
         self.notify('exercise_updated', accessor='definition', value=value)
@@ -103,20 +88,24 @@ class WordStudyUseCase(
     def _display_explanation(self, value: str) -> None:
         self.notify('exercise_updated', accessor='explanation', value=value)
 
+    def _display_progress(self, max: float, value: float) -> None:
+        self.notify(
+            'progress_updated', accessor='progress', max=max, value=value
+        )
+
     # Exercise user actions
     # ---------------------
 
-    @decorators.log_unimplemented_call
     @override
     def pause(self) -> None:
         """Handle 'pause' case user action of exercise."""
-        ...
+        self._domain.pause()
 
-    @decorators.log_unimplemented_call
+    # TODO: Add `unpause` method, update `next` method
     @override
     def next(self) -> None:
         """Handle 'next' case user action of exercise."""
-        ...
+        self._domain.unpause()
 
     @decorators.log_unimplemented_call
     @override
@@ -129,3 +118,17 @@ class WordStudyUseCase(
     def unknown(self) -> None:
         """Handle 'unknown' case user action of exercise."""
         ...
+
+    def stop(self) -> None:
+        """Stop exercise."""
+        self._domain.stop()
+
+    # Utility methods
+    # ---------------
+
+    def _get_data(self) -> WordStudyPresentationSchema | None:
+        try:
+            return self._word_study_repo.get_word()
+        except Exception as e:
+            log.error(f'Get word study error: {e}')
+            return None

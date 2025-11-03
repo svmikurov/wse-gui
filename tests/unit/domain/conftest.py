@@ -1,0 +1,61 @@
+"""Configuration for domain tests."""
+
+import asyncio
+from unittest.mock import AsyncMock
+import pytest
+from wse.domain.presentation import Presentation
+
+@pytest.fixture
+def mock_start_case_event() -> AsyncMock:
+    """Mock start case event."""
+    return AsyncMock(spec=asyncio.Event)
+
+
+@pytest.fixture
+def mock_definition_event() -> AsyncMock:
+    """Mock definition event."""
+    return AsyncMock(spec=asyncio.Event)
+
+
+@pytest.fixture
+def mock_explanation_event() -> AsyncMock:
+    """Mock explanation event."""
+    return AsyncMock(spec=asyncio.Event)
+
+
+@pytest.fixture
+def mock_end_case_event() -> AsyncMock:
+    """Mock end case event."""
+    return AsyncMock(spec=asyncio.Event)
+
+
+@pytest.fixture
+def mock_unpause_event() -> AsyncMock:
+    """Mock unpause event."""
+    return AsyncMock(spec=asyncio.Event)
+
+
+@pytest.fixture
+def mock_progress_queue() -> AsyncMock:
+    """Mock progress queue."""
+    return AsyncMock(spec=asyncio.Queue)
+
+
+@pytest.fixture
+def mock_presentation_domain(
+    mock_start_case_event: AsyncMock,
+    mock_definition_event: AsyncMock,
+    mock_explanation_event: AsyncMock,
+    mock_end_case_event: AsyncMock,
+    mock_unpause_event: AsyncMock,
+    mock_progress_queue: AsyncMock,
+) -> Presentation:
+    """Presentation domain fixture."""
+    return Presentation(
+        start_case_event=mock_start_case_event,
+        definition_event=mock_definition_event,
+        explanation_event=mock_explanation_event,
+        end_case_event=mock_end_case_event,
+        unpause_event=mock_unpause_event,
+        progress_queue=mock_progress_queue,
+    )

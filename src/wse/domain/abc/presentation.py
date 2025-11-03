@@ -1,0 +1,43 @@
+"""Abstract base class for Presentation domain."""
+
+from abc import ABC, abstractmethod
+
+
+class PresentationABC(ABC):
+    """ABC for Presentations domain."""
+
+    @abstractmethod
+    async def wait_start_case_event(self) -> None:
+        """Wait for start case event."""
+
+    @abstractmethod
+    async def wait_definition_event(self) -> None:
+        """Wait for definition phase event."""
+
+    @abstractmethod
+    async def wait_explanation_event(self) -> None:
+        """Wait for explanation phase event."""
+
+    @abstractmethod
+    async def wait_end_case_event(self) -> None:
+        """Wait for end case event."""
+
+    @abstractmethod
+    async def get_progress(self) -> tuple[float, float]:
+        """Get presentation progress value."""
+
+    @abstractmethod
+    def start(self) -> None:
+        """Start presentation case."""
+
+    @abstractmethod
+    def pause(self) -> None:
+        """Pause presentation."""
+
+    @abstractmethod
+    def unpause(self) -> None:
+        """Unpause presentation."""
+
+    @abstractmethod
+    def stop(self) -> None:
+        """Stop presentation."""

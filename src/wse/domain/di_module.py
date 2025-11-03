@@ -4,6 +4,9 @@ from typing import no_type_check
 
 from injector import Binder, Module, SingletonScope
 
+from .abc import (
+    PresentationABC,
+)
 from .abc.assigned import (
     CheckAssignedAnswerUseCaseABC,
     GetAssignedQuestionUseCaseABC,
@@ -37,6 +40,7 @@ from .math_task import (
     GetCalculationQuestionUseCase,
     GetCalculationSolutionUseCase,
 )
+from .presentation import Presentation
 from .user import UserObserverRegistryUseCase
 
 
@@ -51,6 +55,9 @@ class UseCaseModule(Module):
             UserObserverRegistryUseCaseABC,
             to=UserObserverRegistryUseCase,
         )
+
+        # Presentation domain
+        binder.bind(PresentationABC, to=Presentation)
 
         # Mathematical discipline
         binder.bind(
