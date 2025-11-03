@@ -38,6 +38,7 @@ class StudyForeignView(
         """Configure the view."""
         self._top_bar.add_observer(self)
         self._state.add_observer(self._presenter)
+        self._state.add_observer(self)
         self._control_container.add_observer(self)
         self._content.test_id = NavID.FOREIGN_STUDY
         super().__post_init__()
@@ -45,10 +46,12 @@ class StudyForeignView(
     @override
     def _create_ui(self) -> None:
         self._title = toga.Label(NavID.FOREIGN_STUDY)
+        self._progress_bar = toga.ProgressBar()
 
     @override
     def _populate_content(self) -> None:
         self._content.add(
+            self._progress_bar,
             self._top_bar.content,
             self._title,
             self._presenter.content,
@@ -74,7 +77,9 @@ class StudyForeignView(
         """Call methods before close the screen."""
         self._top_bar.remove_observer(self)
         self._state.remove_observer(self._presenter)
+        self._state.remove_observer(self)
         self._control_container.remove_observer(self)
+        self._state.on_close()
 
     # Observer methods
     # ----------------
@@ -83,3 +88,10 @@ class StudyForeignView(
     def handle(self, action: Action) -> None:
         """Handle user action."""
         self._state.handle(action)
+
+    def progress_updated(
+        self, accessor: str, max: float, value: float
+    ) -> None:
+        """Update progress bar."""
+        self._progress_bar.max = max if max else 0.1
+        self._progress_bar.value = value

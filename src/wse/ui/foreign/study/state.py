@@ -2,7 +2,7 @@
 
 import logging
 from dataclasses import dataclass
-from typing import override
+from typing import Literal, override
 
 from injector import inject
 
@@ -15,6 +15,7 @@ from wse.feature.observer.generic import HandleObserverABC
 from wse.feature.observer.mixins import NotifyGen, ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateStateMixin
 from wse.ui.containers.control import Action
+from wse.utils import decorators
 
 from . import PresenterNotifyT, StudyForeignViewModelABC
 
@@ -22,15 +23,18 @@ log = logging.getLogger(__name__)
 
 NO_TEXT = ''
 
+# TODO: Refactor
+ProgressT = Literal['progress_updated']
+
 
 @inject
 @dataclass
 class StudyForeignViewModel(
     NavigateStateMixin,
     ObserverManagerGen[
-        ChangeObserverABC[PresenterNotifyT] | HandleObserverABC[Action],
+        ChangeObserverABC[PresenterNotifyT] | HandleObserverABC[Action]
     ],
-    NotifyGen[PresenterNotifyT | Action],
+    NotifyGen[PresenterNotifyT | ProgressT | Action],
     StudyForeignViewModelABC,
 ):
     """Foreign words study ViewModel."""
@@ -45,10 +49,12 @@ class StudyForeignViewModel(
         """Call methods on open the screen."""
         self._study_case.start()
 
+    @decorators.log_func_call
     @override
     def on_close(self) -> None:
         """Call methods before close the screen."""
         self._study_case.remove_observer(self)
+        self._study_case.stop()
 
     @override
     def exercise_updated(
@@ -57,6 +63,17 @@ class StudyForeignViewModel(
         value: str,
     ) -> None:
         self.notify('change', accessor=accessor, value=value)
+
+    @override
+    def progress_updated(
+        self,
+        accessor: ExerciseAccessorT,
+        max: float,
+        value: float,
+    ) -> None:
+        self.notify(
+            'progress_updated', accessor=accessor, max=max, value=value
+        )
 
     @override
     def handle(self, action: Action) -> None:
