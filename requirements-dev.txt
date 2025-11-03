@@ -13,6 +13,7 @@ briefcase==0.3.25
 # Code checking requirements
 mypy==1.16.1
 pytest==8.4.1
+pytest-asyncio==1.2.0
 ruff==0.12.0
 
 # Docs
