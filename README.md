@@ -20,12 +20,12 @@ sudo apt install git build-essential pkg-config python3-dev libgirepository-2.0-
 ```
 
 Install gettext package
-```
+```commandline
 sudo apt-get update && sudo apt-get install gettext
 ```
 
 ## Install development dependency
-```
+```commandline
 pip install -r requirements-dev.txt
 ```
 
@@ -36,11 +36,24 @@ make localize
 ```
 
 ## Run tests
-```
+```commandline
 make test
 ```
 
 ## Run development mode
 ```commandline
+make start
+```
+
+### Combined commands
+Combined commands to install python dependencies
+```commandline
+git clone git@github.com:svmikurov/wse-gui.git
+cd wse-gui/
+python3 -m venv .venv_wsegui
+source .venv_wsegui/bin/activate
+pip install -r requirements-dev.txt
+make localize
+make test
 make start
 ```
