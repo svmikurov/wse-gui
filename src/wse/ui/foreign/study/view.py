@@ -16,7 +16,7 @@ from wse.ui.containers.control import Action, ControlContainerABC
 from wse.ui.containers.presentation.presenter import PresenterContainerABC
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 
-from . import StudyForeignViewABC, StudyForeignViewModelABC
+from . import StudyForeignViewABC, WordPresentationViewModelABC
 
 
 @inject
@@ -28,7 +28,7 @@ class StudyForeignView(
 ):
     """Foreign words study View."""
 
-    _state: StudyForeignViewModelABC
+    _state: WordPresentationViewModelABC
     _top_bar: TopBarControllerABC
     _presenter: PresenterContainerABC
     _control_container: ControlContainerABC

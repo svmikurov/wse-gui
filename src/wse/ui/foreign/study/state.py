@@ -17,7 +17,7 @@ from wse.ui.base.navigate.mixin import NavigateStateMixin
 from wse.ui.containers.control import Action
 from wse.utils import decorators
 
-from . import PresenterNotifyT, StudyForeignViewModelABC
+from . import PresenterNotifyT, WordPresentationViewModelABC
 
 log = logging.getLogger(__name__)
 
@@ -29,13 +29,13 @@ ProgressT = Literal['timeout_updated']
 
 @inject
 @dataclass
-class StudyForeignViewModel(
+class WordPresentationViewModel(
     NavigateStateMixin,
     ObserverManagerGen[
         ChangeObserverABC[PresenterNotifyT] | HandleObserverABC[Action]
     ],
     NotifyGen[PresenterNotifyT | ProgressT | Action],
-    StudyForeignViewModelABC,
+    WordPresentationViewModelABC,
 ):
     """Foreign words study ViewModel."""
 

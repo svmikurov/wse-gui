@@ -18,7 +18,7 @@ PresenterNotifyT = Literal['change']
 
 
 @dataclass
-class StudyForeignViewModelABC(
+class WordPresentationViewModelABC(
     OnCloseABC,
     OnOpenABC,
     NavigateABC,
