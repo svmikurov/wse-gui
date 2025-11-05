@@ -3,7 +3,7 @@
 httpx==0.28.1
 injector==0.22.0
 pydantic==1.10.22
-wse-exercises<1.0.0
+wse-exercises<0.5.0
 
 # Toga framework requirements
 # to install development mode
