@@ -5,8 +5,10 @@ from unittest.mock import Mock
 import pytest
 
 from wse.config import layout
-from wse.ui.containers.control import Action
+from wse.ui.containers.control import Action, ControlNotifyT
 from wse.ui.containers.control.container import ControlContainer
+
+CONTAINER_NOTIFICATION: ControlNotifyT = 'handle'
 
 
 @pytest.fixture
@@ -57,7 +59,9 @@ class TestControlContainer:
         btn._impl.interface.on_press()
 
         # Verify notification was called with correct parameters
-        mock_subject.notify.assert_called_once_with('handle', action=action)
+        mock_subject.notify.assert_called_once_with(
+            CONTAINER_NOTIFICATION, action=action
+        )
 
     def test_add_observer(
         self,
