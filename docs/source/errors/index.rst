@@ -23,6 +23,7 @@ Troubleshooting: Bound dependency with ``Module`` class of ``injector`` library
        def configure(self, binder: Binder) -> None:
            ...
            binder.bind(BarInterface, to=Bar)
+           +++++++++++++++++++++++++++++++++
 
 Possible reason: Dependency not injected (error using library ``injector``)
 
