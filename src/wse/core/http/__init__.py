@@ -8,8 +8,10 @@ Contains:
 __all__ = [
     'AuthSchemaProto',
     'HttpClientProto',
+    'HttpClientABC',
 ]
 
+from .abc import HttpClientABC
 from .protocol import (
     AuthSchemaProto,
     HttpClientProto,

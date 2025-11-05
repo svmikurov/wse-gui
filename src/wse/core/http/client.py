@@ -9,7 +9,7 @@ from typing_extensions import override
 
 from wse.config.api import APIConfigV1
 
-from .base import HttpClientABC
+from .abc import HttpClientABC
 from .protocol import AuthSchemaProto
 
 log = logging.getLogger(__name__)

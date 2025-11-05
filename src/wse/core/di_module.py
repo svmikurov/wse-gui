@@ -14,7 +14,7 @@ from .api.auth_jwt import AuthAPIjwt
 from .api.data import DataApi, DataApiABC
 from .api.protocol import AuthAPIjwtProto
 from .auth.service import AuthService
-from .http import AuthSchemaProto, HttpClientProto
+from .http import AuthSchemaProto, HttpClientABC, HttpClientProto
 from .interfaces import Navigable
 from .interfaces.istorage import JWTJsonStorageProto
 from .navigation.navigator import Navigator
@@ -43,6 +43,9 @@ class CoreModule(Module):
         # HTTP services
         binder.bind(HttpClientProto, to=HttpClient)
         binder.bind(AuthSchemaProto, to=AuthSchema, scope=singleton)
+
+        # HTTP client
+        binder.bind(HttpClientABC, to=HttpClient)
 
     @provider
     @singleton

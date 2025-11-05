@@ -5,6 +5,8 @@ from typing import Any, AsyncGenerator, Generator, Protocol
 import httpx
 from httpx import Request, Response
 
+# TODO: Update protocols to ABC?
+
 
 class AuthSchemaProto(Protocol):
     """Protocol for authentication schema interface."""
