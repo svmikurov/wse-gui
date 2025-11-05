@@ -18,6 +18,18 @@ if TYPE_CHECKING:
 # ----------
 
 
+class WordStudyProgressRepoABC(ABC):
+    """Word study progress repo."""
+
+    @abstractmethod
+    def increment(self) -> None:
+        """Increment Word study progress."""
+
+    @abstractmethod
+    def decrement(self) -> None:
+        """Decrement Word study progress."""
+
+
 class GetWordStudyRepoABC(ABC):
     """ABC for repository to get words to study."""
 

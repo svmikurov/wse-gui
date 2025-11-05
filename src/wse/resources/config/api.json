@@ -11,5 +11,6 @@
   "terms": "/api/v1/glossary/terms/",
   "term_presentation": "/api/v1/glossary/study/presentation/",
   "word_presentation": "/api/v1/lang/study/presentation/",
-  "word_params": "/api/v1/lang/study/params/"
+  "word_params": "/api/v1/lang/study/params/",
+  "word_progress_update": "/api/v1/lang/study/progress/"
 }

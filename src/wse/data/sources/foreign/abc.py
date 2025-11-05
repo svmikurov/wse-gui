@@ -20,11 +20,23 @@ class WordStudySettingsLocaleSourceABC(ABC):
 
     @abstractmethod
     def get_settings(self) -> WordStudySettingsSchema:
-        """Get word study settings."""
+        """Get Word study settings."""
 
 
 # Word study source
 # -----------------
+
+
+class WordStudyProgressNetworkSourceABC(ABC):
+    """Word study progress Network Source."""
+
+    @abstractmethod
+    def increment_progress(self) -> None:
+        """Increment Word study progress."""
+
+    @abstractmethod
+    def decrement_progress(self) -> None:
+        """Decrement Word study progress."""
 
 
 class WordStudyPresentationNetworkSourceABC(

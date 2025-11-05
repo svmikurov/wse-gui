@@ -10,8 +10,8 @@ from .timer import TimerABC
 from .timer.time import Timer
 
 
-class FeatureSharedModule(Module):
-    """Shared feature injection module."""
+class FeatureModule(Module):
+    """Feature DI module."""
 
     @no_type_check
     def configure(self, binder: Binder) -> None:

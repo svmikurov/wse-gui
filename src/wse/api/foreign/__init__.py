@@ -2,6 +2,12 @@
 
 __all__ = [
     'WordParamsApiABC',
+    'WordStudyProgressApiABC',
+    'WordStudyPresentationApiABC',
 ]
 
-from .abc import WordParamsApiABC
+from .abc import (
+    WordParamsApiABC,
+    WordStudyPresentationApiABC,
+    WordStudyProgressApiABC,
+)

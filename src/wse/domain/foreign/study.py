@@ -7,8 +7,9 @@ from typing import override
 
 from injector import inject
 
-from wse.data.repositories.foreign.abc import (
+from wse.data.repositories.foreign import (
     GetWordStudyRepoABC,
+    WordStudyProgressRepoABC,
     WordStudySettingsRepoABC,
 )
 from wse.data.sources.foreign.schemas import WordStudyPresentationSchema
@@ -18,7 +19,6 @@ from wse.domain.foreign.abc import (
     WordStudyUseCaseABC,
 )
 from wse.feature.observer.accessor import NotifyAccessorGen
-from wse.utils import decorators
 
 from ..abc import PresentationABC
 
@@ -35,7 +35,8 @@ class WordStudyUseCase(
 ):
     """Words study Use Case."""
 
-    _word_study_repo: GetWordStudyRepoABC
+    _get_word_repo: GetWordStudyRepoABC
+    _progress_repo: WordStudyProgressRepoABC
     _settings_repo: WordStudySettingsRepoABC
     _domain: PresentationABC
 
@@ -77,7 +78,7 @@ class WordStudyUseCase(
     async def _monitor_progress(self) -> None:
         while True:
             max, value = await self._domain.get_progress()
-            self._display_progress(max, value)
+            self._display_timeout(max, value)
 
     # Notifications
     # -------------
@@ -88,9 +89,10 @@ class WordStudyUseCase(
     def _display_explanation(self, value: str) -> None:
         self.notify('exercise_updated', accessor='explanation', value=value)
 
-    def _display_progress(self, max: float, value: float) -> None:
+    # TODO: Refactor, remove accessor='timeout'
+    def _display_timeout(self, max: float, value: float) -> None:
         self.notify(
-            'progress_updated', accessor='progress', max=max, value=value
+            'timeout_updated', accessor='timeout', max=max, value=value
         )
 
     # Exercise user actions
@@ -107,17 +109,15 @@ class WordStudyUseCase(
         """Handle 'next' case user action of exercise."""
         self._domain.unpause()
 
-    @decorators.log_unimplemented_call
     @override
     def known(self) -> None:
         """Handle 'known' case user action of exercise."""
-        ...
+        self._progress_repo.increment()
 
-    @decorators.log_unimplemented_call
     @override
     def unknown(self) -> None:
         """Handle 'unknown' case user action of exercise."""
-        ...
+        self._progress_repo.decrement()
 
     def stop(self) -> None:
         """Stop exercise."""
@@ -128,7 +128,7 @@ class WordStudyUseCase(
 
     def _get_data(self) -> WordStudyPresentationSchema | None:
         try:
-            return self._word_study_repo.get_word()
+            return self._get_word_repo.get_word()
         except Exception as e:
             log.error(f'Get word study error: {e}')
             return None

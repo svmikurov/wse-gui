@@ -9,6 +9,18 @@ from ...data.sources.foreign.schemas import (
 )
 
 
+class WordStudyProgressApiABC(ABC):
+    """ABC for Word study progress API."""
+
+    @abstractmethod
+    def increment_progress(self) -> None:
+        """Send API request to increment Word study progress."""
+
+    @abstractmethod
+    def decrement_progress(self) -> None:
+        """Send API request to decrement Word study progress."""
+
+
 class WordStudyPresentationApiABC(ABC):
     """ABC for Word study presentation API."""
 

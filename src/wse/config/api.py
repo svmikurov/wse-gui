@@ -3,6 +3,7 @@
 from pydantic import BaseModel
 
 
+# TODO: Split API config?
 class ApiConfig(BaseModel):
     """Base api configuration."""
 
@@ -15,6 +16,7 @@ class ApiConfig(BaseModel):
     term_presentation: str
     word_presentation: str
     word_params: str
+    word_progress_update: str
 
     class Config:
         """Model configuration."""

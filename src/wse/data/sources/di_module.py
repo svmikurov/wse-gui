@@ -13,6 +13,7 @@ from .foreign import (
     WordParamsLocaleSourceABC,
     WordParamsNetworkSourceABC,
     WordStudyPresentationNetworkSourceABC,
+    WordStudyProgressNetworkSourceABC,
     WordStudySettingsLocaleSourceABC,
 )
 from .foreign.params import (
@@ -20,6 +21,7 @@ from .foreign.params import (
     WordParamsLocaleSource,
     WordParamsNetworkSource,
 )
+from .foreign.progress import WordStudyProgressNetworkSource
 from .foreign.study import (
     WordStudyPresentationNetworkSource,
     WordStudySettingsData,
@@ -90,4 +92,8 @@ class SourceModule(Module):
         binder.bind(
             WordParamsNetworkSourceABC,
             to=WordParamsNetworkSource,
+        )
+        binder.bind(
+            WordStudyProgressNetworkSourceABC,
+            to=WordStudyProgressNetworkSource,
         )

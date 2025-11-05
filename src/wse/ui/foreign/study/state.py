@@ -24,7 +24,7 @@ log = logging.getLogger(__name__)
 NO_TEXT = ''
 
 # TODO: Refactor
-ProgressT = Literal['progress_updated']
+ProgressT = Literal['timeout_updated']
 
 
 @inject
@@ -62,18 +62,18 @@ class StudyForeignViewModel(
         accessor: ExerciseAccessorT,
         value: str,
     ) -> None:
+        """Notify that exercise case was updated."""
         self.notify('change', accessor=accessor, value=value)
 
     @override
-    def progress_updated(
+    def timeout_updated(
         self,
         accessor: ExerciseAccessorT,
         max: float,
         value: float,
     ) -> None:
-        self.notify(
-            'progress_updated', accessor=accessor, max=max, value=value
-        )
+        """Notify that timeout of exercise phase was updated."""
+        self.notify('timeout_updated', accessor=accessor, max=max, value=value)
 
     @override
     def handle(self, action: Action) -> None:

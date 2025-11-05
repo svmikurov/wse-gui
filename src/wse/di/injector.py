@@ -8,7 +8,7 @@ from wse.core.di_module import CoreModule
 from wse.data.repositories.di_module import RepoModule
 from wse.data.sources.di_module import SourceModule
 from wse.domain.di_module import UseCaseModule
-from wse.feature.di_module import FeatureSharedModule
+from wse.feature.di_module import FeatureModule
 from wse.feature.services.di_module import FeatureServicesModule
 from wse.feature.source.wraps.di_module import SourceWrapsModule
 from wse.ui.containers.di_module import UIContainerModule
@@ -31,7 +31,7 @@ def create_injector() -> Injector:
             # features/
             ApiModule(),
             FeatureServicesModule(),
-            FeatureSharedModule(),
+            FeatureModule(),
             WidgetsModule(),
             # ui/
             UIModule(),

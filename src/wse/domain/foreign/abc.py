@@ -6,8 +6,8 @@ from typing import Literal
 from wse.feature.observer.mixins import ObserverManagerGen
 
 # TODO: Refactor 'ExerciseAccessorT' to Enum?
-ExerciseAccessorT = Literal['definition', 'explanation', 'progress']
-UIStateNotifyT = Literal['exercise_updated', 'progress_updated']
+ExerciseAccessorT = Literal['definition', 'explanation', 'timeout']
+UIStateNotifyT = Literal['exercise_updated', 'timeout_updated']
 
 
 class ExerciseNotifyABC(ABC):
@@ -24,7 +24,7 @@ class ExerciseNotifyABC(ABC):
         """Notify that exercise updated."""
 
     @abstractmethod
-    def progress_updated(
+    def timeout_updated(
         self,
         accessor: ExerciseAccessorT,
         max: float,

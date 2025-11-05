@@ -89,9 +89,8 @@ class StudyForeignView(
         """Handle user action."""
         self._state.handle(action)
 
-    def progress_updated(
-        self, accessor: str, max: float, value: float
-    ) -> None:
+    # TODO: Refactor
+    def timeout_updated(self, accessor: str, max: float, value: float) -> None:
         """Update progress bar."""
         self._progress_bar.max = max if max else 0.1
         self._progress_bar.value = value
