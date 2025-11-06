@@ -8,19 +8,6 @@ import pytest
 from wse.domain.presentation import Presentation
 
 
-@pytest.fixture
-def presentation_domain() -> Presentation:
-    """Presentation domain fixture."""
-    return Presentation(
-        start_case_event=asyncio.Event(),
-        definition_event=asyncio.Event(),
-        explanation_event=asyncio.Event(),
-        end_case_event=asyncio.Event(),
-        unpause_event=asyncio.Event(),
-        progress_queue=asyncio.Queue(),
-    )
-
-
 class TestPresentationControl:
     """Test the Presentation control."""
 

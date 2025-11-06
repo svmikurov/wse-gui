@@ -70,6 +70,19 @@ def mock_presentation_domain(
     )
 
 
+@pytest.fixture
+def presentation_domain() -> Presentation:
+    """Presentation domain fixture."""
+    return Presentation(
+        start_case_event=asyncio.Event(),
+        definition_event=asyncio.Event(),
+        explanation_event=asyncio.Event(),
+        end_case_event=asyncio.Event(),
+        unpause_event=asyncio.Event(),
+        progress_queue=asyncio.Queue(),
+    )
+
+
 # Repository fixtures
 # -------------------
 
