@@ -1,15 +1,11 @@
 """Abstract base classes for Foreign discipline sources."""
 
+import uuid
 from abc import ABC, abstractmethod
 from typing import Literal
 
+from wse.data.sources.foreign import schemas
 from wse.feature.observer.generic import ObserverManagerGenABC
-
-from .schemas import (
-    WordParamsSchema,
-    WordStudyPresentationSchema,
-    WordStudySettingsSchema,
-)
 
 # Word study settings
 # -------------------
@@ -19,7 +15,7 @@ class WordStudySettingsLocaleSourceABC(ABC):
     """Word study Locale settings source."""
 
     @abstractmethod
-    def get_settings(self) -> WordStudySettingsSchema:
+    def get_settings(self) -> schemas.WordStudySettingsSchema:
         """Get Word study settings."""
 
 
@@ -27,25 +23,41 @@ class WordStudySettingsLocaleSourceABC(ABC):
 # -----------------
 
 
+class WordStudyLocaleSourceABC(ABC):
+    """Word study locale source."""
+
+    @abstractmethod
+    def set_case(self, case: schemas.WordStudyCaseSchema) -> None:
+        """Set Word study case."""
+
+    @abstractmethod
+    def get_case_uuid(self) -> uuid.UUID:
+        """Get case UUID."""
+
+    @abstractmethod
+    def get_presentation_data(self) -> schemas.WordPresentationSchema:
+        """Get Presentation part of Word study."""
+
+
 class WordStudyProgressNetworkSourceABC(ABC):
     """Word study progress Network Source."""
 
     @abstractmethod
-    def increment_progress(self) -> None:
+    def increment_progress(self, case_uuid: uuid.UUID) -> None:
         """Increment Word study progress."""
 
     @abstractmethod
-    def decrement_progress(self) -> None:
+    def decrement_progress(self, case_uuid: uuid.UUID) -> None:
         """Decrement Word study progress."""
 
 
-class WordStudyPresentationNetworkSourceABC(
+class WordStudyNetworkSourceABC(
     ABC,
 ):
     """ABC for Word study presentation network source."""
 
     @abstractmethod
-    def fetch_presentation(self) -> WordStudyPresentationSchema:
+    def fetch_presentation(self) -> schemas.WordStudyCaseSchema:
         """Fetch Word study presentation case."""
 
 
@@ -59,7 +71,7 @@ class WordParamsNotifyABC(ABC):
     """ABC for Word study params notifications."""
 
     @abstractmethod
-    def initial_params_updated(self, params: WordParamsSchema) -> None:
+    def initial_params_updated(self, params: schemas.WordParamsSchema) -> None:
         """Set Initial Word study params."""
 
 
@@ -70,7 +82,7 @@ class WordParamsLocaleSourceABC(
     """ABC for Word study params Locale source."""
 
     @abstractmethod
-    def set_initial_params(self, params: WordParamsSchema) -> None:
+    def set_initial_params(self, params: schemas.WordParamsSchema) -> None:
         """Save initial Word study params."""
 
 
@@ -80,5 +92,5 @@ class WordParamsNetworkSourceABC(
     """ABC for Word study params source."""
 
     @abstractmethod
-    def fetch_initial_params(self) -> WordParamsSchema:
+    def fetch_initial_params(self) -> schemas.WordParamsSchema:
         """Fetch Word study initial params."""

@@ -4,7 +4,7 @@ from typing import override
 
 from injector import inject
 
-from wse.data.sources.foreign import WordStudyProgressNetworkSourceABC
+from wse.data.sources import foreign
 
 from .abc import WordStudyProgressRepoABC
 
@@ -15,17 +15,21 @@ class WordStudyProgressRepo(WordStudyProgressRepoABC):
     @inject
     def __init__(
         self,
-        source: WordStudyProgressNetworkSourceABC,
+        progress_source: foreign.WordStudyProgressNetworkSourceABC,
+        case_source: foreign.WordStudyLocaleSourceABC,
     ) -> None:
         """Construct the repo."""
-        self._source = source
+        self._progress_source = progress_source
+        self._case_source = case_source
 
     @override
     def increment(self) -> None:
         """Increment progress of current word study."""
-        self._source.increment_progress()
+        case_uuid = self._case_source.get_case_uuid()
+        self._progress_source.increment_progress(case_uuid)
 
     @override
     def decrement(self) -> None:
         """Decrement progress of current word study."""
-        self._source.decrement_progress()
+        case_uuid = self._case_source.get_case_uuid()
+        self._progress_source.decrement_progress(case_uuid)
