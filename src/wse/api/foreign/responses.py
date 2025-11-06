@@ -5,7 +5,7 @@ from wse.core.api.response import Response
 from ...data.sources.foreign.schemas import (
     WordParamsSchema,
     WordsData,
-    WordStudyPresentationSchema,
+    WordStudyCaseSchema,
 )
 
 
@@ -18,7 +18,7 @@ class WordsResponse(Response):
 class WordStudyPresentationResponse(Response):
     """Word study presentation response schema."""
 
-    data: WordStudyPresentationSchema
+    data: WordStudyCaseSchema
 
 
 class WordStudyParamsResponse(Response):

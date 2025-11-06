@@ -8,13 +8,13 @@ from injector import inject
 
 from wse.api.foreign.abc import WordStudyPresentationApiABC
 from wse.data.sources.foreign.schemas import (
+    WordStudyCaseSchema,
     WordStudyPresentationParamsSchema,
-    WordStudyPresentationSchema,
     WordStudySettingsSchema,
 )
 
 from .abc import (
-    WordStudyPresentationNetworkSourceABC,
+    WordStudyNetworkSourceABC,
     WordStudySettingsLocaleSourceABC,
 )
 
@@ -33,7 +33,7 @@ class WordStudySettingsData:
 @inject
 @dataclass
 class WordStudyPresentationNetworkSource(
-    WordStudyPresentationNetworkSourceABC,
+    WordStudyNetworkSourceABC,
 ):
     """Word study presentation network source."""
 
@@ -41,7 +41,7 @@ class WordStudyPresentationNetworkSource(
 
     # TODO: Fix payload
     @override
-    def fetch_presentation(self) -> WordStudyPresentationSchema:
+    def fetch_presentation(self) -> WordStudyCaseSchema:
         """Fetch word study presentation case."""
         params = {'category': None, 'label': None}
         try:

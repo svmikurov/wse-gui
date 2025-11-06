@@ -12,7 +12,7 @@ from . import (
 from .foreign import (
     WordParamsLocaleSourceABC,
     WordParamsNetworkSourceABC,
-    WordStudyPresentationNetworkSourceABC,
+    WordStudyNetworkSourceABC,
     WordStudyProgressNetworkSourceABC,
     WordStudySettingsLocaleSourceABC,
 )
@@ -65,7 +65,7 @@ class SourceModule(Module):
 
         # Foreign: Word study
         binder.bind(
-            WordStudyPresentationNetworkSourceABC,
+            WordStudyNetworkSourceABC,
             to=WordStudyPresentationNetworkSource,
             scope=SingletonScope,
         )

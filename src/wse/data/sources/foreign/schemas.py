@@ -1,8 +1,9 @@
 """Foreign discipline HTTP response schemas."""
 
+import uuid
 from datetime import datetime
 
-from ....api.schemas.base import BaseSchema, ItemsData
+from wse.api.schemas.base import BaseSchema, ItemsData
 
 # TODO: Refactor, now to many schemas
 
@@ -48,11 +49,17 @@ class WordStudyPresentationParamsSchema(BaseSchema):
         extra = 'forbid'
 
 
-class WordStudyPresentationSchema(BaseSchema):
-    """Word study presentation schema for HTTP response."""
+class WordPresentationSchema(BaseSchema):
+    """Presentation part of Word study schema."""
 
     definition: str
     explanation: str
+
+
+class WordStudyCaseSchema(WordPresentationSchema):
+    """Word study case schema."""
+
+    case_uuid: uuid.UUID
 
 
 # Word study settings

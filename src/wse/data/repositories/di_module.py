@@ -9,15 +9,15 @@ from .assigned_task import AssignedTaskRepo
 from .calculation_exercises import CalculationExerciseRepo
 from .calculation_task import CalculationTaskRepo
 from .foreign import (
-    GetWordStudyRepoABC,
     WordParamsMapperABC,
     WordParamsRepoABC,
+    WordStudyCaseRepoABC,
     WordStudyProgressRepoABC,
     WordStudySettingsRepoABC,
 )
 from .foreign.params import WordParamsMapper, WordParamsRepo
 from .foreign.progress import WordStudyProgressRepo
-from .foreign.study import GetWordStudyRepo, WordStudySettingsRepo
+from .foreign.study import WordStudyCaseRepo, WordStudySettingsRepo
 from .glossary import TermPresentationRepoABC, TermsRepoABC
 from .glossary.study import TermPresentationRepo
 from .glossary.term import TermsRepo
@@ -58,7 +58,7 @@ class RepoModule(Module):
         binder.bind(TermPresentationRepoABC, to=TermPresentationRepo)
 
         # Foreign
-        binder.bind(GetWordStudyRepoABC, to=GetWordStudyRepo)
+        binder.bind(WordStudyCaseRepoABC, to=WordStudyCaseRepo)
         binder.bind(WordParamsRepoABC, to=WordParamsRepo)
         binder.bind(WordParamsMapperABC, to=WordParamsMapper)
         binder.bind(WordStudySettingsRepoABC, to=WordStudySettingsRepo)

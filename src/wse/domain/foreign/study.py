@@ -7,12 +7,8 @@ from typing import override
 
 from injector import inject
 
-from wse.data.repositories.foreign import (
-    GetWordStudyRepoABC,
-    WordStudyProgressRepoABC,
-    WordStudySettingsRepoABC,
-)
-from wse.data.sources.foreign.schemas import WordStudyPresentationSchema
+from wse.data.repositories import foreign as repo
+from wse.data.sources.foreign import schemas
 from wse.domain.foreign.abc import (
     ExerciseAccessorT,
     UIStateNotifyT,
@@ -35,9 +31,9 @@ class WordStudyUseCase(
 ):
     """Words study Use Case."""
 
-    _get_word_repo: GetWordStudyRepoABC
-    _progress_repo: WordStudyProgressRepoABC
-    _settings_repo: WordStudySettingsRepoABC
+    _get_word_repo: repo.WordStudyCaseRepoABC
+    _progress_repo: repo.WordStudyProgressRepoABC
+    _settings_repo: repo.WordStudySettingsRepoABC
     _domain: PresentationABC
 
     def __post_init__(self) -> None:
@@ -126,7 +122,7 @@ class WordStudyUseCase(
     # Utility methods
     # ---------------
 
-    def _get_data(self) -> WordStudyPresentationSchema | None:
+    def _get_data(self) -> schemas.WordPresentationSchema | None:
         try:
             return self._get_word_repo.get_word()
         except Exception as e:

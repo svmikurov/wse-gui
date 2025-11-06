@@ -9,8 +9,8 @@ from injector import inject
 from wse.config.api import APIConfigV1
 from wse.core.http.auth_schema import AuthSchema
 from wse.data.sources.foreign.schemas import (
+    WordStudyCaseSchema,
     WordStudyPresentationParamsSchema,
-    WordStudyPresentationSchema,
 )
 
 from .abc import WordStudyPresentationApiABC
@@ -38,7 +38,7 @@ class WordStudyPresentationApi(WordStudyPresentationApiABC):
     def fetch_presentation(
         self,
         payload: WordStudyPresentationParamsSchema,
-    ) -> WordStudyPresentationSchema:
+    ) -> WordStudyCaseSchema:
         """Fetch presentation."""
         try:
             response = self._http_client.post(

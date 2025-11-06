@@ -6,13 +6,7 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from wse.data.sources.foreign import WordParamsNotifyABC
-    from wse.data.sources.foreign.schemas import (
-        WordParamsSchema,
-        WordSelectedSchema,
-        WordStudyPresentationSchema,
-        WordStudySettingsSchema,
-    )
+    from wse.data.sources.foreign import WordParamsNotifyABC, schemas
 
 # Study repo
 # ----------
@@ -30,11 +24,11 @@ class WordStudyProgressRepoABC(ABC):
         """Decrement Word study progress."""
 
 
-class GetWordStudyRepoABC(ABC):
+class WordStudyCaseRepoABC(ABC):
     """ABC for repository to get words to study."""
 
     @abstractmethod
-    def get_word(self) -> WordStudyPresentationSchema:
+    def get_word(self) -> schemas.WordPresentationSchema:
         """Get word to study."""
 
 
@@ -76,7 +70,7 @@ class WordStudySettingsRepoABC(ABC):
     """ABC for Word study settings repository."""
 
     @abstractmethod
-    def get_settings(self) -> WordStudySettingsSchema:
+    def get_settings(self) -> schemas.WordStudySettingsSchema:
         """Get word study settings."""
 
 
@@ -87,7 +81,7 @@ class SetWordParamsRepoABC(ABC):
     """ABC for repository to set Word study params."""
 
     @abstractmethod
-    def set_initial_params(self, params: WordParamsSchema) -> None:
+    def set_initial_params(self, params: schemas.WordParamsSchema) -> None:
         """Set available params, default values for Word study params.
 
         These params come from external source (API) and define what
@@ -95,7 +89,7 @@ class SetWordParamsRepoABC(ABC):
         """
 
     @abstractmethod
-    def set_selected_params(self, params: WordSelectedSchema) -> None:
+    def set_selected_params(self, params: schemas.WordSelectedSchema) -> None:
         """Set user's current selection for Word study params.
 
         These params represent actual choices made by user in the UI

@@ -2,7 +2,7 @@
 
 __all__ = [
     'RefreshWordParamsRepoABC',
-    'GetWordStudyRepoABC',
+    'WordStudyCaseRepoABC',
     'SetWordParamsRepoABC',
     'WordParamsRepoABC',
     'WordParamsMapperABC',
@@ -11,11 +11,11 @@ __all__ = [
 ]
 
 from .abc import (
-    GetWordStudyRepoABC,
     RefreshWordParamsRepoABC,
     SetWordParamsRepoABC,
     WordParamsMapperABC,
     WordParamsRepoABC,
+    WordStudyCaseRepoABC,
     WordStudyProgressRepoABC,
     WordStudySettingsRepoABC,
 )
