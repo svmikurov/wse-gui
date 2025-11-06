@@ -4,6 +4,7 @@ import asyncio
 import pytest
 from unittest.mock import AsyncMock, Mock
 
+from wse.domain.abc import PresentationABC
 from wse.domain.presentation import Presentation
 from wse.data.repositories import foreign as repo
 from wse.domain.foreign.study import WordStudyUseCase
@@ -48,6 +49,12 @@ def mock_unpause_event() -> AsyncMock:
 def mock_progress_queue() -> AsyncMock:
     """Mock progress queue."""
     return AsyncMock(spec=asyncio.Queue)
+
+
+@pytest.fixture
+def mock_domain() -> AsyncMock:
+    """Mock domain."""
+    return Mock(spec=PresentationABC)
 
 
 @pytest.fixture
@@ -114,7 +121,7 @@ def use_case(
     mock_case_repo: Mock,
     mock_progress_repo: Mock,
     mock_settings_repo: Mock,
-    mock_presentation_domain: Presentation,
+    mock_domain: AsyncMock,
 ) -> WordStudyUseCase:
     """Word study UseCase fixture."""
     return WordStudyUseCase(
@@ -122,5 +129,5 @@ def use_case(
         _get_word_repo=mock_case_repo,
         _progress_repo=mock_progress_repo,
         _settings_repo=mock_settings_repo,
-        _domain=mock_presentation_domain,
+        _domain=mock_domain,
     )
