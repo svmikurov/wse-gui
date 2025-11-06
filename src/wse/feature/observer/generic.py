@@ -50,7 +50,7 @@ class SubjectGenABC(
     """ABC for Subject observer."""
 
 
-class HandleObserverABC(ABC, Generic[NotifyT]):
+class HandleObserverGenABC(ABC, Generic[NotifyT]):
     """ABC for 'handle' observer accessor event."""
 
     @abstractmethod

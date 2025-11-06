@@ -1,13 +1,15 @@
 """Abstract Base Classes protocols for Observer pattern components."""
 
 from abc import ABC, abstractmethod
-from typing import Generic, override
+from typing import Generic, Literal, override
 
 import toga
 
 from wse.types import AccessorT, NotifyT
 
 from .generic import NotifyGenABC, ObserverManagerGenABC
+
+ChangeNotifyT = Literal['change']
 
 
 class ObserverManagerABC(ObserverManagerGenABC[object], ABC):

@@ -6,7 +6,7 @@ import toga
 from injector import inject
 
 from wse.config.layout import StyleConfig, ThemeConfig
-from wse.feature.observer.generic import HandleObserverABC
+from wse.feature.observer.generic import HandleObserverGenABC
 from wse.feature.observer.mixins import NotifyGen, ObserverManagerGen
 from wse.ui.base.content.mixins import GetContentMixin
 
@@ -16,7 +16,7 @@ from . import Action, ControlContainerABC, ControlNotifyT
 @inject
 @dataclass
 class ControlContainer(
-    ObserverManagerGen[HandleObserverABC[Action]],
+    ObserverManagerGen[HandleObserverGenABC[Action]],
     NotifyGen[ControlNotifyT],
     GetContentMixin,
     ControlContainerABC,

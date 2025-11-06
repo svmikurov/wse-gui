@@ -10,8 +10,8 @@ ExerciseAccessorT = Literal['definition', 'explanation', 'timeout']
 UIStateNotifyT = Literal['exercise_updated', 'timeout_updated']
 
 
-class ExerciseNotifyABC(ABC):
-    """ABC for exercise observer."""
+class PresentationObserverABC(ABC):
+    """ABC for Presentation exercise observer."""
 
     # TODO: Add check each 'ExerciseAccessorT' type added to ABC?
 
@@ -22,6 +22,10 @@ class ExerciseNotifyABC(ABC):
         value: str,
     ) -> None:
         """Notify that exercise updated."""
+
+
+class TimeoutObserverABC(ABC):
+    """ABC for timeout observer."""
 
     @abstractmethod
     def timeout_updated(
@@ -54,7 +58,7 @@ class ExerciseUserActionsABC(ABC):
 
 
 class WordStudyUseCaseABC(
-    ObserverManagerGen[ExerciseNotifyABC],
+    ObserverManagerGen[PresentationObserverABC],
     ExerciseUserActionsABC,
     ABC,
 ):

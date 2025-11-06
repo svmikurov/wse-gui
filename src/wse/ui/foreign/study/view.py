@@ -9,7 +9,7 @@ from injector import inject
 from wse.config.layout.style import StyleConfig
 from wse.config.layout.theme import ThemeConfig
 from wse.core.navigation import NavID
-from wse.feature.observer.generic import HandleObserverABC
+from wse.feature.observer.generic import HandleObserverGenABC
 from wse.feature.observer.mixins import ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateViewMixin
 from wse.ui.containers.control import Action, ControlContainerABC
@@ -22,7 +22,7 @@ from . import StudyForeignViewABC, WordPresentationViewModelABC
 @inject
 @dataclass
 class StudyForeignView(
-    ObserverManagerGen[HandleObserverABC[Action]],
+    ObserverManagerGen[HandleObserverGenABC[Action]],
     NavigateViewMixin,
     StudyForeignViewABC,
 ):
@@ -30,14 +30,13 @@ class StudyForeignView(
 
     _state: WordPresentationViewModelABC
     _top_bar: TopBarControllerABC
-    _presenter: PresenterContainerABC
+    _presentation_container: PresenterContainerABC
     _control_container: ControlContainerABC
 
     @override
     def __post_init__(self) -> None:
         """Configure the view."""
         self._top_bar.add_observer(self)
-        self._state.add_observer(self._presenter)
         self._state.add_observer(self)
         self._control_container.add_observer(self)
         self._content.test_id = NavID.FOREIGN_STUDY
@@ -54,7 +53,7 @@ class StudyForeignView(
             self._progress_bar,
             self._top_bar.content,
             self._title,
-            self._presenter.content,
+            self._presentation_container.content,
             toga.Box(flex=1),
             self._control_container.content,
         )
@@ -76,7 +75,6 @@ class StudyForeignView(
     def on_close(self) -> None:
         """Call methods before close the screen."""
         self._top_bar.remove_observer(self)
-        self._state.remove_observer(self._presenter)
         self._state.remove_observer(self)
         self._control_container.remove_observer(self)
         self._state.on_close()
@@ -94,3 +92,8 @@ class StudyForeignView(
         """Update progress bar."""
         self._progress_bar.max = max if max else 0.1
         self._progress_bar.value = value
+
+    @override
+    def change(self, accessor: str, value: object) -> None:
+        """Change ui context via accessor."""
+        self._presentation_container.change(accessor, value)

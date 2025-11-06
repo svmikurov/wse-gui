@@ -11,13 +11,13 @@ from wse.domain.foreign import (
     WordStudyUseCaseABC,
 )
 from wse.feature.observer import ChangeObserverABC
-from wse.feature.observer.generic import HandleObserverABC
+from wse.feature.observer.generic import HandleObserverGenABC
 from wse.feature.observer.mixins import NotifyGen, ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateStateMixin
 from wse.ui.containers.control import Action
 from wse.utils import decorators
 
-from . import PresenterNotifyT, WordPresentationViewModelABC
+from . import ChangeNotifyT, WordPresentationViewModelABC
 
 log = logging.getLogger(__name__)
 
@@ -32,9 +32,9 @@ ProgressT = Literal['timeout_updated']
 class WordPresentationViewModel(
     NavigateStateMixin,
     ObserverManagerGen[
-        ChangeObserverABC[PresenterNotifyT] | HandleObserverABC[Action]
+        ChangeObserverABC[ChangeNotifyT] | HandleObserverGenABC[Action]
     ],
-    NotifyGen[PresenterNotifyT | ProgressT | Action],
+    NotifyGen[ChangeNotifyT | ProgressT | Action],
     WordPresentationViewModelABC,
 ):
     """Foreign words study ViewModel."""

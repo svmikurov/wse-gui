@@ -5,7 +5,7 @@ from typing import Literal
 
 from wse.core.base.enums import BaseEnum
 from wse.feature.observer.generic import (
-    HandleObserverABC,
+    HandleObserverGenABC,
     ObserverManagerGenABC,
 )
 from wse.ui.base.container import ContainerABC, StyleABC
@@ -25,7 +25,7 @@ class Action(BaseEnum):
 
 
 class ControlContainerABC(
-    ObserverManagerGenABC[HandleObserverABC[Action]],
+    ObserverManagerGenABC[HandleObserverGenABC[Action]],
     # NotifyGenABC[ControlNotifyT],
     ContainerABC,
     GetContentABC,

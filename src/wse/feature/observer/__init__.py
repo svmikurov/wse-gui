@@ -8,11 +8,13 @@ __all__ = [
     'AccessorABC',
     'UpdateObserverABC',
     'ChangeObserverABC',
+    'ChangeNotifyT',
 ]
 
 from .abc import (
     AccessorABC,
     AccessorNotifyGenABC,
+    ChangeNotifyT,
     ChangeObserverABC,
     NotifyABC,
     ObserverManagerABC,

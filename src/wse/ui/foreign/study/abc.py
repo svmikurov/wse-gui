@@ -2,31 +2,41 @@
 
 from abc import ABC
 from dataclasses import dataclass
-from typing import Literal
+from typing import Literal, TypeAlias, Union
 
-from wse.domain.foreign import ExerciseNotifyABC
-from wse.feature.observer import ChangeObserverABC
-from wse.feature.observer.generic import (
-    HandleObserverABC,
-    ObserverManagerGenABC,
-)
-from wse.ui.base.navigate import NavigateABC, OnCloseABC, OnOpenABC
+from wse.domain import foreign as domain
+from wse.feature.observer import ChangeObserverABC, generic
+from wse.ui.base import navigate
 from wse.ui.base.view import ViewABC
 from wse.ui.containers.control import Action
 
-PresenterNotifyT = Literal['change']
+ChangeNotifyT = Literal['change']
+
+ChangeObserver: TypeAlias = ChangeObserverABC[ChangeNotifyT]
+ActionHandler: TypeAlias = generic.HandleObserverGenABC[Action]
+ObserverUnion: TypeAlias = Union[ChangeObserver, ActionHandler]
+
+
+class WordPresentationViewModelObserverABC(
+    ChangeObserverABC[domain.ExerciseAccessorT],
+    domain.TimeoutObserverABC,
+    ABC,
+):
+    """ABC for Word presentation ViewModel observer."""
+
+
+# TODO: Refactor multiply inherit below
 
 
 @dataclass
 class WordPresentationViewModelABC(
-    OnCloseABC,
-    OnOpenABC,
-    NavigateABC,
-    ObserverManagerGenABC[
-        ChangeObserverABC[PresenterNotifyT] | HandleObserverABC[Action]
-    ],
-    HandleObserverABC[Action],
-    ExerciseNotifyABC,
+    domain.PresentationObserverABC,
+    domain.TimeoutObserverABC,
+    navigate.OnCloseABC,
+    navigate.OnOpenABC,
+    navigate.NavigateABC,
+    generic.ObserverManagerGenABC[ObserverUnion],
+    generic.HandleObserverGenABC[Action],
     ABC,
 ):
     """ABC for Foreign words study ViewModel."""
@@ -34,8 +44,9 @@ class WordPresentationViewModelABC(
 
 @dataclass
 class StudyForeignViewABC(
-    HandleObserverABC[Action],
-    OnCloseABC,
+    WordPresentationViewModelObserverABC,
+    ActionHandler,
+    navigate.OnCloseABC,
     ViewABC,
     ABC,
 ):

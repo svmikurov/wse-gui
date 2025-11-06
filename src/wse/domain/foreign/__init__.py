@@ -2,14 +2,16 @@
 
 __all__ = [
     'ExerciseAccessorT',
-    'ExerciseNotifyABC',
+    'PresentationObserverABC',
     'WordStudyUseCaseABC',
     'UIStateNotifyT',
+    'TimeoutObserverABC',
 ]
 
 from .abc import (
     ExerciseAccessorT,
-    ExerciseNotifyABC,
+    PresentationObserverABC,
+    TimeoutObserverABC,
     UIStateNotifyT,
     WordStudyUseCaseABC,
 )
