@@ -1,11 +1,12 @@
 """Abstract base classes for Foreign discipline API."""
 
+import uuid
 from abc import ABC, abstractmethod
 
 from ...data.sources.foreign.schemas import (
     WordParamsSchema,
+    WordStudyCaseSchema,
     WordStudyPresentationParamsSchema,
-    WordStudyPresentationSchema,
 )
 
 
@@ -13,11 +14,11 @@ class WordStudyProgressApiABC(ABC):
     """ABC for Word study progress API."""
 
     @abstractmethod
-    def increment_progress(self) -> None:
+    def increment_progress(self, case_uuid: uuid.UUID) -> None:
         """Send API request to increment Word study progress."""
 
     @abstractmethod
-    def decrement_progress(self) -> None:
+    def decrement_progress(self, case_uuid: uuid.UUID) -> None:
         """Send API request to decrement Word study progress."""
 
 
@@ -28,7 +29,7 @@ class WordStudyPresentationApiABC(ABC):
     def fetch_presentation(
         self,
         payload: WordStudyPresentationParamsSchema,
-    ) -> WordStudyPresentationSchema:
+    ) -> WordStudyCaseSchema:
         """Fetch presentation."""
 
 

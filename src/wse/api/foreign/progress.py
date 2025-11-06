@@ -1,5 +1,7 @@
 """Word study progress API client."""
 
+import uuid
+
 from injector import inject
 
 from wse.config.api import APIConfigV1
@@ -26,10 +28,24 @@ class WordStudyProgressApi(WordStudyProgressApiABC):
         self._http_client = http_client
         self._api_config = api_config
 
-    def increment_progress(self) -> None:
+    def increment_progress(self, case_uuid: uuid.UUID) -> None:
         """Send API request to increment Word study progress."""
-        self._http_client.post(self._api_config.word_progress_update)
+        payload = {
+            'case_uuid': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+            'progress_type': 'known',
+        }
+        self._http_client.post(
+            self._api_config.word_progress_update,
+            json=payload,
+        )
 
-    def decrement_progress(self) -> None:
+    def decrement_progress(self, case_uuid: uuid.UUID) -> None:
         """Send API request to decrement Word study progress."""
-        self._http_client.post(self._api_config.word_progress_update)
+        payload = {
+            'case_uuid': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+            'progress_type': 'known',
+        }
+        self._http_client.post(
+            self._api_config.word_progress_update,
+            json=payload,
+        )
