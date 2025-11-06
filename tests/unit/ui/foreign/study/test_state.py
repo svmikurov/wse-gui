@@ -31,6 +31,19 @@ def view_model(
     )
 
 
+class TestOnOpen:
+    """Test `on_open()` method."""
+
+    def test_domain_call(
+        self,
+        mock_study_use_case: Mock,
+        view_model: WordPresentationViewModel,
+    ) -> None:
+        """Test that domain calls on screen open."""
+        view_model.on_open()
+        mock_study_use_case.start.assert_called_once_with()
+
+
 class TestDomainObserve:
     """Test the correct handle of Domain notification."""
 
