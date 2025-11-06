@@ -9,6 +9,7 @@ from wse.data.repositories import foreign as repo
 from wse.domain.foreign.study import WordStudyUseCase
 from wse.feature.observer.subject import Subject
 
+
 # Domain fixtures
 # ---------------
 
@@ -101,7 +102,6 @@ def use_case(
     mock_progress_repo: Mock,
     mock_settings_repo: Mock,
     mock_presentation_domain: Presentation,
-
 ) -> WordStudyUseCase:
     """Word study UseCase fixture."""
     return WordStudyUseCase(
