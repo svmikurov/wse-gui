@@ -1,9 +1,17 @@
 """Configuration for domain tests."""
 
 import asyncio
-from unittest.mock import AsyncMock
 import pytest
+from unittest.mock import AsyncMock, Mock
+
 from wse.domain.presentation import Presentation
+from wse.data.repositories import foreign as repo
+from wse.domain.foreign.study import WordStudyUseCase
+from wse.feature.observer.subject import Subject
+
+# Domain fixtures
+# ---------------
+
 
 @pytest.fixture
 def mock_start_case_event() -> AsyncMock:
@@ -58,4 +66,48 @@ def mock_presentation_domain(
         end_case_event=mock_end_case_event,
         unpause_event=mock_unpause_event,
         progress_queue=mock_progress_queue,
+    )
+
+
+# Repository fixtures
+# -------------------
+
+
+@pytest.fixture
+def mock_case_repo() -> Mock:
+    """Mock the repo to get Word study case fixture."""
+    return Mock(spec=repo.WordStudyCaseRepoABC)
+
+
+@pytest.fixture
+def mock_progress_repo() -> Mock:
+    """Mock the Word study progress fixture."""
+    return Mock(spec=repo.WordStudyProgressRepoABC)
+
+
+@pytest.fixture
+def mock_settings_repo() -> Mock:
+    """Mock the Word study settings fixture."""
+    return Mock(spec=repo.WordStudySettingsRepoABC)
+
+
+# UseCase fixture
+# ---------------
+
+@pytest.fixture
+def use_case(
+    subject: Subject,
+    mock_case_repo: Mock,
+    mock_progress_repo: Mock,
+    mock_settings_repo: Mock,
+    mock_presentation_domain: Presentation,
+
+) -> WordStudyUseCase:
+    """Word study UseCase fixture."""
+    return WordStudyUseCase(
+        _subject=subject,
+        _get_word_repo=mock_case_repo,
+        _progress_repo=mock_progress_repo,
+        _settings_repo=mock_settings_repo,
+        _domain=mock_presentation_domain,
     )
