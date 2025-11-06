@@ -5,7 +5,9 @@ from unittest.mock import Mock
 import pytest
 
 from wse.domain.foreign import WordStudyUseCaseABC
+from wse.feature.observer.subject import Subject
 from wse.ui.containers.control import Action
+from wse.ui.foreign.study import WordPresentationViewModelObserverABC
 from wse.ui.foreign.study.state import WordPresentationViewModel
 
 
@@ -18,18 +20,53 @@ def mock_study_use_case() -> Mock:
 @pytest.fixture
 def view_model(
     mock_navigator: Mock,
-    mock_subject: Mock,
+    subject: Subject,
     mock_study_use_case: Mock,
 ) -> WordPresentationViewModel:
     """Get Word study presentation ViewModel fixture."""
     return WordPresentationViewModel(
         _navigator=mock_navigator,
-        _subject=mock_subject,
+        _subject=subject,
         _study_case=mock_study_use_case,
     )
 
 
-class TestViewNotifications:
+class TestDomainObserve:
+    """Test the correct handle of Domain notification."""
+
+    @pytest.fixture
+    def mock_state_observer(self) -> Mock:
+        """Mock ViewModel observer."""
+        return Mock(spec=WordPresentationViewModelObserverABC)
+
+    def test_exercise_updated(
+        self,
+        mock_state_observer: Mock,
+        view_model: WordPresentationViewModel,
+    ) -> None:
+        """Test the handle of notification of 'exercise_updated'."""
+        view_model.add_observer(mock_state_observer)
+        view_model.exercise_updated(accessor='definition', value='test')
+
+        mock_state_observer.change.assert_called_once_with(
+            accessor='definition', value='test'
+        )
+
+    def test_timeout_updated(
+        self,
+        mock_state_observer: Mock,
+        view_model: WordPresentationViewModel,
+    ) -> None:
+        """Test the handle of notification of 'timeout_updated'."""
+        view_model.add_observer(mock_state_observer)
+        view_model.timeout_updated(accessor='timeout', max=0.1, value=0.2)
+
+        mock_state_observer.timeout_updated.assert_called_once_with(
+            accessor='timeout', max=0.1, value=0.2
+        )
+
+
+class TestViewObserve:
     """Test the correct handle of View notification."""
 
     def test_pause(
