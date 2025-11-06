@@ -5,6 +5,7 @@ from unittest.mock import Mock
 import pytest
 
 from wse.domain.foreign import WordStudyUseCaseABC
+from wse.ui.containers.control import Action
 from wse.ui.foreign.study.state import WordPresentationViewModel
 
 
@@ -26,6 +27,62 @@ def view_model(
         _subject=mock_subject,
         _study_case=mock_study_use_case,
     )
+
+
+class TestViewNotifications:
+    """Test the correct handle of View notification."""
+
+    def test_pause(
+        self,
+        mock_study_use_case: Mock,
+        view_model: WordPresentationViewModel,
+    ) -> None:
+        """Test the handle of notification with 'pause'."""
+        view_model.handle(action=Action.PAUSE)
+
+        mock_study_use_case.pause.assert_called_once()
+        mock_study_use_case.next.assert_not_called()
+        mock_study_use_case.known.assert_not_called()
+        mock_study_use_case.unknown.assert_not_called()
+
+    def test_next(
+        self,
+        mock_study_use_case: Mock,
+        view_model: WordPresentationViewModel,
+    ) -> None:
+        """Test the handle of notification with 'next'."""
+        view_model.handle(action=Action.NEXT)
+
+        mock_study_use_case.pause.assert_not_called()
+        mock_study_use_case.next.assert_called_once()
+        mock_study_use_case.known.assert_not_called()
+        mock_study_use_case.unknown.assert_not_called()
+
+    def test_known(
+        self,
+        mock_study_use_case: Mock,
+        view_model: WordPresentationViewModel,
+    ) -> None:
+        """Test the handle of notification with 'known'."""
+        view_model.handle(action=Action.KNOWN)
+
+        mock_study_use_case.pause.assert_not_called()
+        mock_study_use_case.next.assert_not_called()
+        mock_study_use_case.known.assert_called_once()
+        mock_study_use_case.unknown.assert_not_called()
+
+    def test_unknown(
+        self,
+        mock_study_use_case: Mock,
+        view_model: WordPresentationViewModel,
+    ) -> None:
+        """Test the handle of notification with 'unknown'."""
+        view_model.handle(action=Action.UNKNOWN)
+
+        mock_study_use_case.pause.assert_not_called()
+        mock_study_use_case.next.assert_not_called()
+        mock_study_use_case.known.assert_not_called()
+        mock_study_use_case.unknown.assert_called_once()
 
 
 class TestWordPresentationViewModel:
