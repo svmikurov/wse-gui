@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, Mock
 
 from wse.domain.abc import PresentationABC
 from wse.domain.presentation import Presentation
-from wse.data.repositories import foreign as repo
+from wse.data.repositories import foreign as repos
 from wse.domain.foreign.study import WordStudyUseCase
 from wse.feature.observer.subject import Subject
 
@@ -97,19 +97,19 @@ def presentation_domain() -> Presentation:
 @pytest.fixture
 def mock_case_repo() -> Mock:
     """Mock the repo to get Word study case fixture."""
-    return Mock(spec=repo.WordStudyCaseRepoABC)
+    return Mock(spec=repos.WordStudyCaseRepoABC)
 
 
 @pytest.fixture
 def mock_progress_repo() -> Mock:
     """Mock the Word study progress fixture."""
-    return Mock(spec=repo.WordStudyProgressRepoABC)
+    return Mock(spec=repos.WordStudyProgressRepoABC)
 
 
 @pytest.fixture
 def mock_settings_repo() -> Mock:
     """Mock the Word study settings fixture."""
-    return Mock(spec=repo.WordStudySettingsRepoABC)
+    return Mock(spec=repos.WordStudySettingsRepoABC)
 
 
 # UseCase fixture
@@ -120,14 +120,12 @@ def use_case(
     subject: Subject,
     mock_case_repo: Mock,
     mock_progress_repo: Mock,
-    mock_settings_repo: Mock,
-    mock_domain: AsyncMock,
+    mock_domain: Mock,
 ) -> WordStudyUseCase:
     """Word study UseCase fixture."""
     return WordStudyUseCase(
         _subject=subject,
         _get_word_repo=mock_case_repo,
         _progress_repo=mock_progress_repo,
-        _settings_repo=mock_settings_repo,
         _domain=mock_domain,
     )
