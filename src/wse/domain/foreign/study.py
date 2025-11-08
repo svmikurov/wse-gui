@@ -31,40 +31,55 @@ class WordStudyUseCase(
     _progress_repo: repos.WordStudyProgressRepoABC
     _domain: PresentationABC
 
+    def __post_init__(self) -> None:
+        """Initialize UseCase attributes."""
+        self._study_task: asyncio.Task[None] | None = None
+        self._progress_task: asyncio.Task[None] | None = None
+
     def start(self) -> None:
         """Start exercise."""
-        self._create_background_tasks()
+        self._start_background_tasks()
         self._domain.start()
 
     def stop(self) -> None:
         """Stop exercise."""
+        self._stop_background_tasks()
         self._domain.stop()
+
+    # Background tasks
+    # ----------------
 
     async def _loop_word_study(self) -> None:
         """Loop Word study exercise."""
-        while True:
-            # Start presentation case
-            await self._domain.wait_start_case_event()
-            if not (data := self._get_data()):
-                break
+        try:
+            while True:
+                # Start presentation case
+                await self._domain.wait_start_case_event()
+                if not (data := self._get_data()):
+                    break
 
-            # Definition presentation phase
-            await self._domain.wait_definition_event()
-            self._display_definition(data.definition)
+                # Definition presentation phase
+                await self._domain.wait_definition_event()
+                self._display_definition(data.definition)
 
-            # Explanation presentation phase
-            await self._domain.wait_explanation_event()
-            self._display_explanation(data.explanation)
+                # Explanation presentation phase
+                await self._domain.wait_explanation_event()
+                self._display_explanation(data.explanation)
 
-            # End presentation case
-            await self._domain.wait_end_case_event()
-            self._display_definition(NO_TEXT)
-            self._display_explanation(NO_TEXT)
+                # End presentation case
+                await self._domain.wait_end_case_event()
+                self._display_definition(NO_TEXT)
+                self._display_explanation(NO_TEXT)
 
-    # Word study case event progress
-    # ------------------------------
+        except asyncio.CancelledError:
+            log.debug('Word study loop cancelled')
+            raise
+
+        except Exception as e:
+            log.error(f'Unexpected error in word study loop: {e}')
 
     async def _monitor_progress(self) -> None:
+        """Monitor the Word study case event progress."""
         while True:
             max, value = await self._domain.get_progress()
             self._display_timeout(max, value)
@@ -111,9 +126,16 @@ class WordStudyUseCase(
     # Utility methods
     # ---------------
 
-    def _create_background_tasks(self) -> None:
-        asyncio.create_task(self._loop_word_study())
-        asyncio.create_task(self._monitor_progress())
+    def _start_background_tasks(self) -> None:
+        """Start background tasks for word study."""
+        self._study_task = asyncio.create_task(self._loop_word_study())
+        self._progress_task = asyncio.create_task(self._monitor_progress())
+
+    def _stop_background_tasks(self) -> None:
+        """Cancel all background tasks."""
+        for task in [self._study_task, self._progress_task]:
+            if task is not None and not task.done():
+                task.cancel()
 
     def _get_data(self) -> schemas.WordPresentationSchema | None:
         try:
