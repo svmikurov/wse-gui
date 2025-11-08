@@ -33,7 +33,7 @@ class WordStudyUseCase(
 
     def start(self) -> None:
         """Start exercise."""
-        self._create_task()
+        self._create_background_tasks()
         self._domain.start()
 
     def stop(self) -> None:
@@ -111,7 +111,7 @@ class WordStudyUseCase(
     # Utility methods
     # ---------------
 
-    def _create_task(self) -> None:
+    def _create_background_tasks(self) -> None:
         asyncio.create_task(self._loop_word_study())
         asyncio.create_task(self._monitor_progress())
 
