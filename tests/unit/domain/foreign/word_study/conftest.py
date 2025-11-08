@@ -116,15 +116,15 @@ def mock_settings_repo() -> Mock:
 # ---------------
 
 @pytest.fixture
-def use_case(
-    subject: Subject,
+def use_case_di_mock(
+    mock_subject: Mock,
     mock_case_repo: Mock,
     mock_progress_repo: Mock,
     mock_domain: Mock,
 ) -> WordStudyUseCase:
     """Word study UseCase fixture."""
     return WordStudyUseCase(
-        _subject=subject,
+        _subject=mock_subject,
         _get_word_repo=mock_case_repo,
         _progress_repo=mock_progress_repo,
         _domain=mock_domain,
