@@ -14,28 +14,28 @@ class TestPresentationControl:
     @pytest.mark.asyncio
     async def test_pause_and_unpause(
         self,
-        presentation_domain: Presentation,
+        presentation: Presentation,
     ) -> None:
         """Test the pause/unpause Presentation."""
         # Default on pause
-        assert not presentation_domain._unpause_event.is_set()
+        assert not presentation._unpause_event.is_set()
 
-        presentation_domain.unpause()
-        assert presentation_domain._unpause_event.is_set()
+        presentation.unpause()
+        assert presentation._unpause_event.is_set()
 
-        presentation_domain.pause()
-        assert not presentation_domain._unpause_event.is_set()
+        presentation.pause()
+        assert not presentation._unpause_event.is_set()
 
     @pytest.mark.asyncio
     async def test_start(
         self,
-        presentation_domain: Presentation,
+        presentation: Presentation,
     ) -> None:
         """Test the start Presentation."""
-        presentation_domain.start()
+        presentation.start()
 
-        assert presentation_domain._start_case_event.is_set()
-        assert presentation_domain._unpause_event.is_set()
+        assert presentation._start_case_event.is_set()
+        assert presentation._unpause_event.is_set()
 
     @pytest.mark.asyncio
     async def test_start_event_call(
@@ -106,17 +106,17 @@ class TestStartPresentation:
     @pytest.mark.asyncio
     async def test_start_presentation(
         self,
-        presentation_domain: Presentation,
+        presentation: Presentation,
     ) -> None:
         """Test start the Presentation domain."""
-        presentation_domain.start()
+        presentation.start()
 
-        assert presentation_domain._start_case_event.is_set()
+        assert presentation._start_case_event.is_set()
 
         # Assert that start case event wait
         try:
             await asyncio.wait_for(
-                presentation_domain.wait_start_case_event(), timeout=0.1
+                presentation.wait_start_case_event(), timeout=0.1
             )
         except asyncio.TimeoutError:
             pytest.fail('Wait start case event test failed')
@@ -124,14 +124,14 @@ class TestStartPresentation:
     @pytest.mark.asyncio
     async def test_wait_case_event_on_default(
         self,
-        presentation_domain: Presentation,
+        presentation: Presentation,
     ) -> None:
         """Test wait_start_case_event when event is not set."""
-        assert not presentation_domain._start_case_event.is_set()
+        assert not presentation._start_case_event.is_set()
 
         with pytest.raises(asyncio.TimeoutError):
             await asyncio.wait_for(
-                presentation_domain.wait_start_case_event(), timeout=0.1
+                presentation.wait_start_case_event(), timeout=0.1
             )
 
 

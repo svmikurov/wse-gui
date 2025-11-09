@@ -8,7 +8,6 @@ from wse.domain.abc import PresentationABC
 from wse.domain.presentation import Presentation
 from wse.data.repositories import foreign as repos
 from wse.domain.foreign.study import WordStudyUseCase
-from wse.feature.observer.subject import Subject
 
 
 # Domain fixtures
@@ -78,7 +77,7 @@ def mock_presentation_domain(
 
 
 @pytest.fixture
-def presentation_domain() -> Presentation:
+def presentation() -> Presentation:
     """Presentation domain fixture."""
     return Presentation(
         start_case_event=asyncio.Event(),
@@ -95,9 +94,9 @@ def presentation_domain() -> Presentation:
 
 
 @pytest.fixture
-def mock_case_repo() -> Mock:
+def mock_get_word_repo() -> Mock:
     """Mock the repo to get Word study case fixture."""
-    return Mock(spec=repos.WordStudyCaseRepoABC)
+    return Mock(spec=repos.WordStudyRepoABC)
 
 
 @pytest.fixture
@@ -118,14 +117,14 @@ def mock_settings_repo() -> Mock:
 @pytest.fixture
 def use_case_di_mock(
     mock_subject: Mock,
-    mock_case_repo: Mock,
+    mock_get_word_repo: Mock,
     mock_progress_repo: Mock,
     mock_domain: Mock,
 ) -> WordStudyUseCase:
     """Word study UseCase fixture."""
     return WordStudyUseCase(
         _subject=mock_subject,
-        _get_word_repo=mock_case_repo,
+        _get_word_repo=mock_get_word_repo,
         _progress_repo=mock_progress_repo,
         _domain=mock_domain,
     )
