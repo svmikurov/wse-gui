@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, Mock
 
 from wse.domain.abc import PresentationABC
 from wse.domain.presentation import Presentation
-from wse.data.repositories import foreign as repos
+from wse.data.repos import foreign as repos
 from wse.domain.foreign.study import WordStudyUseCase
 
 

@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from injector import inject
 
 from wse.core.api.response import RelatedData
-from wse.data.repositories.user import UserRepo
+from wse.data.repos.user import UserRepo
 
 
 class RelatedDataHttpResponseRepoABC(ABC):

@@ -104,9 +104,7 @@ class WordStudySettingsLocaleSource(base.WordStudySettingsLocaleSourceABC):
     def get_settings(self) -> schema.WordStudySettingsSchema:
         """Get word study settings."""
         try:
-            return schema.WordStudySettingsSchema.from_dict(
-                asdict(self._data)
-            )
+            return schema.WordStudySettingsSchema.from_dict(asdict(self._data))
         except Exception as e:
             log.exception(f'Word study Locale settings error: {e}')
             raise

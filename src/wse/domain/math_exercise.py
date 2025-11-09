@@ -3,7 +3,7 @@
 from injector import inject
 from wse_exercises.core import MathEnum
 
-from ..data.repositories.calculation_exercises import CalculationExerciseRepo
+from ..data.repos.calculation_exercises import CalculationExerciseRepo
 
 
 class SetCalculationExerciseUseCase:

@@ -12,7 +12,7 @@ from wse.ui.routes import UIRoutes
 
 from .config.layout import StyleConfig
 from .core.interfaces import Navigable
-from .data.repositories.initial import InitialDataRepoABC
+from .data.repos.initial import InitialDataRepoABC
 from .di import create_injector
 
 logger = logging.getLogger(__name__)

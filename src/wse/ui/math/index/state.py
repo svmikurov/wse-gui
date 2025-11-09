@@ -10,7 +10,7 @@ from wse_exercises.core import MathEnum
 
 from wse.core.interfaces import Navigable
 from wse.core.navigation.nav_id import NavID
-from wse.data.repositories.calculation_exercises import (
+from wse.data.repos.calculation_exercises import (
     CalculationExerciseRepo,
 )
 from wse.domain.math_exercise import SetCalculationExerciseUseCase

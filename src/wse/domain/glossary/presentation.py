@@ -2,7 +2,7 @@
 
 from injector import inject
 
-from wse.data.repositories.glossary import TermPresentationRepoABC
+from wse.data.repos.glossary import TermPresentationRepoABC
 
 from . import TermPresentationUseCaseABC
 

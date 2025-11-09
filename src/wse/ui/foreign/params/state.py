@@ -5,7 +5,7 @@ from typing import Any, override
 
 from injector import inject
 
-from wse.data.repositories.foreign import (
+from wse.data.repos.foreign import (
     WordParamsMapperABC,
     WordParamsRepoABC,
 )

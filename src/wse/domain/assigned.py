@@ -10,8 +10,8 @@ from wse.data.sources.assigned import (
 )
 
 from ..api.schemas.exercise import Assigned
-from ..data.repositories.abc import AssignedTaskRepoABC
-from ..data.repositories.assigned_task import AssignedTaskRepo
+from ..data.repos.abc import AssignedTaskRepoABC
+from ..data.repos.assigned_task import AssignedTaskRepo
 from ..data.sources.task import ResultObserverABC, TaskObserverABC
 from .abc import SubscribeUseCaseABC
 from .abc.assigned import (

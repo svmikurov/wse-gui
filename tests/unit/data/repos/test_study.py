@@ -3,7 +3,7 @@
 import uuid
 from unittest.mock import Mock
 
-from wse.data import repositories as repo
+from wse.data import repos
 from wse.data.sources.foreign import schema
 
 
@@ -14,7 +14,7 @@ class TestProgress:
         self,
         mock_word_locale_source: Mock,
         mock_word_progress_source: Mock,
-        word_study_progress_repo: repo.WordStudyProgressRepo,
+        word_study_progress_repo: repos.WordStudyProgressRepo,
     ) -> None:
         """Test the increment progress."""
         case_uuid = uuid.uuid4()
@@ -31,7 +31,7 @@ class TestProgress:
         self,
         mock_word_locale_source: Mock,
         mock_word_progress_source: Mock,
-        word_study_progress_repo: repo.WordStudyProgressRepo,
+        word_study_progress_repo: repos.WordStudyProgressRepo,
     ) -> None:
         """Test the increment progress."""
         case_uuid = uuid.uuid4()
@@ -54,7 +54,7 @@ class TestWordStudyRepo:
         mock_word_network_source: Mock,
         word_case: schema.WordStudyCaseSchema,
         word_data: schema.WordPresentationSchema,
-        word_study_repo: repo.WordStudyRepo,
+        word_study_repo: repos.WordStudyRepo,
     ) -> None:
         """Test the get word to study."""
         mock_word_network_source.fetch_presentation.return_value = word_case

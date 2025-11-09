@@ -4,7 +4,7 @@ from abc import ABC
 
 from injector import inject
 
-from wse.data.repositories.abc import CalculationTaskRepoABC
+from wse.data.repos.abc import CalculationTaskRepoABC
 from wse.domain.abc.task import (
     CheckAnswerUseCaseABC,
     GetQuestionUseCaseABC,

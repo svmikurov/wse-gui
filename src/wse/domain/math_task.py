@@ -5,7 +5,7 @@ import logging
 from injector import inject
 from typing_extensions import override
 
-from ..data.repositories.abc import CalculationTaskRepoABC
+from ..data.repos.abc import CalculationTaskRepoABC
 from ..data.sources.task import (
     TaskObserverABC,
 )
