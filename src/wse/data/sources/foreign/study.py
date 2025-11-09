@@ -6,21 +6,19 @@ from typing import override
 
 from injector import inject
 
-from wse.api.foreign.abc import WordStudyPresentationApiABC
-from wse.data.sources.foreign.schemas import (
-    WordStudyCaseSchema,
-    WordStudyPresentationParamsSchema,
-    WordStudySettingsSchema,
-)
+from wse.api import foreign as api
+from wse.data.sources.foreign import schemas
 
-from .abc import (
-    WordStudyNetworkSourceABC,
-    WordStudySettingsLocaleSourceABC,
-)
+from . import abc as base
 
 log = logging.getLogger(__name__)
 
 DEFAULT_WORD_STUDY_TIMEOUT = 3
+
+
+@dataclass
+class WordStudyLocaleSource:
+    """Word study locale source."""
 
 
 @dataclass(frozen=True)
@@ -33,19 +31,21 @@ class WordStudySettingsData:
 @inject
 @dataclass
 class WordStudyPresentationNetworkSource(
-    WordStudyNetworkSourceABC,
+    base.WordStudyNetworkSourceABC,
 ):
     """Word study presentation network source."""
 
-    _presentation_api: WordStudyPresentationApiABC
+    _presentation_api: api.WordStudyPresentationApiABC
 
     # TODO: Fix payload
     @override
-    def fetch_presentation(self) -> WordStudyCaseSchema:
+    def fetch_presentation(self) -> schemas.WordStudyCaseSchema:
         """Fetch word study presentation case."""
         params = {'category': None, 'label': None}
         try:
-            payload = WordStudyPresentationParamsSchema.from_dict(params)
+            payload = schemas.WordStudyPresentationParamsSchema.from_dict(
+                params
+            )
         except Exception as e:
             log.exception(f'Source Network error: {e}')
             raise
@@ -54,16 +54,18 @@ class WordStudyPresentationNetworkSource(
 
 @inject
 @dataclass
-class WordStudySettingsLocaleSource(WordStudySettingsLocaleSourceABC):
+class WordStudySettingsLocaleSource(base.WordStudySettingsLocaleSourceABC):
     """Word study Locale settings source."""
 
     _data: WordStudySettingsData
 
     @override
-    def get_settings(self) -> WordStudySettingsSchema:
+    def get_settings(self) -> schemas.WordStudySettingsSchema:
         """Get word study settings."""
         try:
-            return WordStudySettingsSchema.from_dict(asdict(self._data))
+            return schemas.WordStudySettingsSchema.from_dict(
+                asdict(self._data)
+            )
         except Exception as e:
             log.exception(f'Word study Locale settings error: {e}')
             raise
