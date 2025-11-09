@@ -14,8 +14,6 @@ from wse.feature.observer.accessor import NotifyAccessorGen
 
 from ..abc import PresentationABC
 
-NO_TEXT = ''
-
 log = logging.getLogger(__name__)
 
 
@@ -27,9 +25,11 @@ class WordStudyUseCase(
 ):
     """Words study Use Case."""
 
-    _get_word_repo: repos.WordStudyCaseRepoABC
+    _get_word_repo: repos.WordStudyRepoABC
     _progress_repo: repos.WordStudyProgressRepoABC
     _domain: PresentationABC
+
+    NO_TEXT = ''
 
     def __post_init__(self) -> None:
         """Initialize UseCase attributes."""
@@ -55,7 +55,11 @@ class WordStudyUseCase(
             while True:
                 # Start presentation case
                 await self._domain.wait_start_case_event()
-                if not (data := self._get_data()):
+                try:
+                    data = self._get_data()
+                # TODO: Improve chained exception handling
+                except Exception:
+                    self.stop()
                     break
 
                 # Definition presentation phase
@@ -68,8 +72,8 @@ class WordStudyUseCase(
 
                 # End presentation case
                 await self._domain.wait_end_case_event()
-                self._display_definition(NO_TEXT)
-                self._display_explanation(NO_TEXT)
+                self._display_definition(WordStudyUseCase.NO_TEXT)
+                self._display_explanation(WordStudyUseCase.NO_TEXT)
 
         except asyncio.CancelledError:
             log.debug('Word study loop cancelled')
@@ -137,9 +141,9 @@ class WordStudyUseCase(
             if task is not None and not task.done():
                 task.cancel()
 
-    def _get_data(self) -> schemas.WordPresentationSchema | None:
+    def _get_data(self) -> schemas.WordPresentationSchema:
         try:
             return self._get_word_repo.get_word()
         except Exception as e:
             log.error(f'Get word study error: {e}')
-            return None
+            raise
