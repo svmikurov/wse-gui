@@ -4,7 +4,7 @@ import uuid
 from unittest.mock import Mock
 
 from wse.data import repos
-from wse.data.sources.foreign import schema
+from wse.data.sources.foreign import schemas
 
 
 class TestProgress:
@@ -52,8 +52,8 @@ class TestWordStudyRepo:
         self,
         mock_word_locale_source: Mock,
         mock_word_network_source: Mock,
-        word_case: schema.WordStudyCaseSchema,
-        word_data: schema.WordPresentationSchema,
+        word_case: schemas.WordStudyCaseSchema,
+        word_data: schemas.WordPresentationSchema,
         word_study_repo: repos.WordStudyRepo,
     ) -> None:
         """Test the get word to study."""

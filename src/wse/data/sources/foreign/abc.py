@@ -4,7 +4,7 @@ import uuid
 from abc import ABC, abstractmethod
 from typing import Literal
 
-from wse.data.sources.foreign import schema
+from wse.data.sources.foreign import schemas
 from wse.feature.observer.generic import ObserverManagerGenABC
 
 # Word study settings
@@ -15,7 +15,7 @@ class WordStudySettingsLocaleSourceABC(ABC):
     """Word study Locale settings source."""
 
     @abstractmethod
-    def get_settings(self) -> schema.WordStudySettingsSchema:
+    def get_settings(self) -> schemas.WordStudySettingsSchema:
         """Get Word study settings."""
 
 
@@ -27,7 +27,7 @@ class WordStudyLocaleSourceABC(ABC):
     """Word study locale source."""
 
     @abstractmethod
-    def set_case(self, case: schema.WordStudyCaseSchema) -> None:
+    def set_case(self, case: schemas.WordStudyCaseSchema) -> None:
         """Set Word study case."""
 
     @abstractmethod
@@ -35,7 +35,7 @@ class WordStudyLocaleSourceABC(ABC):
         """Get case UUID."""
 
     @abstractmethod
-    def get_presentation_data(self) -> schema.WordPresentationSchema:
+    def get_presentation_data(self) -> schemas.WordPresentationSchema:
         """Get Presentation part of Word study."""
 
 
@@ -57,7 +57,7 @@ class WordStudyNetworkSourceABC(
     """ABC for Word study presentation network source."""
 
     @abstractmethod
-    def fetch_presentation(self) -> schema.WordStudyCaseSchema:
+    def fetch_presentation(self) -> schemas.WordStudyCaseSchema:
         """Fetch Word study presentation case."""
 
 
@@ -71,7 +71,7 @@ class WordParamsNotifyABC(ABC):
     """ABC for Word study params notifications."""
 
     @abstractmethod
-    def initial_params_updated(self, params: schema.WordParamsSchema) -> None:
+    def initial_params_updated(self, params: schemas.WordParamsSchema) -> None:
         """Set Initial Word study params."""
 
 
@@ -82,7 +82,7 @@ class WordParamsLocaleSourceABC(
     """ABC for Word study params Locale source."""
 
     @abstractmethod
-    def set_initial_params(self, params: schema.WordParamsSchema) -> None:
+    def set_initial_params(self, params: schemas.WordParamsSchema) -> None:
         """Save initial Word study params."""
 
 
@@ -92,5 +92,5 @@ class WordParamsNetworkSourceABC(
     """ABC for Word study params source."""
 
     @abstractmethod
-    def fetch_initial_params(self) -> schema.WordParamsSchema:
+    def fetch_initial_params(self) -> schemas.WordParamsSchema:
         """Fetch Word study initial params."""

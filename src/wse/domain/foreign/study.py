@@ -8,7 +8,7 @@ from typing import override
 from injector import inject
 
 from wse.data.repos import foreign as repos
-from wse.data.sources.foreign import schema
+from wse.data.sources.foreign import schemas
 from wse.domain import foreign as base
 from wse.feature.observer.accessor import NotifyAccessorGen
 
@@ -141,7 +141,7 @@ class WordStudyUseCase(
             if task is not None and not task.done():
                 task.cancel()
 
-    def _get_data(self) -> schema.WordPresentationSchema:
+    def _get_data(self) -> schemas.WordPresentationSchema:
         try:
             return self._get_word_repo.get_word()
         except Exception as e:

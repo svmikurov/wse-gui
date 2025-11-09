@@ -10,7 +10,7 @@ from wse.data.repos.foreign import (
     WordParamsRepoABC,
 )
 from wse.data.sources.foreign import WordParamsNotifyABC
-from wse.data.sources.foreign.schema import (
+from wse.data.sources.foreign.schemas import (
     IdNameSchema,
     WordParamsSchema,
 )
