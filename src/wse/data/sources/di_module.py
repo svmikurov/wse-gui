@@ -12,6 +12,7 @@ from . import (
 from .foreign import (
     WordParamsLocaleSourceABC,
     WordParamsNetworkSourceABC,
+    WordStudyLocaleSourceABC,
     WordStudyNetworkSourceABC,
     WordStudyProgressNetworkSourceABC,
     WordStudySettingsLocaleSourceABC,
@@ -23,6 +24,8 @@ from .foreign.params import (
 )
 from .foreign.progress import WordStudyProgressNetworkSource
 from .foreign.study import (
+    WordStudyData,
+    WordStudyLocaleSource,
     WordStudyPresentationNetworkSource,
     WordStudySettingsData,
     WordStudySettingsLocaleSource,
@@ -65,6 +68,11 @@ class SourceModule(Module):
 
         # Foreign: Word study
         binder.bind(
+            WordStudyLocaleSourceABC,
+            to=WordStudyLocaleSource,
+            scope=SingletonScope,
+        )
+        binder.bind(
             WordStudyNetworkSourceABC,
             to=WordStudyPresentationNetworkSource,
             scope=SingletonScope,
@@ -72,6 +80,11 @@ class SourceModule(Module):
         binder.bind(
             WordStudySettingsLocaleSourceABC,
             to=WordStudySettingsLocaleSource,
+            scope=SingletonScope,
+        )
+        # Foreign: Data
+        binder.bind(
+            WordStudyData,
             scope=SingletonScope,
         )
         binder.bind(

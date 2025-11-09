@@ -1,7 +1,8 @@
 """Foreign word study source."""
 
 import logging
-from dataclasses import asdict, dataclass
+import uuid
+from dataclasses import asdict, dataclass, replace
 from typing import override
 
 from injector import inject
@@ -16,9 +17,47 @@ log = logging.getLogger(__name__)
 DEFAULT_WORD_STUDY_TIMEOUT = 3
 
 
-@dataclass
-class WordStudyLocaleSource:
+@dataclass(frozen=True)
+class WordStudyData:
+    """Word study data."""
+
+    case_uuid: uuid.UUID | None = None
+    definition: str | None = None
+    explanation: str | None = None
+
+
+class WordStudyLocaleSource(base.WordStudyLocaleSourceABC):
     """Word study locale source."""
+
+    @inject
+    def __init__(
+        self,
+        data: WordStudyData,
+    ) -> None:
+        """Construct the source."""
+        self._data = data
+
+    @override
+    def set_case(self, case: schemas.WordStudyCaseSchema) -> None:
+        """Set Word study case."""
+        self._data = replace(self._data, **case.to_dict())
+
+    @override
+    def get_case_uuid(self) -> uuid.UUID:
+        """Get case UUID."""
+        if self._data.case_uuid is None:
+            raise RuntimeError('Word study data was not set')
+        return self._data.case_uuid
+
+    @override
+    def get_presentation_data(self) -> schemas.WordPresentationSchema:
+        """Get Presentation part of Word study."""
+        if self._data.definition is None or self._data.explanation is None:
+            raise RuntimeError('Word study data was not set')
+        return schemas.WordPresentationSchema(
+            definition=self._data.definition,
+            explanation=self._data.explanation,
+        )
 
 
 @dataclass(frozen=True)
@@ -46,10 +85,12 @@ class WordStudyPresentationNetworkSource(
             payload = schemas.WordStudyPresentationParamsSchema.from_dict(
                 params
             )
+            presentation = self._presentation_api.fetch_presentation(payload)
         except Exception as e:
             log.exception(f'Source Network error: {e}')
             raise
-        return self._presentation_api.fetch_presentation(payload)
+        else:
+            return presentation
 
 
 @inject

@@ -24,7 +24,7 @@ class WordStudyProgressRepoABC(ABC):
         """Decrement Word study progress."""
 
 
-class WordStudyCaseRepoABC(ABC):
+class WordStudyRepoABC(ABC):
     """ABC for repository to get words to study."""
 
     @abstractmethod

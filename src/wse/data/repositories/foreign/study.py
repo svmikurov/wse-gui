@@ -5,27 +5,30 @@ from typing import override
 
 from injector import inject
 
-from wse.data.sources import foreign as source
+from wse.data.sources import foreign as sources
 from wse.data.sources.foreign import schemas
 
 from . import (
-    WordStudyCaseRepoABC,
+    WordStudyRepoABC,
     WordStudySettingsRepoABC,
 )
 
 
 @inject
 @dataclass
-class WordStudyCaseRepo(WordStudyCaseRepoABC):
-    """Word study network repository."""
+class WordStudyRepo(WordStudyRepoABC):
+    """Word study repository."""
 
-    _network_source: source.WordStudyNetworkSourceABC
-    _locale_source: source.WordStudyLocaleSourceABC
+    _locale_source: sources.WordStudyLocaleSourceABC
+    _network_source: sources.WordStudyNetworkSourceABC
 
     @override
     def get_word(self) -> schemas.WordPresentationSchema:
         """Get word to study."""
-        case = self._network_source.fetch_presentation()
+        try:
+            case = self._network_source.fetch_presentation()
+        except Exception:
+            raise
         self._locale_source.set_case(case)
         return self._locale_source.get_presentation_data()
 
@@ -35,7 +38,7 @@ class WordStudyCaseRepo(WordStudyCaseRepoABC):
 class WordStudySettingsRepo(WordStudySettingsRepoABC):
     """Word study settings repository."""
 
-    _source: source.WordStudySettingsLocaleSourceABC
+    _source: sources.WordStudySettingsLocaleSourceABC
 
     @override
     def get_settings(self) -> schemas.WordStudySettingsSchema:
