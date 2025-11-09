@@ -8,7 +8,7 @@ from unittest.mock import Mock
 from wse.core.navigation.navigator import Navigator
 from wse.feature import observer
 from wse.feature.observer.subject import Subject
-from wse.data.sources.foreign import schemas
+from wse.data.sources.foreign import schema
 
 
 @pytest.fixture
@@ -39,17 +39,17 @@ def mock_observer() -> Mock:
 # -------------
 
 @pytest.fixture
-def word_data() -> schemas.WordPresentationSchema:
+def word_data() -> schema.WordPresentationSchema:
     """Word data fixture."""
-    return schemas.WordPresentationSchema(definition='test', explanation='тест')
+    return schema.WordPresentationSchema(definition='test', explanation='тест')
 
 
 @pytest.fixture
 def word_case(
-    word_data: schemas.WordPresentationSchema,
-) -> schemas.WordPresentationSchema:
+    word_data: schema.WordPresentationSchema,
+) -> schema.WordPresentationSchema:
     """Word study case fixture."""
-    return schemas.WordStudyCaseSchema(
+    return schema.WordStudyCaseSchema(
         case_uuid=uuid.uuid4(),
         definition=word_data.definition,
         explanation=word_data.explanation,

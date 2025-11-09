@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from wse.data.sources.foreign.schemas import WordPresentationSchema
+from wse.data.sources.foreign.schema import WordPresentationSchema
 from wse.domain.foreign.study import WordStudyUseCase
 from wse.domain.presentation import Presentation
 

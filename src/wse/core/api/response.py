@@ -5,7 +5,7 @@ from typing import Literal
 from wse.api.schemas.base import BaseSchema
 from wse.api.schemas.core import InitialData
 from wse.api.schemas.task import Question, Result
-from wse.data.sources.foreign.schemas import WordStudyCaseSchema
+from wse.data.sources.foreign.schema import WordStudyCaseSchema
 
 
 class RelatedData(BaseSchema):

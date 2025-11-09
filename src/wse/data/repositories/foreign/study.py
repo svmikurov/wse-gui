@@ -6,7 +6,7 @@ from typing import override
 from injector import inject
 
 from wse.data.sources import foreign as sources
-from wse.data.sources.foreign import schemas
+from wse.data.sources.foreign import schema
 
 from . import (
     WordStudyRepoABC,
@@ -23,7 +23,7 @@ class WordStudyRepo(WordStudyRepoABC):
     _network_source: sources.WordStudyNetworkSourceABC
 
     @override
-    def get_word(self) -> schemas.WordPresentationSchema:
+    def get_word(self) -> schema.WordPresentationSchema:
         """Get word to study."""
         try:
             case = self._network_source.fetch_presentation()
@@ -41,6 +41,6 @@ class WordStudySettingsRepo(WordStudySettingsRepoABC):
     _source: sources.WordStudySettingsLocaleSourceABC
 
     @override
-    def get_settings(self) -> schemas.WordStudySettingsSchema:
+    def get_settings(self) -> schema.WordStudySettingsSchema:
         """Get word study settings."""
         return self._source.get_settings()

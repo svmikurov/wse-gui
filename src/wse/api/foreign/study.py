@@ -8,7 +8,7 @@ from injector import inject
 
 from wse.config.api import APIConfigV1
 from wse.core.http.auth_schema import AuthSchema
-from wse.data.sources.foreign.schemas import (
+from wse.data.sources.foreign.schema import (
     WordStudyCaseSchema,
     WordStudyPresentationParamsSchema,
 )

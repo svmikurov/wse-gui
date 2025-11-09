@@ -9,7 +9,7 @@ from injector import inject
 from wse.config.api import APIConfigV1
 from wse.core.http.auth_schema import AuthSchema
 
-from ...data.sources.foreign.schemas import WordParamsSchema
+from ...data.sources.foreign.schema import WordParamsSchema
 from . import WordParamsApiABC
 from .responses import WordStudyParamsResponse
 

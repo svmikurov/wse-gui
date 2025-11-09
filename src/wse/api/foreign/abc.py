@@ -3,7 +3,7 @@
 import uuid
 from abc import ABC, abstractmethod
 
-from ...data.sources.foreign.schemas import (
+from ...data.sources.foreign.schema import (
     WordParamsSchema,
     WordStudyCaseSchema,
     WordStudyPresentationParamsSchema,

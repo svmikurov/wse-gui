@@ -14,7 +14,7 @@ from . import (
     WordParamsNetworkSourceABC,
     WordParamsNotifyABC,
 )
-from .schemas import (
+from .schema import (
     IdNameSchema,
     WordParamsSchema,
 )

@@ -2,7 +2,7 @@
 
 from wse.core.api.response import Response
 
-from ...data.sources.foreign.schemas import (
+from ...data.sources.foreign.schema import (
     WordParamsSchema,
     WordsData,
     WordStudyCaseSchema,
