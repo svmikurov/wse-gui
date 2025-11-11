@@ -22,7 +22,7 @@ class JWTJsonStorage(JWTJsonStorageProto):
         """Construct the storage."""
         if json_path is None:
             self._json_path = self.FALLBACK_PATH
-            logger.warning('JSON path for tokens not passed, fallback  used')
+            logger.warning('JSON path for tokens not passed, fallback used')
         else:
             self._json_path = Path(json_path)
 

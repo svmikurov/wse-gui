@@ -10,10 +10,11 @@ from pydantic import ValidationError
 from typing_extensions import override
 
 from wse.config.api import APIConfigV1
-from wse.core.api.response import InitialDataResponse
 from wse.core.http.auth_schema import AuthSchema
 
-logger = logging.getLogger(__name__)
+from ..responses import InitialDataResponse
+
+log = logging.getLogger(__name__)
 
 T = TypeVar('T')
 
@@ -34,13 +35,13 @@ class DataApiABC(ABC):
             return response_schema(**response.json())
 
         except ValidationError:
-            logger.exception(
+            log.exception(
                 f'Validation error parsing API response: {response.json()}'
             )
             return None
 
         except (ValueError, TypeError):
-            logger.exception('Parsing JSON error')
+            log.exception('Parsing JSON error')
             return None
 
 
@@ -65,7 +66,7 @@ class DataApi(DataApiABC):
         url_path = self._api_config.initial_data_path
 
         if url_path is None:
-            logger.error('Error load app initial data: url path not set')
+            log.error('Error load app initial data: url path not set')
             return None
 
         try:
@@ -76,7 +77,7 @@ class DataApi(DataApiABC):
             response.raise_for_status()
 
         except httpx.HTTPError as err:
-            logger.error(f'Error load app initial data: {err.args}')
+            log.error(f'Error load app initial data: {err.args}')
             return None
 
         return self._parse_response(response, InitialDataResponse)

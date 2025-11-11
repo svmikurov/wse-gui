@@ -6,10 +6,10 @@ from dataclasses import dataclass
 from injector import inject
 from typing_extensions import override
 
-from wse.api.main.abc import AssignedApiClientABC
+from wse.api.main.abc import AssignedApiABC
+from wse.api.responses import RelatedData
 from wse.api.schemas.exercise import Assigned
 from wse.api.schemas.task import Answer, Question, Result
-from wse.core.api.response import RelatedData
 
 from ..sources import TaskSource
 from ..sources.assigned import AssignedExerciseSource
@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 class AssignedTaskRepo(AssignedTaskRepoABC):
     """Protocol for calculation task repository interface."""
 
-    _api_client: AssignedApiClientABC
+    _api_client: AssignedApiABC
     _task_source: TaskSource
     _assigned_source: AssignedExerciseSource
     _related_data_repo: RelatedDataHttpResponseRepoABC

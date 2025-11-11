@@ -3,17 +3,13 @@
 import logging
 from json.decoder import JSONDecodeError
 
-import httpx
 from injector import inject
 
 from wse.config.api import APIConfigV1
-from wse.core.http.auth_schema import AuthSchema
-from wse.data.sources.foreign.schemas import (
-    WordStudyCaseSchema,
-    WordStudyPresentationParamsSchema,
-)
+from wse.core.http import auth_schema, client
+from wse.data.sources.foreign import schemas
 
-from .abc import WordStudyPresentationApiABC
+from . import WordStudyPresentationApiABC
 from .responses import WordStudyPresentationResponse
 
 log = logging.getLogger(__name__)
@@ -26,8 +22,8 @@ class WordStudyPresentationApi(WordStudyPresentationApiABC):
     @inject
     def __init__(
         self,
-        http_client: httpx.Client,
-        auth_scheme: AuthSchema,
+        http_client: client.HttpClient,
+        auth_scheme: auth_schema.AuthSchema,
         api_config: APIConfigV1,
     ) -> None:
         """Construct the API."""
@@ -37,30 +33,16 @@ class WordStudyPresentationApi(WordStudyPresentationApiABC):
 
     def fetch_presentation(
         self,
-        payload: WordStudyPresentationParamsSchema,
-    ) -> WordStudyCaseSchema:
+        payload: schemas.WordStudyPresentationParamsSchema,
+    ) -> schemas.WordStudyCaseSchema:
         """Fetch presentation."""
-        try:
-            response = self._http_client.post(
-                url=self._api_config.word_presentation,
-                auth=self._auth_scheme,
-                json=payload.to_dict(),
-            )
-            response.raise_for_status()
-
-        except httpx.ConnectError:
-            log.error('Server connect error')
-            raise
-
-        except httpx.HTTPError as e:
-            log.error(
-                f'Request Word study case HTTP error:\n'
-                f'{str(e)}\n{e.response.json()}'  # type: ignore[attr-defined]
-            )
-            raise
+        response = self._http_client.post(
+            url=self._api_config.word_presentation,
+            auth=self._auth_scheme,
+            json=payload.to_dict(),
+        )
 
         try:
-            audit.info(f'Got response json data:\n{response.json()}')
             return WordStudyPresentationResponse(**response.json()).data
 
         except JSONDecodeError:

@@ -1,10 +1,7 @@
 """Contains Math api."""
 
 __all__ = [
-    # Schema
-    'Calculation',
+    'CalculationApiABC',
 ]
 
-from .schema import (
-    Calculation,
-)
+from .abc import CalculationApiABC

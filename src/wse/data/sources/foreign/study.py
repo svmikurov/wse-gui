@@ -86,8 +86,8 @@ class WordStudyPresentationNetworkSource(
                 params
             )
             presentation = self._presentation_api.fetch_presentation(payload)
-        except Exception as e:
-            log.exception(f'Source Network error: {e}')
+        except Exception as exc:
+            log.error(f'Source Network error: {str(exc)}')
             raise
         else:
             return presentation

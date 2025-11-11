@@ -6,7 +6,7 @@ import httpx
 from injector import inject
 from typing_extensions import override
 
-from wse.core.api.protocol import AuthAPIjwtProto
+from wse.core.api.abc import AuthAPIjwtABC
 from wse.core.auth import AuthServiceProto
 from wse.core.exceptions import AuthError
 from wse.core.interfaces.istorage import JWTJsonStorageProto
@@ -20,7 +20,7 @@ class AuthService(AuthServiceProto):
     @inject
     def __init__(
         self,
-        auth_api: AuthAPIjwtProto,
+        auth_api: AuthAPIjwtABC,
         token_storage: JWTJsonStorageProto,
     ) -> None:
         """Construct the service."""

@@ -1,27 +1,23 @@
 """Foreign discipline HTTP response schemas."""
 
-from wse.core.api.response import Response
+from wse.data.sources.foreign import schemas
 
-from ...data.sources.foreign.schemas import (
-    WordParamsSchema,
-    WordsData,
-    WordStudyCaseSchema,
-)
+from ..responses import Response
 
 
 class WordsResponse(Response):
     """Terms http response schema."""
 
-    data: WordsData
+    data: schemas.WordsData
 
 
 class WordStudyPresentationResponse(Response):
     """Word study presentation response schema."""
 
-    data: WordStudyCaseSchema
+    data: schemas.WordStudyCaseSchema
 
 
 class WordStudyParamsResponse(Response):
     """Word study params response schema."""
 
-    data: WordParamsSchema
+    data: schemas.WordParamsSchema

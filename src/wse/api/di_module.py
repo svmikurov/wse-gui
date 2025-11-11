@@ -15,11 +15,11 @@ from .foreign.progress import WordStudyProgressApi
 from .foreign.study import WordStudyPresentationApi
 from .glossary.abc import TermApiABC
 from .glossary.term import TermApi
-from .main.abc import AssignationsApiABC, AssignedApiClientABC
+from .main.abc import AssignationsApiABC, AssignedApiABC
 from .main.assignations import AssignationsApi
 from .main.assigned import AssignedApiClient
+from .math.abc import CalculationApiABC
 from .math.calculation import CalculationApiClient
-from .math.protocol import CalculationApiProto
 
 
 class ApiModule(Module):
@@ -30,11 +30,11 @@ class ApiModule(Module):
     def configure(self, binder: Binder) -> None:
         """Configure dependencies."""
         # Assigned
-        binder.bind(AssignedApiClientABC, to=AssignedApiClient)
+        binder.bind(AssignedApiABC, to=AssignedApiClient)
         binder.bind(AssignationsApiABC, to=AssignationsApi)
 
         # Calculation
-        binder.bind(CalculationApiProto, to=CalculationApiClient)
+        binder.bind(CalculationApiABC, to=CalculationApiClient)
 
         # Glossary
         binder.bind(TermApiABC, to=TermApi)

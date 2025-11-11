@@ -1,23 +1,24 @@
-"""Defines HTTP client."""
+"""HTTP client."""
 
 import logging
-from typing import Any
+from typing import Any, Literal, override
 
 import httpx
 from injector import inject
-from typing_extensions import override
 
 from wse.config.api import APIConfigV1
 
-from .abc import HttpClientABC
-from .protocol import AuthSchemaProto
+from .abc import AuthSchemaABC, HttpClientABC
 
 log = logging.getLogger(__name__)
 audit = logging.getLogger('audit')
 
 
 class HttpClient(HttpClientABC):
-    """Http client."""
+    """Http client.
+
+    Do not use for sensitive data, may log it.
+    """
 
     @inject
     def __init__(
@@ -27,14 +28,49 @@ class HttpClient(HttpClientABC):
     ) -> None:
         """Construct the client."""
         self._http_client = http_client
-        # Set base url to client
         self._http_client.base_url = api_config.base_url
+
+    def _request(
+        self,
+        method: Literal['get', 'post', 'patch'],
+        url: httpx.URL | str,
+        auth: AuthSchemaABC | None,
+        json: dict[str, Any] | None = None,
+        headers: dict[str, str] | None = None,
+    ) -> httpx.Response:
+        try:
+            response = self._http_client.request(
+                method,
+                url,
+                json=json,
+                auth=auth,  # type: ignore[arg-type]
+                headers=headers,
+            )
+            response.raise_for_status()
+
+        except httpx.HTTPStatusError as exc:
+            self._handle_http_status_error(exc, json)
+            raise
+
+        except httpx.ConnectError as exc:
+            log.error(f'Error connecting to {exc.request.url}')
+            raise
+
+        except httpx.HTTPError as exc:
+            log.error(f'HTTP Exception for {exc.request.url} - {exc}')
+            raise
+
+        self._audit_response(response)
+        return response
+
+    # HTTP methods
+    # ------------
 
     @override
     def get(
         self,
         url: httpx.URL | str,
-        auth: AuthSchemaProto | None = None,
+        auth: AuthSchemaABC | None = None,
     ) -> httpx.Response:
         """Send a `GET` request."""
         return self._request('get', url, auth=auth)
@@ -44,7 +80,7 @@ class HttpClient(HttpClientABC):
         self,
         url: httpx.URL | str,
         json: dict[str, Any] | None = None,
-        auth: AuthSchemaProto | None = None,
+        auth: AuthSchemaABC | None = None,
         headers: dict[str, str] | None = None,
     ) -> httpx.Response:
         """Send a `POST` request."""
@@ -61,37 +97,34 @@ class HttpClient(HttpClientABC):
         self,
         url: httpx.URL | str,
         json: dict[str, Any],
-        auth: AuthSchemaProto | None = None,
+        auth: AuthSchemaABC | None = None,
     ) -> httpx.Response:
         """Send a `PATCH` request."""
         return self._request('patch', url, json=json, auth=auth)
 
-    @override
-    def _request(
-        self,
-        method: str,
-        url: httpx.URL | str,
-        auth: AuthSchemaProto | None,
-        json: dict[str, Any] | None = None,
-        headers: dict[str, str] | None = None,
-    ) -> httpx.Response:
-        try:
-            response = self._http_client.request(
-                method,
-                url,
-                json=json,
-                auth=auth,  # type: ignore[arg-type]
-                headers=headers,
-            )
-            response.raise_for_status()
+    # Error handling
+    # --------------
 
-        except httpx.ConnectError as err:
-            log.error('Error connecting to server %s', err.request.url)
-            raise
+    @staticmethod
+    def _handle_http_status_error(
+        exc: httpx.HTTPStatusError,
+        json: dict[str, Any] | None,
+    ) -> None:
+        response = exc.response
+        status = response.status_code
+        reason = response.reason_phrase
+        response_data: dict[str, Any] = response.json() if response else {}
 
-        except httpx.HTTPStatusError as err:
-            log.error(f'HTTP error {err.response.status_code}')
-            raise
+        log.error(
+            f'HTTP status error {status} for {exc.request.url} - {reason}\n'
+            f'with request data {json}\n'
+            f'got response_data {response_data}'
+        )
 
-        else:
-            return response
+    # Utility methods
+    # ---------------
+
+    @staticmethod
+    def _audit_response(response: httpx.Response) -> None:
+        if hasattr(response, 'json'):
+            audit.info(f'Got response json data:\n{response.json()}')

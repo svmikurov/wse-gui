@@ -6,13 +6,12 @@ import httpx
 from injector import inject
 from pydantic import ValidationError
 
-from wse.api.glossary.abc import TermApiABC
-from wse.api.glossary.responses import TermsResponse
-from wse.api.glossary.schemas import TermsData
 from wse.config.api import APIConfigV1
 from wse.core.http.auth_schema import AuthSchema
 
-logger = logging.getLogger(__name__)
+from . import TermApiABC, responses, schemas
+
+log = logging.getLogger(__name__)
 
 
 class TermApi(TermApiABC):
@@ -30,7 +29,7 @@ class TermApi(TermApiABC):
         self._auth_scheme = auth_scheme
         self._api_config = api_config
 
-    def fetch_terms(self) -> TermsData | None:
+    def fetch_terms(self) -> schemas.TermsData | None:
         """Fetch terms."""
         try:
             response = self._http_client.get(
@@ -40,20 +39,20 @@ class TermApi(TermApiABC):
             response.raise_for_status()
 
         except httpx.HTTPError:
-            logger.exception('Request Terms HTTP error:\n')
+            log.exception('Request Terms HTTP error:\n')
 
         else:
             if not hasattr(response, 'json'):
-                logger.error(
+                log.error(
                     'Request Terms error: response does not contain JSON data'
                 )
 
             else:
                 try:
-                    validated_data = TermsResponse(**response.json())
+                    validated_data = responses.TermsResponse(**response.json())
 
                 except ValidationError as err:
-                    logger.exception(
+                    log.exception(
                         f'Terms response validate error:\n{str(err)}\n'
                         f'Got response JSON:\n{response.json()}'
                     )

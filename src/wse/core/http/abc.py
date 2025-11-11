@@ -1,21 +1,47 @@
-"""Protocols and ABC for HTTP client."""
+"""Abstract base class for HTTP client."""
 
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, AsyncGenerator, Generator
 
 import httpx
+from httpx import Request, Response
 
-from .protocol import AuthSchemaProto
+# TODO: Update protocols to ABC?
+
+
+class AuthSchemaABC(ABC):
+    """ABC for authentication schema."""
+
+    @abstractmethod
+    def auth_flow(
+        self,
+        request: httpx.Request,
+    ) -> Generator[httpx.Request, httpx.Response, None]:
+        """Execute the authentication flow."""
+
+    @abstractmethod
+    def sync_auth_flow(
+        self,
+        request: httpx.Request,
+    ) -> Generator[httpx.Request, httpx.Response, None]:
+        """Execute the authentication flow synchronously."""
+
+    @abstractmethod
+    async def async_auth_flow(
+        self,
+        request: Request,
+    ) -> AsyncGenerator[Request, Response]:
+        """Execute the authentication flow asynchronously."""
 
 
 class HttpClientABC(ABC):
-    """Abstract base class for Http client."""
+    """ABC for http client."""
 
     @abstractmethod
     def get(
         self,
         url: httpx.URL | str,
-        auth: AuthSchemaProto | None = None,
+        auth: AuthSchemaABC | None = None,
     ) -> httpx.Response:
         """Send a `GET` request."""
 
@@ -24,7 +50,7 @@ class HttpClientABC(ABC):
         self,
         url: httpx.URL | str,
         json: dict[str, Any] | None = None,
-        auth: AuthSchemaProto | None = None,
+        auth: AuthSchemaABC | None = None,
         headers: dict[str, str] | None = None,
     ) -> httpx.Response:
         """Send a `POST` request."""
@@ -34,16 +60,6 @@ class HttpClientABC(ABC):
         self,
         url: httpx.URL | str,
         json: dict[str, Any],
-        auth: AuthSchemaProto | None = None,
+        auth: AuthSchemaABC | None = None,
     ) -> httpx.Response:
         """Send a `PATCH` request."""
-
-    @abstractmethod
-    def _request(
-        self,
-        method: str,
-        url: httpx.URL | str,
-        auth: AuthSchemaProto | None,
-        json: dict[str, Any] | None = None,
-        headers: dict[str, str] | None = None,
-    ) -> httpx.Response: ...

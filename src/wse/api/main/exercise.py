@@ -1,4 +1,4 @@
-"""Base api client."""
+"""Abstract base class for Exercise API client."""
 
 import logging
 from abc import ABC, abstractmethod
@@ -8,29 +8,29 @@ import httpx
 from injector import inject
 from pydantic import ValidationError
 
-from wse.feature.services import Answer
+from wse.core.http import AuthSchemaABC, HttpClientABC
+from wse.feature import services
 
-from ..http import AuthSchemaProto, HttpClientProto
-from .protocol import ExerciseT_contra
-from .response import QuestionResponse, ResultResponse
+from .. import responses
+from . import ExerciseT_contra
 
-logger = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
 # TODO: Fix TypeVar definition
-T = TypeVar('T', QuestionResponse, ResultResponse)
+T = TypeVar('T', responses.QuestionResponse, responses.ResultResponse)
 
 
 class ExerciseApi(
     ABC,
     Generic[ExerciseT_contra],
 ):
-    """Base exercise api client."""
+    """ABC for exercise API client."""
 
     @inject
     def __init__(
         self,
-        http_client: HttpClientProto,
-        auth_scheme: AuthSchemaProto,
+        http_client: HttpClientABC,
+        auth_scheme: AuthSchemaABC,
     ) -> None:
         """Construct the client."""
         self._http_client = http_client
@@ -40,15 +40,15 @@ class ExerciseApi(
     def request_task(
         self,
         exercise: ExerciseT_contra,
-    ) -> QuestionResponse | None:
+    ) -> responses.QuestionResponse | None:
         """Request a task from the server."""
 
     @abstractmethod
     def check_answer(
         self,
-        answer: Answer,
+        answer: services.Answer,
         exercise: ExerciseT_contra,
-    ) -> ResultResponse | None:
+    ) -> responses.ResultResponse | None:
         """Check on the server the user's entered answer."""
 
     @staticmethod
@@ -61,11 +61,11 @@ class ExerciseApi(
             return r_schema
 
         except ValidationError:
-            logger.exception(
+            log.exception(
                 f'Validation error parsing API response: {response.json()}'
             )
             return None
 
         except (ValueError, TypeError):
-            logger.exception('Parsing JSON error')
+            log.exception('Parsing JSON error')
             return None

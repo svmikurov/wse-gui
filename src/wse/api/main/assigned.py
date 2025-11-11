@@ -5,29 +5,29 @@ representation of task components.
 """
 
 import logging
-from typing import TypeVar
+from typing import Any, TypeVar
 
 import httpx
 from typing_extensions import override
 
-from wse.api.main.abc import AssignedApiClientABC
-from wse.api.schemas.exercise import Assigned
-from wse.api.schemas.task import Answer
-from wse.core.api.response import QuestionResponse, ResultResponse
+from .. import responses
+from ..base.exercise import BaseExerciseApi
+from ..schemas.exercise import Assigned
+from ..schemas.task import Answer
 
-logger = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
-T = TypeVar('T', QuestionResponse, ResultResponse)
+T = TypeVar('T', responses.QuestionResponse, responses.ResultResponse)
 
 
-class AssignedApiClient(AssignedApiClientABC):
+class AssignedApiClient(BaseExerciseApi[Any]):
     """Assigned exercise api client with text task."""
 
     @override
     def request_task(
         self,
         exercise: Assigned,
-    ) -> QuestionResponse | None:
+    ) -> responses.QuestionResponse | None:
         """Request assigned exercise task."""
         try:
             response: httpx.Response = self._http_client.get(
@@ -37,17 +37,17 @@ class AssignedApiClient(AssignedApiClientABC):
             response.raise_for_status()
 
         except httpx.HTTPError:
-            logger.exception('Request task error')
+            log.exception('Request task error')
             return None
 
-        return self._parse_response(response, QuestionResponse)
+        return self._parse_response(response, responses.QuestionResponse)
 
     @override
     def check_answer(
         self,
         answer: Answer,
         exercise: Assigned,
-    ) -> ResultResponse | None:
+    ) -> responses.ResultResponse | None:
         """Check user answer on assigned exercise task."""
         try:
             response: httpx.Response = self._http_client.post(
@@ -58,7 +58,7 @@ class AssignedApiClient(AssignedApiClientABC):
             response.raise_for_status()
 
         except httpx.HTTPError:
-            logger.exception('Check answer error')
+            log.exception('Check answer error')
             return None
 
-        return self._parse_response(response, ResultResponse)
+        return self._parse_response(response, responses.ResultResponse)

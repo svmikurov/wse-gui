@@ -5,4 +5,7 @@ __all__ = [
     'TermApiABC',
 ]
 
-from .abc import TermApiABC, TermPresentationApiABC
+from .abc import (
+    TermApiABC,
+    TermPresentationApiABC,
+)

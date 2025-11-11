@@ -10,11 +10,11 @@ from typing_extensions import override
 
 from wse.api.schemas.exercise import Assigned, ExerciseInfo
 from wse.config.api import APIConfigV1
-from wse.core.http import AuthSchemaProto, HttpClientProto
+from wse.core.http import AuthSchemaABC, HttpClientABC
 
-from .abc import AssignationsApiABC
+from . import AssignationsApiABC
 
-logger = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
 
 class AssignationsApi(AssignationsApiABC):
@@ -23,8 +23,8 @@ class AssignationsApi(AssignationsApiABC):
     @inject
     def __init__(
         self,
-        http_client: HttpClientProto,
-        auth_scheme: AuthSchemaProto,
+        http_client: HttpClientABC,
+        auth_scheme: AuthSchemaABC,
         api_config: APIConfigV1,
     ) -> None:
         """Construct the API."""
@@ -40,17 +40,17 @@ class AssignationsApi(AssignationsApiABC):
                 url=self._api.assigned_exercises,
                 auth=self._auth,
             )
-            logger.debug('Assigned exercises updated')
+            log.debug('Assigned exercises updated')
 
         except httpx.HTTPError:
-            logger.error('Request all assigned exercises error')
+            log.error('Request all assigned exercises error')
             return None
 
         else:
             try:
                 return self._collect(response.json())
             except ValidationError:
-                logger.exception('Question validation error')
+                log.exception('Question validation error')
                 return None
 
     @override
@@ -65,14 +65,14 @@ class AssignationsApi(AssignationsApiABC):
             )
 
         except httpx.HTTPError:
-            logger.exception('Assigned exercise request error')
+            log.exception('Assigned exercise request error')
             return None
 
         else:
             try:
                 assigned_exercise = Assigned(**response.json())
             except ValidationError as e:
-                logger.exception(f'Create Exercise meta error: {str(e)}')
+                log.exception(f'Create Exercise meta error: {str(e)}')
                 return None
             else:
                 return assigned_exercise

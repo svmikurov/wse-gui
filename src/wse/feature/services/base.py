@@ -2,10 +2,10 @@
 
 from typing import TypeVar
 
+from wse.api.main.abc import ExerciseApiABC
+from wse.api.responses import RelatedData
 from wse.api.schemas.exercise import ExerciseMeta
 from wse.api.schemas.task import Answer, Question, Result
-from wse.core.api.protocol import ExerciseApiProto
-from wse.core.api.response import RelatedData
 
 from .abc import ExerciseServiceABC
 
@@ -19,7 +19,7 @@ class ExerciseService(
 
     def __init__(
         self,
-        api_client: ExerciseApiProto[ExerciseT],
+        api_client: ExerciseApiABC[ExerciseT],
     ) -> None:
         """Construct the service."""
         self._api_client = api_client

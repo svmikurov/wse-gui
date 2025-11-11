@@ -2,18 +2,14 @@
 
 from abc import ABC, abstractmethod
 
-from wse.api.glossary.schemas import (
-    TermPresentationParamsSchema,
-    TermPresentationSchema,
-    TermsData,
-)
+from wse.api.glossary import schemas
 
 
 class TermApiABC(ABC):
     """ABC for Term API client."""
 
     @abstractmethod
-    def fetch_terms(self) -> TermsData | None:
+    def fetch_terms(self) -> schemas.TermsData | None:
         """Fetch terms."""
 
 
@@ -23,6 +19,6 @@ class TermPresentationApiABC(ABC):
     @abstractmethod
     def fetch_presentation(
         self,
-        payload: TermPresentationParamsSchema,
-    ) -> TermPresentationSchema | None:
+        payload: schemas.TermPresentationParamsSchema,
+    ) -> schemas.TermPresentationSchema | None:
         """Fetch presentation."""

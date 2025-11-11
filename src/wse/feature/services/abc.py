@@ -3,9 +3,9 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
+from wse.api.responses import RelatedData
 from wse.api.schemas.exercise import ExerciseMeta
 from wse.api.schemas.task import Answer, Question, Result
-from wse.core.api.response import RelatedData
 
 ExerciseT = TypeVar('ExerciseT', bound=ExerciseMeta)
 

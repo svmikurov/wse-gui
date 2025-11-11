@@ -10,11 +10,11 @@ from wse.core.auth import AuthServiceProto
 from wse.core.http.auth_schema import AuthSchema
 from wse.core.http.client import HttpClient
 
+from ..api.main.data import DataApi, DataApiABC
+from .api.abc import AuthAPIjwtABC
 from .api.auth_jwt import AuthAPIjwt
-from .api.data import DataApi, DataApiABC
-from .api.protocol import AuthAPIjwtProto
 from .auth.service import AuthService
-from .http import AuthSchemaProto, HttpClientABC, HttpClientProto
+from .http import AuthSchemaABC, HttpClientABC
 from .interfaces import Navigable
 from .interfaces.istorage import JWTJsonStorageProto
 from .navigation.navigator import Navigator
@@ -38,11 +38,11 @@ class CoreModule(Module):
 
         # Authentication service
         binder.bind(AuthServiceProto, to=AuthService, scope=singleton)
-        binder.bind(AuthAPIjwtProto, to=AuthAPIjwt)
+        binder.bind(AuthAPIjwtABC, to=AuthAPIjwt)
 
         # HTTP services
-        binder.bind(HttpClientProto, to=HttpClient)
-        binder.bind(AuthSchemaProto, to=AuthSchema, scope=singleton)
+        binder.bind(HttpClientABC, to=HttpClient)
+        binder.bind(AuthSchemaABC, to=AuthSchema, scope=singleton)
 
         # HTTP client
         binder.bind(HttpClientABC, to=HttpClient)

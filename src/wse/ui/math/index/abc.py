@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 import toga
 from wse_exercises.core import MathEnum
 
-from wse.api.math import Calculation
+from wse.api.math.schemas import Calculation
 from wse.ui.base.navigate import NavigateABC, OnCloseABC
 from wse.ui.base.view.abc import ViewABC
 

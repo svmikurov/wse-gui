@@ -6,12 +6,15 @@ from dataclasses import dataclass
 from injector import inject
 from typing_extensions import override
 
-from wse.api.math import Calculation
-from wse.api.math.protocol import CalculationApiProto
-from wse.api.math.schema import CalculationCondition, CalculationConfig
+from wse.api.math.abc import CalculationApiABC
+from wse.api.math.schemas import (
+    Calculation,
+    CalculationCondition,
+    CalculationConfig,
+)
+from wse.api.responses import RelatedData
 from wse.api.schemas.task import Answer, Question, Result
 from wse.config.api import MathAPIConfigV1
-from wse.core.api.response import RelatedData
 
 from ..sources import TaskSource
 from ..sources.task import TaskObserverT
@@ -29,7 +32,7 @@ logger = logging.getLogger(__name__)
 class CalculationTaskRepo(CalculationTaskRepoABC):
     """Protocol for calculation task repository interface."""
 
-    _api_client: CalculationApiProto
+    _api_client: CalculationApiABC
     _api_config: MathAPIConfigV1
     _task_source: TaskSource
     _exercise_source: CalculationExerciseRepo

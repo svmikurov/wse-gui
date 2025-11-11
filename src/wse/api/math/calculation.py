@@ -6,28 +6,27 @@ import httpx
 from injector import inject
 from typing_extensions import override
 
-from wse.api.math import Calculation
-from wse.core.api.base import ExerciseApi
-from wse.core.api.response import QuestionResponse, ResultResponse
-from wse.feature.services import Answer
+from wse.feature import services
 
-from .protocol import CalculationApiProto
+from .. import responses
+from ..main.exercise import ExerciseApi
+from . import CalculationApiABC, schemas
 
-logger = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
 
 @inject
 class CalculationApiClient(
-    ExerciseApi[Calculation],
-    CalculationApiProto,
+    ExerciseApi[schemas.Calculation],
+    CalculationApiABC,
 ):
     """Exercise API client."""
 
     @override
     def request_task(
         self,
-        exercise: Calculation,
-    ) -> QuestionResponse | None:
+        exercise: schemas.Calculation,
+    ) -> responses.QuestionResponse | None:
         """Request the task."""
         try:
             response: httpx.Response = self._http_client.post(
@@ -38,17 +37,17 @@ class CalculationApiClient(
             response.raise_for_status()
 
         except httpx.HTTPError:
-            logger.exception('Request task error')
+            log.exception('Request task error')
             return None
 
-        return self._parse_response(response, QuestionResponse)
+        return self._parse_response(response, responses.QuestionResponse)
 
     @override
     def check_answer(
         self,
-        answer: Answer,
-        exercise: Calculation,
-    ) -> ResultResponse | None:
+        answer: services.Answer,
+        exercise: schemas.Calculation,
+    ) -> responses.ResultResponse | None:
         """Check the user entered answer."""
         try:
             response: httpx.Response = self._http_client.post(
@@ -59,7 +58,7 @@ class CalculationApiClient(
             response.raise_for_status()
 
         except httpx.HTTPError:
-            logger.exception('Check answer error')
+            log.exception('Check answer error')
             return None
 
-        return self._parse_response(response, ResultResponse)
+        return self._parse_response(response, responses.ResultResponse)

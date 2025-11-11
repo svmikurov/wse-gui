@@ -3,11 +3,7 @@
 import uuid
 from abc import ABC, abstractmethod
 
-from ...data.sources.foreign.schemas import (
-    WordParamsSchema,
-    WordStudyCaseSchema,
-    WordStudyPresentationParamsSchema,
-)
+from wse.data.sources.foreign import schemas
 
 
 class WordStudyProgressApiABC(ABC):
@@ -28,8 +24,8 @@ class WordStudyPresentationApiABC(ABC):
     @abstractmethod
     def fetch_presentation(
         self,
-        payload: WordStudyPresentationParamsSchema,
-    ) -> WordStudyCaseSchema:
+        payload: schemas.WordStudyPresentationParamsSchema,
+    ) -> schemas.WordStudyCaseSchema:
         """Fetch presentation."""
 
 
@@ -39,5 +35,5 @@ class WordParamsApiABC(ABC):
     @abstractmethod
     def fetch_initial_params(
         self,
-    ) -> WordParamsSchema:
+    ) -> schemas.WordParamsSchema:
         """Fetch Word study params."""

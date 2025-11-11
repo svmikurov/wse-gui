@@ -6,13 +6,11 @@ Contains:
 """
 
 __all__ = [
-    'AuthSchemaProto',
-    'HttpClientProto',
+    'AuthSchemaABC',
     'HttpClientABC',
 ]
 
-from .abc import HttpClientABC
-from .protocol import (
-    AuthSchemaProto,
-    HttpClientProto,
+from .abc import (
+    AuthSchemaABC,
+    HttpClientABC,
 )

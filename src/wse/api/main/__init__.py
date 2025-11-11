@@ -1,12 +1,15 @@
-"""Contains Core app API for http requests."""
+"""Core app API for http requests."""
 
 __all__ = [
-    # Protocol
-    'AssignationsApiProto',
-    'AssignedApiProto',
+    'AssignationsApiABC',
+    'AssignedApiABC',
+    'ExerciseApiABC',
+    'ExerciseT_contra',
 ]
 
-from .protocol import (
-    AssignationsApiProto,
-    AssignedApiProto,
+from .abc import (
+    AssignationsApiABC,
+    AssignedApiABC,
+    ExerciseApiABC,
+    ExerciseT_contra,
 )

@@ -8,10 +8,9 @@ from injector import inject
 
 from wse.config.api import APIConfigV1
 from wse.core.http.auth_schema import AuthSchema
+from wse.data.sources.foreign import schemas
 
-from ...data.sources.foreign.schemas import WordParamsSchema
-from . import WordParamsApiABC
-from .responses import WordStudyParamsResponse
+from . import WordParamsApiABC, responses
 
 log = logging.getLogger(__name__)
 audit = logging.getLogger('audit')
@@ -34,7 +33,7 @@ class WordParamsApi(WordParamsApiABC):
 
     def fetch_initial_params(
         self,
-    ) -> WordParamsSchema:
+    ) -> schemas.WordParamsSchema:
         """Fetch presentation."""
         try:
             response = self._http_client.get(
@@ -53,7 +52,7 @@ class WordParamsApi(WordParamsApiABC):
 
         try:
             audit.info(f'Got response json data:\n{response.json()}')
-            return WordStudyParamsResponse(**response.json()).data
+            return responses.WordStudyParamsResponse(**response.json()).data
 
         except JSONDecodeError:
             log.error(

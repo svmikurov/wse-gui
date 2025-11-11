@@ -4,17 +4,10 @@ import logging
 
 import httpx
 
-from wse.api.glossary.responses import (
-    TermPresentationResponse,
-)
-from wse.api.glossary.schemas import (
-    TermPresentationParamsSchema,
-    TermPresentationSchema,
-)
 from wse.config.api import APIConfigV1
 from wse.core.http.auth_schema import AuthSchema
 
-from . import TermPresentationApiABC
+from . import TermPresentationApiABC, responses, schemas
 
 log = logging.getLogger(__name__)
 
@@ -35,8 +28,8 @@ class TermPresentationApi(TermPresentationApiABC):
 
     def fetch_presentation(
         self,
-        payload: TermPresentationParamsSchema,
-    ) -> TermPresentationSchema | None:
+        payload: schemas.TermPresentationParamsSchema,
+    ) -> schemas.TermPresentationSchema | None:
         """Fetch presentation."""
         try:
             response = self._http_client.post(
@@ -58,7 +51,7 @@ class TermPresentationApi(TermPresentationApiABC):
 
             else:
                 try:
-                    validated_data = TermPresentationResponse(
+                    validated_data = responses.TermPresentationResponse(
                         **response.json()
                     )
 
