@@ -4,31 +4,9 @@ from unittest.mock import Mock
 
 import pytest
 
-from wse.domain.foreign import WordStudyUseCaseABC
-from wse.feature.observer.subject import Subject
 from wse.ui.containers.control import Action
 from wse.ui.foreign.study import WordPresentationViewModelObserverABC
 from wse.ui.foreign.study.state import WordPresentationViewModel
-
-
-@pytest.fixture
-def mock_study_use_case() -> Mock:
-    """Mock Word study UseCase."""
-    return Mock(spec=WordStudyUseCaseABC)
-
-
-@pytest.fixture
-def view_model(
-    mock_navigator: Mock,
-    subject: Subject,
-    mock_study_use_case: Mock,
-) -> WordPresentationViewModel:
-    """Get Word study presentation ViewModel fixture."""
-    return WordPresentationViewModel(
-        _navigator=mock_navigator,
-        _subject=subject,
-        _study_case=mock_study_use_case,
-    )
 
 
 class TestOnOpen:
