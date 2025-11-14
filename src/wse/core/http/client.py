@@ -1,5 +1,6 @@
 """HTTP client."""
 
+import json
 import logging
 from typing import Any, Literal, override
 
@@ -126,5 +127,9 @@ class HttpClient(HttpClientABC):
 
     @staticmethod
     def _audit_response(response: httpx.Response) -> None:
-        if hasattr(response, 'json'):
+        try:
             audit.info(f'Got response json data:\n{response.json()}')
+        except json.JSONDecodeError:
+            audit.info(
+                f'Got response without json data, code: {response.status_code}'
+            )
