@@ -148,6 +148,7 @@ class TestPresentationInstantiating:
                 end_case_event=Mock(),
                 unpause_event=Mock(),
                 progress_queue=Mock(),
+                complete_phase_event=Mock(),
             )
         except Exception:
             pytest.fail('Test Presentation domain instantiating error')

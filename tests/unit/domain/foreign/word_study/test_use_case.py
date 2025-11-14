@@ -49,29 +49,7 @@ class TestWordStudyExceptions:
     ...
 
 
-class TestProgressRepoDependency:
-    """Test Progress word study repository call."""
-
-    def test_known_word_case(
-        self,
-        mock_progress_repo: Mock,
-        use_case_di_mock: WordStudyUseCase,
-    ) -> None:
-        """Test the 'known' word case."""
-        use_case_di_mock.known()
-        mock_progress_repo.increment.assert_called_once_with()
-
-    def test_unknown_word_case(
-        self,
-        mock_progress_repo: Mock,
-        use_case_di_mock: WordStudyUseCase,
-    ) -> None:
-        """Test the 'unknown' word case."""
-        use_case_di_mock.unknown()
-        mock_progress_repo.decrement.assert_called_once_with()
-
-
-class TestWordDataRepoDependency:
+class TestDataRepo:
     """Test Get word data repository call."""
 
     def test_get_word_repo_call(
@@ -80,36 +58,74 @@ class TestWordDataRepoDependency:
         use_case_di_mock: WordStudyUseCase,
     ) -> None:
         """Test the get word repo call."""
+        # Act
         use_case_di_mock._get_data()
+
+        # Assert
         mock_get_word_repo.get_word.assert_called_once_with()
 
 
-class TestWordStudyCaseManagement:
-    """Test Word study case management."""
+class TestActions:
+    """Test Word study case user actions."""
 
-    def test_pause_case(
+    def test_known(
+        self,
+        mock_progress_repo: Mock,
+        use_case_di_mock: WordStudyUseCase,
+    ) -> None:
+        """Test the 'known' call."""
+        with patch.object(use_case_di_mock, 'next') as mock_next:
+            # Act
+            use_case_di_mock.known()
+
+        # Assert
+        mock_next.assert_called_once_with()
+        mock_progress_repo.increment.assert_called_once_with()
+
+    def test_unknown(
+        self,
+        mock_domain: Mock,
+        mock_progress_repo: Mock,
+        use_case_di_mock: WordStudyUseCase,
+    ) -> None:
+        """Test the 'unknown' call."""
+        with patch.object(use_case_di_mock, 'unpause') as mock_unpause:
+            # Act
+            use_case_di_mock.unknown()
+
+        # Assert
+        mock_progress_repo.decrement.assert_called_once_with()
+        mock_domain.complete_phase.assert_called_once_with()
+        mock_unpause.assert_called_once_with()
+
+    def test_pause(
         self,
         mock_domain: Mock,
         use_case_di_mock: WordStudyUseCase,
     ) -> None:
         """Test the 'pause' call."""
+        # Act
         use_case_di_mock.pause()
+
+        # Assert
         mock_domain.pause.assert_called_once_with()
 
-    def test_unpause_case(
+    def test_unpause(
         self,
         mock_domain: Mock,
         use_case_di_mock: WordStudyUseCase,
     ) -> None:
         """Test the 'unpause' call."""
+        # Act
         use_case_di_mock.unpause()
+
+        # Assert
         mock_domain.unpause.assert_called_once_with()
 
-    @pytest.mark.asyncio
-    @patch('wse.domain.foreign.study.WordStudyUseCase._start_background_tasks')
-    @patch('wse.domain.foreign.study.WordStudyUseCase._stop_background_tasks')
-    @patch('wse.domain.foreign.study.WordStudyUseCase._notify_clean')
-    async def test_next_case(
+    @patch.object(WordStudyUseCase, '_start_background_tasks')
+    @patch.object(WordStudyUseCase, '_stop_background_tasks')
+    @patch.object(WordStudyUseCase, '_notify_clean')
+    def test_next(
         self,
         mock_start_background: Mock,
         mock_stop_background: Mock,
@@ -118,19 +134,61 @@ class TestWordStudyCaseManagement:
         use_case_di_mock: WordStudyUseCase,
     ) -> None:
         """Test the 'next' call."""
+        # Act
         use_case_di_mock.next()
 
-        # Verify background tasks creation was triggered
+        # Verify correct cancel current case
+        mock_stop_background.assert_called_once_with()
+        mock_domain.stop.assert_called_once_with()
+        mock_notify_clean.assert_called_once_with()
+
+        # Verify correct start new case
         mock_start_background.assert_called_once_with()
-        # Verify domain layer was initialized
         mock_domain.start.assert_called_once_with()
 
-        mock_stop_background.assert_called_once_with()
-        mock_notify_clean.assert_called_once_with()
-        mock_domain.stop.assert_called_once_with()
+
+class TestLifecycle:
+    """Test suite for WordStudyUseCase start/stop functionality."""
+
+    def test_start(
+        self,
+        mock_domain: AsyncMock,
+        use_case_di_mock: WordStudyUseCase,
+    ) -> None:
+        """Test start method.
+
+        Verifies that:
+        - Background tasks are created when start is called
+        - Domain start method is invoked
+        """
+        with patch.object(
+            use_case_di_mock, '_start_background_tasks'
+        ) as mock_create_task:
+            # Act
+            use_case_di_mock.start()
+
+            # Assert
+            mock_create_task.assert_called_once_with()
+            mock_domain.start.assert_called_once_with()
+
+    def test_stop(
+        self,
+        mock_domain: AsyncMock,
+        use_case_di_mock: WordStudyUseCase,
+    ) -> None:
+        """Test stop method."""
+        with patch.object(
+            use_case_di_mock, '_stop_background_tasks'
+        ) as mock_stop_tasks:
+            # Act
+            use_case_di_mock.stop()
+
+            # Assert
+            mock_stop_tasks.assert_called_once_with()
+            mock_domain.stop.assert_called_once_with()
 
 
-class TestWordStudyLoop:
+class TestStudyLoop:
     """Test Word study loop events."""
 
     async def _yield_control(self) -> None:
@@ -197,41 +255,8 @@ class TestWordStudyLoop:
         use_case.stop()
 
 
-class TestUseCaseLifecycle:
-    """Test suite for WordStudyUseCase start/stop functionality."""
-
-    def test_start(
-        self,
-        mock_domain: AsyncMock,
-        use_case_di_mock: WordStudyUseCase,
-    ) -> None:
-        """Test start method.
-
-        Verifies that:
-        - Background tasks are created when start is called
-        - Domain start method is invoked
-        """
-        with patch(
-            'wse.domain.foreign.study.WordStudyUseCase._start_background_tasks'
-        ) as mock_create_task:
-            use_case_di_mock.start()
-            # Verify background tasks creation was triggered
-            mock_create_task.assert_called_once_with()
-            # Verify domain layer was initialized
-            mock_domain.start.assert_called_once_with()
-
-    def test_stop(
-        self,
-        mock_domain: AsyncMock,
-        use_case_di_mock: WordStudyUseCase,
-    ) -> None:
-        """Test stop method."""
-        with patch(
-            'wse.domain.foreign.study.WordStudyUseCase._stop_background_tasks'
-        ) as mock_stop_tasks:
-            use_case_di_mock.stop()
-            mock_stop_tasks.assert_called_once_with()
-            mock_domain.stop.assert_called_once_with()
+class TestBackgroundTasks:
+    """Test Word study background tasks."""
 
     @pytest.mark.asyncio
     async def test_start_background_tasks(
