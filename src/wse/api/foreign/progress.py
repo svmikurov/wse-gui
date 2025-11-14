@@ -72,6 +72,4 @@ class WordStudyProgressApi(WordStudyProgressApiABC):
                 f'{str(exc.response.reason_phrase)}'
             )
         except Exception as exc:
-            log.error(
-                f'Word study progress update unexpected error:\n{str(exc)}'
-            )
+            log.error('Word study progress update unexpected error:\n%s', exc)

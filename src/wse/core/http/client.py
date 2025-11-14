@@ -131,5 +131,5 @@ class HttpClient(HttpClientABC):
             audit.info(f'Got response json data:\n{response.json()}')
         except json.JSONDecodeError:
             audit.info(
-                f'Got response without json data, code: {response.status_code}'
+                'Got response without json data, code: {response.status_code}'
             )
