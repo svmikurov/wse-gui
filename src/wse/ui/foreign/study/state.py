@@ -24,7 +24,10 @@ log = logging.getLogger(__name__)
 NO_TEXT = ''
 
 # TODO: Refactor
-ProgressT = Literal['timeout_updated']
+ProgressT = Literal[
+    'timeout_updated',
+    'pause_state_updated',
+]
 
 
 @inject
@@ -81,6 +84,10 @@ class WordPresentationViewModel(
         match action:
             case Action.PAUSE:
                 self._study_case.pause()
+                self.notify('pause_state_updated', value=True)
+            case Action.UNPAUSE:
+                self._study_case.unpause()
+                self.notify('pause_state_updated', value=False)
             case Action.NEXT:
                 self._study_case.next()
             case Action.KNOWN:

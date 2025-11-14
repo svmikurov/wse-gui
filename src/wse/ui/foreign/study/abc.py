@@ -1,6 +1,6 @@
 """Abstract base classes for Foreign words study screen."""
 
-from abc import ABC
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Literal, TypeAlias, Union
 
@@ -23,6 +23,10 @@ class WordPresentationViewModelObserverABC(
     ABC,
 ):
     """ABC for Word presentation ViewModel observer."""
+
+    @abstractmethod
+    def pause_state_updated(self, value: bool) -> None:
+        """Update pause state."""
 
 
 # TODO: Refactor multiply inherit below

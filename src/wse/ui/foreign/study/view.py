@@ -84,7 +84,10 @@ class StudyForeignView(
 
     @override
     def handle(self, action: Action) -> None:
-        """Handle user action."""
+        """Handle user action.
+
+        Observes the control container.
+        """
         self._state.handle(action)
 
     # TODO: Refactor
@@ -92,6 +95,11 @@ class StudyForeignView(
         """Update progress bar."""
         self._progress_bar.max = max if max else 0.1
         self._progress_bar.value = value
+
+    @override
+    def pause_state_updated(self, value: bool) -> None:
+        """Update pause state."""
+        self._control_container.update_pause_state(value)
 
     @override
     def change(self, accessor: str, value: object) -> None:

@@ -1,6 +1,6 @@
 """Abstract base class for Exercise control container."""
 
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import Literal, TypeAlias
 
 from wse.core.base.enums import BaseEnum
@@ -16,6 +16,7 @@ class Action(BaseEnum):
     """Exercise action enumeration."""
 
     PAUSE = I18N.EXERCISE('Pause')
+    UNPAUSE = I18N.EXERCISE('Unpause')
     NEXT = I18N.EXERCISE('Next')
     KNOWN = I18N.EXERCISE('Known')
     UNKNOWN = I18N.EXERCISE('Unknown')
@@ -37,3 +38,7 @@ class ControlContainerABC(
         self._create_ui()
         self._populate_content()
         self._apply_styles()
+
+    @abstractmethod
+    def update_pause_state(self, pause: bool) -> None:
+        """Update pause state."""

@@ -111,7 +111,12 @@ class WordStudyUseCase(
         """Handle 'pause' case user action of exercise."""
         self._domain.pause()
 
-    # TODO: Add `unpause` method, update `next` method
+    @override
+    def unpause(self) -> None:
+        """Handle 'unpause' case user action of exercise."""
+        self._domain.unpause()
+
+    # TODO: Update `unpause` method to `next`
     @override
     def next(self) -> None:
         """Handle 'next' case user action of exercise."""

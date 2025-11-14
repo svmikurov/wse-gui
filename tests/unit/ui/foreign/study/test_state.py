@@ -79,18 +79,33 @@ class TestDomainObserve:
         )
 
 
-class TestViewObserve:
-    """Test the correct handle of View notification."""
+class TestActionHandle:
+    """Test the correct handle of user actions by ViewModel."""
 
     def test_pause(
         self,
         mock_study_use_case: Mock,
         view_model: WordPresentationViewModel,
     ) -> None:
-        """Test the handle of notification with 'pause'."""
+        """Test the handle 'pause' action."""
         view_model.handle(action=Action.PAUSE)
 
         mock_study_use_case.pause.assert_called_once()
+        mock_study_use_case.unpause.assert_not_called()
+        mock_study_use_case.next.assert_not_called()
+        mock_study_use_case.known.assert_not_called()
+        mock_study_use_case.unknown.assert_not_called()
+
+    def test_unpause(
+        self,
+        mock_study_use_case: Mock,
+        view_model: WordPresentationViewModel,
+    ) -> None:
+        """Test the handle 'unpause' action."""
+        view_model.handle(action=Action.UNPAUSE)
+
+        mock_study_use_case.pause.assert_not_called()
+        mock_study_use_case.unpause.assert_called_once()
         mock_study_use_case.next.assert_not_called()
         mock_study_use_case.known.assert_not_called()
         mock_study_use_case.unknown.assert_not_called()
@@ -100,10 +115,11 @@ class TestViewObserve:
         mock_study_use_case: Mock,
         view_model: WordPresentationViewModel,
     ) -> None:
-        """Test the handle of notification with 'next'."""
+        """Test the handle 'next' action."""
         view_model.handle(action=Action.NEXT)
 
         mock_study_use_case.pause.assert_not_called()
+        mock_study_use_case.unpause.assert_not_called()
         mock_study_use_case.next.assert_called_once()
         mock_study_use_case.known.assert_not_called()
         mock_study_use_case.unknown.assert_not_called()
@@ -113,10 +129,11 @@ class TestViewObserve:
         mock_study_use_case: Mock,
         view_model: WordPresentationViewModel,
     ) -> None:
-        """Test the handle of notification with 'known'."""
+        """Test the handle 'known' action."""
         view_model.handle(action=Action.KNOWN)
 
         mock_study_use_case.pause.assert_not_called()
+        mock_study_use_case.unpause.assert_not_called()
         mock_study_use_case.next.assert_not_called()
         mock_study_use_case.known.assert_called_once()
         mock_study_use_case.unknown.assert_not_called()
@@ -126,10 +143,11 @@ class TestViewObserve:
         mock_study_use_case: Mock,
         view_model: WordPresentationViewModel,
     ) -> None:
-        """Test the handle of notification with 'unknown'."""
+        """Test the handle 'unknown' action."""
         view_model.handle(action=Action.UNKNOWN)
 
         mock_study_use_case.pause.assert_not_called()
+        mock_study_use_case.unpause.assert_not_called()
         mock_study_use_case.next.assert_not_called()
         mock_study_use_case.known.assert_not_called()
         mock_study_use_case.unknown.assert_called_once()

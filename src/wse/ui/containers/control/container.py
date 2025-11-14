@@ -1,6 +1,7 @@
 """Exercise control container."""
 
 from dataclasses import dataclass
+from typing import override
 
 import toga
 from injector import inject
@@ -25,21 +26,25 @@ class ControlContainer(
 
     def _populate_content(self) -> None:
         self._content.add(
-            toga.Box(children=[self._btn_pause, self._btn_next]),
+            self._pause_box,
             toga.Box(children=[self._btn_known, self._btn_unknown]),
         )
 
     def _create_ui(self) -> None:
         self._btn_next = self._create_btn(Action.NEXT)
         self._btn_pause = self._create_btn(Action.PAUSE)
+        self._btn_unpause = self._create_btn(Action.UNPAUSE)
         self._btn_known = self._create_btn(Action.KNOWN)
         self._btn_unknown = self._create_btn(Action.UNKNOWN)
+
+        self._pause_box = toga.Box(children=[self._btn_pause, self._btn_next])
 
     def _update_style(self, config: StyleConfig | ThemeConfig) -> None:
         style = config.control
         self.content.style.update(**style.outbox)
         self._btn_next.style.update(**style.right_btn)
         self._btn_pause.style.update(**style.left_btn)
+        self._btn_unpause.style.update(**style.left_btn)
         self._btn_known.style.update(**style.left_btn)
         self._btn_unknown.style.update(**style.right_btn)
 
@@ -49,3 +54,11 @@ class ControlContainer(
     def _on_press(self, button: toga.Button) -> None:
         """Button callback."""
         self.notify('handle', action=Action(button.text))
+
+    @override
+    def update_pause_state(self, pause: bool) -> None:
+        """Update pause state."""
+        if pause:
+            self._pause_box.replace(self._btn_pause, self._btn_unpause)
+        else:
+            self._pause_box.replace(self._btn_unpause, self._btn_pause)
