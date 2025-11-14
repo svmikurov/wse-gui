@@ -1,18 +1,15 @@
 """Abstract base class for Exercise control container."""
 
 from abc import ABC
-from typing import Literal
+from typing import Literal, TypeAlias
 
 from wse.core.base.enums import BaseEnum
-from wse.feature.observer.generic import (
-    HandleObserverGenABC,
-    ObserverManagerGenABC,
-)
-from wse.ui.base.container import ContainerABC, StyleABC
-from wse.ui.base.content import ContentABC, GetContentABC
+from wse.feature.observer import generic
+from wse.ui.base import container, content
 from wse.utils.i18n import I18N
 
 ControlNotifyT = Literal['handle']
+HandleObserver: TypeAlias = generic.HandleObserverGenABC['Action']
 
 
 class Action(BaseEnum):
@@ -25,16 +22,15 @@ class Action(BaseEnum):
 
 
 class ControlContainerABC(
-    ObserverManagerGenABC[HandleObserverGenABC[Action]],
-    # NotifyGenABC[ControlNotifyT],
-    ContainerABC,
-    GetContentABC,
-    StyleABC,
+    generic.ObserverManagerGenABC[HandleObserver],
+    content.GetContentABC,
+    container.ContainerABC,
+    container.StyleABC,
     ABC,
 ):
     """ABC for Exercise control container."""
 
-    _content: ContentABC
+    _content: content.ContentABC
 
     def __post_init__(self) -> None:
         """Construct the container."""
