@@ -1,14 +1,13 @@
 """Test configuration."""
 
 import pytest
+from injector import Injector
 
 from wse.config import layout
 from wse.config.di_module import ConfigModule
 from wse.ui.base.content.abc import ContentABC
 from wse.ui.content import Content
 from wse.ui.di_module import UIModule
-
-from injector import Injector
 
 
 @pytest.fixture

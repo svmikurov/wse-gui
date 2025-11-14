@@ -4,9 +4,8 @@ from unittest.mock import Mock
 
 import pytest
 
-from wse.data.repos.foreign import study, progress
+from wse.data.repos.foreign import progress, study
 from wse.data.sources import foreign as sources
-
 
 # Source fixtures
 # ---------------

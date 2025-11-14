@@ -1,14 +1,14 @@
 """Test configuration."""
 
-import pytest
 import uuid
-
 from unittest.mock import Mock
 
+import pytest
+
 from wse.core.navigation.navigator import Navigator
+from wse.data.sources.foreign import schemas
 from wse.feature import observer
 from wse.feature.observer.subject import Subject
-from wse.data.sources.foreign import schemas
 
 
 @pytest.fixture
@@ -38,10 +38,13 @@ def mock_observer() -> Mock:
 # Data fixtures
 # -------------
 
+
 @pytest.fixture
 def word_data() -> schemas.WordPresentationSchema:
     """Word data fixture."""
-    return schemas.WordPresentationSchema(definition='test', explanation='тест')
+    return schemas.WordPresentationSchema(
+        definition='test', explanation='тест'
+    )
 
 
 @pytest.fixture

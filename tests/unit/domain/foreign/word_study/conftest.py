@@ -1,14 +1,14 @@
 """Configuration for domain tests."""
 
 import asyncio
-import pytest
 from unittest.mock import AsyncMock, Mock
 
-from wse.domain.abc import PresentationABC
-from wse.domain.presentation import Presentation
-from wse.data.repos import foreign as repos
-from wse.domain.foreign.study import WordStudyUseCase
+import pytest
 
+from wse.data.repos import foreign as repos
+from wse.domain.abc import PresentationABC
+from wse.domain.foreign.study import WordStudyUseCase
+from wse.domain.presentation import Presentation
 
 # Domain fixtures
 # ---------------
@@ -113,6 +113,7 @@ def mock_settings_repo() -> Mock:
 
 # UseCase fixture
 # ---------------
+
 
 @pytest.fixture
 def use_case_di_mock(
