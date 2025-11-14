@@ -178,5 +178,13 @@
       "margin_bottom": 3,
       "margin_left": 5
     }
+  },
+  "info": {
+    "label": {
+      "font_size": 15,
+      "margin_left": 10,
+      "margin_top": 10,
+      "margin_bottom": 10
+    }
   }
 }

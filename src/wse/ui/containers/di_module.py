@@ -9,6 +9,8 @@ from .assigned import AssignationsContainerABC
 from .assigned.container import AssignationsContainer
 from .control import ControlContainerABC
 from .control.container import ControlContainer
+from .info import InfoContainer
+from .info.abc import InfoContainerABC
 from .login import (
     LoginContainerABC,
     LoginControllerProto,
@@ -75,3 +77,6 @@ class UIContainerModule(Module):
 
         # Control container
         binder.bind(ControlContainerABC, to=ControlContainer)
+
+        # Info container
+        binder.bind(InfoContainerABC, to=InfoContainer)

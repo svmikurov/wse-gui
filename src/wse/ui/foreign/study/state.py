@@ -54,7 +54,6 @@ class WordPresentationViewModel(
         """Call methods on open the screen."""
         self._study_case.start()
 
-    @decorators.log_func_call
     @override
     def on_close(self) -> None:
         """Call methods before close the screen."""
@@ -79,6 +78,12 @@ class WordPresentationViewModel(
     ) -> None:
         """Notify that timeout of exercise phase was updated."""
         self.notify('timeout_updated', accessor=accessor, max=max, value=value)
+
+    # Development mode implementation
+    @decorators.log_unimplemented_call
+    def _update_info(self) -> None:
+        """Update Word study info."""
+        self.notify('change', accessor='progress', value='test')
 
     @override
     def handle(self, action: Action) -> None:

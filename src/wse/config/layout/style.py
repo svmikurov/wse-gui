@@ -50,7 +50,7 @@ class PresenterStyle(BaseStyle):
 
 
 class ParamsStyle(BaseStyle):
-    """Style config for params container."""
+    """Style config for Params container."""
 
     label: dict[str, str | int] = {}
     select: dict[str, str | int] = {}
@@ -58,11 +58,17 @@ class ParamsStyle(BaseStyle):
 
 
 class ControlStyle(BaseStyle):
-    """Control config for params container."""
+    """Style config for Control container."""
 
     left_btn: dict[str, str | int] = {}
     right_btn: dict[str, str | int] = {}
     outbox: dict[str, str | int] = {}
+
+
+class InfoStyle(BaseStyle):
+    """Style config for Info container."""
+
+    label: dict[str, str | int] = {}
 
 
 # TODO: Rename `label_title` to `title_sm`, `title_md`
@@ -99,3 +105,4 @@ class StyleConfig(BaseStyle):
     presenter: PresenterStyle = Field(default_factory=PresenterStyle)
     params: ParamsStyle = Field(default_factory=ParamsStyle)
     control: ControlStyle = Field(default_factory=ControlStyle)
+    info: InfoStyle = Field(default_factory=InfoStyle)

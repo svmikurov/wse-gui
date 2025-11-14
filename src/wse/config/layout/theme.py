@@ -67,6 +67,12 @@ class ControlTheme(BaseTheme):
     outbox: dict[str, str] = {}
 
 
+class InfoTheme(BaseTheme):
+    """Theme config for Info container."""
+
+    label: dict[str, str] = {}
+
+
 class ThemeConfig(BaseTheme):
     """Application layout theme configuration.
 
@@ -100,3 +106,4 @@ class ThemeConfig(BaseTheme):
     presenter: PresenterTheme = Field(default_factory=PresenterTheme)
     params: ParamsTheme = Field(default_factory=ParamsTheme)
     control: ControlTheme = Field(default_factory=ControlTheme)
+    info: InfoTheme = Field(default_factory=InfoTheme)

@@ -12,6 +12,7 @@ from wse.feature.observer.generic import HandleObserverGenABC
 from wse.feature.observer.mixins import ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateViewMixin
 from wse.ui.containers.control import Action, ControlContainerABC
+from wse.ui.containers.info.abc import InfoContainerABC
 from wse.ui.containers.presentation.presenter import PresenterContainerABC
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 
@@ -31,6 +32,7 @@ class StudyForeignView(
     _top_bar: TopBarControllerABC
     _presentation_container: PresenterContainerABC
     _control_container: ControlContainerABC
+    _info_container: InfoContainerABC
 
     @override
     def __post_init__(self) -> None:
@@ -53,6 +55,7 @@ class StudyForeignView(
             self._top_bar.content,
             self._title,
             self._presentation_container.content,
+            self._info_container.content,
             toga.Box(flex=1),
             self._control_container.content,
         )
@@ -103,4 +106,11 @@ class StudyForeignView(
     @override
     def change(self, accessor: str, value: object) -> None:
         """Change ui context via accessor."""
-        self._presentation_container.change(accessor, value)
+        try:
+            self._presentation_container.change(accessor, value)
+        except LookupError:
+            pass
+        try:
+            self._info_container.change(accessor, value)
+        except LookupError:
+            pass

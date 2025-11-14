@@ -47,5 +47,10 @@
     },
     "right_btn": {
     }
+  },
+  "info": {
+    "label": {
+      "color": "green"
+    }
   }
 }
