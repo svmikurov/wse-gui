@@ -2,7 +2,7 @@
 
 import logging
 from dataclasses import dataclass
-from typing import Literal, override
+from typing import Literal, TypeAlias, override
 
 from injector import inject
 
@@ -28,15 +28,16 @@ ProgressT = Literal[
     'timeout_updated',
     'pause_state_updated',
 ]
+Observer: TypeAlias = (
+    ChangeObserverABC[ChangeNotifyT] | HandleObserverGenABC[Action]
+)
 
 
 @inject
 @dataclass
 class WordPresentationViewModel(
     NavigateStateMixin,
-    ObserverManagerGen[
-        ChangeObserverABC[ChangeNotifyT] | HandleObserverGenABC[Action]
-    ],
+    ObserverManagerGen[Observer],
     NotifyGen[ChangeNotifyT | ProgressT | Action],
     WordPresentationViewModelABC,
 ):
