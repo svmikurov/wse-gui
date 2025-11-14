@@ -42,9 +42,6 @@ class PresenterContainer(
         self._definition.style.update(**config.presenter.definition)
         self._explanation.style.update(**config.presenter.explanation)
 
-    # Source methods
-    # --------------
-
     @override
     def change(self, accessor: str, value: object) -> None:
         """Change ui context via accessor."""
