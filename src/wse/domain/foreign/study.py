@@ -126,11 +126,13 @@ class WordStudyUseCase(
     def known(self) -> None:
         """Handle 'known' case user action of exercise."""
         self._progress_repo.increment()
+        self.next()
 
     @override
     def unknown(self) -> None:
         """Handle 'unknown' case user action of exercise."""
         self._progress_repo.decrement()
+        self.next()
 
     # Utility methods
     # ---------------

@@ -91,18 +91,29 @@ class WordPresentationViewModel(
         """Handle user action."""
         match action:
             case Action.PAUSE:
-                self._pause = True
                 self._study_case.pause()
-                self.notify('pause_state_updated', value=True)
+                self._set_pause()
+                return
             case Action.UNPAUSE:
-                self._pause = False
                 self._study_case.unpause()
-                self.notify('pause_state_updated', value=False)
             case Action.NEXT:
                 self._study_case.next()
-                if self._pause:
-                    self.notify('pause_state_updated', value=False)
             case Action.KNOWN:
                 self._study_case.known()
             case Action.UNKNOWN:
                 self._study_case.unknown()
+
+        self._reset_pause()
+
+    # Utility methods
+    # ---------------
+
+    def _set_pause(self) -> None:
+        self._pause = True
+        self.notify('pause_state_updated', value=True)
+
+    def _reset_pause(self) -> None:
+        """Reset pause."""
+        if self._pause:
+            self.notify('pause_state_updated', value=False)
+            self._pause = False
