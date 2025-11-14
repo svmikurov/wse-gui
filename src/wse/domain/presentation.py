@@ -1,7 +1,7 @@
 """Presentation domain."""
 
 import asyncio
-from typing import override
+from typing import Any, override
 
 from injector import inject
 
@@ -32,6 +32,7 @@ class Presentation(PresentationABC):
         self._progress_queue: asyncio.Queue[tuple[float, float]] = (
             progress_queue
         )
+        self._case: asyncio.Task[Any] | None = None
 
     # Presentation loop
     # -----------------
@@ -94,6 +95,9 @@ class Presentation(PresentationABC):
         """Stop presentation."""
         self._start_case_event.clear()
 
+        if self._case is not None and not self._case.done():
+            self._case.cancel()
+
     # Presentation progress
     # ---------------------
 
@@ -116,7 +120,8 @@ class Presentation(PresentationABC):
             # Yield control to event loop to allow other tasks to run.
             await asyncio.sleep(0)
         else:
-            await self._wait_timeout(timeout)
+            self._case = asyncio.create_task(self._wait_timeout(timeout))
+            await self._case
 
     async def _wait_timeout(
         self,

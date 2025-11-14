@@ -47,6 +47,8 @@ class WordPresentationViewModel(
     def __post_init__(self) -> None:
         """Construct the ViewModel."""
         self._study_case.add_observer(self)
+        # TODO: Is pause a UIState or attribute value?
+        self._pause: bool = False
 
     def on_open(self) -> None:
         """Call methods on open the screen."""
@@ -83,13 +85,17 @@ class WordPresentationViewModel(
         """Handle user action."""
         match action:
             case Action.PAUSE:
+                self._pause = True
                 self._study_case.pause()
                 self.notify('pause_state_updated', value=True)
             case Action.UNPAUSE:
+                self._pause = False
                 self._study_case.unpause()
                 self.notify('pause_state_updated', value=False)
             case Action.NEXT:
                 self._study_case.next()
+                if self._pause:
+                    self.notify('pause_state_updated', value=False)
             case Action.KNOWN:
                 self._study_case.known()
             case Action.UNKNOWN:

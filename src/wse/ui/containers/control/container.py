@@ -58,7 +58,11 @@ class ControlContainer(
     @override
     def update_pause_state(self, pause: bool) -> None:
         """Update pause state."""
-        if pause:
-            self._pause_box.replace(self._btn_pause, self._btn_unpause)
-        else:
-            self._pause_box.replace(self._btn_unpause, self._btn_pause)
+        try:
+            if pause:
+                self._pause_box.replace(self._btn_pause, self._btn_unpause)
+            else:
+                self._pause_box.replace(self._btn_unpause, self._btn_pause)
+        except ValueError:
+            # Button already replaced
+            pass

@@ -45,6 +45,7 @@ class WordStudyUseCase(
         """Stop exercise."""
         self._stop_background_tasks()
         self._domain.stop()
+        self._notify_clean()
 
     # Background tasks
     # ----------------
@@ -72,8 +73,7 @@ class WordStudyUseCase(
 
                 # End presentation case
                 await self._domain.wait_end_case_event()
-                self._display_definition(WordStudyUseCase.NO_TEXT)
-                self._display_explanation(WordStudyUseCase.NO_TEXT)
+                self._notify_clean()
 
         except asyncio.CancelledError:
             log.debug('Word study loop cancelled')
@@ -116,11 +116,11 @@ class WordStudyUseCase(
         """Handle 'unpause' case user action of exercise."""
         self._domain.unpause()
 
-    # TODO: Update `unpause` method to `next`
     @override
     def next(self) -> None:
         """Handle 'next' case user action of exercise."""
-        self._domain.unpause()
+        self.stop()
+        self.start()
 
     @override
     def known(self) -> None:
@@ -134,6 +134,10 @@ class WordStudyUseCase(
 
     # Utility methods
     # ---------------
+
+    def _notify_clean(self) -> None:
+        self._display_definition(WordStudyUseCase.NO_TEXT)
+        self._display_explanation(WordStudyUseCase.NO_TEXT)
 
     def _start_background_tasks(self) -> None:
         """Start background tasks for word study."""

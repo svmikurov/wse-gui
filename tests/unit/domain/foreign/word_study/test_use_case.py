@@ -96,23 +96,38 @@ class TestWordStudyCaseManagement:
         use_case_di_mock.pause()
         mock_domain.pause.assert_called_once_with()
 
-    # TODO: Update `WordStudyUseCase.next` to 'unpause'
     def test_unpause_case(
         self,
         mock_domain: Mock,
         use_case_di_mock: WordStudyUseCase,
     ) -> None:
         """Test the 'unpause' call."""
-        use_case_di_mock.next()
+        use_case_di_mock.unpause()
         mock_domain.unpause.assert_called_once_with()
 
-    @pytest.mark.skip('Implement functionality')
-    def test_next_case(
+    @pytest.mark.asyncio
+    @patch('wse.domain.foreign.study.WordStudyUseCase._start_background_tasks')
+    @patch('wse.domain.foreign.study.WordStudyUseCase._stop_background_tasks')
+    @patch('wse.domain.foreign.study.WordStudyUseCase._notify_clean')
+    async def test_next_case(
         self,
+        mock_start_background: Mock,
+        mock_stop_background: Mock,
+        mock_notify_clean: Mock,
         mock_domain: Mock,
         use_case_di_mock: WordStudyUseCase,
     ) -> None:
         """Test the 'next' call."""
+        use_case_di_mock.next()
+
+        # Verify background tasks creation was triggered
+        mock_start_background.assert_called_once_with()
+        # Verify domain layer was initialized
+        mock_domain.start.assert_called_once_with()
+
+        mock_stop_background.assert_called_once_with()
+        mock_notify_clean.assert_called_once_with()
+        mock_domain.stop.assert_called_once_with()
 
 
 class TestWordStudyLoop:
