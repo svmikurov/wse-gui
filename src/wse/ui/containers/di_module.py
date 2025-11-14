@@ -4,6 +4,7 @@ from typing import no_type_check
 
 from injector import Binder, Module, SingletonScope
 
+from . import numpad as np
 from .assigned import AssignationsContainerABC
 from .assigned.container import AssignationsContainer
 from .control import ControlContainerABC
@@ -17,14 +18,6 @@ from .login.components import (
     LoginContainer,
     LoginController,
     LoginModel,
-)
-from .numpad import (
-    NumPadContainer,
-    NumPadContainerABC,
-    NumPadController,
-    NumPadControllerABC,
-    NumPadModel,
-    NumPadModelABC,
 )
 from .params import ParamsContainerABC
 from .params.container import ParamsContainer
@@ -51,9 +44,9 @@ class UIContainerModule(Module):
         binder.bind(AssignationsContainerABC, to=AssignationsContainer)
 
         # NumPad container
-        binder.bind(NumPadModelABC, to=NumPadModel)
-        binder.bind(NumPadContainerABC, to=NumPadContainer)
-        binder.bind(NumPadControllerABC, to=NumPadController)
+        binder.bind(np.NumPadModelABC, to=np.NumPadModel)
+        binder.bind(np.NumPadContainerABC, to=np.NumPadContainer)
+        binder.bind(np.NumPadControllerABC, to=np.NumPadController)
 
         # Login container
         binder.bind(LoginModelABC, to=LoginModel)

@@ -6,8 +6,7 @@ from typing import override
 import toga
 from injector import inject
 
-from wse.config.layout.style import StyleConfig
-from wse.config.layout.theme import ThemeConfig
+from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation import NavID
 from wse.feature.observer.generic import HandleObserverGenABC
 from wse.feature.observer.mixins import ObserverManagerGen
