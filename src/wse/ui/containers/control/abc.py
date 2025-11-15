@@ -42,3 +42,7 @@ class ControlContainerABC(
     @abstractmethod
     def update_pause_state(self, pause: bool) -> None:
         """Update pause state."""
+
+    @abstractmethod
+    def update_unknown_state(self, enabled: bool) -> None:
+        """Update unknown state."""

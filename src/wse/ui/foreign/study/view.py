@@ -104,6 +104,11 @@ class StudyForeignView(
         self._control_container.update_pause_state(value)
 
     @override
+    def unknown_state_updated(self, value: bool) -> None:
+        """Update unknown state."""
+        self._control_container.update_unknown_state(value)
+
+    @override
     def change(self, accessor: str, value: object) -> None:
         """Change ui context via accessor."""
         try:

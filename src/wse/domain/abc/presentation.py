@@ -41,3 +41,7 @@ class PresentationABC(ABC):
     @abstractmethod
     def stop(self) -> None:
         """Stop presentation."""
+
+    @abstractmethod
+    def complete_phase(self) -> None:
+        """Complete the current phase."""

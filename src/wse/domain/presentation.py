@@ -10,6 +10,7 @@ from .abc import PresentationABC
 TIMEOUT_DELTA: float = 0.025
 
 
+# TODO: Refactor, too many events.
 class Presentation(PresentationABC):
     """Presentation domain."""
 
@@ -21,6 +22,7 @@ class Presentation(PresentationABC):
         explanation_event: asyncio.Event,
         end_case_event: asyncio.Event,
         unpause_event: asyncio.Event,
+        complete_phase_event: asyncio.Event,
         progress_queue: asyncio.Queue,  # type: ignore[type-arg]
     ) -> None:
         """Construct the domain."""
@@ -29,10 +31,11 @@ class Presentation(PresentationABC):
         self._explanation_event = explanation_event
         self._end_case_event = end_case_event
         self._unpause_event = unpause_event
+        self._complete_phase_event = complete_phase_event
         self._progress_queue: asyncio.Queue[tuple[float, float]] = (
             progress_queue
         )
-        self._case: asyncio.Task[Any] | None = None
+        self._phase: asyncio.Task[Any] | None = None
 
     # Presentation loop
     # -----------------
@@ -95,8 +98,13 @@ class Presentation(PresentationABC):
         """Stop presentation."""
         self._start_case_event.clear()
 
-        if self._case is not None and not self._case.done():
-            self._case.cancel()
+        if self._phase is not None and not self._phase.done():
+            self._phase.cancel()
+
+    @override
+    def complete_phase(self) -> None:
+        """Complete the current phase."""
+        self._complete_phase_event.set()
 
     # Presentation progress
     # ---------------------
@@ -116,12 +124,14 @@ class Presentation(PresentationABC):
         """Trigger event."""
         event.set()
         event.clear()
+        self._complete_phase_event.clear()
+
         if timeout is None:
             # Yield control to event loop to allow other tasks to run.
             await asyncio.sleep(0)
         else:
-            self._case = asyncio.create_task(self._wait_timeout(timeout))
-            await self._case
+            self._phase = asyncio.create_task(self._wait_timeout(timeout))
+            await self._phase
 
     async def _wait_timeout(
         self,
@@ -132,6 +142,9 @@ class Presentation(PresentationABC):
         elapsed = 0.0
 
         while elapsed < timeout:
+            if self._complete_phase_event.is_set():
+                break
+
             await self._unpause_event.wait()
 
             self._update_progress(timeout, elapsed)

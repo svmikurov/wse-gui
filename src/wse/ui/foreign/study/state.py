@@ -27,6 +27,7 @@ NO_TEXT = ''
 ProgressT = Literal[
     'timeout_updated',
     'pause_state_updated',
+    'unknown_state_updated',
 ]
 Observer: TypeAlias = (
     ChangeObserverABC[ChangeNotifyT] | HandleObserverGenABC[Action]
@@ -69,6 +70,8 @@ class WordPresentationViewModel(
     ) -> None:
         """Notify that exercise case was updated."""
         self.notify('change', accessor=accessor, value=value)
+        if accessor == 'definition':
+            self._reset_unknown_state()
 
     @override
     def timeout_updated(
@@ -102,6 +105,7 @@ class WordPresentationViewModel(
                 self._study_case.known()
             case Action.UNKNOWN:
                 self._study_case.unknown()
+                self._set_unknown_state()
 
         self._reset_pause()
 
@@ -117,3 +121,9 @@ class WordPresentationViewModel(
         if self._pause:
             self.notify('pause_state_updated', value=False)
             self._pause = False
+
+    def _set_unknown_state(self) -> None:
+        self.notify('unknown_state_updated', value=False)
+
+    def _reset_unknown_state(self) -> None:
+        self.notify('unknown_state_updated', value=True)

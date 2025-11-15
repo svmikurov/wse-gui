@@ -132,7 +132,8 @@ class WordStudyUseCase(
     def unknown(self) -> None:
         """Handle 'unknown' case user action of exercise."""
         self._progress_repo.decrement()
-        self.next()
+        self._domain.complete_phase()
+        self.unpause()
 
     # Utility methods
     # ---------------

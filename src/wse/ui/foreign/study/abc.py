@@ -17,6 +17,8 @@ ActionHandler: TypeAlias = generic.HandleObserverGenABC[Action]
 ObserverUnion: TypeAlias = Union[ChangeObserver, ActionHandler]
 
 
+# TODO: Refactor: Combine `pause_state_updated` and
+# `unknown_state_updated` methods?
 class WordPresentationViewModelObserverABC(
     ChangeObserverABC[domain.ExerciseAccessorT],
     domain.TimeoutObserverABC,
@@ -27,6 +29,10 @@ class WordPresentationViewModelObserverABC(
     @abstractmethod
     def pause_state_updated(self, value: bool) -> None:
         """Update pause state."""
+
+    @abstractmethod
+    def unknown_state_updated(self, value: bool) -> None:
+        """Update unknown state."""
 
 
 # TODO: Refactor multiply inherit below

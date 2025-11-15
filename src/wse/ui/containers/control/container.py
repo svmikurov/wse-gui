@@ -66,3 +66,9 @@ class ControlContainer(
         except ValueError:
             # Button already replaced
             pass
+
+    @override
+    def update_unknown_state(self, enabled: bool) -> None:
+        """Update pause state."""
+        self._btn_known.enabled = enabled
+        self._btn_unknown.enabled = enabled
