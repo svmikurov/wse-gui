@@ -55,7 +55,7 @@ class PresentationCase(PresentationSchema):
 
 
 class PresentationParams(base.BaseSchema):
-    """Word study Presentation request params."""
+    """Presentation params for case request."""
 
     category: base.IdNameSchema | None
     label: base.IdNameSchema | None
@@ -91,7 +91,7 @@ class ParamsSchema(
     DefaultParams,
     ParamsChoices,
 ):
-    """Presentation params schema."""
+    """Default Presentation params with choices."""
 
 
 # Presentation settings
