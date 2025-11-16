@@ -24,7 +24,7 @@ class WordStudyData:
     case_uuid: uuid.UUID | None = None
     definition: str | None = None
     explanation: str | None = None
-    info: schemas.Info | None = None
+    progress: int | None = None
 
 
 class WordStudyLocaleSource(base.WordStudyLocaleSourceABC):
@@ -41,7 +41,14 @@ class WordStudyLocaleSource(base.WordStudyLocaleSourceABC):
     @override
     def set_case(self, case: schemas.PresentationCase) -> None:
         """Set Word study case."""
-        self._data = replace(self._data, **case.to_dict())
+        # TODO: Refactor
+        self._data = replace(
+            self._data,
+            case_uuid=case.case_uuid,
+            definition=case.definition,
+            explanation=case.explanation,
+            progress=case.info.progress if case.info else None,
+        )
 
     @override
     def get_case_uuid(self) -> uuid.UUID:
@@ -58,6 +65,9 @@ class WordStudyLocaleSource(base.WordStudyLocaleSourceABC):
         return schemas.PresentationSchema(
             definition=self._data.definition,
             explanation=self._data.explanation,
+            info=schemas.Info(
+                progress=self._data.progress,
+            ),
         )
 
 
