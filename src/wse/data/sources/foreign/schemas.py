@@ -3,7 +3,7 @@
 import uuid
 from datetime import datetime
 
-from wse.api.schemas.base import BaseSchema, ItemsData
+from wse.api.schemas import base
 
 # TODO: Refactor, now to many schemas
 
@@ -11,14 +11,7 @@ from wse.api.schemas.base import BaseSchema, ItemsData
 # --------------
 
 
-class IdNameSchema(BaseSchema):
-    """Dict representation of entity only with its 'name' and 'ID'."""
-
-    id: int
-    name: str
-
-
-class WordSchema(BaseSchema):
+class WordSchema(base.BaseSchema):
     """Word entity."""
 
     id: str
@@ -27,7 +20,7 @@ class WordSchema(BaseSchema):
     created_at: datetime
 
 
-class WordsData(ItemsData):
+class WordsData(base.ItemsData):
     """Words data schema."""
 
     results: list[WordSchema]
@@ -37,11 +30,11 @@ class WordsData(ItemsData):
 # ----------
 
 
-class WordStudyPresentationParamsSchema(BaseSchema):
+class WordStudyPresentationParamsSchema(base.BaseSchema):
     """Word study presentation schema for HTTP request."""
 
-    category: IdNameSchema | None
-    label: IdNameSchema | None
+    category: base.IdNameSchema | None
+    label: base.IdNameSchema | None
 
     class Config:
         """Schema configuration."""
@@ -49,7 +42,7 @@ class WordStudyPresentationParamsSchema(BaseSchema):
         extra = 'forbid'
 
 
-class WordPresentationSchema(BaseSchema):
+class WordPresentationSchema(base.BaseSchema):
     """Presentation part of Word study schema."""
 
     definition: str
@@ -66,7 +59,7 @@ class WordStudyCaseSchema(WordPresentationSchema):
 # -------------------
 
 
-class WordStudySettingsSchema(BaseSchema):
+class WordStudySettingsSchema(base.BaseSchema):
     """Word study settings schema."""
 
     question_timeout: float = 1.5
@@ -77,19 +70,18 @@ class WordStudySettingsSchema(BaseSchema):
 # -----------------
 
 
-class WordDefaultSchema(BaseSchema):
+class WordDefaultSchema(base.BaseSchema):
     """Default Word study case schema."""
 
-    default_category: IdNameSchema | None
-    default_label: IdNameSchema | None
+    default_category: base.IdNameSchema | None
+    default_label: base.IdNameSchema | None
 
 
-class WordSelectedSchema(BaseSchema):
+class WordSelectedSchema(base.BaseSchema):
     """Selected Word study case schema."""
 
-    # The field may not be selected.
-    selected_category: IdNameSchema | None
-    selected_label: IdNameSchema | None
+    selected_category: base.IdNameSchema | None
+    selected_label: base.IdNameSchema | None
 
 
 class WordParamsSchema(
@@ -97,5 +89,5 @@ class WordParamsSchema(
 ):
     """Word study params schema."""
 
-    categories: list[IdNameSchema]
-    labels: list[IdNameSchema]
+    categories: list[base.IdNameSchema]
+    labels: list[base.IdNameSchema]

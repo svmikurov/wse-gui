@@ -5,15 +5,13 @@ from typing import Any, override
 
 from injector import inject
 
+from wse.api.schemas.base import IdNameSchema
 from wse.data.repos.foreign import (
     WordParamsMapperABC,
     WordParamsRepoABC,
 )
 from wse.data.sources.foreign import WordParamsNotifyABC
-from wse.data.sources.foreign.schemas import (
-    IdNameSchema,
-    WordParamsSchema,
-)
+from wse.data.sources.foreign.schemas import WordParamsSchema
 from wse.feature.observer.accessor import NotifyAccessorGen
 from wse.feature.observer.mixins import ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateStateMixin

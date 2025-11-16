@@ -10,6 +10,13 @@ class BaseSchema(ConvertMixin, BaseModel):
     """Base pydantic model with conversion between dict/json."""
 
 
+class IdNameSchema(BaseSchema):
+    """Dict representation of entity only with its 'name' and 'ID'."""
+
+    id: int
+    name: str
+
+
 class ItemsData(BaseSchema):
     """Response items data."""
 

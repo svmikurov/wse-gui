@@ -6,6 +6,7 @@ from typing import override
 from injector import inject
 
 from wse.api.foreign import WordParamsApiABC
+from wse.api.schemas.base import IdNameSchema
 from wse.feature.observer.mixins import NotifyGen, ObserverManagerGen
 
 from . import (
@@ -13,10 +14,7 @@ from . import (
     WordParamsLocaleSourceABC,
     WordParamsNetworkSourceABC,
     WordParamsNotifyABC,
-)
-from .schemas import (
-    IdNameSchema,
-    WordParamsSchema,
+    schemas,
 )
 
 
@@ -42,7 +40,7 @@ class WordParamsNetworkSource(WordParamsNetworkSourceABC):
     _api_client: WordParamsApiABC
 
     @override
-    def fetch_initial_params(self) -> WordParamsSchema:
+    def fetch_initial_params(self) -> schemas.WordParamsSchema:
         """Fetch Word study initial params."""
         params = self._api_client.fetch_initial_params()
         return params
@@ -60,9 +58,9 @@ class WordParamsLocaleSource(
     _data: WordParamsData
 
     @override
-    def set_initial_params(self, params: WordParamsSchema) -> None:
+    def set_initial_params(self, params: schemas.WordParamsSchema) -> None:
         """Set Word study initial data."""
         self._data = replace(self._data, **params.to_dict())
         updated_params = {k: v for k, v in self._data.__dict__.items()}
-        updated_schema = WordParamsSchema.from_dict(updated_params)
+        updated_schema = schemas.WordParamsSchema.from_dict(updated_params)
         self.notify('initial_params_updated', params=updated_schema)
