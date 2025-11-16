@@ -33,7 +33,7 @@ class Words(base.ItemsData):
 class Info(base.BaseSchema):
     """Presentation exercise additional info."""
 
-    progress: int
+    progress: int | None
 
 
 class PresentationSchema(base.BaseSchema):
