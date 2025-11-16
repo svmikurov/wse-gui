@@ -77,14 +77,14 @@ class WordStudyPresentationNetworkSource(
 
     _presentation_api: api.WordStudyPresentationApiABC
 
-    # TODO: Fix payload
     @override
-    def fetch_presentation(self) -> schemas.PresentationCase:
+    def fetch_presentation(
+        self,
+        params: schemas.PresentationParams,
+    ) -> schemas.PresentationCase:
         """Fetch word study presentation case."""
-        params = {'category': None, 'label': None}
         try:
-            payload = schemas.PresentationParams.from_dict(params)
-            presentation = self._presentation_api.fetch_presentation(payload)
+            presentation = self._presentation_api.fetch_presentation(params)
         except Exception as exc:
             log.error(f'Source Network error: {str(exc)}')
             raise

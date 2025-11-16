@@ -57,7 +57,10 @@ class WordStudyNetworkSourceABC(
     """ABC for Word study presentation network source."""
 
     @abstractmethod
-    def fetch_presentation(self) -> schemas.PresentationCase:
+    def fetch_presentation(
+        self,
+        params: schemas.PresentationParams,
+    ) -> schemas.PresentationCase:
         """Fetch Word study presentation case."""
 
 
