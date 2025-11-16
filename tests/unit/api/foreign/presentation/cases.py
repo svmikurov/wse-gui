@@ -6,6 +6,18 @@ from typing import Literal, TypedDict
 # Case type definition
 # --------------------
 
+# Request
+
+
+class ParamsDict(TypedDict):
+    """Request Presentation the params typed dict."""
+
+    category: str | None
+    label: str | None
+
+
+# Response
+
 
 class RelatedDict(TypedDict):
     """Response related data typed dict."""
@@ -40,6 +52,12 @@ class ResponseDict(TypedDict):
 
 # Cases
 # -----
+
+
+REQUEST_PAYLOAD = ParamsDict(
+    category=None,
+    label=None,
+)
 
 
 VALID_RESPONSE_PAYLOAD = ResponseDict(

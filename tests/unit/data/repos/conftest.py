@@ -4,8 +4,19 @@ from unittest.mock import Mock
 
 import pytest
 
+from tests.unit.api.foreign.presentation import cases
 from wse.data.repos.foreign import progress, study
 from wse.data.sources import foreign as sources
+from wse.data.sources.foreign import schemas
+
+# Data fixtures
+
+
+@pytest.fixture
+def params() -> schemas.PresentationParams:
+    """Provide Presentation case params."""
+    return schemas.PresentationParams.from_dict(cases.REQUEST_PAYLOAD)  # type: ignore[arg-type]
+
 
 # Source fixtures
 # ---------------
