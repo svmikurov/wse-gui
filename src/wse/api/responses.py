@@ -18,8 +18,14 @@ class Response(BaseSchema):
     """Response schema."""
 
     status: Literal['success', 'error']
+    code: int
     message: str | None
     related_data: RelatedData | None = None
+
+    class Config:
+        """Model configuration."""
+
+        extra = 'forbid'
 
 
 class QuestionResponse(Response):
