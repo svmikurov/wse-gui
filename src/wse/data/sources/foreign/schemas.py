@@ -7,12 +7,12 @@ from wse.api.schemas import base
 
 # TODO: Refactor, now to many schemas
 
-# Nested schemas
-# --------------
+# Word schema
+# -----------
 
 
-class WordSchema(base.BaseSchema):
-    """Word entity."""
+class Word(base.BaseSchema):
+    """Word schema."""
 
     id: str
     definition: str
@@ -20,18 +20,42 @@ class WordSchema(base.BaseSchema):
     created_at: datetime
 
 
-class WordsData(base.ItemsData):
-    """Words data schema."""
+class Words(base.ItemsData):
+    """Words schema."""
 
-    results: list[WordSchema]
-
-
-# Word study
-# ----------
+    results: list[Word]
 
 
-class WordStudyPresentationParamsSchema(base.BaseSchema):
-    """Word study presentation schema for HTTP request."""
+# Presentation case
+# -----------------
+
+
+class Info(base.BaseSchema):
+    """Presentation exercise additional info."""
+
+    progress: int
+
+
+class PresentationSchema(base.BaseSchema):
+    """Presentation exercise schema."""
+
+    definition: str
+    explanation: str
+    info: Info | None = None
+
+
+class PresentationCase(PresentationSchema):
+    """Presentation case schema."""
+
+    case_uuid: uuid.UUID
+
+
+# Presentation params
+# -------------------
+
+
+class PresentationParams(base.BaseSchema):
+    """Word study Presentation request params."""
 
     category: base.IdNameSchema | None
     label: base.IdNameSchema | None
@@ -42,52 +66,40 @@ class WordStudyPresentationParamsSchema(base.BaseSchema):
         extra = 'forbid'
 
 
-class WordPresentationSchema(base.BaseSchema):
-    """Presentation part of Word study schema."""
-
-    definition: str
-    explanation: str
-
-
-class WordStudyCaseSchema(WordPresentationSchema):
-    """Word study case schema."""
-
-    case_uuid: uuid.UUID
-
-
-# Word study settings
-# -------------------
-
-
-class WordStudySettingsSchema(base.BaseSchema):
-    """Word study settings schema."""
-
-    question_timeout: float = 1.5
-    answer_timeout: float = 1.5
-
-
-# Word study params
-# -----------------
-
-
-class WordDefaultSchema(base.BaseSchema):
-    """Default Word study case schema."""
+class DefaultParams(base.BaseSchema):
+    """Presentation case default params."""
 
     default_category: base.IdNameSchema | None
     default_label: base.IdNameSchema | None
 
 
-class WordSelectedSchema(base.BaseSchema):
-    """Selected Word study case schema."""
+class SelectedParams(base.BaseSchema):
+    """Presentation case selected params."""
 
     selected_category: base.IdNameSchema | None
     selected_label: base.IdNameSchema | None
 
 
-class WordParamsSchema(
-    WordDefaultSchema,
-):
-    """Word study params schema."""
+class ParamsChoices(base.BaseSchema):
+    """Presentation case params choices."""
 
     categories: list[base.IdNameSchema]
     labels: list[base.IdNameSchema]
+
+
+class ParamsSchema(
+    DefaultParams,
+    ParamsChoices,
+):
+    """Presentation params schema."""
+
+
+# Presentation settings
+# ---------------------
+
+
+class PresentationSettings(base.BaseSchema):
+    """Word study settings schema."""
+
+    question_timeout: float = 1.5
+    answer_timeout: float = 1.5

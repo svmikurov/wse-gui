@@ -15,7 +15,7 @@ class WordStudySettingsLocaleSourceABC(ABC):
     """Word study Locale settings source."""
 
     @abstractmethod
-    def get_settings(self) -> schemas.WordStudySettingsSchema:
+    def get_settings(self) -> schemas.PresentationSettings:
         """Get Word study settings."""
 
 
@@ -27,7 +27,7 @@ class WordStudyLocaleSourceABC(ABC):
     """Word study locale source."""
 
     @abstractmethod
-    def set_case(self, case: schemas.WordStudyCaseSchema) -> None:
+    def set_case(self, case: schemas.PresentationCase) -> None:
         """Set Word study case."""
 
     @abstractmethod
@@ -35,7 +35,7 @@ class WordStudyLocaleSourceABC(ABC):
         """Get case UUID."""
 
     @abstractmethod
-    def get_presentation_data(self) -> schemas.WordPresentationSchema:
+    def get_presentation_data(self) -> schemas.PresentationSchema:
         """Get Presentation part of Word study."""
 
 
@@ -57,7 +57,7 @@ class WordStudyNetworkSourceABC(
     """ABC for Word study presentation network source."""
 
     @abstractmethod
-    def fetch_presentation(self) -> schemas.WordStudyCaseSchema:
+    def fetch_presentation(self) -> schemas.PresentationCase:
         """Fetch Word study presentation case."""
 
 
@@ -71,7 +71,7 @@ class WordParamsNotifyABC(ABC):
     """ABC for Word study params notifications."""
 
     @abstractmethod
-    def initial_params_updated(self, params: schemas.WordParamsSchema) -> None:
+    def initial_params_updated(self, params: schemas.ParamsChoices) -> None:
         """Set Initial Word study params."""
 
 
@@ -82,7 +82,7 @@ class WordParamsLocaleSourceABC(
     """ABC for Word study params Locale source."""
 
     @abstractmethod
-    def set_initial_params(self, params: schemas.WordParamsSchema) -> None:
+    def set_initial_params(self, params: schemas.ParamsChoices) -> None:
         """Save initial Word study params."""
 
 
@@ -92,5 +92,5 @@ class WordParamsNetworkSourceABC(
     """ABC for Word study params source."""
 
     @abstractmethod
-    def fetch_initial_params(self) -> schemas.WordParamsSchema:
+    def fetch_initial_params(self) -> schemas.ParamsChoices:
         """Fetch Word study initial params."""

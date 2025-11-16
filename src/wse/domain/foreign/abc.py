@@ -6,8 +6,16 @@ from typing import Literal
 from wse.feature.observer.mixins import ObserverManagerGen
 
 # TODO: Refactor 'ExerciseAccessorT' to Enum?
-ExerciseAccessorT = Literal['definition', 'explanation', 'timeout']
-UIStateNotifyT = Literal['exercise_updated', 'timeout_updated']
+ExerciseAccessorT = Literal[
+    'definition',
+    'explanation',
+    'timeout',
+    'info',
+]
+UIStateNotifyT = Literal[
+    'exercise_updated',
+    'timeout_updated',
+]
 
 
 class PresentationObserverABC(ABC):

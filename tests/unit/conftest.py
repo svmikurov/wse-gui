@@ -40,19 +40,17 @@ def mock_observer() -> Mock:
 
 
 @pytest.fixture
-def word_data() -> schemas.WordPresentationSchema:
+def word_data() -> schemas.PresentationSchema:
     """Word data fixture."""
-    return schemas.WordPresentationSchema(
-        definition='test', explanation='тест'
-    )
+    return schemas.PresentationSchema(definition='test', explanation='тест')
 
 
 @pytest.fixture
 def word_case(
-    word_data: schemas.WordPresentationSchema,
-) -> schemas.WordPresentationSchema:
+    word_data: schemas.PresentationSchema,
+) -> schemas.PresentationSchema:
     """Word study case fixture."""
-    return schemas.WordStudyCaseSchema(
+    return schemas.PresentationCase(
         case_uuid=uuid.uuid4(),
         definition=word_data.definition,
         explanation=word_data.explanation,

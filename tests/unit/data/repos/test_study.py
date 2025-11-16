@@ -52,8 +52,8 @@ class TestWordStudyRepo:
         self,
         mock_word_locale_source: Mock,
         mock_word_network_source: Mock,
-        word_case: schemas.WordStudyCaseSchema,
-        word_data: schemas.WordPresentationSchema,
+        word_case: schemas.PresentationCase,
+        word_data: schemas.PresentationSchema,
         word_study_repo: repos.WordStudyRepo,
     ) -> None:
         """Test the get word to study."""

@@ -40,7 +40,7 @@ class WordParamsNetworkSource(WordParamsNetworkSourceABC):
     _api_client: WordParamsApiABC
 
     @override
-    def fetch_initial_params(self) -> schemas.WordParamsSchema:
+    def fetch_initial_params(self) -> schemas.ParamsChoices:
         """Fetch Word study initial params."""
         params = self._api_client.fetch_initial_params()
         return params
@@ -58,9 +58,9 @@ class WordParamsLocaleSource(
     _data: WordParamsData
 
     @override
-    def set_initial_params(self, params: schemas.WordParamsSchema) -> None:
+    def set_initial_params(self, params: schemas.ParamsChoices) -> None:
         """Set Word study initial data."""
         self._data = replace(self._data, **params.to_dict())
         updated_params = {k: v for k, v in self._data.__dict__.items()}
-        updated_schema = schemas.WordParamsSchema.from_dict(updated_params)
+        updated_schema = schemas.ParamsChoices.from_dict(updated_params)
         self.notify('initial_params_updated', params=updated_schema)

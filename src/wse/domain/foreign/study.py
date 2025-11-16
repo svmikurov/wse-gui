@@ -3,7 +3,7 @@
 import asyncio
 import logging
 from dataclasses import dataclass
-from typing import override
+from typing import Any, override
 
 from injector import inject
 
@@ -97,6 +97,9 @@ class WordStudyUseCase(
     def _display_explanation(self, value: str) -> None:
         self.notify('exercise_updated', accessor='explanation', value=value)
 
+    def _display_info(self, data: dict[str, Any]) -> None:
+        self.notify('exercise_updated', accessor='info', value=data)
+
     # TODO: Refactor, remove accessor='timeout'
     def _display_timeout(self, max: float, value: float) -> None:
         self.notify(
@@ -153,7 +156,7 @@ class WordStudyUseCase(
             if task is not None and not task.done():
                 task.cancel()
 
-    def _get_data(self) -> schemas.WordPresentationSchema:
+    def _get_data(self) -> schemas.PresentationSchema:
         try:
             return self._get_word_repo.get_word()
         except Exception as e:

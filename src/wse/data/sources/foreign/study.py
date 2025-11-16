@@ -24,6 +24,7 @@ class WordStudyData:
     case_uuid: uuid.UUID | None = None
     definition: str | None = None
     explanation: str | None = None
+    info: schemas.Info | None = None
 
 
 class WordStudyLocaleSource(base.WordStudyLocaleSourceABC):
@@ -38,7 +39,7 @@ class WordStudyLocaleSource(base.WordStudyLocaleSourceABC):
         self._data = data
 
     @override
-    def set_case(self, case: schemas.WordStudyCaseSchema) -> None:
+    def set_case(self, case: schemas.PresentationCase) -> None:
         """Set Word study case."""
         self._data = replace(self._data, **case.to_dict())
 
@@ -50,11 +51,11 @@ class WordStudyLocaleSource(base.WordStudyLocaleSourceABC):
         return self._data.case_uuid
 
     @override
-    def get_presentation_data(self) -> schemas.WordPresentationSchema:
+    def get_presentation_data(self) -> schemas.PresentationSchema:
         """Get Presentation part of Word study."""
         if self._data.definition is None or self._data.explanation is None:
             raise RuntimeError('Word study data was not set')
-        return schemas.WordPresentationSchema(
+        return schemas.PresentationSchema(
             definition=self._data.definition,
             explanation=self._data.explanation,
         )
@@ -78,13 +79,11 @@ class WordStudyPresentationNetworkSource(
 
     # TODO: Fix payload
     @override
-    def fetch_presentation(self) -> schemas.WordStudyCaseSchema:
+    def fetch_presentation(self) -> schemas.PresentationCase:
         """Fetch word study presentation case."""
         params = {'category': None, 'label': None}
         try:
-            payload = schemas.WordStudyPresentationParamsSchema.from_dict(
-                params
-            )
+            payload = schemas.PresentationParams.from_dict(params)
             presentation = self._presentation_api.fetch_presentation(payload)
         except Exception as exc:
             log.error(f'Source Network error: {str(exc)}')
@@ -101,12 +100,10 @@ class WordStudySettingsLocaleSource(base.WordStudySettingsLocaleSourceABC):
     _data: WordStudySettingsData
 
     @override
-    def get_settings(self) -> schemas.WordStudySettingsSchema:
+    def get_settings(self) -> schemas.PresentationSettings:
         """Get word study settings."""
         try:
-            return schemas.WordStudySettingsSchema.from_dict(
-                asdict(self._data)
-            )
+            return schemas.PresentationSettings.from_dict(asdict(self._data))
         except Exception as e:
             log.exception(f'Word study Locale settings error: {e}')
             raise

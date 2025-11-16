@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from wse.data.sources.foreign.schemas import WordPresentationSchema
+from wse.data.sources.foreign.schemas import PresentationSchema
 from wse.domain.foreign.study import WordStudyUseCase
 from wse.domain.presentation import Presentation
 
@@ -29,7 +29,7 @@ def use_case(
 
 @pytest.fixture
 def mock_get_data(
-    word_data: WordPresentationSchema,
+    word_data: PresentationSchema,
     use_case: WordStudyUseCase,
 ) -> Generator[Mock, None, None]:
     """Mock get Word study data fixture."""
@@ -203,7 +203,7 @@ class TestStudyLoop:
         mock_definition: Mock,
         mock_explanation: Mock,
         mock_get_data: Mock,
-        word_data: WordPresentationSchema,
+        word_data: PresentationSchema,
         presentation: Presentation,
         use_case: WordStudyUseCase,
     ) -> None:

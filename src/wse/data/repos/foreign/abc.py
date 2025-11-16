@@ -30,7 +30,7 @@ class WordStudyRepoABC(ABC):
     """ABC for repository to get words to study."""
 
     @abstractmethod
-    def get_word(self) -> schemas.WordPresentationSchema:
+    def get_word(self) -> schemas.PresentationSchema:
         """Get word to study."""
 
 
@@ -72,7 +72,7 @@ class WordStudySettingsRepoABC(ABC):
     """ABC for Word study settings repository."""
 
     @abstractmethod
-    def get_settings(self) -> schemas.WordStudySettingsSchema:
+    def get_settings(self) -> schemas.PresentationSettings:
         """Get word study settings."""
 
 
@@ -83,7 +83,7 @@ class SetWordParamsRepoABC(ABC):
     """ABC for repository to set Word study params."""
 
     @abstractmethod
-    def set_initial_params(self, params: schemas.WordParamsSchema) -> None:
+    def set_initial_params(self, params: schemas.ParamsChoices) -> None:
         """Set available params, default values for Word study params.
 
         These params come from external source (API) and define what
@@ -91,7 +91,7 @@ class SetWordParamsRepoABC(ABC):
         """
 
     @abstractmethod
-    def set_selected_params(self, params: schemas.WordSelectedSchema) -> None:
+    def set_selected_params(self, params: schemas.SelectedParams) -> None:
         """Set user's current selection for Word study params.
 
         These params represent actual choices made by user in the UI

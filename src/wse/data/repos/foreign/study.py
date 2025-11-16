@@ -23,7 +23,7 @@ class WordStudyRepo(WordStudyRepoABC):
     _network_source: sources.WordStudyNetworkSourceABC
 
     @override
-    def get_word(self) -> schemas.WordPresentationSchema:
+    def get_word(self) -> schemas.PresentationSchema:
         """Get word to study."""
         try:
             case = self._network_source.fetch_presentation()
@@ -41,6 +41,6 @@ class WordStudySettingsRepo(WordStudySettingsRepoABC):
     _source: sources.WordStudySettingsLocaleSourceABC
 
     @override
-    def get_settings(self) -> schemas.WordStudySettingsSchema:
+    def get_settings(self) -> schemas.PresentationSettings:
         """Get word study settings."""
         return self._source.get_settings()

@@ -24,8 +24,8 @@ class WordStudyPresentationApiABC(ABC):
     @abstractmethod
     def fetch_presentation(
         self,
-        payload: schemas.WordStudyPresentationParamsSchema,
-    ) -> schemas.WordStudyCaseSchema:
+        payload: schemas.PresentationParams,
+    ) -> schemas.PresentationCase:
         """Fetch presentation."""
 
 
@@ -35,5 +35,5 @@ class WordParamsApiABC(ABC):
     @abstractmethod
     def fetch_initial_params(
         self,
-    ) -> schemas.WordParamsSchema:
+    ) -> schemas.ParamsChoices:
         """Fetch Word study params."""

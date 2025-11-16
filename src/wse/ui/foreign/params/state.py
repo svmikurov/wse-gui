@@ -11,7 +11,7 @@ from wse.data.repos.foreign import (
     WordParamsRepoABC,
 )
 from wse.data.sources.foreign import WordParamsNotifyABC
-from wse.data.sources.foreign.schemas import WordParamsSchema
+from wse.data.sources.foreign.schemas import ParamsChoices
 from wse.feature.observer.accessor import NotifyAccessorGen
 from wse.feature.observer.mixins import ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateStateMixin
@@ -88,7 +88,7 @@ class WordStudyParamsViewModel(
 
     # TODO: Refactor
     @override
-    def initial_params_updated(self, params: WordParamsSchema) -> None:
+    def initial_params_updated(self, params: ParamsChoices) -> None:
         """Set Initial Word study params."""
         self._source = replace(
             self._source, **{k: v for k, v in params.__dict__.items()}
