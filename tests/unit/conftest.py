@@ -42,7 +42,13 @@ def mock_observer() -> Mock:
 @pytest.fixture
 def word_data() -> schemas.PresentationSchema:
     """Word data fixture."""
-    return schemas.PresentationSchema(definition='test', explanation='тест')
+    return schemas.PresentationSchema(
+        definition='test',
+        explanation='тест',
+        info=schemas.Info(
+            progress=3,
+        ),
+    )
 
 
 @pytest.fixture
