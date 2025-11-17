@@ -37,6 +37,26 @@ def mock_get_data(
         yield mock
 
 
+class TestPresentationInfo:
+    """Test Presentation info."""
+
+    @pytest.mark.asyncio
+    async def test_info_notification_called(
+        self,
+        word_data: PresentationSchema,
+        mock_get_data: Mock,  # Mock to return presentation case data
+        use_case: WordStudyUseCase,
+    ) -> None:
+        """Test that exercise info updated notification was called."""
+        # Act
+        with patch.object(use_case, '_display_info') as mock:
+            use_case.start()
+            await asyncio.sleep(0.05)
+
+        # Assert
+        mock.assert_called_once_with(word_data.info)
+
+
 # TODO: Add tests
 class TestWordStudyExceptions:
     """Test the Word study exceptions."""
