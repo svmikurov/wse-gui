@@ -35,50 +35,40 @@ class ParamsContainer(
     """
 
     _accessors = (
-        'category_select',
-        'label_select',
-        'source_select',
-        'order_select',
-        'start_period_select',
-        'end_period_select',
-        'count_input',
-        'question_timeout_input',
-        'answer_timeout_input',
+        'category',
+        'label',
+        'source',
+        'order',
+        'start_period',
+        'end_period',
+        'count',
+        'question_timeout',
+        'answer_timeout',
     )
 
     @override
     def _create_ui(self) -> None:
-        # Selection with label
+        # Selections with label
         self._category_label = toga.Label(I18N.LABEL('Category'))
-        self._category_select = self._create_selection('category_select')
+        self._category = self._create_selection('category')
         self._label_label = toga.Label(I18N.LABEL('Label'))
-        self._label_select = self._create_selection('label_select')
+        self._label = self._create_selection('label')
         self._source_label = toga.Label(I18N.LABEL('Source'))
-        self._source_select = self._create_selection('source_select')
+        self._source = self._create_selection('source')
         self._order_label = toga.Label(I18N.LABEL('Translate order'))
-        self._order_select = self._create_selection('order_select')
-
+        self._order = self._create_selection('order')
         self._period_label = toga.Label(I18N.LABEL('Word adding period'))
-        self._start_period_select = self._create_selection(
-            'start_period_select'
-        )
-        self._end_period_select = self._create_selection('end_period_select')
+        self._start_period = self._create_selection('start_period')
+        self._end_period = self._create_selection('end_period')
 
-        # Number input with label
+        # Number inputs with label
         self._count_label = toga.Label(I18N.LABEL('Word study count'))
-        self._count_input = self._create_number_input('count_input')
-        self._question_timeout_label = toga.Label(
-            I18N.LABEL('Question timeout')
-        )
-        self._question_timeout_input = self._create_number_input(
-            'question_timeout_input',
-            # step=0.1,
-        )
+        self._count = self._create_number_input('count')
+        self._question_timeout_label = toga.Label('')
+        self._question_timeout_label.text = I18N.LABEL('Question timeout')
+        self._question_timeout = self._create_number_input('question_timeout')
         self._answer_timeout_label = toga.Label(I18N.LABEL('Answer timeout'))
-        self._answer_timeout_input = self._create_number_input(
-            'answer_timeout_input',
-            # step=0.1,
-        )
+        self._answer_timeout = self._create_number_input('answer_timeout')
 
     @override
     def _populate_content(self) -> None:
@@ -97,24 +87,24 @@ class ParamsContainer(
     def _update_style(self, config: StyleConfig | ThemeConfig) -> None:
         # Selections
         self._category_label.style.update(**config.params.label)
-        self._category_select.style.update(**config.params.select)
+        self._category.style.update(**config.params.select)
         self._label_label.style.update(**config.params.label)
-        self._label_select.style.update(**config.params.select)
+        self._label.style.update(**config.params.select)
         self._source_label.style.update(**config.params.label)
-        self._source_select.style.update(**config.params.select)
+        self._source.style.update(**config.params.select)
         self._order_label.style.update(**config.params.label)
-        self._order_select.style.update(**config.params.select)
+        self._order.style.update(**config.params.select)
         self._period_label.style.update(**config.params.label)
-        self._start_period_select.style.update(**config.params.select)
-        self._end_period_select.style.update(**config.params.select)
+        self._start_period.style.update(**config.params.select)
+        self._end_period.style.update(**config.params.select)
 
         # Number input
         self._count_label.style.update(**config.params.label)
-        self._count_input.style.update(**config.params.number)
+        self._count.style.update(**config.params.number)
         self._question_timeout_label.style.update(**config.params.label)
-        self._question_timeout_input.style.update(**config.params.number)
+        self._question_timeout.style.update(**config.params.number)
         self._answer_timeout_label.style.update(**config.params.label)
-        self._answer_timeout_input.style.update(**config.params.number)
+        self._answer_timeout.style.update(**config.params.number)
 
     # Combined widgets
     # ----------------
@@ -122,27 +112,27 @@ class ParamsContainer(
     @property
     def select_category(self) -> toga.Box:
         """Word count select."""
-        return self._combine(self._category_label, self._category_select)
+        return self._combine(self._category_label, self._category)
 
     @property
     def select_label(self) -> toga.Box:
         """Label select."""
-        return self._combine(self._label_label, self._label_select)
+        return self._combine(self._label_label, self._label)
 
     @property
     def source_select(self) -> toga.Box:
         """Source select."""
-        return self._combine(self._source_label, self._source_select)
+        return self._combine(self._source_label, self._source)
 
     @property
     def order_select(self) -> toga.Box:
         """Order select."""
-        return self._combine(self._order_label, self._order_select)
+        return self._combine(self._order_label, self._order)
 
     @property
     def input_count(self) -> toga.Box:
         """Word count input."""
-        return self._combine(self._count_label, self._count_input)
+        return self._combine(self._count_label, self._count)
 
     @property
     def period_select(self) -> toga.Box:
@@ -152,8 +142,8 @@ class ParamsContainer(
         right_box = toga.Box(flex=1, margin_right=1)
 
         label_row.add(self._period_label)
-        left_box.add(self._start_period_select)
-        right_box.add(self._end_period_select)
+        left_box.add(self._start_period)
+        right_box.add(self._end_period)
 
         return toga.Column(  # type: ignore[no-any-return, no-untyped-call]
             children=[label_row, toga.Box(children=[left_box, right_box])],
@@ -164,15 +154,13 @@ class ParamsContainer(
     def question_timeout(self) -> toga.Box:
         """Question timeout input."""
         return self._combine(
-            self._question_timeout_label, self._question_timeout_input
+            self._question_timeout_label, self._question_timeout
         )
 
     @property
     def answer_timeout(self) -> toga.Box:
         """Answer timeout input."""
-        return self._combine(
-            self._answer_timeout_label, self._answer_timeout_input
-        )
+        return self._combine(self._answer_timeout_label, self._answer_timeout)
 
     # Utility methods
     # ---------------

@@ -78,7 +78,7 @@ class WordStudyParamsView(
     def on_close(self) -> None:
         """Call methods before close the screen."""
         self._top_bar.remove_observer(self)
-        self._params.remove_observer(self._state)
+        self._params.remove_observer(self)
         self._state.remove_observer(self)
         self._state.on_close()
 
@@ -95,13 +95,13 @@ class WordStudyParamsView(
     # --------------------
 
     @override
-    def source_updated(
+    def values_updated(
         self,
         accessor: ParamsAccessorEnum,
-        value: object,
+        values: object,
     ) -> None:
-        """Update UI via UIState accessor notification."""
-        self._params.set_values(accessor=accessor, value=value)
+        """Update Params container values via UIState notification."""
+        self._params.set_values(accessor=accessor, value=values)
 
     @override
     def value_updated(
@@ -109,7 +109,7 @@ class WordStudyParamsView(
         accessor: ParamsAccessorEnum,
         value: object,
     ) -> None:
-        """Update UI value via UIState accessor notification."""
+        """Update Params container value via UIState notification."""
         self._params.set_value(accessor=accessor, value=value)
 
     @override
@@ -118,5 +118,5 @@ class WordStudyParamsView(
         accessor: ParamsAccessorEnum,
         value: object,
     ) -> None:
-        """Update UIState via injected UI accessor notification."""
+        """Update UIState via injected UI notification."""
         self._state.update_widget_state(accessor, value)

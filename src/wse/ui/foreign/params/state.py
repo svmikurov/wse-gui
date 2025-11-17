@@ -22,38 +22,32 @@ from . import WordStudyParamsViewModelABC
 audit = logging.getLogger('audit')
 
 
-@dataclass
-class WordParamsSourceData:
-    """Word study Source data.
+@dataclass(frozen=True)
+class PresentationParamsData:
+    """Word study Presentation data."""
 
-    Field name according schemas name.
-    """
-
+    # Choices
     categories: list[IdNameSchema] | None = None
     labels: list[IdNameSchema] | None = None
+    sources: list[IdNameSchema] | None = None
+    orders: list[IdNameSchema] | None = None
+    start_periods: list[IdNameSchema] | None = None
+    end_periods: list[IdNameSchema] | None = None
 
-    default_category: IdNameSchema | None = None
-    default_label: IdNameSchema | None = None
+    # Current choice
+    # Field name according widget attr name.
+    category: IdNameSchema | None = None
+    label: IdNameSchema | None = None
+    source: IdNameSchema | None = None
+    order: IdNameSchema | None = None
+    start_period: IdNameSchema | None = None
+    end_period: IdNameSchema | None = None
 
-
-# TODO: Combine source and widget data to UIState
-@dataclass(frozen=True)
-class WordParamsWidgetData:
-    """Word study Widgets data.
-
-    Field name according widget attr name.
-    """
-
-    category_select: IdNameSchema | None = None
-    label_select: IdNameSchema | None = None
-    source_select: IdNameSchema | None = None
-    order_select: IdNameSchema | None = None
-    start_period_select: IdNameSchema | None = None
-    end_period_select: IdNameSchema | None = None
-
-    count_input: Decimal | None = None
-    question_timeout_input: Decimal | None = None
-    answer_timeout_input: Decimal | None = None
+    # Inputs
+    # Field name according widget attr name.
+    count: Decimal | None = None
+    question_timeout: Decimal | None = None
+    answer_timeout: Decimal | None = None
 
 
 @inject
@@ -67,21 +61,20 @@ class WordStudyParamsViewModel(
 ):
     """Word study params ViewModel."""
 
-    _source_data: WordParamsSourceData
-    _widget_data: WordParamsWidgetData
+    _data: PresentationParamsData
     _repo: WordParamsRepoABC
-    _source_mapper: WordParamsMapperABC
+    _source_subscriber: WordParamsMapperABC
 
     @override
     def on_open(self) -> None:
         """Call methods on screen open."""
-        self._source_mapper.subscribe(self)
+        self._source_subscriber.subscribe(self)
         self._refresh_initial_params()
 
     @override
     def on_close(self) -> None:
         """Call methods before close the screen."""
-        self._source_mapper.unsubscribe(self)
+        self._source_subscriber.unsubscribe(self)
 
     @override
     def start_exercise(self) -> None:
@@ -98,7 +91,7 @@ class WordStudyParamsViewModel(
         value: object,
     ) -> None:
         """Update widget context."""
-        self._widget_data = replace(self._widget_data, **{accessor: value})  # type: ignore[misc, arg-type]
+        self._data = replace(self._data, **{accessor: value})  # type: ignore[misc, arg-type]
 
     # Notification observe
     # --------------------
@@ -106,12 +99,10 @@ class WordStudyParamsViewModel(
     @override
     def initial_params_updated(self, params: ParamsChoices) -> None:
         """Set Initial Word study params."""
-        self._source_data = replace(
-            self._source_data, **{k: v for k, v in params}
-        )
+        self._data = replace(self._data, **{k: v for k, v in params})
 
-        self._update('label_select', 'labels', 'default_label')
-        self._update('category_select', 'categories', 'default_category')
+        self._update('label', 'labels')
+        self._update('category', 'categories')
 
     # Utility methods
     # ---------------
@@ -120,16 +111,17 @@ class WordStudyParamsViewModel(
         """Refresh Initial params of Word study."""
         self._repo.refresh_initial_params()
 
-    def _update(
-        self, accessor: str, values_name: str, value_name: str | None = None
-    ) -> None:
-        """Update UI values and."""
-        values_name = getattr(self._source_data, values_name)
-        self.notify('source_updated', accessor, value=values_name)
+    # TODO: Add literal types
+    def _update(self, accessor: str, values_name: str | None = None) -> None:
+        """Update UI context."""
+        if values_name:
+            # Selection values updated
+            values = getattr(self._data, values_name)
+            self.notify('values_updated', accessor, values=values)
 
-        if value_name is not None:
-            value_name = getattr(self._source_data, value_name)
-            self.notify('default_updated', accessor, value=value_name)
+        if value := getattr(self._data, accessor, None):
+            # Value updated
+            self.notify('value_updated', accessor, value=value)
 
     @decorators.log_unimplemented_call
     def _update_locale_params(self) -> None:

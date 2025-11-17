@@ -41,12 +41,12 @@ class WordStudyParamsViewABC(
     """ABC for Word study params View."""
 
     @abstractmethod
-    def source_updated(
+    def values_updated(
         self,
         accessor: ParamsAccessorEnum,
-        value: object,
+        values: object,
     ) -> None:
-        """Update UI via UIState accessor notification."""
+        """Update Params container values."""
 
     @abstractmethod
     def value_updated(
@@ -54,7 +54,7 @@ class WordStudyParamsViewABC(
         accessor: ParamsAccessorEnum,
         value: object,
     ) -> None:
-        """Update UI value via UIState accessor notification."""
+        """Update Params container value."""
 
     @abstractmethod
     def widget_updated(

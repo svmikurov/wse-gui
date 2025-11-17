@@ -8,7 +8,7 @@ from .index import IndexForeignViewABC, IndexForeignViewModelABC
 from .index.state import IndexForeignViewModel
 from .index.view import IndexForeignView
 from .params import WordStudyParamsViewABC, WordStudyParamsViewModelABC
-from .params.state import WordParamsSourceData, WordStudyParamsViewModel
+from .params.state import PresentationParamsData, WordStudyParamsViewModel
 from .params.view import WordStudyParamsView
 from .study import StudyForeignViewABC, WordPresentationViewModelABC
 from .study.state import WordPresentationViewModel
@@ -30,9 +30,6 @@ class ForeignModule(Module):
         binder.bind(StudyForeignViewABC, to=StudyForeignView)
 
         # Word study params
-        # State data
-        binder.bind(WordParamsSourceData, scope=SingletonScope)
-        # ViewModel
+        binder.bind(PresentationParamsData, scope=SingletonScope)
         binder.bind(WordStudyParamsViewModelABC, to=WordStudyParamsViewModel)
-        # View
         binder.bind(WordStudyParamsViewABC, to=WordStudyParamsView)

@@ -18,6 +18,7 @@ from wse.ui.base.content import ContentABC, GetContentABC
 ParamsNotifyT = Literal['update']
 
 
+# TODO: Refactor or add fields?
 class ParamsAccessorEnum(BaseEnum):
     """Params accessor enumeration."""
 
