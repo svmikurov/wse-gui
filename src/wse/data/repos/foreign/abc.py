@@ -64,8 +64,13 @@ class WordParamsMapperABC(ABC):
 
 class WordParamsRepoABC(
     RefreshWordParamsRepoABC,
+    ABC,
 ):
     """ABC for Word study repository."""
+
+    @abstractmethod
+    def get_params(self) -> schemas.PresentationParams:
+        """Get Word study presentation params."""
 
 
 class WordStudySettingsRepoABC(ABC):
