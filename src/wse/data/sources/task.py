@@ -1,6 +1,5 @@
 """Task data source."""
 
-import uuid
 from abc import ABC, abstractmethod
 from dataclasses import replace
 from typing import Literal, Union
@@ -79,7 +78,7 @@ class TaskSource(
         self.notify('solution_updated', solution=self.solution)
 
     @property
-    def uid(self) -> uuid.UUID | None:
+    def uid(self) -> str | None:
         """Get task identifier (read-only)."""
         return self._task.uid if self._task is not None else None
 

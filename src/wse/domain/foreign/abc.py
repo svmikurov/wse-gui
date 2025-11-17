@@ -15,6 +15,7 @@ ExerciseAccessorT = Literal[
 UIStateNotifyT = Literal[
     'exercise_updated',
     'timeout_updated',
+    'info_updated',
 ]
 
 
@@ -27,7 +28,7 @@ class PresentationObserverABC(ABC):
     def exercise_updated(
         self,
         accessor: ExerciseAccessorT,
-        value: str,
+        value: object,
     ) -> None:
         """Notify that exercise updated."""
 

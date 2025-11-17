@@ -1,6 +1,5 @@
 """Foreign discipline HTTP response schemas."""
 
-import uuid
 from datetime import datetime
 
 from wse.api.schemas import base
@@ -47,7 +46,7 @@ class PresentationSchema(base.BaseSchema):
 class PresentationCase(PresentationSchema):
     """Presentation case schema."""
 
-    case_uuid: uuid.UUID
+    case_uuid: str
 
 
 # Presentation params

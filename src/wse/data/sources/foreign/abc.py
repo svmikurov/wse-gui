@@ -1,6 +1,5 @@
 """Abstract base classes for Foreign discipline sources."""
 
-import uuid
 from abc import ABC, abstractmethod
 from typing import Literal
 
@@ -31,7 +30,7 @@ class WordStudyLocaleSourceABC(ABC):
         """Set Word study case."""
 
     @abstractmethod
-    def get_case_uuid(self) -> uuid.UUID:
+    def get_case_uuid(self) -> str:
         """Get case UUID."""
 
     @abstractmethod
@@ -43,11 +42,11 @@ class WordStudyProgressNetworkSourceABC(ABC):
     """Word study progress Network Source."""
 
     @abstractmethod
-    def increment_progress(self, case_uuid: uuid.UUID) -> None:
+    def increment_progress(self, case_uuid: str) -> None:
         """Increment Word study progress."""
 
     @abstractmethod
-    def decrement_progress(self, case_uuid: uuid.UUID) -> None:
+    def decrement_progress(self, case_uuid: str) -> None:
         """Decrement Word study progress."""
 
 

@@ -2,20 +2,18 @@
 
 import logging
 from dataclasses import dataclass
-from typing import Literal, TypeAlias, override
+from typing import Literal, NamedTuple, TypeAlias, override
 
 from injector import inject
 
-from wse.domain.foreign import (
-    ExerciseAccessorT,
-    WordStudyUseCaseABC,
-)
+from wse.data.sources.foreign import schemas
+from wse.domain.foreign import ExerciseAccessorT, WordStudyUseCaseABC
 from wse.feature.observer import ChangeObserverABC
 from wse.feature.observer.generic import HandleObserverGenABC
 from wse.feature.observer.mixins import NotifyGen, ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateStateMixin
 from wse.ui.containers.control import Action
-from wse.utils import decorators
+from wse.utils.i18n import I18N
 
 from . import ChangeNotifyT, WordPresentationViewModelABC
 
@@ -32,6 +30,12 @@ ProgressT = Literal[
 Observer: TypeAlias = (
     ChangeObserverABC[ChangeNotifyT] | HandleObserverGenABC[Action]
 )
+
+
+class TextInfo(NamedTuple):
+    """Textual representation of Presentation Info."""
+
+    progress: str
 
 
 @inject
@@ -66,12 +70,21 @@ class WordPresentationViewModel(
     def exercise_updated(
         self,
         accessor: ExerciseAccessorT,
-        value: str,
+        value: object,
     ) -> None:
         """Notify that exercise case was updated."""
-        self.notify('change', accessor=accessor, value=value)
-        if accessor == 'definition':
-            self._reset_unknown_state()
+        match accessor:
+            case 'definition':
+                self._reset_unknown_state()
+                self.notify('change', accessor=accessor, value=value)
+
+            case 'info':
+                if isinstance(value, schemas.Info):
+                    text = self._update_info(value)
+                    self.notify('change', accessor=accessor, value=text)
+
+            case _:
+                self.notify('change', accessor=accessor, value=value)
 
     @override
     def timeout_updated(
@@ -83,11 +96,11 @@ class WordPresentationViewModel(
         """Notify that timeout of exercise phase was updated."""
         self.notify('timeout_updated', accessor=accessor, max=max, value=value)
 
-    # Development mode implementation
-    @decorators.log_unimplemented_call
-    def _update_info(self) -> None:
-        """Update Word study info."""
-        self.notify('change', accessor='progress', value='test')
+    def _update_info(self, data: schemas.Info) -> TextInfo:
+        """Update Word study Presentation info."""
+        return TextInfo(
+            progress=I18N.EXERCISE('progress') + f': {data.progress}'
+        )
 
     @override
     def handle(self, action: Action) -> None:

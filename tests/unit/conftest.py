@@ -57,7 +57,7 @@ def word_case(
 ) -> schemas.PresentationSchema:
     """Word study case fixture."""
     return schemas.PresentationCase(
-        case_uuid=uuid.uuid4(),
+        case_uuid=str(uuid.uuid4()),
         definition=word_data.definition,
         explanation=word_data.explanation,
     )

@@ -5,10 +5,10 @@ from typing import Any, Type
 import pytest
 
 from wse import di
-from wse.data.sources.foreign import schemas
+from wse.domain.foreign import ExerciseAccessorT
 from wse.ui import containers
 from wse.ui.containers import top_bar
-from wse.ui.foreign.study import view
+from wse.ui.foreign.study import state, view
 
 
 class TestCreateView:
@@ -49,14 +49,14 @@ class TestInfoContainer:
     ) -> None:
         """Test update Info container context."""
         # Arrange
-        info = schemas.Info(progress=8)
+        info = state.TextInfo(progress='8')
 
         # Act
         word_study_view.change('info', info)
 
         # Assert
         container = word_study_view._info_container
-        for accessor, value in info:
+        for accessor, value in info._asdict().items():
             widget = getattr(container, f'_{accessor}')
             assert widget.text == str(value)
 
@@ -73,8 +73,8 @@ class TestPresentationContainer:
     )
     def test_update_connext(
         self,
-        accessor: str,
-        value: str,
+        accessor: ExerciseAccessorT,
+        value: object,
         word_study_view: view.StudyForeignView,
     ) -> None:
         """Test update Presentation container context."""

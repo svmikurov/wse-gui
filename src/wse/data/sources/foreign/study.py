@@ -1,7 +1,6 @@
 """Foreign word study source."""
 
 import logging
-import uuid
 from dataclasses import asdict, dataclass, replace
 from typing import override
 
@@ -21,7 +20,7 @@ DEFAULT_WORD_STUDY_TIMEOUT = 3
 class WordStudyData:
     """Word study data."""
 
-    case_uuid: uuid.UUID | None = None
+    case_uuid: str | None = None
     definition: str | None = None
     explanation: str | None = None
     progress: int | None = None
@@ -51,7 +50,7 @@ class WordStudyLocaleSource(base.WordStudyLocaleSourceABC):
         )
 
     @override
-    def get_case_uuid(self) -> uuid.UUID:
+    def get_case_uuid(self) -> str:
         """Get case UUID."""
         if self._data.case_uuid is None:
             raise RuntimeError('Word study data was not set')

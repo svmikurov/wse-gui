@@ -1,6 +1,5 @@
 """Presentation api test cases."""
 
-import uuid
 from typing import Literal, TypedDict
 
 # Case type definition
@@ -34,7 +33,7 @@ class PresentationInfoDict(TypedDict):
 class PresentationCaseDict(TypedDict):
     """Presentation case typed dict."""
 
-    case_uuid: uuid.UUID
+    case_uuid: str
     definition: str
     explanation: str
     info: PresentationInfoDict
@@ -68,7 +67,7 @@ VALID_RESPONSE_PAYLOAD = ResponseDict(
         balance='12',
     ),
     data=PresentationCaseDict(
-        case_uuid=uuid.UUID('5b518a3e-45a4-4147-a097-0ed28211d8a4'),
+        case_uuid='5b518a3e-45a4-4147-a097-0ed28211d8a4',
         definition='test',
         explanation='тест',
         info=PresentationInfoDict(

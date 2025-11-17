@@ -1,6 +1,5 @@
 """Exercise task."""
 
-import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 
@@ -9,7 +8,7 @@ from datetime import datetime
 class Task:
     """Exercise task."""
 
-    uid: uuid.UUID | None
+    uid: str | None
     question: str | None
 
     correct_answer: str | None = None

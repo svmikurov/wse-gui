@@ -1,5 +1,6 @@
 """Foreign words study View."""
 
+import logging
 from dataclasses import dataclass
 from typing import override
 
@@ -8,7 +9,7 @@ from injector import inject
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation import NavID
-from wse.data.sources.foreign import schemas
+from wse.domain.foreign import ExerciseAccessorT
 from wse.feature.observer.generic import HandleObserverGenABC
 from wse.feature.observer.mixins import ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateViewMixin
@@ -17,7 +18,9 @@ from wse.ui.containers.info.abc import InfoContainerABC
 from wse.ui.containers.presentation.presenter import PresenterContainerABC
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 
-from . import StudyForeignViewABC, WordPresentationViewModelABC
+from . import StudyForeignViewABC, WordPresentationViewModelABC, state
+
+log = logging.getLogger(__name__)
 
 
 @inject
@@ -110,11 +113,18 @@ class StudyForeignView(
         self._control_container.update_unknown_state(value)
 
     @override
-    def change(self, accessor: str, value: object) -> None:
+    def change(self, accessor: ExerciseAccessorT, value: object) -> None:
         """Change ui context via accessor."""
-        if accessor in ('definition', 'explanation'):
-            self._presentation_container.change(accessor, value)
+        match accessor:
+            case 'definition' | 'explanation':
+                self._presentation_container.change(accessor, value)
 
-        elif isinstance(value, schemas.Info):
-            for k, v in value:
-                self._info_container.change(k, v)
+            case 'info':
+                if isinstance(value, state.TextInfo):
+                    for k, v in value._asdict().items():
+                        self._info_container.change(k, v)
+                else:
+                    log.warning(f'Expected `TextInfo`, got `{type(accessor)}`')
+
+            case _:
+                log.warning(f'Unhandled accessor: {accessor}')

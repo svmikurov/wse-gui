@@ -1,7 +1,6 @@
 """Word study progress API client."""
 
 import logging
-import uuid
 from typing import TypedDict
 
 import httpx
@@ -19,7 +18,7 @@ log = logging.getLogger(__name__)
 class PayloadType(TypedDict):
     """Payload typed dict."""
 
-    case_uuid: uuid.UUID
+    case_uuid: str
     progress_type: str
 
 
@@ -43,7 +42,7 @@ class WordStudyProgressApi(WordStudyProgressApiABC):
         self._auth = auth_scheme
         self._api_config = api_config
 
-    def increment_progress(self, case_uuid: uuid.UUID) -> None:
+    def increment_progress(self, case_uuid: str) -> None:
         """Send API request to increment Word study progress."""
         payload: PayloadType = {
             'case_uuid': case_uuid,
@@ -51,7 +50,7 @@ class WordStudyProgressApi(WordStudyProgressApiABC):
         }
         self._update_progress(payload)
 
-    def decrement_progress(self, case_uuid: uuid.UUID) -> None:
+    def decrement_progress(self, case_uuid: str) -> None:
         """Send API request to decrement Word study progress."""
         payload: PayloadType = {
             'case_uuid': case_uuid,

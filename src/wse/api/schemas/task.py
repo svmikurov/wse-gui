@@ -1,14 +1,12 @@
 """Service entities."""
 
-import uuid
-
 from ..schemas.base import BaseSchema
 
 
 class Question(BaseSchema):
     """Question schema."""
 
-    uid: uuid.UUID
+    uid: str
     question: str
 
     class Config:
@@ -20,7 +18,7 @@ class Question(BaseSchema):
 class Answer(BaseSchema):
     """User answer schema."""
 
-    uid: uuid.UUID
+    uid: str
     answer: str
 
     class Config:
