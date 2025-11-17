@@ -2,6 +2,7 @@
 
 import logging
 from json.decoder import JSONDecodeError
+from typing import override
 
 import httpx
 from injector import inject
@@ -31,9 +32,10 @@ class WordParamsApi(WordParamsApiABC):
         self._auth_scheme = auth_scheme
         self._api_config = api_config
 
+    @override
     def fetch_initial_params(
         self,
-    ) -> schemas.ParamsChoices:
+    ) -> schemas.ParamsSchema:
         """Fetch presentation."""
         try:
             response = self._http_client.get(

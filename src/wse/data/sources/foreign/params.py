@@ -18,7 +18,7 @@ from . import (
 )
 
 
-@dataclass
+@dataclass(frozen=True)
 class WordParamsData:
     """Word params data."""
 
@@ -40,7 +40,7 @@ class WordParamsNetworkSource(WordParamsNetworkSourceABC):
     _api_client: WordParamsApiABC
 
     @override
-    def fetch_initial_params(self) -> schemas.ParamsChoices:
+    def fetch_initial_params(self) -> schemas.ParamsSchema:
         """Fetch Word study initial params."""
         params = self._api_client.fetch_initial_params()
         return params
@@ -69,6 +69,8 @@ class WordParamsLocaleSource(
     def get_params(self) -> schemas.PresentationParams:
         """Get Word study Presentation params."""
         return schemas.PresentationParams(
-            category=None,
-            label=None,
+            category=(
+                self._data.selected_category or self._data.default_category
+            ),
+            label=(self._data.selected_label or self._data.default_label),
         )

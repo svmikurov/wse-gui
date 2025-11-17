@@ -35,5 +35,5 @@ class WordParamsApiABC(ABC):
     @abstractmethod
     def fetch_initial_params(
         self,
-    ) -> schemas.ParamsChoices:
+    ) -> schemas.ParamsSchema:
         """Fetch Word study params."""
