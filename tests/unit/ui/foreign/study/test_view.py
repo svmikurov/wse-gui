@@ -5,6 +5,7 @@ from typing import Any, Type
 import pytest
 
 from wse import di
+from wse.data.sources.foreign import schemas
 from wse.ui import containers
 from wse.ui.containers import top_bar
 from wse.ui.foreign.study import view
@@ -42,26 +43,22 @@ class TestCreateView:
 class TestInfoContainer:
     """Test Info container dependency of Word study View."""
 
-    @pytest.mark.parametrize(
-        'accessor, value',
-        [
-            ('progress', 'test progress'),
-        ],
-    )
     def test_update_context(
         self,
-        accessor: str,
-        value: str,
         word_study_view: view.StudyForeignView,
     ) -> None:
         """Test update Info container context."""
+        # Arrange
+        info = schemas.Info(progress=8)
+
         # Act
-        word_study_view.change(accessor, value)
+        word_study_view.change('info', info)
 
         # Assert
         container = word_study_view._info_container
-        widget = getattr(container, f'_{accessor}')
-        assert widget.text == value
+        for accessor, value in info:
+            widget = getattr(container, f'_{accessor}')
+            assert widget.text == str(value)
 
 
 class TestPresentationContainer:

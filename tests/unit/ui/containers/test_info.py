@@ -18,7 +18,7 @@ class TestDisplayInfo:
     @pytest.mark.parametrize(
         'accessor, value',
         [
-            ('progress', 'test progress'),
+            ('progress', '2'),
         ],
     )
     def test_change_context(
