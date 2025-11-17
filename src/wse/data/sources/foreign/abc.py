@@ -88,6 +88,10 @@ class WordParamsLocaleSourceABC(
     def set_initial_params(self, params: schemas.ParamsChoices) -> None:
         """Save initial Word study params."""
 
+    @abstractmethod
+    def get_params(self) -> schemas.PresentationParams:
+        """Get Word study Presentation params."""
+
 
 class WordParamsNetworkSourceABC(
     ABC,

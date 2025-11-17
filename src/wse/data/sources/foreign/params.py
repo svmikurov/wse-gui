@@ -64,3 +64,11 @@ class WordParamsLocaleSource(
         updated_params = {k: v for k, v in self._data.__dict__.items()}
         updated_schema = schemas.ParamsChoices.from_dict(updated_params)
         self.notify('initial_params_updated', params=updated_schema)
+
+    @override
+    def get_params(self) -> schemas.PresentationParams:
+        """Get Word study Presentation params."""
+        return schemas.PresentationParams(
+            category=None,
+            label=None,
+        )
