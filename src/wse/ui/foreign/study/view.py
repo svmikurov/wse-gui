@@ -8,6 +8,7 @@ from injector import inject
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation import NavID
+from wse.data.sources.foreign import schemas
 from wse.feature.observer.generic import HandleObserverGenABC
 from wse.feature.observer.mixins import ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateViewMixin
@@ -111,11 +112,9 @@ class StudyForeignView(
     @override
     def change(self, accessor: str, value: object) -> None:
         """Change ui context via accessor."""
-        try:
+        if accessor in ('definition', 'explanation'):
             self._presentation_container.change(accessor, value)
-        except LookupError:
-            pass
-        try:
-            self._info_container.change(accessor, value)
-        except LookupError:
-            pass
+
+        elif isinstance(value, schemas.Info):
+            for k, v in value:
+                self._info_container.change(k, v)
