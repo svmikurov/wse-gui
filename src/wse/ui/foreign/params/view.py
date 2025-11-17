@@ -39,13 +39,25 @@ class WordStudyParamsView(
         self._params.add_observer(self)
         super().__post_init__()
 
+    # TODO: Fix type ignore
     @override
     def _create_ui(self) -> None:
         self._title = toga.Label(I18N.NAV(NavID.FOREIGN_PARAMS))
+        self._btn_save = toga.Button(
+            I18N.EXERCISE('Save'),
+            on_press=self._save_params,  # type: ignore[arg-type]
+            flex=1,
+        )
+        self._btn_reset = toga.Button(
+            I18N.EXERCISE('Reset'),
+            on_press=self._reset_params,  # type: ignore[arg-type]
+            flex=1,
+        )
         self._btn_start = NavButton(
-            text=I18N.NAV(NavID.FOREIGN_STUDY),
+            text=I18N.EXERCISE(I18N.EXERCISE('Start')),
             nav_id=NavID.FOREIGN_STUDY,
             on_press=self._start_exercise,
+            flex=1,
         )
 
     @override
@@ -55,13 +67,17 @@ class WordStudyParamsView(
             self._title,
             self._params.content,
             toga.Box(flex=1),
-            self._btn_start,
+            toga.Box(
+                children=[self._btn_reset, self._btn_save, self._btn_start]
+            ),
         )
 
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
         self._title.style.update(**config.label_title)
+        self._btn_reset.style.update(**config.button)
+        self._btn_save.style.update(**config.button)
         self._btn_start.style.update(**config.btn_nav)
 
     # TODO: Remove from abstract base?
@@ -87,10 +103,6 @@ class WordStudyParamsView(
         """Handle navigation button press, top bar handler."""
         self._state.navigate(button.nav_id)
 
-    def _start_exercise(self, button: toga.Button) -> None:
-        """Start exercise."""
-        self._state.start_exercise()
-
     # Notification observe
     # --------------------
 
@@ -101,7 +113,7 @@ class WordStudyParamsView(
         values: object,
     ) -> None:
         """Update Params container values via UIState notification."""
-        self._params.set_values(accessor=accessor, value=values)
+        self._params.set_values(accessor=accessor, values=values)
 
     @override
     def value_updated(
@@ -120,3 +132,15 @@ class WordStudyParamsView(
     ) -> None:
         """Update UIState via injected UI notification."""
         self._state.update_widget_state(accessor, value)
+
+    # Widget callback functions
+    # -------------------------
+
+    def _save_params(self, _: toga.Button) -> None:
+        self._state.save_params()
+
+    def _reset_params(self, _: toga.Button) -> None:
+        self._state.reset_params()
+
+    def _start_exercise(self, _: toga.Button) -> None:
+        self._state.start_exercise()

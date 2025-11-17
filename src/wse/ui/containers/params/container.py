@@ -217,7 +217,7 @@ class ParamsContainer(
     # --------------
 
     @override
-    def set_values(self, accessor: str, value: object) -> None:
+    def set_values(self, accessor: str, values: object) -> None:
         """Set widget values via accessor.
 
         Updated widget must implement ``items.update()`` Source
@@ -225,7 +225,7 @@ class ParamsContainer(
         """
         ui = self._get_ui(accessor)
         with EventDisabler(ui):
-            ui.items.update(value)
+            ui.items.update(values)
 
     @override
     def set_value(self, accessor: str, value: object) -> None:

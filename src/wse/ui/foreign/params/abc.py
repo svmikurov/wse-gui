@@ -30,6 +30,14 @@ class WordStudyParamsViewModelABC(
     ) -> None:
         """Update widget context."""
 
+    @abstractmethod
+    def save_params(self) -> None:
+        """Save selected params."""
+
+    @abstractmethod
+    def reset_params(self) -> None:
+        """Reset selected params."""
+
 
 class WordStudyParamsViewABC(
     navigate.CreateNavButtonABC,

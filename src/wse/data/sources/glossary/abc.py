@@ -25,7 +25,7 @@ class TermPresentationListenerABC(
     def set_values(
         self,
         accessor: PresentationAccessorT,
-        value: object,
+        values: object,
     ) -> None:
         """Change value by accessor."""
 

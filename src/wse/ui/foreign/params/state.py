@@ -1,6 +1,5 @@
 """Word study params state."""
 
-import logging
 from dataclasses import dataclass, replace
 from decimal import Decimal
 from typing import Any, override
@@ -19,11 +18,31 @@ from wse.utils import decorators
 
 from . import WordStudyParamsViewModelABC
 
-audit = logging.getLogger('audit')
+
+@dataclass(frozen=True)
+class ParamsValue:
+    """Current Presentation params values.
+
+    Field name according widget attr name.
+    """
+
+    # Choice
+    category: IdNameSchema | None = None
+    label: IdNameSchema | None = None
+    source: IdNameSchema | None = None
+    order: IdNameSchema | None = None
+    start_period: IdNameSchema | None = None
+    end_period: IdNameSchema | None = None
+
+    # Input
+    # TODO: Where update `Decimal` to `int`?
+    count: Decimal | None = None
+    question_timeout: Decimal | None = None
+    answer_timeout: Decimal | None = None
 
 
 @dataclass(frozen=True)
-class PresentationParamsData:
+class PresentationParamsData(ParamsValue):
     """Word study Presentation data."""
 
     # Choices
@@ -33,21 +52,6 @@ class PresentationParamsData:
     orders: list[IdNameSchema] | None = None
     start_periods: list[IdNameSchema] | None = None
     end_periods: list[IdNameSchema] | None = None
-
-    # Current choice
-    # Field name according widget attr name.
-    category: IdNameSchema | None = None
-    label: IdNameSchema | None = None
-    source: IdNameSchema | None = None
-    order: IdNameSchema | None = None
-    start_period: IdNameSchema | None = None
-    end_period: IdNameSchema | None = None
-
-    # Inputs
-    # Field name according widget attr name.
-    count: Decimal | None = None
-    question_timeout: Decimal | None = None
-    answer_timeout: Decimal | None = None
 
 
 @inject
@@ -76,10 +80,10 @@ class WordStudyParamsViewModel(
         """Call methods before close the screen."""
         self._source_subscriber.unsubscribe(self)
 
+    @decorators.log_unimplemented_call
     @override
     def start_exercise(self) -> None:
         """Start exercise."""
-        self._update_locale_params()
 
     # API for View
     # ------------
@@ -92,6 +96,16 @@ class WordStudyParamsViewModel(
     ) -> None:
         """Update widget context."""
         self._data = replace(self._data, **{accessor: value})  # type: ignore[misc, arg-type]
+
+    @override
+    def save_params(self) -> None:
+        """Save selected params."""
+        self._save_params()
+
+    @override
+    def reset_params(self) -> None:
+        """Reset selected params."""
+        self._reset_params()
 
     # Notification observe
     # --------------------
@@ -124,5 +138,11 @@ class WordStudyParamsViewModel(
             self.notify('value_updated', accessor, value=value)
 
     @decorators.log_unimplemented_call
-    def _update_locale_params(self) -> None:
-        """Update Word study params Locale source."""
+    def _save_params(self) -> None: ...
+
+    @decorators.log_unimplemented_call
+    def _reset_params(self) -> None: ...
+
+    @decorators.log_unimplemented_call
+    def _get_current_params(self) -> ParamsValue:
+        return ParamsValue()

@@ -85,7 +85,7 @@ class UpdateObserverABC(ABC, Generic[AccessorT]):
     """ABC for 'update' observer accessor event."""
 
     @abstractmethod
-    def set_values(self, accessor: AccessorT, value: object) -> None:
+    def set_values(self, accessor: AccessorT, values: object) -> None:
         """Update observer accessor."""
 
 
