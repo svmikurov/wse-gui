@@ -3,7 +3,7 @@
 import asyncio
 import logging
 from dataclasses import dataclass
-from typing import Any, override
+from typing import override
 
 from injector import inject
 
@@ -66,6 +66,8 @@ class WordStudyUseCase(
                 # Definition presentation phase
                 await self._domain.wait_definition_event()
                 self._display_definition(data.definition)
+                if data.info:
+                    self._display_info(data.info)
 
                 # Explanation presentation phase
                 await self._domain.wait_explanation_event()
@@ -97,7 +99,7 @@ class WordStudyUseCase(
     def _display_explanation(self, value: str) -> None:
         self.notify('exercise_updated', accessor='explanation', value=value)
 
-    def _display_info(self, data: dict[str, Any]) -> None:
+    def _display_info(self, data: object) -> None:
         self.notify('exercise_updated', accessor='info', value=data)
 
     # TODO: Refactor, remove accessor='timeout'
