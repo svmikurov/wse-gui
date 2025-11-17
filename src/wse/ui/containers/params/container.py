@@ -128,8 +128,8 @@ class ParamsContainer(
     def period_select(self) -> toga.Box:
         """Word adding period select."""
         label_row = toga.Box(margin=(10, 0, 10, 0))
-        left_box = toga.Box(flex=1, padding_right=1)
-        right_box = toga.Box(flex=1, padding_left=1)
+        left_box = toga.Box(flex=1, margin_right=1)
+        right_box = toga.Box(flex=1, margin_right=1)
 
         label_row.add(self._period_label)
         left_box.add(self._start_period_select)
