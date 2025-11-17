@@ -22,7 +22,11 @@ class TermPresentationListenerABC(
     """ABC for Term Presentation listener."""
 
     @abstractmethod
-    def update(self, accessor: PresentationAccessorT, value: object) -> None:
+    def set_values(
+        self,
+        accessor: PresentationAccessorT,
+        value: object,
+    ) -> None:
         """Change value by accessor."""
 
 

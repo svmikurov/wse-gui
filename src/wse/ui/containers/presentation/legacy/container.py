@@ -38,7 +38,7 @@ class PresentationContainer(
             self._text,
         )
 
-    def update(self, accessor: AccessorT, value: object) -> None:
+    def set_values(self, accessor: AccessorT, value: object) -> None:
         """Change item value."""
         if accessor not in self.accessors:
             raise AttributeError(

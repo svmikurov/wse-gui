@@ -42,6 +42,8 @@ class ParamsContainer(
         'start_period_select',
         'end_period_select',
         'count_input',
+        'question_timeout_input',
+        'answer_timeout_input',
     )
 
     @override
@@ -64,7 +66,19 @@ class ParamsContainer(
 
         # Number input with label
         self._count_label = toga.Label(I18N.LABEL('Word study count'))
-        self._count_input = toga.NumberInput()
+        self._count_input = self._create_number_input('count_input')
+        self._question_timeout_label = toga.Label(
+            I18N.LABEL('Question timeout')
+        )
+        self._question_timeout_input = self._create_number_input(
+            'question_timeout_input',
+            # step=0.1,
+        )
+        self._answer_timeout_label = toga.Label(I18N.LABEL('Answer timeout'))
+        self._answer_timeout_input = self._create_number_input(
+            'answer_timeout_input',
+            # step=0.1,
+        )
 
     @override
     def _populate_content(self) -> None:
@@ -75,6 +89,8 @@ class ParamsContainer(
             self.order_select,
             self.period_select,
             self.input_count,
+            self.question_timeout,
+            self.answer_timeout,
         )
 
     @override
@@ -95,6 +111,10 @@ class ParamsContainer(
         # Number input
         self._count_label.style.update(**config.params.label)
         self._count_input.style.update(**config.params.number)
+        self._question_timeout_label.style.update(**config.params.label)
+        self._question_timeout_input.style.update(**config.params.number)
+        self._answer_timeout_label.style.update(**config.params.label)
+        self._answer_timeout_input.style.update(**config.params.number)
 
     # Combined widgets
     # ----------------
@@ -140,6 +160,20 @@ class ParamsContainer(
             margin=UI_MARGIN,
         )
 
+    @property
+    def question_timeout(self) -> toga.Box:
+        """Question timeout input."""
+        return self._combine(
+            self._question_timeout_label, self._question_timeout_input
+        )
+
+    @property
+    def answer_timeout(self) -> toga.Box:
+        """Answer timeout input."""
+        return self._combine(
+            self._answer_timeout_label, self._answer_timeout_input
+        )
+
     # Utility methods
     # ---------------
 
@@ -158,29 +192,45 @@ class ParamsContainer(
 
     def _create_selection(self, accessor: str) -> toga.Selection:
         """Create Selection with valid accessor."""
-        if accessor not in self._accessors:
-            raise RuntimeError(
-                f"Got invalid accessor name: '{accessor}'. "
-                f'Available: {self._accessors}'
-            )
+        self._validate_accessor(accessor)
         return toga.Selection(
             accessor='name',
             items=NamedEntitySource(),
             on_change=partial(self._on_select, accessor=accessor),
         )
 
+    def _create_number_input(
+        self, accessor: str, **kwargs: object
+    ) -> toga.NumberInput:
+        """Create number input widget."""
+        self._validate_accessor(accessor)
+        return toga.NumberInput(
+            min=0,
+            on_change=partial(self._on_change, accessor=accessor),
+        )
+
+    def _validate_accessor(self, accessor: str) -> None:
+        if accessor not in self._accessors:
+            raise RuntimeError(
+                f"Got invalid accessor name: '{accessor}'. "
+                f'Available: {self._accessors}'
+            )
+
     # Widget callback
     # ---------------
 
     def _on_select(self, selection: toga.Selection, accessor: str) -> None:
-        self.notify('update', accessor=accessor, value=selection.value)
+        self.notify('widget_updated', accessor=accessor, value=selection.value)
+
+    def _on_change(self, input: toga.NumberInput, accessor: str) -> None:
+        self.notify('widget_updated', accessor=accessor, value=input.value)
 
     # Source methods
     # --------------
 
     @override
-    def update(self, accessor: str, value: object) -> None:
-        """Update widget context via accessor.
+    def set_values(self, accessor: str, value: object) -> None:
+        """Set widget values via accessor.
 
         Updated widget must implement ``items.update()`` Source
         interface.
@@ -188,3 +238,10 @@ class ParamsContainer(
         ui = self._get_ui(accessor)
         with EventDisabler(ui):
             ui.items.update(value)
+
+    @override
+    def set_value(self, accessor: str, value: object) -> None:
+        """Set widget value via accessor."""
+        ui = self._get_ui(accessor)
+        with EventDisabler(ui):
+            ui.value = value

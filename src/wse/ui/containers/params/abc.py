@@ -1,6 +1,6 @@
 """Abstract base classes for Params container."""
 
-from abc import ABC
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, Literal
 
@@ -46,3 +46,11 @@ class ParamsContainerABC(
         self._populate_content()
         self._check_accessors()
         self._apply_styles()
+
+    @abstractmethod
+    def set_value(
+        self,
+        accessor: str,
+        value: object,
+    ) -> None:
+        """Set widget value via accessor."""

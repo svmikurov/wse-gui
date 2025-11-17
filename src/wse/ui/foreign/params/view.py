@@ -15,7 +15,7 @@ from wse.ui.base.navigate.mixin import NavigateViewMixin
 from wse.ui.containers.params import ParamsAccessorEnum, ParamsContainerABC
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 from wse.ui.widgets.buttons import NavButton
-from wse.utils.i18n import I18N
+from wse.utils import I18N
 
 from . import WordStudyParamsViewABC, WordStudyParamsViewModelABC
 
@@ -36,7 +36,7 @@ class WordStudyParamsView(
         """Construct the View."""
         self._state.add_observer(self)
         self._top_bar.add_observer(self)
-        self._params.add_observer(self._state)
+        self._params.add_observer(self)
         super().__post_init__()
 
     @override
@@ -91,9 +91,32 @@ class WordStudyParamsView(
         """Start exercise."""
         self._state.start_exercise()
 
-    # Notifications
-    # -------------
+    # Notification observe
+    # --------------------
 
-    def update(self, accessor: ParamsAccessorEnum, value: object) -> None:
-        """Update widget context."""
-        self._params.update(accessor=accessor, value=value)
+    @override
+    def source_updated(
+        self,
+        accessor: ParamsAccessorEnum,
+        value: object,
+    ) -> None:
+        """Update UI via UIState accessor notification."""
+        self._params.set_values(accessor=accessor, value=value)
+
+    @override
+    def value_updated(
+        self,
+        accessor: ParamsAccessorEnum,
+        value: object,
+    ) -> None:
+        """Update UI value via UIState accessor notification."""
+        self._params.set_value(accessor=accessor, value=value)
+
+    @override
+    def widget_updated(
+        self,
+        accessor: ParamsAccessorEnum,
+        value: object,
+    ) -> None:
+        """Update UIState via injected UI accessor notification."""
+        self._state.update_widget_state(accessor, value)

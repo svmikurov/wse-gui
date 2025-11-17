@@ -99,7 +99,7 @@ class WordPresentationViewModel(
     def _update_info(self, data: schemas.Info) -> TextInfo:
         """Update Word study Presentation info."""
         return TextInfo(
-            progress=I18N.EXERCISE('progress') + f': {data.progress or '-'}'
+            progress=I18N.EXERCISE('progress') + f': {data.progress or "-"}'
         )
 
     @override
