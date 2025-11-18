@@ -1,6 +1,7 @@
 """Word study params API client."""
 
 import logging
+from dataclasses import asdict
 from json.decoder import JSONDecodeError
 from typing import override
 
@@ -10,7 +11,6 @@ from injector import inject
 from wse.config.api import APIConfigV1
 from wse.core.http.auth_schema import AuthSchema
 from wse.data.sources.foreign import schemas
-from wse.utils import decorators
 
 from . import WordParamsApiABC, responses
 
@@ -72,11 +72,21 @@ class WordParamsApi(WordParamsApiABC):
             )
             raise
 
-    @decorators.log_unimplemented_call
+    # TODO: Add exception handling, fix type ignore
     @override
     def save_initial_params(
         self,
         data: object,
-    ) -> bool:
+    ) -> None:
         """Save Word study params."""
-        return False
+        try:
+            response = self._http_client.put(
+                url=self._api_config.word_params_update,
+                auth=self._auth_scheme,
+                json=asdict(data),  # type: ignore[call-overload]
+            )
+            response.raise_for_status()
+
+        except Exception as exc:
+            log.exception(f'Unhandled error: {exc}')
+            raise

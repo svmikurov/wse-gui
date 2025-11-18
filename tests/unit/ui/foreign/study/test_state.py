@@ -33,15 +33,22 @@ class TestDomainObserve:
     def test_exercise_updated(
         self,
         mock_state_observer: Mock,
+        mock_normalize_use_case: Mock,
         view_model: WordPresentationViewModel,
     ) -> None:
         """Test the handle of notification of 'exercise_updated'."""
+        # Arrange
         view_model.add_observer(mock_state_observer)
+        mock_normalize_use_case.adapt.return_value = 'test'
+
+        # Act
         view_model.exercise_updated(accessor='definition', value='test')
 
+        # Assert
         mock_state_observer.change.assert_called_once_with(
             accessor='definition', value='test'
         )
+        mock_normalize_use_case.adapt.assert_called_once_with('test')
 
     def test_timeout_updated(
         self,

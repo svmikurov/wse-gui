@@ -41,6 +41,8 @@ from .math_task import (
     GetCalculationSolutionUseCase,
 )
 from .presentation import Presentation
+from .text import TextHyphenationABC
+from .text.hyphenation import TextHyphenation
 from .user import UserObserverRegistryUseCase
 
 
@@ -99,3 +101,6 @@ class UseCaseModule(Module):
 
         # Foreign
         binder.bind(WordStudyUseCaseABC, to=WordStudyUseCase)
+
+        # Text
+        binder.bind(TextHyphenationABC, to=TextHyphenation)

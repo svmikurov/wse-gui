@@ -1,5 +1,6 @@
 """Word study params Source."""
 
+import logging
 from dataclasses import dataclass, replace
 from typing import override
 
@@ -12,6 +13,8 @@ from wse.feature.observer.mixins import NotifyGen, ObserverManagerGen
 from wse.utils import decorators
 
 from . import schemas
+
+log = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -45,8 +48,15 @@ class WordParamsNetworkSource(base.WordParamsNetworkSourceABC):
     @override
     def save_initial_params(self, data: object) -> bool:
         """Save Word study initial params."""
-        result: bool = self._api_client.save_initial_params(data)
-        return result
+        try:
+            self._api_client.save_initial_params(data)
+
+        except Exception:
+            log.exception('Error update Word study  initial params')
+            return False
+
+        else:
+            return True
 
 
 @inject

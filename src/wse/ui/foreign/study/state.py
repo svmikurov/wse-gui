@@ -8,12 +8,13 @@ from injector import inject
 
 from wse.data.sources.foreign import schemas
 from wse.domain.foreign import ExerciseAccessorT, WordStudyUseCaseABC
+from wse.domain.text import TextHyphenationABC
 from wse.feature.observer import ChangeObserverABC
 from wse.feature.observer.generic import HandleObserverGenABC
 from wse.feature.observer.mixins import NotifyGen, ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateStateMixin
 from wse.ui.containers.control import Action
-from wse.utils.i18n import I18N
+from wse.utils import I18N
 
 from . import ChangeNotifyT, WordPresentationViewModelABC
 
@@ -49,6 +50,7 @@ class WordPresentationViewModel(
     """Foreign words study ViewModel."""
 
     _study_case: WordStudyUseCaseABC
+    _normalize_case: TextHyphenationABC
 
     def __post_init__(self) -> None:
         """Construct the ViewModel."""
@@ -76,7 +78,12 @@ class WordPresentationViewModel(
         match accessor:
             case 'definition':
                 self._reset_unknown_state()
-                self.notify('change', accessor=accessor, value=value)
+                adapted_text = self._adapt_text(value)
+                self.notify('change', accessor=accessor, value=adapted_text)
+
+            case 'explanation':
+                adapted_text = self._adapt_text(value)
+                self.notify('change', accessor=accessor, value=adapted_text)
 
             case 'info':
                 if isinstance(value, schemas.Info):
@@ -140,3 +147,6 @@ class WordPresentationViewModel(
 
     def _reset_unknown_state(self) -> None:
         self.notify('unknown_state_updated', value=True)
+
+    def _adapt_text(self, text: object) -> str:
+        return self._normalize_case.adapt(str(text))

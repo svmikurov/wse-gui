@@ -16,6 +16,7 @@ class ApiConfig(BaseModel):
     term_presentation: str
     word_presentation: str
     word_params: str
+    word_params_update: str
     word_progress_update: str
 
     class Config:

@@ -123,18 +123,22 @@
   },
   "presenter": {
     "definition": {
-      "font_size": 15,
+      "font_size": 25,
       "text_align": "left",
-      "margin_left": 5,
+      "margin_left": 8,
+      "margin_right": 8,
       "margin_top": 15,
-      "margin_bottom": 15
+      "margin_bottom": 15,
+      "height": 100
     },
     "explanation": {
-      "font_size": 15,
+      "font_size": 25,
       "text_align": "left",
-      "margin_left": 5,
+      "margin_left": 8,
+      "margin_right": 8,
       "margin_top": 15,
-      "margin_bottom": 15
+      "margin_bottom": 15,
+      "height": 100
     }
   },
   "params": {

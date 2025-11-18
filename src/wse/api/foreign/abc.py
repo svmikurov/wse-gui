@@ -41,5 +41,5 @@ class WordParamsApiABC(ABC):
     def save_initial_params(
         self,
         data: object,
-    ) -> bool:
+    ) -> None:
         """Save Word study params."""
