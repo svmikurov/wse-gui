@@ -8,4 +8,4 @@ __all__ = [
 
 from .control.container import ControlContainer
 from .info.container import InfoContainer
-from .presentation.presenter.container import PresenterContainer
+from .presentation.container import PresenterContainer

@@ -14,7 +14,6 @@ from wse.ui.containers.top_bar.abc import TopBarControllerABC
 from wse.utils.i18n import label_
 
 from ...base.navigate.mixin import NavigateViewMixin
-from ...containers.presentation.legacy import PresentationContainerABC
 from . import TermsStudyViewABC, TermsStudyViewModelABC
 
 
@@ -30,13 +29,11 @@ class TermsStudyView(
     _state: TermsStudyViewModelABC
 
     _top_bar: TopBarControllerABC
-    _presentation: PresentationContainerABC
 
     def __post_init__(self) -> None:
         """Construct the View."""
         super().__post_init__()
         self._top_bar.add_observer(self)
-        self._state.add_observer(self._presentation)
 
     def _create_ui(self) -> None:
         self._title = toga.Label(label_(NavID.TERMS_STUDY))
@@ -45,7 +42,6 @@ class TermsStudyView(
         self._content.add(
             self._top_bar.content,
             self._title,
-            self._presentation.content,
         )
 
     def localize_ui(self) -> None:

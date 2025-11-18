@@ -2,7 +2,7 @@
 
 from typing import no_type_check
 
-from injector import Binder, Module, SingletonScope
+from injector import Binder, Module
 
 from . import numpad as np
 from .assigned import AssignationsContainerABC
@@ -11,26 +11,12 @@ from .control import ControlContainerABC
 from .control.container import ControlContainer
 from .info import InfoContainer
 from .info.abc import InfoContainerABC
-from .login import (
-    LoginContainerABC,
-    LoginControllerProto,
-    LoginModelABC,
-)
-from .login.components import (
-    LoginContainer,
-    LoginController,
-    LoginModel,
-)
+from .login import LoginContainerABC, LoginControllerProto, LoginModelABC
+from .login.components import LoginContainer, LoginController, LoginModel
 from .params import ParamsContainerABC
 from .params.container import ParamsContainer
-from .presentation.legacy import (
-    PresentationContainerABC,
-    PresentationContainerStateABC,
-)
-from .presentation.legacy.container import PresentationContainer
-from .presentation.legacy.state import PresentationContainerState
-from .presentation.presenter import PresenterContainerABC
-from .presentation.presenter.container import PresenterContainer
+from .presentation import PresenterContainerABC
+from .presentation.container import PresenterContainer
 from .task_panel import TextTaskContainerABC, TextTaskPanel
 from .top_bar import TopBarContainer, TopBarController
 from .top_bar.abc import TopBarContainerABC, TopBarControllerABC
@@ -56,13 +42,6 @@ class UIContainerModule(Module):
         binder.bind(LoginControllerProto, to=LoginController)
 
         # Presentation container
-        binder.bind(
-            PresentationContainerStateABC,
-            to=PresentationContainerState,
-            scope=SingletonScope,
-        )
-        binder.bind(PresentationContainerABC, to=PresentationContainer)
-        # Presenter
         binder.bind(PresenterContainerABC, to=PresenterContainer)
 
         # Text task panel
