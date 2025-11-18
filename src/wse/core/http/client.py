@@ -120,21 +120,30 @@ class HttpClient(HttpClientABC):
     @staticmethod
     def _handle_http_status_error(
         exc: httpx.HTTPStatusError,
-        json: dict[str, Any] | None,
+        json_data: dict[str, Any] | None,
     ) -> None:
         response = exc.response
         status = response.status_code
         reason = response.reason_phrase
-        response_data: dict[str, Any] = response.json() if response else {}
+
+        try:
+            response_data: dict[str, Any] = response.json()
+        except json.JSONDecodeError:
+            response_data = {}
 
         log.error(
             f'HTTP status error {status} for {exc.request.url} - {reason}\n'
-            f'with request data {json}\n'
-            f'got response_data {response_data}'
+            f'with request data {json_data!r}\n'
+            f'got response_data {response_data!r}'
         )
 
     # Utility methods
     # ---------------
+
+    @staticmethod
+    def _audit_request(json: dict[str, Any] | None) -> None:
+        data = json or {}
+        audit.info('Request sent: %r', data)
 
     @staticmethod
     def _audit_response(response: httpx.Response) -> None:
@@ -144,8 +153,4 @@ class HttpClient(HttpClientABC):
             audit.info(
                 'Got response without json data, code: {response.status_code}'
             )
-
-    @staticmethod
-    def _audit_request(json: dict[str, Any] | None) -> None:
-        data = json or {}
-        audit.info('Request sent: %r', data)
+        pass

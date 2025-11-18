@@ -5,11 +5,10 @@ from dataclasses import asdict
 from json.decoder import JSONDecodeError
 from typing import override
 
-import httpx
 from injector import inject
 
 from wse.config.api import APIConfigV1
-from wse.core.http.auth_schema import AuthSchema
+from wse.core.http import HttpClientABC, auth_schema
 from wse.data.sources.foreign import schemas
 
 from . import WordParamsApiABC, responses
@@ -24,8 +23,8 @@ class WordParamsApi(WordParamsApiABC):
     @inject
     def __init__(
         self,
-        http_client: httpx.Client,
-        auth_scheme: AuthSchema,
+        http_client: HttpClientABC,
+        auth_scheme: auth_schema.AuthSchema,
         api_config: APIConfigV1,
     ) -> None:
         """Construct the API."""
@@ -45,16 +44,11 @@ class WordParamsApi(WordParamsApiABC):
             )
             response.raise_for_status()
 
-        except httpx.ConnectError:
-            log.error('Server connect error')
-            raise
-
-        except httpx.HTTPError:
+        except Exception:
             log.error('Request Word study presentation HTTP error')
             raise
 
         try:
-            audit.info(f'Got response json data:\n{response.json()}')
             return responses.WordStudyParamsResponse(**response.json()).data
 
         except JSONDecodeError:
@@ -87,6 +81,6 @@ class WordParamsApi(WordParamsApiABC):
             )
             response.raise_for_status()
 
-        except Exception as exc:
-            log.exception(f'Unhandled error: {exc}')
+        except Exception:
+            log.error('Initial Word study params not updated')
             raise

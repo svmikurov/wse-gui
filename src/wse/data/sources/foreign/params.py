@@ -52,7 +52,7 @@ class WordParamsNetworkSource(base.WordParamsNetworkSourceABC):
             self._api_client.save_initial_params(data)
 
         except Exception:
-            log.exception('Error update Word study  initial params')
+            log.error('Initial Word study params not updated')
             return False
 
         else:
