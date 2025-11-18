@@ -122,6 +122,11 @@ class WordStudyUseCase(
         self._domain.unpause()
 
     @override
+    def display(self) -> None:
+        """Handle 'display' case user action of exercise."""
+        self._domain.complete_phase()
+
+    @override
     def next(self) -> None:
         """Handle 'next' case user action of exercise."""
         self.stop()

@@ -63,6 +63,7 @@ class ControlTheme(BaseTheme):
     """Theme config for control container."""
 
     left_btn: dict[str, str] = {}
+    inner_btn: dict[str, str] = {}
     right_btn: dict[str, str] = {}
     outbox: dict[str, str] = {}
 

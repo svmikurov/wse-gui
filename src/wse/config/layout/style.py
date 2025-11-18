@@ -61,6 +61,7 @@ class ControlStyle(BaseStyle):
     """Style config for Control container."""
 
     left_btn: dict[str, str | int] = {}
+    inner_btn: dict[str, str | int] = {}
     right_btn: dict[str, str | int] = {}
     outbox: dict[str, str | int] = {}
 

@@ -26,25 +26,32 @@ class ControlContainer(
 
     def _populate_content(self) -> None:
         self._content.add(
-            self._pause_box,
-            toga.Box(children=[self._btn_known, self._btn_unknown]),
+            self._know_box,
+            self._control_box,
         )
 
     def _create_ui(self) -> None:
-        self._btn_next = self._create_btn(Action.NEXT)
         self._btn_pause = self._create_btn(Action.PAUSE)
         self._btn_unpause = self._create_btn(Action.UNPAUSE)
+        self._btn_display = self._create_btn(Action.DISPLAY)
+        self._btn_next = self._create_btn(Action.NEXT)
         self._btn_known = self._create_btn(Action.KNOWN)
         self._btn_unknown = self._create_btn(Action.UNKNOWN)
 
-        self._pause_box = toga.Box(children=[self._btn_pause, self._btn_next])
+        self._know_box = toga.Box(
+            children=[self._btn_known, self._btn_unknown]
+        )
+        self._control_box = toga.Box(
+            children=[self._btn_display, self._btn_next, self._btn_pause]
+        )
 
     def _update_style(self, config: StyleConfig | ThemeConfig) -> None:
         style = config.control
         self.content.style.update(**style.outbox)
-        self._btn_next.style.update(**style.right_btn)
-        self._btn_pause.style.update(**style.left_btn)
-        self._btn_unpause.style.update(**style.left_btn)
+        self._btn_pause.style.update(**style.right_btn)
+        self._btn_unpause.style.update(**style.right_btn)
+        self._btn_display.style.update(**style.left_btn)
+        self._btn_next.style.update(**style.inner_btn)
         self._btn_known.style.update(**style.left_btn)
         self._btn_unknown.style.update(**style.right_btn)
 
@@ -60,9 +67,9 @@ class ControlContainer(
         """Update pause state."""
         try:
             if pause:
-                self._pause_box.replace(self._btn_pause, self._btn_unpause)
+                self._control_box.replace(self._btn_pause, self._btn_unpause)
             else:
-                self._pause_box.replace(self._btn_unpause, self._btn_pause)
+                self._control_box.replace(self._btn_unpause, self._btn_pause)
         except ValueError:
             # Button already replaced
             pass

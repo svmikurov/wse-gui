@@ -45,6 +45,8 @@
   "control": {
     "left_btn": {
     },
+    "inner_btn": {
+    },
     "right_btn": {
     }
   },

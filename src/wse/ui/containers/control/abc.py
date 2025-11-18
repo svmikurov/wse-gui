@@ -12,12 +12,15 @@ ControlNotifyT = Literal['handle']
 HandleObserver: TypeAlias = generic.HandleObserverGenABC['Action']
 
 
+# TODO: Set new action name for 'OK' action
+# The action displays the next phase.
 class Action(BaseEnum):
     """Exercise action enumeration."""
 
     PAUSE = I18N.EXERCISE('Pause')
     UNPAUSE = I18N.EXERCISE('Unpause')
-    NEXT = I18N.EXERCISE('Next')
+    DISPLAY = I18N.EXERCISE('Display')
+    NEXT = I18N.EXERCISE('Next case')
     KNOWN = I18N.EXERCISE('Known')
     UNKNOWN = I18N.EXERCISE('Unknown')
 

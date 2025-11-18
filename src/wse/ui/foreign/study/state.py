@@ -119,6 +119,8 @@ class WordPresentationViewModel(
                 return
             case Action.UNPAUSE:
                 self._study_case.unpause()
+            case Action.DISPLAY:
+                self._study_case.display()
             case Action.NEXT:
                 self._study_case.next()
             case Action.KNOWN:

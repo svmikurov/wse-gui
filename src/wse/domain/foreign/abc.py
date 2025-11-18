@@ -58,6 +58,10 @@ class ExerciseUserActionsABC(ABC):
         """Handle 'unpause' case user action of exercise."""
 
     @abstractmethod
+    def display(self) -> None:
+        """Handle 'display' case user action of exercise."""
+
+    @abstractmethod
     def next(self) -> None:
         """Handle 'next' case user action of exercise."""
 

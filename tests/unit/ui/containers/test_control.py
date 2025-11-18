@@ -33,10 +33,11 @@ class TestControlContainer:
     @pytest.mark.parametrize(
         'btn_row_index, btn_col_index, action',
         (
-            [0, 0, Action.PAUSE],
-            [0, 1, Action.NEXT],
-            [1, 0, Action.KNOWN],
-            [1, 1, Action.UNKNOWN],
+            [1, 0, Action.DISPLAY],
+            [1, 1, Action.NEXT],
+            [1, 2, Action.PAUSE],
+            [0, 0, Action.KNOWN],
+            [0, 1, Action.UNKNOWN],
         ),
     )
     def test_notification_call(
