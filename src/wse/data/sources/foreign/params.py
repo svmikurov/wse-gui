@@ -7,15 +7,11 @@ from injector import inject
 
 from wse.api.foreign import WordParamsApiABC
 from wse.api.schemas.base import IdNameSchema
+from wse.data.sources import foreign as base
 from wse.feature.observer.mixins import NotifyGen, ObserverManagerGen
+from wse.utils import decorators
 
-from . import (
-    ParamsNotifyT,
-    WordParamsLocaleSourceABC,
-    WordParamsNetworkSourceABC,
-    WordParamsNotifyABC,
-    schemas,
-)
+from . import schemas
 
 
 @dataclass(frozen=True)
@@ -34,7 +30,7 @@ class WordParamsData:
 
 @inject
 @dataclass
-class WordParamsNetworkSource(WordParamsNetworkSourceABC):
+class WordParamsNetworkSource(base.WordParamsNetworkSourceABC):
     """Word study params Network source."""
 
     _api_client: WordParamsApiABC
@@ -45,22 +41,29 @@ class WordParamsNetworkSource(WordParamsNetworkSourceABC):
         params = self._api_client.fetch_initial_params()
         return params
 
+    # TODO: Fix static types.
+    @override
+    def save_initial_params(self, data: object) -> bool:
+        """Save Word study initial params."""
+        result: bool = self._api_client.save_initial_params(data)
+        return result
+
 
 @inject
 @dataclass
 class WordParamsLocaleSource(
-    ObserverManagerGen[WordParamsNotifyABC],
-    NotifyGen[ParamsNotifyT],
-    WordParamsLocaleSourceABC,
+    ObserverManagerGen[base.WordParamsNotifyABC],
+    NotifyGen[base.ParamsNotifyT],
+    base.WordParamsLocaleSourceABC,
 ):
     """Word study params Network source."""
 
     _data: WordParamsData
 
     @override
-    def set_initial_params(self, params: schemas.ParamsChoices) -> None:
+    def set_initial_params(self, data: schemas.ParamsChoices) -> None:
         """Set Word study initial data."""
-        self._data = replace(self._data, **params.to_dict())
+        self._data = replace(self._data, **data.to_dict())
         updated_params = {k: v for k, v in self._data.__dict__.items()}
         updated_schema = schemas.ParamsChoices.from_dict(updated_params)
         self.notify('initial_params_updated', params=updated_schema)
@@ -74,3 +77,8 @@ class WordParamsLocaleSource(
             ),
             label=(self._data.selected_label or self._data.default_label),
         )
+
+    @decorators.log_unimplemented_call
+    @override
+    def update_initial_params(self, data: object) -> None:
+        """Save initial Word study params."""

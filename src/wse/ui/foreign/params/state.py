@@ -1,6 +1,6 @@
 """Word study params state."""
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, fields, replace
 from decimal import Decimal
 from typing import Any, override
 
@@ -85,8 +85,8 @@ class WordStudyParamsViewModel(
     def start_exercise(self) -> None:
         """Start exercise."""
 
-    # API for View
-    # ------------
+    # View api contract
+    # -----------------
 
     @override
     def update_widget_state(
@@ -137,12 +137,15 @@ class WordStudyParamsViewModel(
             # Value updated
             self.notify('value_updated', accessor, value=value)
 
-    @decorators.log_unimplemented_call
-    def _save_params(self) -> None: ...
+    def _save_params(self) -> None:
+        params = self._get_current_params()
+        self._repo.save_params(params)
 
     @decorators.log_unimplemented_call
     def _reset_params(self) -> None: ...
 
-    @decorators.log_unimplemented_call
     def _get_current_params(self) -> ParamsValue:
-        return ParamsValue()
+        fields_to_update = [field.name for field in fields(ParamsValue)]
+        return ParamsValue(
+            **{field: getattr(self._data, field) for field in fields_to_update}
+        )

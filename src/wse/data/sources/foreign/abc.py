@@ -84,7 +84,11 @@ class WordParamsLocaleSourceABC(
     """ABC for Word study params Locale source."""
 
     @abstractmethod
-    def set_initial_params(self, params: schemas.ParamsChoices) -> None:
+    def set_initial_params(self, data: schemas.ParamsChoices) -> None:
+        """Save initial Word study params."""
+
+    @abstractmethod
+    def update_initial_params(self, data: object) -> None:
         """Save initial Word study params."""
 
     @abstractmethod
@@ -100,3 +104,8 @@ class WordParamsNetworkSourceABC(
     @abstractmethod
     def fetch_initial_params(self) -> schemas.ParamsSchema:
         """Fetch Word study initial params."""
+
+    # TODO: Fix static types.
+    @abstractmethod
+    def save_initial_params(self, data: object) -> bool:
+        """Save Word study initial params."""

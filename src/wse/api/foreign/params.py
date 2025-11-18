@@ -10,6 +10,7 @@ from injector import inject
 from wse.config.api import APIConfigV1
 from wse.core.http.auth_schema import AuthSchema
 from wse.data.sources.foreign import schemas
+from wse.utils import decorators
 
 from . import WordParamsApiABC, responses
 
@@ -70,3 +71,12 @@ class WordParamsApi(WordParamsApiABC):
                 f'Got response JSON: {response.json()}'
             )
             raise
+
+    @decorators.log_unimplemented_call
+    @override
+    def save_initial_params(
+        self,
+        data: object,
+    ) -> bool:
+        """Save Word study params."""
+        return False

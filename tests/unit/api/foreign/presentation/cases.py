@@ -2,10 +2,14 @@
 
 from typing import Literal, TypedDict
 
+# TODO: Update types
+# Types are currently used to create fixtures.
+# Replace with project types.
+
 # Case type definition
 # --------------------
 
-# Request
+# Request data types
 
 
 class ParamsDict(TypedDict):
@@ -15,7 +19,7 @@ class ParamsDict(TypedDict):
     label: str | None
 
 
-# Response
+# Response data types
 
 
 class RelatedDict(TypedDict):

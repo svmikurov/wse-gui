@@ -5,7 +5,7 @@ from unittest.mock import Mock
 import pytest
 
 from tests.unit.api.foreign.presentation import cases
-from wse.data.repos.foreign import WordParamsRepoABC, params, progress, study
+from wse.data.repos.foreign import WordParamsRepoABC, progress, study
 from wse.data.sources import foreign as sources
 from wse.data.sources.foreign import schemas
 
@@ -20,18 +20,6 @@ def presentation_params() -> schemas.PresentationParams:
 
 # Source fixtures
 # ---------------
-
-
-@pytest.fixture
-def mock_word_locale_source() -> Mock:
-    """Mock Word study Locale source."""
-    return Mock(spec=sources.WordStudyLocaleSourceABC)
-
-
-@pytest.fixture
-def mock_word_network_source() -> Mock:
-    """Mock Word study Network source."""
-    return Mock(spec=sources.WordStudyNetworkSourceABC)
 
 
 @pytest.fixture
@@ -60,18 +48,6 @@ def mock_locale_params_source() -> Mock:
 def mock_word_study_params_repo() -> Mock:
     """Mock Word study params repository."""
     return Mock(spec=WordParamsRepoABC)
-
-
-@pytest.fixture
-def word_study_params_repo(
-    mock_network_params_source: Mock,
-    mock_locale_params_source: Mock,
-) -> params.WordParamsRepo:
-    """Provide Word study params repository."""
-    return params.WordParamsRepo(
-        _network_params_source=mock_network_params_source,
-        _local_params_source=mock_locale_params_source,
-    )
 
 
 @pytest.fixture

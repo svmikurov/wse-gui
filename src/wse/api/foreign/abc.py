@@ -36,3 +36,10 @@ class WordParamsApiABC(ABC):
         self,
     ) -> schemas.ParamsSchema:
         """Fetch Word study params."""
+
+    @abstractmethod
+    def save_initial_params(
+        self,
+        data: object,
+    ) -> bool:
+        """Save Word study params."""

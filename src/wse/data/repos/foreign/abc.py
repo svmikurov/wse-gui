@@ -72,6 +72,10 @@ class WordParamsRepoABC(
     def get_params(self) -> schemas.PresentationParams:
         """Get Word study presentation params."""
 
+    @abstractmethod
+    def save_params(self, data: object) -> None:
+        """Save Word study presentation params."""
+
 
 class WordStudySettingsRepoABC(ABC):
     """ABC for Word study settings repository."""

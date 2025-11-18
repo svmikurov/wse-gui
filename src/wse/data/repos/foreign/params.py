@@ -8,10 +8,7 @@ from injector import inject
 from wse.data.sources import foreign as sources
 from wse.data.sources.foreign import schemas
 
-from . import (
-    WordParamsMapperABC,
-    WordParamsRepoABC,
-)
+from . import WordParamsMapperABC, WordParamsRepoABC
 
 
 @inject
@@ -27,12 +24,19 @@ class WordParamsRepo(
     @override
     def refresh_initial_params(self) -> None:
         """Set available params, default for Word study params."""
-        params = self._network_params_source.fetch_initial_params()
-        self._local_params_source.set_initial_params(params)
+        data = self._network_params_source.fetch_initial_params()
+        self._local_params_source.set_initial_params(data)
 
+    @override
     def get_params(self) -> schemas.PresentationParams:
         """Get Word study presentation params."""
         return self._local_params_source.get_params()
+
+    @override
+    def save_params(self, data: object) -> None:
+        """Save Word study presentation params."""
+        self._local_params_source.update_initial_params(data)
+        self._network_params_source.save_initial_params(data)
 
 
 @inject
