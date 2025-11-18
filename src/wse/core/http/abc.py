@@ -63,3 +63,12 @@ class HttpClientABC(ABC):
         auth: AuthSchemaABC | None = None,
     ) -> httpx.Response:
         """Send a `PATCH` request."""
+
+    @abstractmethod
+    def put(
+        self,
+        url: httpx.URL | str,
+        json: dict[str, Any],
+        auth: AuthSchemaABC | None = None,
+    ) -> httpx.Response:
+        """Send a PUT request."""

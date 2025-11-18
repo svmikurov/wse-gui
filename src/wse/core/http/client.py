@@ -33,7 +33,7 @@ class HttpClient(HttpClientABC):
 
     def _request(
         self,
-        method: Literal['get', 'post', 'patch'],
+        method: Literal['get', 'post', 'patch', 'put'],
         url: httpx.URL | str,
         auth: AuthSchemaABC | None,
         json: dict[str, Any] | None = None,
@@ -74,7 +74,7 @@ class HttpClient(HttpClientABC):
         url: httpx.URL | str,
         auth: AuthSchemaABC | None = None,
     ) -> httpx.Response:
-        """Send a `GET` request."""
+        """Send a GET request."""
         return self._request('get', url, auth=auth)
 
     @override
@@ -85,7 +85,7 @@ class HttpClient(HttpClientABC):
         auth: AuthSchemaABC | None = None,
         headers: dict[str, str] | None = None,
     ) -> httpx.Response:
-        """Send a `POST` request."""
+        """Send a POST request."""
         return self._request(
             'post',
             url,
@@ -101,8 +101,18 @@ class HttpClient(HttpClientABC):
         json: dict[str, Any],
         auth: AuthSchemaABC | None = None,
     ) -> httpx.Response:
-        """Send a `PATCH` request."""
+        """Send a PATCH request."""
         return self._request('patch', url, json=json, auth=auth)
+
+    @override
+    def put(
+        self,
+        url: httpx.URL | str,
+        json: dict[str, Any],
+        auth: AuthSchemaABC | None = None,
+    ) -> httpx.Response:
+        """Send a PUT request."""
+        return self._request('put', url, json=json, auth=auth)
 
     # Error handling
     # --------------
