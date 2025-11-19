@@ -11,7 +11,7 @@ class BaseSchema(ConvertMixin, BaseModel):
 
 
 class IdNameSchema(BaseSchema):
-    """Dict representation of entity only with its 'name' and 'ID'."""
+    """Schema representing an entity with an identifier and a name."""
 
     id: int
     name: str

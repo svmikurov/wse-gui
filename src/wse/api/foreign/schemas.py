@@ -30,13 +30,13 @@ class Words(base.ItemsData):
 
 
 class Info(base.BaseSchema):
-    """Presentation exercise additional info."""
+    """Schema representing an exercise info."""
 
     progress: int | None
 
 
 class PresentationSchema(base.BaseSchema):
-    """Presentation exercise schema."""
+    """Schema representing a Presentation exercise."""
 
     definition: str
     explanation: str
@@ -44,7 +44,7 @@ class PresentationSchema(base.BaseSchema):
 
 
 class PresentationCase(PresentationSchema):
-    """Presentation case schema."""
+    """Schema representing a Presentation case."""
 
     case_uuid: str
 
