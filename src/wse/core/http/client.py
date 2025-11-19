@@ -61,7 +61,11 @@ class HttpClient(HttpClientABC):
             log.error(f'HTTP Exception for {exc.request.url} - {exc}')
             raise
 
-        self._audit_request(json)
+        except TypeError as exc:
+            log.error(f'Send request error: {exc}.\nRequest payload: {json}')
+            raise
+
+        self._audit_request(url, json)
         self._audit_response(response)
         return response
 
@@ -141,16 +145,19 @@ class HttpClient(HttpClientABC):
     # ---------------
 
     @staticmethod
-    def _audit_request(json: dict[str, Any] | None) -> None:
+    def _audit_request(
+        url: httpx.URL | str,
+        json: dict[str, Any] | None,
+    ) -> None:
         data = json or {}
-        audit.info('Request sent: %r', data)
+        audit.info("Sent request to '%s' with payload: %r", url, data)
 
     @staticmethod
     def _audit_response(response: httpx.Response) -> None:
         try:
-            audit.info(f'Got response:\n{response.json()}')
+            audit.info(f'Got response payload: {response.json()}')
         except json.JSONDecodeError:
             audit.info(
-                'Got response without json data, code: {response.status_code}'
+                'Got response without payload, code: {response.status_code}'
             )
         pass
