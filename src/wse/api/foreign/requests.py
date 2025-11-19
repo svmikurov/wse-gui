@@ -44,7 +44,7 @@ class InitialParams:
 
 # TODO: Move to data
 @dataclass
-class PresentationSettings:
+class Settings:
     """Word study Presentation params DTO."""
 
     word_count: Decimal | int | None = None
@@ -57,6 +57,6 @@ class PresentationSettings:
 class PresentationParamsDTO(
     InitialParams,
     ParamsChoice,
-    PresentationSettings,
+    Settings,
 ):
     """Presentation params with choices DTO."""

@@ -1,6 +1,6 @@
 """Word study params repository."""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 from typing import override
 
 from injector import inject
@@ -42,29 +42,33 @@ class WordParamsRepo(
     # Helpers
     # -------
 
-    # TODO: Refactor
     def _convert_schema(
         self,
         schema: schemas.PresentationParams,
-    ) -> requests.InitialParams:
+    ) -> requests.PresentationParamsDTO:
         """Convert Word study Presentation params schema to DTO."""
+        # Convert a schema, including nested schemas,
+        # into a dictionary.
         data = schema.to_dict()
+
+        # `PresentationParamsDTO` is a derived class from
+        # `InitialParams`, `ParamsChoice`, `Settings`,
+        # and therefore contains fields of the same name.
+        value_fields = [f.name for f in fields(requests.InitialParams)]
+        choice_fields = [f.name for f in fields(requests.ParamsChoice)]
+        setting_fields = [f.name for f in fields(requests.Settings)]
+
+        values = {field: data.get(field) for field in value_fields}
+        choices = {
+            field: [requests.IdName(**item) for item in data[field]]
+            for field in choice_fields
+        }
+        settings = {field: data.get(field) for field in setting_fields}
+
         return requests.PresentationParamsDTO(
-            # Values
-            category=data.get('category'),
-            label=data.get('label'),
-            word_source=data.get('word_source'),
-            order=data.get('order'),
-            start_period=data.get('start_period'),
-            end_period=data.get('end_period'),
-            # Choices
-            categories=[
-                requests.IdName(**items)
-                for items in data.get('categories', [])
-            ],
-            labels=[
-                requests.IdName(**items) for items in data.get('labels', [])
-            ],
+            **values,  # type: ignore[arg-type]
+            **choices,  # type: ignore[arg-type]
+            **settings,  # type: ignore[arg-type]
         )
 
 
