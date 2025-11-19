@@ -4,10 +4,10 @@ from unittest.mock import Mock
 
 import pytest
 
+from wse.api.foreign import schemas
 from wse.api.foreign.study import WordStudyPresentationApi
 from wse.config.api import APIConfigV1
 from wse.core.http import AuthSchemaABC, HttpClientABC
-from wse.data.sources.foreign import schemas
 
 from . import cases
 

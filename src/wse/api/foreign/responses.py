@@ -1,6 +1,6 @@
 """Foreign discipline HTTP response schemas."""
 
-from wse.data.sources.foreign import schemas
+from wse.api.foreign import schemas
 
 from ..responses import Response
 

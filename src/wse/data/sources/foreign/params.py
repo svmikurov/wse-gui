@@ -12,7 +12,7 @@ from wse.data.sources import foreign as base
 from wse.feature.observer.mixins import NotifyGen, ObserverManagerGen
 from wse.utils import decorators
 
-from . import schemas
+from ....api.foreign import schemas
 
 log = logging.getLogger(__name__)
 

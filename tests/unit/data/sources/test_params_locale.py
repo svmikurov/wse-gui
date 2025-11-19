@@ -3,8 +3,9 @@
 import pytest
 from injector import Injector
 
+from wse.api.foreign import schemas
 from wse.data.sources.di_module import SourceModule
-from wse.data.sources.foreign import params, schemas
+from wse.data.sources.foreign import params
 from wse.feature.observer.subject import Subject
 
 

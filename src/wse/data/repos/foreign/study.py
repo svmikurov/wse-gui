@@ -5,9 +5,9 @@ from typing import override
 
 from injector import inject
 
+from wse.api.foreign import schemas
 from wse.data.repos import foreign as repos
 from wse.data.sources import foreign as sources
-from wse.data.sources.foreign import schemas
 
 
 @inject

@@ -2,8 +2,8 @@
 
 from unittest.mock import Mock
 
+from wse.api.foreign import schemas
 from wse.data import repos
-from wse.data.sources.foreign import schemas
 
 
 class TestWordStudyRepo:

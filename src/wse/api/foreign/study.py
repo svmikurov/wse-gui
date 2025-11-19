@@ -5,9 +5,9 @@ from json.decoder import JSONDecodeError
 
 from injector import inject
 
+from wse.api.foreign import schemas
 from wse.config.api import APIConfigV1
 from wse.core.http import auth_schema, client
-from wse.data.sources.foreign import schemas
 
 from . import WordStudyPresentationApiABC
 from .responses import WordStudyPresentationResponse

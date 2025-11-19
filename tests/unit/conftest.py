@@ -5,8 +5,8 @@ from unittest.mock import Mock
 
 import pytest
 
+from wse.api.foreign import schemas
 from wse.core.navigation.navigator import Navigator
-from wse.data.sources.foreign import schemas
 from wse.feature import observer
 from wse.feature.observer.subject import Subject
 

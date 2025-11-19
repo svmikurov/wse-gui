@@ -7,7 +7,7 @@ from typing import override
 from injector import inject
 
 from wse.api import foreign as api
-from wse.data.sources.foreign import schemas
+from wse.api.foreign import schemas
 
 from . import abc as base
 

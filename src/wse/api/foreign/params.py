@@ -7,9 +7,9 @@ from typing import override
 
 from injector import inject
 
+from wse.api.foreign import schemas
 from wse.config.api import APIConfigV1
 from wse.core.http import HttpClientABC, auth_schema
-from wse.data.sources.foreign import schemas
 
 from . import WordParamsApiABC, responses
 

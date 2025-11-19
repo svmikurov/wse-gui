@@ -5,9 +5,9 @@ from unittest.mock import Mock
 import pytest
 
 from tests.unit.api.foreign.presentation import cases
+from wse.api.foreign import schemas
 from wse.data.repos.foreign import WordParamsRepoABC, progress, study
 from wse.data.sources import foreign as sources
-from wse.data.sources.foreign import schemas
 
 # Data fixtures
 

@@ -4,8 +4,9 @@ from unittest.mock import Mock
 
 from injector import Injector
 
+from wse.api.foreign import schemas
 from wse.data.sources.di_module import SourceModule
-from wse.data.sources.foreign import schemas, study
+from wse.data.sources.foreign import study
 
 
 class TestLocaleSource:

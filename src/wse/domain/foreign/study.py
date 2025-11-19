@@ -7,8 +7,8 @@ from typing import override
 
 from injector import inject
 
+from wse.api.foreign import schemas
 from wse.data.repos import foreign as repos
-from wse.data.sources.foreign import schemas
 from wse.domain import foreign as base
 from wse.feature.observer.accessor import NotifyAccessorGen
 

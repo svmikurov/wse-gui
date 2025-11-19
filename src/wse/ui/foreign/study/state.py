@@ -6,7 +6,7 @@ from typing import Literal, NamedTuple, TypeAlias, override
 
 from injector import inject
 
-from wse.data.sources.foreign import schemas
+from wse.api.foreign import schemas
 from wse.domain.foreign import ExerciseAccessorT, WordStudyUseCaseABC
 from wse.domain.text import TextHyphenationABC
 from wse.feature.observer import ChangeObserverABC

@@ -4,9 +4,9 @@ from unittest.mock import Mock
 
 import pytest
 
+from wse.api.foreign import schemas
 from wse.api.schemas import base as scheme
 from wse.data.repos.foreign import params as repo
-from wse.data.sources.foreign import schemas
 from wse.ui.foreign.params import state
 
 

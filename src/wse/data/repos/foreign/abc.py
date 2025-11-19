@@ -5,7 +5,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
-from wse.data.sources.foreign import schemas
+from wse.api.foreign import schemas
 
 if TYPE_CHECKING:
     from wse.data.sources.foreign import WordParamsNotifyABC

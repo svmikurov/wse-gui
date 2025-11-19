@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 
-from wse.data.sources.foreign import schemas
+from wse.api.foreign import schemas
 
 
 class WordStudyProgressApiABC(ABC):

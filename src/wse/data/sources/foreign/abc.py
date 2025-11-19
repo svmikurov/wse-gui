@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Literal
 
-from wse.data.sources.foreign import schemas
+from wse.api.foreign import schemas
 from wse.feature.observer.generic import ObserverManagerGenABC
 
 # Word study settings

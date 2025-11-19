@@ -5,8 +5,8 @@ from typing import override
 
 from injector import inject
 
+from wse.api.foreign import schemas
 from wse.data.sources import foreign as sources
-from wse.data.sources.foreign import schemas
 
 from . import WordParamsMapperABC, WordParamsRepoABC
 

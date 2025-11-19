@@ -5,8 +5,8 @@ from unittest.mock import Mock
 import pytest
 
 from tests.unit.api.foreign.presentation import cases
-from wse.api.foreign import WordStudyPresentationApiABC
-from wse.data.sources.foreign import schemas, study
+from wse.api.foreign import WordStudyPresentationApiABC, schemas
+from wse.data.sources.foreign import study
 
 # Data fixtures
 # -------------
