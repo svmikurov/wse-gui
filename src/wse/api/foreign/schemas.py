@@ -65,11 +65,11 @@ class PresentationParams(base.BaseSchema):
         extra = 'forbid'
 
 
-class DefaultParams(base.BaseSchema):
-    """Presentation case default params."""
+class InitialParams(base.BaseSchema):
+    """Schema representing a initial params."""
 
-    default_category: base.IdNameSchema | None
-    default_label: base.IdNameSchema | None
+    category: base.IdNameSchema | None
+    label: base.IdNameSchema | None
 
 
 class SelectedParams(base.BaseSchema):
@@ -87,7 +87,7 @@ class ParamsChoices(base.BaseSchema):
 
 
 class ParamsSchema(
-    DefaultParams,
+    InitialParams,
     ParamsChoices,
 ):
     """Default Presentation params with choices."""

@@ -24,8 +24,8 @@ class WordParamsData:
     categories: list[IdNameSchema] | None = None
     labels: list[IdNameSchema] | None = None
 
-    default_category: IdNameSchema | None = None
-    default_label: IdNameSchema | None = None
+    category: IdNameSchema | None = None
+    label: IdNameSchema | None = None
 
     selected_category: IdNameSchema | None = None
     selected_label: IdNameSchema | None = None
@@ -70,8 +70,9 @@ class WordParamsLocaleSource(
 
     _data: WordParamsData
 
+    # TODO: Update `schemas.ParamsSchema` to `dataclass` DTO?
     @override
-    def set_initial_params(self, data: schemas.ParamsChoices) -> None:
+    def set_initial_params(self, data: schemas.ParamsSchema) -> None:
         """Set Word study initial data."""
         self._data = replace(self._data, **data.to_dict())
         updated_params = {k: v for k, v in self._data.__dict__.items()}
@@ -82,10 +83,8 @@ class WordParamsLocaleSource(
     def get_params(self) -> schemas.PresentationParams:
         """Get Word study Presentation params."""
         return schemas.PresentationParams(
-            category=(
-                self._data.selected_category or self._data.default_category
-            ),
-            label=(self._data.selected_label or self._data.default_label),
+            category=(self._data.selected_category or self._data.category),
+            label=(self._data.selected_label or self._data.label),
         )
 
     @decorators.log_unimplemented_call

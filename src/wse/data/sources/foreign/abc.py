@@ -84,7 +84,7 @@ class WordParamsLocaleSourceABC(
     """ABC for Word study params Locale source."""
 
     @abstractmethod
-    def set_initial_params(self, data: schemas.ParamsChoices) -> None:
+    def set_initial_params(self, data: schemas.ParamsSchema) -> None:
         """Save initial Word study params."""
 
     @abstractmethod

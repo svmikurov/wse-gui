@@ -15,8 +15,8 @@ def initial_params() -> schemas.ParamsSchema:
     return schemas.ParamsSchema(
         categories=[],
         labels=[],
-        default_category=None,
-        default_label=None,
+        category=None,
+        label=None,
     )
 
 
@@ -49,11 +49,5 @@ class TestLocale:
             params_locale_source._data.categories == initial_params.categories
         )
         assert params_locale_source._data.labels == initial_params.labels
-        assert (
-            params_locale_source._data.default_category
-            == initial_params.default_category
-        )
-        assert (
-            params_locale_source._data.default_label
-            == initial_params.default_label
-        )
+        assert params_locale_source._data.category == initial_params.category
+        assert params_locale_source._data.label == initial_params.label
