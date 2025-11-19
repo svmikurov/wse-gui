@@ -15,7 +15,7 @@ from wse.feature.observer.mixins import ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateViewMixin
 from wse.ui.containers.control import Action, ControlContainerABC
 from wse.ui.containers.info.abc import InfoContainerABC
-from wse.ui.containers.presentation import PresenterContainerABC
+from wse.ui.containers.presentation import PresentationContainerABC
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 
 from . import StudyForeignViewABC, WordPresentationViewModelABC, state
@@ -34,7 +34,7 @@ class StudyForeignView(
 
     _state: WordPresentationViewModelABC
     _top_bar: TopBarControllerABC
-    _presentation_container: PresenterContainerABC
+    _presentation_container: PresentationContainerABC
     _control_container: ControlContainerABC
     _info_container: InfoContainerABC
 

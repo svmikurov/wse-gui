@@ -1,7 +1,7 @@
 """Presenter of definition / explanation case."""
 
 __all__ = [
-    'PresenterContainerABC',
+    'PresentationContainerABC',
 ]
 
-from .abc import PresenterContainerABC
+from .abc import PresentationContainerABC

@@ -18,7 +18,7 @@ class TestCreateView:
         'dependency_attr_name, dependency_class',
         [
             ('_top_bar', top_bar.TopBarController),
-            ('_presentation_container', containers.PresenterContainer),
+            ('_presentation_container', containers.PresentationContainer),
             ('_control_container', containers.ControlContainer),
             ('_info_container', containers.InfoContainer),
         ],

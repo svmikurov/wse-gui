@@ -15,8 +15,8 @@ from .login import LoginContainerABC, LoginControllerProto, LoginModelABC
 from .login.components import LoginContainer, LoginController, LoginModel
 from .params import ParamsContainerABC
 from .params.container import ParamsContainer
-from .presentation import PresenterContainerABC
-from .presentation.container import PresenterContainer
+from .presentation import PresentationContainerABC
+from .presentation.container import PresentationContainer
 from .task_panel import TextTaskContainerABC, TextTaskPanel
 from .top_bar import TopBarContainer, TopBarController
 from .top_bar.abc import TopBarContainerABC, TopBarControllerABC
@@ -42,7 +42,7 @@ class UIContainerModule(Module):
         binder.bind(LoginControllerProto, to=LoginController)
 
         # Presentation container
-        binder.bind(PresenterContainerABC, to=PresenterContainer)
+        binder.bind(PresentationContainerABC, to=PresentationContainer)
 
         # Text task panel
         binder.bind(TextTaskContainerABC, to=TextTaskPanel)

@@ -1,11 +1,11 @@
 """UI containers."""
 
 __all__ = [
-    'PresenterContainer',
+    'PresentationContainer',
     'InfoContainer',
     'ControlContainer',
 ]
 
 from .control.container import ControlContainer
 from .info.container import InfoContainer
-from .presentation.container import PresenterContainer
+from .presentation.container import PresentationContainer

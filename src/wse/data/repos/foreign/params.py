@@ -39,6 +39,10 @@ class WordParamsRepo(
         self._local_params_source.update_initial_params(data)
         self._network_params_source.save_initial_params(data)
 
+    # Helpers
+    # -------
+
+    # TODO: Refactor
     def _convert_schema(
         self,
         schema: schemas.PresentationParams,
@@ -46,6 +50,7 @@ class WordParamsRepo(
         """Convert Word study Presentation params schema to DTO."""
         data = schema.to_dict()
         return requests.PresentationParamsDTO(
+            # Values
             category=data.get('category'),
             label=data.get('label'),
             word_source=data.get('word_source'),

@@ -1,4 +1,4 @@
-"""Presenter container."""
+"""Presentation exercise container."""
 
 from dataclasses import dataclass
 from typing import override
@@ -10,30 +10,41 @@ from wse.config.layout import StyleConfig, ThemeConfig
 from wse.feature.observer.accessor import AccessorMixin
 from wse.ui.base.content.mixins import GetContentMixin
 
-from . import PresenterContainerABC
+from . import PresentationContainerABC
 
 
 @inject
 @dataclass
-class PresenterContainer(
+class PresentationContainer(
     GetContentMixin,
     AccessorMixin,
-    PresenterContainerABC,
+    PresentationContainerABC,
 ):
-    """Presenter container."""
+    """Presentation exercise container."""
 
     _accessors = 'definition', 'explanation'
 
     @override
     def _create_ui(self) -> None:
+        style = self._style.presenter
+
         self._definition = toga.Label('')
         self._explanation = toga.Label('')
+
+        self._definition_scroll = toga.ScrollContainer(
+            content=self._definition,
+            height=style.definition.get('height'),
+        )
+        self._explanation_scroll = toga.ScrollContainer(
+            content=self._explanation,
+            height=style.explanation.get('height'),
+        )
 
     @override
     def _populate_content(self) -> None:
         self._content.add(
-            self._definition,
-            self._explanation,
+            self._definition_scroll,
+            self._explanation_scroll,
         )
 
     @override

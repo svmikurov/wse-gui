@@ -129,7 +129,7 @@
       "margin_right": 8,
       "margin_top": 15,
       "margin_bottom": 15,
-      "height": 100
+      "height": 130
     },
     "explanation": {
       "font_size": 25,
@@ -138,7 +138,7 @@
       "margin_right": 8,
       "margin_top": 15,
       "margin_bottom": 15,
-      "height": 100
+      "height": 130
     }
   },
   "params": {
