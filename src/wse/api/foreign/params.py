@@ -11,7 +11,7 @@ from wse.api.foreign import schemas
 from wse.config.api import APIConfigV1
 from wse.core.http import HttpClientABC, auth_schema
 
-from . import WordParamsApiABC, responses
+from . import WordParamsApiABC, requests, responses
 
 log = logging.getLogger(__name__)
 
@@ -42,7 +42,9 @@ class WordParamsApi(WordParamsApiABC):
             raise
 
         try:
-            return responses.WordStudyParamsResponse(**response.json()).data
+            response_schema = responses.WordStudyParamsResponse(
+                **response.json()
+            )
 
         except JSONDecodeError:
             log.error(
@@ -59,18 +61,20 @@ class WordParamsApi(WordParamsApiABC):
             )
             raise
 
+        return response_schema.data
+
     # TODO: Add exception handling, fix type ignore
     @override
     def save_initial_params(
         self,
-        data: object,
+        data: requests.InitialParams,
     ) -> None:
         """Save Word study params."""
         try:
             response = self._http_client.put(
                 url=self._api_config.word_params_update,
                 auth=self._auth_scheme,
-                json=asdict(data),  # type: ignore[call-overload]
+                json=asdict(data),
             )
             response.raise_for_status()
 

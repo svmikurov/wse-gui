@@ -7,7 +7,7 @@ from typing import override
 from injector import inject
 
 from wse.api import foreign as api
-from wse.api.foreign import schemas
+from wse.api.foreign import requests, schemas
 
 from . import abc as base
 
@@ -89,7 +89,7 @@ class WordStudyPresentationNetworkSource(
     @override
     def fetch_presentation(
         self,
-        params: schemas.InitialChoice,
+        params: requests.InitialParams,
     ) -> schemas.PresentationCase:
         """Fetch word study presentation case."""
         try:

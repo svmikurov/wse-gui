@@ -1,18 +1,16 @@
 """Word study params Source."""
 
 import logging
-from dataclasses import dataclass, replace
+from dataclasses import asdict, dataclass, field, replace
+from decimal import Decimal
 from typing import override
 
 from injector import inject
 
-from wse.api.foreign import WordParamsApiABC
-from wse.api.schemas.base import IdNameSchema
+from wse.api.foreign import WordParamsApiABC, requests, schemas
 from wse.data.sources import foreign as base
 from wse.feature.observer.mixins import NotifyGen, ObserverManagerGen
 from wse.utils import decorators
-
-from ....api.foreign import schemas
 
 log = logging.getLogger(__name__)
 
@@ -21,17 +19,19 @@ log = logging.getLogger(__name__)
 class WordParamsData:
     """Word params data."""
 
-    categories: list[IdNameSchema] | None = None
-    labels: list[IdNameSchema] | None = None
+    categories: list[requests.IdName] = field(default_factory=list)
+    labels: list[requests.IdName] = field(default_factory=list)
 
-    category: IdNameSchema | None = None
-    label: IdNameSchema | None = None
+    category: requests.IdName | None = None
+    label: requests.IdName | None = None
+    word_source: requests.IdName | None = None
+    order: requests.IdName | None = None
+    start_period: requests.IdName | None = None
+    end_period: requests.IdName | None = None
 
-    selected_category: IdNameSchema | None = None
-    selected_label: IdNameSchema | None = None
-
-    question_timeout: float = 1.5
-    answer_timeout: float = 1.5
+    word_count: Decimal | int | None = None
+    question_timeout: Decimal | float | None = None
+    answer_timeout: Decimal | float | None = None
 
 
 @inject
@@ -49,7 +49,7 @@ class WordParamsNetworkSource(base.WordParamsNetworkSourceABC):
 
     # TODO: Fix static types.
     @override
-    def save_initial_params(self, data: object) -> bool:
+    def save_initial_params(self, data: requests.InitialParams) -> bool:
         """Save Word study initial params."""
         try:
             self._api_client.save_initial_params(data)
@@ -75,19 +75,17 @@ class WordParamsLocaleSource(
 
     # TODO: Update `schemas.ParamsSchema` to `dataclass` DTO?
     @override
-    def set_initial_params(self, data: schemas.PresentationParams) -> None:
+    def set_initial_params(self, data: requests.InitialParams) -> None:
         """Set Word study initial data."""
-        self._data = replace(self._data, **data.to_dict())
-        updated_params = {k: v for k, v in self._data.__dict__.items()}
-        updated_schema = schemas.ParamsChoices.from_dict(updated_params)
-        self.notify('initial_params_updated', params=updated_schema)
+        self._data = replace(self._data, **asdict(data))
+        self.notify('initial_params_updated', params=data)
 
     @override
-    def get_params(self) -> schemas.InitialChoice:
+    def get_params(self) -> requests.InitialParams:
         """Get Word study Presentation params."""
-        return schemas.InitialChoice(
-            category=(self._data.selected_category or self._data.category),
-            label=(self._data.selected_label or self._data.label),
+        return requests.InitialParams(
+            category=(self._data.category or self._data.category),
+            label=(self._data.label or self._data.label),
         )
 
     @decorators.log_unimplemented_call

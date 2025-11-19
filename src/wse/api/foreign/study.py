@@ -1,11 +1,12 @@
 """Abstract base classes for Foreign discipline API."""
 
 import logging
+from dataclasses import asdict, dataclass
 from json.decoder import JSONDecodeError
 
 from injector import inject
 
-from wse.api.foreign import schemas
+from wse.api.foreign import requests, schemas
 from wse.config.api import APIConfigV1
 from wse.core.http import auth_schema, client
 
@@ -16,30 +17,24 @@ log = logging.getLogger(__name__)
 audit = logging.getLogger('audit')
 
 
+@inject
+@dataclass
 class WordStudyPresentationApi(WordStudyPresentationApiABC):
     """Word study presentation API."""
 
-    @inject
-    def __init__(
-        self,
-        http_client: client.HttpClient,
-        auth_scheme: auth_schema.AuthSchema,
-        api_config: APIConfigV1,
-    ) -> None:
-        """Construct the API."""
-        self._http_client = http_client
-        self._auth_scheme = auth_scheme
-        self._api_config = api_config
+    _http_client: client.HttpClient
+    _auth_scheme: auth_schema.AuthSchema
+    _api_config: APIConfigV1
 
     def fetch_presentation(
         self,
-        payload: schemas.InitialChoice,
+        payload: requests.InitialParams,
     ) -> schemas.PresentationCase:
         """Fetch presentation."""
         response = self._http_client.post(
             url=self._api_config.word_presentation,
             auth=self._auth_scheme,
-            json=payload.to_dict(),
+            json=asdict(payload),
         )
 
         try:

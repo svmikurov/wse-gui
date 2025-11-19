@@ -4,7 +4,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from wse.api.foreign import schemas
+from wse.api.foreign import requests
 from wse.api.foreign.study import WordStudyPresentationApi
 from wse.config.api import APIConfigV1
 from wse.core.http import AuthSchemaABC, HttpClientABC
@@ -16,12 +16,9 @@ from . import cases
 
 
 @pytest.fixture
-def request_payload() -> schemas.InitialChoice:
+def request_payload() -> requests.InitialParams:
     """Provide request payload via Presentation params."""
-    return schemas.InitialChoice(
-        category=None,
-        label=None,
-    )
+    return requests.InitialParams()
 
 
 @pytest.fixture
@@ -77,9 +74,9 @@ def api_deps_mock(
 ) -> WordStudyPresentationApi:
     """Provide api client with mocked dependency."""
     return WordStudyPresentationApi(
-        http_client=mock_http_client,
-        auth_scheme=mock_auth_scheme,
-        api_config=mock_api_config,
+        _http_client=mock_http_client,
+        _auth_scheme=mock_auth_scheme,
+        _api_config=mock_api_config,
     )
 
 
@@ -88,7 +85,7 @@ class TestResponse:
 
     def test_presentation_case_validation(
         self,
-        request_payload: schemas.PresentationParams,
+        request_payload: requests.InitialParams,
         api_deps_mock: WordStudyPresentationApi,
     ) -> None:
         """Test the Presentation case response validation."""

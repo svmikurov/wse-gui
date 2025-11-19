@@ -4,7 +4,7 @@ from unittest.mock import Mock
 
 from injector import Injector
 
-from wse.api.foreign import schemas
+from wse.api.foreign import requests, schemas
 from wse.data.sources.di_module import SourceModule
 from wse.data.sources.foreign import study
 
@@ -39,7 +39,7 @@ class TestNetworkSource:
 
     def test_fetch_presentation_case(
         self,
-        presentation_params: schemas.PresentationParams,
+        presentation_params: requests.InitialParams,
         presentation_data: schemas.PresentationCase,
         mock_api_client: Mock,
         network_source: study.WordStudyPresentationNetworkSource,

@@ -4,7 +4,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from wse.api.schemas import base as scheme
+from wse.api.foreign import requests
 from wse.data.repos import foreign as repo
 from wse.ui.foreign.params import state
 
@@ -16,17 +16,17 @@ from wse.ui.foreign.params import state
 def state_data() -> state.PresentationParamsData:
     """Provide UIState data."""
     return state.PresentationParamsData(
-        category=scheme.IdNameSchema(id=1, name='test category'),
-        label=scheme.IdNameSchema(id=7, name='test label'),
+        category=requests.IdName(id=1, name='test category'),
+        label=requests.IdName(id=7, name='test label'),
     )
 
 
 @pytest.fixture
-def expected_initial_data() -> state.ParamsValue:
+def expected_initial_data() -> requests.InitialParams:
     """Provide expected initial UIState data for network store."""
-    return state.ParamsValue(
-        category=scheme.IdNameSchema(id=1, name='test category'),
-        label=scheme.IdNameSchema(id=7, name='test label'),
+    return requests.InitialParams(
+        category=requests.IdName(id=1, name='test category'),
+        label=requests.IdName(id=7, name='test label'),
     )
 
 
@@ -72,7 +72,7 @@ class TestViewApiContract:
         self,
         mock_repo: Mock,
         view_model_di_mock: state.WordStudyParamsViewModel,
-        expected_initial_data: state.ParamsValue,
+        expected_initial_data: requests.InitialParams,
     ) -> None:
         """Save initial params success test."""
         # Act

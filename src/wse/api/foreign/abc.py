@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 
-from wse.api.foreign import schemas
+from . import requests, schemas
 
 
 class WordStudyProgressApiABC(ABC):
@@ -23,7 +23,7 @@ class WordStudyPresentationApiABC(ABC):
     @abstractmethod
     def fetch_presentation(
         self,
-        payload: schemas.InitialChoice,
+        payload: requests.InitialParams,
     ) -> schemas.PresentationCase:
         """Fetch presentation."""
 
@@ -40,6 +40,6 @@ class WordParamsApiABC(ABC):
     @abstractmethod
     def save_initial_params(
         self,
-        data: object,
+        data: requests.InitialParams,
     ) -> None:
         """Save Word study params."""

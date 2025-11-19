@@ -6,8 +6,7 @@ from typing import Any, override
 
 from injector import inject
 
-from wse.api.foreign.schemas import ParamsChoices
-from wse.api.schemas.base import IdNameSchema
+from wse.api.foreign import requests
 from wse.data.repos.foreign import WordParamsMapperABC, WordParamsRepoABC
 from wse.data.sources.foreign import WordParamsNotifyABC
 from wse.feature.observer.accessor import NotifyAccessorGen
@@ -27,16 +26,16 @@ class ParamsValue:
     """
 
     # Choice
-    category: IdNameSchema | None = None
-    label: IdNameSchema | None = None
-    source: IdNameSchema | None = None
-    order: IdNameSchema | None = None
-    start_period: IdNameSchema | None = None
-    end_period: IdNameSchema | None = None
+    category: requests.IdName | None = None
+    label: requests.IdName | None = None
+    word_source: requests.IdName | None = None
+    order: requests.IdName | None = None
+    start_period: requests.IdName | None = None
+    end_period: requests.IdName | None = None
 
     # Input
     # TODO: Where update `Decimal` to `int`?
-    count: Decimal | None = None
+    word_count: Decimal | None = None
     question_timeout: Decimal | None = None
     answer_timeout: Decimal | None = None
 
@@ -46,12 +45,12 @@ class PresentationParamsData(ParamsValue):
     """Word study Presentation data."""
 
     # Choices
-    categories: list[IdNameSchema] | None = None
-    labels: list[IdNameSchema] | None = None
-    sources: list[IdNameSchema] | None = None
-    orders: list[IdNameSchema] | None = None
-    start_periods: list[IdNameSchema] | None = None
-    end_periods: list[IdNameSchema] | None = None
+    categories: list[requests.IdName] | None = None
+    labels: list[requests.IdName] | None = None
+    sources: list[requests.IdName] | None = None
+    orders: list[requests.IdName] | None = None
+    start_periods: list[requests.IdName] | None = None
+    end_periods: list[requests.IdName] | None = None
 
 
 @inject
@@ -111,15 +110,20 @@ class WordStudyParamsViewModel(
     # --------------------
 
     @override
-    def initial_params_updated(self, params: ParamsChoices) -> None:
+    def initial_params_updated(
+        self,
+        params: requests.PresentationParamsDTO,
+    ) -> None:
         """Set Initial Word study params."""
-        self._data = replace(self._data, **{k: v for k, v in params})
+        self._data = replace(
+            self._data, **{k: v for k, v in params.__dict__.items()}
+        )
 
         self._update('label', 'labels')
         self._update('category', 'categories')
 
-    # Utility methods
-    # ---------------
+    # Helpers
+    # -------
 
     def _refresh_initial_params(self) -> None:
         """Refresh Initial params of Word study."""
@@ -144,8 +148,10 @@ class WordStudyParamsViewModel(
     @decorators.log_unimplemented_call
     def _reset_params(self) -> None: ...
 
-    def _get_current_params(self) -> ParamsValue:
-        fields_to_update = [field.name for field in fields(ParamsValue)]
-        return ParamsValue(
+    def _get_current_params(self) -> requests.InitialParams:
+        fields_to_update = [
+            field.name for field in fields(requests.InitialParams)
+        ]
+        return requests.InitialParams(
             **{field: getattr(self._data, field) for field in fields_to_update}
         )

@@ -3,21 +3,16 @@
 import pytest
 from injector import Injector
 
-from wse.api.foreign import schemas
+from wse.api.foreign import requests
 from wse.data.sources.di_module import SourceModule
 from wse.data.sources.foreign import params
 from wse.feature.observer.subject import Subject
 
 
 @pytest.fixture
-def initial_params() -> schemas.PresentationParams:
+def initial_params() -> requests.PresentationParamsDTO:
     """Provide Word study Presentation initial params."""
-    return schemas.PresentationParams(
-        categories=[],
-        labels=[],
-        category=None,
-        label=None,
-    )
+    return requests.PresentationParamsDTO()
 
 
 @pytest.fixture
@@ -37,7 +32,7 @@ class TestLocale:
 
     def test_set_and_get_presentation_params(
         self,
-        initial_params: schemas.PresentationParams,
+        initial_params: requests.PresentationParamsDTO,
         params_locale_source: params.WordParamsLocaleSource,
     ) -> None:
         """Test set and get Presentation params."""

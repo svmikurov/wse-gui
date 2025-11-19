@@ -4,18 +4,16 @@ from unittest.mock import Mock
 
 import pytest
 
-from wse.api.foreign import schemas
-from wse.api.schemas import base as scheme
+from wse.api.foreign import requests, schemas
 from wse.data.repos.foreign import params as repo
-from wse.ui.foreign.params import state
 
 
 @pytest.fixture
-def updated_params_data() -> state.ParamsValue:
+def updated_params_data() -> requests.InitialParams:
     """Provide expected initial UIState data for network store."""
-    return state.ParamsValue(
-        category=scheme.IdNameSchema(id=1, name='test category'),
-        label=scheme.IdNameSchema(id=7, name='test label'),
+    return requests.InitialParams(
+        category=requests.IdName(id=1, name='test category'),
+        label=requests.IdName(id=7, name='test label'),
     )
 
 
@@ -44,7 +42,7 @@ class TestParams:
         mock_locale_params_source: Mock,
         mock_network_params_source: Mock,
         word_study_params_repo: repo.WordParamsRepo,
-        updated_params_data: state.ParamsValue,
+        updated_params_data: requests.InitialParams,
     ) -> None:
         """Save initial params success test."""
         # Act

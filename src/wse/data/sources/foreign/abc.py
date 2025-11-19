@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Literal
 
-from wse.api.foreign import schemas
+from wse.api.foreign import requests, schemas
 from wse.feature.observer.generic import ObserverManagerGenABC
 
 # Word study source
@@ -46,7 +46,7 @@ class WordStudyNetworkSourceABC(
     @abstractmethod
     def fetch_presentation(
         self,
-        params: schemas.InitialChoice,
+        params: requests.InitialParams,
     ) -> schemas.PresentationCase:
         """Fetch Word study presentation case."""
 
@@ -61,7 +61,10 @@ class WordParamsNotifyABC(ABC):
     """ABC for Word study params notifications."""
 
     @abstractmethod
-    def initial_params_updated(self, params: schemas.ParamsChoices) -> None:
+    def initial_params_updated(
+        self,
+        params: requests.PresentationParamsDTO,
+    ) -> None:
         """Set Initial Word study params."""
 
 
@@ -72,7 +75,7 @@ class WordParamsLocaleSourceABC(
     """ABC for Word study params Locale source."""
 
     @abstractmethod
-    def set_initial_params(self, data: schemas.PresentationParams) -> None:
+    def set_initial_params(self, data: requests.InitialParams) -> None:
         """Save initial Word study params."""
 
     @abstractmethod
@@ -80,7 +83,7 @@ class WordParamsLocaleSourceABC(
         """Save initial Word study params."""
 
     @abstractmethod
-    def get_params(self) -> schemas.InitialChoice:
+    def get_params(self) -> requests.InitialParams:
         """Get Word study Presentation params."""
 
 
@@ -95,5 +98,5 @@ class WordParamsNetworkSourceABC(
 
     # TODO: Fix static types.
     @abstractmethod
-    def save_initial_params(self, data: object) -> bool:
+    def save_initial_params(self, data: requests.InitialParams) -> bool:
         """Save Word study initial params."""

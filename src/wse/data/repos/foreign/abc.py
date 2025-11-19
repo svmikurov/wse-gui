@@ -5,7 +5,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
-from wse.api.foreign import schemas
+from wse.api.foreign import requests, schemas
 
 if TYPE_CHECKING:
     from wse.data.sources.foreign import WordParamsNotifyABC
@@ -69,11 +69,11 @@ class WordParamsRepoABC(
     """ABC for Word study repository."""
 
     @abstractmethod
-    def get_params(self) -> schemas.InitialChoice:
+    def get_params(self) -> requests.InitialParams:
         """Get Word study presentation params."""
 
     @abstractmethod
-    def save_params(self, data: object) -> None:
+    def save_params(self, data: requests.InitialParams) -> None:
         """Save Word study presentation params."""
 
 
