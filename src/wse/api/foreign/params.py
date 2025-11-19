@@ -1,7 +1,7 @@
 """Word study params API client."""
 
 import logging
-from dataclasses import asdict
+from dataclasses import asdict, dataclass
 from json.decoder import JSONDecodeError
 from typing import override
 
@@ -14,23 +14,16 @@ from wse.core.http import HttpClientABC, auth_schema
 from . import WordParamsApiABC, responses
 
 log = logging.getLogger(__name__)
-audit = logging.getLogger('audit')
 
 
+@inject
+@dataclass
 class WordParamsApi(WordParamsApiABC):
     """Word study params API client."""
 
-    @inject
-    def __init__(
-        self,
-        http_client: HttpClientABC,
-        auth_scheme: auth_schema.AuthSchema,
-        api_config: APIConfigV1,
-    ) -> None:
-        """Construct the API."""
-        self._http_client = http_client
-        self._auth_scheme = auth_scheme
-        self._api_config = api_config
+    _http_client: HttpClientABC
+    _auth_scheme: auth_schema.AuthSchema
+    _api_config: APIConfigV1
 
     @override
     def fetch_initial_params(
