@@ -31,19 +31,6 @@ class WordStudyRepo(repos.WordStudyRepoABC):
         self._locale_source.set_case(case)
         return self._locale_source.get_presentation_data()
 
-    def _get_params(self) -> schemas.PresentationParams:
+    def _get_params(self) -> schemas.InitialChoice:
         params = self._params_repo.get_params()
         return params
-
-
-@inject
-@dataclass
-class WordStudySettingsRepo(repos.WordStudySettingsRepoABC):
-    """Word study settings repository."""
-
-    _source: sources.WordStudySettingsLocaleSourceABC
-
-    @override
-    def get_settings(self) -> schemas.PresentationSettings:
-        """Get word study settings."""
-        return self._source.get_settings()

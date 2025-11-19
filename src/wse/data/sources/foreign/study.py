@@ -1,7 +1,7 @@
 """Foreign word study source."""
 
 import logging
-from dataclasses import asdict, dataclass, replace
+from dataclasses import dataclass, replace
 from typing import override
 
 from injector import inject
@@ -89,7 +89,7 @@ class WordStudyPresentationNetworkSource(
     @override
     def fetch_presentation(
         self,
-        params: schemas.PresentationParams,
+        params: schemas.InitialChoice,
     ) -> schemas.PresentationCase:
         """Fetch word study presentation case."""
         try:
@@ -99,20 +99,3 @@ class WordStudyPresentationNetworkSource(
             raise
         else:
             return presentation
-
-
-@inject
-@dataclass
-class WordStudySettingsLocaleSource(base.WordStudySettingsLocaleSourceABC):
-    """Word study Locale settings source."""
-
-    _data: WordStudySettingsData
-
-    @override
-    def get_settings(self) -> schemas.PresentationSettings:
-        """Get word study settings."""
-        try:
-            return schemas.PresentationSettings.from_dict(asdict(self._data))
-        except Exception as e:
-            log.exception(f'Word study Locale settings error: {e}')
-            raise

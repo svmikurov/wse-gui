@@ -35,7 +35,7 @@ class WordParamsApi(WordParamsApiABC):
     @override
     def fetch_initial_params(
         self,
-    ) -> schemas.ParamsSchema:
+    ) -> schemas.PresentationParams:
         """Fetch presentation."""
         try:
             response = self._http_client.get(

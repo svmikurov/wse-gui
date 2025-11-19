@@ -6,18 +6,6 @@ from typing import Literal
 from wse.api.foreign import schemas
 from wse.feature.observer.generic import ObserverManagerGenABC
 
-# Word study settings
-# -------------------
-
-
-class WordStudySettingsLocaleSourceABC(ABC):
-    """Word study Locale settings source."""
-
-    @abstractmethod
-    def get_settings(self) -> schemas.PresentationSettings:
-        """Get Word study settings."""
-
-
 # Word study source
 # -----------------
 
@@ -58,7 +46,7 @@ class WordStudyNetworkSourceABC(
     @abstractmethod
     def fetch_presentation(
         self,
-        params: schemas.PresentationParams,
+        params: schemas.InitialChoice,
     ) -> schemas.PresentationCase:
         """Fetch Word study presentation case."""
 
@@ -84,7 +72,7 @@ class WordParamsLocaleSourceABC(
     """ABC for Word study params Locale source."""
 
     @abstractmethod
-    def set_initial_params(self, data: schemas.ParamsSchema) -> None:
+    def set_initial_params(self, data: schemas.PresentationParams) -> None:
         """Save initial Word study params."""
 
     @abstractmethod
@@ -92,7 +80,7 @@ class WordParamsLocaleSourceABC(
         """Save initial Word study params."""
 
     @abstractmethod
-    def get_params(self) -> schemas.PresentationParams:
+    def get_params(self) -> schemas.InitialChoice:
         """Get Word study Presentation params."""
 
 
@@ -102,7 +90,7 @@ class WordParamsNetworkSourceABC(
     """ABC for Word study params source."""
 
     @abstractmethod
-    def fetch_initial_params(self) -> schemas.ParamsSchema:
+    def fetch_initial_params(self) -> schemas.PresentationParams:
         """Fetch Word study initial params."""
 
     # TODO: Fix static types.

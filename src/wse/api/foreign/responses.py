@@ -20,4 +20,4 @@ class WordStudyPresentationResponse(Response):
 class WordStudyParamsResponse(Response):
     """Word study params response schema."""
 
-    data: schemas.ParamsSchema
+    data: schemas.PresentationParams

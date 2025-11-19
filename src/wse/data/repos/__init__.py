@@ -5,7 +5,6 @@ __all__ = [
     'WordParamsMapper',
     'WordStudyProgressRepo',
     'WordStudyRepo',
-    'WordStudySettingsRepo',
 ]
 
 from .foreign.params import (
@@ -17,5 +16,4 @@ from .foreign.progress import (
 )
 from .foreign.study import (
     WordStudyRepo,
-    WordStudySettingsRepo,
 )

@@ -114,12 +114,6 @@ def mock_progress_repo() -> Mock:
     return Mock(spec=repos.WordStudyProgressRepoABC)
 
 
-@pytest.fixture
-def mock_settings_repo() -> Mock:
-    """Mock the Word study settings fixture."""
-    return Mock(spec=repos.WordStudySettingsRepoABC)
-
-
 # UseCase fixture
 # ---------------
 

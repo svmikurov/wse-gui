@@ -30,6 +30,9 @@ class WordParamsData:
     selected_category: IdNameSchema | None = None
     selected_label: IdNameSchema | None = None
 
+    question_timeout: float = 1.5
+    answer_timeout: float = 1.5
+
 
 @inject
 @dataclass
@@ -39,7 +42,7 @@ class WordParamsNetworkSource(base.WordParamsNetworkSourceABC):
     _api_client: WordParamsApiABC
 
     @override
-    def fetch_initial_params(self) -> schemas.ParamsSchema:
+    def fetch_initial_params(self) -> schemas.PresentationParams:
         """Fetch Word study initial params."""
         params = self._api_client.fetch_initial_params()
         return params
@@ -72,7 +75,7 @@ class WordParamsLocaleSource(
 
     # TODO: Update `schemas.ParamsSchema` to `dataclass` DTO?
     @override
-    def set_initial_params(self, data: schemas.ParamsSchema) -> None:
+    def set_initial_params(self, data: schemas.PresentationParams) -> None:
         """Set Word study initial data."""
         self._data = replace(self._data, **data.to_dict())
         updated_params = {k: v for k, v in self._data.__dict__.items()}
@@ -80,9 +83,9 @@ class WordParamsLocaleSource(
         self.notify('initial_params_updated', params=updated_schema)
 
     @override
-    def get_params(self) -> schemas.PresentationParams:
+    def get_params(self) -> schemas.InitialChoice:
         """Get Word study Presentation params."""
-        return schemas.PresentationParams(
+        return schemas.InitialChoice(
             category=(self._data.selected_category or self._data.category),
             label=(self._data.selected_label or self._data.label),
         )

@@ -15,7 +15,6 @@ from .foreign import (
     WordStudyLocaleSourceABC,
     WordStudyNetworkSourceABC,
     WordStudyProgressNetworkSourceABC,
-    WordStudySettingsLocaleSourceABC,
 )
 from .foreign.params import (
     WordParamsData,
@@ -28,7 +27,6 @@ from .foreign.study import (
     WordStudyLocaleSource,
     WordStudyPresentationNetworkSource,
     WordStudySettingsData,
-    WordStudySettingsLocaleSource,
 )
 from .glossary import TermNetworkSourceABC, TermPresentationNetworkSourceABC
 from .glossary.study import TermPresentationNetworkSource
@@ -77,12 +75,8 @@ class SourceModule(Module):
             to=WordStudyPresentationNetworkSource,
             scope=SingletonScope,
         )
-        binder.bind(
-            WordStudySettingsLocaleSourceABC,
-            to=WordStudySettingsLocaleSource,
-            scope=SingletonScope,
-        )
-        # Foreign: Data
+
+        # Foreign: UIState Data
         binder.bind(
             WordStudyData,
             scope=SingletonScope,

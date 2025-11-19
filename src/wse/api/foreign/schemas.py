@@ -4,8 +4,6 @@ from datetime import datetime
 
 from wse.api.schemas import base
 
-# TODO: Refactor, now to many schemas
-
 # Word schema
 # -----------
 
@@ -25,8 +23,8 @@ class Words(base.ItemsData):
     results: list[Word]
 
 
-# Presentation case
-# -----------------
+# Word study Presentation case
+# ----------------------------
 
 
 class Info(base.BaseSchema):
@@ -49,56 +47,34 @@ class PresentationCase(PresentationSchema):
     case_uuid: str
 
 
-# Presentation params
-# -------------------
-
-
-class PresentationParams(base.BaseSchema):
-    """Presentation params for case request."""
-
-    category: base.IdNameSchema | None
-    label: base.IdNameSchema | None
-
-    class Config:
-        """Schema configuration."""
-
-        extra = 'forbid'
-
-
-class InitialParams(base.BaseSchema):
-    """Schema representing a initial params."""
-
-    category: base.IdNameSchema | None
-    label: base.IdNameSchema | None
-
-
-class SelectedParams(base.BaseSchema):
-    """Presentation case selected params."""
-
-    selected_category: base.IdNameSchema | None
-    selected_label: base.IdNameSchema | None
+# Word study Presentation params
+# ------------------------------
 
 
 class ParamsChoices(base.BaseSchema):
-    """Presentation case params choices."""
+    """Schema representing a case params choices."""
 
-    categories: list[base.IdNameSchema]
-    labels: list[base.IdNameSchema]
-
-
-class ParamsSchema(
-    InitialParams,
-    ParamsChoices,
-):
-    """Default Presentation params with choices."""
+    categories: list[base.IdNameSchema] | None
+    labels: list[base.IdNameSchema] | None
 
 
-# Presentation settings
-# ---------------------
+class InitialChoice(base.BaseSchema):
+    """Schema representing an initial params choice."""
+
+    category: base.IdNameSchema | None
+    label: base.IdNameSchema | None
 
 
 class PresentationSettings(base.BaseSchema):
-    """Word study settings schema."""
+    """Schema representing a settings schema."""
 
     question_timeout: float = 1.5
     answer_timeout: float = 1.5
+
+
+class PresentationParams(
+    ParamsChoices,
+    InitialChoice,
+    PresentationSettings,
+):
+    """Default Presentation params with choices."""

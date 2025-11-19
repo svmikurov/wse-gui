@@ -69,20 +69,12 @@ class WordParamsRepoABC(
     """ABC for Word study repository."""
 
     @abstractmethod
-    def get_params(self) -> schemas.PresentationParams:
+    def get_params(self) -> schemas.InitialChoice:
         """Get Word study presentation params."""
 
     @abstractmethod
     def save_params(self, data: object) -> None:
         """Save Word study presentation params."""
-
-
-class WordStudySettingsRepoABC(ABC):
-    """ABC for Word study settings repository."""
-
-    @abstractmethod
-    def get_settings(self) -> schemas.PresentationSettings:
-        """Get word study settings."""
 
 
 # TODO: Delete below
@@ -100,7 +92,7 @@ class SetWordParamsRepoABC(ABC):
         """
 
     @abstractmethod
-    def set_selected_params(self, params: schemas.SelectedParams) -> None:
+    def set_selected_params(self, params: schemas.InitialChoice) -> None:
         """Set user's current selection for Word study params.
 
         These params represent actual choices made by user in the UI

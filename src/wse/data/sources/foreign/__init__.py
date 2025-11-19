@@ -5,7 +5,6 @@ __all__ = [
     'WordParamsLocaleSourceABC',
     'ParamsNotifyT',
     'WordParamsNotifyABC',
-    'WordStudySettingsLocaleSourceABC',
     'WordStudyNetworkSourceABC',
     'WordStudyLocaleSourceABC',
     'WordStudyProgressNetworkSourceABC',
@@ -19,5 +18,4 @@ from .abc import (
     WordStudyLocaleSourceABC,
     WordStudyNetworkSourceABC,
     WordStudyProgressNetworkSourceABC,
-    WordStudySettingsLocaleSourceABC,
 )

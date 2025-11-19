@@ -33,7 +33,7 @@ class WordStudyPresentationApi(WordStudyPresentationApiABC):
 
     def fetch_presentation(
         self,
-        payload: schemas.PresentationParams,
+        payload: schemas.InitialChoice,
     ) -> schemas.PresentationCase:
         """Fetch presentation."""
         response = self._http_client.post(

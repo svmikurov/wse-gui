@@ -28,7 +28,7 @@ class WordParamsRepo(
         self._local_params_source.set_initial_params(data)
 
     @override
-    def get_params(self) -> schemas.PresentationParams:
+    def get_params(self) -> schemas.InitialChoice:
         """Get Word study presentation params."""
         return self._local_params_source.get_params()
 

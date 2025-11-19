@@ -10,9 +10,9 @@ from wse.feature.observer.subject import Subject
 
 
 @pytest.fixture
-def initial_params() -> schemas.ParamsSchema:
+def initial_params() -> schemas.PresentationParams:
     """Provide Word study Presentation initial params."""
-    return schemas.ParamsSchema(
+    return schemas.PresentationParams(
         categories=[],
         labels=[],
         category=None,
@@ -37,7 +37,7 @@ class TestLocale:
 
     def test_set_and_get_presentation_params(
         self,
-        initial_params: schemas.ParamsSchema,
+        initial_params: schemas.PresentationParams,
         params_locale_source: params.WordParamsLocaleSource,
     ) -> None:
         """Test set and get Presentation params."""

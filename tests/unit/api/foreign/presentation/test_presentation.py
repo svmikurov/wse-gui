@@ -16,9 +16,9 @@ from . import cases
 
 
 @pytest.fixture
-def request_payload() -> schemas.PresentationParams:
+def request_payload() -> schemas.InitialChoice:
     """Provide request payload via Presentation params."""
-    return schemas.PresentationParams(
+    return schemas.InitialChoice(
         category=None,
         label=None,
     )
