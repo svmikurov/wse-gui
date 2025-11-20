@@ -138,7 +138,7 @@ class HttpClient(HttpClientABC):
         log.error(
             f'HTTP status error {status} for {exc.request.url} - {reason}\n'
             f'with request data {json_data!r}\n'
-            f'got response_data {response_data!r}'
+            f'got response data {response_data!r}'
         )
 
     # Utility methods
