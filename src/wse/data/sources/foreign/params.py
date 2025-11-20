@@ -78,7 +78,7 @@ class WordParamsNetworkSource(base.WordParamsNetworkSourceABC):
         # `InitialParams`, `ParamsChoice`, `Settings`,
         # and therefore contains fields of the same name.
         initial_fields = [f.name for f in fields(requests.InitialParams)]
-        choices_fields = [f.name for f in fields(requests.ParamsChoice)]
+        choices_fields = [f.name for f in fields(requests.ParamsChoices)]
         settings_fields = [f.name for f in fields(requests.Settings)]
 
         initial = {

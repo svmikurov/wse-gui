@@ -84,7 +84,7 @@ class SetWordParamsRepoABC(ABC):
     """ABC for repository to set Word study params."""
 
     @abstractmethod
-    def set_initial_params(self, params: schemas.ParamsChoices) -> None:
+    def set_params(self, params: schemas.PresentationParams) -> None:
         """Set available params, default values for Word study params.
 
         These params come from external source (API) and define what
@@ -92,7 +92,7 @@ class SetWordParamsRepoABC(ABC):
         """
 
     @abstractmethod
-    def set_selected_params(self, params: schemas.InitialChoice) -> None:
+    def set_selected_params(self, params: schemas.InitialChoices) -> None:
         """Set user's current selection for Word study params.
 
         These params represent actual choices made by user in the UI

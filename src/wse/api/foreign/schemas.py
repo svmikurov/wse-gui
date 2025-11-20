@@ -58,8 +58,7 @@ class ParamsChoices(base.BaseSchema):
     labels: list[base.IdNameSchema] | None
 
 
-# Rename to `InitialParams`
-class InitialChoice(base.BaseSchema):
+class InitialChoices(base.BaseSchema):
     """Schema representing an initial params choice."""
 
     category: base.IdNameSchema | None
@@ -75,7 +74,7 @@ class PresentationSettings(base.BaseSchema):
 
 class PresentationParams(
     ParamsChoices,
-    InitialChoice,
+    InitialChoices,
     PresentationSettings,
 ):
     """Default Presentation params with choices."""

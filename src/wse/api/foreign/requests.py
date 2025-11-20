@@ -15,7 +15,7 @@ class IdName:
 
 # TODO: Move to data
 @dataclass
-class ParamsChoice:
+class ParamsChoices:
     """Word study Presentation params choices.
 
     Included in Word study Presentation params Response data.
@@ -56,7 +56,7 @@ class Settings:
 @dataclass
 class PresentationParamsDTO(
     InitialParams,
-    ParamsChoice,
+    ParamsChoices,
     Settings,
 ):
     """Presentation params with choices DTO."""
