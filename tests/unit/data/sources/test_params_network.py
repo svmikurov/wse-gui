@@ -10,8 +10,8 @@ from wse.data.sources.foreign.params import WordParamsNetworkSource
 
 
 @pytest.fixture
-def response_schema() -> schemas.PresentationParams:
-    """Provide Word study Presentation params schema from Response."""
+def api_schema() -> schemas.PresentationParams:
+    """Provide Word study Presentation params schema from API."""
     return schemas.PresentationParams(
         categories=[
             base_schemas.IdNameSchema(id=1, name='category 1'),
@@ -48,18 +48,20 @@ def expected_data() -> requests.PresentationParamsDTO:
 
 
 @pytest.fixture
-def mock_api_client() -> Mock:
+def mock_api_client(
+    api_schema: schemas.PresentationParams,
+) -> Mock:
     """Mock Word study Presentation params api client."""
-    return Mock(spec=WordParamsApiABC)
+    mock = Mock(spec=WordParamsApiABC)
+    mock.fetch_initial_params.return_value = api_schema
+    return mock
 
 
 @pytest.fixture
 def source(
     mock_api_client: Mock,
-    response_schema: schemas.PresentationParams,
 ) -> WordParamsNetworkSource:
     """Provide Word study Presentation params Network source."""
-    mock_api_client.fetch_initial_params.return_value = response_schema
     return WordParamsNetworkSource(
         _api_client=mock_api_client,
     )
