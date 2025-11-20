@@ -7,7 +7,7 @@ from injector import inject
 
 from wse.api.foreign import requests, schemas
 from wse.data.repos import foreign as repos
-from wse.data.sources import foreign as sources
+from wse.data.sources import foreign as source
 
 
 @inject
@@ -15,8 +15,8 @@ from wse.data.sources import foreign as sources
 class WordStudyRepo(repos.WordStudyRepoABC):
     """Word study repository."""
 
-    _locale_source: sources.WordStudyLocaleSourceABC
-    _network_source: sources.WordStudyNetworkSourceABC
+    _locale_source: source.WordStudyLocaleSourceABC
+    _network_source: source.WordStudyNetworkSourceABC
     _params_repo: repos.WordParamsRepoABC
 
     @override

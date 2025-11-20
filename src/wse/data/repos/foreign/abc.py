@@ -42,7 +42,7 @@ class RefreshWordParamsRepoABC(ABC):
     """ABC for repository to refresh Word study params."""
 
     @abstractmethod
-    def refresh_initial_params(self) -> None:
+    def fetch_params(self) -> None:
         """Set available params, default for Word study params.
 
         These params come from external source (API) and define what
@@ -73,8 +73,8 @@ class WordParamsRepoABC(
         """Get Word study presentation params."""
 
     @abstractmethod
-    def save_params(self, data: requests.InitialParams) -> None:
-        """Save Word study presentation params."""
+    def update_params(self, data: requests.InitialParams) -> None:
+        """Update Word study presentation params."""
 
 
 # TODO: Delete below

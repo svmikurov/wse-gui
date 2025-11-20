@@ -70,10 +70,12 @@ class Navigator:
             self._update_window_content(nav_id)
 
         except Exception:
-            log.debug(f"Window content not updated with '{nav_id.name}'")
+            self._show_open_error_message()
+            log.error(f"Window content not updated with '{nav_id.name}'")
             return
 
-        self._add_to_history(nav_id)
+        else:
+            self._add_to_history(nav_id)
 
     def _update_window_content(self, nav_id: NavID) -> None:
         if self._window is None:
@@ -88,7 +90,7 @@ class Navigator:
             raise
 
         try:
-            self._set_content(nav_id, screen)
+            self._set_context(nav_id, screen)
 
         except AuthError:
             log.debug(f"Authentication required for '{nav_id.name}'")
@@ -98,9 +100,10 @@ class Navigator:
         except Exception:
             raise
 
-        self._window.content = screen.content
-        self._close_current_screen()
-        self._current_screen = screen
+        else:
+            self._window.content = screen.content
+            self._close_current_screen()
+            self._current_screen = screen
 
     def _get_view_type(self, nav_id: NavID) -> Type[NavigableViewABC[Any]]:
         if not self._routes:
@@ -129,7 +132,7 @@ class Navigator:
         else:
             return screen
 
-    def _set_content(
+    def _set_context(
         self,
         nav_id: NavID,
         new_view: NavigableViewABC[Any],
@@ -146,7 +149,7 @@ class Navigator:
             raise
 
         except Exception:
-            log.exception(f"'{nav_id.name}' screen open error")
+            log.error(f"'{nav_id.name}' screen open error")
             raise
 
     def _close_current_screen(self) -> None:
@@ -188,5 +191,10 @@ class Navigator:
 
     def _show_unauth_message(self) -> None:
         info_msg = toga.InfoDialog('Oops', 'Authentication required')
+        if self._window:
+            asyncio.create_task(self._window.dialog(info_msg))
+
+    def _show_open_error_message(self) -> None:
+        info_msg = toga.InfoDialog('Oops', 'Server error')
         if self._window:
             asyncio.create_task(self._window.dialog(info_msg))

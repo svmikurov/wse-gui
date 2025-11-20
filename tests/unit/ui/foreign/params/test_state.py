@@ -79,7 +79,7 @@ class TestViewApiContract:
         view_model_di_mock.save_params()
 
         # Assert
-        mock_repo.save_params.assert_called_once_with(expected_initial_data)
+        mock_repo.update_params.assert_called_once_with(expected_initial_data)
 
     @pytest.mark.skip('Add test')
     def test_reset_params_success(

@@ -32,7 +32,7 @@ class WordParamsApiABC(ABC):
     """ABC for Word study params API."""
 
     @abstractmethod
-    def fetch_initial_params(
+    def fetch_params(
         self,
     ) -> schemas.PresentationParams:
         """Fetch Word study params."""

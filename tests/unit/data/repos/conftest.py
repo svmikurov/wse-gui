@@ -7,7 +7,7 @@ import pytest
 from tests.unit.api.foreign.presentation import cases
 from wse.api.foreign import schemas
 from wse.data.repos.foreign import WordParamsRepoABC, progress, study
-from wse.data.sources import foreign as sources
+from wse.data.sources import foreign as source
 
 # Data fixtures
 
@@ -25,19 +25,19 @@ def presentation_params() -> schemas.PresentationParams:
 @pytest.fixture
 def mock_word_progress_source() -> Mock:
     """Mock the Word study progress source."""
-    return Mock(spec=sources.WordStudyProgressNetworkSourceABC)
+    return Mock(spec=source.WordStudyProgressNetworkSourceABC)
 
 
 @pytest.fixture
 def mock_network_params_source() -> Mock:
     """Mock the Word study Presentation params Network source."""
-    return Mock(spec=sources.WordParamsNetworkSourceABC)
+    return Mock(spec=source.WordParamsNetworkSourceABC)
 
 
 @pytest.fixture
-def mock_locale_params_source() -> Mock:
+def mock_locale_source() -> Mock:
     """Mock the Word study Presentation params Locale source."""
-    return Mock(spec=sources.WordParamsLocaleSourceABC)
+    return Mock(spec=source.WordParamsLocaleSourceABC)
 
 
 # Repository fixtures
@@ -66,8 +66,8 @@ def word_study_repo(
 
 @pytest.fixture
 def word_study_progress_repo(
-    mock_word_locale_source: sources.WordStudyLocaleSourceABC,
-    mock_word_progress_source: sources.WordStudyProgressNetworkSourceABC,
+    mock_word_locale_source: source.WordStudyLocaleSourceABC,
+    mock_word_progress_source: source.WordStudyProgressNetworkSourceABC,
 ) -> progress.WordStudyProgressRepo:
     """Word study progress repository fixture."""
     return progress.WordStudyProgressRepo(

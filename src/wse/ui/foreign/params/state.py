@@ -127,7 +127,7 @@ class WordStudyParamsViewModel(
 
     def _refresh_initial_params(self) -> None:
         """Refresh Initial params of Word study."""
-        self._repo.refresh_initial_params()
+        self._repo.fetch_params()
 
     # TODO: Add literal types
     def _update(self, accessor: str, values_name: str | None = None) -> None:
@@ -143,7 +143,7 @@ class WordStudyParamsViewModel(
 
     def _save_params(self) -> None:
         params = self._get_current_params()
-        self._repo.save_params(params)
+        self._repo.update_params(params)
 
     @decorators.log_unimplemented_call
     def _reset_params(self) -> None: ...

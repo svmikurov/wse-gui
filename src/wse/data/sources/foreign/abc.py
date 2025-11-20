@@ -93,8 +93,8 @@ class WordParamsNetworkSourceABC(
     """ABC for Word study params source."""
 
     @abstractmethod
-    def fetch_initial_params(self) -> requests.PresentationParamsDTO:
-        """Fetch Word study initial params."""
+    def fetch_params(self) -> requests.PresentationParamsDTO:
+        """Fetch Word study params."""
 
     # TODO: Fix static types.
     @abstractmethod

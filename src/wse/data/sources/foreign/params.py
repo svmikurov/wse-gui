@@ -42,9 +42,14 @@ class WordParamsNetworkSource(base.WordParamsNetworkSourceABC):
     _api_client: WordParamsApiABC
 
     @override
-    def fetch_initial_params(self) -> requests.PresentationParamsDTO:
-        """Fetch Word study initial params."""
-        schema = self._api_client.fetch_initial_params()
+    def fetch_params(self) -> requests.PresentationParamsDTO:
+        """Fetch Word study params."""
+        try:
+            schema = self._api_client.fetch_params()
+        except Exception:
+            log.error('Fetch Word study params error')
+            raise
+
         data = self._convert_schema(schema)
         return data
 

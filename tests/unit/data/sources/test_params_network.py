@@ -53,7 +53,7 @@ def mock_api_client(
 ) -> Mock:
     """Mock Word study Presentation params api client."""
     mock = Mock(spec=WordParamsApiABC)
-    mock.fetch_initial_params.return_value = api_schema
+    mock.fetch_params.return_value = api_schema
     return mock
 
 
@@ -77,7 +77,7 @@ class TestConvertSchema:
     ) -> None:
         """Test the correct convert schema to DTO."""
         # Act
-        data = source.fetch_initial_params()
+        data = source.fetch_params()
 
         # Assert
         assert data == expected_data

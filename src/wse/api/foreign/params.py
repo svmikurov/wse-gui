@@ -26,7 +26,7 @@ class WordParamsApi(WordParamsApiABC):
     _api_config: APIConfigV1
 
     @override
-    def fetch_initial_params(
+    def fetch_params(
         self,
     ) -> schemas.PresentationParams:
         """Fetch presentation."""
@@ -38,7 +38,7 @@ class WordParamsApi(WordParamsApiABC):
             response.raise_for_status()
 
         except Exception:
-            log.error('Request Word study presentation HTTP error')
+            log.error('Request Word study params HTTP error')
             raise
 
         try:
