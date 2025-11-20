@@ -1,7 +1,7 @@
 """Word study params Source."""
 
 import logging
-from dataclasses import asdict, dataclass, field, replace
+from dataclasses import asdict, dataclass, field, fields, replace
 from decimal import Decimal
 from typing import override
 
@@ -42,10 +42,11 @@ class WordParamsNetworkSource(base.WordParamsNetworkSourceABC):
     _api_client: WordParamsApiABC
 
     @override
-    def fetch_initial_params(self) -> schemas.PresentationParams:
+    def fetch_initial_params(self) -> requests.PresentationParamsDTO:
         """Fetch Word study initial params."""
-        params = self._api_client.fetch_initial_params()
-        return params
+        schema = self._api_client.fetch_initial_params()
+        data = self._convert_schema(schema)
+        return data
 
     # TODO: Fix static types.
     @override
@@ -60,6 +61,44 @@ class WordParamsNetworkSource(base.WordParamsNetworkSourceABC):
 
         else:
             return True
+
+    # Helpers
+    # -------
+
+    def _convert_schema(
+        self,
+        schema: schemas.PresentationParams,
+    ) -> requests.PresentationParamsDTO:
+        """Convert Word study Presentation params schema to DTO."""
+        # Convert a schema, including nested schemas,
+        # into a dictionary.
+        schema_data = schema.to_dict()
+
+        # `PresentationParamsDTO` is a derived class from
+        # `InitialParams`, `ParamsChoice`, `Settings`,
+        # and therefore contains fields of the same name.
+        initial_fields = [f.name for f in fields(requests.InitialParams)]
+        choices_fields = [f.name for f in fields(requests.ParamsChoice)]
+        settings_fields = [f.name for f in fields(requests.Settings)]
+
+        initial = {
+            field: requests.IdName(**schema_data[field])
+            if schema_data.get(field)
+            else None
+            for field in initial_fields
+        }
+        choices = {
+            field: [requests.IdName(**item) for item in schema_data[field]]
+            for field in choices_fields
+        }
+        settings = {field: schema_data.get(field) for field in settings_fields}
+
+        data = requests.PresentationParamsDTO(
+            **initial,  # type: ignore[arg-type]
+            **choices,  # type: ignore[arg-type]
+            **settings,  # type: ignore[arg-type]
+        )
+        return data
 
 
 @inject

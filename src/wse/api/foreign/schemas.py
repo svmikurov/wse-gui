@@ -69,8 +69,8 @@ class InitialChoice(base.BaseSchema):
 class PresentationSettings(base.BaseSchema):
     """Schema representing a settings schema."""
 
-    question_timeout: float = 1.5
-    answer_timeout: float = 1.5
+    question_timeout: float | None = 1.5
+    answer_timeout: float | None = 1.5
 
 
 class PresentationParams(
