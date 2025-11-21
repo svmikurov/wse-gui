@@ -73,9 +73,13 @@ class Navigator:
             log.debug(f"Authentication required for '{nav_id.name}'")
             self._show_unauth_message()
 
+        except RuntimeError:
+            log.exception('Internal error\n')
+            return
+
         except Exception as exc:
             print(f'{exc = }')
-            self._show_open_error_message()
+            self._show_server_error_message()
             log.error(f"Window content not updated with '{nav_id.name}'")
             return
 
@@ -123,6 +127,11 @@ class Navigator:
 
         except CallError:
             log.exception('Dependency injection error:\n')
+            raise
+
+        except RuntimeError:
+            log.error(f"Build '{nav_id}' runtime error")
+            self._show_open_screen_error_message()
             raise
 
         except Exception:
@@ -190,7 +199,12 @@ class Navigator:
         if self._window:
             asyncio.create_task(self._window.dialog(info_msg))
 
-    def _show_open_error_message(self) -> None:
+    def _show_server_error_message(self) -> None:
         info_msg = toga.InfoDialog('Oops', 'Server error')
+        if self._window:
+            asyncio.create_task(self._window.dialog(info_msg))
+
+    def _show_open_screen_error_message(self) -> None:
+        info_msg = toga.InfoDialog('Oops', 'Open screen error')
         if self._window:
             asyncio.create_task(self._window.dialog(info_msg))
