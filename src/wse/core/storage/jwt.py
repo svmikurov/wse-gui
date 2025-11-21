@@ -101,7 +101,7 @@ class JWTJsonStorage(JWTJsonStorageProto):
                 return token
 
         except FileNotFoundError as e:
-            logger.error('Refresh token fail not found')
+            logger.error('Refresh token file not found')
             raise e
 
         except Exception as e:

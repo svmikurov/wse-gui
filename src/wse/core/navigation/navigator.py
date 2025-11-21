@@ -69,7 +69,12 @@ class Navigator:
         try:
             self._update_window_content(nav_id)
 
-        except Exception:
+        except AuthError:
+            log.debug(f"Authentication required for '{nav_id.name}'")
+            self._show_unauth_message()
+
+        except Exception as exc:
+            print(f'{exc = }')
             self._show_open_error_message()
             log.error(f"Window content not updated with '{nav_id.name}'")
             return
@@ -91,11 +96,6 @@ class Navigator:
 
         try:
             self._set_context(nav_id, screen)
-
-        except AuthError:
-            log.debug(f"Authentication required for '{nav_id.name}'")
-            self._show_unauth_message()
-            raise
 
         except Exception:
             raise
@@ -143,10 +143,6 @@ class Navigator:
         except AttributeError:
             # The screen may not have any methods called when opened.
             pass
-
-        except AuthError:
-            log.debug(f"No '{nav_id.name}' content for unauthenticated user")
-            raise
 
         except Exception:
             log.error(f"'{nav_id.name}' screen open error")
