@@ -21,8 +21,13 @@ def api_schema() -> schemas.PresentationParams:
             base_schemas.IdNameSchema(id=1, name='mark 1'),
             base_schemas.IdNameSchema(id=2, name='mark 2'),
         ],
+        sources=[
+            base_schemas.IdNameSchema(id=1, name='source 1'),
+            base_schemas.IdNameSchema(id=2, name='source 2'),
+        ],
         category=base_schemas.IdNameSchema(id=1, name='category 1'),
         mark=base_schemas.IdNameSchema(id=2, name='mark 2'),
+        word_source=base_schemas.IdNameSchema(id=2, name='source 2'),
         question_timeout=1.5,
         answer_timeout=1.5,
     )
@@ -40,8 +45,13 @@ def expected_data() -> requests.PresentationParamsDTO:
             requests.IdName(id=1, name='mark 1'),
             requests.IdName(id=2, name='mark 2'),
         ],
+        sources=[
+            requests.IdName(id=1, name='source 1'),
+            requests.IdName(id=2, name='source 2'),
+        ],
         category=requests.IdName(id=1, name='category 1'),
         mark=requests.IdName(id=2, name='mark 2'),
+        word_source=requests.IdName(id=2, name='source 2'),
         question_timeout=1.5,
         answer_timeout=1.5,
     )

@@ -37,7 +37,7 @@ class ParamsContainer(
     _accessors = (
         'category',
         'mark',
-        'source',
+        'word_source',
         'order',
         'start_period',
         'end_period',
@@ -53,8 +53,8 @@ class ParamsContainer(
         self._category = self._create_selection('category')
         self._mark_label = toga.Label(I18N.LABEL('Mark'))
         self._mark = self._create_selection('mark')
-        self._source_label = toga.Label(I18N.LABEL('Source'))
-        self._source = self._create_selection('source')
+        self._word_source_label = toga.Label(I18N.LABEL('Source'))
+        self._word_source = self._create_selection('word_source')
         self._order_label = toga.Label(I18N.LABEL('Translate order'))
         self._order = self._create_selection('order')
         self._period_label = toga.Label(I18N.LABEL('Word adding period'))
@@ -90,8 +90,8 @@ class ParamsContainer(
         self._category.style.update(**config.params.select)
         self._mark_label.style.update(**config.params.label)
         self._mark.style.update(**config.params.select)
-        self._source_label.style.update(**config.params.label)
-        self._source.style.update(**config.params.select)
+        self._word_source_label.style.update(**config.params.label)
+        self._word_source.style.update(**config.params.select)
         self._order_label.style.update(**config.params.label)
         self._order.style.update(**config.params.select)
         self._period_label.style.update(**config.params.label)
@@ -122,7 +122,7 @@ class ParamsContainer(
     @property
     def source_select(self) -> toga.Box:
         """Source select."""
-        return self._combine(self._source_label, self._source)
+        return self._combine(self._word_source_label, self._word_source)
 
     @property
     def order_select(self) -> toga.Box:

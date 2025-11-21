@@ -55,7 +55,8 @@ class ParamsChoices(base.BaseSchema):
     """Schema representing a case params choices."""
 
     categories: list[base.IdNameSchema] = []
-    marks: list[base.IdNameSchema] | None
+    marks: list[base.IdNameSchema] = []
+    sources: list[base.IdNameSchema] = []
 
 
 class InitialChoices(base.BaseSchema):
@@ -63,6 +64,7 @@ class InitialChoices(base.BaseSchema):
 
     category: base.IdNameSchema | None
     mark: base.IdNameSchema | None
+    word_source: base.IdNameSchema | None
 
 
 class PresentationSettings(base.BaseSchema):

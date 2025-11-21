@@ -121,6 +121,7 @@ class WordStudyParamsViewModel(
 
         self._update('mark', 'marks')
         self._update('category', 'categories')
+        self._update('word_source', 'sources')
 
     # Helpers
     # -------

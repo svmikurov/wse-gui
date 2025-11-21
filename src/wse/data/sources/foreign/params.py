@@ -21,6 +21,7 @@ class WordParamsData:
 
     categories: list[requests.IdName] = field(default_factory=list)
     marks: list[requests.IdName] = field(default_factory=list)
+    sources: list[requests.IdName] = field(default_factory=list)
 
     category: requests.IdName | None = None
     mark: requests.IdName | None = None
