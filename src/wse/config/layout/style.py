@@ -10,7 +10,7 @@ class BaseStyle(BaseModel):
 class AssignedStyle(BaseStyle):
     """Style config for the container of Assigned exercises."""
 
-    label: dict[str, str | int] = {}
+    mark: dict[str, str | int] = {}
     button: dict[str, str | int] = {}
 
 

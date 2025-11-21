@@ -36,7 +36,7 @@ class ParamsContainer(
 
     _accessors = (
         'category',
-        'label',
+        'mark',
         'source',
         'order',
         'start_period',
@@ -51,8 +51,8 @@ class ParamsContainer(
         # Selections with label
         self._category_label = toga.Label(I18N.LABEL('Category'))
         self._category = self._create_selection('category')
-        self._label_label = toga.Label(I18N.LABEL('Label'))
-        self._label = self._create_selection('label')
+        self._mark_label = toga.Label(I18N.LABEL('Mark'))
+        self._mark = self._create_selection('mark')
         self._source_label = toga.Label(I18N.LABEL('Source'))
         self._source = self._create_selection('source')
         self._order_label = toga.Label(I18N.LABEL('Translate order'))
@@ -74,7 +74,7 @@ class ParamsContainer(
     def _populate_content(self) -> None:
         self._content.add(
             self.select_category,
-            self.select_label,
+            self.select_mark,
             self.source_select,
             self.order_select,
             self.period_select,
@@ -88,8 +88,8 @@ class ParamsContainer(
         # Selections
         self._category_label.style.update(**config.params.label)
         self._category.style.update(**config.params.select)
-        self._label_label.style.update(**config.params.label)
-        self._label.style.update(**config.params.select)
+        self._mark_label.style.update(**config.params.label)
+        self._mark.style.update(**config.params.select)
         self._source_label.style.update(**config.params.label)
         self._source.style.update(**config.params.select)
         self._order_label.style.update(**config.params.label)
@@ -115,9 +115,9 @@ class ParamsContainer(
         return self._combine(self._category_label, self._category)
 
     @property
-    def select_label(self) -> toga.Box:
-        """Label select."""
-        return self._combine(self._label_label, self._label)
+    def select_mark(self) -> toga.Box:
+        """Mark select."""
+        return self._combine(self._mark_label, self._mark)
 
     @property
     def source_select(self) -> toga.Box:

@@ -22,7 +22,7 @@ class ParamsChoices:
     """
 
     categories: list[IdName] = field(default_factory=list)
-    labels: list[IdName] = field(default_factory=list)
+    marks: list[IdName] = field(default_factory=list)
 
 
 # TODO: Move to data
@@ -35,7 +35,7 @@ class InitialParams:
     """
 
     category: IdName | None = None
-    label: IdName | None = None
+    mark: IdName | None = None
     word_source: IdName | None = None
     order: IdName | None = None
     start_period: IdName | None = None

@@ -43,6 +43,6 @@ class TestLocale:
         assert (
             params_locale_source._data.categories == initial_params.categories
         )
-        assert params_locale_source._data.labels == initial_params.labels
+        assert params_locale_source._data.marks == initial_params.marks
         assert params_locale_source._data.category == initial_params.category
-        assert params_locale_source._data.label == initial_params.label
+        assert params_locale_source._data.mark == initial_params.mark

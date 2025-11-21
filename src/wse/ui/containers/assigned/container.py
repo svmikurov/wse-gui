@@ -82,7 +82,7 @@ class AssignationsContainer(
                 id=self._get_label_id(exercise),
                 text=exercise.mentor_username,
                 style=Pack(
-                    **self._style.assigned.label,  # type: ignore[arg-type]
+                    **self._style.assigned.mark,  # type: ignore[arg-type]
                     **self._theme.assigned.label,  # type: ignore[arg-type]
                 ),
             )

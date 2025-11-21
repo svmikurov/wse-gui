@@ -20,10 +20,10 @@ class WordParamsData:
     """Word params data."""
 
     categories: list[requests.IdName] = field(default_factory=list)
-    labels: list[requests.IdName] = field(default_factory=list)
+    marks: list[requests.IdName] = field(default_factory=list)
 
     category: requests.IdName | None = None
-    label: requests.IdName | None = None
+    mark: requests.IdName | None = None
     word_source: requests.IdName | None = None
     order: requests.IdName | None = None
     start_period: requests.IdName | None = None
@@ -129,7 +129,7 @@ class WordParamsLocaleSource(
         """Get Word study Presentation params."""
         return requests.InitialParams(
             category=(self._data.category or self._data.category),
-            label=(self._data.label or self._data.label),
+            mark=(self._data.mark or self._data.mark),
         )
 
     @decorators.log_unimplemented_call

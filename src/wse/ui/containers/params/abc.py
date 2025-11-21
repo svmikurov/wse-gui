@@ -22,7 +22,7 @@ ParamsNotifyT = Literal['update']
 class ParamsAccessorEnum(BaseEnum):
     """Params accessor enumeration."""
 
-    LABEL_SELECT = 'label_select'
+    MARK_SELECT = 'mark_select'
     CATEGORY_SELECT = 'category_select'
     COUNT_INPUT = 'count_input'
 

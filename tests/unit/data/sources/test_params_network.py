@@ -17,12 +17,12 @@ def api_schema() -> schemas.PresentationParams:
             base_schemas.IdNameSchema(id=1, name='category 1'),
             base_schemas.IdNameSchema(id=2, name='category 2'),
         ],
-        labels=[
-            base_schemas.IdNameSchema(id=1, name='label 1'),
-            base_schemas.IdNameSchema(id=2, name='label 2'),
+        marks=[
+            base_schemas.IdNameSchema(id=1, name='mark 1'),
+            base_schemas.IdNameSchema(id=2, name='mark 2'),
         ],
         category=base_schemas.IdNameSchema(id=1, name='category 1'),
-        label=base_schemas.IdNameSchema(id=2, name='label 2'),
+        mark=base_schemas.IdNameSchema(id=2, name='mark 2'),
         question_timeout=1.5,
         answer_timeout=1.5,
     )
@@ -36,12 +36,12 @@ def expected_data() -> requests.PresentationParamsDTO:
             requests.IdName(id=1, name='category 1'),
             requests.IdName(id=2, name='category 2'),
         ],
-        labels=[
-            requests.IdName(id=1, name='label 1'),
-            requests.IdName(id=2, name='label 2'),
+        marks=[
+            requests.IdName(id=1, name='mark 1'),
+            requests.IdName(id=2, name='mark 2'),
         ],
         category=requests.IdName(id=1, name='category 1'),
-        label=requests.IdName(id=2, name='label 2'),
+        mark=requests.IdName(id=2, name='mark 2'),
         question_timeout=1.5,
         answer_timeout=1.5,
     )

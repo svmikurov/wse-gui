@@ -17,7 +17,7 @@ def state_data() -> state.PresentationParamsData:
     """Provide UIState data."""
     return state.PresentationParamsData(
         category=requests.IdName(id=1, name='test category'),
-        label=requests.IdName(id=7, name='test label'),
+        mark=requests.IdName(id=7, name='test mark'),
     )
 
 
@@ -26,7 +26,7 @@ def expected_initial_data() -> requests.InitialParams:
     """Provide expected initial UIState data for network store."""
     return requests.InitialParams(
         category=requests.IdName(id=1, name='test category'),
-        label=requests.IdName(id=7, name='test label'),
+        mark=requests.IdName(id=7, name='test mark'),
     )
 
 

@@ -27,7 +27,7 @@ class ParamsValue:
 
     # Choice
     category: requests.IdName | None = None
-    label: requests.IdName | None = None
+    mark: requests.IdName | None = None
     word_source: requests.IdName | None = None
     order: requests.IdName | None = None
     start_period: requests.IdName | None = None
@@ -46,7 +46,7 @@ class PresentationParamsData(ParamsValue):
 
     # Choices
     categories: list[requests.IdName] | None = None
-    labels: list[requests.IdName] | None = None
+    marks: list[requests.IdName] | None = None
     sources: list[requests.IdName] | None = None
     orders: list[requests.IdName] | None = None
     start_periods: list[requests.IdName] | None = None
@@ -119,7 +119,7 @@ class WordStudyParamsViewModel(
             self._data, **{k: v for k, v in params.__dict__.items()}
         )
 
-        self._update('label', 'labels')
+        self._update('mark', 'marks')
         self._update('category', 'categories')
 
     # Helpers
