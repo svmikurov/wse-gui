@@ -1,5 +1,6 @@
 """Word study params state."""
 
+import logging
 from dataclasses import dataclass, fields, replace
 from decimal import Decimal
 from typing import Any, override
@@ -16,6 +17,8 @@ from wse.ui.containers.params import ParamsAccessorEnum
 from wse.utils import decorators
 
 from . import WordStudyParamsViewModelABC
+
+log = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -135,7 +138,11 @@ class WordStudyParamsViewModel(
         """Update UI context."""
         if values_name:
             # Selection values updated
-            values = getattr(self._data, values_name)
+            try:
+                values = getattr(self._data, values_name)
+            except Exception:
+                log.exception('Update UI context error')
+                return
             self.notify('values_updated', accessor, values=values)
 
         if value := getattr(self._data, accessor, None):
