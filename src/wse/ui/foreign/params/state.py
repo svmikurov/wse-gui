@@ -37,7 +37,6 @@ class ParamsValue:
     end_period: requests.IdName | None = None
 
     # Input
-    # TODO: Where update `Decimal` to `int`?
     word_count: Decimal | None = None
     question_timeout: Decimal | None = None
     answer_timeout: Decimal | None = None
@@ -51,6 +50,7 @@ class PresentationParamsData(ParamsValue):
     categories: list[requests.IdName] | None = None
     marks: list[requests.IdName] | None = None
     sources: list[requests.IdName] | None = None
+    periods: list[requests.IdName] | None = None
     orders: list[requests.IdName] | None = None
     start_periods: list[requests.IdName] | None = None
     end_periods: list[requests.IdName] | None = None
@@ -125,6 +125,12 @@ class WordStudyParamsViewModel(
         self._update('mark', 'marks')
         self._update('category', 'categories')
         self._update('word_source', 'sources')
+        self._update('start_period', 'periods')
+        self._update('end_period', 'periods')
+
+        self._update('word_count', None)
+        self._update('answer_timeout', None)
+        self._update('question_timeout', None)
 
     # Helpers
     # -------

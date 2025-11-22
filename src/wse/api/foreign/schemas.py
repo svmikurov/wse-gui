@@ -57,6 +57,7 @@ class ParamsChoices(base.BaseSchema):
     categories: list[base.IdNameSchema] = []
     marks: list[base.IdNameSchema] = []
     sources: list[base.IdNameSchema] = []
+    periods: list[base.IdNameSchema] = []
 
 
 class InitialChoices(base.BaseSchema):
@@ -65,11 +66,14 @@ class InitialChoices(base.BaseSchema):
     category: base.IdNameSchema | None
     mark: base.IdNameSchema | None
     word_source: base.IdNameSchema | None
+    start_period: base.IdNameSchema | None
+    end_period: base.IdNameSchema | None
 
 
 class PresentationSettings(base.BaseSchema):
     """Schema representing a settings schema."""
 
+    word_count: int | None
     question_timeout: float | None = 1.5
     answer_timeout: float | None = 1.5
 

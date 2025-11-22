@@ -25,11 +25,18 @@ def api_schema() -> schemas.PresentationParams:
             base_schemas.IdNameSchema(id=1, name='source 1'),
             base_schemas.IdNameSchema(id=2, name='source 2'),
         ],
+        periods=[
+            base_schemas.IdNameSchema(id=1, name='start period'),
+            base_schemas.IdNameSchema(id=2, name='end period'),
+        ],
         category=base_schemas.IdNameSchema(id=1, name='category 1'),
         mark=base_schemas.IdNameSchema(id=2, name='mark 2'),
         word_source=base_schemas.IdNameSchema(id=2, name='source 2'),
+        word_count=78,
         question_timeout=1.5,
         answer_timeout=1.5,
+        start_period=base_schemas.IdNameSchema(id=1, name='start period'),
+        end_period=base_schemas.IdNameSchema(id=2, name='end period'),
     )
 
 
@@ -49,11 +56,18 @@ def expected_data() -> requests.PresentationParamsDTO:
             requests.IdName(id=1, name='source 1'),
             requests.IdName(id=2, name='source 2'),
         ],
+        periods=[
+            requests.IdName(id=1, name='start period'),
+            requests.IdName(id=2, name='end period'),
+        ],
         category=requests.IdName(id=1, name='category 1'),
         mark=requests.IdName(id=2, name='mark 2'),
         word_source=requests.IdName(id=2, name='source 2'),
         question_timeout=1.5,
         answer_timeout=1.5,
+        start_period=requests.IdName(id=1, name='start period'),
+        end_period=requests.IdName(id=2, name='end period'),
+        word_count=78,
     )
 
 

@@ -41,7 +41,7 @@ class ParamsContainer(
         'order',
         'start_period',
         'end_period',
-        'count',
+        'word_count',
         'question_timeout',
         'answer_timeout',
     )
@@ -62,8 +62,8 @@ class ParamsContainer(
         self._end_period = self._create_selection('end_period')
 
         # Number inputs with label
-        self._count_label = toga.Label(I18N.LABEL('Word study count'))
-        self._count = self._create_number_input('count')
+        self._word_count_label = toga.Label(I18N.LABEL('Word study count'))
+        self._word_count = self._create_number_input('word_count')
         self._question_timeout_label = toga.Label('')
         self._question_timeout_label.text = I18N.LABEL('Question timeout')
         self._question_timeout = self._create_number_input('question_timeout')
@@ -99,8 +99,8 @@ class ParamsContainer(
         self._end_period.style.update(**config.params.select)
 
         # Number input
-        self._count_label.style.update(**config.params.label)
-        self._count.style.update(**config.params.number)
+        self._word_count_label.style.update(**config.params.label)
+        self._word_count.style.update(**config.params.number)
         self._question_timeout_label.style.update(**config.params.label)
         self._question_timeout.style.update(**config.params.number)
         self._answer_timeout_label.style.update(**config.params.label)
@@ -132,7 +132,7 @@ class ParamsContainer(
     @property
     def input_count(self) -> toga.Box:
         """Word count input."""
-        return self._combine(self._count_label, self._count)
+        return self._combine(self._word_count_label, self._word_count)
 
     @property
     def period_select(self) -> toga.Box:

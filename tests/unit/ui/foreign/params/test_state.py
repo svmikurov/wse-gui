@@ -15,18 +15,24 @@ from wse.ui.foreign.params import state
 
 
 @pytest.fixture
-def params_dto() -> requests.PresentationParamsDTO:
-    """Presentation parameters DTO to updated UIState."""
+def parameters_dto() -> requests.PresentationParamsDTO:
+    """Presentation parameters DTO to updated UIState.
+
+    Populated from the API schema at runtime.
+    """
     # Presentation parameters
     category = requests.IdName(id=1, name='category 1')
     mark = requests.IdName(id=1, name='mark 1')
     source = requests.IdName(id=1, name='source 1')
+    start_period = requests.IdName(id=1, name='start period')
+    end_period = requests.IdName(id=1, name='end period')
 
     return requests.PresentationParamsDTO(
         # - Choices
         categories=[category],
         marks=[mark],
         sources=[source],
+        periods=[start_period, end_period],
         # - Initial choice
         category=category,
         mark=mark,
@@ -36,12 +42,12 @@ def params_dto() -> requests.PresentationParamsDTO:
 
 @pytest.fixture
 def state_data(
-    params_dto: requests.PresentationParamsDTO,
+    parameters_dto: requests.PresentationParamsDTO,
 ) -> state.PresentationParamsData:
     """Provide UIState data."""
     return state.PresentationParamsData(
-        category=params_dto.category,
-        mark=params_dto.mark,
+        category=parameters_dto.category,
+        mark=parameters_dto.mark,
     )
 
 
@@ -86,13 +92,13 @@ class TestViewApiContract:
         self,
         mock_repo: Mock,
         view_model_di_mock: state.WordStudyParamsViewModel,
-        params_dto: requests.PresentationParamsDTO,
+        parameters_dto: requests.PresentationParamsDTO,
     ) -> None:
         """Save initial params success test."""
         # Arrange
         expected_call = requests.InitialParams(
-            category=params_dto.category,
-            mark=params_dto.mark,
+            category=parameters_dto.category,
+            mark=parameters_dto.mark,
         )
         # Act
         view_model_di_mock.save_params()
@@ -104,33 +110,52 @@ class TestViewApiContract:
 class TestViewModelNotifications:
     """Parameters ViewModel notifications tests."""
 
-    def test_parameters_updated_notification(
+    def test_parameter_values_updated_notification(
         self,
         view_model_di_mock: state.WordStudyParamsViewModel,
-        params_dto: requests.PresentationParamsDTO,
+        parameters_dto: requests.PresentationParamsDTO,
     ) -> None:
         """Test that View was notified with Parameters."""
         # Arrange
         # - Expected notifications
         choices = [
-            call(accessor='mark', values=[params_dto.mark]),
-            call(accessor='category', values=[params_dto.category]),
-            call(accessor='word_source', values=[params_dto.word_source]),
-        ]
-        initial_choice = [
-            call(accessor='mark', value=params_dto.mark),
-            call(accessor='category', value=params_dto.category),
-            call(accessor='word_source', value=params_dto.word_source),
+            call(accessor='mark', values=[parameters_dto.mark]),
+            call(accessor='category', values=[parameters_dto.category]),
+            call(accessor='word_source', values=[parameters_dto.word_source]),
+            call(accessor='start_period', values=parameters_dto.periods),
+            call(accessor='end_period', values=parameters_dto.periods),
         ]
         # - Mock and subscribe View to notifications
         mock_view = Mock(spec=params.WordStudyParamsViewABC)
         view_model_di_mock.add_observer(mock_view)
 
         # Act
-        view_model_di_mock.initial_params_updated(params_dto)
+        view_model_di_mock.initial_params_updated(parameters_dto)
 
         # Assert
         assert mock_view.values_updated.call_args_list == choices
+
+    def test_parameter_value_updated_notification(
+        self,
+        view_model_di_mock: state.WordStudyParamsViewModel,
+        parameters_dto: requests.PresentationParamsDTO,
+    ) -> None:
+        """Test that View was notified with Parameters."""
+        # Arrange
+        # - Expected notifications
+        initial_choice = [
+            call(accessor='mark', value=parameters_dto.mark),
+            call(accessor='category', value=parameters_dto.category),
+            call(accessor='word_source', value=parameters_dto.word_source),
+        ]
+        # - Mock and subscribe View to notifications
+        mock_view = Mock(spec=params.WordStudyParamsViewABC)
+        view_model_di_mock.add_observer(mock_view)
+
+        # Act
+        view_model_di_mock.initial_params_updated(parameters_dto)
+
+        # Assert
         assert mock_view.value_updated.call_args_list == initial_choice
 
 

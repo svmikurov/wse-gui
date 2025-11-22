@@ -24,6 +24,7 @@ class ParamsChoices:
     categories: list[IdName] = field(default_factory=list)
     marks: list[IdName] = field(default_factory=list)
     sources: list[IdName] = field(default_factory=list)
+    periods: list[IdName] = field(default_factory=list)
 
 
 # TODO: Move to data
