@@ -77,8 +77,7 @@ class Navigator:
             log.exception('Internal error\n')
             return
 
-        except Exception as exc:
-            print(f'{exc = }')
+        except Exception:
             self._show_server_error_message()
             log.error(f"Window content not updated with '{nav_id.name}'")
             return
