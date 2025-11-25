@@ -28,12 +28,12 @@ class WordParamsRepo(
         self._local_source.set_initial_params(data)
 
     @override
-    def get_params(self) -> requests.InitialParams:
+    def get_params(self) -> requests.InitialParametersDTO:
         """Get Word study presentation params."""
         return self._local_source.get_params()
 
     @override
-    def update_params(self, data: requests.InitialParams) -> None:
+    def update_params(self, data: requests.InitialParametersDTO) -> None:
         """Update Word study presentation params."""
         try:
             updated_data = self._network_source.save_initial_params(data)

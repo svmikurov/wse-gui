@@ -2,7 +2,6 @@
 
 import logging
 from dataclasses import asdict, dataclass, field, fields, replace
-from decimal import Decimal
 from typing import override
 
 from injector import inject
@@ -23,17 +22,18 @@ class WordParamsData:
     marks: list[requests.IdName] = field(default_factory=list)
     sources: list[requests.IdName] = field(default_factory=list)
     periods: list[requests.IdName] = field(default_factory=list)
+    translation_orders: list[requests.CodeName] = field(default_factory=list)
 
     category: requests.IdName | None = None
     mark: requests.IdName | None = None
     word_source: requests.IdName | None = None
-    order: requests.IdName | None = None
+    translation_order: requests.CodeName | None = None
     start_period: requests.IdName | None = None
     end_period: requests.IdName | None = None
 
-    word_count: Decimal | int | None = None
-    question_timeout: Decimal | float | None = None
-    answer_timeout: Decimal | float | None = None
+    word_count: int | None = None
+    question_timeout: int | None = None
+    answer_timeout: int | None = None
 
 
 @inject
@@ -55,9 +55,8 @@ class WordParamsNetworkSource(base.WordParamsNetworkSourceABC):
         data = self._convert_schema(schema)
         return data
 
-    # TODO: Fix static types.
     @override
-    def save_initial_params(self, data: requests.InitialParams) -> bool:
+    def save_initial_params(self, data: requests.InitialParametersDTO) -> bool:
         """Save Word study initial params."""
         try:
             self._api_client.save_initial_params(data)
@@ -82,27 +81,38 @@ class WordParamsNetworkSource(base.WordParamsNetworkSourceABC):
         schema_data = schema.to_dict()
 
         # `PresentationParamsDTO` is a derived class from
-        # `InitialParams`, `ParamsChoice`, `Settings`,
+        # `SelectedParameters`, `ParameterOptions`, `SettingParameters`,
         # and therefore contains fields of the same name.
-        initial_fields = [f.name for f in fields(requests.InitialParams)]
-        choices_fields = [f.name for f in fields(requests.ParamsChoices)]
-        settings_fields = [f.name for f in fields(requests.Settings)]
+        initial_fields = [f.name for f in fields(requests.SelectedParameters)]
+        options_fields = [f.name for f in fields(requests.ParameterOptions)]
+        settings_fields = [f.name for f in fields(requests.SettingParameters)]
 
-        initial = {
-            field: requests.IdName(**schema_data[field])
-            if schema_data.get(field)
-            else None
-            for field in initial_fields
-        }
-        choices = {
-            field: [requests.IdName(**item) for item in schema_data[field]]
-            for field in choices_fields
-        }
+        initial: dict[str, requests.IdName | requests.CodeName] = {}
+        for f in initial_fields:
+            if schema_data.get(f) and 'id' in schema_data[f]:
+                initial[f] = requests.IdName(**schema_data[f])
+            elif schema_data.get(f) and 'code' in schema_data[f]:
+                initial[f] = requests.CodeName(**schema_data[f])
+
+        options: dict[
+            str, list[requests.IdName] | list[requests.CodeName]
+        ] = {}
+        for f in options_fields:
+            for item in schema_data[f]:
+                if 'id' in item:
+                    options[f] = [
+                        requests.IdName(**item) for item in schema_data[f]
+                    ]
+                if 'code' in item:
+                    options[f] = [
+                        requests.CodeName(**item) for item in schema_data[f]
+                    ]
+
         settings = {field: schema_data.get(field) for field in settings_fields}
 
         data = requests.PresentationParamsDTO(
             **initial,  # type: ignore[arg-type]
-            **choices,  # type: ignore[arg-type]
+            **options,  # type: ignore[arg-type]
             **settings,  # type: ignore[arg-type]
         )
         return data
@@ -121,15 +131,15 @@ class WordParamsLocaleSource(
 
     # TODO: Update `schemas.ParamsSchema` to `dataclass` DTO?
     @override
-    def set_initial_params(self, data: requests.InitialParams) -> None:
+    def set_initial_params(self, data: requests.SelectedParameters) -> None:
         """Set Word study initial data."""
         self._data = replace(self._data, **asdict(data))
         self.notify('initial_params_updated', params=data)
 
     @override
-    def get_params(self) -> requests.InitialParams:
+    def get_params(self) -> requests.InitialParametersDTO:
         """Get Word study Presentation params."""
-        return requests.InitialParams(
+        return requests.InitialParametersDTO(
             category=(self._data.category or self._data.category),
             mark=(self._data.mark or self._data.mark),
         )

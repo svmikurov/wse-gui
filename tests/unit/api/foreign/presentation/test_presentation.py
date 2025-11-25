@@ -16,9 +16,9 @@ from . import cases
 
 
 @pytest.fixture
-def request_payload() -> requests.InitialParams:
+def request_payload() -> requests.SelectedParameters:
     """Provide request payload via Presentation params."""
-    return requests.InitialParams()
+    return requests.SelectedParameters()
 
 
 @pytest.fixture
@@ -85,7 +85,7 @@ class TestResponse:
 
     def test_presentation_case_validation(
         self,
-        request_payload: requests.InitialParams,
+        request_payload: requests.SelectedParameters,
         api_deps_mock: WordStudyPresentationApi,
     ) -> None:
         """Test the Presentation case response validation."""

@@ -31,6 +31,6 @@ class WordStudyRepo(repos.WordStudyRepoABC):
         self._locale_source.set_case(case)
         return self._locale_source.get_presentation_data()
 
-    def _get_params(self) -> requests.InitialParams:
+    def _get_params(self) -> requests.InitialParametersDTO:
         params = self._params_repo.get_params()
         return params

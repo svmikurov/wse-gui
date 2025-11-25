@@ -46,7 +46,7 @@ class WordStudyNetworkSourceABC(
     @abstractmethod
     def fetch_presentation(
         self,
-        params: requests.InitialParams,
+        params: requests.InitialParametersDTO,
     ) -> schemas.PresentationCase:
         """Fetch Word study presentation case."""
 
@@ -75,7 +75,7 @@ class WordParamsLocaleSourceABC(
     """ABC for Word study params Locale source."""
 
     @abstractmethod
-    def set_initial_params(self, data: requests.InitialParams) -> None:
+    def set_initial_params(self, data: requests.SelectedParameters) -> None:
         """Save initial Word study params."""
 
     @abstractmethod
@@ -83,7 +83,7 @@ class WordParamsLocaleSourceABC(
         """Save initial Word study params."""
 
     @abstractmethod
-    def get_params(self) -> requests.InitialParams:
+    def get_params(self) -> requests.InitialParametersDTO:
         """Get Word study Presentation params."""
 
 
@@ -98,5 +98,5 @@ class WordParamsNetworkSourceABC(
 
     # TODO: Fix static types.
     @abstractmethod
-    def save_initial_params(self, data: requests.InitialParams) -> bool:
+    def save_initial_params(self, data: requests.InitialParametersDTO) -> bool:
         """Save Word study initial params."""

@@ -69,11 +69,11 @@ class WordParamsRepoABC(
     """ABC for Word study repository."""
 
     @abstractmethod
-    def get_params(self) -> requests.InitialParams:
+    def get_params(self) -> requests.InitialParametersDTO:
         """Get Word study presentation params."""
 
     @abstractmethod
-    def update_params(self, data: requests.InitialParams) -> None:
+    def update_params(self, data: requests.InitialParametersDTO) -> None:
         """Update Word study presentation params."""
 
 

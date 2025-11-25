@@ -67,7 +67,7 @@ class WordParamsApi(WordParamsApiABC):
     @override
     def save_initial_params(
         self,
-        data: requests.InitialParams,
+        data: requests.InitialParametersDTO,
     ) -> None:
         """Save Word study params."""
         try:

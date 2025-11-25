@@ -17,6 +17,13 @@ class IdNameSchema(BaseSchema):
     name: str
 
 
+class CodeNameSchema(BaseSchema):
+    """Schema representing an entity with a code and a name."""
+
+    code: str
+    name: str
+
+
 class ItemsData(BaseSchema):
     """Response items data."""
 

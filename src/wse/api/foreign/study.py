@@ -28,7 +28,7 @@ class WordStudyPresentationApi(WordStudyPresentationApiABC):
 
     def fetch_presentation(
         self,
-        payload: requests.InitialParams,
+        payload: requests.SelectedParameters,
     ) -> schemas.PresentationCase:
         """Fetch presentation."""
         response = self._http_client.post(

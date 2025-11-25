@@ -23,7 +23,7 @@ class WordStudyPresentationApiABC(ABC):
     @abstractmethod
     def fetch_presentation(
         self,
-        payload: requests.InitialParams,
+        payload: requests.InitialParametersDTO,
     ) -> schemas.PresentationCase:
         """Fetch presentation."""
 
@@ -40,6 +40,6 @@ class WordParamsApiABC(ABC):
     @abstractmethod
     def save_initial_params(
         self,
-        data: requests.InitialParams,
+        data: requests.InitialParametersDTO,
     ) -> None:
         """Save Word study params."""

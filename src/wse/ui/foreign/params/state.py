@@ -2,14 +2,13 @@
 
 import logging
 from dataclasses import dataclass, fields, replace
-from decimal import Decimal
 from typing import Any, override
 
 from injector import inject
 
 from wse.api.foreign import requests
 from wse.data.repos.foreign import WordParamsMapperABC, WordParamsRepoABC
-from wse.data.sources.foreign import WordParamsNotifyABC
+from wse.data.sources import foreign as sources
 from wse.feature.observer.accessor import NotifyAccessorGen
 from wse.feature.observer.mixins import ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateStateMixin
@@ -22,38 +21,8 @@ log = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
-class ParamsValue:
-    """Current Presentation params values.
-
-    Field name according widget attr name.
-    """
-
-    # Choice
-    category: requests.IdName | None = None
-    mark: requests.IdName | None = None
-    word_source: requests.IdName | None = None
-    order: requests.IdName | None = None
-    start_period: requests.IdName | None = None
-    end_period: requests.IdName | None = None
-
-    # Input
-    word_count: Decimal | None = None
-    question_timeout: Decimal | None = None
-    answer_timeout: Decimal | None = None
-
-
-@dataclass(frozen=True)
-class PresentationParamsData(ParamsValue):
+class PresentationParamsData(sources.WordParamsData):
     """Word study Presentation data."""
-
-    # Choices
-    categories: list[requests.IdName] | None = None
-    marks: list[requests.IdName] | None = None
-    sources: list[requests.IdName] | None = None
-    periods: list[requests.IdName] | None = None
-    orders: list[requests.IdName] | None = None
-    start_periods: list[requests.IdName] | None = None
-    end_periods: list[requests.IdName] | None = None
 
 
 @inject
@@ -62,7 +31,7 @@ class WordStudyParamsViewModel(
     NavigateStateMixin,
     ObserverManagerGen[Any],  # TODO: Update Any to ...
     NotifyAccessorGen[Any, Any],  # TODO: Update Any to ...
-    WordParamsNotifyABC,
+    sources.WordParamsNotifyABC,
     WordStudyParamsViewModelABC,
 ):
     """Word study params ViewModel."""
@@ -131,6 +100,7 @@ class WordStudyParamsViewModel(
         self._update('word_count', None)
         self._update('answer_timeout', None)
         self._update('question_timeout', None)
+        self._update('order', None)
 
     # Helpers
     # -------
@@ -162,10 +132,10 @@ class WordStudyParamsViewModel(
     @decorators.log_unimplemented_call
     def _reset_params(self) -> None: ...
 
-    def _get_current_params(self) -> requests.InitialParams:
+    def _get_current_params(self) -> requests.InitialParametersDTO:
         fields_to_update = [
-            field.name for field in fields(requests.InitialParams)
+            field.name for field in fields(requests.InitialParametersDTO)
         ]
-        return requests.InitialParams(
+        return requests.InitialParametersDTO(
             **{field: getattr(self._data, field) for field in fields_to_update}
         )

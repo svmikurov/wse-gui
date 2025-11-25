@@ -89,7 +89,7 @@ class WordStudyPresentationNetworkSource(
     @override
     def fetch_presentation(
         self,
-        params: requests.InitialParams,
+        params: requests.InitialParametersDTO,
     ) -> schemas.PresentationCase:
         """Fetch word study presentation case."""
         try:

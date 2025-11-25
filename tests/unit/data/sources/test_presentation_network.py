@@ -39,7 +39,7 @@ class TestNetworkSource:
 
     def test_fetch_presentation_case(
         self,
-        presentation_params: requests.InitialParams,
+        presentation_params: requests.InitialParametersDTO,
         presentation_data: schemas.PresentationCase,
         mock_api_client: Mock,
         network_source: study.WordStudyPresentationNetworkSource,

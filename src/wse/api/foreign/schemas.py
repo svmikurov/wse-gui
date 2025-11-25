@@ -51,13 +51,14 @@ class PresentationCase(PresentationSchema):
 # ------------------------------
 
 
-class ParamsChoices(base.BaseSchema):
+class ParamOptions(base.BaseSchema):
     """Schema representing a case params choices."""
 
     categories: list[base.IdNameSchema] = []
     marks: list[base.IdNameSchema] = []
     sources: list[base.IdNameSchema] = []
     periods: list[base.IdNameSchema] = []
+    translation_orders: list[base.CodeNameSchema] = []
 
 
 class InitialChoices(base.BaseSchema):
@@ -66,6 +67,7 @@ class InitialChoices(base.BaseSchema):
     category: base.IdNameSchema | None
     mark: base.IdNameSchema | None
     word_source: base.IdNameSchema | None
+    translation_order: base.CodeNameSchema | None
     start_period: base.IdNameSchema | None
     end_period: base.IdNameSchema | None
 
@@ -74,12 +76,12 @@ class PresentationSettings(base.BaseSchema):
     """Schema representing a settings schema."""
 
     word_count: int | None
-    question_timeout: float | None = 1.5
-    answer_timeout: float | None = 1.5
+    question_timeout: int | None = 2
+    answer_timeout: int | None = 2
 
 
 class PresentationParams(
-    ParamsChoices,
+    ParamOptions,
     InitialChoices,
     PresentationSettings,
 ):

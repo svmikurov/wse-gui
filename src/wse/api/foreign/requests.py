@@ -1,7 +1,6 @@
 """Foreign discipline API Request payload types."""
 
 from dataclasses import dataclass, field
-from decimal import Decimal
 
 
 # TODO: Move for shared
@@ -13,52 +12,58 @@ class IdName:
     name: str
 
 
-# TODO: Move to data
 @dataclass
-class ParamsChoices:
-    """Word study Presentation params choices.
+class CodeName:
+    """Represents a basic identifiable entity with code and name."""
 
-    Included in Word study Presentation params Response data.
-    """
+    code: str
+    name: str
+
+
+@dataclass
+class ParameterOptions:
+    """Word study Presentation parameter options."""
 
     categories: list[IdName] = field(default_factory=list)
     marks: list[IdName] = field(default_factory=list)
     sources: list[IdName] = field(default_factory=list)
     periods: list[IdName] = field(default_factory=list)
+    translation_orders: list[CodeName] = field(default_factory=list)
 
 
-# TODO: Move to data
 @dataclass
-class InitialParams:
-    """Initial Word study Presentation params.
-
-    Included in Word study Presentation params
-    Request to update and Response to get data.
-    """
+class SelectedParameters:
+    """Selected Word study Presentation parameters."""
 
     category: IdName | None = None
     mark: IdName | None = None
     word_source: IdName | None = None
-    order: IdName | None = None
+    translation_order: CodeName | None = None
     start_period: IdName | None = None
     end_period: IdName | None = None
 
 
-# TODO: Move to data
 @dataclass
-class Settings:
-    """Word study Presentation params DTO."""
+class SettingParameters:
+    """Word study Presentation parameter settings."""
 
-    word_count: Decimal | int | None = None
-    question_timeout: Decimal | float | None = None
-    answer_timeout: Decimal | float | None = None
+    word_count: int | None = None
+    question_timeout: int | None = None
+    answer_timeout: int | None = None
 
 
-# TODO: Move to data
+@dataclass
+class InitialParametersDTO(
+    SelectedParameters,
+    SettingParameters,
+):
+    """Word study Presentation initial parameters DTO."""
+
+
 @dataclass
 class PresentationParamsDTO(
-    InitialParams,
-    ParamsChoices,
-    Settings,
+    SelectedParameters,
+    ParameterOptions,
+    SettingParameters,
 ):
     """Presentation params with choices DTO."""
