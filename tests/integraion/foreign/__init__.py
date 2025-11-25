@@ -1,0 +1,1 @@
+"""Foreign discipline Integration tests."""
