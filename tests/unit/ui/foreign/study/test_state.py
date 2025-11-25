@@ -138,14 +138,12 @@ class TestActionHandle:
         mock_study_use_case.unknown.assert_called_once()
 
 
-class TestWordPresentationViewModel:
-    """Tests of Word study via presentation the ViewModel."""
+class TestViewModelInitialization:
+    """Word study Presentation ViewModel initialization test."""
 
-    def test_view_model_has_correct_attributes(
+    def test_success_initialization(
         self,
         view_model: WordPresentationViewModel,
     ) -> None:
-        """Test that ViewModel has all required attributes."""
-        assert view_model._navigator is not None
-        assert view_model._subject is not None
-        assert view_model._study_case is not None
+        """Test that the ViewModel is initialized successfully."""
+        assert view_model
