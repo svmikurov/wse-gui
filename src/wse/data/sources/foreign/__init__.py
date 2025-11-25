@@ -8,6 +8,7 @@ __all__ = [
     'WordStudyNetworkSourceABC',
     'WordStudyLocaleSourceABC',
     'WordStudyProgressNetworkSourceABC',
+    'WordParamsData',
 ]
 
 from .abc import (
@@ -19,3 +20,4 @@ from .abc import (
     WordStudyNetworkSourceABC,
     WordStudyProgressNetworkSourceABC,
 )
+from .params import WordParamsData
