@@ -1,5 +1,6 @@
 """Listener mixin via accessors."""
 
+import logging
 from dataclasses import dataclass
 from typing import Generic
 
@@ -10,6 +11,8 @@ from wse.types import AccessorT, NotifyT, ObserverT
 from .abc import AccessorNotifyGenABC, SubjectABC
 from .generic import ObserverManagerGenABC
 from .mixins import ObserverManagerGen
+
+log = logging.getLogger(__name__)
 
 
 class AccessorMixin:
@@ -59,7 +62,11 @@ class NotifyAccessorGen(Generic[NotifyT, AccessorT]):
         **kwargs: object,
     ) -> None:
         """Notify observer about event."""
-        self._subject.notify(notification, accessor=accessor, **kwargs)
+        try:
+            self._subject.notify(notification, accessor=accessor, **kwargs)
+        except Exception:
+            log.exception('Accessor notification error')
+            raise
 
 
 class SubjectAccessorGenABC(
