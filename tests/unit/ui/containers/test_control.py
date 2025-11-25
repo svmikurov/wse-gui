@@ -7,6 +7,7 @@ import pytest
 from wse.config import layout
 from wse.ui.containers.control import Action, ControlNotifyT
 from wse.ui.containers.control.container import ControlContainer
+from wse.ui.content import Content
 
 CONTAINER_NOTIFICATION: ControlNotifyT = 'handle'
 
@@ -15,7 +16,7 @@ CONTAINER_NOTIFICATION: ControlNotifyT = 'handle'
 def control_container(
     style: layout.StyleConfig,
     theme: layout.ThemeConfig,
-    content: Mock,
+    content: Content,
     mock_subject: Mock,
 ) -> ControlContainer:
     """Get Control container fixture."""
