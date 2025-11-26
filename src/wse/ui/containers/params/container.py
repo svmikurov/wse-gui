@@ -38,7 +38,7 @@ class ParamsContainer(
         'category',
         'mark',
         'word_source',
-        'order',
+        'translation_order',
         'start_period',
         'end_period',
         'word_count',
@@ -55,8 +55,10 @@ class ParamsContainer(
         self._mark = self._create_selection('mark')
         self._word_source_label = toga.Label(I18N.LABEL('Source'))
         self._word_source = self._create_selection('word_source')
-        self._order_label = toga.Label(I18N.LABEL('Translate order'))
-        self._order = self._create_selection('order')
+        self._translation_order_label = toga.Label(
+            I18N.LABEL('Translate order')
+        )
+        self._translation_order = self._create_selection('translation_order')
         self._period_label = toga.Label(I18N.LABEL('Word adding period'))
         self._start_period = self._create_selection('start_period')
         self._end_period = self._create_selection('end_period')
@@ -92,8 +94,8 @@ class ParamsContainer(
         self._mark.style.update(**config.params.select)
         self._word_source_label.style.update(**config.params.label)
         self._word_source.style.update(**config.params.select)
-        self._order_label.style.update(**config.params.label)
-        self._order.style.update(**config.params.select)
+        self._translation_order_label.style.update(**config.params.label)
+        self._translation_order.style.update(**config.params.select)
         self._period_label.style.update(**config.params.label)
         self._start_period.style.update(**config.params.select)
         self._end_period.style.update(**config.params.select)
@@ -127,7 +129,9 @@ class ParamsContainer(
     @property
     def order_select(self) -> toga.Box:
         """Order select."""
-        return self._combine(self._order_label, self._order)
+        return self._combine(
+            self._translation_order_label, self._translation_order
+        )
 
     @property
     def input_count(self) -> toga.Box:
@@ -213,8 +217,8 @@ class ParamsContainer(
     def _on_change(self, input: toga.NumberInput, accessor: str) -> None:
         self.notify('widget_updated', accessor=accessor, value=input.value)
 
-    # Source methods
-    # --------------
+    # Api contract
+    # ------------
 
     @override
     def set_values(self, accessor: str, values: object) -> None:
