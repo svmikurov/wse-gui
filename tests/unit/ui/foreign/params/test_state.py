@@ -37,6 +37,9 @@ def parameters_dto() -> requests.PresentationParamsDTO:
         category=category,
         mark=mark,
         word_source=source,
+        word_count=22,
+        question_timeout=2,
+        answer_timeout=3,
     )
 
 
@@ -84,10 +87,6 @@ def view_model_di_mock(
 class TestViewApiContract:
     """View api contract test."""
 
-    # TODO: Add tests:
-    # - Test that UIState success updated with widget data.
-    # - Reset selected params success test
-
     def test_save_params_success(
         self,
         mock_repo: Mock,
@@ -96,7 +95,7 @@ class TestViewApiContract:
     ) -> None:
         """Save initial params success test."""
         # Arrange
-        expected_call = requests.InitialParams(
+        expected_call = requests.InitialParametersDTO(
             category=parameters_dto.category,
             mark=parameters_dto.mark,
         )
@@ -115,7 +114,7 @@ class TestViewModelNotifications:
         view_model_di_mock: state.WordStudyParamsViewModel,
         parameters_dto: requests.PresentationParamsDTO,
     ) -> None:
-        """Test that View was notified with Parameters."""
+        """Test that View was notified with **options**."""
         # Arrange
         # - Expected notifications
         choices = [
@@ -124,6 +123,10 @@ class TestViewModelNotifications:
             call(accessor='word_source', values=[parameters_dto.word_source]),
             call(accessor='start_period', values=parameters_dto.periods),
             call(accessor='end_period', values=parameters_dto.periods),
+            call(
+                accessor='translation_order',
+                values=parameters_dto.translation_orders,
+            ),
         ]
         # - Mock and subscribe View to notifications
         mock_view = Mock(spec=params.WordStudyParamsViewABC)
@@ -140,13 +143,16 @@ class TestViewModelNotifications:
         view_model_di_mock: state.WordStudyParamsViewModel,
         parameters_dto: requests.PresentationParamsDTO,
     ) -> None:
-        """Test that View was notified with Parameters."""
+        """Test that View was notified with **initial value**."""
         # Arrange
         # - Expected notifications
         initial_choice = [
             call(accessor='mark', value=parameters_dto.mark),
             call(accessor='category', value=parameters_dto.category),
             call(accessor='word_source', value=parameters_dto.word_source),
+            call(accessor='word_count', value=22),
+            call(accessor='answer_timeout', value=3),
+            call(accessor='question_timeout', value=2),
         ]
         # - Mock and subscribe View to notifications
         mock_view = Mock(spec=params.WordStudyParamsViewABC)
@@ -157,10 +163,6 @@ class TestViewModelNotifications:
 
         # Assert
         assert mock_view.value_updated.call_args_list == initial_choice
-
-
-class TestNotificationObserve:
-    """Dependency notification observe test."""
 
 
 class TestInitialization:
