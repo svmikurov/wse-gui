@@ -1,4 +1,4 @@
-"""Params container."""
+"""Container for a set of parameters."""
 
 from dataclasses import dataclass
 from functools import partial
@@ -113,34 +113,29 @@ class ParamsContainer(
 
     @property
     def select_category(self) -> toga.Box:
-        """Word count select."""
+        """Get the named selection widget of category."""
         return self._combine(self._category_label, self._category)
 
     @property
     def select_mark(self) -> toga.Box:
-        """Mark select."""
+        """Get the named selection widget of mark."""
         return self._combine(self._mark_label, self._mark)
 
     @property
     def source_select(self) -> toga.Box:
-        """Source select."""
+        """Get the named selection widget of source."""
         return self._combine(self._word_source_label, self._word_source)
 
     @property
     def order_select(self) -> toga.Box:
-        """Order select."""
+        """Get the named selection widget of translation order."""
         return self._combine(
             self._translation_order_label, self._translation_order
         )
 
     @property
-    def input_count(self) -> toga.Box:
-        """Word count input."""
-        return self._combine(self._word_count_label, self._word_count)
-
-    @property
     def period_select(self) -> toga.Box:
-        """Word adding period select."""
+        """Get the named selection widget of period select."""
         label_row = toga.Box(margin=(10, 0, 10, 0))
         left_box = toga.Box(flex=1, margin_right=1)
         right_box = toga.Box(flex=1, margin_right=1)
@@ -155,15 +150,20 @@ class ParamsContainer(
         )
 
     @property
+    def input_count(self) -> toga.Box:
+        """Get the named input widget of word count."""
+        return self._combine(self._word_count_label, self._word_count)
+
+    @property
     def question_timeout(self) -> toga.Box:
-        """Question timeout input."""
+        """Get the named input widget of question timeout."""
         return self._combine(
             self._question_timeout_label, self._question_timeout
         )
 
     @property
     def answer_timeout(self) -> toga.Box:
-        """Answer timeout input."""
+        """Get the named input widget of answer timeout."""
         return self._combine(self._answer_timeout_label, self._answer_timeout)
 
     # Utility methods
