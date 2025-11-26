@@ -15,7 +15,7 @@ from wse.utils.contextmanager import EventDisabler
 from wse.utils.i18n import I18N
 
 from . import ParamsContainerABC
-from .entity import NamedEntitySource
+from .entity import IdNameSource
 
 UI_MARGIN = (2, 5, 2, 5)
 
@@ -187,7 +187,7 @@ class ParamsContainer(
         self._validate_accessor(accessor)
         return toga.Selection(
             accessor='name',
-            items=NamedEntitySource(),
+            items=IdNameSource(),
             on_change=partial(self._on_select, accessor=accessor),
         )
 

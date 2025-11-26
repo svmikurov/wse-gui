@@ -1,50 +1,34 @@
 """Word study params entities."""
 
-from typing import NamedTuple
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from toga.sources import Source
+
+if TYPE_CHECKING:
+    from wse.api.foreign import requests
 
 # TODO: Replace module
 
 
-class NamedEntity(NamedTuple):
-    """Named entity."""
-
-    id: str
-    name: str
-
-
-MARKS: list[NamedEntity] = [
-    NamedEntity('1', 'know'),
-    NamedEntity('2', 'to study'),
-    NamedEntity('3', 'repeat'),
-]
-
-
-CATEGORIES: list[NamedEntity] = [
-    NamedEntity('1', 'color'),
-    NamedEntity('2', 'django'),
-    NamedEntity('3', 'rust'),
-]
-
-
-class NamedEntitySource(Source):
-    """ABC for Source of named entity."""
+class IdNameSource(Source):
+    """ABC for Source for id-name entity."""
 
     def __init__(self) -> None:
         """Construct the source."""
         super().__init__()
-        self._items: list[NamedEntity] = []
+        self._items: list[requests.IdName] = []
 
-    def __getitem__(self, index: int) -> NamedEntity:
+    def __getitem__(self, index: int) -> requests.IdName:
         """Get item from collection by index."""
         return self._items[index]
 
-    def index(self, entry: NamedEntity) -> int:
+    def index(self, entry: requests.IdName) -> int:
         """Return entry index in collection."""
         return self._items.index(entry)
 
-    def add(self, entry: NamedEntity) -> None:
+    def add(self, entry: requests.IdName) -> None:
         """Add entry."""
         self._items.append(entry)
         self.notify(
@@ -53,7 +37,7 @@ class NamedEntitySource(Source):
             item=entry,
         )
 
-    def update(self, entries: list[NamedEntity]) -> None:
+    def update(self, entries: list[requests.IdName]) -> None:
         """Update select data source."""
         self.clear()
         for entry in entries:
@@ -64,7 +48,7 @@ class NamedEntitySource(Source):
         self._items = []
         self.notify('clear')
 
-    def find(self, entry: str) -> NamedEntity:
+    def find(self, entry: str) -> requests.IdName:
         """Find entry in source entries."""
         for item in self._items:
             if item.name == entry:
