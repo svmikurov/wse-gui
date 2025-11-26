@@ -84,6 +84,7 @@ class WordStudyParamsViewModel(
     # Notification observe
     # --------------------
 
+    # TODO: Refactor: split to 'options', 'selected', 'set'?
     @override
     def initial_params_updated(
         self,
@@ -99,11 +100,12 @@ class WordStudyParamsViewModel(
         self._update('word_source', 'sources')
         self._update('start_period', 'periods')
         self._update('end_period', 'periods')
+        self._update('translation_order', 'translation_orders')
 
-        self._update('word_count', None)
-        self._update('answer_timeout', None)
-        self._update('question_timeout', None)
-        self._update('order', None)
+        self._update('word_count')
+        self._update('answer_timeout')
+        self._update('question_timeout')
+        self._update('translation_order')
 
     # Helpers
     # -------
