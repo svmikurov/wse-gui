@@ -1,19 +1,13 @@
-"""Word study Presentation parameters Screen **initialize** tests."""
+"""Word study Presentation parameters Screen tests."""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from wse.ui.foreign.params import view
 
-
-class TestUpdateParametersNotification:
-    """Test Word study Presentation parameters update notification."""
-
-    def test_notification(
-        self,
-        screen: view.WordStudyParamsView,
-    ) -> None:
-        """Test that notified successfully."""
-        # Act
-
-        # Assert
+if TYPE_CHECKING:
+    from wse.ui.foreign.params import view
 
 
 class TestScreenInitialization:
