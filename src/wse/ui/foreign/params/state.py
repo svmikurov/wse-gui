@@ -40,10 +40,13 @@ class WordStudyParamsViewModel(
     _repo: WordParamsRepoABC
     _source_subscriber: WordParamsMapperABC
 
+    def __post_init__(self) -> None:
+        """Construct the ViewModel."""
+        self._source_subscriber.subscribe(self)
+
     @override
     def on_open(self) -> None:
         """Call methods on screen open."""
-        self._source_subscriber.subscribe(self)
         self._refresh_initial_params()
 
     @override
