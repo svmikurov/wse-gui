@@ -49,6 +49,14 @@ class ParamsContainerABC(
         self._apply_styles()
 
     @abstractmethod
+    def set_values(self, accessor: str, values: object) -> None:
+        """Set widget values via accessor.
+
+        Updated widget must implement ``items.update()`` Source
+        interface.
+        """
+
+    @abstractmethod
     def set_value(
         self,
         accessor: str,
