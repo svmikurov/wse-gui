@@ -4,51 +4,28 @@ from unittest.mock import Mock, call
 
 import pytest
 
-from wse.api.foreign import requests
+from tests.fixtures.foreign import params as fixtures
+from wse.data.dto import foreign as dto
 from wse.data.repos import foreign as repo
 from wse.feature.observer.subject import Subject
-from wse.ui.foreign import params
-from wse.ui.foreign.params import state
+from wse.ui.foreign.params import WordStudyParamsViewABC, state
 
 # Test data fixtures
 # ------------------
 
 
-@pytest.fixture
-def parameters_dto() -> requests.PresentationParamsDTO:
-    """Presentation parameters DTO to updated UIState.
-
-    Populated from the API schema at runtime.
-    """
-    # Presentation parameters
-    category = requests.IdName(id=1, name='category 1')
-    mark = requests.IdName(id=1, name='mark 1')
-    source = requests.IdName(id=1, name='source 1')
-    start_period = requests.IdName(id=1, name='start period')
-    end_period = requests.IdName(id=1, name='end period')
-
-    return requests.PresentationParamsDTO(
-        # - Choices
-        categories=[category],
-        marks=[mark],
-        sources=[source],
-        periods=[start_period, end_period],
-        # - Initial choice
-        category=category,
-        mark=mark,
-        word_source=source,
-        word_count=22,
-        question_timeout=2,
-        answer_timeout=3,
-    )
+@pytest.fixture(scope='session')
+def parameters_dto() -> dto.PresentationParameters:
+    """Provide Word study parameters DTO."""
+    return fixtures.PARAMETERS_DTO
 
 
 @pytest.fixture
 def state_data(
-    parameters_dto: requests.PresentationParamsDTO,
-) -> state.PresentationParamsData:
+    parameters_dto: dto.PresentationParameters,
+) -> state.WordParametersUIState:
     """Provide UIState data."""
-    return state.PresentationParamsData(
+    return state.WordParametersUIState(
         category=parameters_dto.category,
         mark=parameters_dto.mark,
     )
@@ -61,7 +38,7 @@ def state_data(
 @pytest.fixture
 def mock_repo() -> Mock:
     """Mock repository."""
-    return Mock(spec=repo.WordParamsRepoABC)
+    return Mock(spec=repo.WordParametersRepoABC)
 
 
 # Test ViewModel fixture
@@ -72,7 +49,7 @@ def mock_repo() -> Mock:
 def view_model_di_mock(
     mock_repo: Mock,
     subject: Subject,
-    state_data: state.PresentationParamsData,
+    state_data: state.WordParametersUIState,
 ) -> state.WordStudyParamsViewModel:
     """Provide ViewModel."""
     return state.WordStudyParamsViewModel(
@@ -91,11 +68,11 @@ class TestViewApiContract:
         self,
         mock_repo: Mock,
         view_model_di_mock: state.WordStudyParamsViewModel,
-        parameters_dto: requests.PresentationParamsDTO,
+        parameters_dto: dto.PresentationParameters,
     ) -> None:
         """Save initial params success test."""
         # Arrange
-        expected_call = requests.InitialParametersDTO(
+        expected_call = dto.InitialParameters(
             category=parameters_dto.category,
             mark=parameters_dto.mark,
         )
@@ -103,7 +80,7 @@ class TestViewApiContract:
         view_model_di_mock.save_params()
 
         # Assert
-        mock_repo.update_params.assert_called_once_with(expected_call)
+        mock_repo.save.assert_called_once_with(expected_call)
 
 
 class TestViewModelNotifications:
@@ -112,15 +89,15 @@ class TestViewModelNotifications:
     def test_parameter_values_updated_notification(
         self,
         view_model_di_mock: state.WordStudyParamsViewModel,
-        parameters_dto: requests.PresentationParamsDTO,
+        parameters_dto: dto.PresentationParameters,
     ) -> None:
         """Test that View was notified with **options**."""
         # Arrange
         # - Expected notifications
         choices = [
-            call(accessor='mark', values=[parameters_dto.mark]),
-            call(accessor='category', values=[parameters_dto.category]),
-            call(accessor='word_source', values=[parameters_dto.word_source]),
+            call(accessor='category', values=parameters_dto.categories),
+            call(accessor='mark', values=parameters_dto.marks),
+            call(accessor='word_source', values=parameters_dto.sources),
             call(accessor='start_period', values=parameters_dto.periods),
             call(accessor='end_period', values=parameters_dto.periods),
             call(
@@ -129,37 +106,56 @@ class TestViewModelNotifications:
             ),
         ]
         # - Mock and subscribe View to notifications
-        mock_view = Mock(spec=params.WordStudyParamsViewABC)
+        mock_view = Mock(spec=WordStudyParamsViewABC)
         view_model_di_mock.add_observer(mock_view)
 
         # Act
-        view_model_di_mock.initial_params_updated(parameters_dto)
+        view_model_di_mock.params_updated(parameters_dto)
 
         # Assert
+        print(f'\n{mock_view.values_updated.call_args_list = }')
         assert mock_view.values_updated.call_args_list == choices
 
     def test_parameter_value_updated_notification(
         self,
         view_model_di_mock: state.WordStudyParamsViewModel,
-        parameters_dto: requests.PresentationParamsDTO,
+        parameters_dto: dto.PresentationParameters,
     ) -> None:
         """Test that View was notified with **initial value**."""
-        # Arrange
         # - Expected notifications
         initial_choice = [
-            call(accessor='mark', value=parameters_dto.mark),
-            call(accessor='category', value=parameters_dto.category),
-            call(accessor='word_source', value=parameters_dto.word_source),
-            call(accessor='word_count', value=22),
-            call(accessor='answer_timeout', value=3),
             call(accessor='question_timeout', value=2),
+            call(accessor='answer_timeout', value=2),
+            call(accessor='word_count', value=90),
+            call(
+                accessor='category',
+                value=dto.IdName(id=2, name='category 2'),
+            ),
+            call(accessor='mark', value=dto.IdName(id=2, name='mark')),
+            call(
+                accessor='word_source', value=dto.IdName(id=2, name='source 2')
+            ),
+            call(
+                accessor='translation_order',
+                value=dto.CodeName(code='to_native', name='На родной язык'),
+            ),
+            call(
+                accessor='start_period',
+                value=dto.IdName(id=2, name='week_before'),
+            ),
+            call(
+                accessor='end_period',
+                value=dto.IdName(id=2, name='week_before'),
+            ),
         ]
         # - Mock and subscribe View to notifications
-        mock_view = Mock(spec=params.WordStudyParamsViewABC)
+        mock_view = Mock(spec=WordStudyParamsViewABC)
         view_model_di_mock.add_observer(mock_view)
 
         # Act
-        view_model_di_mock.initial_params_updated(parameters_dto)
+        view_model_di_mock.params_updated(parameters_dto)
+
+        print(f'\n\n\n{mock_view.value_updated.call_args_list = }')
 
         # Assert
         assert mock_view.value_updated.call_args_list == initial_choice

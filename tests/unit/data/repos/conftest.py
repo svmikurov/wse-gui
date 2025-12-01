@@ -4,73 +4,55 @@ from unittest.mock import Mock
 
 import pytest
 
-from tests.unit.api.foreign.presentation import cases
-from wse.api.foreign import schemas
-from wse.data.repos.foreign import WordParamsRepoABC, progress, study
-from wse.data.sources import foreign as source
-
-# Data fixtures
+from wse.data.repos.foreign import params, progress, study
+from wse.data.sources import foreign as sources
 
 
 @pytest.fixture
-def presentation_params() -> schemas.PresentationParams:
-    """Provide Presentation case params."""
-    return schemas.PresentationParams.from_dict(cases.REQUEST_PAYLOAD)  # type: ignore[arg-type]
-
-
-# Source fixtures
-# ---------------
+def mock_word_study_locale_source() -> Mock:
+    """Mock Word study Locale source."""
+    return Mock(spec=sources.WordPresentationLocaleSourceABC)
 
 
 @pytest.fixture
-def mock_word_progress_source() -> Mock:
-    """Mock the Word study progress source."""
-    return Mock(spec=source.WordStudyProgressNetworkSourceABC)
+def mock_word_study_network_source() -> Mock:
+    """Mock Word study Network source."""
+    return Mock(spec=sources.WordPresentationNetworkSourceABC)
 
 
 @pytest.fixture
-def mock_network_params_source() -> Mock:
-    """Mock the Word study Presentation params Network source."""
-    return Mock(spec=source.WordParamsNetworkSourceABC)
-
-
-@pytest.fixture
-def mock_locale_source() -> Mock:
-    """Mock the Word study Presentation params Locale source."""
-    return Mock(spec=source.WordParamsLocaleSourceABC)
-
-
-# Repository fixtures
-# -------------------
-
-
-@pytest.fixture
-def mock_word_study_params_repo() -> Mock:
-    """Mock Word study params repository."""
-    return Mock(spec=WordParamsRepoABC)
+def params_repo(
+    mock_network_source: Mock,
+    mock_locale_source: Mock,
+) -> params.WordParametersRepo:
+    """Provide Word study params repository."""
+    return params.WordParametersRepo(
+        _network_source=mock_network_source,
+        _local_source=mock_locale_source,
+    )
 
 
 @pytest.fixture
 def word_study_repo(
-    mock_word_locale_source: Mock,
-    mock_word_network_source: Mock,
-    mock_word_study_params_repo: Mock,
-) -> study.WordStudyRepo:
+    mock_word_study_locale_source: Mock,
+    mock_word_study_network_source: Mock,
+    mock_word_params_repo: Mock,
+) -> study.WordPresentationRepo:
     """Word study repository."""
-    return study.WordStudyRepo(
-        _locale_source=mock_word_locale_source,
-        _network_source=mock_word_network_source,
-        _params_repo=mock_word_study_params_repo,
+    return study.WordPresentationRepo(
+        _locale_source=mock_word_study_locale_source,
+        _network_source=mock_word_study_network_source,
+        _params_repo=mock_word_params_repo,
     )
 
 
 @pytest.fixture
 def word_study_progress_repo(
-    mock_word_locale_source: source.WordStudyLocaleSourceABC,
-    mock_word_progress_source: source.WordStudyProgressNetworkSourceABC,
+    mock_word_study_locale_source: sources.WordPresentationLocaleSourceABC,
+    mock_word_progress_source: sources.WordStudyProgressNetworkSourceABC,
 ) -> progress.WordStudyProgressRepo:
     """Word study progress repository fixture."""
     return progress.WordStudyProgressRepo(
-        case_source=mock_word_locale_source,
+        case_source=mock_word_study_locale_source,
         progress_source=mock_word_progress_source,
     )

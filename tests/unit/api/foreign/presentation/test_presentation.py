@@ -4,10 +4,10 @@ from unittest.mock import Mock
 
 import pytest
 
-from wse.api.foreign import requests
-from wse.api.foreign.study import WordStudyPresentationApi
-from wse.config.api import APIConfigV1
-from wse.core.http import AuthSchemaABC, HttpClientABC
+from tests.fixtures.foreign import params as fixtures
+from wse.api.foreign.presentation import WordPresentationApi
+from wse.core.http import HttpClientABC
+from wse.data.schemas import foreign as schemas
 
 from . import cases
 
@@ -16,9 +16,11 @@ from . import cases
 
 
 @pytest.fixture
-def request_payload() -> requests.SelectedParameters:
+def request_payload() -> schemas.RequestPresentation:
     """Provide request payload via Presentation params."""
-    return requests.SelectedParameters()
+    return schemas.RequestPresentation(
+        **fixtures.PRESENTATION_REQUEST_PAYLOAD  # type: ignore[arg-type]
+    )
 
 
 @pytest.fixture
@@ -47,21 +49,6 @@ def mock_http_client(
     return mock_client
 
 
-@pytest.fixture
-def mock_auth_scheme() -> Mock:
-    """Mock Authentication scheme."""
-    mock = Mock(spec=AuthSchemaABC)
-    return mock
-
-
-@pytest.fixture
-def mock_api_config() -> Mock:
-    """Mock Authentication scheme."""
-    mock = Mock(spec=APIConfigV1)
-    mock.word_presentation = 'url_path'
-    return mock
-
-
 # Api client fixture with mocked dependencies
 # -------------------------------------------
 
@@ -69,13 +56,14 @@ def mock_api_config() -> Mock:
 @pytest.fixture
 def api_deps_mock(
     mock_http_client: Mock,
-    mock_auth_scheme: Mock,
+    mock_auth_schema: Mock,
     mock_api_config: Mock,
-) -> WordStudyPresentationApi:
+) -> WordPresentationApi:
     """Provide api client with mocked dependency."""
-    return WordStudyPresentationApi(
+    mock_api_config.word_presentation = 'url_path'
+    return WordPresentationApi(
         _http_client=mock_http_client,
-        _auth_scheme=mock_auth_scheme,
+        _auth_scheme=mock_auth_schema,
         _api_config=mock_api_config,
     )
 
@@ -85,10 +73,10 @@ class TestResponse:
 
     def test_presentation_case_validation(
         self,
-        request_payload: requests.SelectedParameters,
-        api_deps_mock: WordStudyPresentationApi,
+        request_payload: schemas.RequestPresentation,
+        api_deps_mock: WordPresentationApi,
     ) -> None:
         """Test the Presentation case response validation."""
         # Act & Assert
         # Response payload success validated via `pydantic` schema
-        assert api_deps_mock.fetch_presentation(request_payload)
+        assert api_deps_mock.fetch(request_payload)
