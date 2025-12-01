@@ -1,9 +1,9 @@
-"""Foreign discipline HTTP response schemas."""
+"""Foreign discipline schemas."""
 
 from datetime import datetime
 from typing import TypeAlias
 
-from wse.data.dto import params as dto
+from wse.data.dto import foreign as dto
 from wse.data.schemas import base
 
 OptionsSchemas: TypeAlias = (
@@ -35,8 +35,8 @@ class Words(base.ItemsData):
     results: list[Word]
 
 
-# Word study Presentation case
-# ----------------------------
+# Word study case
+# ---------------
 
 
 class Info(base.BaseSchema):
@@ -53,14 +53,14 @@ class PresentationSchema(base.BaseSchema):
     info: Info | None = None
 
 
-class PresentationCase(PresentationSchema):
+class PresentationCaseSchema(PresentationSchema):
     """Schema representing a Presentation case."""
 
     case_uuid: str
 
 
-# Word study Presentation parameters
-# ----------------------------------
+# Word study parameters
+# ---------------------
 
 
 class PresentationOptionsSchema(base.BaseSchema):
@@ -84,24 +84,38 @@ class SelectedParametersSchema(base.BaseSchema):
     end_period: base.IdNameSchema | None
 
 
-class PresentationSettingsSchema(base.BaseSchema):
-    """Word study settings schema."""
+class SetPresentationSchema(base.BaseSchema):
+    """Word study set parameters schema."""
 
     word_count: int | None
+
+
+class PresentationSettingsSchema(base.BaseSchema):
+    """Word study Presentation settings schema."""
+
     question_timeout: int | None = 2
     answer_timeout: int | None = 2
 
 
 class InitialParametersSchema(
     SelectedParametersSchema,
+    SetPresentationSchema,
     PresentationSettingsSchema,
 ):
     """Schema representing an update presentation parameters."""
 
 
+class RequestPresentationSchema(
+    SelectedParametersSchema,
+    SetPresentationSchema,
+):
+    """Schema representing a request presentation parameters."""
+
+
 class PresentationParametersSchema(
     PresentationOptionsSchema,
     SelectedParametersSchema,
+    SetPresentationSchema,
     PresentationSettingsSchema,
 ):
     """Default Presentation parameters with choices."""
@@ -131,4 +145,4 @@ class PresentationParametersSchema(
                 return [self._convert_nested(item) for item in items]  # type: ignore[return-value]
 
             case _:
-                raise TypeError(f'Got unexpected type: {type(value).__name__}')
+                raise TypeError(f'Unsupported type: {type(value).__name__}')
