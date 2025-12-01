@@ -1,150 +1,112 @@
-"""Word study params Source."""
+"""Word study parameters Source."""
 
 import logging
-from dataclasses import asdict, dataclass, field, fields, replace
+from dataclasses import asdict, dataclass, replace
 from typing import override
 
 from injector import inject
 
-from wse.api.foreign import WordParamsApiABC, requests, schemas
+from wse.api.foreign import WordParametersApiABC
+from wse.data.dto import foreign as dto
+from wse.data.schemas import foreign as schemas
 from wse.data.sources import foreign as base
-from wse.feature.observer.mixins import NotifyGen, ObserverManagerGen
-from wse.utils import decorators
+from wse.feature.observer import mixins as observer
 
 log = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
-class WordParamsData:
-    """Word params data."""
-
-    categories: list[requests.IdName] = field(default_factory=list)
-    marks: list[requests.IdName] = field(default_factory=list)
-    sources: list[requests.IdName] = field(default_factory=list)
-    periods: list[requests.IdName] = field(default_factory=list)
-    translation_orders: list[requests.CodeName] = field(default_factory=list)
-
-    category: requests.IdName | None = None
-    mark: requests.IdName | None = None
-    word_source: requests.IdName | None = None
-    translation_order: requests.CodeName | None = None
-    start_period: requests.IdName | None = None
-    end_period: requests.IdName | None = None
-
-    word_count: int | None = None
-    question_timeout: int | None = None
-    answer_timeout: int | None = None
+class WordParametersData(
+    dto.ParameterOptions,
+    dto.SelectedParameters,
+    dto.SetParameters,
+    dto.PresentationSettings,
+):
+    """Word study parameters Source data."""
 
 
 @inject
 @dataclass
-class WordParamsNetworkSource(base.WordParamsNetworkSourceABC):
-    """Word study params Network source."""
+class WordParamsNetworkSource(
+    base.WordParamsNetworkSourceABC,
+):
+    """Word study parameters Network source."""
 
-    _api_client: WordParamsApiABC
+    _api_client: WordParametersApiABC
 
     @override
-    def fetch_params(self) -> requests.PresentationParamsDTO:
-        """Fetch Word study params."""
+    def fetch(self) -> dto.PresentationParameters:
+        """Fetch Word study parameters."""
         try:
-            schema = self._api_client.fetch_params()
+            schema = self._api_client.fetch()
         except Exception:
-            log.error('Fetch Word study params error')
+            log.error('Fetch Word study parameters error')
             raise
 
-        data = self._convert_schema(schema)
-        return data
+        return schema.to_dto()
 
     @override
-    def save_initial_params(self, data: requests.InitialParametersDTO) -> bool:
-        """Save Word study initial params."""
-        try:
-            self._api_client.save_initial_params(data)
-
-        except Exception:
-            log.error('Initial Word study params not updated')
-            return False
-
-        else:
-            return True
-
-    # Helpers
-    # -------
-
-    def _convert_schema(
+    def save(
         self,
-        schema: schemas.PresentationParams,
-    ) -> requests.PresentationParamsDTO:
-        """Convert Word study Presentation params schema to DTO."""
-        # Convert a schema, including nested schemas,
-        # into a dictionary.
-        schema_data = schema.to_dict()
+        data: dto.InitialParameters,
+    ) -> dto.PresentationParameters:
+        """Save Word study parameters."""
+        try:
+            schema = schemas.InitialParameters(**asdict(data))
+        except Exception:
+            log.error('Save parameters validation error')
+            raise
 
-        # `PresentationParamsDTO` is a derived class from
-        # `SelectedParameters`, `ParameterOptions`, `SettingParameters`,
-        # and therefore contains fields of the same name.
-        initial_fields = [f.name for f in fields(requests.SelectedParameters)]
-        options_fields = [f.name for f in fields(requests.ParameterOptions)]
-        settings_fields = [f.name for f in fields(requests.SettingParameters)]
+        try:
+            updated = self._api_client.save(schema)
+        except Exception:
+            log.error('Update parameters api client error')
+            raise
 
-        initial: dict[str, requests.IdName | requests.CodeName] = {}
-        for f in initial_fields:
-            if schema_data.get(f) and 'id' in schema_data[f]:
-                initial[f] = requests.IdName(**schema_data[f])
-            elif schema_data.get(f) and 'code' in schema_data[f]:
-                initial[f] = requests.CodeName(**schema_data[f])
-
-        options: dict[
-            str, list[requests.IdName] | list[requests.CodeName]
-        ] = {}
-        for f in options_fields:
-            for item in schema_data[f]:
-                if 'id' in item:
-                    options[f] = [
-                        requests.IdName(**item) for item in schema_data[f]
-                    ]
-                if 'code' in item:
-                    options[f] = [
-                        requests.CodeName(**item) for item in schema_data[f]
-                    ]
-
-        settings = {field: schema_data.get(field) for field in settings_fields}
-
-        data = requests.PresentationParamsDTO(
-            **initial,  # type: ignore[arg-type]
-            **options,  # type: ignore[arg-type]
-            **settings,  # type: ignore[arg-type]
-        )
-        return data
+        return updated.to_dto()
 
 
 @inject
 @dataclass
-class WordParamsLocaleSource(
-    ObserverManagerGen[base.WordParamsNotifyABC],
-    NotifyGen[base.ParamsNotifyT],
-    base.WordParamsLocaleSourceABC,
+class WordParametersLocaleSource(
+    observer.ObserverManagerGen[base.WordParametersNotifyABC],
+    observer.NotifyGen[base.ParamsNotifyT],
+    base.WordParametersLocaleSourceABC,
 ):
-    """Word study params Network source."""
+    """Word study parameters Network source."""
 
-    _data: WordParamsData
-
-    # TODO: Update `schemas.ParamsSchema` to `dataclass` DTO?
-    @override
-    def set_initial_params(self, data: requests.SelectedParameters) -> None:
-        """Set Word study initial data."""
-        self._data = replace(self._data, **asdict(data))
-        self.notify('initial_params_updated', params=data)
+    _data: WordParametersData
 
     @override
-    def get_params(self) -> requests.InitialParametersDTO:
-        """Get Word study Presentation params."""
-        return requests.InitialParametersDTO(
-            category=(self._data.category or self._data.category),
-            mark=(self._data.mark or self._data.mark),
-        )
+    def update(
+        self,
+        data: dto.PresentationParameters | dto.InitialParameters,
+    ) -> None:
+        """Update parameters."""
+        self._update(data)
+        self.notify('params_updated', params=self._data)
 
-    @decorators.log_unimplemented_call
     @override
-    def update_initial_params(self, data: object) -> None:
-        """Save initial Word study params."""
+    def set_initial(
+        self,
+        data: dto.InitialParameters,
+    ) -> None:
+        """Set initial parameters."""
+        self._update(data)
+
+    @override
+    def get_initial(self) -> dto.InitialParameters:
+        """Get initial parameters."""
+        return dto.InitialParameters.from_dto(self._data)
+
+    @override
+    def refresh_initial(self) -> None:
+        """Refresh observers data with initial parameters."""
+        self.notify('initial_updated', params=self.get_initial())
+
+    def _update(
+        self,
+        from_dto: dto.PresentationParameters | dto.InitialParameters,
+    ) -> None:
+        """Update source data."""
+        self._data = replace(self._data, **from_dto.__dict__)
