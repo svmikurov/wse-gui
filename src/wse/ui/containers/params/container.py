@@ -215,7 +215,9 @@ class ParamsContainer(
         self.notify('widget_updated', accessor=accessor, value=selection.value)
 
     def _on_change(self, input: toga.NumberInput, accessor: str) -> None:
-        self.notify('widget_updated', accessor=accessor, value=input.value)
+        self.notify(
+            'widget_updated', accessor=accessor, value=int(str(input.value))
+        )
 
     # Api contract
     # ------------
