@@ -10,6 +10,7 @@ from typing import Any, Type
 import toga
 from injector import CallError, Injector, NoInject, inject
 
+from wse.core import exceptions
 from wse.core.exceptions import (
     AuthError,
     NavigateError,
@@ -71,19 +72,25 @@ class Navigator:
 
         except AuthError:
             log.debug(f"Authentication required for '{nav_id.name}'")
-            self._show_unauth_message()
+            self._show_message('Authentication required')
 
         except RuntimeError:
             log.exception('Internal error\n')
             return
 
+        except exceptions.ServerNotAvailableError:
+            log.error('Server not available')
+            self._show_message('Server not available')
+
         except Exception:
-            self._show_server_error_message()
-            log.error(f"Window content not updated with '{nav_id.name}'")
-            return
+            log.exception('Got unexpected error')
+            self._show_message('Got unexpected error')
 
         else:
             self._add_to_history(nav_id)
+            return
+
+        log.error(f"Window content not updated with '{nav_id.name}'")
 
     def _update_window_content(self, nav_id: NavID) -> None:
         if self._window is None:
@@ -130,7 +137,7 @@ class Navigator:
 
         except RuntimeError:
             log.error(f"Build '{nav_id}' runtime error")
-            self._show_open_screen_error_message()
+            self._show_message('Open screen error')
             raise
 
         except Exception:
@@ -193,17 +200,12 @@ class Navigator:
         except Exception:
             return
 
-    def _show_unauth_message(self) -> None:
-        info_msg = toga.InfoDialog('Oops', 'Authentication required')
+    def _show_message(self, message: str) -> None:
+        msg = toga.InfoDialog('Oops', message)
         if self._window:
-            asyncio.create_task(self._window.dialog(info_msg))
+            asyncio.create_task(self._window.dialog(msg))
 
-    def _show_server_error_message(self) -> None:
-        info_msg = toga.InfoDialog('Oops', 'Server error')
+    def _show_unexpected_error_message(self) -> None:
+        msg = toga.InfoDialog('Oops', 'Got unexpected error')
         if self._window:
-            asyncio.create_task(self._window.dialog(info_msg))
-
-    def _show_open_screen_error_message(self) -> None:
-        info_msg = toga.InfoDialog('Oops', 'Open screen error')
-        if self._window:
-            asyncio.create_task(self._window.dialog(info_msg))
+            asyncio.create_task(self._window.dialog(msg))
