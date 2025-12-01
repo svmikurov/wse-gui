@@ -56,7 +56,7 @@ class AssignedTaskRepo(AssignedTaskRepoABC):
         return None
 
     def _get_exercise(self) -> Assigned:
-        return Assigned(**self._assigned_source.data.__dict__)
+        return Assigned(**vars(self._assigned_source.data))
 
     def _update_task(self, data: Question) -> None:
         self._task_source.update_task(data)

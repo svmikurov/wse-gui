@@ -57,7 +57,7 @@ class TestLocaleSource:
         locale_source.update(parameters_dto)
 
         # Assert
-        assert locale_source._data.__dict__ == parameters_dto.__dict__
+        assert vars(locale_source._data) == vars(parameters_dto)
 
     def test_set_initial(
         self,
@@ -70,8 +70,8 @@ class TestLocaleSource:
 
         # Assert
         assert (
-            initial_parameters_dto.__dict__.items()
-            <= locale_source._data.__dict__.items()
+            vars(initial_parameters_dto).items()
+            <= vars(locale_source._data).items()
         )
 
     def test_get_initial(

@@ -49,8 +49,8 @@ class TestActions:
         )
         # - Parameters Local source was updated with changed parameters
         assert (
-            changed_parameters_dto.__dict__.items()
-            <= locale_params_source._data.__dict__.items()
+            vars(changed_parameters_dto).items()
+            <= vars(locale_params_source._data).items()
         )
 
     def test_reset(
@@ -100,7 +100,7 @@ class TestActions:
         mock_params_api.save.assert_called_once_with(initial_parameters_schema)
 
         # - locale source data was updated
-        assert locale_params_source._data.__dict__ == parameters_dto.__dict__
+        assert vars(locale_params_source._data) == vars(parameters_dto)
 
 
 class TestScreenInitialization:

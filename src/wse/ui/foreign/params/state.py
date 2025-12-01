@@ -126,7 +126,7 @@ class WordStudyParamsViewModel(
         return dto.InitialParameters.from_dto(self._data)
 
     def _set_initial_params(self, dto: dto.InitialParameters) -> None:
-        self._data = replace(self._data, **dto.__dict__)
+        self._data = replace(self._data, **vars(dto))
 
     def _update_state(
         self,
@@ -135,7 +135,7 @@ class WordStudyParamsViewModel(
         | dto.InitialParameters,
     ) -> None:
         """Update UIState data."""
-        self._data = replace(self._data, **params.__dict__)
+        self._data = replace(self._data, **vars(params))
 
     def _provide_options(self) -> None:
         for accessor, options in self.accessor_options:

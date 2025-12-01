@@ -109,4 +109,4 @@ class WordParametersLocaleSource(
         from_dto: dto.PresentationParameters | dto.InitialParameters,
     ) -> None:
         """Update source data."""
-        self._data = replace(self._data, **from_dto.__dict__)
+        self._data = replace(self._data, **vars(from_dto))
