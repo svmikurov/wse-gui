@@ -7,7 +7,7 @@ from typing import Literal
 
 from typing_extensions import Unpack
 
-from wse.data.entities.user import User, UserFieldType
+from wse.data.dto.user import User, UserFieldType
 from wse.data.sources.base.source import SourceGen
 
 _NotifyT = Literal['balance_updated']

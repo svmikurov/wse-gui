@@ -27,8 +27,8 @@ class WordParametersData(
 
 @inject
 @dataclass
-class WordParamsNetworkSource(
-    base.WordParamsNetworkSourceABC,
+class WordParametersNetworkSource(
+    base.WordParametersNetworkSourceABC,
 ):
     """Word study parameters Network source."""
 

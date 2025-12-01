@@ -26,7 +26,7 @@ from .assigned import (
     SetAssignedExerciseUseCase,
 )
 from .foreign.abc import WordStudyUseCaseABC
-from .foreign.study import WordStudyUseCase
+from .foreign.presentation import WordStudyUseCase
 from .glossary import (
     GetTermsUseCaseABC,
     SubscribeTermsUseCaseABC,

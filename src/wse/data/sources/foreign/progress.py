@@ -2,7 +2,7 @@
 
 from injector import inject
 
-from wse.api.foreign import WordStudyProgressApiABC
+from wse.api.foreign import WordProgressApiABC
 
 from . import WordStudyProgressNetworkSourceABC
 
@@ -11,7 +11,7 @@ class WordStudyProgressNetworkSource(WordStudyProgressNetworkSourceABC):
     """Word study progress Network Source."""
 
     @inject
-    def __init__(self, api_client: WordStudyProgressApiABC) -> None:
+    def __init__(self, api_client: WordProgressApiABC) -> None:
         """Construct the source."""
         self._api_client = api_client
 

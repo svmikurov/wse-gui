@@ -6,7 +6,7 @@ from typing import Literal, NamedTuple, TypeAlias, override
 
 from injector import inject
 
-from wse.api.foreign import schemas
+from wse.data.schemas import foreign
 from wse.domain.foreign import ExerciseAccessorT, WordStudyUseCaseABC
 from wse.domain.text import TextHyphenationABC
 from wse.feature.observer import ChangeObserverABC
@@ -86,7 +86,7 @@ class WordPresentationViewModel(
                 self.notify('change', accessor=accessor, value=adapted_text)
 
             case 'info':
-                if isinstance(value, schemas.Info):
+                if isinstance(value, foreign.Info):
                     text = self._update_info(value)
                     self.notify('change', accessor=accessor, value=text)
 
@@ -103,7 +103,7 @@ class WordPresentationViewModel(
         """Notify that timeout of exercise phase was updated."""
         self.notify('timeout_updated', accessor=accessor, max=max, value=value)
 
-    def _update_info(self, data: schemas.Info) -> TextInfo:
+    def _update_info(self, data: foreign.Info) -> TextInfo:
         """Update Word study Presentation info."""
         return TextInfo(
             progress=I18N.EXERCISE('progress') + f': {data.progress or "-"}'

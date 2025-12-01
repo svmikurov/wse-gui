@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from injector import inject
 
 from wse.api.main.data import DataApiABC
-from wse.api.schemas.core import InitialData
+from wse.data.schemas.core import InitialData
 
 
 class UserNetworkSourceABC(ABC):

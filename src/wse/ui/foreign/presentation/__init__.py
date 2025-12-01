@@ -1,7 +1,7 @@
 """Foreign words study screen."""
 
 __all__ = [
-    'StudyForeignViewABC',
+    'WordPresentationViewABC',
     'WordPresentationViewModelABC',
     'ChangeNotifyT',
     'WordPresentationViewModelObserverABC',
@@ -9,7 +9,7 @@ __all__ = [
 
 from .abc import (
     ChangeNotifyT,
-    StudyForeignViewABC,
+    WordPresentationViewABC,
     WordPresentationViewModelABC,
     WordPresentationViewModelObserverABC,
 )

@@ -10,10 +10,10 @@ from wse.config import StyleConfig, ThemeConfig
 from wse.core.navigation import NavID
 from wse.feature.audit import AuditMixin
 from wse.ui.base.iwidgets import NavigableButton
+from wse.ui.base.navigate.mixin import NavigateViewMixin
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 from wse.utils.i18n import _
 
-from ...base.navigate.mixin import NavigateViewMixin
 from . import TermsViewABC, TermsViewModelABC
 from .state import TermsTableSource
 

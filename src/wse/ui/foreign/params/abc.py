@@ -23,7 +23,7 @@ class WordStudyParamsViewModelABC(
         """Start exercise."""
 
     @abstractmethod
-    def update_widget_state(
+    def update_from_widget(
         self,
         accessor: ParamsAccessorEnum,
         value: object,

@@ -11,9 +11,9 @@ from wse.domain.abc.calculation import (
     GetCalculationSolutionUseCaseABC,
 )
 from wse.domain.math_task import CalculationObserverRegistryUseCase
+from wse.ui.base.navigate.mixin import NavigateStateMixin
+from wse.ui.base.task.state import TaskState, TaskViewModelMixin
 
-from ...base.navigate.mixin import NavigateStateMixin
-from ...base.task.state import TaskState, TaskViewModelMixin
 from .abc import CalculationViewModelABC
 
 

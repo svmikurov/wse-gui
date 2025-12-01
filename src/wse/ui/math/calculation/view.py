@@ -9,6 +9,7 @@ from typing_extensions import override
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation.nav_id import NavID
 from wse.feature.audit import AuditMixin
+from wse.ui.base.navigate.mixin import NavigateViewMixin
 from wse.ui.containers.numpad.protocols import NumPadControllerABC
 from wse.ui.containers.task_panel import (
     TextTaskContainerABC,
@@ -17,7 +18,6 @@ from wse.ui.containers.top_bar.abc import TopBarControllerABC
 from wse.ui.widgets import DividerType, FlexColumnStubType
 from wse.utils.i18n import _, label_
 
-from ...base.navigate.mixin import NavigateViewMixin
 from .abc import CalculationViewABC, CalculationViewModelABC
 
 

@@ -5,17 +5,17 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
-from wse.api.foreign import requests, schemas
-
 if TYPE_CHECKING:
-    from wse.data.sources.foreign import WordParamsNotifyABC
+    from wse.data.dto import foreign as dto
+    from wse.data.schemas import foreign as schemas
+    from wse.data.sources.foreign import WordParametersNotifyABC
 
 # Study repo
 # ----------
 
 
-class WordStudyProgressRepoABC(ABC):
-    """Word study progress repo."""
+class WordProgressRepoABC(ABC):
+    """ABC for Word study progress repository."""
 
     @abstractmethod
     def increment(self) -> None:
@@ -26,11 +26,11 @@ class WordStudyProgressRepoABC(ABC):
         """Decrement Word study progress."""
 
 
-class WordStudyRepoABC(ABC):
-    """ABC for repository to get words to study."""
+class WordPresentationRepoABC(ABC):
+    """ABC Word study presentation repository."""
 
     @abstractmethod
-    def get_word(self) -> schemas.PresentationSchema:
+    def get_word(self) -> schemas.Presentation:
         """Get word to study."""
 
 
@@ -38,11 +38,11 @@ class WordStudyRepoABC(ABC):
 # -----------------
 
 
-class RefreshWordParamsRepoABC(ABC):
-    """ABC for repository to refresh Word study params."""
+class RefreshWordParametersRepositoryABC(ABC):
+    """ABC for refresh Word study parameters repository."""
 
     @abstractmethod
-    def fetch_params(self) -> None:
+    def fetch(self) -> None:
         """Set available params, default for Word study params.
 
         These params come from external source (API) and define what
@@ -50,41 +50,53 @@ class RefreshWordParamsRepoABC(ABC):
         """
 
 
-class WordParamsMapperABC(ABC):
+class WordParametersSubscriberABC(ABC):
     """Word study params Source mapper."""
 
     @abstractmethod
-    def subscribe(self, observer: WordParamsNotifyABC) -> None:
+    def subscribe(self, observer: WordParametersNotifyABC) -> None:
         """Subscribe observer to Word params source notifications."""
 
     @abstractmethod
-    def unsubscribe(self, observer: WordParamsNotifyABC) -> None:
+    def unsubscribe(self, observer: WordParametersNotifyABC) -> None:
         """Unsubscribe observer to Word params source notifications."""
 
 
-class WordParamsRepoABC(
-    RefreshWordParamsRepoABC,
+class WordParametersRepoABC(
+    RefreshWordParametersRepositoryABC,
     ABC,
 ):
     """ABC for Word study repository."""
 
     @abstractmethod
-    def get_params(self) -> requests.InitialParametersDTO:
-        """Get Word study presentation params."""
+    def fetch(self) -> None:
+        """Fetch Word study parameters."""
 
     @abstractmethod
-    def update_params(self, data: requests.InitialParametersDTO) -> None:
-        """Update Word study presentation params."""
+    def get(self) -> dto.InitialParameters:
+        """Get Word study initial parameters."""
+
+    @abstractmethod
+    def set(self, data: dto.InitialParameters) -> None:
+        """Set Word study initial parameters."""
+
+    @abstractmethod
+    def save(self, data: dto.InitialParameters) -> None:
+        """Save Word study parameters."""
+
+    @abstractmethod
+    def refresh(self) -> None:
+        """Refresh Word study parameters."""
 
 
 # TODO: Delete below
 
 
-class SetWordParamsRepoABC(ABC):
+class SetWordParametersRepoABC(ABC):
     """ABC for repository to set Word study params."""
 
     @abstractmethod
-    def set_params(self, params: schemas.PresentationParams) -> None:
+    def set_params(self, params: schemas.PresentationParameters) -> None:
         """Set available params, default values for Word study params.
 
         These params come from external source (API) and define what
@@ -92,7 +104,10 @@ class SetWordParamsRepoABC(ABC):
         """
 
     @abstractmethod
-    def set_selected_params(self, params: schemas.InitialChoices) -> None:
+    def set_selected_params(
+        self,
+        params: schemas.SelectedParameters,
+    ) -> None:
         """Set user's current selection for Word study params.
 
         These params represent actual choices made by user in the UI

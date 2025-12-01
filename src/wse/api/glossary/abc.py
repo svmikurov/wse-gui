@@ -14,11 +14,11 @@ class TermApiABC(ABC):
 
 
 class TermPresentationApiABC(ABC):
-    """ABC for Term Presentation API client."""
+    """ABC for Term study presentation API client."""
 
     @abstractmethod
     def fetch_presentation(
         self,
-        payload: schemas.TermPresentationParamsSchema,
-    ) -> schemas.TermPresentationSchema | None:
+        payload: schemas.TermParameters,
+    ) -> schemas.TermPresentation | None:
         """Fetch presentation."""

@@ -5,14 +5,14 @@ import logging
 from injector import inject
 from typing_extensions import override
 
+from wse.data.repos.abc import AssignedTaskRepoABC
+from wse.data.repos.assigned_task import AssignedTaskRepo
+from wse.data.schemas.exercise import Assigned
 from wse.data.sources.assigned import (
     AssignedExerciseSource,
 )
+from wse.data.sources.task import ResultObserverABC, TaskObserverABC
 
-from ..api.schemas.exercise import Assigned
-from ..data.repos.abc import AssignedTaskRepoABC
-from ..data.repos.assigned_task import AssignedTaskRepo
-from ..data.sources.task import ResultObserverABC, TaskObserverABC
 from .abc import SubscribeUseCaseABC
 from .abc.assigned import (
     CheckAssignedAnswerUseCaseABC,

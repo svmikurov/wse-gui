@@ -2,14 +2,14 @@
 
 from abc import ABC, abstractmethod
 
-from wse.api.glossary.schemas import TermSchema
+from wse.api.glossary.schemas import Term
 
 
 class TermsRepoABC(ABC):
     """ABC for term repository."""
 
     @abstractmethod
-    def get_terms(self) -> list[TermSchema] | None:
+    def get_terms(self) -> list[Term] | None:
         """Get terms."""
 
 

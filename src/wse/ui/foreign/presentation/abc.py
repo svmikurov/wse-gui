@@ -49,15 +49,27 @@ class WordPresentationViewModelABC(
     generic.HandleObserverGenABC[Action],
     ABC,
 ):
-    """ABC for Foreign words study ViewModel."""
+    """ABC for Word study Presentation ViewModel."""
 
 
 @dataclass
-class StudyForeignViewABC(
+class WordPresentationViewABC(
     WordPresentationViewModelObserverABC,
     ActionHandler,
     navigate.OnCloseABC,
     ViewABC,
     ABC,
 ):
-    """ABC for Foreign words study View."""
+    """ABC for Word study Presentation View."""
+
+    @abstractmethod
+    def on_open(self) -> None:
+        """Call methods on screen open."""
+
+    @abstractmethod
+    def on_close(self) -> None:
+        """Call methods before close the screen."""
+
+    @abstractmethod
+    def timeout_updated(self, accessor: str, max: float, value: float) -> None:
+        """Update progress bar."""

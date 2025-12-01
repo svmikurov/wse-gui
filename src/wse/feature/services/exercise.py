@@ -5,7 +5,7 @@ from injector import inject
 from wse.api.main import AssignedApiABC
 from wse.api.math.abc import CalculationApiABC
 from wse.api.math.schemas import Calculation
-from wse.api.schemas.exercise import Assigned
+from wse.data.schemas.exercise import Assigned
 
 from .base import ExerciseService
 

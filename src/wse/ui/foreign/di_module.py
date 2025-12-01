@@ -8,11 +8,11 @@ from .index import IndexForeignViewABC, IndexForeignViewModelABC
 from .index.state import IndexForeignViewModel
 from .index.view import IndexForeignView
 from .params import WordStudyParamsViewABC, WordStudyParamsViewModelABC
-from .params.state import PresentationParamsData, WordStudyParamsViewModel
+from .params.state import WordParametersUIState, WordStudyParamsViewModel
 from .params.view import WordStudyParamsView
-from .study import StudyForeignViewABC, WordPresentationViewModelABC
-from .study.state import WordPresentationViewModel
-from .study.view import StudyForeignView
+from .presentation import WordPresentationViewABC, WordPresentationViewModelABC
+from .presentation.state import WordPresentationViewModel
+from .presentation.view import WordPresentationView
 
 
 class ForeignModule(Module):
@@ -27,9 +27,9 @@ class ForeignModule(Module):
 
         # Word study
         binder.bind(WordPresentationViewModelABC, to=WordPresentationViewModel)
-        binder.bind(StudyForeignViewABC, to=StudyForeignView)
+        binder.bind(WordPresentationViewABC, to=WordPresentationView)
 
         # Word study params
-        binder.bind(PresentationParamsData, scope=SingletonScope)
+        binder.bind(WordParametersUIState, scope=SingletonScope)
         binder.bind(WordStudyParamsViewModelABC, to=WordStudyParamsViewModel)
         binder.bind(WordStudyParamsViewABC, to=WordStudyParamsView)

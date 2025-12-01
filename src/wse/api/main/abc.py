@@ -3,10 +3,10 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
-from wse.feature.services import Answer
+from wse.data.schemas import exercise
+from wse.data.schemas.task import Answer
 
 from .. import responses
-from ..schemas import exercise
 
 ExerciseT_contra = TypeVar(
     'ExerciseT_contra',

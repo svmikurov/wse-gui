@@ -6,9 +6,9 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from wse.api.foreign.schemas import PresentationSchema
-from wse.domain.foreign.study import WordStudyUseCase
-from wse.domain.presentation import Presentation
+from wse.data.schemas import foreign as schemas
+from wse.domain import presentation as domain
+from wse.domain.foreign.presentation import WordStudyUseCase
 
 
 @pytest.fixture
@@ -16,7 +16,7 @@ def use_case(
     mock_subject: Mock,
     mock_get_word_repo: Mock,
     mock_progress_repo: Mock,
-    presentation: Presentation,
+    presentation: domain.Presentation,
 ) -> WordStudyUseCase:
     """Word study UseCase fixture."""
     return WordStudyUseCase(
@@ -29,7 +29,7 @@ def use_case(
 
 @pytest.fixture
 def mock_get_data(
-    word_data: PresentationSchema,
+    word_data: schemas.Presentation,
     use_case: WordStudyUseCase,
 ) -> Generator[Mock, None, None]:
     """Mock get Word study data fixture."""
@@ -43,7 +43,7 @@ class TestPresentationInfo:
     @pytest.mark.asyncio
     async def test_info_notification_called(
         self,
-        word_data: PresentationSchema,
+        word_data: schemas.Presentation,
         mock_get_data: Mock,  # Mock to return presentation case data
         use_case: WordStudyUseCase,
     ) -> None:
@@ -55,18 +55,6 @@ class TestPresentationInfo:
 
         # Assert
         mock.assert_called_once_with(word_data.info)
-
-
-# TODO: Add tests
-class TestWordStudyExceptions:
-    """Test the Word study exceptions."""
-
-    @pytest.mark.skip('Add test')
-    def test_no_word_data(self) -> None:
-        """Test no word data to study case."""
-        ...
-
-    ...
 
 
 class TestDataRepo:
@@ -223,8 +211,8 @@ class TestStudyLoop:
         mock_definition: Mock,
         mock_explanation: Mock,
         mock_get_data: Mock,
-        word_data: PresentationSchema,
-        presentation: Presentation,
+        word_data: schemas.Presentation,
+        presentation: domain.Presentation,
         use_case: WordStudyUseCase,
     ) -> None:
         """Test the Word study loop."""

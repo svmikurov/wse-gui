@@ -6,7 +6,7 @@ from typing import Literal
 
 from wse_exercises.core import MathEnum
 
-from wse.data.entities.exercise import CalculationExercise
+from wse.data.dto.exercise import CalculationExercise
 from wse.data.sources.base.source import SourceGen
 
 _NotifyT = Literal['default_updated']

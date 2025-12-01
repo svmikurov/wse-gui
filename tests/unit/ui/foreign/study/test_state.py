@@ -5,8 +5,8 @@ from unittest.mock import Mock
 import pytest
 
 from wse.ui.containers.control import Action
-from wse.ui.foreign.study import WordPresentationViewModelObserverABC
-from wse.ui.foreign.study.state import WordPresentationViewModel
+from wse.ui.foreign.presentation import WordPresentationViewModelObserverABC
+from wse.ui.foreign.presentation.state import WordPresentationViewModel
 
 
 class TestOnOpen:

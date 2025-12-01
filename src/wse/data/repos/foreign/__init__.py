@@ -1,19 +1,23 @@
 """Foreign discipline repositories."""
 
 __all__ = [
-    'RefreshWordParamsRepoABC',
-    'WordStudyRepoABC',
-    'SetWordParamsRepoABC',
-    'WordParamsRepoABC',
-    'WordParamsMapperABC',
-    'WordStudyProgressRepoABC',
+    'RefreshWordParametersRepositoryABC',
+    'WordPresentationRepoABC',
+    'SetWordParametersRepoABC',
+    'WordParametersRepoABC',
+    'WordParametersSubscriberABC',
+    'WordProgressRepoABC',
+    'WordParametersRepo',
+    'WordPresentationRepo',
 ]
 
 from .abc import (
-    RefreshWordParamsRepoABC,
-    SetWordParamsRepoABC,
-    WordParamsMapperABC,
-    WordParamsRepoABC,
-    WordStudyProgressRepoABC,
-    WordStudyRepoABC,
+    RefreshWordParametersRepositoryABC,
+    SetWordParametersRepoABC,
+    WordParametersRepoABC,
+    WordParametersSubscriberABC,
+    WordPresentationRepoABC,
+    WordProgressRepoABC,
 )
+from .params import WordParametersRepo
+from .study import WordPresentationRepo

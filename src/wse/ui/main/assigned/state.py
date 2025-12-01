@@ -14,10 +14,10 @@ from wse.domain.abc.assigned import (
 from wse.domain.abc.user import UserObserverRegistryUseCaseABC
 from wse.domain.assigned import AssignedObserverRegistryUseCase
 from wse.feature.audit import AuditMixin
+from wse.ui.base.navigate.mixin import NavigateStateMixin
+from wse.ui.base.task.state import TaskNotifyT, TaskState, TaskViewModelMixin
+from wse.ui.containers.top_bar.mixins import BalanceUpdatedMixin
 
-from ...base.navigate.mixin import NavigateStateMixin
-from ...base.task.state import TaskNotifyT, TaskState, TaskViewModelMixin
-from ...containers.top_bar.mixins import BalanceUpdatedMixin
 from .abc import AssignedExerciseViewModelABC
 
 NotifyT = Literal['balance_updated']

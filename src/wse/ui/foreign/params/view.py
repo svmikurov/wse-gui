@@ -131,7 +131,7 @@ class WordStudyParamsView(
         value: object,
     ) -> None:
         """Update UIState via injected UI notification."""
-        self._state.update_widget_state(accessor, value)
+        self._state.update_from_widget(accessor, value)
 
     # Widget callback functions
     # -------------------------

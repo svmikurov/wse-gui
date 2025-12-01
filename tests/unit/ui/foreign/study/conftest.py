@@ -9,8 +9,8 @@ from wse import di
 from wse.domain.foreign import WordStudyUseCaseABC
 from wse.domain.text import TextHyphenationABC
 from wse.feature.observer.subject import Subject
-from wse.ui.foreign.study.state import WordPresentationViewModel
-from wse.ui.foreign.study.view import StudyForeignView
+from wse.ui.foreign.presentation.state import WordPresentationViewModel
+from wse.ui.foreign.presentation.view import WordPresentationView
 
 
 @pytest.fixture
@@ -22,9 +22,9 @@ def injector() -> Injector:
 @pytest.fixture
 def word_study_view(
     injector: Injector,
-) -> StudyForeignView:
+) -> WordPresentationView:
     """Provide Word study View fixture."""
-    return injector.get(StudyForeignView)
+    return injector.get(WordPresentationView)
 
 
 @pytest.fixture

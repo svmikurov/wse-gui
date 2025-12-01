@@ -10,7 +10,7 @@ from wse.config.api import APIConfigV1
 from wse.core.http import HttpClientABC
 from wse.core.http.auth_schema import AuthSchema
 
-from . import WordStudyProgressApiABC
+from . import WordProgressApiABC
 
 log = logging.getLogger(__name__)
 
@@ -22,7 +22,7 @@ class PayloadType(TypedDict):
     progress_type: str
 
 
-class WordStudyProgressApi(WordStudyProgressApiABC):
+class WordStudyProgressApi(WordProgressApiABC):
     """Word study progress API."""
 
     # TODO: Fix double access to api config?
@@ -43,7 +43,7 @@ class WordStudyProgressApi(WordStudyProgressApiABC):
         self._api_config = api_config
 
     def increment_progress(self, case_uuid: str) -> None:
-        """Send API request to increment Word study progress."""
+        """Increment Word study progress."""
         payload: PayloadType = {
             'case_uuid': case_uuid,
             'progress_type': 'known',
@@ -51,7 +51,7 @@ class WordStudyProgressApi(WordStudyProgressApiABC):
         self._update_progress(payload)
 
     def decrement_progress(self, case_uuid: str) -> None:
-        """Send API request to decrement Word study progress."""
+        """Decrement Word study progress."""
         payload: PayloadType = {
             'case_uuid': case_uuid,
             'progress_type': 'unknown',

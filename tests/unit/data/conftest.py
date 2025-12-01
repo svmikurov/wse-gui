@@ -13,7 +13,7 @@ from wse.data.repos.foreign import WordParametersRepoABC
 from wse.data.schemas import foreign as schemas
 from wse.data.sources.foreign import (
     WordParametersLocaleSourceABC,
-    WordParamsNetworkSourceABC,
+    WordParametersNetworkSourceABC,
     WordStudyProgressNetworkSourceABC,
 )
 from wse.data.sources.foreign.study import (

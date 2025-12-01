@@ -10,23 +10,22 @@ from . import (
     TaskSource,
 )
 from .foreign import (
-    WordParamsLocaleSourceABC,
-    WordParamsNetworkSourceABC,
-    WordStudyLocaleSourceABC,
-    WordStudyNetworkSourceABC,
+    WordParametersLocaleSourceABC,
+    WordParametersNetworkSourceABC,
+    WordPresentationLocaleSourceABC,
+    WordPresentationNetworkSourceABC,
     WordStudyProgressNetworkSourceABC,
 )
 from .foreign.params import (
-    WordParamsData,
-    WordParamsLocaleSource,
-    WordParamsNetworkSource,
+    WordParametersData,
+    WordParametersLocaleSource,
+    WordParametersNetworkSource,
 )
 from .foreign.progress import WordStudyProgressNetworkSource
 from .foreign.study import (
-    WordStudyData,
-    WordStudyLocaleSource,
-    WordStudyPresentationNetworkSource,
-    WordStudySettingsData,
+    WordPresentationData,
+    WordPresentationLocaleSource,
+    WordPresentationNetworkSource,
 )
 from .glossary import TermNetworkSourceABC, TermPresentationNetworkSourceABC
 from .glossary.study import TermPresentationNetworkSource
@@ -66,39 +65,35 @@ class SourceModule(Module):
 
         # Foreign: Word study
         binder.bind(
-            WordStudyLocaleSourceABC,
-            to=WordStudyLocaleSource,
+            WordPresentationLocaleSourceABC,
+            to=WordPresentationLocaleSource,
             scope=SingletonScope,
         )
         binder.bind(
-            WordStudyNetworkSourceABC,
-            to=WordStudyPresentationNetworkSource,
+            WordPresentationNetworkSourceABC,
+            to=WordPresentationNetworkSource,
             scope=SingletonScope,
         )
 
         # Foreign: UIState Data
         binder.bind(
-            WordStudyData,
-            scope=SingletonScope,
-        )
-        binder.bind(
-            WordStudySettingsData,
+            WordPresentationData,
             scope=SingletonScope,
         )
 
         # Foreign: Word study params
         binder.bind(
-            WordParamsData,
+            WordParametersData,
             scope=SingletonScope,
         )
         binder.bind(
-            WordParamsLocaleSourceABC,
-            to=WordParamsLocaleSource,
+            WordParametersLocaleSourceABC,
+            to=WordParametersLocaleSource,
             scope=SingletonScope,
         )
         binder.bind(
-            WordParamsNetworkSourceABC,
-            to=WordParamsNetworkSource,
+            WordParametersNetworkSourceABC,
+            to=WordParametersNetworkSource,
         )
         binder.bind(
             WordStudyProgressNetworkSourceABC,

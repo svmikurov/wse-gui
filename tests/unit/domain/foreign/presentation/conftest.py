@@ -7,7 +7,7 @@ import pytest
 
 from wse.data.repos import foreign as repos
 from wse.domain.abc import PresentationABC
-from wse.domain.foreign.study import WordStudyUseCase
+from wse.domain.foreign.presentation import WordStudyUseCase
 from wse.domain.presentation import Presentation
 
 # Domain fixtures
@@ -105,13 +105,13 @@ def presentation() -> Presentation:
 @pytest.fixture
 def mock_get_word_repo() -> Mock:
     """Mock the repo to get Word study case fixture."""
-    return Mock(spec=repos.WordStudyRepoABC)
+    return Mock(spec=repos.WordPresentationRepoABC)
 
 
 @pytest.fixture
 def mock_progress_repo() -> Mock:
     """Mock the Word study progress fixture."""
-    return Mock(spec=repos.WordStudyProgressRepoABC)
+    return Mock(spec=repos.WordProgressRepoABC)
 
 
 # UseCase fixture

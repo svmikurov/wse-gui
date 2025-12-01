@@ -1,28 +1,41 @@
-"""Word study params state."""
+"""Word study parameters state."""
+
+from __future__ import annotations
 
 import logging
 from dataclasses import dataclass, fields, replace
-from typing import Any, override
+from typing import TYPE_CHECKING, Any, override
 
 from injector import inject
 
-from wse.api.foreign import requests
-from wse.data.repos.foreign import WordParamsMapperABC, WordParamsRepoABC
+from wse.core.navigation import NavID
+from wse.data.dto import foreign as dto
+from wse.data.repos.foreign import (
+    WordParametersRepoABC,
+    WordParametersSubscriberABC,
+)
 from wse.data.sources import foreign as sources
 from wse.feature.observer.accessor import NotifyAccessorGen
 from wse.feature.observer.mixins import ObserverManagerGen
 from wse.ui.base.navigate.mixin import NavigateStateMixin
 from wse.ui.containers.params import ParamsAccessorEnum
-from wse.utils import decorators
 
 from . import WordStudyParamsViewModelABC
+
+if TYPE_CHECKING:
+    from wse.data.sources.foreign.params import WordParametersData
 
 log = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
-class PresentationParamsData(sources.WordParamsData):
-    """Word study Presentation data."""
+class WordParametersUIState(
+    dto.ParameterOptions,
+    dto.SelectedParameters,
+    dto.SetParameters,
+    dto.PresentationSettings,
+):
+    """Word study parameters UIState data."""
 
 
 @inject
@@ -31,14 +44,14 @@ class WordStudyParamsViewModel(
     NavigateStateMixin,
     ObserverManagerGen[Any],  # TODO: Update Any to ...
     NotifyAccessorGen[Any, Any],  # TODO: Update Any to ...
-    sources.WordParamsNotifyABC,
+    sources.WordParametersNotifyABC,
     WordStudyParamsViewModelABC,
 ):
-    """Word study params ViewModel."""
+    """Word study parameters ViewModel."""
 
-    _data: PresentationParamsData
-    _repo: WordParamsRepoABC
-    _source_subscriber: WordParamsMapperABC
+    _data: WordParametersUIState
+    _repo: WordParametersRepoABC
+    _source_subscriber: WordParametersSubscriberABC
 
     def __post_init__(self) -> None:
         """Construct the ViewModel."""
@@ -47,100 +60,100 @@ class WordStudyParamsViewModel(
     @override
     def on_open(self) -> None:
         """Call methods on screen open."""
-        self._refresh_initial_params()
+        self._repo.fetch()
 
     @override
     def on_close(self) -> None:
         """Call methods before close the screen."""
         self._source_subscriber.unsubscribe(self)
 
-    @decorators.log_unimplemented_call
-    @override
-    def start_exercise(self) -> None:
-        """Start exercise."""
-
     # View api contract
     # -----------------
 
+    # TODO: Accessor enumeration is not completed
+    # Complete or refactor?
     @override
-    def update_widget_state(
+    def update_from_widget(
         self,
         accessor: ParamsAccessorEnum,
         value: object,
     ) -> None:
-        """Update widget context."""
+        """Update UIState data via widget."""
         self._data = replace(self._data, **{accessor: value})  # type: ignore[misc, arg-type]
 
     @override
     def save_params(self) -> None:
-        """Save selected params."""
-        self._save_params()
+        """Save selected parameters."""
+        self._repo.save(self._get_initial_params())
 
     @override
     def reset_params(self) -> None:
-        """Reset selected params."""
-        self._reset_params()
+        """Reset selected parameters."""
+        self._repo.refresh()
+
+    @override
+    def start_exercise(self) -> None:
+        """Start exercise."""
+        self._repo.set(self._get_initial_params())
+        self._navigator.navigate(nav_id=NavID.FOREIGN_STUDY)
 
     # Notification observe
     # --------------------
 
-    # TODO: Refactor: split to 'options', 'selected', 'set'?
     @override
-    def initial_params_updated(
+    def params_updated(
         self,
-        params: requests.PresentationParamsDTO,
+        params: WordParametersData | dto.PresentationParameters,
     ) -> None:
-        """Set Initial Word study params."""
-        self._data = replace(
-            self._data, **{k: v for k, v in params.__dict__.items()}
-        )
+        """Update Word study parameters."""
+        self._update_state(params)
+        self._provide_options()
+        self._provide_options_values()
 
-        self._update('mark', 'marks')
-        self._update('category', 'categories')
-        self._update('word_source', 'sources')
-        self._update('start_period', 'periods')
-        self._update('end_period', 'periods')
-        self._update('translation_order', 'translation_orders')
-
-        self._update('word_count')
-        self._update('answer_timeout')
-        self._update('question_timeout')
-        self._update('translation_order')
+    @override
+    def initial_updated(
+        self,
+        params: dto.InitialParameters,
+    ) -> None:
+        """Update Word study initial parameters."""
+        self._update_state(params)
+        self._provide_options_values()
 
     # Helpers
     # -------
 
-    def _refresh_initial_params(self) -> None:
-        """Refresh Initial params of Word study."""
-        self._repo.fetch_params()
+    def _get_initial_params(self) -> dto.InitialParameters:
+        return dto.InitialParameters.from_dto(self._data)
 
-    # TODO: Add literal types
-    def _update(self, accessor: str, values_name: str | None = None) -> None:
-        """Update UI context."""
-        if values_name:
-            # Selection values updated
-            try:
-                values = getattr(self._data, values_name)
-            except Exception:
-                log.exception('Update UI context error')
-                return
-            self.notify('values_updated', accessor, values=values)
+    def _set_initial_params(self, dto: dto.InitialParameters) -> None:
+        self._data = replace(self._data, **dto.__dict__)
 
-        if value := getattr(self._data, accessor, None):
-            # Value updated
-            self.notify('value_updated', accessor, value=value)
+    def _update_state(
+        self,
+        params: WordParametersData
+        | dto.PresentationParameters
+        | dto.InitialParameters,
+    ) -> None:
+        """Update UIState data."""
+        self._data = replace(self._data, **params.__dict__)
 
-    def _save_params(self) -> None:
-        params = self._get_current_params()
-        self._repo.update_params(params)
+    def _provide_options(self) -> None:
+        for accessor, options in self.accessor_options:
+            self.notify('values_updated', accessor, values=options)
 
-    @decorators.log_unimplemented_call
-    def _reset_params(self) -> None: ...
+    def _provide_options_values(self) -> None:
+        for field in fields(dto.InitialParameters):
+            value = getattr(self._data, field.name, None)
+            self.notify('value_updated', accessor=field.name, value=value)
 
-    def _get_current_params(self) -> requests.InitialParametersDTO:
-        fields_to_update = [
-            field.name for field in fields(requests.InitialParametersDTO)
-        ]
-        return requests.InitialParametersDTO(
-            **{field: getattr(self._data, field) for field in fields_to_update}
+    @property
+    def accessor_options(self) -> tuple[tuple[str, Any], ...]:
+        """Get accessor options."""
+        return (
+            ('category', self._data.categories),
+            ('mark', self._data.marks),
+            ('word_source', self._data.sources),
+            ('start_period', self._data.periods),
+            ('end_period', self._data.periods),
+            ('translation_order', self._data.translation_orders),
         )

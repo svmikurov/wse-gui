@@ -1,62 +1,77 @@
 """Word study params repository."""
 
+import logging
 from dataclasses import dataclass
 from typing import override
 
 from injector import inject
 
-from wse.api.foreign import requests
-from wse.data.sources import foreign as source
+from wse.data.dto import foreign as dto
+from wse.data.sources import foreign as sources
 
-from . import WordParamsMapperABC, WordParamsRepoABC
+from . import WordParametersRepoABC, WordParametersSubscriberABC
+
+log = logging.getLogger(__name__)
 
 
 @inject
 @dataclass
-class WordParamsRepo(
-    WordParamsRepoABC,
+class WordParametersRepo(
+    WordParametersRepoABC,
 ):
     """Word study params repository."""
 
-    _network_source: source.WordParamsNetworkSourceABC
-    _local_source: source.WordParamsLocaleSourceABC
+    _network_source: sources.WordParametersNetworkSourceABC
+    _local_source: sources.WordParametersLocaleSourceABC
 
     @override
-    def fetch_params(self) -> None:
-        """Set available params, default for Word study params."""
-        data = self._network_source.fetch_params()
-        self._local_source.set_initial_params(data)
+    def fetch(self) -> None:
+        """Fetch Word study parameters."""
+        data = self._network_source.fetch()
+        self._local_source.update(data)
 
     @override
-    def get_params(self) -> requests.InitialParametersDTO:
-        """Get Word study presentation params."""
-        return self._local_source.get_params()
+    def get(self) -> dto.InitialParameters:
+        """Get Word study initial parameters."""
+        return self._local_source.get_initial()
 
     @override
-    def update_params(self, data: requests.InitialParametersDTO) -> None:
-        """Update Word study presentation params."""
+    def set(self, data: foreign.InitialParameters) -> None:
+        """Set Word study initial parameters."""
+        return self._local_source.update(data)
+
+    @override
+    def save(self, data: dto.InitialParameters) -> None:
+        """Save Word study parameters."""
         try:
-            updated_data = self._network_source.save_initial_params(data)
+            updated_data = self._network_source.save(data)
         except Exception:
-            # TODO: Add log, user message
-            self._local_source.update_initial_params(data)
+            log.exception(
+                'Network source of save parameters error, saved locally'
+            )
+            self._local_source.update(data)
         else:
-            self._local_source.update_initial_params(updated_data)
+            self._local_source.update(updated_data)
+
+    @override
+    def refresh(self) -> None:
+        """Refresh Word study parameters."""
+        self._local_source.refresh_initial()
 
 
 @inject
 @dataclass
-class WordParamsMapper(WordParamsMapperABC):
+class WordParametersSubscriber(WordParametersSubscriberABC):
     """Word study params Source mapper."""
 
-    _local_params_source: source.WordParamsLocaleSourceABC
+    _local_params_source: sources.WordParametersLocaleSourceABC
 
     @override
-    def subscribe(self, observer: source.WordParamsNotifyABC) -> None:
+    def subscribe(self, observer: sources.WordParametersNotifyABC) -> None:
         """Subscribe observer to Word params source notifications."""
         self._local_params_source.add_observer(observer)
 
     @override
-    def unsubscribe(self, observer: source.WordParamsNotifyABC) -> None:
+    def unsubscribe(self, observer: sources.WordParametersNotifyABC) -> None:
         """Unsubscribe observer to Word params source notifications."""
         self._local_params_source.remove_observer(observer)

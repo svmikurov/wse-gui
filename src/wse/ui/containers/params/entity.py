@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 from toga.sources import Source
 
 if TYPE_CHECKING:
-    from wse.api.foreign import requests
+    from wse.data.dto import foreign
 
 # TODO: Replace module
 
@@ -18,17 +18,17 @@ class IdNameSource(Source):
     def __init__(self) -> None:
         """Construct the source."""
         super().__init__()
-        self._items: list[requests.IdName] = []
+        self._items: list[foreign.IdName] = []
 
-    def __getitem__(self, index: int) -> requests.IdName:
+    def __getitem__(self, index: int) -> foreign.IdName:
         """Get item from collection by index."""
         return self._items[index]
 
-    def index(self, entry: requests.IdName) -> int:
+    def index(self, entry: foreign.IdName) -> int:
         """Return entry index in collection."""
         return self._items.index(entry)
 
-    def add(self, entry: requests.IdName) -> None:
+    def add(self, entry: foreign.IdName) -> None:
         """Add entry."""
         self._items.append(entry)
         self.notify(
@@ -37,7 +37,7 @@ class IdNameSource(Source):
             item=entry,
         )
 
-    def update(self, entries: list[requests.IdName]) -> None:
+    def update(self, entries: list[foreign.IdName]) -> None:
         """Update select data source."""
         self.clear()
         for entry in entries:
@@ -48,7 +48,7 @@ class IdNameSource(Source):
         self._items = []
         self.notify('clear')
 
-    def find(self, entry: str) -> requests.IdName:
+    def find(self, entry: str) -> foreign.IdName:
         """Find entry in source entries."""
         for item in self._items:
             if item.name == entry:

@@ -1,4 +1,4 @@
-"""Base `pydantic` v1 schema."""
+"""Base pydantic v1 schema."""
 
 from typing import Any
 
@@ -10,14 +10,14 @@ class BaseSchema(ConvertMixin, BaseModel):
     """Base pydantic model with conversion between dict/json."""
 
 
-class IdNameSchema(BaseSchema):
+class IdName(BaseSchema):
     """Schema representing an entity with an identifier and a name."""
 
     id: int
     name: str
 
 
-class CodeNameSchema(BaseSchema):
+class CodeName(BaseSchema):
     """Schema representing an entity with a code and a name."""
 
     code: str

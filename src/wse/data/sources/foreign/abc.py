@@ -1,16 +1,22 @@
 """Abstract base classes for Foreign discipline sources."""
 
-from abc import ABC, abstractmethod
-from typing import Literal
+from __future__ import annotations
 
-from wse.api.foreign import requests, schemas
+from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING, Literal
+
 from wse.feature.observer.generic import ObserverManagerGenABC
+
+if TYPE_CHECKING:
+    from wse.data.dto import foreign as dto
+    from wse.data.schemas import foreign as schemas
+    from wse.data.sources.foreign.params import WordParametersData
 
 # Word study source
 # -----------------
 
 
-class WordStudyLocaleSourceABC(ABC):
+class WordPresentationLocaleSourceABC(ABC):
     """Word study locale source."""
 
     @abstractmethod
@@ -22,7 +28,7 @@ class WordStudyLocaleSourceABC(ABC):
         """Get case UUID."""
 
     @abstractmethod
-    def get_presentation_data(self) -> schemas.PresentationSchema:
+    def get_presentation_data(self) -> schemas.Presentation:
         """Get Presentation part of Word study."""
 
 
@@ -38,7 +44,7 @@ class WordStudyProgressNetworkSourceABC(ABC):
         """Decrement Word study progress."""
 
 
-class WordStudyNetworkSourceABC(
+class WordPresentationNetworkSourceABC(
     ABC,
 ):
     """ABC for Word study presentation network source."""
@@ -46,57 +52,73 @@ class WordStudyNetworkSourceABC(
     @abstractmethod
     def fetch_presentation(
         self,
-        params: requests.InitialParametersDTO,
+        params: dto.InitialParameters,
     ) -> schemas.PresentationCase:
         """Fetch Word study presentation case."""
 
 
-# Word study params sources
-# -------------------------
+# Word study parameters sources
+# -----------------------------
 
-ParamsNotifyT = Literal['initial_params_updated']
+ParamsNotifyT = Literal['params_updated', 'initial_updated']
 
 
-class WordParamsNotifyABC(ABC):
-    """ABC for Word study params notifications."""
+class WordParametersNotifyABC(ABC):
+    """ABC for Word study parameters notifications."""
 
     @abstractmethod
-    def initial_params_updated(
+    def params_updated(
         self,
-        params: requests.PresentationParamsDTO,
+        params: WordParametersData,
     ) -> None:
-        """Set Initial Word study params."""
+        """Update Word study parameters."""
+
+    @abstractmethod
+    def initial_updated(
+        self,
+        params: dto.InitialParameters,
+    ) -> None:
+        """Update Word study initial parameters."""
 
 
-class WordParamsLocaleSourceABC(
-    ObserverManagerGenABC[WordParamsNotifyABC],
+class WordParametersLocaleSourceABC(
+    ObserverManagerGenABC[WordParametersNotifyABC],
     ABC,
 ):
-    """ABC for Word study params Locale source."""
+    """ABC for Word study parameters Locale source."""
 
     @abstractmethod
-    def set_initial_params(self, data: requests.SelectedParameters) -> None:
-        """Save initial Word study params."""
+    def update(
+        self,
+        data: dto.PresentationParameters | dto.InitialParameters,
+    ) -> None:
+        """Update Word study parameters."""
 
     @abstractmethod
-    def update_initial_params(self, data: object) -> None:
-        """Save initial Word study params."""
+    def set_initial(self, data: dto.InitialParameters) -> None:
+        """Set Word study initial parameters."""
 
     @abstractmethod
-    def get_params(self) -> requests.InitialParametersDTO:
-        """Get Word study Presentation params."""
+    def get_initial(self) -> dto.InitialParameters:
+        """Get Word study initial parameters."""
+
+    @abstractmethod
+    def refresh_initial(self) -> None:
+        """Refresh observers data with initial parameters."""
 
 
-class WordParamsNetworkSourceABC(
+class WordParametersNetworkSourceABC(
     ABC,
 ):
-    """ABC for Word study params source."""
+    """ABC for Word study parameters source."""
 
     @abstractmethod
-    def fetch_params(self) -> requests.PresentationParamsDTO:
-        """Fetch Word study params."""
+    def fetch(self) -> dto.PresentationParameters:
+        """Fetch Word study parameters."""
 
-    # TODO: Fix static types.
     @abstractmethod
-    def save_initial_params(self, data: requests.InitialParametersDTO) -> bool:
-        """Save Word study initial params."""
+    def save(
+        self,
+        data: dto.InitialParameters,
+    ) -> dto.PresentationParameters:
+        """Save Word study initial parameters."""

@@ -1,7 +1,7 @@
 """Glossary Term Presentation source."""
 
 from wse.api.glossary import TermPresentationApiABC
-from wse.api.glossary.schemas import TermPresentationSchema
+from wse.api.glossary.schemas import TermPresentation
 from wse.data.sources.base.source import AccessorSourceGen
 
 from . import (
@@ -24,5 +24,5 @@ class TermPresentationNetworkSource(
 
     _presentation_api: TermPresentationApiABC
 
-    def get_presentation(self) -> TermPresentationSchema | None:
+    def get_presentation(self) -> TermPresentation | None:
         """Fetch Term Presentation."""

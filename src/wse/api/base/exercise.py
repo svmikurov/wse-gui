@@ -9,7 +9,7 @@ from injector import inject
 from pydantic import ValidationError
 
 from wse.core.http import AuthSchemaABC, HttpClientABC
-from wse.feature.services import Answer
+from wse.data.schemas.task import Answer
 
 from .. import responses
 from ..main.abc import ExerciseApiABC, ExerciseT_contra

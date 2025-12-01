@@ -6,13 +6,10 @@ from typing import TypeAlias
 from wse.data.dto import foreign as dto
 from wse.data.schemas import base
 
-OptionsSchemas: TypeAlias = (
-    base.IdNameSchema
-    | base.CodeNameSchema
-    | list[base.IdNameSchema]
-    | list[base.CodeNameSchema]
+OptionsSchema: TypeAlias = (
+    base.IdName | base.CodeName | list[base.IdName] | list[base.CodeName]
 )
-OptionsDTOs: TypeAlias = (
+OptionsDTO: TypeAlias = (
     dto.IdName | dto.CodeName | list[dto.IdName] | list[dto.CodeName]
 )
 
@@ -45,7 +42,7 @@ class Info(base.BaseSchema):
     progress: int | None
 
 
-class PresentationSchema(base.BaseSchema):
+class Presentation(base.BaseSchema):
     """Schema representing a Presentation exercise."""
 
     definition: str
@@ -53,7 +50,7 @@ class PresentationSchema(base.BaseSchema):
     info: Info | None = None
 
 
-class PresentationCaseSchema(PresentationSchema):
+class PresentationCase(Presentation):
     """Schema representing a Presentation case."""
 
     case_uuid: str
@@ -63,64 +60,64 @@ class PresentationCaseSchema(PresentationSchema):
 # ---------------------
 
 
-class PresentationOptionsSchema(base.BaseSchema):
+class PresentationOptions(base.BaseSchema):
     """Word study options schema."""
 
-    categories: list[base.IdNameSchema] = []
-    marks: list[base.IdNameSchema] = []
-    sources: list[base.IdNameSchema] = []
-    periods: list[base.IdNameSchema] = []
-    translation_orders: list[base.CodeNameSchema] = []
+    categories: list[base.IdName] = []
+    marks: list[base.IdName] = []
+    sources: list[base.IdName] = []
+    periods: list[base.IdName] = []
+    translation_orders: list[base.CodeName] = []
 
 
-class SelectedParametersSchema(base.BaseSchema):
+class SelectedParameters(base.BaseSchema):
     """Word study selected parameters schema."""
 
-    category: base.IdNameSchema | None
-    mark: base.IdNameSchema | None
-    word_source: base.IdNameSchema | None
-    translation_order: base.CodeNameSchema | None
-    start_period: base.IdNameSchema | None
-    end_period: base.IdNameSchema | None
+    category: base.IdName | None
+    mark: base.IdName | None
+    word_source: base.IdName | None
+    translation_order: base.CodeName | None
+    start_period: base.IdName | None
+    end_period: base.IdName | None
 
 
-class SetPresentationSchema(base.BaseSchema):
+class SetPresentation(base.BaseSchema):
     """Word study set parameters schema."""
 
     word_count: int | None
 
 
-class PresentationSettingsSchema(base.BaseSchema):
+class PresentationSettings(base.BaseSchema):
     """Word study Presentation settings schema."""
 
     question_timeout: int | None = 2
     answer_timeout: int | None = 2
 
 
-class InitialParametersSchema(
-    SelectedParametersSchema,
-    SetPresentationSchema,
-    PresentationSettingsSchema,
+class InitialParameters(
+    SelectedParameters,
+    SetPresentation,
+    PresentationSettings,
 ):
     """Schema representing an update presentation parameters."""
 
 
-class RequestPresentationSchema(
-    SelectedParametersSchema,
-    SetPresentationSchema,
+class RequestPresentation(
+    SelectedParameters,
+    SetPresentation,
 ):
     """Schema representing a request presentation parameters."""
 
 
-class PresentationParametersSchema(
-    PresentationOptionsSchema,
-    SelectedParametersSchema,
-    SetPresentationSchema,
-    PresentationSettingsSchema,
+class PresentationParameters(
+    PresentationOptions,
+    SelectedParameters,
+    SetPresentation,
+    PresentationSettings,
 ):
     """Default Presentation parameters with choices."""
 
-    def to_dto(self) -> dto.PresentationParametersDTO:
+    def to_dto(self) -> dto.PresentationParameters:
         """Convert Word study Presentation parameters schema to DTO."""
         attrs = {}
 
@@ -130,15 +127,15 @@ class PresentationParametersSchema(
             else:
                 attrs[field] = self._convert_nested(value)
 
-        return dto.PresentationParametersDTO(**attrs)  # type: ignore[arg-type]
+        return dto.PresentationParameters(**attrs)  # type: ignore[arg-type]
 
-    def _convert_nested(self, value: OptionsSchemas) -> OptionsDTOs:
+    def _convert_nested(self, value: OptionsSchema) -> OptionsDTO:
         """Convert nested schema to DTO."""
         match value:
-            case base.IdNameSchema(id=id, name=name):
+            case base.IdName(id=id, name=name):
                 return dto.IdName(id, name)
 
-            case base.CodeNameSchema(code=code, name=name):
+            case base.CodeName(code=code, name=name):
                 return dto.CodeName(code, name)
 
             case list(items):

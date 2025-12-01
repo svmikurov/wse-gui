@@ -8,8 +8,8 @@ from typing import Literal, TypedDict
 from injector import inject
 
 from wse.api.glossary.abc import TermApiABC
+from wse.data.dto.term import Term, Terms
 
-from ...entities.term import Term, Terms
 from ..base.source import SourceGen
 from . import TermNetworkSourceABC
 

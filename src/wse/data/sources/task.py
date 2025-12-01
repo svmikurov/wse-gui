@@ -4,8 +4,8 @@ from abc import ABC, abstractmethod
 from dataclasses import replace
 from typing import Literal, Union
 
-from wse.api.schemas.task import Question, Result
-from wse.data.entities.task import Task
+from wse.data.dto.task import Task
+from wse.data.schemas.task import Question, Result
 from wse.data.sources.base.source import SourceGen
 
 _NotifyType = Literal[

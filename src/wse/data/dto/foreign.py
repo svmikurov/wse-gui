@@ -1,10 +1,13 @@
 """Foreign discipline API Request payload types."""
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, fields
+from typing import Self
+
+# Nested
+# ------
 
 
-# TODO: Move for shared
-@dataclass
+@dataclass(frozen=True)
 class IdName:
     """Represents a basic identifiable entity with ID and name."""
 
@@ -12,7 +15,7 @@ class IdName:
     name: str
 
 
-@dataclass
+@dataclass(frozen=True)
 class CodeName:
     """Represents a basic identifiable entity with code and name."""
 
@@ -20,7 +23,11 @@ class CodeName:
     name: str
 
 
-@dataclass
+# Base
+# ----
+
+
+@dataclass(frozen=True)
 class ParameterOptions:
     """Word study Presentation parameter options."""
 
@@ -31,7 +38,7 @@ class ParameterOptions:
     translation_orders: list[CodeName] = field(default_factory=list)
 
 
-@dataclass
+@dataclass(frozen=True)
 class SelectedParameters:
     """Selected Word study Presentation parameters."""
 
@@ -43,27 +50,52 @@ class SelectedParameters:
     end_period: IdName | None = None
 
 
-@dataclass
-class SettingParameters:
-    """Word study Presentation parameter settings."""
+@dataclass(frozen=True)
+class SetParameters:
+    """Word study set parameters."""
 
     word_count: int | None = None
+
+
+@dataclass(frozen=True)
+class PresentationSettings:
+    """Word study Presentation settings."""
+
     question_timeout: int | None = None
     answer_timeout: int | None = None
 
 
-@dataclass
-class InitialParametersDTO(
+# DTO
+# ---
+
+
+@dataclass(frozen=True)
+class InitialParameters(
     SelectedParameters,
-    SettingParameters,
+    SetParameters,
+    PresentationSettings,
 ):
     """Word study Presentation initial parameters DTO."""
 
+    @classmethod
+    def from_dto(
+        cls,
+        dto: SelectedParameters | SetParameters | PresentationSettings,
+    ) -> Self:
+        """Create initial parameters DTO."""
+        return cls(
+            **{
+                field.name: getattr(dto, field.name, None)
+                for field in fields(cls)
+            }
+        )
 
-@dataclass
-class PresentationParamsDTO(
-    SelectedParameters,
+
+@dataclass(frozen=True)
+class PresentationParameters(
     ParameterOptions,
-    SettingParameters,
+    SelectedParameters,
+    SetParameters,
+    PresentationSettings,
 ):
     """Presentation params with choices DTO."""

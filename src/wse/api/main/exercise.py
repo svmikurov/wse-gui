@@ -9,7 +9,7 @@ from injector import inject
 from pydantic import ValidationError
 
 from wse.core.http import AuthSchemaABC, HttpClientABC
-from wse.feature import services
+from wse.data.schemas.task import Answer
 
 from .. import responses
 from . import ExerciseT_contra
@@ -46,7 +46,7 @@ class ExerciseApi(
     @abstractmethod
     def check_answer(
         self,
-        answer: services.Answer,
+        answer: Answer,
         exercise: ExerciseT_contra,
     ) -> responses.ResultResponse | None:
         """Check on the server the user's entered answer."""

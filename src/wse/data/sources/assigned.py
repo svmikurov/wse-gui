@@ -3,8 +3,8 @@
 from dataclasses import replace
 from typing import Literal
 
-from wse.api.schemas.exercise import Assigned
-from wse.data.entities.assigned import AssignedExercise
+from wse.data.dto.assigned import AssignedExercise
+from wse.data.schemas.exercise import Assigned
 from wse.data.sources.base.source import SourceGen
 
 _SourceNotifyT = Literal['']

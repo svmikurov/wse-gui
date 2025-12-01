@@ -6,13 +6,13 @@ from injector import Binder, Module
 from typing_extensions import override
 
 from .foreign import (
-    WordParamsApiABC,
-    WordStudyPresentationApiABC,
-    WordStudyProgressApiABC,
+    WordParametersApiABC,
+    WordPresentationApiABC,
+    WordProgressApiABC,
 )
-from .foreign.params import WordParamsApi
+from .foreign.params import WordParametersApi
+from .foreign.presentation import WordPresentationApi
 from .foreign.progress import WordStudyProgressApi
-from .foreign.study import WordStudyPresentationApi
 from .glossary.abc import TermApiABC
 from .glossary.term import TermApi
 from .main.abc import AssignationsApiABC, AssignedApiABC
@@ -40,6 +40,6 @@ class ApiModule(Module):
         binder.bind(TermApiABC, to=TermApi)
 
         # Foreign
-        binder.bind(WordStudyPresentationApiABC, to=WordStudyPresentationApi)
-        binder.bind(WordParamsApiABC, to=WordParamsApi)
-        binder.bind(WordStudyProgressApiABC, to=WordStudyProgressApi)
+        binder.bind(WordPresentationApiABC, to=WordPresentationApi)
+        binder.bind(WordParametersApiABC, to=WordParametersApi)
+        binder.bind(WordProgressApiABC, to=WordStudyProgressApi)

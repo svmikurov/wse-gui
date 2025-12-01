@@ -7,7 +7,7 @@ from toga.sources import Source
 from typing_extensions import override
 
 from wse.core.interfaces import Navigable
-from wse.data.entities.term import Term
+from wse.data.dto.term import Term
 from wse.data.sources.base.source import EntrySourceGen
 from wse.domain.glossary import (
     GetTermsUseCaseABC,

@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 @pytest.fixture(scope='module')
-def schema() -> schemas.PresentationParametersSchema:
+def schema() -> schemas.PresentationParameters:
     """Provide Word study presentation parameters schema."""
     return fixtures.PARAMETERS_SCHEMA
 
@@ -23,7 +23,7 @@ class TestPresentationParametersSchema:
 
     def test_convert_schema_to_dto(
         self,
-        schema: schemas.PresentationParametersSchema,
+        schema: schemas.PresentationParameters,
     ) -> None:
         """Test that Schema was converted to DTO."""
         assert schema.to_dto() == fixtures.PARAMETERS_DTO

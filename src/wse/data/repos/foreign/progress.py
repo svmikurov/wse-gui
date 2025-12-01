@@ -6,17 +6,17 @@ from injector import inject
 
 from wse.data.sources import foreign
 
-from .abc import WordStudyProgressRepoABC
+from .abc import WordProgressRepoABC
 
 
-class WordStudyProgressRepo(WordStudyProgressRepoABC):
+class WordStudyProgressRepo(WordProgressRepoABC):
     """Word study progress repo."""
 
     @inject
     def __init__(
         self,
         progress_source: foreign.WordStudyProgressNetworkSourceABC,
-        case_source: foreign.WordStudyLocaleSourceABC,
+        case_source: foreign.WordPresentationLocaleSourceABC,
     ) -> None:
         """Construct the repo."""
         self._progress_source = progress_source

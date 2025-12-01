@@ -7,8 +7,8 @@ from injector import inject
 
 from wse.core.interfaces import Navigable
 from wse.feature.audit import AuditMixin
+from wse.ui.base.navigate.mixin import NavigateStateMixin
 
-from ...base.navigate.mixin import NavigateStateMixin
 from . import IndexGlossaryViewModelABC
 
 audit = logging.getLogger('audit')

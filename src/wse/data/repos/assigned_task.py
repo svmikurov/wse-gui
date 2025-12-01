@@ -8,8 +8,8 @@ from typing_extensions import override
 
 from wse.api.main.abc import AssignedApiABC
 from wse.api.responses import RelatedData
-from wse.api.schemas.exercise import Assigned
-from wse.api.schemas.task import Answer, Question, Result
+from wse.data.schemas.exercise import Assigned
+from wse.data.schemas.task import Answer, Question, Result
 
 from ..sources import TaskSource
 from ..sources.assigned import AssignedExerciseSource

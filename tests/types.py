@@ -18,21 +18,21 @@ class CodeNameT(TypedDict):
 
 
 # Word study Presentation types
-# -----------------------------
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-class ParamOptionsT(TypedDict):
-    """Fields type for Word study Parameter options."""
+class PresentationOptionsT(TypedDict):
+    """Fields type for Word study options."""
 
-    categories: list[IdNameT] | None
-    marks: list[IdNameT] | None
-    sources: list[IdNameT] | None
+    categories: list[IdNameT]
+    marks: list[IdNameT]
+    sources: list[IdNameT]
     periods: list[IdNameT]
     translation_orders: list[CodeNameT]
 
 
-class InitialChoicesT(TypedDict):
-    """Fields type for Word study Parameter initial choices."""
+class SelectedParametersT(TypedDict):
+    """Fields type for Word study selected parameters."""
 
     category: IdNameT | None
     mark: IdNameT | None
@@ -43,16 +43,23 @@ class InitialChoicesT(TypedDict):
 
 
 class PresentationSettingsT(TypedDict):
-    """Fields type for Word study parameter settings."""
+    """Fields type for Word study presentation settings."""
 
     word_count: int | None
-    question_timeout: float | None
-    answer_timeout: float | None
+    question_timeout: int | None
+    answer_timeout: int | None
+
+
+class InitialParametersT(
+    SelectedParametersT,
+    PresentationSettingsT,
+):
+    """Fields type for Word study initial parameters."""
 
 
 class WordPresentationParamsT(
-    ParamOptionsT,
-    InitialChoicesT,
+    PresentationOptionsT,
+    SelectedParametersT,
     PresentationSettingsT,
 ):
     """Fields type for Word study parameters."""

@@ -9,15 +9,6 @@ from typing import Literal, TypedDict
 # Case type definition
 # --------------------
 
-# Request data types
-
-
-class ParamsDict(TypedDict):
-    """Request Presentation the params typed dict."""
-
-    category: str | None
-    label: str | None
-
 
 # Response data types
 
@@ -55,12 +46,6 @@ class ResponseDict(TypedDict):
 
 # Cases
 # -----
-
-
-REQUEST_PAYLOAD = ParamsDict(
-    category=None,
-    label=None,
-)
 
 
 VALID_RESPONSE_PAYLOAD = ResponseDict(

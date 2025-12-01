@@ -8,6 +8,7 @@ import httpx
 from injector import inject
 
 from wse.config.api import APIConfigV1
+from wse.core import exceptions
 
 from .abc import AuthSchemaABC, HttpClientABC
 
@@ -55,7 +56,7 @@ class HttpClient(HttpClientABC):
 
         except httpx.ConnectError as exc:
             log.error(f'Error connecting to {exc.request.url}')
-            raise
+            raise exceptions.ServerNotAvailableError from exc
 
         except httpx.HTTPError as exc:
             log.error(f'HTTP Exception for {exc.request.url} - {exc}')

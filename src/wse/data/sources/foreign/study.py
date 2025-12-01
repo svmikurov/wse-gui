@@ -1,13 +1,14 @@
 """Foreign word study source."""
 
 import logging
-from dataclasses import dataclass, replace
+from dataclasses import asdict, dataclass, replace
 from typing import override
 
 from injector import inject
 
 from wse.api import foreign as api
-from wse.api.foreign import requests, schemas
+from wse.data.dto import foreign as dto
+from wse.data.schemas import foreign as schemas
 
 from . import abc as base
 
@@ -17,7 +18,7 @@ DEFAULT_WORD_STUDY_TIMEOUT = 3
 
 
 @dataclass(frozen=True)
-class WordStudyData:
+class WordPresentationData:
     """Word study data."""
 
     case_uuid: str | None = None
@@ -26,16 +27,12 @@ class WordStudyData:
     progress: int | None = None
 
 
-class WordStudyLocaleSource(base.WordStudyLocaleSourceABC):
-    """Word study locale source."""
+@inject
+@dataclass
+class WordPresentationLocaleSource(base.WordPresentationLocaleSourceABC):
+    """Word study presentation locale source."""
 
-    @inject
-    def __init__(
-        self,
-        data: WordStudyData,
-    ) -> None:
-        """Construct the source."""
-        self._data = data
+    _data: WordPresentationData
 
     @override
     def set_case(self, case: schemas.PresentationCase) -> None:
@@ -57,11 +54,11 @@ class WordStudyLocaleSource(base.WordStudyLocaleSourceABC):
         return self._data.case_uuid
 
     @override
-    def get_presentation_data(self) -> schemas.PresentationSchema:
+    def get_presentation_data(self) -> schemas.Presentation:
         """Get Presentation part of Word study."""
         if self._data.definition is None or self._data.explanation is None:
             raise RuntimeError('Word study data was not set')
-        return schemas.PresentationSchema(
+        return schemas.Presentation(
             definition=self._data.definition,
             explanation=self._data.explanation,
             info=schemas.Info(
@@ -70,30 +67,31 @@ class WordStudyLocaleSource(base.WordStudyLocaleSourceABC):
         )
 
 
-@dataclass(frozen=True)
-class WordStudySettingsData:
-    """Word study settings Data source."""
-
-    timeout: int = DEFAULT_WORD_STUDY_TIMEOUT
-
-
 @inject
 @dataclass
-class WordStudyPresentationNetworkSource(
-    base.WordStudyNetworkSourceABC,
+class WordPresentationNetworkSource(
+    base.WordPresentationNetworkSourceABC,
 ):
     """Word study presentation network source."""
 
-    _presentation_api: api.WordStudyPresentationApiABC
+    _presentation_api: api.WordPresentationApiABC
 
     @override
     def fetch_presentation(
         self,
-        params: requests.InitialParametersDTO,
+        params: dto.InitialParameters,
     ) -> schemas.PresentationCase:
         """Fetch word study presentation case."""
         try:
-            presentation = self._presentation_api.fetch_presentation(params)
+            schema = schemas.RequestPresentation.from_dict(asdict(params))
+        except Exception as exc:
+            log.error(
+                f'Request presentation parameters validation error: {str(exc)}'
+            )
+            raise
+
+        try:
+            presentation = self._presentation_api.fetch(schema)
         except Exception as exc:
             log.error(f'Source Network error: {str(exc)}')
             raise

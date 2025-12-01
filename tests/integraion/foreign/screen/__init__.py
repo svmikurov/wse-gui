@@ -1,1 +1,0 @@
-"""Foreign discipline Screen test."""

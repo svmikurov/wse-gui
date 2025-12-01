@@ -13,8 +13,8 @@ from wse.api.math.schemas import (
     CalculationConfig,
 )
 from wse.api.responses import RelatedData
-from wse.api.schemas.task import Answer, Question, Result
 from wse.config.api import MathAPIConfigV1
+from wse.data.schemas.task import Answer, Question, Result
 
 from ..sources import TaskSource
 from ..sources.task import TaskObserverT

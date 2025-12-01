@@ -6,7 +6,7 @@ import httpx
 from injector import inject
 from typing_extensions import override
 
-from wse.feature import services
+from wse.data.schemas.task import Answer
 
 from .. import responses
 from ..main.exercise import ExerciseApi
@@ -45,7 +45,7 @@ class CalculationApiClient(
     @override
     def check_answer(
         self,
-        answer: services.Answer,
+        answer: Answer,
         exercise: schemas.Calculation,
     ) -> responses.ResultResponse | None:
         """Check the user entered answer."""

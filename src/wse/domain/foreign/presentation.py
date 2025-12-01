@@ -1,4 +1,4 @@
-"""Foreign word study presenter."""
+"""Word study presentation domain."""
 
 import asyncio
 import logging
@@ -7,8 +7,8 @@ from typing import override
 
 from injector import inject
 
-from wse.api.foreign import schemas
 from wse.data.repos import foreign as repos
+from wse.data.schemas import foreign
 from wse.domain import foreign as base
 from wse.feature.observer.accessor import NotifyAccessorGen
 
@@ -23,16 +23,16 @@ class WordStudyUseCase(
     base.WordStudyUseCaseABC,
     NotifyAccessorGen[base.UIStateNotifyT, base.ExerciseAccessorT],
 ):
-    """Words study Use Case."""
+    """Words study Presentation domain."""
 
-    _get_word_repo: repos.WordStudyRepoABC
-    _progress_repo: repos.WordStudyProgressRepoABC
+    _get_word_repo: repos.WordPresentationRepoABC
+    _progress_repo: repos.WordProgressRepoABC
     _domain: PresentationABC
 
     NO_TEXT = ''
 
     def __post_init__(self) -> None:
-        """Initialize UseCase attributes."""
+        """Initialize the presentation."""
         self._study_task: asyncio.Task[None] | None = None
         self._progress_task: asyncio.Task[None] | None = None
 
@@ -164,7 +164,7 @@ class WordStudyUseCase(
             if task is not None and not task.done():
                 task.cancel()
 
-    def _get_data(self) -> schemas.PresentationSchema:
+    def _get_data(self) -> foreign.Presentation:
         try:
             return self._get_word_repo.get_word()
         except Exception as e:

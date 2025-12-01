@@ -8,7 +8,7 @@ from wse import di
 from wse.domain.foreign import ExerciseAccessorT
 from wse.ui import containers
 from wse.ui.containers import top_bar
-from wse.ui.foreign.study import state, view
+from wse.ui.foreign.presentation import state, view
 
 
 class TestCreateView:
@@ -27,7 +27,7 @@ class TestCreateView:
         self,
         dependency_attr_name: str,
         dependency_class: Type[Any],
-        word_study_view: view.StudyForeignView,
+        word_study_view: view.WordPresentationView,
     ) -> None:
         """Test that view have injected content."""
         # Assert
@@ -37,7 +37,7 @@ class TestCreateView:
     def test_view_initialise(self) -> None:
         """Test initialize Word study View."""
         injector = di.create_injector()
-        assert injector.get(view.StudyForeignView)
+        assert injector.get(view.WordPresentationView)
 
 
 class TestInfoContainer:
@@ -45,7 +45,7 @@ class TestInfoContainer:
 
     def test_update_context(
         self,
-        word_study_view: view.StudyForeignView,
+        word_study_view: view.WordPresentationView,
     ) -> None:
         """Test update Info container context."""
         # Arrange
@@ -75,7 +75,7 @@ class TestPresentationContainer:
         self,
         accessor: ExerciseAccessorT,
         value: object,
-        word_study_view: view.StudyForeignView,
+        word_study_view: view.WordPresentationView,
     ) -> None:
         """Test update Presentation container context."""
         # Act

@@ -2,10 +2,10 @@
 
 from typing import Literal
 
-from .foreign.schemas import PresentationCase
-from .schemas.base import BaseSchema
-from .schemas.core import InitialData
-from .schemas.task import Question, Result
+from wse.data.schemas.base import BaseSchema
+from wse.data.schemas.core import InitialData
+from wse.data.schemas.foreign import PresentationCase
+from wse.data.schemas.task import Question, Result
 
 
 class RelatedData(BaseSchema):

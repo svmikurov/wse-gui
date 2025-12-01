@@ -8,9 +8,9 @@ from injector import inject
 from typing_extensions import Unpack, override
 
 from wse.api.main.abc import AssignationsApiABC
-from wse.api.schemas.exercise import Assigned, ExerciseInfo
 from wse.core.interfaces import Navigable
 from wse.core.navigation.nav_id import NavID
+from wse.data.schemas.exercise import Assigned, ExerciseInfo
 from wse.domain.abc.assigned import SetAssignedExerciseUseCaseABC
 
 from .abc import AssignationsViewModelABC

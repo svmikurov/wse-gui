@@ -9,8 +9,8 @@ from toga import Box, Button, Column, Label, Widget
 from toga.style import Pack
 from typing_extensions import override
 
-from wse.api.schemas.exercise import ExerciseInfo
 from wse.config.layout import StyleConfig, ThemeConfig
+from wse.data.schemas.exercise import ExerciseInfo
 from wse.feature.observer.mixins import AddNotifyMixin, ObserverManager
 from wse.ui.base.content.mixins import GetContentMixin
 from wse.ui.containers.assigned.abc import (

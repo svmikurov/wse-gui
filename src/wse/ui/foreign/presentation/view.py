@@ -18,19 +18,19 @@ from wse.ui.containers.info.abc import InfoContainerABC
 from wse.ui.containers.presentation import PresentationContainerABC
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 
-from . import StudyForeignViewABC, WordPresentationViewModelABC, state
+from . import WordPresentationViewABC, WordPresentationViewModelABC, state
 
 log = logging.getLogger(__name__)
 
 
 @inject
 @dataclass
-class StudyForeignView(
+class WordPresentationView(
     ObserverManagerGen[HandleObserverGenABC[Action]],
     NavigateViewMixin,
-    StudyForeignViewABC,
+    WordPresentationViewABC,
 ):
-    """Foreign words study View."""
+    """Words study Presentation View."""
 
     _state: WordPresentationViewModelABC
     _top_bar: TopBarControllerABC
@@ -72,12 +72,14 @@ class StudyForeignView(
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         self._title.style.update(**config.label_title)
 
+    @override
     def on_open(self) -> None:
         """Call methods on screen open."""
         self._state.on_open()
 
     # TODO: Add to base class the subject
     # if `on_close` method is not define?
+    @override
     def on_close(self) -> None:
         """Call methods before close the screen."""
         self._top_bar.remove_observer(self)
@@ -97,6 +99,7 @@ class StudyForeignView(
         self._state.handle(action)
 
     # TODO: Refactor
+    @override
     def timeout_updated(self, accessor: str, max: float, value: float) -> None:
         """Update progress bar."""
         self._progress_bar.max = max if max else 0.1

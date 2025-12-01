@@ -8,8 +8,10 @@ __all__ = [
     'StorageError',
     'NotImplementedAccessorError',
     'ViewCallError',
+    'ServerNotAvailableError',
 ]
 
+from .api import ServerNotAvailableError
 from .content import PopulateContentError, RouteContentError
 from .exceptions import (
     AuthError,

@@ -4,8 +4,8 @@ from abc import ABC, abstractmethod
 from typing import Literal
 
 from wse.api.glossary.schemas import (
-    TermPresentationSchema,
-    TermSchema,
+    Term,
+    TermPresentation,
 )
 from wse.feature.observer import UpdateObserverABC
 
@@ -34,7 +34,7 @@ class TermNetworkSourceABC(ABC):
     """ABC for Term Network source."""
 
     @abstractmethod
-    def get_terms(self) -> list[TermSchema] | None:
+    def get_terms(self) -> list[Term] | None:
         """Get terms."""
 
 
@@ -49,5 +49,5 @@ class TermPresentationNetworkSourceABC(
     """ABC for Term Network source."""
 
     @abstractmethod
-    def get_presentation(self) -> TermPresentationSchema | None:
+    def get_presentation(self) -> TermPresentation | None:
         """Get Terms presentation."""

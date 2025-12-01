@@ -1,45 +1,47 @@
-"""Abstract base classes for Foreign discipline API."""
+"""Abstract base classes for Foreign discipline API clients."""
+
+from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING
 
-from . import requests, schemas
+if TYPE_CHECKING:
+    from wse.data.schemas import foreign as schemas
 
 
-class WordStudyProgressApiABC(ABC):
-    """ABC for Word study progress API."""
+class WordProgressApiABC(ABC):
+    """ABC for Word study progress API client."""
 
     @abstractmethod
     def increment_progress(self, case_uuid: str) -> None:
-        """Send API request to increment Word study progress."""
+        """Increment Word study progress."""
 
     @abstractmethod
     def decrement_progress(self, case_uuid: str) -> None:
-        """Send API request to decrement Word study progress."""
+        """Decrement Word study progress."""
 
 
-class WordStudyPresentationApiABC(ABC):
-    """ABC for Word study presentation API."""
+class WordPresentationApiABC(ABC):
+    """ABC for Word study presentation API client."""
 
     @abstractmethod
-    def fetch_presentation(
+    def fetch(
         self,
-        payload: requests.InitialParametersDTO,
+        payload: schemas.RequestPresentation,
     ) -> schemas.PresentationCase:
-        """Fetch presentation."""
+        """Fetch Word study presentation."""
 
 
-class WordParamsApiABC(ABC):
-    """ABC for Word study params API."""
-
-    @abstractmethod
-    def fetch_params(
-        self,
-    ) -> schemas.PresentationParams:
-        """Fetch Word study params."""
+class WordParametersApiABC(ABC):
+    """ABC for Word study parameters API client."""
 
     @abstractmethod
-    def save_initial_params(
+    def fetch(self) -> schemas.PresentationParameters:
+        """Fetch Word study parameters."""
+
+    @abstractmethod
+    def save(
         self,
-        data: requests.InitialParametersDTO,
-    ) -> None:
-        """Save Word study params."""
+        data: schemas.InitialParameters,
+    ) -> schemas.PresentationParameters:
+        """Save Word study parameters."""

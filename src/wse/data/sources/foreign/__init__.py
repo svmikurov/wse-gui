@@ -1,23 +1,39 @@
 """Foreign discipline sources."""
 
 __all__ = [
-    'WordParamsNetworkSourceABC',
-    'WordParamsLocaleSourceABC',
+    'WordParametersNetworkSourceABC',
+    'WordParametersLocaleSourceABC',
     'ParamsNotifyT',
-    'WordParamsNotifyABC',
-    'WordStudyNetworkSourceABC',
-    'WordStudyLocaleSourceABC',
+    'WordParametersNotifyABC',
+    'WordPresentationNetworkSourceABC',
+    'WordPresentationLocaleSourceABC',
     'WordStudyProgressNetworkSourceABC',
-    'WordParamsData',
+    # Word study data parameters
+    'WordParametersData',
+    'WordParametersLocaleSource',
+    'WordParametersNetworkSource',
+    # Word study data
+    'WordPresentationData',
+    'WordPresentationLocaleSource',
+    'WordPresentationNetworkSource',
 ]
 
 from .abc import (
     ParamsNotifyT,
-    WordParamsLocaleSourceABC,
-    WordParamsNetworkSourceABC,
-    WordParamsNotifyABC,
-    WordStudyLocaleSourceABC,
-    WordStudyNetworkSourceABC,
+    WordParametersLocaleSourceABC,
+    WordParametersNetworkSourceABC,
+    WordParametersNotifyABC,
+    WordPresentationLocaleSourceABC,
+    WordPresentationNetworkSourceABC,
     WordStudyProgressNetworkSourceABC,
 )
-from .params import WordParamsData
+from .params import (
+    WordParametersData,
+    WordParametersLocaleSource,
+    WordParametersNetworkSource,
+)
+from .study import (
+    WordPresentationData,
+    WordPresentationLocaleSource,
+    WordPresentationNetworkSource,
+)

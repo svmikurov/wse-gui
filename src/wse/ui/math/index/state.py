@@ -15,8 +15,8 @@ from wse.data.repos.calculation_exercises import (
 )
 from wse.domain.math_exercise import SetCalculationExerciseUseCase
 from wse.feature.observer.mixins import SubjectGen
+from wse.ui.base.navigate import NavigateABC
 
-from ...base.navigate import NavigateABC
 from .abc import MathModelFeature, MathModelObserver
 
 _NotifyType = Literal[

@@ -1,19 +1,19 @@
 """Data layer repositories."""
 
 __all__ = [
-    'WordParamsRepo',
-    'WordParamsMapper',
+    'WordParametersRepo',
+    'WordParametersSubscriber',
     'WordStudyProgressRepo',
-    'WordStudyRepo',
+    'WordPresentationRepo',
 ]
 
 from .foreign.params import (
-    WordParamsMapper,
-    WordParamsRepo,
+    WordParametersRepo,
+    WordParametersSubscriber,
 )
 from .foreign.progress import (
     WordStudyProgressRepo,
 )
 from .foreign.study import (
-    WordStudyRepo,
+    WordPresentationRepo,
 )

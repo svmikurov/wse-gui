@@ -28,8 +28,8 @@ class TermPresentationApi(TermPresentationApiABC):
 
     def fetch_presentation(
         self,
-        payload: schemas.TermPresentationParamsSchema,
-    ) -> schemas.TermPresentationSchema | None:
+        payload: schemas.TermParameters,
+    ) -> schemas.TermPresentation | None:
         """Fetch presentation."""
         try:
             response = self._http_client.post(

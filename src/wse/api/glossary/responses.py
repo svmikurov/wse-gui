@@ -13,4 +13,4 @@ class TermsResponse(Response):
 class TermPresentationResponse(Response):
     """Term Presentation response schema."""
 
-    data: schemas.TermPresentationSchema
+    data: schemas.TermPresentation

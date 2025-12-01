@@ -1,13 +1,19 @@
 """Foreign discipline API schemas."""
 
 __all__ = [
-    'WordParamsApiABC',
-    'WordStudyProgressApiABC',
-    'WordStudyPresentationApiABC',
+    # Abstract base classes
+    'WordParametersApiABC',
+    'WordProgressApiABC',
+    'WordPresentationApiABC',
+    # Implementation
+    'WordPresentationApi',
+    'WordParametersApi',
 ]
 
 from .abc import (
-    WordParamsApiABC,
-    WordStudyPresentationApiABC,
-    WordStudyProgressApiABC,
+    WordParametersApiABC,
+    WordPresentationApiABC,
+    WordProgressApiABC,
 )
+from .params import WordParametersApi
+from .presentation import WordPresentationApi

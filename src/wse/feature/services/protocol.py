@@ -4,8 +4,8 @@ from typing import Protocol, TypeVar
 
 from wse.api.math.schemas import Calculation
 from wse.api.responses import RelatedData
-from wse.api.schemas.exercise import Assigned
-from wse.api.schemas.task import Answer, Question, Result
+from wse.data.schemas.exercise import Assigned
+from wse.data.schemas.task import Answer, Question, Result
 
 ExerciseT = TypeVar('ExerciseT', contravariant=True)
 

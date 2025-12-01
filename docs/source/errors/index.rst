@@ -73,7 +73,7 @@ Possible reason: Dependency inject into class constructor but not bound via ``in
          self._auth_scheme = auth_scheme
          self._api_config = api_config
 
-   def fetch_initial(self) -> WordParamsSchema:
+   def fetch_initial(self) -> WordParams:
 
 
    @inject
@@ -83,7 +83,7 @@ Possible reason: Dependency inject into class constructor but not bound via ``in
       _source: WordParamsNetworkSourceABC
 
       @override
-      def fetch_initial(self) -> WordParamsSchema:
+      def fetch_initial(self) -> WordParams:
          return self._source.fetch_initial()
 
 Troubleshooting: Bound ``WordParamsApiABC`` with ``WordParamsApi```

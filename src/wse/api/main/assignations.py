@@ -8,9 +8,9 @@ from injector import inject
 from pydantic import ValidationError
 from typing_extensions import override
 
-from wse.api.schemas.exercise import Assigned, ExerciseInfo
 from wse.config.api import APIConfigV1
 from wse.core.http import AuthSchemaABC, HttpClientABC
+from wse.data.schemas.exercise import Assigned, ExerciseInfo
 
 from . import AssignationsApiABC
 

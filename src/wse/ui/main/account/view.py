@@ -8,11 +8,11 @@ from typing_extensions import override
 
 from wse.config.layout import StyleConfig, ThemeConfig
 from wse.core.navigation.nav_id import NavID
+from wse.ui.base.navigate.mixin import NavigateViewMixin
 from wse.ui.containers.login import LoginControllerProto
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 from wse.utils.i18n import label_, nav_
 
-from ...base.navigate.mixin import NavigateViewMixin
 from .abc import AuthViewABC, AuthViewModelABC
 
 
