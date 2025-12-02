@@ -3,7 +3,7 @@
 import asyncio
 import logging
 from dataclasses import dataclass
-from typing import override
+from typing import Final, override
 
 from injector import inject
 
@@ -27,9 +27,10 @@ class WordStudyUseCase(
 
     _get_word_repo: repos.WordPresentationRepoABC
     _progress_repo: repos.WordProgressRepoABC
+    _settings_repo: repos.WordParametersRepo
     _domain: PresentationABC
 
-    NO_TEXT = ''
+    NO_TEXT: Final[str] = ''
 
     def __post_init__(self) -> None:
         """Initialize the presentation."""
@@ -38,6 +39,8 @@ class WordStudyUseCase(
 
     def start(self) -> None:
         """Start exercise."""
+        settings = self._settings_repo.get_settings()
+        self._domain.set_timeout(settings)
         self._start_background_tasks()
         self._domain.start()
 
