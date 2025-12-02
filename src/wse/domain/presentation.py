@@ -1,13 +1,21 @@
 """Presentation domain."""
 
+from __future__ import annotations
+
 import asyncio
-from typing import Any, override
+from typing import TYPE_CHECKING, Any, Final, override
 
 from injector import inject
 
 from .abc import PresentationABC
 
-TIMEOUT_DELTA: float = 0.025
+TIMEOUT_DELTA: Final[float] = 0.025
+DEFAULT_DEFINITION_TIMEOUT: Final[int] = 5
+DEFAULT_EXPLANATION_TIMEOUT: Final[int] = 2
+
+
+if TYPE_CHECKING:
+    from wse.data.dto import foreign as dto
 
 
 # TODO: Refactor, too many events.
@@ -37,6 +45,20 @@ class Presentation(PresentationABC):
         )
         self._phase: asyncio.Task[Any] | None = None
 
+        self._definition_timeout: int = DEFAULT_DEFINITION_TIMEOUT
+        self._explanation_timeout: int = DEFAULT_EXPLANATION_TIMEOUT
+
+    @override
+    def set_timeout(
+        self,
+        settings: dto.PresentationSettings,
+    ) -> None:
+        """Set presentation timeouts."""
+        if question_timeout := settings.question_timeout:
+            self._definition_timeout = question_timeout
+        if answer_timeout := settings.answer_timeout:
+            self._explanation_timeout = answer_timeout
+
     # Presentation loop
     # -----------------
 
@@ -45,9 +67,14 @@ class Presentation(PresentationABC):
         while True:
             await self.wait_start_case_event()
 
-            # TODO: Inject presentation settings to constructor
-            await self._trigger_event(self._definition_event, 2.0)
-            await self._trigger_event(self._explanation_event, 2.0)
+            await self._trigger_event(
+                self._definition_event,
+                self._definition_timeout,
+            )
+            await self._trigger_event(
+                self._explanation_event,
+                self._explanation_timeout,
+            )
             await self._trigger_event(self._end_case_event)
 
     # Wait for presentation event

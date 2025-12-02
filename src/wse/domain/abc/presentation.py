@@ -1,10 +1,23 @@
 """Abstract base class for Presentation domain."""
 
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from wse.data.dto import foreign as dto
 
 
 class PresentationABC(ABC):
     """ABC for Presentations domain."""
+
+    @abstractmethod
+    def set_timeout(
+        self,
+        settings: dto.PresentationSettings,
+    ) -> None:
+        """Set presentation timeouts."""
 
     @abstractmethod
     async def wait_start_case_event(self) -> None:
