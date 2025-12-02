@@ -2,35 +2,29 @@
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Literal
+from typing import Any, Literal, TypeAlias
 
-from wse.core.base.enums import BaseEnum
-from wse.feature.observer import (
-    AccessorABC,
-    UpdateObserverABC,
-)
-from wse.feature.observer.generic import (
-    ObserverManagerGenABC,
-)
-from wse.ui.base.container import ContainerABC, StyleABC
-from wse.ui.base.content import ContentABC, GetContentABC
+from wse.data.dto import foreign as dto
+from wse.feature import observer
+from wse.feature.observer import generic
+from wse.ui.base import container, content
 
 NotifyT: TypeAlias = Literal['update']
 
 
 @dataclass
 class ParamsContainerABC(
-    AccessorABC,
-    UpdateObserverABC[ParamsAccessorEnum],
-    ObserverManagerGenABC[Any],
-    GetContentABC,
-    ContainerABC,
-    StyleABC,
+    observer.AccessorABC,
+    observer.UpdateObserverABC[dto.OptionAccessor],
+    generic.ObserverManagerGenABC[Any],
+    content.GetContentABC,
+    container.ContainerABC,
+    container.StyleABC,
     ABC,
 ):
     """ABC for Params container."""
 
-    _content: ContentABC
+    _content: content.ContentABC
 
     def __post_init__(self) -> None:
         """Construct the container."""
@@ -40,7 +34,7 @@ class ParamsContainerABC(
         self._apply_styles()
 
     @abstractmethod
-    def set_values(self, accessor: str, values: object) -> None:
+    def set_values(self, accessor: dto.OptionAccessor, values: object) -> None:
         """Set widget values via accessor.
 
         Updated widget must implement ``items.update()`` Source
@@ -50,7 +44,7 @@ class ParamsContainerABC(
     @abstractmethod
     def set_value(
         self,
-        accessor: str,
+        accessor: dto.ParameterAccessors,
         value: object,
     ) -> None:
         """Set widget value via accessor."""
