@@ -19,6 +19,9 @@ class IdName:
     name: str
 
 
+NOT_SELECTED = IdName(id='', name='-----')
+
+
 @dataclass(frozen=True)
 class CodeName:
     """Represents a basic identifiable entity with code and name."""
