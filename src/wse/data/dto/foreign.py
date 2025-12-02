@@ -1,7 +1,11 @@
 """Foreign discipline API Request payload types."""
 
 from dataclasses import dataclass, field, fields
-from typing import Self
+from typing import Self, TypeAlias, Union
+
+Options: TypeAlias = list['IdName'] | list['CodeName']
+Selected: TypeAlias = Union['IdName', 'CodeName']
+WordOptions: TypeAlias = Options | Selected
 
 # Nested
 # ------
