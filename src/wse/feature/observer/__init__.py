@@ -9,6 +9,8 @@ __all__ = [
     'UpdateObserverABC',
     'ChangeObserverABC',
     'ChangeNotifyT',
+    'NotifyAccessorGen',
+    'ObserverManagerGen',
 ]
 
 from .abc import (
@@ -20,4 +22,10 @@ from .abc import (
     ObserverManagerABC,
     SubjectABC,
     UpdateObserverABC,
+)
+from .accessor import (
+    NotifyAccessorGen,
+)
+from .mixins import (
+    ObserverManagerGen,
 )
