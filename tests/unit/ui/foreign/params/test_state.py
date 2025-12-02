@@ -95,11 +95,26 @@ class TestViewModelNotifications:
         # Arrange
         # - Expected notifications
         choices = [
-            call(accessor='category', values=parameters_dto.categories),
-            call(accessor='mark', values=parameters_dto.marks),
-            call(accessor='word_source', values=parameters_dto.sources),
-            call(accessor='start_period', values=parameters_dto.periods),
-            call(accessor='end_period', values=parameters_dto.periods),
+            call(
+                accessor='category',
+                values=[dto.NOT_SELECTED, *parameters_dto.categories],
+            ),
+            call(
+                accessor='mark',
+                values=[dto.NOT_SELECTED, *parameters_dto.marks],
+            ),
+            call(
+                accessor='word_source',
+                values=[dto.NOT_SELECTED, *parameters_dto.sources],
+            ),
+            call(
+                accessor='start_period',
+                values=[dto.NOT_SELECTED, *parameters_dto.periods],
+            ),
+            call(
+                accessor='end_period',
+                values=[dto.NOT_SELECTED, *parameters_dto.periods],
+            ),
             call(
                 accessor='translation_order',
                 values=parameters_dto.translation_orders,

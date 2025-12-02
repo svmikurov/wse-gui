@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING
 
 from wse.core.navigation import NavID
 from wse.data.dto import foreign as dto
+from wse.ui.foreign.params import state
 
 if TYPE_CHECKING:
     from unittest.mock import Mock
@@ -16,7 +17,9 @@ if TYPE_CHECKING:
     from wse.data.schemas import foreign as schemas
     from wse.data.sources.foreign.params import WordParametersLocaleSource
     from wse.ui.containers.params.container import ParamsContainer
-    from wse.ui.foreign.params import state, view
+    from wse.ui.foreign.params import view
+
+EMPTY = dto.NOT_SELECTED
 
 
 class TestActions:
@@ -37,7 +40,7 @@ class TestActions:
         locale_params_source.update(parameters_dto)
 
         # - Populate UI State with changed parameters
-        view_model._set_initial_params(changed_parameters_dto)
+        view_model._update_state(changed_parameters_dto)
 
         # Act
         screen._btn_start._impl.interface.on_press()
@@ -130,12 +133,12 @@ class TestScreenInitialization:
         mock_params_api.fetch.assert_called_once_with()
 
         # - selection has options
-        assert con._category.items._items == dto.categories  # type: ignore[union-attr]
-        assert con._mark.items._items == dto.marks  # type: ignore[union-attr]
-        assert con._word_source.items._items == dto.sources  # type: ignore[union-attr]
+        assert con._category.items._items == [EMPTY] + dto.categories  # type: ignore[union-attr]
+        assert con._mark.items._items == [EMPTY] + dto.marks  # type: ignore[union-attr]
+        assert con._word_source.items._items == [EMPTY] + dto.sources  # type: ignore[union-attr]
         assert con._translation_order.items._items == dto.translation_orders  # type: ignore[union-attr]
-        assert con._start_period.items._items == dto.periods  # type: ignore[union-attr]
-        assert con._end_period.items._items == dto.periods  # type: ignore[union-attr]
+        assert con._start_period.items._items == [EMPTY] + dto.periods  # type: ignore[union-attr]
+        assert con._end_period.items._items == [EMPTY] + dto.periods  # type: ignore[union-attr]
 
         # - selection has option value
         assert con._category.value == dto.category
