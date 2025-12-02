@@ -19,20 +19,20 @@ TRANSLATE_ORDER_OPTIONS: Final[list[types.CodeNameT]] = [
 
 OPTIONS: Final[types.PresentationOptionsT] = {
     'categories': [
-        {'id': 1, 'name': 'category 1'},
-        {'id': 2, 'name': 'category 2'},
+        {'id': '1', 'name': 'category 1'},
+        {'id': '2', 'name': 'category 2'},
     ],
     'marks': [
-        {'id': 1, 'name': 'mark 1'},
-        {'id': 2, 'name': 'mark'},
+        {'id': '1', 'name': 'mark 1'},
+        {'id': '2', 'name': 'mark'},
     ],
     'sources': [
-        {'id': 1, 'name': 'source 1'},
-        {'id': 2, 'name': 'source 2'},
+        {'id': '1', 'name': 'source 1'},
+        {'id': '2', 'name': 'source 2'},
     ],
     'periods': [
-        {'id': 1, 'name': 'today'},
-        {'id': 2, 'name': 'week_before'},
+        {'id': '1', 'name': 'today'},
+        {'id': '2', 'name': 'week_before'},
     ],
     'translation_orders': TRANSLATE_ORDER_OPTIONS,
 }

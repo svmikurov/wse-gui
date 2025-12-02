@@ -1,39 +1,25 @@
-"""Word study parameters state."""
-
-from __future__ import annotations
+"""Word study parameters UIState."""
 
 import logging
-from dataclasses import dataclass, fields, replace
-from typing import TYPE_CHECKING, Any, override
+from dataclasses import dataclass, replace
+from typing import override
 
 from injector import inject
 
 from wse.core.navigation import NavID
 from wse.data.dto import foreign as dto
-from wse.data.repos.foreign import (
-    WordParametersRepoABC,
-    WordParametersSubscriberABC,
-)
+from wse.data.repos import foreign as repos
 from wse.data.sources import foreign as sources
-from wse.feature.observer.accessor import NotifyAccessorGen
-from wse.feature.observer.mixins import ObserverManagerGen
-from wse.ui.base.navigate.mixin import NavigateStateMixin
-from wse.ui.containers.params import ParamsAccessorEnum
-
-from . import WordStudyParamsViewModelABC
-
-if TYPE_CHECKING:
-    from wse.data.sources.foreign.params import WordParametersData
+from wse.feature import observer
+from wse.ui.base import navigate
+from wse.ui.foreign import params as base
 
 log = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
 class WordParametersUIState(
-    dto.ParameterOptions,
-    dto.SelectedParameters,
-    dto.SetParameters,
-    dto.PresentationSettings,
+    dto.PresentationParameters,
 ):
     """Word study parameters UIState data."""
 
@@ -41,17 +27,17 @@ class WordParametersUIState(
 @inject
 @dataclass
 class WordStudyParamsViewModel(
-    NavigateStateMixin,
-    ObserverManagerGen[Any],  # TODO: Update Any to ...
-    NotifyAccessorGen[Any, Any],  # TODO: Update Any to ...
+    navigate.NavigateStateMixin,
+    observer.ObserverManagerGen[base.ParametersViewModelObserverABC],
+    observer.NotifyAccessorGen[base.NotifyT, dto.ParameterAccessors],
     sources.WordParametersNotifyABC,
-    WordStudyParamsViewModelABC,
+    base.WordStudyParamsViewModelABC,
 ):
     """Word study parameters ViewModel."""
 
     _data: WordParametersUIState
-    _repo: WordParametersRepoABC
-    _source_subscriber: WordParametersSubscriberABC
+    _repo: repos.WordParametersRepoABC
+    _source_subscriber: repos.WordParametersSubscriberABC
 
     def __post_init__(self) -> None:
         """Construct the ViewModel."""
@@ -70,21 +56,26 @@ class WordStudyParamsViewModel(
     # View api contract
     # -----------------
 
-    # TODO: Accessor enumeration is not completed
-    # Complete or refactor?
     @override
     def update_from_widget(
         self,
-        accessor: ParamsAccessorEnum,
-        value: object,
+        accessor: dto.ParameterAccessors,
+        value: str | dto.Selected | None,
     ) -> None:
         """Update UIState data via widget."""
-        self._data = replace(self._data, **{accessor: value})  # type: ignore[misc, arg-type]
+        match value:
+            case dto.NOT_SELECTED:
+                new_value = None
+
+            case _:
+                new_value = value
+
+        self._data = replace(self._data, **{accessor: new_value})  # type: ignore[misc, arg-type]
 
     @override
     def save_params(self) -> None:
         """Save selected parameters."""
-        self._repo.save(self._get_initial_params())
+        self._repo.save(self._data.initial)
 
     @override
     def reset_params(self) -> None:
@@ -94,7 +85,7 @@ class WordStudyParamsViewModel(
     @override
     def start_exercise(self) -> None:
         """Start exercise."""
-        self._repo.set(self._get_initial_params())
+        self._repo.set(self._data.initial)
         self._navigator.navigate(nav_id=NavID.FOREIGN_STUDY)
 
     # Notification observe
@@ -103,12 +94,12 @@ class WordStudyParamsViewModel(
     @override
     def params_updated(
         self,
-        params: WordParametersData | dto.PresentationParameters,
+        params: dto.PresentationParameters,
     ) -> None:
         """Update Word study parameters."""
         self._update_state(params)
         self._provide_options()
-        self._provide_options_values()
+        self._provide_option_value()
 
     @override
     def initial_updated(
@@ -117,43 +108,24 @@ class WordStudyParamsViewModel(
     ) -> None:
         """Update Word study initial parameters."""
         self._update_state(params)
-        self._provide_options_values()
+        self._provide_option_value()
 
     # Helpers
     # -------
 
-    def _get_initial_params(self) -> dto.InitialParameters:
-        return dto.InitialParameters.from_dto(self._data)
-
-    def _set_initial_params(self, dto: dto.InitialParameters) -> None:
-        self._data = replace(self._data, **vars(dto))
-
     def _update_state(
         self,
-        params: WordParametersData
-        | dto.PresentationParameters
-        | dto.InitialParameters,
+        params: dto.PresentationParameters | dto.InitialParameters,
     ) -> None:
-        """Update UIState data."""
+        """Update UIState data via DTO."""
         self._data = replace(self._data, **vars(params))
 
     def _provide_options(self) -> None:
-        for accessor, options in self.accessor_options:
-            self.notify('values_updated', accessor, values=options)
+        """Provide options."""
+        for field, values in self._data.iterate_options():
+            self.notify('values_updated', accessor=field, values=values)
 
-    def _provide_options_values(self) -> None:
-        for field in fields(dto.InitialParameters):
-            value = getattr(self._data, field.name, None)
-            self.notify('value_updated', accessor=field.name, value=value)
-
-    @property
-    def accessor_options(self) -> tuple[tuple[str, Any], ...]:
-        """Get accessor options."""
-        return (
-            ('category', self._data.categories),
-            ('mark', self._data.marks),
-            ('word_source', self._data.sources),
-            ('start_period', self._data.periods),
-            ('end_period', self._data.periods),
-            ('translation_order', self._data.translation_orders),
-        )
+    def _provide_option_value(self) -> None:
+        """Provide option initial value."""
+        for field, value in self._data.iterate_initial():
+            self.notify('value_updated', accessor=field, value=value)

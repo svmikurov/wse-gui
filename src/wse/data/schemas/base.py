@@ -1,9 +1,13 @@
 """Base pydantic v1 schema."""
 
-from typing import Any
+from typing import Any, TypeAlias, Union
 
 from pydantic import BaseModel
 from wse_exercises.base.mixins import ConvertMixin
+
+Options: TypeAlias = list['IdName'] | list['CodeName']
+Selected: TypeAlias = Union['IdName', 'CodeName']
+WordOptions: TypeAlias = Options | Selected
 
 
 class BaseSchema(ConvertMixin, BaseModel):
@@ -13,7 +17,7 @@ class BaseSchema(ConvertMixin, BaseModel):
 class IdName(BaseSchema):
     """Schema representing an entity with an identifier and a name."""
 
-    id: int
+    id: str
     name: str
 
 

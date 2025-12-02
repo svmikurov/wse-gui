@@ -95,11 +95,26 @@ class TestViewModelNotifications:
         # Arrange
         # - Expected notifications
         choices = [
-            call(accessor='category', values=parameters_dto.categories),
-            call(accessor='mark', values=parameters_dto.marks),
-            call(accessor='word_source', values=parameters_dto.sources),
-            call(accessor='start_period', values=parameters_dto.periods),
-            call(accessor='end_period', values=parameters_dto.periods),
+            call(
+                accessor='category',
+                values=[dto.NOT_SELECTED, *parameters_dto.categories],
+            ),
+            call(
+                accessor='mark',
+                values=[dto.NOT_SELECTED, *parameters_dto.marks],
+            ),
+            call(
+                accessor='word_source',
+                values=[dto.NOT_SELECTED, *parameters_dto.sources],
+            ),
+            call(
+                accessor='start_period',
+                values=[dto.NOT_SELECTED, *parameters_dto.periods],
+            ),
+            call(
+                accessor='end_period',
+                values=[dto.NOT_SELECTED, *parameters_dto.periods],
+            ),
             call(
                 accessor='translation_order',
                 values=parameters_dto.translation_orders,
@@ -128,11 +143,12 @@ class TestViewModelNotifications:
             call(accessor='word_count', value=90),
             call(
                 accessor='category',
-                value=dto.IdName(id=2, name='category 2'),
+                value=dto.IdName(id='2', name='category 2'),
             ),
-            call(accessor='mark', value=dto.IdName(id=2, name='mark')),
+            call(accessor='mark', value=dto.IdName(id='2', name='mark')),
             call(
-                accessor='word_source', value=dto.IdName(id=2, name='source 2')
+                accessor='word_source',
+                value=dto.IdName(id='2', name='source 2'),
             ),
             call(
                 accessor='translation_order',
@@ -140,11 +156,11 @@ class TestViewModelNotifications:
             ),
             call(
                 accessor='start_period',
-                value=dto.IdName(id=2, name='week_before'),
+                value=dto.IdName(id='2', name='week_before'),
             ),
             call(
                 accessor='end_period',
-                value=dto.IdName(id=2, name='week_before'),
+                value=dto.IdName(id='2', name='week_before'),
             ),
         ]
         # - Mock and subscribe View to notifications

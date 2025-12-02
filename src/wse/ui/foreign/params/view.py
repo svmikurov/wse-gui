@@ -1,7 +1,9 @@
 """Word study params View."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
-from typing import override
+from typing import TYPE_CHECKING, override
 
 import toga
 from injector import inject
@@ -12,12 +14,15 @@ from wse.core.navigation import NavID
 # TODO: Rename 'wse.ui.base.iwidgets'
 from wse.ui.base.iwidgets import NavigableButton
 from wse.ui.base.navigate.mixin import NavigateViewMixin
-from wse.ui.containers.params import ParamsAccessorEnum, ParamsContainerABC
+from wse.ui.containers.params import ParamsContainerABC
 from wse.ui.containers.top_bar.abc import TopBarControllerABC
 from wse.ui.widgets.buttons import NavButton
 from wse.utils import I18N
 
 from . import WordStudyParamsViewABC, WordStudyParamsViewModelABC
+
+if TYPE_CHECKING:
+    from wse.data.dto import foreign as dto
 
 
 @inject
@@ -109,28 +114,28 @@ class WordStudyParamsView(
     @override
     def values_updated(
         self,
-        accessor: ParamsAccessorEnum,
+        accessor: dto.OptionAccessor,
         values: object,
     ) -> None:
-        """Update Params container values via UIState notification."""
+        """Update Parameters container values via UIState notify."""
         self._params.set_values(accessor=accessor, values=values)
 
     @override
     def value_updated(
         self,
-        accessor: ParamsAccessorEnum,
-        value: object,
+        accessor: dto.ParameterAccessors,
+        value: dto.Selected,
     ) -> None:
-        """Update Params container value via UIState notification."""
+        """Update selection options value via UIState notify."""
         self._params.set_value(accessor=accessor, value=value)
 
     @override
     def widget_updated(
         self,
-        accessor: ParamsAccessorEnum,
-        value: object,
+        accessor: dto.ParameterAccessors,
+        value: str | dto.Selected | None,
     ) -> None:
-        """Update UIState via injected UI notification."""
+        """Update UIState via notification from injected UI."""
         self._state.update_from_widget(accessor, value)
 
     # Widget callback functions

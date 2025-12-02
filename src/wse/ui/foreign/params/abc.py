@@ -1,16 +1,42 @@
 """Abstract base classes for Word study params screen."""
 
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import TYPE_CHECKING, Literal, TypeAlias
 
 from wse.feature.observer.generic import ObserverManagerGenABC
 from wse.ui.base import navigate
 from wse.ui.base.view import ViewABC
-from wse.ui.containers.params import ParamsAccessorEnum
+
+if TYPE_CHECKING:
+    from wse.data.dto import foreign as dto
+
+NotifyT: TypeAlias = Literal['values_updated', 'value_updated']
+
+
+class ParametersViewModelObserverABC(ABC):
+    """ABC for Word study Parameters ViewModel observe."""
+
+    @abstractmethod
+    def values_updated(
+        self,
+        accessor: dto.OptionAccessor,
+        values: dto.Options,
+    ) -> None:
+        """Update Parameters container values."""
+
+    @abstractmethod
+    def value_updated(
+        self,
+        accessor: dto.ParameterAccessors,
+        value: dto.Selected,
+    ) -> None:
+        """Update Parameters container value."""
 
 
 class WordStudyParamsViewModelABC(
-    ObserverManagerGenABC[Any],
+    ObserverManagerGenABC[ParametersViewModelObserverABC],
     navigate.OnOpenABC,
     navigate.OnCloseABC,
     navigate.NavigateABC,
@@ -25,8 +51,8 @@ class WordStudyParamsViewModelABC(
     @abstractmethod
     def update_from_widget(
         self,
-        accessor: ParamsAccessorEnum,
-        value: object,
+        accessor: dto.ParameterAccessors,
+        value: str | dto.Selected | None,
     ) -> None:
         """Update widget context."""
 
@@ -44,30 +70,15 @@ class WordStudyParamsViewABC(
     navigate.OnOpenABC,
     navigate.OnCloseABC,
     ViewABC,
+    ParametersViewModelObserverABC,
     ABC,
 ):
     """ABC for Word study params View."""
 
     @abstractmethod
-    def values_updated(
-        self,
-        accessor: ParamsAccessorEnum,
-        values: object,
-    ) -> None:
-        """Update Params container values."""
-
-    @abstractmethod
-    def value_updated(
-        self,
-        accessor: ParamsAccessorEnum,
-        value: object,
-    ) -> None:
-        """Update Params container value."""
-
-    @abstractmethod
     def widget_updated(
         self,
-        accessor: ParamsAccessorEnum,
-        value: object,
+        accessor: dto.ParameterAccessors,
+        value: str | dto.Selected | None,
     ) -> None:
         """Update UIState via UI accessor notification."""

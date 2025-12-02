@@ -1,17 +1,9 @@
 """Foreign discipline schemas."""
 
 from datetime import datetime
-from typing import TypeAlias
 
 from wse.data.dto import foreign as dto
 from wse.data.schemas import base
-
-OptionsSchema: TypeAlias = (
-    base.IdName | base.CodeName | list[base.IdName] | list[base.CodeName]
-)
-OptionsDTO: TypeAlias = (
-    dto.IdName | dto.CodeName | list[dto.IdName] | list[dto.CodeName]
-)
 
 # Word schema
 # -----------
@@ -129,7 +121,7 @@ class PresentationParameters(
 
         return dto.PresentationParameters(**attrs)  # type: ignore[arg-type]
 
-    def _convert_nested(self, value: OptionsSchema) -> OptionsDTO:
+    def _convert_nested(self, value: base.WordOptions) -> dto.WordOptions:
         """Convert nested schema to DTO."""
         match value:
             case base.IdName(id=id, name=name):

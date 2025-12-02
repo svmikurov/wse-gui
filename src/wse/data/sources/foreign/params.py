@@ -17,10 +17,7 @@ log = logging.getLogger(__name__)
 
 @dataclass(frozen=True)
 class WordParametersData(
-    dto.ParameterOptions,
-    dto.SelectedParameters,
-    dto.SetParameters,
-    dto.PresentationSettings,
+    dto.PresentationParameters,
 ):
     """Word study parameters Source data."""
 
@@ -70,7 +67,7 @@ class WordParametersNetworkSource(
 @dataclass
 class WordParametersLocaleSource(
     observer.ObserverManagerGen[base.WordParametersNotifyABC],
-    observer.NotifyGen[base.ParamsNotifyT],
+    observer.NotifyGen[base.NotifyT],
     base.WordParametersLocaleSourceABC,
 ):
     """Word study parameters Network source."""
@@ -97,12 +94,12 @@ class WordParametersLocaleSource(
     @override
     def get_initial(self) -> dto.InitialParameters:
         """Get initial parameters."""
-        return dto.InitialParameters.from_dto(self._data)
+        return self._data.initial
 
     @override
     def refresh_initial(self) -> None:
         """Refresh observers data with initial parameters."""
-        self.notify('initial_updated', params=self.get_initial())
+        self.notify('initial_updated', params=self._data.initial)
 
     def _update(
         self,

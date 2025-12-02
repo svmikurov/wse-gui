@@ -1,7 +1,26 @@
 """Foreign discipline API Request payload types."""
 
 from dataclasses import dataclass, field, fields
-from typing import Self
+from typing import Generator, Literal, Self, TypeAlias, Union
+
+Options: TypeAlias = list['IdName'] | list['CodeName']
+Selected: TypeAlias = Union['IdName', 'CodeName']
+WordOptions: TypeAlias = Options | Selected
+
+OptionAccessor: TypeAlias = Literal[
+    'category',
+    'mark',
+    'word_source',
+    'start_period',
+    'end_period',
+    'translation_order',
+]
+InputAccessor: TypeAlias = Literal[
+    'word_count',
+    'question_timeout',
+    'answer_timeout',
+]
+ParameterAccessors: TypeAlias = OptionAccessor | InputAccessor
 
 # Nested
 # ------
@@ -11,8 +30,11 @@ from typing import Self
 class IdName:
     """Represents a basic identifiable entity with ID and name."""
 
-    id: int
+    id: str
     name: str
+
+
+NOT_SELECTED = IdName(id='', name='-----')
 
 
 @dataclass(frozen=True)
@@ -78,7 +100,7 @@ class InitialParameters(
     """Word study Presentation initial parameters DTO."""
 
     @classmethod
-    def from_dto(
+    def extract_from(
         cls,
         dto: SelectedParameters | SetParameters | PresentationSettings,
     ) -> Self:
@@ -94,8 +116,45 @@ class InitialParameters(
 @dataclass(frozen=True)
 class PresentationParameters(
     ParameterOptions,
-    SelectedParameters,
-    SetParameters,
-    PresentationSettings,
+    InitialParameters,
 ):
     """Presentation params with choices DTO."""
+
+    @property
+    def accessor_options(self) -> tuple[tuple[OptionAccessor, Options], ...]:
+        """Get accessor options."""
+        return (
+            ('category', self.categories),
+            ('mark', self.marks),
+            ('word_source', self.sources),
+            ('start_period', self.periods),
+            ('end_period', self.periods),
+            ('translation_order', self.translation_orders),
+        )
+
+    def iterate_initial(
+        self,
+    ) -> Generator[tuple[ParameterAccessors, Selected | int], None, None]:
+        """Iterate by initial parameters."""
+        for field_ in fields(InitialParameters):
+            if value := getattr(self, field_.name):
+                yield field_.name, value  # type: ignore[misc]
+
+    def iterate_options(
+        self,
+    ) -> Generator[tuple[OptionAccessor, Options], None, None]:
+        """Iterate by accessor with options."""
+        for accessor, options in self.accessor_options:
+            match options:
+                case [IdName(_, _), *_]:
+                    values = [NOT_SELECTED, *options]
+
+                case _:
+                    values = options
+
+            yield accessor, values
+
+    @property
+    def initial(self) -> InitialParameters:
+        """Get initial parameters."""
+        return InitialParameters.extract_from(self)

@@ -2,12 +2,13 @@
 
 from dataclasses import dataclass
 from functools import partial
-from typing import Any, override
+from typing import Any, Sequence, override
 
 import toga
-from injector import inject
+from injector import NoInject, inject
 
 from wse.config.layout import StyleConfig, ThemeConfig
+from wse.data.dto import foreign as dto
 from wse.feature.observer.accessor import AccessorMixin
 from wse.feature.observer.mixins import AddNotifyMixin, ObserverManagerGen
 from wse.ui.base.content.mixins import GetContentMixin
@@ -34,7 +35,7 @@ class ParamsContainer(
     To create Selection widget use ``_create_selection`` method.
     """
 
-    _accessors = (
+    _accessors: NoInject[Sequence[dto.ParameterAccessors]] = (
         'category',
         'mark',
         'word_source',
@@ -223,7 +224,7 @@ class ParamsContainer(
     # ------------
 
     @override
-    def set_values(self, accessor: str, values: object) -> None:
+    def set_values(self, accessor: dto.OptionAccessor, values: object) -> None:
         """Set widget values via accessor.
 
         Updated widget must implement ``items.update()`` Source
@@ -234,7 +235,9 @@ class ParamsContainer(
             ui.items.update(values)
 
     @override
-    def set_value(self, accessor: str, value: object) -> None:
+    def set_value(
+        self, accessor: dto.ParameterAccessors, value: object
+    ) -> None:
         """Set widget value via accessor."""
         ui = self._get_ui(accessor)
         with EventDisabler(ui):
