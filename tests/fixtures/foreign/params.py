@@ -68,6 +68,15 @@ CHANGED: Final[types.InitialParametersT] = {
 # HTTP payload
 # ~~~~~~~~~~~~
 
+
+# TODO: Apply typed dict
+PARAMETERS_RESPONSE_PAYLOAD: Final = {
+    'status': 'success',
+    'code': 200,
+    'message': 'Success',
+    'data': {**OPTIONS, **SELECTED, **SETTINGS},
+}
+
 # TODO: Apply typed dict
 PRESENTATION_REQUEST_PAYLOAD: Final = {
     # Selected options
