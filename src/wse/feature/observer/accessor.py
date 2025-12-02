@@ -2,7 +2,7 @@
 
 import logging
 from dataclasses import dataclass
-from typing import Generic
+from typing import Any, Generic, Sequence
 
 import toga
 
@@ -18,7 +18,7 @@ log = logging.getLogger(__name__)
 class AccessorMixin:
     """Listener via accessors."""
 
-    _accessors: tuple[str, ...]
+    _accessors: Sequence[Any]
 
     def _check_accessors(self) -> None:
         """Check that UI attr name corresponding to accessor."""
