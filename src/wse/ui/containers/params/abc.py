@@ -15,16 +15,7 @@ from wse.feature.observer.generic import (
 from wse.ui.base.container import ContainerABC, StyleABC
 from wse.ui.base.content import ContentABC, GetContentABC
 
-ParamsNotifyT = Literal['update']
-
-
-# TODO: Refactor or add fields?
-class ParamsAccessorEnum(BaseEnum):
-    """Params accessor enumeration."""
-
-    MARK_SELECT = 'mark_select'
-    CATEGORY_SELECT = 'category_select'
-    COUNT_INPUT = 'count_input'
+NotifyT: TypeAlias = Literal['update']
 
 
 @dataclass

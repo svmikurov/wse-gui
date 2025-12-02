@@ -3,7 +3,7 @@
 __all__ = [
     'WordParametersNetworkSourceABC',
     'WordParametersLocaleSourceABC',
-    'ParamsNotifyT',
+    'NotifyT',
     'WordParametersNotifyABC',
     'WordPresentationNetworkSourceABC',
     'WordPresentationLocaleSourceABC',
@@ -19,7 +19,7 @@ __all__ = [
 ]
 
 from .abc import (
-    ParamsNotifyT,
+    NotifyT,
     WordParametersLocaleSourceABC,
     WordParametersNetworkSourceABC,
     WordParametersNotifyABC,

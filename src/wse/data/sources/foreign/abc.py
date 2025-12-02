@@ -59,7 +59,7 @@ class WordPresentationNetworkSourceABC(
 # Word study parameters sources
 # -----------------------------
 
-ParamsNotifyT = Literal['params_updated', 'initial_updated']
+NotifyT = Literal['params_updated', 'initial_updated']
 
 
 class WordParametersNotifyABC(ABC):

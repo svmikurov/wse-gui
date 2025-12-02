@@ -2,12 +2,10 @@
 
 __all__ = [
     'ParamsContainerABC',
-    'ParamsNotifyT',
-    'ParamsAccessorEnum',
+    'NotifyT',
 ]
 
 from .abc import (
-    ParamsAccessorEnum,
+    NotifyT,
     ParamsContainerABC,
-    ParamsNotifyT,
 )

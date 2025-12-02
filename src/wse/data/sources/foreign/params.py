@@ -67,7 +67,7 @@ class WordParametersNetworkSource(
 @dataclass
 class WordParametersLocaleSource(
     observer.ObserverManagerGen[base.WordParametersNotifyABC],
-    observer.NotifyGen[base.ParamsNotifyT],
+    observer.NotifyGen[base.NotifyT],
     base.WordParametersLocaleSourceABC,
 ):
     """Word study parameters Network source."""
