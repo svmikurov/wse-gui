@@ -77,6 +77,10 @@ class WordParametersRepoABC(
         """Get Word study initial parameters."""
 
     @abstractmethod
+    def get_settings(self) -> dto.PresentationSettings:
+        """Get Word study presentation settings."""
+
+    @abstractmethod
     def set(self, data: dto.InitialParameters) -> None:
         """Set Word study initial parameters."""
 

@@ -36,7 +36,20 @@ class WordParametersRepo(
         return self._local_source.get_initial()
 
     @override
-    def set(self, data: foreign.InitialParameters) -> None:
+    def get_settings(self) -> dto.PresentationSettings:
+        """Get Word study presentation settings."""
+        params = self.get()
+
+        if not params.question_timeout and not params.answer_timeout:
+            self.fetch()
+            params = self.get()
+
+        return dto.PresentationSettings(
+            params.question_timeout, params.answer_timeout
+        )
+
+    @override
+    def set(self, data: dto.InitialParameters) -> None:
         """Set Word study initial parameters."""
         return self._local_source.update(data)
 
