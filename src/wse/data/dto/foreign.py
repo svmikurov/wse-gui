@@ -11,7 +11,7 @@ from typing import Self
 class IdName:
     """Represents a basic identifiable entity with ID and name."""
 
-    id: int
+    id: str
     name: str
 
 

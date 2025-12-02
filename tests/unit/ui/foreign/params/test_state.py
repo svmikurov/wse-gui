@@ -128,11 +128,12 @@ class TestViewModelNotifications:
             call(accessor='word_count', value=90),
             call(
                 accessor='category',
-                value=dto.IdName(id=2, name='category 2'),
+                value=dto.IdName(id='2', name='category 2'),
             ),
-            call(accessor='mark', value=dto.IdName(id=2, name='mark')),
+            call(accessor='mark', value=dto.IdName(id='2', name='mark')),
             call(
-                accessor='word_source', value=dto.IdName(id=2, name='source 2')
+                accessor='word_source',
+                value=dto.IdName(id='2', name='source 2'),
             ),
             call(
                 accessor='translation_order',
@@ -140,11 +141,11 @@ class TestViewModelNotifications:
             ),
             call(
                 accessor='start_period',
-                value=dto.IdName(id=2, name='week_before'),
+                value=dto.IdName(id='2', name='week_before'),
             ),
             call(
                 accessor='end_period',
-                value=dto.IdName(id=2, name='week_before'),
+                value=dto.IdName(id='2', name='week_before'),
             ),
         ]
         # - Mock and subscribe View to notifications

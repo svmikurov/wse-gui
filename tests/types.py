@@ -6,7 +6,7 @@ from typing import TypedDict
 class IdNameT(TypedDict):
     """Dict representation of choice with its 'name' and 'ID'."""
 
-    id: int
+    id: str
     name: str
 
 

@@ -13,7 +13,7 @@ class BaseSchema(ConvertMixin, BaseModel):
 class IdName(BaseSchema):
     """Schema representing an entity with an identifier and a name."""
 
-    id: int
+    id: str
     name: str
 
 
