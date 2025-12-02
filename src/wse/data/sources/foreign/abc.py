@@ -10,7 +10,6 @@ from wse.feature.observer.generic import ObserverManagerGenABC
 if TYPE_CHECKING:
     from wse.data.dto import foreign as dto
     from wse.data.schemas import foreign as schemas
-    from wse.data.sources.foreign.params import WordParametersData
 
 # Word study source
 # -----------------
@@ -69,7 +68,7 @@ class WordParametersNotifyABC(ABC):
     @abstractmethod
     def params_updated(
         self,
-        params: WordParametersData,
+        params: dto.PresentationParameters,
     ) -> None:
         """Update Word study parameters."""
 
