@@ -13,6 +13,7 @@ from wse.data.repos.foreign import WordParametersRepoABC
 from wse.data.schemas import foreign as schemas
 from wse.data.sources.foreign import (
     WordParametersLocaleSourceABC,
+    WordParametersNetworkSourceABC,
     WordStudyProgressNetworkSourceABC,
 )
 from wse.data.sources.foreign.study import (
@@ -66,7 +67,7 @@ def mock_word_progress_source() -> Mock:
 @pytest.fixture
 def mock_network_source() -> Mock:
     """Mock the Word study parameters Network source."""
-    return Mock(spec=WordParamsNetworkSourceABC)
+    return Mock(spec=WordParametersNetworkSourceABC)
 
 
 @pytest.fixture

@@ -113,7 +113,6 @@ class TestViewModelNotifications:
         view_model_di_mock.params_updated(parameters_dto)
 
         # Assert
-        print(f'\n{mock_view.values_updated.call_args_list = }')
         assert mock_view.values_updated.call_args_list == choices
 
     def test_parameter_value_updated_notification(
@@ -154,8 +153,6 @@ class TestViewModelNotifications:
 
         # Act
         view_model_di_mock.params_updated(parameters_dto)
-
-        print(f'\n\n\n{mock_view.value_updated.call_args_list = }')
 
         # Assert
         assert mock_view.value_updated.call_args_list == initial_choice

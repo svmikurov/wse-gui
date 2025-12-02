@@ -23,6 +23,7 @@ def use_case(
         _subject=mock_subject,
         _get_word_repo=mock_get_word_repo,
         _progress_repo=mock_progress_repo,
+        _settings_repo=Mock(),
         _domain=presentation,
     )
 
@@ -157,6 +158,20 @@ class TestActions:
 
 class TestLifecycle:
     """Test suite for WordStudyUseCase start/stop functionality."""
+
+    def test_request_presentation_settings(
+        self,
+        mock_settings_repo: Mock,
+        use_case_di_mock: WordStudyUseCase,
+    ) -> None:
+        """Test that request of Presentation settings was called."""
+        # Act
+        # Mock background tasks
+        with patch.object(use_case_di_mock, '_start_background_tasks'):
+            use_case_di_mock.start()
+
+        # Assert
+        mock_settings_repo.get_settings.assert_called_once()
 
     def test_start(
         self,

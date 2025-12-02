@@ -55,6 +55,7 @@ def study_case(
         _subject=subject,
         _get_word_repo=presentation_repo,
         _progress_repo=Mock(),
+        _settings_repo=Mock(),
         _domain=Mock(),
     )
 

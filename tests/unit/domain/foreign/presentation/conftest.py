@@ -98,8 +98,8 @@ def presentation() -> Presentation:
     )
 
 
-# Repository fixtures
-# -------------------
+# Domain dependencies
+# ~~~~~~~~~~~~~~~~~~~
 
 
 @pytest.fixture
@@ -114,8 +114,14 @@ def mock_progress_repo() -> Mock:
     return Mock(spec=repos.WordProgressRepoABC)
 
 
-# UseCase fixture
-# ---------------
+@pytest.fixture
+def mock_settings_repo() -> Mock:
+    """Mock the Word study progress fixture."""
+    return Mock(spec=repos.WordParametersRepoABC)
+
+
+# Tested domain
+# ~~~~~~~~~~~~~
 
 
 @pytest.fixture
@@ -123,6 +129,7 @@ def use_case_di_mock(
     mock_subject: Mock,
     mock_get_word_repo: Mock,
     mock_progress_repo: Mock,
+    mock_settings_repo: Mock,
     mock_domain: Mock,
 ) -> WordStudyUseCase:
     """Word study UseCase fixture."""
@@ -130,5 +137,6 @@ def use_case_di_mock(
         _subject=mock_subject,
         _get_word_repo=mock_get_word_repo,
         _progress_repo=mock_progress_repo,
+        _settings_repo=mock_settings_repo,
         _domain=mock_domain,
     )
