@@ -42,7 +42,7 @@ class ControlContainer(
             children=[self._btn_known, self._btn_unknown]
         )
         self._control_box = toga.Box(
-            children=[self._btn_display, self._btn_next, self._btn_pause]
+            children=[self._btn_next, self._btn_display, self._btn_pause]
         )
 
     def _update_style(self, config: StyleConfig | ThemeConfig) -> None:
@@ -50,8 +50,8 @@ class ControlContainer(
         self.content.style.update(**style.outbox)
         self._btn_pause.style.update(**style.right_btn)
         self._btn_unpause.style.update(**style.right_btn)
-        self._btn_display.style.update(**style.left_btn)
-        self._btn_next.style.update(**style.inner_btn)
+        self._btn_display.style.update(**style.inner_btn)
+        self._btn_next.style.update(**style.left_btn)
         self._btn_known.style.update(**style.left_btn)
         self._btn_unknown.style.update(**style.right_btn)
 
