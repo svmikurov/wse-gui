@@ -1,6 +1,5 @@
 """Foreign discipline fixtures."""
 
-from dataclasses import fields
 from typing import Final
 
 from tests import types
@@ -46,8 +45,11 @@ SELECTED: Final[types.SelectedParametersT] = {
     'translation_order': TRANSLATE_ORDER_OPTIONS[1],
 }
 
-SETTINGS: Final[types.PresentationSettingsT] = {
+SET: Final[types.SetParametersT] = {
     'word_count': 90,
+}
+
+SETTINGS: Final[types.PresentationSettingsT] = {
     'question_timeout': 2,
     'answer_timeout': 2,
 }
@@ -74,7 +76,7 @@ PARAMETERS_RESPONSE_PAYLOAD: Final = {
     'status': 'success',
     'code': 200,
     'message': 'Success',
-    'data': {**OPTIONS, **SELECTED, **SETTINGS},
+    'data': {**OPTIONS, **SELECTED, **SET, **SETTINGS},
 }
 
 # TODO: Apply typed dict
@@ -87,7 +89,7 @@ PRESENTATION_REQUEST_PAYLOAD: Final = {
     'start_period': SELECTED['start_period'],
     'end_period': SELECTED['end_period'],
     # Set options
-    'word_count': SETTINGS['word_count'],
+    'word_count': SET['word_count'],
 }
 
 # TODO: Apply typed dict
@@ -111,12 +113,12 @@ PRESENTATION_RESPONSE_PAYLOAD: Final = {
 
 
 INITIAL_PARAMETERS_SCHEMA: Final = schemas.InitialParameters.from_dict(
-    {**SELECTED, **SETTINGS},
+    {**SELECTED, **SET, **SETTINGS},
 )
 
 
 PARAMETERS_SCHEMA: Final = schemas.PresentationParameters.from_dict(
-    {**OPTIONS, **SELECTED, **SETTINGS},
+    {**OPTIONS, **SELECTED, **SET, **SETTINGS},
 )
 
 
@@ -130,6 +132,7 @@ INITIAL_PARAMETERS_DTO: Final = dto.InitialParameters(
     translation_order=dto.CodeName(**SELECTED['translation_order']),  # type: ignore[arg-type]
     start_period=dto.IdName(**SELECTED['start_period']),  # type: ignore[arg-type]
     end_period=dto.IdName(**SELECTED['end_period']),  # type: ignore[arg-type]
+    **SET,
     **SETTINGS,
 )
 
@@ -153,8 +156,5 @@ PARAMETERS_DTO: Final = dto.PresentationParameters(
     translation_orders=[
         dto.CodeName(**items) for items in OPTIONS['translation_orders']
     ],
-    **{
-        field.name: getattr(INITIAL_PARAMETERS_DTO, field.name)
-        for field in fields(INITIAL_PARAMETERS_DTO)
-    },
+    **vars(INITIAL_PARAMETERS_DTO),
 )

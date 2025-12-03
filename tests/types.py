@@ -42,16 +42,28 @@ class SelectedParametersT(TypedDict):
     end_period: IdNameT | None
 
 
+class SetParametersT(TypedDict):
+    """Fields type for Word study set parameters."""
+
+    word_count: int | None
+
+
 class PresentationSettingsT(TypedDict):
     """Fields type for Word study presentation settings."""
 
-    word_count: int | None
     question_timeout: int | None
     answer_timeout: int | None
 
 
-class InitialParametersT(
+class WordCaseRequestT(
     SelectedParametersT,
+    SetParametersT,
+):
+    """Fields type for Word study case request."""
+
+
+class InitialParametersT(
+    WordCaseRequestT,
     PresentationSettingsT,
 ):
     """Fields type for Word study initial parameters."""
@@ -59,7 +71,6 @@ class InitialParametersT(
 
 class WordPresentationParamsT(
     PresentationOptionsT,
-    SelectedParametersT,
-    PresentationSettingsT,
+    InitialParametersT,
 ):
     """Fields type for Word study parameters."""

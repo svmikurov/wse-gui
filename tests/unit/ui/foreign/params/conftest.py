@@ -43,6 +43,12 @@ def word_presentation_selected(
 
 
 @pytest.fixture
+def word_presentation_set() -> types.SetParametersT:
+    """Provide Word study Presentation set parameters."""
+    return fixtures.SET
+
+
+@pytest.fixture
 def word_presentation_settings() -> types.PresentationSettingsT:
     """Provide Word study Presentation settings."""
     return fixtures.SETTINGS
@@ -52,11 +58,13 @@ def word_presentation_settings() -> types.PresentationSettingsT:
 def word_presentation_params(
     word_presentation_options: types.PresentationOptionsT,
     word_presentation_selected: types.SelectedParametersT,
+    word_presentation_set: types.SetParametersT,
     word_presentation_settings: types.PresentationSettingsT,
 ) -> types.WordPresentationParamsT:
     """Provide Word study Presentation parameters valid data."""
     return {
         **word_presentation_options,
         **word_presentation_selected,
+        **word_presentation_set,
         **word_presentation_settings,
     }
