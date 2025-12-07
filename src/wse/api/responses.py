@@ -18,7 +18,7 @@ class Response(BaseSchema):
     """Response schema."""
 
     status: Literal['success', 'error']
-    code: int
+    code: str | None
     message: str | None
     related_data: RelatedData | None = None
 
