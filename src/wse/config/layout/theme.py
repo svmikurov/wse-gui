@@ -98,6 +98,7 @@ class ThemeConfig(BaseTheme):
     label_title: dict[str, str] = {}
     selection: dict[str, str] = {}
     number_input: dict[str, str] = {}
+    switch: dict[str, str] = {}
 
     top_bar: TopBarTheme = Field(default_factory=TopBarTheme)
     login: LoginTheme = Field(default_factory=LoginTheme)

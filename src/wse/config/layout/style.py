@@ -97,6 +97,7 @@ class StyleConfig(BaseStyle):
     label_title: dict[str, str | int] = {}
     selection: dict[str, str | int] = {}
     number_input: dict[str, str | int] = {}
+    switch: dict[str, str | int] = {}
 
     top_bar: TopBarStyle = Field(default_factory=TopBarStyle)
     login: LoginStyle = Field(default_factory=LoginStyle)

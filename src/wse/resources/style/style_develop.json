@@ -38,6 +38,14 @@
     "margin_bottom": 2,
     "margin_left": 5
   },
+  "switch": {
+    "font_size": 15,
+    "margin_top": 7,
+    "margin_right": 5,
+    "margin_bottom": 5,
+    "margin_left": 7,
+    "flex": 1
+  },
   "text_task": {
     "label_question": {
       "font_size": 40,
