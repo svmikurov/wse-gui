@@ -1,7 +1,7 @@
 """Word study progress API client."""
 
 import logging
-from typing import TypedDict
+from typing import override
 
 import httpx
 from injector import inject
@@ -10,16 +10,9 @@ from wse.config.api import APIConfigV1
 from wse.core.http import HttpClientABC
 from wse.core.http.auth_schema import AuthSchema
 
-from . import WordProgressApiABC
+from . import UpdateProgressPayload, WordProgressApiABC
 
 log = logging.getLogger(__name__)
-
-
-class PayloadType(TypedDict):
-    """Payload typed dict."""
-
-    case_uuid: str
-    progress_type: str
 
 
 class WordStudyProgressApi(WordProgressApiABC):
@@ -42,23 +35,9 @@ class WordStudyProgressApi(WordProgressApiABC):
         self._auth = auth_scheme
         self._api_config = api_config
 
-    def increment_progress(self, case_uuid: str) -> None:
-        """Increment Word study progress."""
-        payload: PayloadType = {
-            'case_uuid': case_uuid,
-            'progress_type': 'known',
-        }
-        self._update_progress(payload)
-
-    def decrement_progress(self, case_uuid: str) -> None:
-        """Decrement Word study progress."""
-        payload: PayloadType = {
-            'case_uuid': case_uuid,
-            'progress_type': 'unknown',
-        }
-        self._update_progress(payload)
-
-    def _update_progress(self, payload: PayloadType) -> None:
+    @override
+    def update(self, payload: UpdateProgressPayload) -> None:
+        """Update Word study progress."""
         try:
             self._http_client.post(
                 self._api_config.word_progress_update,

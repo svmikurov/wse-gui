@@ -5,9 +5,11 @@ from dataclasses import dataclass
 from json.decoder import JSONDecodeError
 from typing import override
 
+import pydantic
 from injector import inject
 
 from wse.config.api import APIConfigV1
+from wse.core import exceptions
 from wse.core.http import auth_schema, client
 from wse.data.schemas import foreign as schemas
 
@@ -32,14 +34,22 @@ class WordPresentationApi(WordPresentationApiABC):
         payload: schemas.RequestPresentation,
     ) -> schemas.PresentationCase:
         """Fetch Word study presentation."""
-        response = self._http_client.post(
-            url=self._api_config.word_presentation,
-            auth=self._auth_scheme,
-            json=payload.to_dict(),
-        )
+        try:
+            response = self._http_client.post(
+                url=self._api_config.word_presentation,
+                auth=self._auth_scheme,
+                json=payload.to_dict(),
+            )
+        except Exception:
+            log.error('Request Word study presentation HTTP error')
+            raise
 
         try:
-            return WordStudyPresentationResponse(**response.json()).data
+            schema = WordStudyPresentationResponse(**response.json())
+
+        except pydantic.ValidationError as exc:
+            log.error('Validation error: %s', exc)
+            raise
 
         except JSONDecodeError:
             log.error(
@@ -55,3 +65,9 @@ class WordPresentationApi(WordPresentationApiABC):
                 f'Got response JSON: {response.json()}'
             )
             raise
+
+        if schema.data is None:
+            log.info('No server data for presentation')
+            raise exceptions.NoResponseDataError
+
+        return schema.data

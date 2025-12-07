@@ -14,7 +14,7 @@ class WordsResponse(Response):
 class WordStudyPresentationResponse(Response):
     """Word study presentation response schema."""
 
-    data: schemas.PresentationCase
+    data: schemas.PresentationCase | None
 
 
 class WordStudyParametersResponse(Response):

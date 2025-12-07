@@ -3,22 +3,25 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypedDict
 
 if TYPE_CHECKING:
     from wse.data.schemas import foreign as schemas
+
+
+class UpdateProgressPayload(TypedDict):
+    """Update progress payload types."""
+
+    case_uuid: str
+    is_known: bool
 
 
 class WordProgressApiABC(ABC):
     """ABC for Word study progress API client."""
 
     @abstractmethod
-    def increment_progress(self, case_uuid: str) -> None:
-        """Increment Word study progress."""
-
-    @abstractmethod
-    def decrement_progress(self, case_uuid: str) -> None:
-        """Decrement Word study progress."""
+    def update(self, payload: UpdateProgressPayload) -> None:
+        """Update Word study progress."""
 
 
 class WordPresentationApiABC(ABC):
