@@ -8,7 +8,7 @@ from tests.fixtures.foreign import parameters as fixtures
 from wse.data.dto import foreign as dto
 from wse.data.repos import foreign as repo
 from wse.feature.observer.subject import Subject
-from wse.ui.foreign.params import WordStudyParamsViewABC, state
+from wse.ui.foreign.parameters import WordStudyParamsViewABC, state
 
 # Test data fixtures
 # ------------------

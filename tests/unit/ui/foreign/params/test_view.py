@@ -3,7 +3,7 @@
 import pytest
 
 from wse.di import create_injector
-from wse.ui.foreign.params.view import WordStudyParamsView
+from wse.ui.foreign.parameters.view import WordStudyParamsView
 
 
 # TODO: Create injector with specific modules?

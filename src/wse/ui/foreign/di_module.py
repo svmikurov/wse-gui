@@ -7,9 +7,9 @@ from injector import Binder, Module, SingletonScope
 from .index import IndexForeignViewABC, IndexForeignViewModelABC
 from .index.state import IndexForeignViewModel
 from .index.view import IndexForeignView
-from .params import WordStudyParamsViewABC, WordStudyParamsViewModelABC
-from .params.state import WordParametersUIState, WordStudyParamsViewModel
-from .params.view import WordStudyParamsView
+from .parameters import WordStudyParamsViewABC, WordStudyParamsViewModelABC
+from .parameters.state import WordParametersUIState, WordStudyParamsViewModel
+from .parameters.view import WordStudyParamsView
 from .presentation import WordPresentationViewABC, WordPresentationViewModelABC
 from .presentation.state import WordPresentationViewModel
 from .presentation.view import WordPresentationView

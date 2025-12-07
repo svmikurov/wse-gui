@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
     from wse.data.schemas import foreign as schemas
     from wse.ui.containers.params import container
-    from wse.ui.foreign.params import view
+    from wse.ui.foreign.parameters import view
 
 
 class TestSelection:

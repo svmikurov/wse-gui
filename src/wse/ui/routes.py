@@ -6,7 +6,7 @@ from wse.core.navigation.nav_id import NavID
 from wse.ui.base.content.abc import GetContentABC
 
 from .foreign.index import IndexForeignViewABC
-from .foreign.params import WordStudyParamsViewABC
+from .foreign.parameters import WordStudyParamsViewABC
 from .foreign.presentation import WordPresentationViewABC
 from .glossary.index import IndexGlossaryViewABC
 from .glossary.study import TermsStudyViewABC

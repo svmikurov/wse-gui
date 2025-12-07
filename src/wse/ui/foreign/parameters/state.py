@@ -12,7 +12,7 @@ from wse.data.repos import foreign as repos
 from wse.data.sources import foreign as sources
 from wse.feature import observer
 from wse.ui.base import navigate
-from wse.ui.foreign import params as base
+from wse.ui.foreign import parameters as base
 
 log = logging.getLogger(__name__)
 

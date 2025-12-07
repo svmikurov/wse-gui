@@ -17,7 +17,7 @@ from wse.data.repos.foreign.params import (
 from wse.data.sources.foreign import params as sources
 from wse.ui.containers.params.container import ParamsContainer
 from wse.ui.containers.top_bar.container import TopBarController
-from wse.ui.foreign.params import state, view
+from wse.ui.foreign.parameters import state, view
 
 if TYPE_CHECKING:
     from wse.config import layout

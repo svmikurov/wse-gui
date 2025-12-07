@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 
 from wse.core.navigation import NavID
 from wse.data.dto import foreign as dto
-from wse.ui.foreign.params import state
+from wse.ui.foreign.parameters import state
 
 if TYPE_CHECKING:
     from unittest.mock import Mock
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from wse.data.schemas import foreign as schemas
     from wse.data.sources.foreign.params import WordParametersLocaleSource
     from wse.ui.containers.params.container import ParamsContainer
-    from wse.ui.foreign.params import view
+    from wse.ui.foreign.parameters import view
 
 EMPTY = dto.NOT_SELECTED
 
