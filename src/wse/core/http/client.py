@@ -155,10 +155,12 @@ class HttpClient(HttpClientABC):
 
     @staticmethod
     def _audit_response(response: httpx.Response) -> None:
+        msg = (
+            f'Got response {response.status_code} status '
+            f"from '{response.url.path}'\n"
+        )
         try:
-            audit.info(f'Got response payload: {response.json()}')
+            audit.info(msg + f'with payload {response.json()!r}')
         except json.JSONDecodeError:
-            audit.info(
-                'Got response without payload, code: {response.status_code}'
-            )
+            audit.info(msg + 'without payload')
         pass
