@@ -7,6 +7,7 @@ from typing import override
 from injector import inject
 
 from wse.api import foreign as api
+from wse.core import exceptions
 from wse.data.dto import foreign as dto
 from wse.data.schemas import foreign as schemas
 
@@ -92,6 +93,9 @@ class WordPresentationNetworkSource(
 
         try:
             presentation = self._presentation_api.fetch(schema)
+        except exceptions.NoResponseDataError:
+            log.info('No data for presentation')
+            raise
         except Exception as exc:
             log.error(f'Source Network error: {str(exc)}')
             raise

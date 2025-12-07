@@ -20,7 +20,13 @@ InputAccessor: TypeAlias = Literal[
     'question_timeout',
     'answer_timeout',
 ]
-ParameterAccessors: TypeAlias = OptionAccessor | InputAccessor
+SwitchAccessor: TypeAlias = Literal[
+    'is_study',
+    'is_repeat',
+    'is_examine',
+    'is_know',
+]
+ParameterAccessors: TypeAlias = OptionAccessor | InputAccessor | SwitchAccessor
 
 # Nested
 # ------
@@ -35,6 +41,8 @@ class IdName:
 
 
 NOT_SELECTED = IdName(id='', name='-----')
+"""Placeholder for selection with not selected options value.
+"""
 
 
 @dataclass(frozen=True)
@@ -77,6 +85,11 @@ class SetParameters:
     """Word study set parameters."""
 
     word_count: int | None = None
+
+    is_study: bool | None = True
+    is_repeat: bool | None = False
+    is_examine: bool | None = False
+    is_know: bool | None = False
 
 
 @dataclass(frozen=True)
@@ -137,7 +150,8 @@ class PresentationParameters(
     ) -> Generator[tuple[ParameterAccessors, Selected | int], None, None]:
         """Iterate by initial parameters."""
         for field_ in fields(InitialParameters):
-            if value := getattr(self, field_.name):
+            value = getattr(self, field_.name)
+            if value is not None:
                 yield field_.name, value  # type: ignore[misc]
 
     def iterate_options(

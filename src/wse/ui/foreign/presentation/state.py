@@ -6,6 +6,7 @@ from typing import Literal, NamedTuple, TypeAlias, override
 
 from injector import inject
 
+from wse.core.navigation import NavID
 from wse.data.schemas import foreign
 from wse.domain.foreign import ExerciseAccessorT, WordStudyUseCaseABC
 from wse.domain.text import TextHyphenationABC
@@ -68,6 +69,9 @@ class WordPresentationViewModel(
         self._study_case.remove_observer(self)
         self._study_case.stop()
 
+    # Notification observe
+    # --------------------
+
     @override
     def exercise_updated(
         self,
@@ -109,6 +113,13 @@ class WordPresentationViewModel(
             progress=I18N.EXERCISE('progress') + f': {data.progress or "-"}'
         )
 
+    def no_case(self) -> None:
+        """Handle the no presentation case."""
+        self.navigate(nav_id=NavID.FOREIGN_PARAMS)
+
+    # View api contract
+    # -----------------
+
     @override
     def handle(self, action: Action) -> None:
         """Handle user action."""
@@ -131,8 +142,8 @@ class WordPresentationViewModel(
 
         self._reset_pause()
 
-    # Utility methods
-    # ---------------
+    # Helpers
+    # -------
 
     def _set_pause(self) -> None:
         self._pause = True
@@ -149,6 +160,9 @@ class WordPresentationViewModel(
 
     def _reset_unknown_state(self) -> None:
         self.notify('unknown_state_updated', value=True)
+
+    # Utility methods
+    # ---------------
 
     def _adapt_text(self, text: object) -> str:
         return self._normalize_case.adapt(str(text))

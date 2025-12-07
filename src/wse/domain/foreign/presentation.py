@@ -7,6 +7,7 @@ from typing import Final, override
 
 from injector import inject
 
+from wse.core import exceptions
 from wse.data.repos import foreign as repos
 from wse.data.schemas import foreign
 from wse.domain import foreign as base
@@ -58,11 +59,17 @@ class WordStudyUseCase(
         try:
             while True:
                 # Start presentation case
+                log.info('Presentation started')
                 await self._domain.wait_start_case_event()
+
                 try:
                     data = self._get_data()
-                # TODO: Improve chained exception handling
-                except Exception:
+                except exceptions.NoResponseDataError:
+                    log.info('Presentation finished - no data')
+                    self.stop()
+                    break
+                except Exception as e:
+                    log.error(f'Error getting word data: {e}')
                     self.stop()
                     break
 
@@ -84,8 +91,9 @@ class WordStudyUseCase(
             log.debug('Word study loop cancelled')
             raise
 
-        except Exception as e:
-            log.error(f'Unexpected error in word study loop: {e}')
+        finally:
+            self._notify_clean()
+            log.debug('Word study loop finished')
 
     async def _monitor_progress(self) -> None:
         """Monitor the Word study case event progress."""
@@ -170,6 +178,14 @@ class WordStudyUseCase(
     def _get_data(self) -> foreign.Presentation:
         try:
             return self._get_word_repo.get_word()
+
+        # TODO: Fix asyncio executing WARNING log
+        # Subject notification 'no_case' too long for asyncio
+        except exceptions.NoResponseDataError:
+            log.info('No case available')
+            self._subject.notify('no_case')
+            raise
+
         except Exception as e:
             log.error(f'Get word study error: {e}')
             raise

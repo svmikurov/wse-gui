@@ -8,17 +8,27 @@ import toga
 from injector import NoInject, inject
 
 from wse.config.layout import StyleConfig, ThemeConfig
+from wse.core.base import enums
 from wse.data.dto import foreign as dto
 from wse.feature.observer.accessor import AccessorMixin
 from wse.feature.observer.mixins import AddNotifyMixin, ObserverManagerGen
 from wse.ui.base.content.mixins import GetContentMixin
+from wse.utils import I18N
 from wse.utils.contextmanager import EventDisabler
-from wse.utils.i18n import I18N
 
 from . import ParamsContainerABC
 from .entity import IdNameSource
 
 UI_MARGIN = (2, 5, 2, 5)
+
+
+class Progress(enums.BaseEnum):
+    """Progress enumeration."""
+
+    STUDY = 'is_study'
+    REPEAT = 'is_repeat'
+    EXAMINE = 'is_examine'
+    KNOW = 'is_know'
 
 
 @inject
@@ -45,6 +55,10 @@ class ParamsContainer(
         'word_count',
         'question_timeout',
         'answer_timeout',
+        'is_study',
+        'is_repeat',
+        'is_examine',
+        'is_know',
     )
 
     @override
@@ -73,6 +87,12 @@ class ParamsContainer(
         self._answer_timeout_label = toga.Label(I18N.LABEL('Answer timeout'))
         self._answer_timeout = self._create_number_input('answer_timeout')
 
+        # Progress switch
+        self._is_study = self._create_switch(I18N.EXERCISE(Progress.STUDY))
+        self._is_repeat = self._create_switch(I18N.EXERCISE(Progress.REPEAT))
+        self._is_examine = self._create_switch(I18N.EXERCISE(Progress.EXAMINE))
+        self._is_know = self._create_switch(I18N.EXERCISE(Progress.KNOW))
+
     @override
     def _populate_content(self) -> None:
         self._content.add(
@@ -84,6 +104,7 @@ class ParamsContainer(
             self.input_count,
             self.question_timeout,
             self.answer_timeout,
+            self.progress_switch,
         )
 
     @override
@@ -108,6 +129,12 @@ class ParamsContainer(
         self._question_timeout.style.update(**config.params.number)
         self._answer_timeout_label.style.update(**config.params.label)
         self._answer_timeout.style.update(**config.params.number)
+
+        # Progress switch
+        self._is_study.style.update(**config.switch)
+        self._is_repeat.style.update(**config.switch)
+        self._is_examine.style.update(**config.switch)
+        self._is_know.style.update(**config.switch)
 
     # Combined widgets
     # ----------------
@@ -167,6 +194,15 @@ class ParamsContainer(
         """Get the named input widget of answer timeout."""
         return self._combine(self._answer_timeout_label, self._answer_timeout)
 
+    @property
+    def progress_switch(self) -> toga.Box:
+        """Get progress switch widget."""
+        box, row_1, row_2 = toga.Column(), toga.Box(), toga.Box()  # type: ignore[no-untyped-call]
+        row_1.add(self._is_study, self._is_repeat)
+        row_2.add(self._is_examine, self._is_know)
+        box.add(row_1, row_2)
+        return box  # type: ignore[no-any-return]
+
     # Utility methods
     # ---------------
 
@@ -190,6 +226,14 @@ class ParamsContainer(
             accessor='name',
             items=IdNameSource(),
             on_change=partial(self._on_select, accessor=accessor),
+        )
+
+    def _create_switch(self, accessor: str) -> toga.Switch:
+        """Create Switch with valid accessor."""
+        self._validate_accessor(accessor)
+        return toga.Switch(
+            text=accessor,
+            on_change=partial(self._on_switch, accessor=accessor),
         )
 
     def _create_number_input(
@@ -219,6 +263,9 @@ class ParamsContainer(
         self.notify(
             'widget_updated', accessor=accessor, value=int(str(input.value))
         )
+
+    def _on_switch(self, switch: toga.Switch, accessor: str) -> None:
+        self.notify('widget_updated', accessor=accessor, value=switch.value)
 
     # Api contract
     # ------------

@@ -78,6 +78,11 @@ class SetPresentation(base.BaseSchema):
 
     word_count: int | None
 
+    is_study: bool | None
+    is_repeat: bool | None
+    is_examine: bool | None
+    is_know: bool | None
+
 
 class PresentationSettings(base.BaseSchema):
     """Word study Presentation settings schema."""
@@ -114,10 +119,14 @@ class PresentationParameters(
         attrs = {}
 
         for field, value in self:
-            if not value or isinstance(value, int):
+            if value is None:
+                continue
+
+            elif isinstance(value, int):
                 attrs[field] = value
+
             else:
-                attrs[field] = self._convert_nested(value)
+                attrs[field] = self._convert_nested(value)  # type: ignore[assignment]
 
         return dto.PresentationParameters(**attrs)  # type: ignore[arg-type]
 
