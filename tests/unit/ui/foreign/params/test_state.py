@@ -4,7 +4,7 @@ from unittest.mock import Mock, call
 
 import pytest
 
-from tests.fixtures.foreign import params as fixtures
+from tests.fixtures.foreign import parameters as fixtures
 from wse.data.dto import foreign as dto
 from wse.data.repos import foreign as repo
 from wse.feature.observer.subject import Subject
@@ -141,27 +141,21 @@ class TestViewModelNotifications:
             call(accessor='question_timeout', value=2),
             call(accessor='answer_timeout', value=2),
             call(accessor='word_count', value=90),
-            call(
-                accessor='category',
-                value=dto.IdName(id='2', name='category 2'),
-            ),
-            call(accessor='mark', value=dto.IdName(id='2', name='mark')),
-            call(
-                accessor='word_source',
-                value=dto.IdName(id='2', name='source 2'),
-            ),
+            call(accessor='is_study', value=True),
+            call(accessor='is_repeat', value=False),
+            call(accessor='is_examine', value=True),
+            call(accessor='is_know', value=False),
+            call(accessor='category', value=dto.IdName('2', 'category 2')),
+            call(accessor='mark', value=dto.IdName('2', 'mark')),
+            call(accessor='word_source', value=dto.IdName('2', 'source 2')),
             call(
                 accessor='translation_order',
-                value=dto.CodeName(code='to_native', name='На родной язык'),
+                value=dto.CodeName('to_native', 'На родной язык'),
             ),
             call(
-                accessor='start_period',
-                value=dto.IdName(id='2', name='week_before'),
+                accessor='start_period', value=dto.IdName('2', 'week_before')
             ),
-            call(
-                accessor='end_period',
-                value=dto.IdName(id='2', name='week_before'),
-            ),
+            call(accessor='end_period', value=dto.IdName('2', 'week_before')),
         ]
         # - Mock and subscribe View to notifications
         mock_view = Mock(spec=WordStudyParamsViewABC)

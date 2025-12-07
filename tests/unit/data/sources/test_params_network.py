@@ -4,7 +4,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from tests.fixtures.foreign import params as fixtures
+from tests.fixtures.foreign import parameters as fixtures
 from wse.api.foreign import WordParametersApiABC
 from wse.data.dto import foreign as dto
 from wse.data.schemas import foreign

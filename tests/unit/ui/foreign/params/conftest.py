@@ -3,7 +3,7 @@
 import pytest
 
 from tests import types
-from tests.fixtures.foreign import params as fixtures
+from tests.fixtures.foreign import parameters as fixtures
 
 # The Word study Presentation parameters consists from data:
 # - parameter options

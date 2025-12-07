@@ -7,7 +7,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from tests.fixtures.foreign import params as fixtures
+from tests.fixtures.foreign import parameters as fixtures
 from wse.data.dto import foreign as dto
 
 if TYPE_CHECKING:

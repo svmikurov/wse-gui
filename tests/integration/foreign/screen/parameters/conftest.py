@@ -7,7 +7,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from tests.fixtures.foreign import params as fixtures
+from tests.fixtures.foreign import parameters as fixtures
 from wse.api.foreign import WordParametersApiABC
 from wse.data.dto import foreign as dto
 from wse.data.repos.foreign.params import (
@@ -233,5 +233,11 @@ def populate_parameters_container(
     con._word_count.value = dto.word_count
     con._question_timeout.value = dto.question_timeout
     con._answer_timeout.value = dto.answer_timeout
+
+    # - Set number input
+    con._is_study.value = dto.is_study
+    con._is_repeat.value = dto.is_repeat
+    con._is_examine.value = dto.is_examine
+    con._is_know.value = dto.is_know
 
     return con

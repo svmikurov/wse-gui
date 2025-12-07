@@ -7,7 +7,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from tests.fixtures.foreign import params as fixtures
+from tests.fixtures.foreign import parameters as fixtures
 from wse.data.sources.foreign import params as sources
 
 if TYPE_CHECKING:

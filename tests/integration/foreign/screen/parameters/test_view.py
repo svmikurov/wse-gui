@@ -152,3 +152,9 @@ class TestScreenInitialization:
         assert int(con._word_count.value) == dto.word_count  # type: ignore[arg-type]
         assert int(con._question_timeout.value) == dto.question_timeout  # type: ignore[arg-type]
         assert int(con._answer_timeout.value) == dto.answer_timeout  # type: ignore[arg-type]
+
+        # - progress switch has default state
+        assert con._is_study.value is True
+        assert con._is_repeat.value is False
+        assert con._is_examine.value is True
+        assert con._is_know.value is False

@@ -9,7 +9,7 @@ from unittest.mock import Mock
 import httpx
 import pytest
 
-from tests.fixtures.foreign import params as fixtures
+from tests.fixtures.foreign import parameters as fixtures
 from wse.api import foreign as api
 from wse.data.repos import foreign as repos
 from wse.data.schemas import foreign as schemas

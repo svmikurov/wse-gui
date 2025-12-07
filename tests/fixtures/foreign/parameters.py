@@ -54,6 +54,17 @@ SETTINGS: Final[types.PresentationSettingsT] = {
     'answer_timeout': 2,
 }
 
+PROGRESS_PHASES = {
+    'is_study': True,
+    'is_repeat': False,
+    'is_examine': True,
+    'is_know': False,
+}
+
+# Changed parameters
+# ~~~~~~~~~~~~~~~~~~
+
+
 CHANGED: Final[types.InitialParametersT] = {
     'category': OPTIONS['categories'][0],
     'mark': OPTIONS['marks'][0],
@@ -76,21 +87,11 @@ PARAMETERS_RESPONSE_PAYLOAD: Final = {
     'status': 'success',
     'code': 200,
     'message': 'Success',
-    'data': {**OPTIONS, **SELECTED, **SET, **SETTINGS},
+    'data': {**OPTIONS, **SELECTED, **SET, **SETTINGS, **PROGRESS_PHASES},
 }
 
 # TODO: Apply typed dict
-PRESENTATION_REQUEST_PAYLOAD: Final = {
-    # Selected options
-    'category': SELECTED['category'],
-    'mark': SELECTED['mark'],
-    'word_source': SELECTED['word_source'],
-    'translation_order': SELECTED['translation_order'],
-    'start_period': SELECTED['start_period'],
-    'end_period': SELECTED['end_period'],
-    # Set options
-    'word_count': SET['word_count'],
-}
+PRESENTATION_REQUEST_PAYLOAD: Final = {**SELECTED, **SET, **PROGRESS_PHASES}
 
 # TODO: Apply typed dict
 PRESENTATION_RESPONSE_PAYLOAD: Final = {
@@ -113,12 +114,12 @@ PRESENTATION_RESPONSE_PAYLOAD: Final = {
 
 
 INITIAL_PARAMETERS_SCHEMA: Final = schemas.InitialParameters.from_dict(
-    {**SELECTED, **SET, **SETTINGS},
+    {**SELECTED, **SET, **SETTINGS, **PROGRESS_PHASES},
 )
 
 
 PARAMETERS_SCHEMA: Final = schemas.PresentationParameters.from_dict(
-    {**OPTIONS, **SELECTED, **SET, **SETTINGS},
+    {**OPTIONS, **SELECTED, **SET, **SETTINGS, **PROGRESS_PHASES},
 )
 
 
@@ -134,6 +135,7 @@ INITIAL_PARAMETERS_DTO: Final = dto.InitialParameters(
     end_period=dto.IdName(**SELECTED['end_period']),  # type: ignore[arg-type]
     **SET,
     **SETTINGS,
+    **PROGRESS_PHASES,
 )
 
 CHANGED_PARAMETERS_DTO: Final = dto.InitialParameters(
