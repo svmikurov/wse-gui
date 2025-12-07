@@ -115,7 +115,7 @@ class WordPresentationViewModel(
 
     def no_case(self) -> None:
         """Handle the no presentation case."""
-        self.navigate(nav_id=NavID.FOREIGN_PARAMS)
+        self.navigate(nav_id=NavID.FOREIGN)
 
     # View api contract
     # -----------------
