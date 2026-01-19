@@ -34,7 +34,7 @@ def word_presentation_selected(
     """Provide Word study Presentation selected parameters."""
     return {
         'category': word_presentation_options['categories'][0],
-        'mark': word_presentation_options['marks'][1],
+        'mark': [word_presentation_options['marks'][1]],
         'word_source': word_presentation_options['sources'][0],
         'start_period': word_presentation_options['periods'][0],
         'end_period': word_presentation_options['periods'][1],
