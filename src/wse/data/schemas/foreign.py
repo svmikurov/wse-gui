@@ -2,6 +2,8 @@
 
 from datetime import datetime
 
+from pydantic import Field
+
 from wse.data.dto import foreign as dto
 from wse.data.schemas import base
 
@@ -66,7 +68,9 @@ class SelectedParameters(base.BaseSchema):
     """Word study selected parameters schema."""
 
     category: base.IdName | None
-    mark: base.IdName | None
+    mark: list[base.IdName] = Field(
+        description='The field has a many-to-many relationship'
+    )
     word_source: base.IdName | None
     translation_order: base.CodeName | None
     start_period: base.IdName | None
