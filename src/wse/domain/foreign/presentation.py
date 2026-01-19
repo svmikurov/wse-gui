@@ -75,13 +75,13 @@ class WordStudyUseCase(
 
                 # Definition presentation phase
                 await self._domain.wait_definition_event()
-                self._display_definition(data.definition)
+                self._display_definition(data.question)
                 if data.info:
                     self._display_info(data.info)
 
                 # Explanation presentation phase
                 await self._domain.wait_explanation_event()
-                self._display_explanation(data.explanation)
+                self._display_explanation(data.answer)
 
                 # End presentation case
                 await self._domain.wait_end_case_event()
