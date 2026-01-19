@@ -13,9 +13,22 @@ class NavigateStateMixin:
 
     _navigator: Navigable
 
-    def navigate(self, nav_id: NavID) -> None:
-        """Handle the navigate event."""
-        self._navigator.navigate(nav_id=nav_id)
+    def navigate(self, nav_id: NavID, **kwargs: object) -> None:
+        """Handle the navigate event.
+
+        Parameters
+        ----------
+        nav_id : `NavID`
+            The navigation route enumeration.
+        **kwargs
+            Additional keyword arguments:
+            back_possible: `bool`, optional
+                Conditions for the ability to return to the screen from
+                which the navigation is made using navigation history
+                (True by default)
+
+        """
+        self._navigator.navigate(nav_id=nav_id, **kwargs)
 
 
 class NavigateViewMixin:
