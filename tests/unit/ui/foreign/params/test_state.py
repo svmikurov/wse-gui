@@ -146,7 +146,7 @@ class TestViewModelNotifications:
             call(accessor='is_examine', value=True),
             call(accessor='is_know', value=False),
             call(accessor='category', value=dto.IdName('2', 'category 2')),
-            call(accessor='mark', value=dto.IdName('2', 'mark')),
+            call(accessor='mark', value=[dto.IdName('2', 'mark')]),
             call(accessor='word_source', value=dto.IdName('2', 'source 2')),
             call(
                 accessor='translation_order',
