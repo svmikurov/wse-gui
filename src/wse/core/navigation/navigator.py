@@ -61,8 +61,22 @@ class Navigator:
         """Set screen route mapping."""
         self._routes = routes
 
-    def navigate(self, nav_id: NavID, **kwargs: object) -> None:
-        """Navigate to screen."""
+    def navigate(
+        self, nav_id: NavID, back_possible: bool = True, **kwargs: object
+    ) -> None:
+        """Navigate to screen.
+
+        Parameters
+        ----------
+        nav_id : `NavID`
+            The navigation route enumeration.
+        back_possible : `bool`
+            Conditions for the ability to return to the screen from
+            which the navigation is made using navigation history.
+        **kwargs
+            Additional keyword arguments.
+
+        """
         if nav_id == NavID.BACK:
             self._go_back()
             return
@@ -87,7 +101,7 @@ class Navigator:
             self._show_message('Got unexpected error')
 
         else:
-            self._add_to_history(nav_id)
+            self._add_to_history(nav_id, back_possible)
             return
 
         log.error(f"Window content not updated with '{nav_id.name}'")
@@ -175,8 +189,21 @@ class Navigator:
             except Exception:
                 log.exception('Unexpected error of close screen:\n')
 
-    def _add_to_history(self, nav_id: NavID) -> None:
+    def _add_to_history(
+        self, nav_id: NavID, back_possible: bool = True
+    ) -> None:
         """Add navigation ID to history."""
+        # The navigation from one screen to another can be carried out
+        # without the possibility of returning to the previous one.
+        if not back_possible:
+            # Remove current screen from history.
+            self._content_history.pop()
+
+        # History does not save the same screen consecutively.
+        if self._content_history and self._content_history[-1] == nav_id:
+            return
+
+        # Some screens are not stored in history.
         if nav_id not in self._EXCLUDE_HISTORY:
             self._content_history.append(nav_id)
 
