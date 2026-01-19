@@ -48,7 +48,7 @@ class WordPresentationApi(WordPresentationApiABC):
             schema = WordStudyPresentationResponse(**response.json())
 
         except pydantic.ValidationError as exc:
-            log.error('Validation error: %s', exc)
+            log.error('Response validation error: %s', exc)
             raise
 
         except JSONDecodeError:
