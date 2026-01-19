@@ -39,8 +39,8 @@ class Info(base.BaseSchema):
 class Presentation(base.BaseSchema):
     """Schema representing a Presentation exercise."""
 
-    definition: str
-    explanation: str
+    question: str
+    answer: str
     info: Info | None = None
 
 
