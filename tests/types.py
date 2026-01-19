@@ -35,7 +35,7 @@ class SelectedParametersT(TypedDict):
     """Fields type for Word study selected parameters."""
 
     category: IdNameT | None
-    mark: IdNameT | None
+    mark: list[IdNameT] | None
     word_source: IdNameT | None
     translation_order: CodeNameT | None
     start_period: IdNameT | None
