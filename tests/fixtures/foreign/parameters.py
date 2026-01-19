@@ -38,7 +38,7 @@ OPTIONS: Final[types.PresentationOptionsT] = {
 
 SELECTED: Final[types.SelectedParametersT] = {
     'category': OPTIONS['categories'][1],
-    'mark': OPTIONS['marks'][1],
+    'mark': [OPTIONS['marks'][1]],
     'word_source': OPTIONS['sources'][1],
     'start_period': OPTIONS['periods'][1],
     'end_period': OPTIONS['periods'][1],
@@ -67,7 +67,7 @@ PROGRESS_PHASES = {
 
 CHANGED: Final[types.InitialParametersT] = {
     'category': OPTIONS['categories'][0],
-    'mark': OPTIONS['marks'][0],
+    'mark': [OPTIONS['marks'][0]],
     'word_source': OPTIONS['sources'][0],
     'start_period': OPTIONS['periods'][0],
     'end_period': OPTIONS['periods'][0],
@@ -128,7 +128,9 @@ PARAMETERS_SCHEMA: Final = schemas.PresentationParameters.from_dict(
 
 INITIAL_PARAMETERS_DTO: Final = dto.InitialParameters(
     category=dto.IdName(**SELECTED['category']),  # type: ignore[arg-type]
-    mark=dto.IdName(**SELECTED['mark']),  # type: ignore[arg-type]
+    mark=[dto.IdName(**m) for m in SELECTED['mark']]
+    if SELECTED['mark']
+    else [],  # type: ignore[arg-type]
     word_source=dto.IdName(**SELECTED['word_source']),  # type: ignore[arg-type]
     translation_order=dto.CodeName(**SELECTED['translation_order']),  # type: ignore[arg-type]
     start_period=dto.IdName(**SELECTED['start_period']),  # type: ignore[arg-type]
@@ -140,7 +142,7 @@ INITIAL_PARAMETERS_DTO: Final = dto.InitialParameters(
 
 CHANGED_PARAMETERS_DTO: Final = dto.InitialParameters(
     category=dto.IdName(**CHANGED['category']),  # type: ignore[arg-type]
-    mark=dto.IdName(**CHANGED['mark']),  # type: ignore[arg-type]
+    mark=[dto.IdName(**m) for m in CHANGED['mark']] if CHANGED['mark'] else [],  # type: ignore[arg-type]
     word_source=dto.IdName(**CHANGED['word_source']),  # type: ignore[arg-type]
     translation_order=dto.CodeName(**CHANGED['translation_order']),  # type: ignore[arg-type]
     start_period=dto.IdName(**CHANGED['start_period']),  # type: ignore[arg-type]
