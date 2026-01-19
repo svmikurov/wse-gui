@@ -22,36 +22,36 @@ class PresentationContainer(
 ):
     """Presentation exercise container."""
 
-    _accessors = 'definition', 'explanation'
+    _accessors = 'question', 'answer'
 
     @override
     def _create_ui(self) -> None:
         style = self._style.presenter
 
-        self._definition = toga.Label('')
-        self._explanation = toga.Label('')
+        self._question = toga.Label('')
+        self._answer = toga.Label('')
 
-        self._definition_scroll = toga.ScrollContainer(
-            content=self._definition,
-            height=style.definition.get('height'),
+        self._question_scroll = toga.ScrollContainer(
+            content=self._question,
+            height=style.question.get('height'),
         )
-        self._explanation_scroll = toga.ScrollContainer(
-            content=self._explanation,
-            height=style.explanation.get('height'),
+        self._answer_scroll = toga.ScrollContainer(
+            content=self._answer,
+            height=style.answer.get('height'),
         )
 
     @override
     def _populate_content(self) -> None:
         self._content.add(
-            self._definition_scroll,
-            self._explanation_scroll,
+            self._question_scroll,
+            self._answer_scroll,
         )
 
     @override
     def update_style(self, config: StyleConfig | ThemeConfig) -> None:
         """Update widgets style."""
-        self._definition.style.update(**config.presenter.definition)
-        self._explanation.style.update(**config.presenter.explanation)
+        self._question.style.update(**config.presenter.question)
+        self._answer.style.update(**config.presenter.answer)
 
     @override
     def change(self, accessor: str, value: object) -> None:

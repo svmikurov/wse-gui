@@ -100,8 +100,8 @@ PRESENTATION_RESPONSE_PAYLOAD: Final = {
     'message': 'Success',
     'data': {
         'case_uuid': '75c77f0c-9475-48a6-a352-c3968cef15ac',
-        'definition': 'word',
-        'explanation': 'слово',
+        'question': 'word',
+        'answer': 'слово',
         'info': {
             'progress': 4,
         },

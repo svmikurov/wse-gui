@@ -29,10 +29,10 @@
     }
   },
     "presenter": {
-    "definition": {
+    "question": {
       "color": "red"
     },
-    "explanation": {
+    "answer": {
       "color": "red"
     }
   },

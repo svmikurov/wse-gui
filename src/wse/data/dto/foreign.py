@@ -96,8 +96,8 @@ class SetParameters:
 class PresentationSettings:
     """Word study Presentation settings."""
 
-    question_timeout: int | None = None
-    answer_timeout: int | None = None
+    question_timeout: float | None = None
+    answer_timeout: float | None = None
 
 
 # DTO

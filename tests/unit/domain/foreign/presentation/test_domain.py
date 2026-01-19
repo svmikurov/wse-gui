@@ -55,34 +55,34 @@ class TestPresentationLoop:
     """Test the Presentation loop."""
 
     @pytest.mark.asyncio
-    async def test_trigger_definition(
+    async def test_trigger_question(
         self,
         mock_presentation_domain: Presentation,
-        mock_definition_event: AsyncMock,
+        mock_question_event: AsyncMock,
     ) -> None:
-        """Test the definition trigger of Presentation loop."""
+        """Test the question trigger of Presentation loop."""
         with patch('wse.domain.presentation.Presentation._wait_timeout'):
             await mock_presentation_domain._trigger_event(
-                mock_presentation_domain._definition_event
+                mock_presentation_domain._question_event
             )
 
-            mock_definition_event.set.assert_called_once()
-            mock_definition_event.clear.assert_called_once()
+            mock_question_event.set.assert_called_once()
+            mock_question_event.clear.assert_called_once()
 
     @pytest.mark.asyncio
-    async def test_trigger_explanation(
+    async def test_trigger_answer(
         self,
         mock_presentation_domain: Presentation,
-        mock_explanation_event: AsyncMock,
+        mock_answer_event: AsyncMock,
     ) -> None:
-        """Test the explanation trigger of Presentation loop."""
+        """Test the answer trigger of Presentation loop."""
         with patch('wse.domain.presentation.Presentation._wait_timeout'):
             await mock_presentation_domain._trigger_event(
-                mock_presentation_domain._explanation_event
+                mock_presentation_domain._answer_event
             )
 
-            mock_explanation_event.set.assert_called_once()
-            mock_explanation_event.clear.assert_called_once()
+            mock_answer_event.set.assert_called_once()
+            mock_answer_event.clear.assert_called_once()
 
     @pytest.mark.asyncio
     async def test_trigger_end_case(
@@ -143,8 +143,8 @@ class TestPresentationInstantiating:
         try:
             Presentation(
                 start_case_event=Mock(),
-                definition_event=Mock(),
-                explanation_event=Mock(),
+                question_event=Mock(),
+                answer_event=Mock(),
                 end_case_event=Mock(),
                 unpause_event=Mock(),
                 progress_queue=Mock(),

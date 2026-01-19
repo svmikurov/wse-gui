@@ -10,8 +10,8 @@ from injector import inject
 from .abc import PresentationABC
 
 TIMEOUT_DELTA: Final[float] = 0.025
-DEFAULT_DEFINITION_TIMEOUT: Final[int] = 5
-DEFAULT_EXPLANATION_TIMEOUT: Final[int] = 2
+DEFAULT_QUESTION_TIMEOUT: Final[int] = 5
+DEFAULT_ANSWER_TIMEOUT: Final[int] = 2
 
 
 if TYPE_CHECKING:
@@ -26,8 +26,8 @@ class Presentation(PresentationABC):
     def __init__(
         self,
         start_case_event: asyncio.Event,
-        definition_event: asyncio.Event,
-        explanation_event: asyncio.Event,
+        question_event: asyncio.Event,
+        answer_event: asyncio.Event,
         end_case_event: asyncio.Event,
         unpause_event: asyncio.Event,
         complete_phase_event: asyncio.Event,
@@ -35,8 +35,8 @@ class Presentation(PresentationABC):
     ) -> None:
         """Construct the domain."""
         self._start_case_event = start_case_event
-        self._definition_event = definition_event
-        self._explanation_event = explanation_event
+        self._question_event = question_event
+        self._answer_event = answer_event
         self._end_case_event = end_case_event
         self._unpause_event = unpause_event
         self._complete_phase_event = complete_phase_event
@@ -45,8 +45,8 @@ class Presentation(PresentationABC):
         )
         self._phase: asyncio.Task[Any] | None = None
 
-        self._definition_timeout: int = DEFAULT_DEFINITION_TIMEOUT
-        self._explanation_timeout: int = DEFAULT_EXPLANATION_TIMEOUT
+        self._question_timeout: float = DEFAULT_QUESTION_TIMEOUT
+        self._answer_timeout: float = DEFAULT_ANSWER_TIMEOUT
 
     @override
     def set_timeout(
@@ -55,9 +55,9 @@ class Presentation(PresentationABC):
     ) -> None:
         """Set presentation timeouts."""
         if question_timeout := settings.question_timeout:
-            self._definition_timeout = question_timeout
+            self._question_timeout = question_timeout
         if answer_timeout := settings.answer_timeout:
-            self._explanation_timeout = answer_timeout
+            self._answer_timeout = answer_timeout
 
     # Presentation loop
     # -----------------
@@ -68,12 +68,12 @@ class Presentation(PresentationABC):
             await self.wait_start_case_event()
 
             await self._trigger_event(
-                self._definition_event,
-                self._definition_timeout,
+                self._question_event,
+                self._question_timeout,
             )
             await self._trigger_event(
-                self._explanation_event,
-                self._explanation_timeout,
+                self._answer_event,
+                self._answer_timeout,
             )
             await self._trigger_event(self._end_case_event)
 
@@ -86,14 +86,14 @@ class Presentation(PresentationABC):
         await self._start_case_event.wait()
 
     @override
-    async def wait_definition_event(self) -> None:
-        """Wait for definition phase event."""
-        await self._definition_event.wait()
+    async def wait_question_event(self) -> None:
+        """Wait for question phase event."""
+        await self._question_event.wait()
 
     @override
-    async def wait_explanation_event(self) -> None:
-        """Wait for explanation phase event."""
-        await self._explanation_event.wait()
+    async def wait_answer_event(self) -> None:
+        """Wait for answer phase event."""
+        await self._answer_event.wait()
 
     @override
     async def wait_end_case_event(self) -> None:

@@ -18,7 +18,7 @@ from wse.ui.base.navigate.mixin import NavigateStateMixin
 from wse.ui.glossary.terms import TermsViewModelABC
 
 
-class TermsTableSource(  # type: ignore[misc] ## `Source` is incompatible with definition
+class TermsTableSource(  # type: ignore[misc] ## `Source` is incompatible with question
     EntrySourceGen[Term],
     # The `toga.Table` widget programmatically subscribes to a source
     # if it `data` attribute is of the `toga.source.Source` subtype.

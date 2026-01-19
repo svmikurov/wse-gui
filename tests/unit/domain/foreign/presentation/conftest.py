@@ -21,14 +21,14 @@ def mock_start_case_event() -> AsyncMock:
 
 
 @pytest.fixture
-def mock_definition_event() -> AsyncMock:
-    """Mock definition event."""
+def mock_question_event() -> AsyncMock:
+    """Mock question event."""
     return AsyncMock(spec=asyncio.Event)
 
 
 @pytest.fixture
-def mock_explanation_event() -> AsyncMock:
-    """Mock explanation event."""
+def mock_answer_event() -> AsyncMock:
+    """Mock answer event."""
     return AsyncMock(spec=asyncio.Event)
 
 
@@ -65,8 +65,8 @@ def mock_domain() -> AsyncMock:
 @pytest.fixture
 def mock_presentation_domain(
     mock_start_case_event: AsyncMock,
-    mock_definition_event: AsyncMock,
-    mock_explanation_event: AsyncMock,
+    mock_question_event: AsyncMock,
+    mock_answer_event: AsyncMock,
     mock_end_case_event: AsyncMock,
     mock_unpause_event: AsyncMock,
     mock_progress_queue: AsyncMock,
@@ -75,8 +75,8 @@ def mock_presentation_domain(
     """Presentation domain fixture."""
     return Presentation(
         start_case_event=mock_start_case_event,
-        definition_event=mock_definition_event,
-        explanation_event=mock_explanation_event,
+        question_event=mock_question_event,
+        answer_event=mock_answer_event,
         end_case_event=mock_end_case_event,
         unpause_event=mock_unpause_event,
         progress_queue=mock_progress_queue,
@@ -89,8 +89,8 @@ def presentation() -> Presentation:
     """Presentation domain fixture."""
     return Presentation(
         start_case_event=asyncio.Event(),
-        definition_event=asyncio.Event(),
-        explanation_event=asyncio.Event(),
+        question_event=asyncio.Event(),
+        answer_event=asyncio.Event(),
         end_case_event=asyncio.Event(),
         unpause_event=asyncio.Event(),
         complete_phase_event=asyncio.Event(),

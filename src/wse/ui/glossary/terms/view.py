@@ -44,7 +44,7 @@ class TermsView(
         self._table = toga.Table(
             # After creating a table, cannot localize the header text.
             headings=[_('Term'), _('Definition')],
-            accessors=['name', 'definition'],
+            accessors=['name', 'question'],
             data=self._table_state,
         )
 

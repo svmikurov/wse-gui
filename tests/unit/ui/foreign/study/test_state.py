@@ -42,11 +42,11 @@ class TestDomainObserve:
         mock_normalize_use_case.adapt.return_value = 'test'
 
         # Act
-        view_model.exercise_updated(accessor='definition', value='test')
+        view_model.exercise_updated(accessor='question', value='test')
 
         # Assert
         mock_state_observer.change.assert_called_once_with(
-            accessor='definition', value='test'
+            accessor='question', value='test'
         )
         mock_normalize_use_case.adapt.assert_called_once_with('test')
 

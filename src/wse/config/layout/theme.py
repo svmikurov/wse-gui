@@ -47,8 +47,8 @@ class TopBarTheme(BaseTheme):
 class PresenterTheme(BaseTheme):
     """Theme config for Presenter container."""
 
-    definition: dict[str, str] = {}
-    explanation: dict[str, str] = {}
+    question: dict[str, str] = {}
+    answer: dict[str, str] = {}
 
 
 class ParamsTheme(BaseTheme):

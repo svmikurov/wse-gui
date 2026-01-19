@@ -24,12 +24,12 @@ class PresentationABC(ABC):
         """Wait for start case event."""
 
     @abstractmethod
-    async def wait_definition_event(self) -> None:
-        """Wait for definition phase event."""
+    async def wait_question_event(self) -> None:
+        """Wait for question phase event."""
 
     @abstractmethod
-    async def wait_explanation_event(self) -> None:
-        """Wait for explanation phase event."""
+    async def wait_answer_event(self) -> None:
+        """Wait for answer phase event."""
 
     @abstractmethod
     async def wait_end_case_event(self) -> None:

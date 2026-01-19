@@ -15,8 +15,8 @@ class Word(base.BaseSchema):
     """Word schema."""
 
     id: str
-    definition: str
-    explanation: str
+    question: str
+    answer: str
     created_at: datetime
 
 

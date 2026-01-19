@@ -73,15 +73,15 @@ class WordStudyUseCase(
                     self.stop()
                     break
 
-                # Definition presentation phase
-                await self._domain.wait_definition_event()
-                self._display_definition(data.question)
+                # Question presentation phase
+                await self._domain.wait_question_event()
+                self._display_question(data.question)
                 if data.info:
                     self._display_info(data.info)
 
-                # Explanation presentation phase
-                await self._domain.wait_explanation_event()
-                self._display_explanation(data.answer)
+                # Answer presentation phase
+                await self._domain.wait_answer_event()
+                self._display_answer(data.answer)
 
                 # End presentation case
                 await self._domain.wait_end_case_event()
@@ -104,11 +104,11 @@ class WordStudyUseCase(
     # Notifications
     # -------------
 
-    def _display_definition(self, value: str) -> None:
-        self.notify('exercise_updated', accessor='definition', value=value)
+    def _display_question(self, value: str) -> None:
+        self.notify('exercise_updated', accessor='question', value=value)
 
-    def _display_explanation(self, value: str) -> None:
-        self.notify('exercise_updated', accessor='explanation', value=value)
+    def _display_answer(self, value: str) -> None:
+        self.notify('exercise_updated', accessor='answer', value=value)
 
     def _display_info(self, data: object) -> None:
         self.notify('exercise_updated', accessor='info', value=data)
@@ -161,8 +161,8 @@ class WordStudyUseCase(
     # ---------------
 
     def _notify_clean(self) -> None:
-        self._display_definition(WordStudyUseCase.NO_TEXT)
-        self._display_explanation(WordStudyUseCase.NO_TEXT)
+        self._display_question(WordStudyUseCase.NO_TEXT)
+        self._display_answer(WordStudyUseCase.NO_TEXT)
 
     def _start_background_tasks(self) -> None:
         """Start background tasks for word study."""

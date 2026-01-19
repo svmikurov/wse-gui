@@ -7,8 +7,8 @@ from wse.feature.observer.mixins import ObserverManagerGen
 
 # TODO: Refactor 'ExerciseAccessorT' to Enum?
 ExerciseAccessorT = Literal[
-    'definition',
-    'explanation',
+    'question',
+    'answer',
     'timeout',
     'info',
 ]

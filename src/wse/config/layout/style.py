@@ -45,8 +45,8 @@ class TopBarStyle(BaseStyle):
 class PresenterStyle(BaseStyle):
     """Style config for Presenter container."""
 
-    definition: dict[str, str | int] = {}
-    explanation: dict[str, str | int] = {}
+    question: dict[str, str | int] = {}
+    answer: dict[str, str | int] = {}
 
 
 class ParamsStyle(BaseStyle):

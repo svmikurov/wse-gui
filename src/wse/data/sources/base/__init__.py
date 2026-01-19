@@ -1,4 +1,4 @@
-"""Contains Source definition."""
+"""Contains Source question."""
 
 __all__ = [
     'AccessorSourceABC',

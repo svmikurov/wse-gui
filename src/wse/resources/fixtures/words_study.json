@@ -1,20 +1,20 @@
 {
     "data": [
         {
-            "definition": "red",
-            "explanation": "красный"
+            "question": "red",
+            "answer": "красный"
         },
         {
-            "definition": "green",
-            "explanation": "зеленый"
+            "question": "green",
+            "answer": "зеленый"
         },
         {
-            "definition": "blue",
-            "explanation": "синий"
+            "question": "blue",
+            "answer": "синий"
         },
         {
-            "definition": "white",
-            "explanation": "белый"
+            "question": "white",
+            "answer": "белый"
         }
     ]
 }

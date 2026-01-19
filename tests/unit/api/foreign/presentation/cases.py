@@ -6,8 +6,8 @@ from typing import Literal, TypedDict
 # Types are currently used to create fixtures.
 # Replace with project types.
 
-# Case type definition
-# --------------------
+# Case type question
+# ------------------
 
 
 # Response data types
@@ -29,8 +29,8 @@ class PresentationCaseDict(TypedDict):
     """Presentation case typed dict."""
 
     case_uuid: str
-    definition: str
-    explanation: str
+    question: str
+    answer: str
     info: PresentationInfoDict
 
 
@@ -57,8 +57,8 @@ VALID_RESPONSE_PAYLOAD = ResponseDict(
     ),
     data=PresentationCaseDict(
         case_uuid='5b518a3e-45a4-4147-a097-0ed28211d8a4',
-        definition='test',
-        explanation='тест',
+        question='test',
+        answer='тест',
         info=PresentationInfoDict(
             progress=8,
         ),

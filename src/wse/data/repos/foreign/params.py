@@ -45,7 +45,8 @@ class WordParametersRepo(
             params = self.get()
 
         return dto.PresentationSettings(
-            params.question_timeout, params.answer_timeout
+            params.question_timeout,
+            params.answer_timeout,
         )
 
     @override

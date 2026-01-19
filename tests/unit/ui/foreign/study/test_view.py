@@ -67,8 +67,8 @@ class TestPresentationContainer:
     @pytest.mark.parametrize(
         'accessor, value',
         [
-            ('definition', 'test definition'),
-            ('explanation', 'test explanation'),
+            ('question', 'test question'),
+            ('answer', 'test answer'),
         ],
     )
     def test_update_connext(

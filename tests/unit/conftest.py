@@ -18,8 +18,8 @@ from wse.feature.observer.subject import Subject
 def word_data() -> schemas.Presentation:
     """Word data fixture."""
     return schemas.Presentation(
-        definition='test',
-        explanation='тест',
+        question='test',
+        answer='тест',
         info=schemas.Info(
             progress=3,
         ),
@@ -33,8 +33,8 @@ def word_case(
     """Word study case fixture."""
     return schemas.PresentationCase(
         case_uuid=str(uuid.uuid4()),
-        definition=word_data.definition,
-        explanation=word_data.explanation,
+        question=word_data.question,
+        answer=word_data.answer,
     )
 
 

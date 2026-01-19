@@ -119,7 +119,7 @@ class WordPresentationView(
     def change(self, accessor: ExerciseAccessorT, value: object) -> None:
         """Change ui context via accessor."""
         match accessor:
-            case 'definition' | 'explanation':
+            case 'question' | 'answer':
                 self._presentation_container.change(accessor, value)
 
             case 'info':

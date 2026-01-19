@@ -23,8 +23,8 @@ class WordPresentationData:
     """Word study data."""
 
     case_uuid: str | None = None
-    definition: str | None = None
-    explanation: str | None = None
+    question: str | None = None
+    answer: str | None = None
     progress: int | None = None
 
 
@@ -42,8 +42,8 @@ class WordPresentationLocaleSource(base.WordPresentationLocaleSourceABC):
         self._data = replace(
             self._data,
             case_uuid=case.case_uuid,
-            definition=case.definition,
-            explanation=case.explanation,
+            question=case.question,
+            answer=case.answer,
             progress=case.info.progress if case.info else None,
         )
 
@@ -57,11 +57,11 @@ class WordPresentationLocaleSource(base.WordPresentationLocaleSourceABC):
     @override
     def get_presentation_data(self) -> schemas.Presentation:
         """Get Presentation part of Word study."""
-        if self._data.definition is None or self._data.explanation is None:
+        if self._data.question is None or self._data.answer is None:
             raise RuntimeError('Word study data was not set')
         return schemas.Presentation(
-            definition=self._data.definition,
-            explanation=self._data.explanation,
+            question=self._data.question,
+            answer=self._data.answer,
             info=schemas.Info(
                 progress=self._data.progress,
             ),

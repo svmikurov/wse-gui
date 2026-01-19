@@ -6,6 +6,7 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
+from wse.data.dto.foreign import PresentationSettings
 from wse.data.schemas import foreign as schemas
 from wse.domain import presentation as domain
 from wse.domain.foreign.presentation import WordStudyUseCase
@@ -16,14 +17,19 @@ def use_case(
     mock_subject: Mock,
     mock_get_word_repo: Mock,
     mock_progress_repo: Mock,
+    mock_settings_repo: Mock,
     presentation: domain.Presentation,
 ) -> WordStudyUseCase:
     """Word study UseCase fixture."""
+    mock_settings_repo.get_settings.return_value = PresentationSettings(
+        question_timeout=1,
+        answer_timeout=1,
+    )
     return WordStudyUseCase(
         _subject=mock_subject,
         _get_word_repo=mock_get_word_repo,
         _progress_repo=mock_progress_repo,
-        _settings_repo=Mock(),
+        _settings_repo=mock_settings_repo,
         _domain=presentation,
     )
 
@@ -219,12 +225,12 @@ class TestStudyLoop:
         await asyncio.sleep(0)
 
     @pytest.mark.asyncio
-    @patch.object(WordStudyUseCase, '_display_explanation', return_value=None)
-    @patch.object(WordStudyUseCase, '_display_definition', return_value=None)
-    async def test_definition_event(
+    @patch.object(WordStudyUseCase, '_display_answer', return_value=None)
+    @patch.object(WordStudyUseCase, '_display_question', return_value=None)
+    async def test_question_event(
         self,
-        mock_definition: Mock,
-        mock_explanation: Mock,
+        mock_question: Mock,
+        mock_answer: Mock,
         mock_get_data: Mock,
         word_data: schemas.Presentation,
         presentation: domain.Presentation,
@@ -242,28 +248,28 @@ class TestStudyLoop:
         # Assert what only get data method was called
         mock_get_data.assert_called_once_with()
         mock_get_data.reset_mock()
-        mock_definition.assert_not_called()
-        mock_explanation.assert_not_called()
+        mock_question.assert_not_called()
+        mock_answer.assert_not_called()
 
-        # Set the definition phase event
-        presentation._definition_event.set()
+        # Set the question phase event
+        presentation._question_event.set()
         await self._yield_control()
 
-        # Assert what only definition notification was called
+        # Assert what only question notification was called
         mock_get_data.assert_not_called()
-        mock_definition.assert_called_once_with(word_data.definition)
-        mock_definition.reset_mock()
-        mock_explanation.assert_not_called()
+        mock_question.assert_called_once_with(word_data.question)
+        mock_question.reset_mock()
+        mock_answer.assert_not_called()
 
-        # Set the explanation phase event
-        presentation._explanation_event.set()
+        # Set the answer phase event
+        presentation._answer_event.set()
         await self._yield_control()
 
-        # Assert what only explanation notification was called
+        # Assert what only answer notification was called
         mock_get_data.assert_not_called()
-        mock_definition.assert_not_called()
-        mock_explanation.assert_called_once_with(word_data.explanation)
-        mock_explanation.reset_mock()
+        mock_question.assert_not_called()
+        mock_answer.assert_called_once_with(word_data.answer)
+        mock_answer.reset_mock()
 
         # Set the case end event
         presentation._end_case_event.set()
@@ -271,8 +277,8 @@ class TestStudyLoop:
 
         # Assert what only clear notification was called
         mock_get_data.assert_not_called()
-        mock_definition.assert_called_once_with(WordStudyUseCase.NO_TEXT)
-        mock_explanation.assert_called_once_with(WordStudyUseCase.NO_TEXT)
+        mock_question.assert_called_once_with(WordStudyUseCase.NO_TEXT)
+        mock_answer.assert_called_once_with(WordStudyUseCase.NO_TEXT)
 
         # Cancel Word study loop
         use_case.stop()

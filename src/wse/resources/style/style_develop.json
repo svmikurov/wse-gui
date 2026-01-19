@@ -130,7 +130,7 @@
     }
   },
   "presenter": {
-    "definition": {
+    "question": {
       "font_size": 25,
       "text_align": "left",
       "margin_left": 8,
@@ -139,7 +139,7 @@
       "margin_bottom": 15,
       "height": 130
     },
-    "explanation": {
+    "answer": {
       "font_size": 25,
       "text_align": "left",
       "margin_left": 8,

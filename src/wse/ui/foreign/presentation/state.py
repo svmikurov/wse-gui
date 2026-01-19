@@ -80,12 +80,12 @@ class WordPresentationViewModel(
     ) -> None:
         """Notify that exercise case was updated."""
         match accessor:
-            case 'definition':
+            case 'question':
                 self._reset_unknown_state()
                 adapted_text = self._adapt_text(value)
                 self.notify('change', accessor=accessor, value=adapted_text)
 
-            case 'explanation':
+            case 'answer':
                 adapted_text = self._adapt_text(value)
                 self.notify('change', accessor=accessor, value=adapted_text)
 

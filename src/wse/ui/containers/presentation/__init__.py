@@ -1,4 +1,4 @@
-"""Presenter of definition / explanation case."""
+"""Presenter of question / answer case."""
 
 __all__ = [
     'PresentationContainerABC',

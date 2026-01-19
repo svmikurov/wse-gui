@@ -30,8 +30,8 @@ class TestLocaleSource:
         assert presentation_uuid == presentation_schema.case_uuid
 
         presentation_case = locale_source.get_presentation_data()
-        assert presentation_case.definition == presentation_schema.definition
-        assert presentation_case.explanation == presentation_schema.explanation
+        assert presentation_case.question == presentation_schema.question
+        assert presentation_case.answer == presentation_schema.answer
         assert presentation_case.info == presentation_schema.info
 
 
