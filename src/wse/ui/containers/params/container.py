@@ -45,6 +45,8 @@ class ParamsContainer(
     To create Selection widget use ``_create_selection`` method.
     """
 
+    # TODO: Change the 'mark' field to a multi-select
+
     _accessors: NoInject[Sequence[dto.ParameterAccessors]] = (
         'category',
         'mark',
@@ -286,6 +288,14 @@ class ParamsContainer(
         self, accessor: dto.ParameterAccessors, value: object
     ) -> None:
         """Set widget value via accessor."""
+        if not value:
+            return
         ui = self._get_ui(accessor)
-        with EventDisabler(ui):
-            ui.value = value
+
+        # HACK: Change the 'mark' field to a multi-select
+        if isinstance(value, list):
+            with EventDisabler(ui):
+                ui.value = value[0]
+        else:
+            with EventDisabler(ui):
+                ui.value = value
